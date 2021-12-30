@@ -104,7 +104,7 @@ import { useStore } from '/@/store/index';
 import {useRouter } from 'vue-router'
 import { topCardItemList, environmentList, activitiesList } from './mock';
 export default {
-	name: 'home',
+	name: 'admin',
 	setup() {
 		const router = useRouter();
 		console.debug("router：",router.currentRoute.value)

@@ -8,9 +8,9 @@ import nextZhcn from '/@/i18n/lang/zh-cn';
 import nextEn from '/@/i18n/lang/en';
 import nextZhtw from '/@/i18n/lang/zh-tw';
 
-import pagesHomeZhcn from '/@/i18n/pages/home/zh-cn';
-import pagesHomeEn from '/@/i18n/pages/home/en';
-import pagesHomeZhtw from '/@/i18n/pages/home/zh-tw';
+import pagesAdminZhcn from './pages/home/zh-cn';
+import pagesAdminEn from './pages/home/en';
+import pagesAdminZhtw from './pages/home/zh-tw';
 import pagesLoginZhcn from '/@/i18n/pages/login/zh-cn';
 import pagesLoginEn from '/@/i18n/pages/login/en';
 import pagesLoginZhtw from '/@/i18n/pages/login/zh-tw';
@@ -29,7 +29,7 @@ const messages = {
 		...zhcnLocale,
 		message: {
 			...nextZhcn,
-			...pagesHomeZhcn,
+			...pagesAdminZhcn,
 			...pagesLoginZhcn,
 			...pagesFormI18nZhcn,
 		},
@@ -38,7 +38,7 @@ const messages = {
 		...enLocale,
 		message: {
 			...nextEn,
-			...pagesHomeEn,
+			...pagesAdminEn,
 			...pagesLoginEn,
 			...pagesFormI18nEn,
 		},
@@ -47,7 +47,7 @@ const messages = {
 		...zhtwLocale,
 		message: {
 			...nextZhtw,
-			...pagesHomeZhtw,
+			...pagesAdminZhtw,
 			...pagesLoginZhtw,
 			...pagesFormI18nZhtw,
 		},

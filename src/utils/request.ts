@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Session } from '/@/utils/storage';
 
-const appid="16";
+const appid="158625451365892097";
 // 配置新建一个 axios 实例
 const service = axios.create({
 	baseURL: import.meta.env.VITE_API_URL as any,
@@ -18,8 +18,9 @@ service.interceptors.request.use(
 	(config) => {
 		
 		// 在发送请求之前做些什么 token
-		if (Session.get('token')) {
-			config.headers.common['Authorization'] = `${Session.get('token')}`;
+		const token = Session.get('token');
+		if (token) {
+			config.headers.common['Authorization'] = token;
 			
 			// const tokenExpiresAt=new Date(Session.get('expiresAt'));
 			// 	const refreshTokenAt=new Date(Session.get('refreshTokenAt'));
@@ -52,14 +53,16 @@ service.interceptors.response.use(
 			// `token` 过期或者账号已在别处登录
 			if (res.errcode === 100001 || res.errcode === 100002) {
 				Session.clear(); // 清除浏览器全部临时缓存
-				window.location.href = '/'; // 去登录页
-				ElMessageBox.alert('你已被登出，请重新登录', '温馨提示', {})
-					.then(() => {})
+				ElMessageBox.alert('无权限访问', '温馨提示', {})
+					.then(() => {
+						window.location.href = '/'; // 去登录页
+					})
 					.catch(() => {});
+					
 			} else {
 				ElMessage.error(res.errmsg)
 			}
-			//return Promise.reject(service.interceptors.response);
+			return Promise.reject(service.interceptors.response);
 		} else {
 			//return Promise.resolve(res)
 		}

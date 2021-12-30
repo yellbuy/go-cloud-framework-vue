@@ -35,13 +35,13 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
 			 * 代码位置：/@/layout/navBars/breadcrumb/setings.vue
 			 */
 			// 默认顶栏导航背景颜色，请注意：需要同时修改 `/@/theme/common/var.scss` 对应的值
-			topBar: '#ffffff',
+			topBar: '#545c64',
 			// 默认菜单导航背景颜色，请注意：需要同时修改 `/@/theme/common/var.scss` 对应的值
 			menuBar: '#545c64',
 			// 默认分栏菜单背景颜色，请注意：需要同时修改 `/@/theme/common/var.scss` 对应的值
 			columnsMenuBar: '#545c64',
 			// 默认顶栏导航字体颜色，请注意：需要同时修改 `/@/theme/common/var.scss` 对应的值
-			topBarColor: '#606266',
+			topBarColor: '#eaeaea',
 			// 默认菜单导航字体颜色，请注意：需要同时修改 `/@/theme/common/var.scss` 对应的值
 			menuBarColor: '#eaeaea',
 			// 默认分栏菜单字体颜色，请注意：需要同时修改 `/@/theme/common/var.scss` 对应的值
@@ -63,11 +63,11 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
 			// 是否开启菜单手风琴效果
 			isUniqueOpened: false,
 			// 是否开启固定 Header
-			isFixedHeader: false,
+			isFixedHeader: true,
 			// 初始化变量，用于更新菜单 el-scrollbar 的高度，请勿删除
 			isFixedHeaderChange: false,
 			// 是否开启经典布局分割菜单（仅经典布局生效）
-			isClassicSplitMenu: false,
+			isClassicSplitMenu: true,
 			// 是否开启自动锁屏
 			isLockScreen: false,
 			// 开启自动锁屏倒计时(s/秒)
@@ -77,7 +77,7 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
 			 * 界面显示
 			 */
 			// 是否开启侧边栏 Logo
-			isShowLogo: false,
+			isShowLogo: true,
 			// 初始化变量，用于 el-scrollbar 的高度更新，请勿删除
 			isShowLogoChange: false,
 			// 是否开启 Breadcrumb，强制经典、横向布局不显示
@@ -85,17 +85,17 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
 			// 是否开启 Tagsview
 			isTagsview: true,
 			// 是否开启 Breadcrumb 图标
-			isBreadcrumbIcon: false,
+			isBreadcrumbIcon: true,
 			// 是否开启 Tagsview 图标
-			isTagsviewIcon: false,
+			isTagsviewIcon: true,
 			// 是否开启 TagsView 缓存
-			isCacheTagsView: false,
+			isCacheTagsView: true,
 			// 是否开启 TagsView 拖拽
 			isSortableTagsView: true,
 			// 是否开启 TagsView 共用
 			isShareTagsView: false,
 			// 是否开启 Footer 底部版权信息
-			isFooter: false,
+			isFooter: true,
 			// 是否开启灰色模式
 			isGrayscale: false,
 			// 是否开启色弱模式
@@ -105,7 +105,7 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
 			// 是否开启水印
 			isWartermark: false,
 			// 水印文案
-			wartermarkText: 'small@小柒',
+			wartermarkText: '业贝信息',
 
 			/**
 			 * 其它设置
@@ -126,21 +126,21 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
 			 * 中的 `initSetLayoutChange(设置布局切换，重置主题样式)` 方法
 			 */
 			// 布局切换：可选值"<defaults|classic|transverse|columns>"，默认 defaults
-			layout: 'defaults',
+			layout: 'classic',
 
 			/**
 			 * 后端控制路由
 			 */
 			// 是否开启后端控制路由
-			isRequestRoutes: false,
+			isRequestRoutes: true,
 
 			/**
 			 * 全局网站标题 / 副标题
 			 */
 			// 网站主标题（菜单导航、浏览器当前网页标题）
-			globalTitle: 'vue-next-admin',
+			globalTitle: '业贝云数据',
 			// 网站副标题（登录页顶部文字）
-			globalViceTitle: 'SMALL@小柒',
+			globalViceTitle: '业贝信息',
 			// 默认初始语言，可选值"<zh-cn|en|zh-tw>"，默认 zh-cn
 			globalI18n: 'zh-cn',
 			// 默认全局组件大小，可选值"<|medium|small|mini>"，默认 ''

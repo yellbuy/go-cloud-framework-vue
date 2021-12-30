@@ -25,17 +25,17 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 		path: '/',
 		name: '/',
 		component: () => import('/@/layout/index.vue'),
-		redirect: '/home',
+		redirect: '/admin',
 		meta: {
 			isKeepAlive: true,
 		},
 		children: [
 			{
-				path: '/home',
-				name: 'home',
+				path: '/admin',
+				name: 'admin',
 				component: () => import('/@/views/home/index.vue'),
 				meta: {
-					title: 'message.router.home',
+					title: 'message.router.admin',
 					isLink: '',
 					isHide: false,
 					isKeepAlive: true,
