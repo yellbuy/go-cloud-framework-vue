@@ -8,9 +8,9 @@
 						<div class="home-card-first-right ml15">
 							<div class="flex-margin">
 								<div class="home-card-first-right-title">
-									{{ currentTime }}，{{ getUserInfos.userName === '' ? 'test' : getUserInfos.userName }}！
+									{{ currentTime }}，{{ getUserInfos.username === '' ? 'test' : getUserInfos.realname || getUserInfos.username }}！
 								</div>
-								<div class="home-card-first-right-msg mt5">{{ getUserInfos.userName === 'admin' ? '超级管理' : '普通用户' }}</div>
+								<div class="home-card-first-right-msg mt5">{{ getUserInfos.username === 'admin' ? '超级管理' : '普通用户' }}</div>
 							</div>
 						</div>
 					</div>
@@ -101,10 +101,14 @@ import * as echarts from 'echarts';
 import { CountUp } from 'countup.js';
 import { formatAxis } from '/@/utils/formatTime';
 import { useStore } from '/@/store/index';
+import {useRouter } from 'vue-router'
 import { topCardItemList, environmentList, activitiesList } from './mock';
 export default {
 	name: 'home',
 	setup() {
+		const router = useRouter();
+		console.debug("router：",router.currentRoute.value)
+		//console.debug("route:",$route)
 		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
 		const state = reactive({

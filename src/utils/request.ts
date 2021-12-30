@@ -2,19 +2,36 @@ import axios from 'axios';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Session } from '/@/utils/storage';
 
+const appid="16";
 // 配置新建一个 axios 实例
 const service = axios.create({
 	baseURL: import.meta.env.VITE_API_URL as any,
-	timeout: 50000,
-	headers: { 'Content-Type': 'application/json' },
+	timeout: 100000,
+	headers: { 'Content-Type': 'application/json', 'Appid':appid },
 });
+
+axios.defaults.retry = 4;
+axios.defaults.retryDelay = 1000;
 
 // 添加请求拦截器
 service.interceptors.request.use(
 	(config) => {
+		
 		// 在发送请求之前做些什么 token
 		if (Session.get('token')) {
 			config.headers.common['Authorization'] = `${Session.get('token')}`;
+			
+			// const tokenExpiresAt=new Date(Session.get('expiresAt'));
+			// 	const refreshTokenAt=new Date(Session.get('refreshTokenAt'));
+			// 	const curTime=new Date();
+			// 	if(curTime>=refreshTokenAt && curTime<tokenExpiresAt){
+			// 		const oriUrl=config.url;
+			// 		const data=await config({url:"/v1/base/user/refreshtoken",method: 'post'})
+			// 	}
+			// if(config.url=="/v1/base/user/refreshtoken"){
+				
+			// }
+			
 		}
 		return config;
 	},
@@ -29,19 +46,24 @@ service.interceptors.response.use(
 	(response) => {
 		// 对响应数据做点什么
 		const res = response.data;
-		if (res.code && res.code !== 0) {
+		//console.debug(res);
+		if (res.errcode && res.errcode !== 0) {
+			
 			// `token` 过期或者账号已在别处登录
-			if (res.code === 401 || res.code === 4001) {
+			if (res.errcode === 100001 || res.errcode === 100002) {
 				Session.clear(); // 清除浏览器全部临时缓存
 				window.location.href = '/'; // 去登录页
-				ElMessageBox.alert('你已被登出，请重新登录', '提示', {})
+				ElMessageBox.alert('你已被登出，请重新登录', '温馨提示', {})
 					.then(() => {})
 					.catch(() => {});
+			} else {
+				ElMessage.error(res.errmsg)
 			}
-			return Promise.reject(service.interceptors.response);
+			//return Promise.reject(service.interceptors.response);
 		} else {
-			return response.data;
+			//return Promise.resolve(res)
 		}
+		return Promise.resolve(res)
 	},
 	(error) => {
 		// 对响应错误做点什么
@@ -51,7 +73,7 @@ service.interceptors.response.use(
 			ElMessage.error('网络连接错误');
 		} else {
 			if (error.response.data) ElMessage.error(error.response.statusText);
-			else ElMessage.error('接口路径找不到');
+			else ElMessage.error('接口路径未找到');
 		}
 		return Promise.reject(error);
 	}

@@ -1,7 +1,7 @@
 <template>
 	<el-form class="login-content-form">
 		<el-form-item class="login-animation-one">
-			<el-input type="text" :placeholder="$t('message.account.accountPlaceholder1')" v-model="ruleForm.userName" clearable autocomplete="off">
+			<el-input type="text" :placeholder="$t('message.account.accountPlaceholder1')" v-model="ruleForm.username" clearable autocomplete="off">
 				<template #prefix>
 					<el-icon class="el-input__icon"><elementUser /></el-icon>
 				</template>
@@ -72,6 +72,8 @@ import { initBackEndControlRoutes } from '/@/router/backEnd';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
+import { signIn } from '/@/api/login/index';
+
 export default defineComponent({
 	name: 'loginAccount',
 	setup() {
@@ -83,7 +85,7 @@ export default defineComponent({
 		const state = reactive({
 			isShowPassword: false,
 			ruleForm: {
-				userName: 'admin',
+				username: 'admin',
 				password: '123456',
 				code: '1234',
 			},
@@ -110,18 +112,24 @@ export default defineComponent({
 			// test 按钮权限标识
 			let testAuthBtnList: Array<string> = ['btn.add', 'btn.link'];
 			// 不同用户模拟不同的用户权限
-			if (state.ruleForm.userName === 'admin') {
+			if (state.ruleForm.username === 'admin') {
 				defaultRoles = adminRoles;
 				defaultAuthBtnList = adminAuthBtnList;
 			} else {
 				defaultRoles = testRoles;
 				defaultAuthBtnList = testAuthBtnList;
 			}
+			const res= await signIn(state.ruleForm);
+			state.loading.signIn = false;
+			if(res.errcode!=0){
+				return;
+			}
 			// 用户信息模拟数据
 			const userInfos = {
-				userName: state.ruleForm.userName,
+				username: res.data.Username,
+				realname:res.data.Name || res.data.NickName || res.data.Username,
 				photo:
-					state.ruleForm.userName === 'admin'
+					state.ruleForm.username === 'admin'
 						? 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1813762643,1914315241&fm=26&gp=0.jpg'
 						: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=317673774,2961727727&fm=26&gp=0.jpg',
 				time: new Date().getTime(),
@@ -129,9 +137,11 @@ export default defineComponent({
 				authBtnList: defaultAuthBtnList,
 			};
 			// 存储 token 到浏览器缓存
-			Session.set('token', Math.random().toString(36).substr(0));
+			Session.set('token', res.data.token);
 			// 存储用户信息到浏览器缓存
 			Session.set('userInfo', userInfos);
+			Session.set('expiresToken',res.data.expiresAt);
+			Session.set("refreshTokenAt",res.data.refreshTokenAt);
 			// 1、请注意执行顺序(存储用户信息到vuex)
 			store.dispatch('userInfos/setUserInfos', userInfos);
 			if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
