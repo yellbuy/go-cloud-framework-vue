@@ -2,12 +2,12 @@ import axios from 'axios';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Session } from '/@/utils/storage';
 
-const appid="158625451365892097";
+let appid = "158625451365892097"
 // 配置新建一个 axios 实例
 const service = axios.create({
 	baseURL: import.meta.env.VITE_API_URL as any,
 	timeout: 100000,
-	headers: { 'Content-Type': 'application/json', 'Appid':appid },
+	headers: { 'Content-Type': 'application/json', 'Appid': appid },
 });
 
 axios.defaults.retry = 4;

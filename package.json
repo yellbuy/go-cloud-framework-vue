@@ -1,11 +1,11 @@
 {
-	"name": "vue-next-admin",
+	"name": "yb.clouddataapi.vue",
 	"version": "1.2.2",
 	"description": "vue3 vite next admin template",
-	"author": "lyt_20201208",
-	"license": "MIT",
+	"author": "yellbuy",
+	"license": "GPL-3",
 	"scripts": {
-		"dev": "vite --force",
+		"serve": "vite --force",
 		"build": "vite build",
 		"lint-fix": "eslint --fix --ext .js --ext .jsx --ext .vue src/"
 	},
