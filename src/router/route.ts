@@ -25,7 +25,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 		path: '/',
 		name: '/',
 		component: () => import('/@/layout/index.vue'),
-		redirect: '/admin',
+		redirect: '/admin/index',
 		meta: {
 			isKeepAlive: true,
 		},
