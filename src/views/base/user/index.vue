@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref } from 'vue';
+import { toRefs, reactive, effect,onMounted, ref, computed } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import EditUser from '/@/views/base/user/component/editUser.vue';
 
@@ -73,25 +73,32 @@ export default {
 				loading: false,
 				param: {
 					pageNum: 1,
-					pageIndex:0,
-					pageSize: 10,
+					pageSize: 20,
 				},
 			},
 		});
+		state.tableData.param.pageIndex=computed(()=>{
+			return state.tableData.param.pageNum-NextLoading.start();1;
+		})
+		// effect(()=>{
+		// 	state.tableData.param.pageIndex = state.tableData.param.pageNum+1;
+		// })
 		
-		// 初始化表格数据
-		const onGetTableData = async () => {
-			state.tableData.param.pageIndex=state.tableData.param.pageNum-1;
-			state.tableData.loading=true;
-			const res= await getUserList(state.tableData.param);
-			state.tableData.loading=false;
-			if(res.errcode!=0){
-				return;
-			}
 
+		// 初始化表格数据
+		const onGetTableData = () => {
+			state.tableData.loading=true;
+			getUserList(state.tableData.param).then((res)=>{
+				state.tableData.loading=false;
+				if(res.errcode!=0){
+					return;
+				}
+				state.tableData.data = res.data;
+				state.tableData.total = res.total;
+			}).catch(() => {
+				state.tableData.loading=false;
+			});
 			
-			state.tableData.data = res.data;
-			state.tableData.total = res.total;
 		};
 		// 打开新增用户弹窗
 		const onOpenAddUser = () => {
@@ -115,7 +122,7 @@ export default {
 		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.pageSize = val;
+			state.tableData.param.pageNum = val;
 		};
 		// 分页改变
 		const onHandleCurrentChange = (val: number) => {

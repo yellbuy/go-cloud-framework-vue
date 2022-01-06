@@ -5,10 +5,10 @@ import request from '/@/utils/request';
  * @param params 要传的参数值
  * @returns 返回接口数据
  */
-export async function getUserList(params: object) {
-	return await request({
+export function getUserList(params: object) {
+	return request({
 		url: '/v1/base/persons',
 		method: 'get',
-		data: params,
+		params: params,
 	});
 }

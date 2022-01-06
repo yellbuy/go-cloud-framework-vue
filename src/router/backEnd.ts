@@ -4,6 +4,7 @@ import { NextLoading } from '/@/utils/loading';
 import { setAddRoute, setFilterMenuAndCacheTagsViewRoutes } from '/@/router/index';
 import { dynamicRoutes } from '/@/router/route';
 import { getMenuAdmin, getMenuTest } from '/@/api/menu/index';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
@@ -29,16 +30,22 @@ export async function initBackEndControlRoutes() {
 	if (!Session.get('token')) return false;
 	// 触发初始化用户信息
 	store.dispatch('userInfos/setUserInfos');
-	// 获取路由菜单数据
-	const res = await getBackEndControlRoutes();
-	// 存储接口原始路由（未处理component），根据需求选择使用
-	store.dispatch('requestOldRoutes/setBackEndControlRoutes', res.ModuleList||[]);
-	// 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
-	dynamicRoutes[0].children = await backEndComponent(res.ModuleList||[]);
-	// 添加动态路由
-	await setAddRoute();
-	// 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
-	setFilterMenuAndCacheTagsViewRoutes();
+	try{
+		// 获取路由菜单数据
+		const res = await getBackEndControlRoutes();
+		// 存储接口原始路由（未处理component），根据需求选择使用
+		store.dispatch('requestOldRoutes/setBackEndControlRoutes', res.ModuleList||[]);
+		// 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
+		dynamicRoutes[0].children = await backEndComponent(res.ModuleList||[]);
+		// 添加动态路由
+		await setAddRoute();
+		// 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
+		setFilterMenuAndCacheTagsViewRoutes();
+	}catch(er){
+		NextLoading.done();
+		//ElMessage.error(er.message)
+	}	
+	
 }
 
 /**
