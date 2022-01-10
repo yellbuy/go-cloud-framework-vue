@@ -11,6 +11,7 @@ export default {
 		edit:'修改',
 		delete:'删除',
 		save:'保存',
+		saveAndAdd:'保存并新增',
 		reset:'重置',
 		submit:'提交',
 		cancel:'取消'

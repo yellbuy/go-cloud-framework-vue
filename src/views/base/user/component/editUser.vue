@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" >
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px">
+		<el-dialog :title="title" v-model="isShowDialog" width="60%">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="登录账号" prop="Username" :error="ruleForm.Username?'':t('message.validRule.required')">
@@ -10,7 +10,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="姓名" prop="Name" >
-							<el-input v-model="ruleForm.Name" placeholder="请输入用户姓名" maxlength="50" clearable></el-input>
+							<el-input v-model="ruleForm.Name" placeholder="请输入姓名" maxlength="50" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -19,74 +19,89 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="关联角色">
-							<el-select v-model="ruleForm.roleSign" placeholder="请选择" clearable class="w100">
-								<el-option label="超级管理员" value="admin"></el-option>
-								<el-option label="普通用户" value="common"></el-option>
-							</el-select>
+						<el-form-item label="" prop="Enable">
+							<el-checkbox v-model="ruleForm.Enable" :true-label="1" :false-label="0">账号可用</el-checkbox>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="部门">
-							<el-cascader
-								:options="deptData"
-								:props="{ checkStrictly: true, value: 'deptName', label: 'deptName' }"
-								placeholder="请选择部门"
-								clearable
-								class="w100"
-								v-model="ruleForm.department"
-							>
-								<template #default="{ node, data }">
-									<span>{{ data.deptName }}</span>
-									<span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
-								</template>
-							</el-cascader>
+					
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="密码" prop="Password">
+							<el-input v-model="ruleForm.Password" type="new-password" placeholder="如需修改密码，请输入新密码" maxlength="50" clearable></el-input>
+							<p title="" class="color-info-light font10" v-if="ruleForm.Id>0"><SvgIcon name="fa fa-info-circle" />无需修改密码，请保留为空</p>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="手机号">
-							<el-input v-model="ruleForm.phone" placeholder="请输入手机号" clearable></el-input>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20" v-if="!ruleForm.Id">
+						<el-form-item label="确认密码" prop="PasswordConfirm">
+							<el-input v-model="ruleForm.PasswordConfirm" type="new-password" placeholder="请输入确认密码" maxlength="50" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="邮箱">
-							<el-input v-model="ruleForm.email" placeholder="请输入" clearable></el-input>
+				</el-row>
+				<el-row :gutter="35">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="手机号" prop="Mobile">
+							<el-input v-model="ruleForm.Mobile" placeholder="请输入手机号" maxlength="50" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="性别">
-							<el-select v-model="ruleForm.sex" placeholder="请选择" clearable class="w100">
-								<el-option label="男" value="男"></el-option>
-								<el-option label="女" value="女"></el-option>
-							</el-select>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="电话" prop="Tel">
+							<el-input v-model="ruleForm.Tel" placeholder="请输入电话" maxlength="50" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="账户密码">
-							<el-input v-model="ruleForm.password" placeholder="请输入" type="password" clearable></el-input>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="邮箱" prop="Email">
+							<el-input v-model="ruleForm.Email" placeholder="请输入邮箱" maxlength="50" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="账户过期">
-							<el-date-picker v-model="ruleForm.overdueTime" type="date" placeholder="请选择" class="w100"> </el-date-picker>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item prop="IsAdmin">
+							<el-checkbox v-model="ruleForm.IsAdmin" :true-label="1" :false-label="0">管理员</el-checkbox>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" />管理员拥有所有权限</p>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="用户状态">
-							<el-switch v-model="ruleForm.status" inline-prompt active-text="启" inactive-text="禁"></el-switch>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="职务" prop="Position">
+							<el-input v-model="ruleForm.Position" placeholder="请输入职务" maxlength="50" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="用户描述">
-							<el-input v-model="ruleForm.describe" type="textarea" placeholder="请输入用户描述" maxlength="150"></el-input>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="" prop="Gender">
+							<el-radio-group v-model="ruleForm.Gender">
+								<el-radio :label="1" size="large">男</el-radio>
+								<el-radio :label="2" size="large">女</el-radio>
+							</el-radio-group>
 						</el-form-item>
 					</el-col>
+					
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="" prop="AllowBackendLogin">
+							<el-checkbox v-model="ruleForm.AllowBackendLogin" :true-label="1" :false-label="0">后台允许登录</el-checkbox>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" />是否允许登录系统后台</p>
+						</el-form-item>
+						
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="" prop="AllowFrontendLogin">
+							<el-checkbox v-model="ruleForm.AllowFrontendLogin" :true-label="1" :false-label="0">前台允许登录</el-checkbox>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" />是否允许登录系统前台和客户端</p>
+						</el-form-item>
+						
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="" prop="IsExternal">
+							<el-checkbox v-model="ruleForm.IsExternal" :true-label="1" :false-label="0">外部用户</el-checkbox>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" />外部用户不允许登录后台</p>
+						</el-form-item>
+						
+					</el-col>
+					
 				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit" size="small">{{ $t('message.action.save') }}</el-button>
+					<el-button type="primary" @click="onSubmit(false)" v-if="ruleForm.Id==0" size="small">{{ $t('message.action.saveAndAdd') }}</el-button>
+					<el-button type="primary" @click="onSubmit(true)" size="small">{{ $t('message.action.save') }}</el-button>
+					
 				</span>
 			</template>
 		</el-dialog>
@@ -94,6 +109,7 @@
 </template>
 
 <script lang="ts">
+import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 export default {
@@ -104,19 +120,26 @@ export default {
 		const state = reactive({
 			isShowDialog: false,
 			title:t('message.action.add'),
+			loading:false,
 			ruleForm: {
+				Id:0,
 				Username: '', // 账户名称
 				Name: '', // 用户昵称
 				Code:'',
-				roleSign: '', // 关联角色
+				Enable:1,
+				Order: 100, // 排序
+				Password:'',
+				PasswordConfirm:'',
+				Mobile:'',
+				Tel:'',
+				Email:'',
+				Addrcode:'',
+				RoleIds:[],
+				AllowBackendLogin:0,
+				AllowFrontendLogin:0,
+				IsExternal:0,
 				department: [], // 部门
-				phone: '', // 手机号
-				email: '', // 邮箱
-				sex: '', // 性别
-				password: '', // 账户密码
-				overdueTime: '', // 账户过期
-				status: true, // 用户状态
-				describe: '', // 用户描述
+				Gender: 0 // 性别
 			},
 			deptData: [], // 部门数据
 		});
@@ -154,11 +177,29 @@ export default {
 			closeDialog();
 		};
 		// 新增
-		const onSubmit = () => {
+		const onSubmit = (isCloseDlg:boolean) => {
+			state.loading=true;
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
-					proxy.$message.success('验证成功');
-					closeDialog();
+					const url=state.ruleForm.Id>0?`/v1/base/user/${state.ruleForm.Id}`:`/v1/base/user`;
+					request({
+						url: url,
+						method: 'post',
+						data: state.ruleForm,
+					}).then((res)=>{
+						state.loading=false;
+						if(res.errcode==0){
+							if(isCloseDlg){
+								closeDialog();
+							} else {
+								proxy.$refs.ruleFormRef.resetFields();
+							}
+							proxy.$parent.onGetTableData();
+						}
+					}).catch((err)=>{
+						state.loading=false;
+					});
+					return false;
 				} else {
 					return false;
 				}

@@ -11,10 +11,16 @@ export default function () {
 	const percentFormat = (row: any, column: number, cellValue: any) => {
 		return cellValue ? `${cellValue}%` : '-';
 	};
+	
 	//列表日期时间格式化
 	const dateFormatYMD = (row: any, column: number, cellValue: any) => {
 		if (!cellValue) return '-';
 		return formatDate(new Date(cellValue), 'YYYY-mm-dd');
+	};
+	//列表日期时间格式化
+	const dateFormatYMDHM = (row: any, column: number, cellValue: any) => {
+		if (!cellValue) return '-';
+		return formatDate(new Date(cellValue), 'YYYY-mm-dd HH:MM');
 	};
 	//列表日期时间格式化
 	const dateFormatYMDHMS = (row: any, column: number, cellValue: any) => {
@@ -56,6 +62,7 @@ export default function () {
 	return {
 		percentFormat,
 		dateFormatYMD,
+		dateFormatYMDHM,
 		dateFormatYMDHMS,
 		dateFormatHMS,
 		scaleFormat,

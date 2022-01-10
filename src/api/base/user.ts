@@ -7,7 +7,7 @@ import request from '/@/utils/request';
  */
 export function getUserList(params: object) {
 	return request({
-		url: '/v1/base/persons',
+		url: '/v1/base/users',
 		method: 'get',
 		params: params,
 	});

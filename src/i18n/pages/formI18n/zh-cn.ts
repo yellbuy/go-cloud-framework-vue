@@ -12,6 +12,7 @@ export default {
 		delete:'删除',
 		reset:'重置',
 		save:'保存',
+		saveAndAdd:'保存并新增',
 		submit:'提交',
 		cancel:'取消'
 	},

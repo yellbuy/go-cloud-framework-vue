@@ -12,6 +12,7 @@ export default {
 		delete:'delete',
 		reset:'reset',
 		save:'save',
+		saveAndAdd:'save and add',
 		submit:'submit',
 		cancel:'cancel'
 	},

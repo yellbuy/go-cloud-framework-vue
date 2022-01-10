@@ -2,38 +2,49 @@
 	<div class="system-user-container">
 		<el-card shadow="hover">
 			<div class="system-user-search mb15">
-				<el-input size="small" placeholder="请输入用户名称" style="max-width: 180px"> </el-input>
-				<el-button size="small" type="primary" class="ml10" @click="onGetTableData">
+				<el-input size="small" placeholder="请输入用户名称" style="max-width: 180px" > </el-input>
+				<el-button size="small" class="ml10" @click="onGetTableData">
 					<el-icon>
 						<elementSearch />
 					</el-icon>
 					{{ $t('message.action.search') }}
 				</el-button>
-				<el-button size="small" type="success" class="ml10" @click="onOpenAddUser">
+				<el-button size="small" type="primary" class="ml10" @click="onOpenAddUser">
 					<el-icon>
 						<elementFolderAdd />
 					</el-icon>
 					{{ $t('message.action.add') }}
 				</el-button>
 			</div>
-			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%">
-				<el-table-column type="index" label="序号" width="50" fixed/>
-				<el-table-column prop="username" label="账户名" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Realname" label="名称" show-overflow-tooltip></el-table-column>
+			<el-table :data="tableData.data"
+				v-loading="tableData.loading" style="width: 100%" size="mini" 
+				border stripe highlight-current-row>
+				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
+				<el-table-column prop="Username" label="账户名" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Name" label="名称" width="130" show-overflow-tooltip></el-table-column>
 				
-				<el-table-column prop="Tel" label="电话" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Email" label="邮箱" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Enable" label="用户状态" show-overflow-tooltip>
+				<el-table-column prop="Tel" label="电话" width="150" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Email" label="邮箱" width="150" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Enable" label="用户状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.Enable">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" v-else>{{ $t('message.action.disable') }}</el-tag>
+						<el-tag type="success" size="mini" v-if="scope.row.Enable">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" size="mini" v-else>{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="CreateTime" label="创建时间" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" width="100" fixed="right">
+				<el-table-column prop="CreateTime" label="创建时间" :formatter="dateFormatYMDHM" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column label="操作" width="180" fixed="right">
 					<template #default="scope">
-						<el-button size="mini" type="primary" @click="onOpenEditUser(scope.row)">{{ $t('message.action.edit') }}</el-button>
-						<el-button size="mini" type="danger" @click="onRowDel(scope.row)">{{ $t('message.action.delete') }}</el-button>
+						<el-button size="mini" type="primary" @click="onOpenEditUser(scope.row)">
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+					{{ $t('message.action.edit') }}</el-button>
+						<el-button size="mini" type="danger" @click="onRowDel(scope.row)">
+							<el-icon>
+								<elementDelete />
+							</el-icon>
+							{{ $t('message.action.delete') }}</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -56,6 +67,7 @@
 </template>
 
 <script lang="ts">
+import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect,onMounted, ref, computed } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import EditUser from '/@/views/base/user/component/editUser.vue';
@@ -78,7 +90,7 @@ export default {
 			},
 		});
 		state.tableData.param.pageIndex=computed(()=>{
-			return state.tableData.param.pageNum-NextLoading.start();1;
+			return state.tableData.param.pageNum-1;
 		})
 		// effect(()=>{
 		// 	state.tableData.param.pageIndex = state.tableData.param.pageNum+1;
@@ -110,7 +122,7 @@ export default {
 		};
 		// 删除用户
 		const onRowDel = (row: Object) => {
-			ElMessageBox.confirm(`此操作将永久删除账户名称：“${row.Username}”，是否继续?`, '提示', {
+			ElMessageBox.confirm(`此操作将删除账户：“${row.Username}”，是否继续?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
@@ -122,7 +134,7 @@ export default {
 		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.pageNum = val;
+			state.tableData.param.pageSize = val;
 		};
 		// 分页改变
 		const onHandleCurrentChange = (val: number) => {
@@ -132,6 +144,9 @@ export default {
 		onMounted(() => {
 			onGetTableData();
 		});
+
+		const { dateFormatYMDHM } = commonFunction();
+	
 		return {
 			editUserRef,
 			onGetTableData,
@@ -140,6 +155,7 @@ export default {
 			onRowDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
+			dateFormatYMDHM,
 			...toRefs(state),
 		};
 	},
