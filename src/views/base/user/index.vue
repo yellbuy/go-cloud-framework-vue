@@ -99,7 +99,6 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import userEdit from './component/userEdit.vue';
 
 import { getUserList } from '/@/api/base/user';
-import { store } from '/@/store/index.ts';
 export default {
 	name: 'baseUsers',
 	components: { userEdit },

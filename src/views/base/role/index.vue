@@ -2,12 +2,9 @@
 	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" size="mini" :model="tableData.param" label-width="80px" :inline="true">
-					<el-form-item label="账户名：">
-						<el-input size="mini" placeholder="请输入账号名查询" v-model="tableData.param.username"> </el-input>
-					</el-form-item>
-					<el-form-item label="姓名：">
-						<el-input size="mini" placeholder="请输入姓名查询" v-model="tableData.param.name"> </el-input>
+				<el-form ref="searchFormRef" size="mini" :model="tableData.param" label-width="90px" :inline="true">
+					<el-form-item label="角色名称：">
+						<el-input size="mini" placeholder="请输入角色名称查询" v-model="tableData.param.name"> </el-input>
 					</el-form-item>
 					<el-form-item>
 							<el-button size="mini" @click="onResetSearch">
@@ -22,19 +19,12 @@
 								</el-icon>
 								{{ $t('message.action.search') }}
 							</el-button>
-							<el-button size="mini" type="primary" @click="onOpenAddUser">
+							<el-button size="mini" type="primary" @click="onModelAdd" v-auth:[moduleKey]="'btn.Add'">
 								<el-icon>
 									<elementPlus />
 								</el-icon>
 								{{ $t('message.action.add') }}
 							</el-button>
-					</el-form-item>
-					<el-form-item>
-						
-					</el-form-item>
-					
-					<el-form-item>
-						
 					</el-form-item>
 					<el-form-item></el-form-item>
 				</el-form>
@@ -43,28 +33,20 @@
 				v-loading="tableData.loading" style="width: 100%" size="mini" 
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
-				<el-table-column prop="Username" label="账户名" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Name" label="姓名" width="130" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Name" label="角色名称" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Code" label="角色代码" width="120" show-overflow-tooltip></el-table-column>
 				
-				<el-table-column prop="Tel" label="电话" width="150" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Email" label="邮箱" width="150" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Enable" label="用户状态" width="70" align="center" show-overflow-tooltip>
-					<template #default="scope">
-						<el-tag type="success" size="mini" v-if="scope.row.Enable">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" size="mini" v-else>{{ $t('message.action.disable') }}</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column prop="CreateTime" label="创建时间" :formatter="dateFormatYMDHM" show-overflow-tooltip>
-				</el-table-column>
+				<el-table-column prop="Remark" label="备注" show-overflow-tooltip></el-table-column>
+				
 				<el-table-column label="操作" width="180" fixed="right">
 					<template #default="scope">
-						<el-button size="mini" type="primary" @click="onOpenuserEdit(scope.row)">
+						<el-button size="mini" type="primary" @click="onModelEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button size="mini" type="danger" @click="onRowDel(scope.row)">
+						<el-button size="mini" type="danger" @click="onModelDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
@@ -87,32 +69,32 @@
 			>
 			</el-pagination>
 		</el-card>
-		<userEdit ref="userEditRef" />
+		<editDlg ref="editDlgRef" />
 	</div>
 </template>
 
 <script lang="ts">
 import request from '/@/utils/request';
 import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
+import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import userEdit from './component/userEdit.vue';
+import editDlg from './component/roleEdit.vue';
 
-import { getUserList } from '/@/api/base/user';
 export default {
-	name: 'baseUsers',
-	components: { userEdit },
+	name: 'baseRoles',
+	components: { editDlg },
 	setup() {
+		const moduleKey='api_sys_role';
 		const { proxy } = getCurrentInstance() as any;
 
-		const userEditRef = ref();
+		const editDlgRef = ref();
 		const state: any = reactive({
+			moduleKey:moduleKey,
 			tableData: {
 				data: [],
 				total: 0,
 				loading: false,
 				param: {
-					username:"",
 					name:"",
 					pageNum: 1,
 					pageSize: 20,
@@ -128,18 +110,14 @@ export default {
 			state.tableData.param.name="";
 			onGetTableData(true)
 		}
-		// effect(()=>{
-		// 	state.tableData.param.pageIndex = state.tableData.param.pageNum+1;
-		// })
 		
-
 		// 初始化表格数据
 		const onGetTableData = (gotoFirstPage:boolean=false) => {
 			if(gotoFirstPage){
 				state.tableData.param.pageNum=1;
 			}
 			state.tableData.loading=true;
-			getUserList(state.tableData.param).then((res)=>{
+			request({url:"/v1/base/roles",method: 'get',params:state.tableData.param}).then((res)=>{
 				state.tableData.loading=false;
 				if(res.errcode!=0){
 					return;
@@ -152,22 +130,22 @@ export default {
 			
 		};
 		// 打开新增用户弹窗
-		const onOpenAddUser = () => {
-			userEditRef.value.openDialog({});
+		const onModelAdd = () => {
+			editDlgRef.value.openDialog({});
 		};
 		// 打开修改用户弹窗
-		const onOpenuserEdit = (row: Object) => {
-			userEditRef.value.openDialog(row);
+		const onModelEdit = (row: Object) => {
+			editDlgRef.value.openDialog(row);
 		};
 		// 删除用户
-		const onRowDel = (row: Object) => {
-			ElMessageBox.confirm(`确定要删除账户“${row.Username}”吗?`, '提示', {
+		const onModelDel = (row: Object) => {
+			ElMessageBox.confirm(`确定要删除角色“${row.Name}”吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(() => {
 				state.tableData.loading=true;
-				const url=`/v1/base/user/delete/${row.Id}`;
+				const url=`/v1/base/role/delete/${row.Id}`;
 				request({
 					url: url,
 					method: 'post',
@@ -199,12 +177,12 @@ export default {
 		const { dateFormatYMDHM } = commonFunction();
 	
 		return {
-			userEditRef,
+			editDlgRef,
 			onGetTableData,
 			onResetSearch,
-			onOpenAddUser,
-			onOpenuserEdit,
-			onRowDel,
+			onModelAdd,
+			onModelEdit,
+			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,

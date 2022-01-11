@@ -1,100 +1,22 @@
 <template>
-	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="60%">
+	<div class="system-edit-role-container">
+		<el-dialog :title="title" v-model="isShowDialog">
+			<!-- <template #title>
+				{{title}}
+				<div class="line">
+					<div></div>
+				</div>
+			</template> -->
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
-				<el-row :gutter="35">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="登录账号" prop="Username">
-							<el-input v-model="ruleForm.Username" :autofocus="!ruleForm.Id" :readonly="ruleForm.Id>0" placeholder="请输入账户名" maxlength="50" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="姓名" prop="Name" >
-							<el-input v-model="ruleForm.Name" placeholder="请输入姓名" maxlength="50" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="编码" prop="Code">
-							<el-input v-model="ruleForm.Code" placeholder="请输入编码" maxlength="50" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="" prop="Enable">
-							<el-checkbox v-model="ruleForm.Enable" :true-label="1" :false-label="0">账号可用</el-checkbox>
-						</el-form-item>
-					</el-col>
-					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="密码" prop="Password">
-							<el-input v-model="ruleForm.Password" type="new-password" placeholder="如需修改密码，请输入新密码" maxlength="50" clearable></el-input>
-							<p title="" class="color-info-light font10" v-if="ruleForm.Id>0"><SvgIcon name="fa fa-info-circle" />无需修改密码，请保留为空</p>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20" v-if="!ruleForm.Id">
-						<el-form-item label="确认密码" prop="PasswordConfirm">
-							<el-input v-model="ruleForm.PasswordConfirm" type="new-password" placeholder="请输入确认密码" maxlength="50" clearable></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="35">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="手机号" prop="Mobile">
-							<el-input v-model="ruleForm.Mobile" placeholder="请输入手机号" maxlength="50" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="电话" prop="Tel">
-							<el-input v-model="ruleForm.Tel" placeholder="请输入电话" maxlength="50" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="邮箱" prop="Email">
-							<el-input v-model="ruleForm.Email" placeholder="请输入邮箱" maxlength="50" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item prop="IsAdmin">
-							<el-checkbox v-model="ruleForm.IsAdmin" :true-label="1" :false-label="0">管理员</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>管理员拥有所有权限</p>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="职务" prop="Position">
-							<el-input v-model="ruleForm.Position" placeholder="请输入职务" maxlength="50" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="" prop="Gender">
-							<el-radio-group v-model="ruleForm.Gender">
-								<el-radio :label="1" size="large">男</el-radio>
-								<el-radio :label="2" size="large">女</el-radio>
-							</el-radio-group>
-						</el-form-item>
-					</el-col>
-					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="" prop="AllowBackendLogin">
-							<el-checkbox v-model="ruleForm.AllowBackendLogin" :true-label="1" :false-label="0">后台允许登录</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>是否允许登录系统后台</p>
-						</el-form-item>
-						
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="" prop="AllowFrontendLogin">
-							<el-checkbox v-model="ruleForm.AllowFrontendLogin" :true-label="1" :false-label="0">前台允许登录</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录前台和客户端</p>
-						</el-form-item>
-						
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="" prop="IsExternal">
-							<el-checkbox v-model="ruleForm.IsExternal" :true-label="1" :false-label="0">外部用户</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>外部用户不允许登录后台</p>
-						</el-form-item>
-						
-					</el-col>
-					
-				</el-row>
+				<el-form-item label="名称" prop="Name" style="max-width: 420px">
+					<el-input v-model="ruleForm.Name" placeholder="请输入角色名称" maxlength="50" clearable></el-input>
+				</el-form-item>
+				<el-form-item label="编码" prop="Code" style="max-width: 420px">
+					<el-input v-model="ruleForm.Code" placeholder="请输入角色编码" maxlength="50" clearable></el-input>
+				</el-form-item>
+				<el-form-item label="备注" prop="Remark">
+					<el-input v-model="ruleForm.Remark" type="textarea" placeholder="请输入角色备注"  :rows="5" clearable></el-input>
+				</el-form-item>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -113,7 +35,7 @@ import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 export default {
-	name: 'baseUserEdit',
+	name: 'baseRoleEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -123,29 +45,17 @@ export default {
 			loading:false,
 			ruleForm: {
 				Id:0,
-				Username: '', // 账户名称
-				Name: '', // 用户昵称
+				Name: '', // 角色名称
 				Code:'',
-				Enable:1,
 				Order: 100, // 排序
-				Password:'',
-				PasswordConfirm:'',
-				Mobile:'',
-				Tel:'',
-				Email:'',
-				Addrcode:'',
-				RoleIds:[],
-				AllowBackendLogin:1,
-				AllowFrontendLogin:1,
-				IsExternal:0,
+				Remark:'',
 				department: [], // 部门
-				Gender: 0 // 性别
 			},
 			deptData: [], // 部门数据
 		});
 
 		const rules = reactive({
-			Username: [
+			Name: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
