@@ -13,6 +13,10 @@ const userInfosModule: Module<UserInfosState, RootStateTypes> = {
 		getUserInfos(state: any, data: object) {
 			state.userInfos = data;
 		},
+		// 设置模块动作权限信息
+		getPermissionActions(state: any, data: object) {
+			state.userInfos.authBtnList = data;
+		},
 	},
 	actions: {
 		// 设置用户信息
@@ -22,6 +26,10 @@ const userInfosModule: Module<UserInfosState, RootStateTypes> = {
 			} else {
 				if (Session.get('userInfo')) commit('getUserInfos', Session.get('userInfo'));
 			}
+		},
+		// 设置动作权限信息
+		async setPermissionActions({ commit }, data: object) {
+			commit('getPermissionActions', data);
 		},
 	},
 };

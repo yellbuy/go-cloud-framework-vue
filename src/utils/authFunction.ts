@@ -6,8 +6,9 @@ import { judementSameArr } from '/@/utils/arrayOperation';
  * @param value 权限值
  * @returns 有权限，返回 `true`，反之则反
  */
-export function auth(value: string): boolean {
-	return store.state.userInfos.userInfos.authBtnList.some((v: string) => v === value);
+export function auth(moduleKey:string,value: string): boolean {
+	const authBtnList=store.state.userInfos.userInfos.authBtnList[moduleKey]||[];
+	return authBtnList.some((v: string) => v === value);
 }
 
 /**
@@ -15,9 +16,10 @@ export function auth(value: string): boolean {
  * @param value 权限值
  * @returns 有权限，返回 `true`，反之则反
  */
-export function auths(value: Array<string>): boolean {
+export function auths(moduleKey:string,value: Array<string>): boolean {
 	let flag = false;
-	store.state.userInfos.userInfos.authBtnList.map((val: string) => {
+	const authBtnList=store.state.userInfos.userInfos.authBtnList[moduleKey]||[];
+	authBtnList.map((val: string) => {
 		value.map((v: string) => {
 			if (val === v) flag = true;
 		});
@@ -30,6 +32,7 @@ export function auths(value: Array<string>): boolean {
  * @param value 权限值
  * @returns 有权限，返回 `true`，反之则反
  */
-export function authAll(value: Array<string>): boolean {
-	return judementSameArr(value, store.state.userInfos.userInfos.authBtnList);
+export function authAll(moduleKey:string,value: Array<string>): boolean {
+	const authBtnList=store.state.userInfos.userInfos.authBtnList[moduleKey]||[];
+	return judementSameArr(value, authBtnList);
 }

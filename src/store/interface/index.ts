@@ -77,6 +77,11 @@ export interface UserInfosState {
 	userInfos: object;
 }
 
+// Action授权信息
+export interface AuthBtnListState {
+	actions: object;
+}
+
 // 后端返回原始路由(未处理时)
 export interface RequestOldRoutesState {
 	requestOldRoutes: Array<object>;
@@ -89,5 +94,6 @@ export interface RootStateTypes {
 	keepAliveNames: KeepAliveNamesState;
 	tagsViewRoutes: TagsViewRoutesState;
 	userInfos: UserInfosState;
+	authBtnList:AuthBtnListState;
 	requestOldRoutes: RequestOldRoutesState;
 }

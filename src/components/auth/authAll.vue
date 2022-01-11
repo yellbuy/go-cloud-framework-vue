@@ -9,6 +9,10 @@ import { judementSameArr } from '/@/utils/arrayOperation';
 export default {
 	name: 'authAll',
 	props: {
+		moduleKey: {
+			type: String,
+			default: () => '',
+		},
 		value: {
 			type: Array,
 			default: () => [],
@@ -17,8 +21,9 @@ export default {
 	setup(props) {
 		const store = useStore();
 		// 获取 vuex 中的用户权限
+		const authBtnList=store.state.userInfos.userInfos.authBtnList[moduleKey]||[];
 		const getUserAuthBtnList = computed(() => {
-			return judementSameArr(props.value, store.state.userInfos.userInfos.authBtnList);
+			return judementSameArr(props.value, authBtnList);
 		});
 		return {
 			getUserAuthBtnList,

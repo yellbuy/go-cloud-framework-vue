@@ -13,6 +13,7 @@ export default {
 		save:'保存',
 		saveAndAdd:'保存并新增',
 		reset:'重置',
+		clear:'清空',
 		submit:'提交',
 		cancel:'取消'
 	},

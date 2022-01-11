@@ -1,5 +1,5 @@
 <template>
-	<div class="base-user-container">
+	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
 				<el-form ref="searchFormRef" size="mini" :model="tableData.param" label-width="80px" :inline="true">
@@ -22,7 +22,7 @@
 								</el-icon>
 								{{ $t('message.action.search') }}
 							</el-button>
-							<el-button size="mini" type="primary" @click="onOpenAddUser"  v-auth:[moduleKey]="'btn.UserAdd'">
+							<el-button size="mini" type="primary" @click="onOpenAddUser">
 								<el-icon>
 									<elementPlus />
 								</el-icon>
@@ -58,13 +58,13 @@
 				</el-table-column>
 				<el-table-column label="操作" width="180" fixed="right">
 					<template #default="scope">
-						<el-button size="mini" type="primary" @click="onOpenuserEdit(scope.row)" v-auth:[moduleKey]="'btn.UserEdit'">
+						<el-button size="mini" type="primary" @click="onOpenuserEdit(scope.row)">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button size="mini" type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.UserDel'">
+						<el-button size="mini" type="danger" @click="onRowDel(scope.row)">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
@@ -99,16 +99,14 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import userEdit from './component/userEdit.vue';
 
 import { getUserList } from '/@/api/base/user';
-import { store } from '/@/store/index.ts';
 export default {
 	name: 'baseUsers',
 	components: { userEdit },
 	setup() {
-		const moduleKey='api_sys_org';
 		const { proxy } = getCurrentInstance() as any;
+
 		const userEditRef = ref();
 		const state: any = reactive({
-			moduleKey:moduleKey,
 			tableData: {
 				data: [],
 				total: 0,

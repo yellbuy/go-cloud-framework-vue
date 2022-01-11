@@ -11,10 +11,11 @@ export default {
 		edit:'edit',
 		delete:'delete',
 		reset:'reset',
+		clear:'clear',
 		save:'save',
 		saveAndAdd:'save and add',
 		submit:'submit',
-		cancel:'cancel'
+		cancel:'cancel',
 	},
 	validRule:{
 		required:'Required.',

@@ -4,8 +4,8 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="登录账号" prop="Username" :error="ruleForm.Username?'':t('message.validRule.required')">
-							<el-input v-model="ruleForm.Username" placeholder="请输入账户名" maxlength="50" clearable></el-input>
+						<el-form-item label="登录账号" prop="Username">
+							<el-input v-model="ruleForm.Username" :autofocus="!ruleForm.Id" :readonly="ruleForm.Id>0" placeholder="请输入账户名" maxlength="50" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -55,7 +55,7 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item prop="IsAdmin">
 							<el-checkbox v-model="ruleForm.IsAdmin" :true-label="1" :false-label="0">管理员</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" />管理员拥有所有权限</p>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>管理员拥有所有权限</p>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -75,21 +75,21 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="" prop="AllowBackendLogin">
 							<el-checkbox v-model="ruleForm.AllowBackendLogin" :true-label="1" :false-label="0">后台允许登录</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" />是否允许登录系统后台</p>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>是否允许登录系统后台</p>
 						</el-form-item>
 						
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="" prop="AllowFrontendLogin">
 							<el-checkbox v-model="ruleForm.AllowFrontendLogin" :true-label="1" :false-label="0">前台允许登录</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" />是否允许登录系统前台和客户端</p>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录前台和客户端</p>
 						</el-form-item>
 						
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="" prop="IsExternal">
 							<el-checkbox v-model="ruleForm.IsExternal" :true-label="1" :false-label="0">外部用户</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" />外部用户不允许登录后台</p>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>外部用户不允许登录后台</p>
 						</el-form-item>
 						
 					</el-col>
@@ -99,8 +99,8 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(false)" v-if="ruleForm.Id==0" size="small">{{ $t('message.action.saveAndAdd') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" size="small">{{ $t('message.action.save') }}</el-button>
+					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" size="small" v-auth:[$parent.moduleKey]="'btn.UserAdd'">{{ $t('message.action.saveAndAdd') }}</el-button>
+					<el-button type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.UserEdit','btn.UserAdd']">{{ $t('message.action.save') }}</el-button>
 					
 				</span>
 			</template>
@@ -113,7 +113,7 @@ import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 export default {
-	name: 'baseEditUser',
+	name: 'baseUserEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -135,8 +135,8 @@ export default {
 				Email:'',
 				Addrcode:'',
 				RoleIds:[],
-				AllowBackendLogin:0,
-				AllowFrontendLogin:0,
+				AllowBackendLogin:1,
+				AllowFrontendLogin:1,
 				IsExternal:0,
 				department: [], // 部门
 				Gender: 0 // 性别
@@ -165,6 +165,12 @@ export default {
 			state.ruleForm = row;
 			if(row && row.Id>0){
 				state.title=t('message.action.edit');
+			}else{
+				state.title=t('message.action.add');
+				state.ruleForm.Id=0;
+				state.ruleForm.Enable=1;
+				state.ruleForm.AllowBackendLogin=1;
+				state.ruleForm.AllowFrontendLogin=1;
 			}
 			state.isShowDialog = true;
 		};
