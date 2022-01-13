@@ -28,3 +28,4 @@ app
 	.mount('#app');
 
 app.config.globalProperties.mittBus = mitt();
+app.config.globalProperties.$calcMainHeight = other.calcMainHeight;

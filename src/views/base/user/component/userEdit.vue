@@ -188,6 +188,7 @@ export default {
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
 					const url=state.ruleForm.Id>0?`/v1/base/user/${state.ruleForm.Id}`:`/v1/base/user`;
+					state.ruleForm.Id=state.ruleForm.Id.toString();
 					request({
 						url: url,
 						method: 'post',
@@ -199,6 +200,8 @@ export default {
 								closeDialog();
 							} else {
 								proxy.$refs.ruleFormRef.resetFields();
+								state.ruleForm.Id=0;
+								state.ruleForm.PasswordConfirm='';
 							}
 							proxy.$parent.onGetTableData();
 						}

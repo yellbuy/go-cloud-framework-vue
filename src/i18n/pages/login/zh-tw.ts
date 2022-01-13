@@ -9,8 +9,8 @@ export default {
 		two4: '友情連結',
 	},
 	copyright: {
-		one5: '版權所有：深圳市xxx軟件科技有限公司',
-		two6: 'Copyright: Shenzhen XXX Software Technology 粵ICP備05010000號',
+		one5: '版權所有：四川业贝信息技术有限公司',
+		two6: 'Copyright: 四川业贝信息技术有限公司 川ICP備16026413號',
 	},
 	account: {
 		accountPlaceholder1: '用戶名admin或不輸均為test',

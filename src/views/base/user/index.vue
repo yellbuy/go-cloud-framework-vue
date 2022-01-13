@@ -10,37 +10,35 @@
 						<el-input size="mini" placeholder="请输入姓名查询" v-model="tableData.param.name"> </el-input>
 					</el-form-item>
 					<el-form-item>
-							<el-button size="mini" @click="onResetSearch">
-								<el-icon>
-									<elementRefreshLeft />
-								</el-icon>
-								{{ $t('message.action.reset') }}
-							</el-button>
-							<el-button size="mini" @click="onGetTableData(true)">
-								<el-icon>
-									<elementSearch />
-								</el-icon>
-								{{ $t('message.action.search') }}
-							</el-button>
-							<el-button size="mini" type="primary" @click="onOpenAddUser"  v-auth:[moduleKey]="'btn.UserAdd'">
-								<el-icon>
-									<elementPlus />
-								</el-icon>
-								{{ $t('message.action.add') }}
-							</el-button>
+						<el-button size="mini" @click="onResetSearch">
+							<el-icon>
+								<elementRefreshLeft />
+							</el-icon>
+							{{ $t('message.action.reset') }}
+						</el-button>
 					</el-form-item>
 					<el-form-item>
-						
+						<el-button size="mini" @click="onGetTableData(true)">
+							<el-icon>
+								<elementSearch />
+							</el-icon>
+							{{ $t('message.action.search') }}
+						</el-button>
 					</el-form-item>
-					
+					<el-form-item v-auth:[moduleKey]="'btn.UserAdd'"> 
+						<el-button size="mini" type="primary" @click="onOpenAddUser"  >
+							<el-icon>
+								<elementPlus />
+							</el-icon>
+							{{ $t('message.action.add') }}
+						</el-button>
+					</el-form-item>
 					<el-form-item>
-						
 					</el-form-item>
-					<el-form-item></el-form-item>
 				</el-form>
 			</div>
-			<el-table :data="tableData.data"
-				v-loading="tableData.loading" style="width: 100%" size="mini" 
+			<el-table :data="tableData.data" 
+				v-loading="tableData.loading" style="width: 100%" size="mini" :height="proxy.$calcMainHeight(-90)"
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
 				<el-table-column prop="Username" label="账户名" width="120" show-overflow-tooltip fixed></el-table-column>
@@ -97,7 +95,7 @@ import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import userEdit from './component/userEdit.vue';
-
+import other from '/@/utils/other';
 import { getUserList } from '/@/api/base/user';
 export default {
 	name: 'baseUsers',
@@ -187,10 +185,12 @@ export default {
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
+			onGetTableData();
 		};
 		// 分页改变
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
+			onGetTableData();
 		};
 		// 页面加载时
 		onMounted(() => {
@@ -200,6 +200,7 @@ export default {
 		const { dateFormatYMDHM } = commonFunction();
 	
 		return {
+			proxy,
 			userEditRef,
 			onGetTableData,
 			onResetSearch,

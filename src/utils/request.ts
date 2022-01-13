@@ -82,5 +82,16 @@ service.interceptors.response.use(
 	}
 );
 
+function get(url:string, params:any){
+	return service({url:url, method:"get", params:params});
+}
+function post(url:string, params?:any, data?:any){
+	if(data==null){
+		return service({url:url, method:"post", data:params});
+	}
+	return service({url:url, method:"post", params:params, data:data});
+}
+export {service as request, get, post}
+
 // 导出 axios 实例
 export default service;
