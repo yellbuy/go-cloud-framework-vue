@@ -8,15 +8,33 @@
 				</div>
 			</template> -->
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
-				<el-form-item label="名称" prop="Name" style="max-width: 420px">
-					<el-input v-model="ruleForm.Name" placeholder="请输入角色名称" maxlength="50" clearable></el-input>
-				</el-form-item>
-				<el-form-item label="编码" prop="Code" style="max-width: 420px">
-					<el-input v-model="ruleForm.Code" placeholder="请输入角色编码" maxlength="50" clearable></el-input>
-				</el-form-item>
-				<el-form-item label="备注" prop="Remark">
-					<el-input v-model="ruleForm.Remark" type="textarea" placeholder="请输入角色备注"  :rows="5" clearable></el-input>
-				</el-form-item>
+				<el-row :gutter="35">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="名称" prop="Name" style="max-width: 420px">
+							<el-input v-model="ruleForm.Name" placeholder="请输入角色名称" maxlength="50" clearable></el-input>
+						</el-form-item>
+						<el-form-item label="编码" prop="Code" style="max-width: 420px">
+							<el-input v-model="ruleForm.Code" placeholder="请输入角色编码" maxlength="50" clearable></el-input>
+						</el-form-item>
+						<el-form-item label="备注" prop="Remark">
+							<el-input v-model="ruleForm.Remark" type="textarea" placeholder="请输入角色备注"  :rows="5" clearable></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-tree ref="treePerm"
+							:props="{children: 'list',label: 'name', class: actionNodeClass}"
+							node-key="value"
+							show-checkbox
+							check-on-click-node
+							:check-strictly="true"
+							:data="permTree.data"
+							:default-expanded-keys="permTree.expandedKeys"
+    						:default-checked-keys="permTree.checkedKeys"
+							@check-change="onTreeCheckChange"
+						/>
+					</el-col>
+				</el-row>
+				
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -49,10 +67,21 @@ export default {
 				Code:'',
 				Order: 100, // 排序
 				Remark:'',
-				department: [], // 部门
+				Perms: [], // 部门
 			},
-			deptData: [], // 部门数据
+			permTree: {
+				data:[],
+				checkedKeys:[],
+				expandedKeys:[]
+			}, // 权限数据
 		});
+
+		const actionNodeClass = (data: any, node: Node) => {
+			// if (data.kind=="action") {
+			// 	return 'is-action'
+			// }
+			return null
+		}
 
 		const rules = reactive({
 			Name: [
@@ -83,6 +112,9 @@ export default {
 				state.ruleForm.AllowFrontendLogin=1;
 			}
 			state.isShowDialog = true;
+
+			//加载权限数据
+			onInitPermData();
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -97,7 +129,11 @@ export default {
 			state.loading=true;
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
-					const url=state.ruleForm.Id>0?`/v1/base/user/${state.ruleForm.Id}`:`/v1/base/user`;
+					state.ruleForm.Perms = proxy.$refs.treePerm.getCheckedKeys();
+					const halfCheckedKeys = proxy.$refs.treePerm.getHalfCheckedKeys()||[];
+					state.ruleForm.Perms.push(...halfCheckedKeys);
+					const url=state.ruleForm.Id>0?`/v1/base/role/${state.ruleForm.Id}`:`/v1/base/role`;
+					state.ruleForm.Id=state.ruleForm.Id.toString();
 					request({
 						url: url,
 						method: 'post',
@@ -109,6 +145,7 @@ export default {
 								closeDialog();
 							} else {
 								proxy.$refs.ruleFormRef.resetFields();
+								state.ruleForm.Id=0;
 							}
 							proxy.$parent.onGetTableData();
 						}
@@ -121,41 +158,124 @@ export default {
 				}
 			});
 		};
-		// 初始化部门数据
-		const initTableData = () => {
-			state.deptData.push({
-				deptName: 'vueNextAdmin',
-				createTime: new Date().toLocaleString(),
-				status: true,
-				sort: Number.parseInt(Math.random()),
-				describe: '顶级部门',
-				id: Math.random(),
-				children: [
-					{
-						deptName: 'IT外包服务',
-						createTime: new Date().toLocaleString(),
-						status: true,
-						sort: Number.parseInt(Math.random()),
-						describe: '总部',
-						id: Math.random(),
-					},
-					{
-						deptName: '资本控股',
-						createTime: new Date().toLocaleString(),
-						status: true,
-						sort: Number.parseInt(Math.random()),
-						describe: '分部',
-						id: Math.random(),
-					},
-				],
-			});
-		};
+
+		//是否允许更新子节点的标志
+		let allowUpdateChildren=true;
+		const onTreeCheckChange=(data:any,checked:boolean)=>{
+			
+			//更新子节点是否选中状态
+			const updateChildrenChecked=(list:any,checked:boolean)=>{
+				if(!allowUpdateChildren){
+					return;
+				}
+				for(const child of list){
+					proxy.$refs.treePerm.setChecked(child,checked,true)
+				}
+			}
+			//更新父节点选中状态
+			const updateParentChecked=(data:any)=>{
+				if(data.parent){
+					proxy.$refs.treePerm.setChecked(data.parent,true);
+					const parent=proxy.$refs.treePerm.getNode(data.parent);
+					if(parent && !parent.checked && parent.data){
+						updateParentChecked(parent.data);
+					}
+				}
+				
+			}
+
+			
+			if(checked){
+				if(data.parent){
+					allowUpdateChildren=false;
+					updateParentChecked(data);
+					allowUpdateChildren=true;
+				}
+				
+			} else {
+				if(data.list && data.list.length>0){
+					updateChildrenChecked(data.list,checked)
+				}
+			}
+		}
+
+		//加载角色权限数据
+		const onInitPermData=(()=>{
+			//递归所有子节点的选中Key
+			const insertCheckedKeys=(val:any)=>{
+				for(const child of val.list){
+					child.parent=val.value
+					child.name=t(child.name)
+					if(child.checked){
+						state.permTree.checkedKeys.push(child.value)
+						if(child.list && child.list.length){
+							insertCheckedKeys(child);
+						}
+					}
+				}
+			}
+			state.permTree.expandedKeys=[];
+			state.permTree.checkedKeys=[];
+			state.permTree.data=[];
+			//加载权限数据
+			request({
+				url: `v1/base/role/permissions/${state.ruleForm.Id}`,
+				method: 'get',
+			}).then((res)=>{
+				if(res.errcode!=0){
+					return;
+				}
+				state.permTree.data=res.data||[];
+				//第一层级
+				for (const val of res.data) {
+					val.name=t(val.name)
+					val.parent="";
+					state.permTree.expandedKeys.push(val.value)
+					if(val.checked){
+						state.permTree.checkedKeys.push(val.value)
+					}
+					//是否有下级
+					if(val.list && val.list.length>0){
+						//第2层级
+						for(const val2 of val.list){
+							val2.parent=val.value
+							val2.name=t(val2.name)
+							state.permTree.expandedKeys.push(val2.value)
+							if(val2.checked){
+								state.permTree.checkedKeys.push(val2.value)
+							}
+							//是否有下级
+							if(val2.list && val2.list.length>0){
+								//第3层级
+								for(const val3 of val2.list){
+									val3.parent=val2.value
+									val3.name=t(val3.name)
+									state.permTree.expandedKeys.push(val3.value)
+									if(val3.checked){
+										state.permTree.checkedKeys.push(val3.value)
+										if(val3.list && val3.list.length>0){
+											insertCheckedKeys(val3)
+										}
+									}
+								}
+							}
+						}
+					}
+					proxy.$refs.treePerm.setCheckedKeys(state.permTree.checkedKeys);
+				}
+			})
+		})
+		
 		// 页面加载时
 		onMounted(() => {
-			initTableData();
+			//onInitPermData();
 		});
+		
+
 		return {
 			t,
+			actionNodeClass,
+			onTreeCheckChange,
 			openDialog,
 			closeDialog,
 			onCancel,
@@ -166,3 +286,14 @@ export default {
 	},
 };
 </script>
+
+<style>
+
+/* .el-tree-node.is-expanded > .el-tree-node__children {
+  display: flex;
+  flex-direction: row;
+}
+.is-action > .el-tree-node__children > div {
+  width: 25%;
+} */
+</style>

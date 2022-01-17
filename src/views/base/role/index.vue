@@ -30,7 +30,7 @@
 				</el-form>
 			</div>
 			<el-table :data="tableData.data"
-				v-loading="tableData.loading" style="width: 100%" size="mini" 
+				v-loading="tableData.loading" style="width: 100%" size="mini" :height="proxy.$calcMainHeight(-90)"
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
 				<el-table-column prop="Name" label="角色名称" width="120" show-overflow-tooltip fixed></el-table-column>
@@ -177,6 +177,7 @@ export default {
 		const { dateFormatYMDHM } = commonFunction();
 	
 		return {
+			proxy,
 			editDlgRef,
 			onGetTableData,
 			onResetSearch,
