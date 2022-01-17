@@ -53,9 +53,9 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item prop="IsAdmin">
-							<el-checkbox v-model="ruleForm.IsAdmin" :true-label="1" :false-label="0">管理员</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>管理员拥有所有权限</p>
+						<el-form-item label="排序" prop="Order">
+							<el-input v-model="ruleForm.Order" placeholder="排序" type="number" :step="10"></el-input>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>值小的靠前显示</p>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -71,27 +71,33 @@
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
+						<el-form-item prop="IsAdmin">
+							<el-checkbox v-model="ruleForm.IsAdmin" :true-label="1" :false-label="0">管理员</el-checkbox>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>管理员拥有所有权限</p>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
+						<el-form-item label="" prop="IsExternal">
+							<el-checkbox v-model="ruleForm.IsExternal" :true-label="1" :false-label="0">外部用户</el-checkbox>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>外部用户不允许登录后台</p>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
 						<el-form-item label="" prop="AllowBackendLogin">
 							<el-checkbox v-model="ruleForm.AllowBackendLogin" :true-label="1" :false-label="0">后台允许登录</el-checkbox>
 							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>是否允许登录系统后台</p>
 						</el-form-item>
 						
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
 						<el-form-item label="" prop="AllowFrontendLogin">
 							<el-checkbox v-model="ruleForm.AllowFrontendLogin" :true-label="1" :false-label="0">前台允许登录</el-checkbox>
 							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录前台和客户端</p>
 						</el-form-item>
 						
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="" prop="IsExternal">
-							<el-checkbox v-model="ruleForm.IsExternal" :true-label="1" :false-label="0">外部用户</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>外部用户不允许登录后台</p>
-						</el-form-item>
-					</el-col>
+					
 				</el-row>
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -180,6 +186,7 @@ export default {
 				state.title=t('message.action.add');
 				state.ruleForm.Id=0;
 				state.ruleForm.Enable=1;
+				state.ruleForm.Order=100;
 				state.ruleForm.AllowBackendLogin=1;
 				state.ruleForm.AllowFrontendLogin=1;
 			}
@@ -203,6 +210,7 @@ export default {
 				if (valid) {
 					const url=state.ruleForm.Id>0?`/v1/base/user/${state.ruleForm.Id}`:`/v1/base/user`;
 					state.ruleForm.Id=state.ruleForm.Id.toString();
+					state.ruleForm.Order=Number.parseInt(state.ruleForm.Order||0);
 					state.ruleForm.RoleIds=state.ruleForm.CheckedRoleList.join(",");
 					request({
 						url: url,
