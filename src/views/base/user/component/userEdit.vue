@@ -91,9 +91,18 @@
 							<el-checkbox v-model="ruleForm.IsExternal" :true-label="1" :false-label="0">外部用户</el-checkbox>
 							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>外部用户不允许登录后台</p>
 						</el-form-item>
-						
 					</el-col>
-					
+				</el-row>
+				<el-row :gutter="35">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="所属角色" prop="RoleIds">
+							<el-checkbox-group v-model="ruleForm.CheckedRoleList">
+								<el-checkbox v-for="val in ruleForm.RoleList"  :checked="val.Checked"  :label="val.Id" :key="val.Id">
+									{{val.Name}}
+								</el-checkbox>
+							</el-checkbox-group>
+						</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -134,7 +143,9 @@ export default {
 				Tel:'',
 				Email:'',
 				Addrcode:'',
-				RoleIds:[],
+				RoleIds:'',
+				CheckedRoleList:[],
+				RoleList:[],
 				AllowBackendLogin:1,
 				AllowFrontendLogin:1,
 				IsExternal:0,
@@ -173,6 +184,9 @@ export default {
 				state.ruleForm.AllowFrontendLogin=1;
 			}
 			state.isShowDialog = true;
+
+			//加载角色数据
+			onInitRoleData(row.RoleIds||"");
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -189,6 +203,7 @@ export default {
 				if (valid) {
 					const url=state.ruleForm.Id>0?`/v1/base/user/${state.ruleForm.Id}`:`/v1/base/user`;
 					state.ruleForm.Id=state.ruleForm.Id.toString();
+					state.ruleForm.RoleIds=state.ruleForm.CheckedRoleList.join(",");
 					request({
 						url: url,
 						method: 'post',
@@ -214,6 +229,36 @@ export default {
 				}
 			});
 		};
+		//加载角色数据
+		const onInitRoleData=((roleIds:string)=>{
+			
+			state.ruleForm.RoleList=[];
+			state.ruleForm.CheckedRoleList=[];
+			//加载权限数据
+			request({
+				url: `v1/base/roles`,
+				method: 'get',
+				params:{pageSize:1000000}
+			}).then((res)=>{
+				if(res.errcode!=0){
+					return;
+				}
+				
+				const roleIdArr=roleIds.split(",");
+				for (const val of res.data) {
+					val.Checked=false;
+					for(const id of roleIdArr){
+						if(val.Id==id){
+							state.ruleForm.CheckedRoleList.push(val.Id)
+							val.Checked=true
+							break;
+						}
+					}
+				}
+				state.ruleForm.RoleList=res.data;
+			})
+		})
+
 		// 初始化部门数据
 		const initTableData = () => {
 			state.deptData.push({
