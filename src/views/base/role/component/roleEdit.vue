@@ -1,5 +1,5 @@
 <template>
-	<div class="system-edit-role-container">
+	<div class="role-edit-container">
 		<el-dialog :title="title" v-model="isShowDialog">
 			<!-- <template #title>
 				{{title}}
@@ -10,18 +10,23 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="名称" prop="Name" style="max-width: 420px">
+						<el-form-item label="名称" prop="Name">
 							<el-input v-model="ruleForm.Name" placeholder="请输入角色名称" maxlength="50" clearable></el-input>
 						</el-form-item>
-						<el-form-item label="编码" prop="Code" style="max-width: 420px">
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="编码" prop="Code">
 							<el-input v-model="ruleForm.Code" placeholder="请输入角色编码" maxlength="50" clearable></el-input>
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注" prop="Remark">
 							<el-input v-model="ruleForm.Remark" type="textarea" placeholder="请输入角色备注"  :rows="5" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-tree ref="treePerm"
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="权限" prop="Code">
+						<el-tree ref="treePerm" class="perm-data-tree"
 							:props="{children: 'list',label: 'name', class: actionNodeClass}"
 							node-key="value"
 							show-checkbox
@@ -32,6 +37,7 @@
     						:default-checked-keys="permTree.checkedKeys"
 							@check-change="onTreeCheckChange"
 						/>
+						</el-form-item>
 					</el-col>
 				</el-row>
 				
@@ -287,8 +293,14 @@ export default {
 };
 </script>
 
-<style>
-
+<style scoped lang="scss">
+.role-edit-container {
+	.perm-data-tree {
+		border: var(--el-input-border, var(--el-border-base));
+		border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+		padding: 5px;
+	}
+}
 /* .el-tree-node.is-expanded > .el-tree-node__children {
   display: flex;
   flex-direction: row;
