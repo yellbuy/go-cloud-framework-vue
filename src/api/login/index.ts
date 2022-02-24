@@ -12,7 +12,6 @@ export async function getUserList(params: object) {
 		data: params,
 	});
 }
-import request from '/@/utils/request';
 
 /**
  * 用户登录
@@ -31,7 +30,7 @@ export async function signIn(params: object) {
  * @param params 要传的参数值
  * @returns 返回接口数据
  */
- export async function refreshToken() {
+export async function refreshToken() {
 	return await request({
 		url: '/v1/base/user/refreshtoken',
 		method: 'post'
