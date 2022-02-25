@@ -47,8 +47,8 @@
 				<el-table-column prop="leix" label="比选类型" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Name" label="比选项目" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="fanwei" label="比选范围" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="EndTime" label="报名截止日期" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="ReviewTime" label="评选日期" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="EndTime" label="报名截止日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="ReviewTime" label="评选日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="180" fixed="right">
 					<template #default="scope">
 						<el-button size="mini" type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.BidProjectEdit'">
@@ -144,7 +144,7 @@ export default {
 		};
 		// 打开新增用户弹窗
 		const onModelAdd = () => {
-			editDlgRef.value.openDialog(0, '');
+			editDlgRef.value.openDialog(0);
 		};
 		// 打开修改用户弹窗
 		const onModelEdit = (Id: number) => {

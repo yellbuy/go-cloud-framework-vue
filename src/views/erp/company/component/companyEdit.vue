@@ -341,7 +341,8 @@ export default {
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			(state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier' }), (tableData.data = []);
+			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier' };
+			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
 			onLoadTable();
@@ -383,13 +384,11 @@ export default {
 				console.log('是否符合规则', valid);
 				if (valid) {
 					if (state.saveState) {
-						if (valid) {
-							//确定按钮
-							if (!Array.isArray(tableData.data)) {
-								tableData.data = [];
-							}
-							tableData.data.push(state.tableItem);
+						//确定按钮
+						if (!Array.isArray(tableData.data)) {
+							tableData.data = [];
 						}
+						tableData.data.push(state.tableItem);
 					}
 					state.dialogVisible = false;
 				}
