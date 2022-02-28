@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="onCancel">
-			<el-tabs v-model="activeName" class="demo-tabs" @tab-click="closeDialog">
+			<el-tabs v-model="activeName" class="demo-tabs">
 				<el-tab-pane label="发布项目" name="project">
 					<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="120px" v-loading="loading">
 						<el-row :gutter="20">
@@ -22,7 +22,7 @@
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item prop="RemoteState">
-									<el-checkbox v-model="ruleForm.RemoteState" true-label="1" false-label="0">视频会议</el-checkbox>
+									<el-checkbox v-model="ruleForm.RemoteState" :true-label="1" :false-label="0">视频会议</el-checkbox>
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -96,11 +96,9 @@
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 								<h3>注意：如果此公开比选项目不足三家供应商参与，是否自动转为院内谈判项目？</h3>
 							</el-col>
-							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item prop="AutoSwitchState">
-									<el-checkbox v-model="ruleForm.AutoSwitchState" true-label="1" false-label="0">不足三家供应商，转院内谈判</el-checkbox>
-								</el-form-item>
-							</el-col>
+							<el-form-item prop="AutoSwitchState">
+								<el-checkbox v-model="ruleForm.AutoSwitchState" :true-label="1" :false-label="0">不足三家供应商，转院内谈判</el-checkbox>
+							</el-form-item>
 						</el-row>
 					</el-form>
 				</el-tab-pane>

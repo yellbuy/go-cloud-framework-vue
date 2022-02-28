@@ -159,7 +159,7 @@ export default {
 			})
 				.then(() => {
 					state.tableData.loading = true;
-					const url = `/v1/base/role/delete/${Id}`;
+					const url = `/v1/erp/project/delete/${Id}`;
 					request({
 						url: url,
 						method: 'post',

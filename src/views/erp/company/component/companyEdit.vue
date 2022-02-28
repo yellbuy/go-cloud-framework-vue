@@ -34,29 +34,35 @@
 						<el-form-item label="纳税人类型：" prop="TaxpayerKind">
 							<el-input v-model="ruleForm.TaxpayerKind" placeholder="纳税人类型"></el-input> </el-form-item
 					></el-col>
-					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="经营期限：">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="经营期限：" required>
 							<el-col :span="11">
-								<el-date-picker
-									v-model="ruleForm.BusinessStartTime"
-									type="date"
-									placeholder="开始日期"
-									format="YYYY-MM-DD"
-									style="width: 100%"
-								></el-date-picker>
+								<el-form-item prop="BusinessStartTime">
+									<el-date-picker
+										v-model="ruleForm.BusinessStartTime"
+										type="date"
+										placeholder="开始日期"
+										format="YYYY-MM-DD"
+										style="width: 100%"
+									></el-date-picker>
+								</el-form-item>
 							</el-col>
-							<el-col class="text-center" :span="1" style="margin: 0 0.5rem">-</el-col>
+							<el-col class="text-center" :span="2">
+								<span class="text-gray-500">-</span>
+							</el-col>
 							<el-col :span="11">
-								<el-date-picker
-									v-model="ruleForm.BusinessEndTime"
-									type="date"
-									placeholder="结束日期"
-									format="YYYY-MM-DD"
-									style="width: 100%"
-								></el-date-picker>
+								<el-form-item prop="BusinessEndTime">
+									<el-date-picker
+										v-model="ruleForm.BusinessEndTime"
+										type="date"
+										placeholder="结束日期"
+										format="YYYY-MM-DD"
+										style="width: 100%"
+									></el-date-picker>
+								</el-form-item>
 							</el-col>
 						</el-form-item>
-					</el-col> -->
+					</el-col>
 				</el-row>
 				<el-divider content-position="left">资质信息*</el-divider>
 				<el-button size="mini" type="primary" @click="onModelAdd" v-if="!disable">
@@ -75,8 +81,12 @@
 						</template>
 					</el-table-column>
 					<el-table-column prop="Name" label="证书名称" width="120" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="Remark" label="有效期" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="Remark" label="证件附件" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="StartTime" label="有效期" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="Remark" label="证件附件" show-overflow-tooltip>
+						<template #default="scope">
+							<el-image style="width: 70px; height: 70px" :src="showImage(scope.row.Files)" alt=""></el-image>
+						</template>
+					</el-table-column>
 					<el-table-column label="操作" width="180" fixed="right">
 						<template #default="scope">
 							<el-button size="mini" type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.CompanyLineEdit'">
@@ -135,18 +145,16 @@
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
 						><el-form-item label="证件名称：" prop="Name"> <el-input v-model="tableItem.Name" placeholder="证件名称"></el-input> </el-form-item
 					></el-col>
-					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"
-						><el-form-item label="有效期限：">
-							<el-col :span="11">
-								<el-date-picker
-									v-model="tableItem.StartTime"
-									type="date"
-									placeholder="有限期限"
-									format="YYYY-MM-DD"
-									style="width: 100%"
-								></el-date-picker>
-							</el-col> </el-form-item
-					></el-col> -->
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+						><el-form-item label="有效期限：" prop="StartTime">
+							<el-date-picker
+								v-model="tableItem.StartTime"
+								type="date"
+								placeholder="有限期限"
+								format="YYYY-MM-DD"
+								style="width: 100%"
+							></el-date-picker> </el-form-item
+					></el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"
 						><el-form-item label="上传附件：" prop="Files">
 							<el-upload
@@ -182,6 +190,7 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import { Plus, ZoomIn, Download, Delete } from '@element-plus/icons-vue';
 import { getPageCategoryList } from '../../../../api/common/category';
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type';
+import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
 	name: 'companyEdit',
@@ -201,6 +210,13 @@ export default {
 					state.Files.splice(i, 1);
 				}
 			}
+		};
+		//显示表格图片
+		const showImage = (Files: string) => {
+			let fileUrl = '';
+			let filList = Files.split(',');
+			fileUrl = state.httpsText + filList[0];
+			return fileUrl;
 		};
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -230,8 +246,8 @@ export default {
 				BankAccountName: '',
 				EsNo: '',
 				Address: '',
-				BusinessEndTime: null,
-				BusinessStartTime: null,
+				BusinessEndTime: new Date(),
+				BusinessStartTime: new Date(),
 				Linkman: '',
 				BusinessScope: '',
 				State: 1,
@@ -247,6 +263,7 @@ export default {
 				CategoryId: '',
 				Name: '',
 				Files: '',
+				StartTime: '',
 				Kind: 'supplier',
 			},
 			dialogVisible: false,
@@ -269,14 +286,63 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			Ext: [
+			CompanyName: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			Value: [
+			CompanyAlias: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			CurrencyType: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			BankAccountName: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			EsNo: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Address: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			BusinessStartTime: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			BusinessEndTime: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Linkman: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -299,11 +365,18 @@ export default {
 					trigger: 'blur',
 				},
 			],
+			StartTime: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
 		});
 		// 打开弹窗
 		const openDialog = (id: string, disable: boolean) => {
 			state.Files = [];
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier' };
+			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			getPageCategoryList({ kind: 'supplier', pageNum: 1, pageSize: 10000 }).then((res) => {
 				if (res.errcode != 0) {
 					ElMessage.warning(res.errmsg);
@@ -311,6 +384,7 @@ export default {
 				} else {
 					state.supKindData = res.data;
 					state.disable = disable;
+					console.log('打开窗口时间', state.ruleForm.BusinessEndTime, state.ruleForm.BusinessStartTime);
 					if (id != '0') {
 						GetByIdRow(id);
 						state.title = t('message.action.edit');
@@ -341,7 +415,8 @@ export default {
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier' };
+			console.log('关闭页面表单', state.ruleForm);
+			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
@@ -369,7 +444,7 @@ export default {
 		};
 		//表格新增按钮
 		const onModelAdd = () => {
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier' };
+			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			state.Files = [];
 			state.FilesList = [];
 			state.saveState = true;
@@ -457,7 +532,7 @@ export default {
 								} else {
 									tableData.data = [];
 									proxy.$refs.ruleFormRef.resetFields();
-									(state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier' }), (tableData.data = []);
+									(state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' }), (tableData.data = []);
 									state.ruleForm.Id = 0;
 								}
 							}
@@ -471,6 +546,7 @@ export default {
 				}
 			});
 		};
+		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
 		onMounted(() => {});
 		return {
@@ -486,6 +562,8 @@ export default {
 			CompanyLineClose,
 			onModelDel,
 			onRemove,
+			showImage,
+			dateFormatYMD,
 			tableData,
 			categoryrules,
 			rules,
