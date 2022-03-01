@@ -6,7 +6,7 @@ import request from '/@/utils/request';
  */
 export function getPageDataList(params: object) {
     return request({
-        url: '/v1/common/commonpagedata/',
+        url: '/v1/erp/projectsetting/',
         method: 'get',
         params: params,
     });

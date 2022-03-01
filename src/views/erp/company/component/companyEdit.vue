@@ -362,7 +362,7 @@ export default {
 				{
 					required: true,
 					message: t('message.validRule.required'),
-					trigger: 'blur',
+					trigger: 'change',
 				},
 			],
 			StartTime: [

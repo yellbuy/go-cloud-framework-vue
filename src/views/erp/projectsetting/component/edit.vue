@@ -1,24 +1,32 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="onCancel">
+		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
-				<el-form-item label="评审内容" prop="Name">
-					<el-input v-model="ruleForm.Name"></el-input>
+				<el-form-item label="类别" prop="CategoryId">
+					<el-select v-model="ruleForm.CategoryId" size="mini" class="m-2" placeholder="请选择类别" clearable>
+						<el-option v-for="item in supKindData" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
+					</el-select>
 				</el-form-item>
-				<el-form-item label="评审标准" prop="Ext">
-					<el-input v-model="ruleForm.Ext" type="textarea"></el-input>
+				<el-form-item label="名称" prop="Name">
+					<el-input size="mini" placeholder="请输入名称" v-model="ruleForm.Name"> </el-input>
 				</el-form-item>
-				<el-form-item label="最高评分" v-if="ruleForm.Type != 'zgps'" prop="Value">
-					<el-input v-model="ruleForm.Value"></el-input>
+				<el-form-item label="评审内容" prop="Line.Content">
+					<el-input v-model="ruleForm.Line.Content"></el-input>
+				</el-form-item>
+				<el-form-item label="评审标准" prop="Line.Standard">
+					<el-input v-model="ruleForm.Line.Standard" type="textarea"></el-input>
+				</el-form-item>
+				<el-form-item label="最高评分" v-if="ruleForm.Kind != 'zgps'" prop="Line.TechnicalMaxScore">
+					<el-input-number v-model="ruleForm.Line.TechnicalMaxScore" :min="0" controls-position="right" :precision="1" />
 				</el-form-item>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" size="small" v-auth:[$parent.moduleKey]="'btn.CommondataAdd'">{{
+					<el-button @click="closeDialog" size="small">{{ $t('message.action.cancel') }}</el-button>
+					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" size="small" v-auth:[$parent.moduleKey]="'btn.SettingAdd'">{{
 						$t('message.action.saveAndAdd')
 					}}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.CommondataEdit', 'btn.CommondataAdd']">{{
+					<el-button type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.SettingEdit', 'btn.SettingAdd']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
@@ -43,32 +51,53 @@ export default {
 			loading: false,
 			ruleForm: {
 				Id: 0,
-				Type: 'zgps',
+				Kind: 'zgps',
 				Name: '',
-				Ext: '',
-				Value: '',
-				Code: '',
+				CategoryId: '',
+				ProjectId: '0',
+				Line: {
+					Id: 0,
+					Kind: 'zgps',
+					Content: '',
+					Standard: '',
+					TechnicalMaxScore: 0,
+				},
 			},
+			supKindData: [],
 		});
 
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
+			'Line.Content': [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			'Line.Standard': [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			'Line.TechnicalMaxScore': [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			CategoryId: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'change',
+				},
+			],
 			Name: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Ext: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Value: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -79,6 +108,7 @@ export default {
 
 		// 打开弹窗
 		const openDialog = (Type: string, id: string) => {
+			state.supKindData = proxy.$parent.supKindData;
 			if (id != '0') {
 				GetByIdRow(id);
 				state.title = t('message.action.edit');
@@ -86,11 +116,11 @@ export default {
 				state.ruleForm.Id = 0;
 				state.title = t('message.action.add');
 			}
-			state.ruleForm.Type = Type;
+			state.ruleForm.Kind = Type;
 			state.isShowDialog = true;
 		};
 		const GetByIdRow = (Id: string) => {
-			const url = `/v1/common/commondata/${Id}`;
+			const url = `/v1/erp/projectsetting/${Id}`;
 			request({
 				url: url,
 				method: 'get',
@@ -107,35 +137,43 @@ export default {
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
+			state.ruleForm = {
+				Id: 0,
+				Kind: 'zgps',
+				Name: '',
+				CategoryId: '',
+				ProjectId: '0',
+				Line: {
+					Id: 0,
+					Kind: 'zgps',
+					Content: '',
+					Standard: '',
+					TechnicalMaxScore: 0,
+				},
+			};
 			state.loading = false;
 			state.isShowDialog = false;
+			state.ruleForm.CategoryId = '';
 			onLoadTable();
 		};
-		// 取消
-		const onCancel = () => {
-			proxy.$refs.ruleFormRef.resetFields();
-			state.ruleForm.Value = '';
-			state.loading = false;
-			state.isShowDialog = false;
-		};
+
 		const onLoadTable = () => {
-			if (state.ruleForm.Type == 'zgps') {
+			if (state.ruleForm.Kind == 'zgps') {
 				proxy.$parent.onGetZgTableData();
-			} else if (state.ruleForm.Type == 'jsps') {
+			} else if (state.ruleForm.Kind == 'jsps') {
 				proxy.$parent.onGetJsTableData();
 			}
 		};
 		// 新增
 		const onSubmit = (isCloseDlg: boolean) => {
+			console.log(state.ruleForm);
 			proxy.$refs.ruleFormRef.validate((valid: any) => {
 				if (valid) {
 					state.loading = true;
-					const url = state.ruleForm.Id > 0 ? `/v1/common/commondata/${state.ruleForm.Id}` : `/v1/common/commondata`;
+					const url = state.ruleForm.Id > 0 ? `/v1/erp/projectsetting/${state.ruleForm.Id}` : `/v1/erp/projectsetting`;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
-					state.ruleForm.Code = state.ruleForm.Name;
-					if (state.ruleForm.Type == 'zgps') {
-						state.ruleForm.Value = '1';
-					}
+					state.ruleForm.Line.Id = state.ruleForm.Line.Id.toString();
+					// state.ruleForm.CategoryId = parseInt(state.ruleForm.CategoryId);
 					request({
 						url: url,
 						method: 'post',
@@ -167,7 +205,6 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
-			onCancel,
 			onLoadTable,
 			GetByIdRow,
 			rules,

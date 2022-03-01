@@ -27,7 +27,7 @@
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="标书费用：" prop="BidFee">
-									<el-input-number v-model="ruleForm.BidFee" :min="0" controls-position="right" precision="2" />
+									<el-input-number v-model="ruleForm.BidFee" :min="0" controls-position="right" :precision="2" />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -93,6 +93,56 @@
 									</el-table-column>
 								</el-table>
 							</el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+								><el-form-item label="报名开始时间：" prop="StartTime">
+									<el-date-picker
+										v-model="ruleForm.StartTime"
+										type="date"
+										placeholder="有限期限"
+										format="YYYY-MM-DD"
+										style="width: 100%"
+									></el-date-picker> </el-form-item
+							></el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+								><el-form-item label="报名结束时间：" prop="EndTime">
+									<el-date-picker
+										v-model="ruleForm.EndTime"
+										type="date"
+										placeholder="有限期限"
+										format="YYYY-MM-DD"
+										style="width: 100%"
+									></el-date-picker> </el-form-item
+							></el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+								><el-form-item label="招标开始时间：" prop="BeginTime">
+									<el-date-picker
+										v-model="ruleForm.BeginTime"
+										type="date"
+										placeholder="有限期限"
+										format="YYYY-MM-DD"
+										style="width: 100%"
+									></el-date-picker> </el-form-item
+							></el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+								><el-form-item label="招标结束时间：" prop="FinishTime">
+									<el-date-picker
+										v-model="ruleForm.FinishTime"
+										type="date"
+										placeholder="有限期限"
+										format="YYYY-MM-DD"
+										style="width: 100%"
+									></el-date-picker> </el-form-item
+							></el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+								><el-form-item label="评选时间：" prop="ReviewTime">
+									<el-date-picker
+										v-model="ruleForm.ReviewTime"
+										type="date"
+										placeholder="有限期限"
+										format="YYYY-MM-DD"
+										style="width: 100%"
+									></el-date-picker> </el-form-item
+							></el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 								<h3>注意：如果此公开比选项目不足三家供应商参与，是否自动转为院内谈判项目？</h3>
 							</el-col>
@@ -205,11 +255,16 @@ export default {
 				Sn: '',
 				ProjectType: 0,
 				RemoteState: 0,
-				BidFee: '',
+				BidFee: 0,
 				Location: '',
 				Content: '',
 				Files: '',
 				AutoSwitchState: 0,
+				StartTime: '', //报名开始时间
+				EndTime: '', //报名结束时间
+				BeginTime: '', //投标开始时间
+				FinishTime: '', //投标结束时间
+				ReviewTime: '', //评选时间
 				ProjectLineList: [],
 			},
 			tableItem: {
@@ -347,11 +402,16 @@ export default {
 				Sn: '',
 				ProjectType: 0,
 				RemoteState: 0,
-				BidFee: '',
+				BidFee: 0,
 				Location: '',
 				Content: '',
 				Files: '',
 				AutoSwitchState: 0,
+				StartTime: '', //报名开始时间
+				EndTime: '', //报名结束时间
+				BeginTime: '', //投标开始时间
+				FinishTime: '', //投标结束时间
+				ReviewTime: '', //评选时间
 				ProjectLineList: [],
 			};
 			tableData.data = [];
@@ -362,7 +422,6 @@ export default {
 		// 取消
 		const onCancel = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			state.ruleForm.Value = '';
 			state.loading = false;
 			state.isShowDialog = false;
 		};
