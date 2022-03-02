@@ -45,14 +45,14 @@
 						highlight-current-row
 					>
 						<el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip />
-						<el-table-column prop="Name" label="评审内容" show-overflow-tooltip />
-						<el-table-column prop="Ext" label="评审标准" show-overflow-tooltip />
-						<el-table-column fixed="right" label="评分方式" width="220" show-overflow-tooltip>
+						<el-table-column label="类别" show-overflow-tooltip>
 							<template #default="scope">
-								<el-radio v-model="scope.row.Value" disabled label="0">通过</el-radio>
-								<el-radio v-model="scope.row.Value" disabled label="1">不通过</el-radio>
+								<div v-for="(item, key) in supKindData" :key="key">
+									<span v-if="item.Id == scope.row.CategoryId">{{ item.Name }}</span>
+								</div>
 							</template>
 						</el-table-column>
+						<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 						<el-table-column fixed="right" label="操作" width="220" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button size="mini" type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
@@ -230,7 +230,7 @@ export default {
 		};
 		//刷新表格
 		const onLoadTable = (refresh: boolean) => {
-			console.log('搜索');
+			console.log(state.activeName);
 			if (state.activeName == 'zgps') {
 				onGetZgTableData(refresh);
 			} else if (state.activeName == 'jsps') {
@@ -239,7 +239,7 @@ export default {
 		};
 		// 打开弹窗
 		const onOpenCommondata = (id: string) => {
-			commondataEditRef.value.openDialog(state.activeName, id);
+			commondataEditRef.value.openDialog(state.activeName, id, false);
 		};
 		const onResetSearch = () => {
 			if (state.activeName == 'zgps') {
@@ -276,6 +276,7 @@ export default {
 		};
 		//查询表格数据
 		const onGetZgTableData = (gotoFirstPage: boolean = false) => {
+			console.log('执行', gotoFirstPage);
 			if (gotoFirstPage) {
 				state.zgTableData.param.pageNum = 1;
 			}

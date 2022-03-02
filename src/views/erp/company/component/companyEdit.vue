@@ -134,7 +134,7 @@
 			</template>
 		</el-dialog>
 		<el-dialog v-model="dialogVisible" title="证件信息" width="50%">
-			<el-form ref="categoryFormRef" :model="tableItem" :rules="categoryrules" size="mini" label-width="130px" v-loading="loading">
+			<el-form ref="categoryFormRef" :model="tableItem" :rules="categoryRules" size="mini" label-width="130px" v-loading="loading">
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="供应商类别：" prop="CategoryId">
@@ -350,7 +350,7 @@ export default {
 				},
 			],
 		});
-		const categoryrules = reactive({
+		const categoryRules = reactive({
 			Name: [
 				{
 					required: true,
@@ -565,7 +565,7 @@ export default {
 			showImage,
 			dateFormatYMD,
 			tableData,
-			categoryrules,
+			categoryRules,
 			rules,
 			token,
 			onSubmit,
