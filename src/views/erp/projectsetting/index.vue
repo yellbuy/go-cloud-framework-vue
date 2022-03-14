@@ -1,7 +1,7 @@
 <template>
 	<div class="base-user-container">
 		<el-card shadow="hover">
-			<el-tabs v-model="activeName" type="card" class="demo-tabs" @tap-click="tabsName">
+			<el-tabs v-model="activeName" type="card" class="demo-tabs" @tab-click="tabsName">
 				<el-tab-pane label="资格评审" name="zgps">
 					<el-form size="mini" :model="jsTableData.param" label-width="90px" :inline="true">
 						<el-form-item label="类别">
@@ -127,9 +127,14 @@
 						highlight-current-row
 					>
 						<el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip />
-						<el-table-column prop="Name" label="评审内容" show-overflow-tooltip />
-						<el-table-column prop="Ext" label="评审标准" show-overflow-tooltip />
-						<el-table-column prop="Value" label="最高分" show-overflow-tooltip />
+						<el-table-column label="类别" show-overflow-tooltip>
+							<template #default="scope">
+								<div v-for="(item, key) in supKindData" :key="key">
+									<span v-if="item.Id == scope.row.CategoryId">{{ item.Name }}</span>
+								</div>
+							</template>
+						</el-table-column>
+						<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 						<el-table-column fixed="right" label="操作" width="220" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button size="mini" type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
@@ -190,7 +195,7 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
-					type: 'zgps',
+					kind: 'zgps',
 					pageNum: 1,
 					pageSize: 20,
 					projectId: 0,
@@ -203,7 +208,7 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
-					type: 'jsps',
+					kind: 'jsps',
 					pageNum: 1,
 					pageSize: 20,
 					projectId: 0,
@@ -226,6 +231,7 @@ export default {
 		});
 		//切换页面
 		const tabsName = () => {
+			console.log('点击事件');
 			onLoadTable(true);
 		};
 		//刷新表格

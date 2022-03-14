@@ -206,6 +206,7 @@ export default {
 		//弹窗取消
 		const LineClose = () => {
 			proxy.$refs.lineFormRef.clearValidate();
+			state.tableItem = { Id: '0', Kind: 'zgps', Content: '', Standard: '', TechnicalMaxScore: 0 };
 			state.dialogVisible = false;
 		};
 		//表格删除按钮
