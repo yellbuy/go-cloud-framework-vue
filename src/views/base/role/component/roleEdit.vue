@@ -107,7 +107,8 @@ export default {
 
 		// 打开弹窗
 		const openDialog = (row: Object) => {
-			state.ruleForm = row;
+			const model = JSON.parse(JSON.stringify(row))
+			state.ruleForm = model;
 			if(row && row.Id>0){
 				state.title=t('message.action.edit');
 			}else{

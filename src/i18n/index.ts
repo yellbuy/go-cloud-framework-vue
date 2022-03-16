@@ -18,6 +18,10 @@ import pagesFormI18nZhcn from '/@/i18n/pages/formI18n/zh-cn';
 import pagesFormI18nEn from '/@/i18n/pages/formI18n/en';
 import pagesFormI18nZhtw from '/@/i18n/pages/formI18n/zh-tw';
 
+import pagesImsZhcn from '/@/i18n/pages/ims/zh-cn';
+import pagesImsEn from '/@/i18n/pages/ims/en';
+import pagesImsZhtw from '/@/i18n/pages/ims/zh-tw';
+
 // 定义语言国际化内容
 /**
  * 说明：
@@ -31,6 +35,7 @@ const messages = {
 			...nextZhcn,
 			...pagesAdminZhcn,
 			...pagesLoginZhcn,
+			...pagesImsZhcn,
 			...pagesFormI18nZhcn,
 		},
 	},
@@ -40,6 +45,7 @@ const messages = {
 			...nextEn,
 			...pagesAdminEn,
 			...pagesLoginEn,
+			...pagesImsEn,
 			...pagesFormI18nEn,
 		},
 	},
@@ -49,6 +55,7 @@ const messages = {
 			...nextZhtw,
 			...pagesAdminZhtw,
 			...pagesLoginZhtw,
+			...pagesImsZhtw,
 			...pagesFormI18nZhtw,
 		},
 	},
