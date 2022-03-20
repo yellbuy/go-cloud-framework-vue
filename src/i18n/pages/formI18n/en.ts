@@ -10,6 +10,8 @@ export default {
 		add:'add',
 		edit:'edit',
 		delete:'delete',
+		audit:'audit',
+		confirm:'confirm',
 		reset:'reset',
 		clear:'clear',
 		save:'save',

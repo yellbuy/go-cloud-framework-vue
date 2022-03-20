@@ -10,6 +10,8 @@ export default {
 		add: '新增',
 		edit: '修改',
 		delete: '删除',
+		audit:'审核',
+		confirm:'确认',
 		reset: '重置',
 		clear: '清空',
 		save: '保存',
