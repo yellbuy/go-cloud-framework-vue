@@ -10,8 +10,8 @@ const service = axios.create({
 	headers: { 'Content-Type': 'application/json', 'Appid': appid },
 });
 
-axios.defaults.retry = 4;
-axios.defaults.retryDelay = 1000;
+axios.defaults.retry = 3;
+axios.defaults.retryDelay = 10000;
 
 // 添加请求拦截器
 service.interceptors.request.use(
@@ -47,7 +47,7 @@ service.interceptors.response.use(
 	(response) => {
 		// 对响应数据做点什么
 		const res = response.data;
-		//console.debug(res);
+		console.debug(res);
 		if (res.errcode && res.errcode !== 0) {
 			
 			// `token` 过期或者账号已在别处登录
@@ -62,7 +62,7 @@ service.interceptors.response.use(
 			} else {
 				ElMessage.error(res.errmsg)
 			}
-			return Promise.reject(service.interceptors.response);
+			//return Promise.reject(service.interceptors.response);
 		} else {
 			//return Promise.resolve(res)
 		}

@@ -14,22 +14,22 @@ export default function () {
 	
 	//列表日期时间格式化
 	const dateFormatYMD = (row: any, column: number, cellValue: any) => {
-		if (!cellValue) return '-';
+		if (!cellValue || cellValue.toString().substr(0,4)<='1970') return '-';
 		return formatDate(new Date(cellValue), 'YYYY-mm-dd');
 	};
 	//列表日期时间格式化
 	const dateFormatYMDHM = (row: any, column: number, cellValue: any) => {
-		if (!cellValue) return '-';
+		if (!cellValue || cellValue.toString().substr(0,4)<='1970') return '-';
 		return formatDate(new Date(cellValue), 'YYYY-mm-dd HH:MM');
 	};
 	//列表日期时间格式化
 	const dateFormatYMDHMS = (row: any, column: number, cellValue: any) => {
-		if (!cellValue) return '-';
+		if (!cellValue || cellValue.toString().substr(0,4)<='1970') return '-';
 		return formatDate(new Date(cellValue), 'YYYY-mm-dd HH:MM:SS');
 	};
 	//列表日期时间格式化
 	const dateFormatHMS = (row: any, column: number, cellValue: any) => {
-		if (!cellValue) return '-';
+		if (!cellValue || cellValue.toString().substr(0,4)<='1970') return '-';
 		let time = 0;
 		if (typeof row === 'number') time = row;
 		if (typeof cellValue === 'number') time = cellValue;

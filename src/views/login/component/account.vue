@@ -82,12 +82,13 @@ export default defineComponent({
 		const store = useStore();
 		const route = useRoute();
 		const router = useRouter();
+		const isDevEnv=process.env.NODE_ENV === 'development';
 		const state = reactive({
 			isShowPassword: false,
 			ruleForm: {
-				username: 'admin',
-				password: '123456',
-				code: '1234',
+				username: isDevEnv?'admin':'',
+				password: isDevEnv?'123456':'',
+				code: isDevEnv?'1234':'',
 			},
 			loading: {
 				signIn: false,
@@ -119,42 +120,46 @@ export default defineComponent({
 				defaultRoles = testRoles;
 				defaultAuthBtnList = testAuthBtnList;
 			}
-			const res= await signIn(state.ruleForm);
-			state.loading.signIn = false;
-			if(res.errcode!=0){
-				return;
+			try{
+				const res= await signIn(state.ruleForm);
+				state.loading.signIn = false;
+				if(res.errcode!=0){
+					return;
+				}
+				const avatar=import.meta.env.VITE_API_URL+'/v1/avatar/user/'+res.data.user.Id+".jpg"
+				console.debug(avatar)
+				// 用户信息模拟数据
+				const userInfos = {
+					username: res.data.user.Username,
+					realname:res.data.user.Name || res.data.user.NickName || res.data.user.Username,
+					photo:avatar,
+					time: new Date().getTime(),
+					roles: ["api"],
+					authBtnList: defaultAuthBtnList,
+				};
+				// 存储 token 到浏览器缓存
+				Session.set('token', res.data.token);
+				// 存储用户信息到浏览器缓存
+				Session.set('userInfo', userInfos);
+				Session.set('expiresToken',res.data.expiresAt);
+				Session.set("refreshTokenAt",res.data.refreshTokenAt);
+				// 1、请注意执行顺序(存储用户信息到vuex)
+				store.dispatch('userInfos/setUserInfos', userInfos);
+				if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
+					// 前端控制路由，2、请注意执行顺序
+					await initFrontEndControlRoutes();
+					signInSuccess();
+				} else {
+					// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
+					// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
+					await initBackEndControlRoutes();
+					// 执行完 initBackEndControlRoutes，再执行 signInSuccess
+					signInSuccess();
+				}
+			} catch(err){
+				state.loading.signIn = false;
 			}
-			// 用户信息模拟数据
-			const userInfos = {
-				username: res.data.Username,
-				realname:res.data.Name || res.data.NickName || res.data.Username,
-				photo:
-					state.ruleForm.username === 'admin'
-						? 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1813762643,1914315241&fm=26&gp=0.jpg'
-						: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=317673774,2961727727&fm=26&gp=0.jpg',
-				time: new Date().getTime(),
-				roles: ["api"],
-				authBtnList: defaultAuthBtnList,
-			};
-			// 存储 token 到浏览器缓存
-			Session.set('token', res.data.token);
-			// 存储用户信息到浏览器缓存
-			Session.set('userInfo', userInfos);
-			Session.set('expiresToken',res.data.expiresAt);
-			Session.set("refreshTokenAt",res.data.refreshTokenAt);
-			// 1、请注意执行顺序(存储用户信息到vuex)
-			store.dispatch('userInfos/setUserInfos', userInfos);
-			if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
-				// 前端控制路由，2、请注意执行顺序
-				await initFrontEndControlRoutes();
-				signInSuccess();
-			} else {
-				// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
-				// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
-				await initBackEndControlRoutes();
-				// 执行完 initBackEndControlRoutes，再执行 signInSuccess
-				signInSuccess();
-			}
+			
 		};
 		// 登录成功后的跳转
 		const signInSuccess = () => {

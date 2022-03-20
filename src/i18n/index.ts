@@ -18,6 +18,10 @@ import pagesFormI18nZhcn from '/@/i18n/pages/formI18n/zh-cn';
 import pagesFormI18nEn from '/@/i18n/pages/formI18n/en';
 import pagesFormI18nZhtw from '/@/i18n/pages/formI18n/zh-tw';
 
+import pagesBaseZhcn from '/@/i18n/pages/base/zh-cn';
+import pagesBaseEn from '/@/i18n/pages/base/en';
+import pagesBaseZhtw from '/@/i18n/pages/base/zh-tw';
+
 import pagesImsZhcn from '/@/i18n/pages/ims/zh-cn';
 import pagesImsEn from '/@/i18n/pages/ims/en';
 import pagesImsZhtw from '/@/i18n/pages/ims/zh-tw';
@@ -35,6 +39,7 @@ const messages = {
 			...nextZhcn,
 			...pagesAdminZhcn,
 			...pagesLoginZhcn,
+			...pagesBaseZhcn,
 			...pagesImsZhcn,
 			...pagesFormI18nZhcn,
 		},
@@ -45,6 +50,7 @@ const messages = {
 			...nextEn,
 			...pagesAdminEn,
 			...pagesLoginEn,
+			...pagesBaseEn,
 			...pagesImsEn,
 			...pagesFormI18nEn,
 		},
@@ -55,6 +61,7 @@ const messages = {
 			...nextZhtw,
 			...pagesAdminZhtw,
 			...pagesLoginZhtw,
+			...pagesBaseZhtw,
 			...pagesImsZhtw,
 			...pagesFormI18nZhtw,
 		},

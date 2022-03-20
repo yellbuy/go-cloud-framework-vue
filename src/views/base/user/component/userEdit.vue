@@ -206,9 +206,10 @@ export default {
 		};
 		// 新增
 		const onSubmit = (isCloseDlg:boolean) => {
-			state.loading=true;
+			
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
+					state.loading=true;
 					const url=state.ruleForm.Id>0?`/v1/base/user/${state.ruleForm.Id}`:`/v1/base/user`;
 					state.ruleForm.Id=state.ruleForm.Id.toString();
 					state.ruleForm.Order=Number.parseInt(state.ruleForm.Order||0);

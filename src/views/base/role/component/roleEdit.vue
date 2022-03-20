@@ -133,9 +133,10 @@ export default {
 		};
 		// 新增
 		const onSubmit = (isCloseDlg:boolean) => {
-			state.loading=true;
+			
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
+					state.loading=true;
 					state.ruleForm.Perms = proxy.$refs.treePerm.getCheckedKeys();
 					const halfCheckedKeys = proxy.$refs.treePerm.getHalfCheckedKeys()||[];
 					state.ruleForm.Perms.push(...halfCheckedKeys);

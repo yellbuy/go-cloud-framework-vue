@@ -7,6 +7,7 @@ export default {
 		systemRole: 'systemRole',
 		systemProject: 'systemProject',
 		systemUser: 'systemUser',
+		systemTenant: 'systemTenant',
 		systemParameter: 'systemParameter',
 		systemBidProject: "systemBidProject",
 		systemSupplier: 'systemSupplier',

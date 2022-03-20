@@ -84,7 +84,7 @@ export default {
 	name: 'baseRoles',
 	components: { editDlg },
 	setup() {
-		const moduleKey='api_sys_role';
+		const moduleKey='api_base_role';
 		const { proxy } = getCurrentInstance() as any;
 
 		const editDlgRef = ref();
