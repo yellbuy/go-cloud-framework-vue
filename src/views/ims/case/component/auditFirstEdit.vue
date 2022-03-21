@@ -2,167 +2,121 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
-				<el-card shadow="hover" header="基本信息">
-					<el-row>
-						<el-col :span="24">
-							<el-row>
-								<el-col :xs="24" :sm="12" :md="6" :lg="5" class="base-info mb6">
-									<div class="base-info-label">报案号：</div>
-									<div class="base-info-value">{{ruleForm.CaseNo}}</div>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="6" :lg="7" class="base-info mb6">
-									<div class="base-info-label">委托单位：</div>
-									<div class="base-info-value">{{ruleForm.TName}}</div>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="6" :lg="4" class="base-info mb6">
-									<div class="base-info-label">委托人：</div>
-									<div class="base-info-value">{{ruleForm.UName}}</div>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="6" :lg="6" class="base-info mb6">
-									<div class="base-info-label">委托时间：</div>
-									<div class="base-info-value">{{ruleForm.CaseCreateTime=='0001-01-01 00:00:00'?'-':ruleForm.CaseCreateTime}}</div>
-								</el-col>
-							</el-row>
-							<el-row>
-								<el-col :xs="24" :sm="12" :md="6" :lg="5" class="base-info">
-									<div class="base-info-label">伤者姓名：</div>
-									<div class="base-info-value">{{ruleForm.PersonName}}</div>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="6" :lg="7" class="base-info">
-									<div class="base-info-label">联系电话：</div>
-									<div class="base-info-value">{{ruleForm.PersonTel}}</div>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="6" :lg="4" class="base-info">
-									<div class="base-info-label">性别：</div>
-									<div class="base-info-value">{{ruleForm.PersonGender==1?'男':ruleForm.PersonGender==2?'女':'-'}}</div>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="6" :lg="4" class="base-info">
-									<div class="base-info-label">年龄：</div>
-									<div class="base-info-value">{{ruleForm.PersonAge}}</div>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="6" :lg="4" class="base-info">
-									<div class="base-info-label">民族：</div>
-									<div class="base-info-value">{{ruleForm.PersonNation}}</div>
-								</el-col>
+				<table class="yb-table" style="width:100%">
+					<thead>
+						<th width="8%" />
+						<th width="12%" />
+						<th width="8%" />
+						<th width="12%" />
+						<th width="8%" />
+						<th width="12%" />
+						<th width="7%" />
+						<th width="13%" />
+						<th width="7%" />
+						<th width="13%" />
+					</thead>
+					<tbody>
+						<!-- <tr>
+							<td colspan="10" class="bg-gray text-lg"><b>基本信息</b></td>
+						</tr> -->
+						<tr>
+							<td class="bg-gray text-right">报案号</td>
+							<td>{{ruleForm.CaseNo}}</td>
+							<td class="bg-gray text-right" >委托单位</td>
+							<td colspan="3">{{ruleForm.TName}}</td>
+							<td class="bg-gray text-right">委托人</td>
+							<td>{{ruleForm.UName}}</td>
+							<td class="bg-gray text-right">委托时间</td>
+							<td>{{ruleForm.CaseCreateTime=='0001-01-01 00:00:00'?'-':ruleForm.CaseCreateTime}}</td>
+						</tr>
+						<tr>
+							<td class="bg-gray text-right">伤者姓名</td>
+							<td>{{ruleForm.PersonName}}</td>
+							<td class="bg-gray text-right">联系电话</td>
+							<td>{{ruleForm.PersonTel}}</td>
+							<td class="bg-gray text-right">性别</td>
+							<td>{{ruleForm.PersonGender==1?'男':ruleForm.PersonGender==2?'女':'-'}}</td>
+							<td class="bg-gray text-right">年龄</td>
+							<td>{{ruleForm.PersonAge}}</td>
+							<td class="bg-gray text-right">民族</td>
+							<td>{{ruleForm.PersonNation}}</td>
+						</tr>
+						<tr>
+							<td colspan="1" class="bg-gray text-right">简要案情</td>
+							<td colspan="9">{{ruleForm.CaseContent}}</td>
+						</tr>
+						<tr>
+							<td class="bg-gray text-right">委托类别</td>
+							<td v-if="ruleForm.CaseType==1">门诊就医</td>
+							<td v-else-if="ruleForm.CaseType==2">住院非手术</td>
+							<td v-else-if="ruleForm.CaseType==3">住院手术</td>
+							<td v-else-if="ruleForm.CaseType==10">死亡</td>
+							<td class="bg-gray text-right">委托事项</td>
+							<td v-if="ruleForm.CaseMode==1">估损</td>
+							<td v-else-if="ruleForm.CaseMode==2">核损</td>
+							<td v-else-if="ruleForm.CaseMode==10">鉴定</td>
+							<td colspan="6"></td>
+						</tr>
+						<tr>
+							<td class="bg-gray text-right">委托事项</td>
+							<td colspan="9">
+								<el-checkbox :checked="ruleForm.MedicalDiagnosisState>0">医学诊断审查</el-checkbox>
+								<el-checkbox :checked="ruleForm.InjuryRelationState>0">伤病关系审查</el-checkbox>
+								<el-checkbox :checked="ruleForm.InjuryDiscernState>0">新旧伤鉴别</el-checkbox>
+								<el-checkbox :checked="ruleForm.DisabilityAssessState>0">伤残评估</el-checkbox>
+								<el-checkbox :checked="ruleForm.ThirdPhaseState>0">三期评估</el-checkbox>
+								<el-checkbox v-if="ruleForm.OtherState>0" :checked="ruleForm.OtherState>0">其他({{ruleForm.OtherTitle}})</el-checkbox>
+							</td>
+						</tr>
+						<tr>
+							<td class="bg-gray text-right">诊断证明书</td>
+							<td colspan="9">
+								<el-image style="width: 100px; margin-right:5px; height: 100px; border-radius: 5px" :initial-index="0" :src="srcList[0]" :preview-src-list="srcList" title="点击查看大图预览"> </el-image>
+								<el-image style="width: 100px; margin-right:5px;height: 100px; border-radius: 5px" :src="srcList[1]" :initial-index="1" :preview-src-list="srcList" title="点击查看大图预览"> </el-image>
+								<el-image style="width: 100px; margin-right:5px;height: 100px; border-radius: 5px" :src="srcList[2]" :initial-index="2" :preview-src-list="srcList" title="点击查看大图预览"> </el-image>
 								
-							</el-row>
-						</el-col>
-					</el-row>
-				</el-card>
-				<el-card shadow="hover" class="mt15" header="简要案情">
-					<el-row>
-						<el-col :span="24" >
-							<div class="base-info-text">{{ruleForm.CaseContent}}</div>
-						</el-col>
-					</el-row>
-				</el-card>
-				<el-row>
-				<!-- 营销推荐 -->
-				
-
-				<!-- 更新信息 -->
-				<el-col :span="24">
-					<el-card shadow="hover" class="mt15 personal-edit" header="更新信息">
-						<div class="personal-edit-title">基本信息</div>
-						<el-form :model="ruleForm" size="small" label-width="40px" class="mt35 mb35">
-							<el-row :gutter="35">
-								<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb20">
-									<el-form-item label="昵称">
-										<el-input v-model="ruleForm.name" placeholder="请输入昵称" clearable></el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb20">
-									<el-form-item label="邮箱">
-										<el-input v-model="ruleForm.email" placeholder="请输入邮箱" clearable></el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb20">
-									<el-form-item label="签名">
-										<el-input v-model="ruleForm.autograph" placeholder="请输入签名" clearable></el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb20">
-									<el-form-item label="职业">
-										<el-select v-model="ruleForm.occupation" placeholder="请选择职业" clearable class="w100">
-											<el-option label="计算机 / 互联网 / 通信" value="1"></el-option>
-											<el-option label="生产 / 工艺 / 制造" value="2"></el-option>
-											<el-option label="医疗 / 护理 / 制药" value="3"></el-option>
-										</el-select>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb20">
-									<el-form-item label="手机">
-										<el-input v-model="ruleForm.phone" placeholder="请输入手机" clearable></el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb20">
-									<el-form-item label="性别">
-										<el-select v-model="ruleForm.sex" placeholder="请选择性别" clearable class="w100">
-											<el-option label="男" value="1"></el-option>
-											<el-option label="女" value="2"></el-option>
-										</el-select>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-									<el-form-item>
-										<el-button type="primary">
-											<el-icon>
-												<elementPosition />
-											</el-icon>
-											更新个人信息
-										</el-button>
-									</el-form-item>
-								</el-col>
-							</el-row>
-						</el-form>
-						<div class="personal-edit-title mb15">账号安全</div>
-						<div class="personal-edit-safe-box">
-							<div class="personal-edit-safe-item">
-								<div class="personal-edit-safe-item-left">
-									<div class="personal-edit-safe-item-left-label">账户密码</div>
-									<div class="personal-edit-safe-item-left-value">当前密码强度：强</div>
-								</div>
-								<div class="personal-edit-safe-item-right">
-									<el-button type="text">立即修改</el-button>
-								</div>
-							</div>
-						</div>
-						<div class="personal-edit-safe-box">
-							<div class="personal-edit-safe-item">
-								<div class="personal-edit-safe-item-left">
-									<div class="personal-edit-safe-item-left-label">密保手机</div>
-									<div class="personal-edit-safe-item-left-value">已绑定手机：132****4108</div>
-								</div>
-								<div class="personal-edit-safe-item-right">
-									<el-button type="text">立即修改</el-button>
-								</div>
-							</div>
-						</div>
-						<div class="personal-edit-safe-box">
-							<div class="personal-edit-safe-item">
-								<div class="personal-edit-safe-item-left">
-									<div class="personal-edit-safe-item-left-label">密保问题</div>
-									<div class="personal-edit-safe-item-left-value">已设置密保问题，账号安全大幅度提升</div>
-								</div>
-								<div class="personal-edit-safe-item-right">
-									<el-button type="text">立即设置</el-button>
-								</div>
-							</div>
-						</div>
-						<div class="personal-edit-safe-box">
-							<div class="personal-edit-safe-item">
-								<div class="personal-edit-safe-item-left">
-									<div class="personal-edit-safe-item-left-label">绑定QQ</div>
-									<div class="personal-edit-safe-item-left-value">已绑定QQ：110****566</div>
-								</div>
-								<div class="personal-edit-safe-item-right">
-									<el-button type="text">立即设置</el-button>
-								</div>
-							</div>
-						</div>
-					</el-card>
-				</el-col>
-			</el-row>
+							</td>
+						</tr>
+						<tr>
+							<td class="bg-gray text-right">门急诊病历</td>
+							<td colspan="9">
+								
+							</td>
+						</tr>
+						<tr>
+							<td class="bg-gray text-right">影像学资料</td>
+							<td colspan="9">
+								
+							</td>
+						</tr>
+						<tr>
+							<td class="bg-gray text-right">检查报告单</td>
+							<td colspan="9">
+								
+							</td>
+						</tr>
+						<tr>
+							<td class="bg-gray text-right">补充材料</td>
+							<td colspan="9">
+								
+							</td>
+						</tr>
+						<tr>
+							<td class="bg-gray text-right" rowspan="2">审核</td>
+							<td colspan="9">
+								<el-radio-group v-model="ruleForm.InsurerAuditState">
+									<el-radio label="审核通过" value="1"/>
+									<el-radio label="审核不通过" value="2"/>
+								</el-radio-group>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="9">
+								<el-input v-model="ruleForm.InsurerAuditContent" placeholder="请填入审核回复信息" type="textarea" />
+							</td>
+						</tr>
+					</tbody>
+				</table> 
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -188,6 +142,11 @@ export default {
 			isShowDialog: false,
 			title:t('message.action.add'),
 			loading:false,
+			srcList: [
+				'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1813762643,1914315241&fm=26&gp=0.jpg',
+				'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=317673774,2961727727&fm=26&gp=0.jpg',
+				'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
+			],
 			ruleForm: {
 				Id:0,
 				Username: '', // 账户名称
@@ -367,6 +326,28 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../../../theme/mixins/mixins.scss';
+table,table tr th, table tr td { 
+	border:1px solid gray;
+	padding:8px 
+}
+table {
+	border-collapse: collapse; padding:0px;
+}
+.text-lg{
+	font-size: 16px;
+}
+.text-sm{
+	font-size: 12px;
+}
+.bg-gray{
+	background: var(--el-color-info-light-8);
+}
+.text-center{
+	text-align: center;
+}
+.text-right{
+	text-align: right;
+}
 .base-info {
 	display: flex;
 	align-items: center;
