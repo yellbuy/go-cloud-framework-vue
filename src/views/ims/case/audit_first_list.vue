@@ -8,10 +8,10 @@
 					</el-form-item>
 					<el-form-item>
 						<el-button-group>
-							<el-button type="primary">待审核</el-button>
-							<el-button type="info" plain>已审核</el-button>
-							<el-button type="info" plain>我审核的</el-button>
-							<el-button type="info" plain>所有审核</el-button>
+							<el-button :type="tableData.param.searchMode==1?'primary':'info'" @click="onChangeSearchMode(1)" plain>待审核</el-button>
+							<el-button :type="tableData.param.searchMode==2?'primary':'info'" @click="onChangeSearchMode(2)" plain>已审核</el-button>
+							<el-button :type="tableData.param.searchMode==3?'primary':'info'" @click="onChangeSearchMode(3)" plain>我审核的</el-button>
+							<el-button :type="tableData.param.searchMode==0?'primary':'info'" @click="onChangeSearchMode(0)" plain>所有审核</el-button>
 						</el-button-group>
 					</el-form-item>
 					<el-form-item>
@@ -77,7 +77,7 @@
 				</el-table-column>
 				<el-table-column label="操作" width="120" fixed="right">
 					<template #default="scope">
-						<el-button size="small" plain  type="primary" v-if="scope.row.InsurerAuditState==1" @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
+						<el-button size="small" plain  type="primary" v-if="scope.row.InsurerAuditState==2" @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -128,6 +128,8 @@ export default {
 				loading: false,
 				param: {
 					kind:"insurance",
+					searchPage:1, // 1：保司二级审核，2：保司三级审核，5：制作专家，6：审核专家，10：平台
+					searchMode:1, //0：所有，1：待审，2：已审，3：我审核的
 					keyword:"",
 					pageNum: 1,
 					pageSize: 20,
@@ -137,10 +139,17 @@ export default {
 		state.tableData.param.pageIndex=computed(()=>{
 			return state.tableData.param.pageNum-1;
 		})
+
+		const onChangeSearchMode=(mode:any)=>{
+			if(state.tableData.param.searchMode==mode){
+				return;
+			}
+			state.tableData.param.searchMode=mode;
+			onGetTableData(true);
+		}
 		//重置查询条件
 		const onResetSearch=()=>{
-			state.tableData.param.username="";
-			state.tableData.param.name="";
+			state.tableData.param.keyword="";
 			onGetTableData(true)
 		}
 		// effect(()=>{
@@ -268,6 +277,7 @@ export default {
 		return {
 			proxy,
 			dlgEditRef,
+			onChangeSearchMode,
 			objectSpanMethod,
 			onGetTableData,
 			onResetSearch,

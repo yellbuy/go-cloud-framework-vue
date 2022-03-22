@@ -18,6 +18,8 @@ export default {
 		saveAndAdd:'save and add',
 		submit:'submit',
 		cancel:'cancel',
+		draft:'draft',
+		tempSave:'temp save',
 	},
 	validRule:{
 		required:'Required.',

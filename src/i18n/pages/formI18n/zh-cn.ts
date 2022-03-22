@@ -18,7 +18,9 @@ export default {
 		saveAndAdd: '保存并新增',
 		submit: '提交',
 		cancel: '取消',
-		see: "查看"
+		see: "查看",
+		draft:'草稿',
+		tempSave:'暂存',
 	},
 	validRule: {
 		required: '必填项',

@@ -17,7 +17,9 @@ export default {
 		reset:'重置',
 		clear:'清空',
 		submit:'提交',
-		cancel:'取消'
+		cancel:'取消',
+		draft:'草稿',
+		tempSave:'暂存',
 	},
 	validRule:{
 		required:'必填项',

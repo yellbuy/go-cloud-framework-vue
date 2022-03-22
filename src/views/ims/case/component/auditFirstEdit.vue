@@ -74,7 +74,6 @@
 								<el-image style="width: 100px; margin-right:5px; height: 100px; border-radius: 5px" :initial-index="0" :src="srcList[0]" :preview-src-list="srcList" title="点击查看大图预览"> </el-image>
 								<el-image style="width: 100px; margin-right:5px;height: 100px; border-radius: 5px" :src="srcList[1]" :initial-index="1" :preview-src-list="srcList" title="点击查看大图预览"> </el-image>
 								<el-image style="width: 100px; margin-right:5px;height: 100px; border-radius: 5px" :src="srcList[2]" :initial-index="2" :preview-src-list="srcList" title="点击查看大图预览"> </el-image>
-								
 							</td>
 						</tr>
 						<tr>
@@ -105,14 +104,14 @@
 							<td class="bg-gray text-right" rowspan="2">审核</td>
 							<td colspan="9">
 								<el-radio-group v-model="ruleForm.InsurerAuditState">
-									<el-radio label="审核通过" value="1"/>
-									<el-radio label="审核不通过" value="2"/>
+									<el-radio label="10">通过</el-radio>
+									<el-radio label="5">驳回</el-radio>
 								</el-radio-group>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="9">
-								<el-input v-model="ruleForm.InsurerAuditContent" placeholder="请填入审核回复信息" type="textarea" />
+								<el-input v-model="ruleForm.InsurerAuditContent" placeholder="如驳回，请输入理由" type="textarea" />
 							</td>
 						</tr>
 					</tbody>
@@ -121,7 +120,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{ $t('message.action.save') }}</el-button>
+					<el-button type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{ $t('message.action.submit') }}</el-button>
 					
 				</span>
 			</template>
@@ -133,6 +132,7 @@
 import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { ElMessageBox } from 'element-plus';
 export default {
 	name: 'baseUserEdit',
 	setup() {
@@ -148,26 +148,6 @@ export default {
 				'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
 			],
 			ruleForm: {
-				Id:0,
-				Username: '', // 账户名称
-				Name: '', // 用户昵称
-				Code:'',
-				Enable:1,
-				Order: 100, // 排序
-				Password:'',
-				PasswordConfirm:'',
-				Mobile:'',
-				Tel:'',
-				Email:'',
-				Addrcode:'',
-				RoleIds:'',
-				CheckedRoleList:[],
-				RoleList:[],
-				AllowBackendLogin:1,
-				AllowFrontendLogin:1,
-				IsExternal:0,
-				department: [], // 部门
-				Gender: 0 // 性别
 			},
 			deptData: [], // 部门数据
 		});
@@ -192,16 +172,9 @@ export default {
 		const openDialog = (row: Object) => {
 			const model = JSON.parse(JSON.stringify(row))
 			state.ruleForm = model;
-			if(row && row.Id>0){
-				state.title=t('message.action.audit');
-			}else{
-				state.title=t('message.action.audit');
-				state.ruleForm.Id=0;
-				state.ruleForm.Enable=1;
-				state.ruleForm.Order=100;
-				state.ruleForm.AllowBackendLogin=1;
-				state.ruleForm.AllowFrontendLogin=1;
-			}
+			state.ruleForm.InsurerAuditState=0;
+			state.ruleForm.InsurerAuditContent="";
+			state.title=t('message.action.audit');
 			state.isShowDialog = true;
 
 			//加载角色数据
@@ -217,13 +190,19 @@ export default {
 		};
 		// 新增
 		const onSubmit = (isCloseDlg:boolean) => {
+			if(state.ruleForm.InsurerAuditState!=5 && state.ruleForm.InsurerAuditState!=10){
+				ElMessageBox.alert('请选择审核结果', '温馨提示', {})
+				return;
+			}
+			console.debug("state.ruleForm.InsurerAuditContent:",state.ruleForm.InsurerAuditContent)
+			if(state.ruleForm.InsurerAuditState==5 && state.ruleForm.InsurerAuditContent==""){
+				ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {})
+				return;
+			}
 			state.loading=true;
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
-					const url=state.ruleForm.Id>0?`/v1/base/user/${state.ruleForm.Id}`:`/v1/base/user`;
-					state.ruleForm.Id=state.ruleForm.Id.toString();
-					state.ruleForm.Order=Number.parseInt(state.ruleForm.Order||0);
-					state.ruleForm.RoleIds=state.ruleForm.CheckedRoleList.join(",");
+					const url=`/v1/ims/casepersonline/2/${state.ruleForm.Id}`;
 					request({
 						url: url,
 						method: 'post',
@@ -231,13 +210,7 @@ export default {
 					}).then((res)=>{
 						state.loading=false;
 						if(res.errcode==0){
-							if(isCloseDlg){
-								closeDialog();
-							} else {
-								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id=0;
-								state.ruleForm.PasswordConfirm='';
-							}
+							closeDialog();
 							proxy.$parent.onGetTableData();
 						}
 					}).catch((err)=>{
