@@ -58,11 +58,19 @@
 						<el-tag type="danger" effect="plain" size="small" v-else-if="scope.row.CaseType==10">死亡</el-tag>
 					</template>
 				</el-table-column>
+				
 				<el-table-column prop="ExpertAuditBy" label="专家姓名" width="80" align="center" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column prop="ExpertAuditTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column prop="State" label="状态" width="60" align="center" fixed="right">
+					<template #default="scope">
+						<el-tag type="success" effect="plain" size="small" v-if="scope.row.InsurerAuditState==10">通过</el-tag>
+						<el-tag type="danger" effect="plain" size="small" v-else-if="scope.row.InsurerAuditState==5">驳回</el-tag>
+						<el-tag type="primary" effect="plain" size="small" v-else-if="scope.row.InsurerAuditState>0">待审</el-tag>
+					</template>
 				</el-table-column>
 				<el-table-column label="操作" width="150" fixed="right">
 					<template #default="scope">

@@ -64,9 +64,22 @@
 				</el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="操作" width="120" fixed="right">
+				<el-table-column prop="State" label="状态" width="60" align="center" fixed="right">
 					<template #default="scope">
-						<el-button size="small" plain  type="primary" v-if="scope.row.InsurerReviewState==2" @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
+						<el-tag type="success" effect="plain" size="small" v-if="scope.row.InsurerReviewState==10">通过</el-tag>
+						<el-tag type="danger" effect="plain" size="small" v-else-if="scope.row.InsurerReviewState==5">驳回</el-tag>
+						<el-tag type="primary" effect="plain" size="small" v-else-if="scope.row.InsurerReviewState>0">待审</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column label="操作" width="150" fixed="right">
+					<template #default="scope">
+						<el-button size="small" plain  type="info" v-if="scope.row.InsurerReviewState > 0" @click="onOpenEditDlg(false,scope.row)">
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							查看
+						</el-button>
+						<el-button size="small" plain  type="primary" v-if="scope.row.InsurerReviewState == 2" @click="onOpenEditDlg(true,scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
