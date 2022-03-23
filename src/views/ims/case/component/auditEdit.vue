@@ -74,48 +74,53 @@
 						</tr>
 						
 						
-						<tr>
+						<tr v-if="ruleForm.MedicalDiagnosisPics">
 							<td class="bg-gray text-right">诊断证明书</td>
 							<td colspan="9">
 								<imgList :ids="ruleForm.MedicalDiagnosisPics"></imgList>
 							</td>
 						</tr>
-						<tr>
+						<tr v-if="ruleForm.MedicalRecordPics">
 							<td class="bg-gray text-right">门急诊病历</td>
 							<td colspan="9">
 								<imgList :ids="ruleForm.MedicalRecordPics"></imgList>
 							</td>
 						</tr>
-						<tr>
+						<tr v-if="ruleForm.IconographyRecordPics">
 							<td class="bg-gray text-right">影像学资料</td>
 							<td colspan="9">
 								<imgList :ids="ruleForm.IconographyRecordPics"></imgList>
 							</td>
 						</tr>
-						<tr>
+						<tr v-if="ruleForm.InspectionReportPics">
 							<td class="bg-gray text-right">检查报告单</td>
 							<td colspan="9">
-								
+								<imgList :ids="ruleForm.InspectionReportPics"></imgList>
 							</td>
 						</tr>
-						<tr>
+						<tr  v-if="ruleForm.OtherPics">
 							<td class="bg-gray text-right">补充材料</td>
 							<td colspan="9">
 								<imgList :ids="ruleForm.OtherPics"></imgList>
 							</td>
 						</tr>
-						<tr>
+						<tr v-if="editMode">
 							<td class="bg-gray text-right" rowspan="2">审核</td>
 							<td colspan="9">
-								<el-radio-group v-model="ruleForm.InsurerAuditState">
+								<el-radio-group v-model="ruleForm.InsurerAuditState" v-if="step==2">
+									<el-radio label="10">通过</el-radio>
+									<el-radio label="5">驳回</el-radio>
+								</el-radio-group>
+								<el-radio-group v-model="ruleForm.InsurerReviewState" v-else-if="step==3">
 									<el-radio label="10">通过</el-radio>
 									<el-radio label="5">驳回</el-radio>
 								</el-radio-group>
 							</td>
 						</tr>
-						<tr>
+						<tr v-if="editMode">
 							<td colspan="9">
-								<el-input v-model="ruleForm.InsurerAuditContent" placeholder="如驳回，请输入理由" type="textarea" />
+								<el-input v-model="ruleForm.InsurerAuditContent" placeholder="如驳回，请输入理由" type="textarea" v-if="step==2"/>
+								<el-input v-model="ruleForm.InsurerReviewContent" placeholder="如驳回，请输入理由" type="textarea" v-else-if="step==3"/>
 							</td>
 						</tr>
 					</tbody>
@@ -124,7 +129,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{ $t('message.action.submit') }}</el-button>
+					<el-button v-if="editMode" type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{ $t('message.action.submit') }}</el-button>
 					
 				</span>
 			</template>
@@ -139,20 +144,19 @@ import { useI18n } from 'vue-i18n';
 import { ElMessageBox } from 'element-plus';
 import imgList from '/@/components/image/index.vue';
 export default {
-	name: 'auditFirstEdit',
+	name: 'auditEdit',
+	props:{
+		step:Number,
+	},
 	components: { imgList },
-	setup() {
+	setup(props, { emit }) {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		const state = reactive({
 			isShowDialog: false,
-			title:t('message.action.add'),
+			title:t('message.action.audit'),
 			loading:false,
-			srcList: [
-				'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1813762643,1914315241&fm=26&gp=0.jpg',
-				'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=317673774,2961727727&fm=26&gp=0.jpg',
-				'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg',
-			],
+			editMode:false,
 			ruleForm: {
 			},
 			deptData: [], // 部门数据
@@ -175,16 +179,18 @@ export default {
 		});
 
 		// 打开弹窗
-		const openDialog = (row: Object) => {
-			const model = JSON.parse(JSON.stringify(row))
-			state.ruleForm = model;
-			state.ruleForm.InsurerAuditState=0;
-			state.ruleForm.InsurerAuditContent="";
-			state.title=t('message.action.audit');
+		const openDialog = (editMode:Boolean,row: Object) => {
+			state.editMode = editMode;
+			state.ruleForm = row;
+			if(props.step==2){
+				state.ruleForm.InsurerAuditState=0;
+				state.ruleForm.InsurerAuditContent="";
+			} else if(props.step==3){
+				state.ruleForm.InsurerReviewState=0;
+				state.ruleForm.InsurerReviewContent="";
+			}
+			
 			state.isShowDialog = true;
-
-			//加载角色数据
-			onInitRoleData(row.RoleIds||"");
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -196,19 +202,33 @@ export default {
 		};
 		// 新增
 		const onSubmit = (isCloseDlg:boolean) => {
-			if(state.ruleForm.InsurerAuditState!=5 && state.ruleForm.InsurerAuditState!=10){
-				ElMessageBox.alert('请选择审核结果', '温馨提示', {})
-				return;
+			if(props.step==2){
+				state.ruleForm.InsurerAuditState=Number(state.ruleForm.InsurerAuditState)
+				if(state.ruleForm.InsurerAuditState!=5 && state.ruleForm.InsurerAuditState!=10){
+					ElMessageBox.alert('请选择审核结果', '温馨提示', {})
+					return;
+				}
+				if(state.ruleForm.InsurerAuditState==5 && state.ruleForm.InsurerAuditContent==""){
+					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {})
+					return;
+				}
+			} else if(props.step==3){
+				state.ruleForm.InsurerReviewState=Number(state.ruleForm.InsurerReviewState)
+				if(state.ruleForm.InsurerReviewState!=5 && state.ruleForm.InsurerReviewState!=10){
+					ElMessageBox.alert('请选择审核结果', '温馨提示', {})
+					return;
+				}
+				if(state.ruleForm.InsurerReviewState==5 && state.ruleForm.InsurerReviewContent==""){
+					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {})
+					return;
+				}
 			}
-			console.debug("state.ruleForm.InsurerAuditContent:",state.ruleForm.InsurerAuditContent)
-			if(state.ruleForm.InsurerAuditState==5 && state.ruleForm.InsurerAuditContent==""){
-				ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {})
-				return;
-			}
+
+			
 			state.loading=true;
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
-					const url=`/v1/ims/casepersonline/2/${state.ruleForm.Id}`;
+					const url=`/v1/ims/casepersonline/${props.step}/${state.ruleForm.Id}`;
 					request({
 						url: url,
 						method: 'post',
@@ -228,68 +248,8 @@ export default {
 				}
 			});
 		};
-		//加载角色数据
-		const onInitRoleData=((roleIds:string)=>{
-			
-			state.ruleForm.RoleList=[];
-			state.ruleForm.CheckedRoleList=[];
-			//加载权限数据
-			request({
-				url: `v1/base/roles`,
-				method: 'get',
-				params:{pageSize:1000000}
-			}).then((res)=>{
-				if(res.errcode!=0){
-					return;
-				}
-				
-				const roleIdArr=roleIds.split(",");
-				for (const val of res.data) {
-					val.Checked=false;
-					for(const id of roleIdArr){
-						if(val.Id==id){
-							state.ruleForm.CheckedRoleList.push(val.Id)
-							val.Checked=true
-							break;
-						}
-					}
-				}
-				state.ruleForm.RoleList=res.data;
-			})
-		})
-
-		// 初始化部门数据
-		const initTableData = () => {
-			state.deptData.push({
-				deptName: 'vueNextAdmin',
-				createTime: new Date().toLocaleString(),
-				status: true,
-				sort: Number.parseInt(Math.random()),
-				describe: '顶级部门',
-				id: Math.random(),
-				children: [
-					{
-						deptName: 'IT外包服务',
-						createTime: new Date().toLocaleString(),
-						status: true,
-						sort: Number.parseInt(Math.random()),
-						describe: '总部',
-						id: Math.random(),
-					},
-					{
-						deptName: '资本控股',
-						createTime: new Date().toLocaleString(),
-						status: true,
-						sort: Number.parseInt(Math.random()),
-						describe: '分部',
-						id: Math.random(),
-					},
-				],
-			});
-		};
 		// 页面加载时
 		onMounted(() => {
-			initTableData();
 		});
 		return {
 			t,

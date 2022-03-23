@@ -29,17 +29,6 @@
 						</el-button>
 					</el-form-item>
 					<el-form-item>
-						
-					</el-form-item>
-					<!-- <el-form-item v-auth:[moduleKey]="'btn.UserAdd'"> 
-						<el-button size="small" type="primary" @click="onOpenAddDlg"  >
-							<el-icon>
-								<elementPlus />
-							</el-icon>
-							{{ $t('message.action.add') }}
-						</el-button>
-					</el-form-item> -->
-					<el-form-item>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -75,9 +64,15 @@
 				</el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="操作" width="120" fixed="right">
+				<el-table-column label="操作" width="150" fixed="right">
 					<template #default="scope">
-						<el-button size="small" plain  type="primary" v-if="scope.row.InsurerAuditState==2" @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
+						<el-button size="small" plain  type="info" v-if="scope.row.InsurerAuditState>0" @click="onOpenEditDlg(false,scope.row)">
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							查看
+						</el-button>
+						<el-button size="small" plain  type="primary" v-if="scope.row.InsurerAuditState==2" @click="onOpenEditDlg(true,scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -100,7 +95,7 @@
 			>
 			</el-pagination>
 		</el-card>
-		<dlgEdit ref="dlgEditRef" />
+		<dlgEdit ref="dlgEditRef" :step="2" />
 	</div>
 </template>
 
@@ -110,7 +105,7 @@ import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
 import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import dlgEdit from './component/auditFirstEdit.vue';
+import dlgEdit from './component/auditEdit.vue';
 import other from '/@/utils/other';
 import { getUserList } from '/@/api/base/user';
 export default {
@@ -165,7 +160,6 @@ export default {
 			state.tableData.loading=true;
 			state.tableData.data =[
 			];
-			state.tableData.total=2;
 			state.tableData.loading=false;
 			request({
 				url: '/v1/ims/casepersonlines',
@@ -225,15 +219,35 @@ export default {
 				}
 			}
 		}
-		// 打开新增用户弹窗
-		const onOpenAddDlg = () => {
-			dlgEditRef.value.openDialog({});
-		};
+		
 		// 打开修改用户弹窗
-		const onOpenEditDlg = (row: Object) => {
-			dlgEditRef.value.openDialog(row);
+		const onOpenEditDlg = (editMode:Boolean,row: Object) => {
+			request({
+					url: `/v1/ims/casepersonline/${row.Id}`,
+					method: 'get',
+				}).then((res)=>{
+					if(res.errcode == 0){
+						if(res.data.Id>0){
+							if(res.data.InsurerAuditState>0){
+								if(!editMode || (editMode && res.data.InsurerAuditState)){
+									dlgEditRef.value.openDialog(editMode,res.data);
+									return;
+								}
+							}
+							ElMessageBox.alert('当前记录状态不能查看或编辑，请刷新后重试', '温馨提示', {}) 
+							
+						} else{
+							ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {})
+						}
+					}
+					
+				}).catch((err)=>{
+					console.error(err)
+					ElMessageBox.alert('网络故障', '温馨提示', {})
+				});
+			
 		};
-		// 删除用户
+		// 删除记录
 		const onRowDel = (row: Object) => {
 			ElMessageBox.confirm(`确定要删除记录“${row.Sn}”吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -241,7 +255,7 @@ export default {
 				type: 'warning',
 			}).then(() => {
 				state.tableData.loading=true;
-				const url=`/v1/ims/case/audit/delete/${row.Id}`;
+				const url=`/v1/ims/casepersonline/delete/${row.Id}`;
 				request({
 					url: url,
 					method: 'post',
@@ -281,7 +295,6 @@ export default {
 			objectSpanMethod,
 			onGetTableData,
 			onResetSearch,
-			onOpenAddDlg,
 			onOpenEditDlg,
 			onRowDel,
 			onHandleSizeChange,

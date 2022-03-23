@@ -14,6 +14,7 @@ export default {
 		confirm:'confirm',
 		reset:'reset',
 		clear:'clear',
+		see: "see",
 		save:'save',
 		saveAndAdd:'save and add',
 		submit:'submit',
