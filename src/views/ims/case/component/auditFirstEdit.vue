@@ -42,10 +42,6 @@
 							<td>{{ruleForm.PersonNation}}</td>
 						</tr>
 						<tr>
-							<td colspan="1" class="bg-gray text-right">简要案情</td>
-							<td colspan="9">{{ruleForm.CaseContent}}</td>
-						</tr>
-						<tr>
 							<td class="bg-gray text-right">委托类别</td>
 							<td v-if="ruleForm.CaseType==1">门诊就医</td>
 							<td v-else-if="ruleForm.CaseType==2">住院非手术</td>
@@ -69,23 +65,31 @@
 							</td>
 						</tr>
 						<tr>
+							<td colspan="1" class="bg-gray text-right">简要案情</td>
+							<td colspan="9">{{ruleForm.CaseContent}}</td>
+						</tr>
+						<tr v-if="ruleForm.Pics">
+							<td colspan="1" class="bg-gray text-right">案情照片</td>
+							<td colspan="9"><imgList :ids="ruleForm.Pics"></imgList></td>
+						</tr>
+						
+						
+						<tr>
 							<td class="bg-gray text-right">诊断证明书</td>
 							<td colspan="9">
-								<el-image style="width: 100px; margin-right:5px; height: 100px; border-radius: 5px" :initial-index="0" :src="srcList[0]" :preview-src-list="srcList" title="点击查看大图预览"> </el-image>
-								<el-image style="width: 100px; margin-right:5px;height: 100px; border-radius: 5px" :src="srcList[1]" :initial-index="1" :preview-src-list="srcList" title="点击查看大图预览"> </el-image>
-								<el-image style="width: 100px; margin-right:5px;height: 100px; border-radius: 5px" :src="srcList[2]" :initial-index="2" :preview-src-list="srcList" title="点击查看大图预览"> </el-image>
+								<imgList :ids="ruleForm.MedicalDiagnosisPics"></imgList>
 							</td>
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">门急诊病历</td>
 							<td colspan="9">
-								
+								<imgList :ids="ruleForm.MedicalRecordPics"></imgList>
 							</td>
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">影像学资料</td>
 							<td colspan="9">
-								
+								<imgList :ids="ruleForm.IconographyRecordPics"></imgList>
 							</td>
 						</tr>
 						<tr>
@@ -97,7 +101,7 @@
 						<tr>
 							<td class="bg-gray text-right">补充材料</td>
 							<td colspan="9">
-								
+								<imgList :ids="ruleForm.OtherPics"></imgList>
 							</td>
 						</tr>
 						<tr>
@@ -133,8 +137,10 @@ import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessageBox } from 'element-plus';
+import imgList from '/@/components/image/index.vue';
 export default {
-	name: 'baseUserEdit',
+	name: 'auditFirstEdit',
+	components: { imgList },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
