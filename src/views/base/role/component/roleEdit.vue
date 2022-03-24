@@ -45,8 +45,8 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" size="small">{{ $t('message.action.saveAndAdd') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" size="small">{{ $t('message.action.save') }}</el-button>
+					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" :loading="loading" size="small">{{ $t('message.action.saveAndAdd') }}</el-button>
+					<el-button type="primary" @click="onSubmit(true)" :loading="loading" size="small">{{ $t('message.action.save') }}</el-button>
 					
 				</span>
 			</template>
@@ -107,6 +107,7 @@ export default {
 
 		// 打开弹窗
 		const openDialog = (row: Object) => {
+			state.loading=false
 			const model = JSON.parse(JSON.stringify(row))
 			state.ruleForm = model;
 			if(row && row.Id>0){

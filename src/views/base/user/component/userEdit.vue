@@ -114,8 +114,8 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" size="small" v-auth:[$parent.moduleKey]="'btn.UserAdd'">{{ $t('message.action.saveAndAdd') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.UserEdit','btn.UserAdd']">{{ $t('message.action.save') }}</el-button>
+					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" size="small" :loading="loading" v-auth:[$parent.moduleKey]="'btn.UserAdd'">{{ $t('message.action.saveAndAdd') }}</el-button>
+					<el-button type="primary" @click="onSubmit(true)" size="small" :loading="loading" v-auths:[$parent.moduleKey]="['btn.UserEdit','btn.UserAdd']">{{ $t('message.action.save') }}</el-button>
 					
 				</span>
 			</template>
@@ -179,6 +179,7 @@ export default {
 
 		// 打开弹窗
 		const openDialog = (row: Object) => {
+			state.loading=false
 			const model = JSON.parse(JSON.stringify(row))
 			state.ruleForm = model;
 			if(row && row.Id>0){
@@ -214,6 +215,7 @@ export default {
 					state.ruleForm.Id=state.ruleForm.Id.toString();
 					state.ruleForm.Order=Number.parseInt(state.ruleForm.Order||0);
 					state.ruleForm.RoleIds=state.ruleForm.CheckedRoleList.join(",");
+					
 					request({
 						url: url,
 						method: 'post',

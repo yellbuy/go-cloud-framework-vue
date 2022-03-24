@@ -48,8 +48,8 @@
 				<el-table-column prop="Email" label="邮箱" width="150" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Enable" label="用户状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" plain size="small" v-if="scope.row.Enable">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" plain size="small" v-else>{{ $t('message.action.disable') }}</el-tag>
+						<el-tag type="success" effect="plain" size="small" v-if="scope.row.Enable">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain" size="small" v-else>{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip>

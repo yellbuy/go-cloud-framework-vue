@@ -75,7 +75,7 @@
 								<checkTag :checked="ruleForm.SufficiencyExamState>0" v-if="ruleForm.CaseMode==10" title="充分性审查"></checkTag>
 								<checkTag :checked="ruleForm.TechniqueExamState>0" v-if="ruleForm.CaseMode==10" title="技术规范性审查"></checkTag>
 								<checkTag :checked="ruleForm.StandardExamState>0" v-if="ruleForm.CaseMode==10" title="标准适用性审查"></checkTag>
-								
+
 								<checkTag :checked="ruleForm.OtherState>0" v-if="ruleForm.OtherState>0" :title="`其他(${ruleForm.OtherTitle})`"></checkTag>
 							</td>
 						</tr>
@@ -185,7 +185,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button v-if="editMode" type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{ $t('message.action.submit') }}</el-button>
+					<el-button v-if="editMode" :loading="loading" type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{ $t('message.action.submit') }}</el-button>
 					
 				</span>
 			</template>
@@ -237,6 +237,7 @@ export default {
 
 		// 打开弹窗
 		const openDialog = (editMode:Boolean,row: Object) => {
+			state.loading=false
 			state.editMode = editMode;
 			
 			if(editMode){

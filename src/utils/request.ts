@@ -60,7 +60,11 @@ service.interceptors.response.use(
 					.catch(() => {});
 					
 			} else {
-				ElMessage.error(res.errmsg)
+				ElMessage({
+					showClose: true,
+					message: res.errmsg,
+					type: 'error',
+				})
 			}
 			//return Promise.reject(service.interceptors.response);
 		} else {
