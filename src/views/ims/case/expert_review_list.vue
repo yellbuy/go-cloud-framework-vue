@@ -79,18 +79,37 @@
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
 				<el-table-column label="操作" width="120" fixed="right">
 					<template #default="scope">
+						<el-button size="small" plain type="info" v-if="scope.row.ExpertReviewState > 0" @click="onOpenEditDlg(false, scope.row)">
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							查看
+						</el-button>
 						<el-button
 							size="small"
 							plain
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							v-if="scope.row.ExpertReviewState == 2"
-							@click="onOpenEditDlg(scope.row)"
+							@click="onOpenEditDlg(true, scope.row)"
 						>
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							审核
+						</el-button>
+						<el-button
+							size="small"
+							plain
+							type="warning"
+							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
+							v-if="scope.row.ExpertReviewState == 1"
+							@click="getItem(scope.row.Id)"
+						>
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							接单
 						</el-button>
 					</template>
 				</el-table-column>
@@ -109,7 +128,7 @@
 			>
 			</el-pagination>
 		</el-card>
-		<dlgEdit ref="dlgEditRef" />
+		<dlgEdit ref="dlgEditRef" :step="10" />
 	</div>
 </template>
 
@@ -126,7 +145,7 @@ export default {
 	name: 'baseUsers',
 	components: { dlgEdit },
 	setup() {
-		const moduleKey = 'api_ims_first_audit';
+		const moduleKey = 'api_ims_expert_review';
 		const { proxy } = getCurrentInstance() as any;
 		const dlgEditRef = ref();
 		const state: any = reactive({
@@ -232,8 +251,30 @@ export default {
 			dlgEditRef.value.openDialog({});
 		};
 		// 打开修改用户弹窗
-		const onOpenEditDlg = (row: Object) => {
-			dlgEditRef.value.openDialog(row, true);
+		const onOpenEditDlg = (editMode: Boolean, row: Object) => {
+			request({
+				url: `/v1/ims/casepersonline/${row.Id}`,
+				method: 'get',
+			})
+				.then((res) => {
+					if (res.errcode == 0) {
+						if (res.data.Id > 0) {
+							if (res.data.ExportAuditState > 0) {
+								if (!editMode || (editMode && res.data.ExportAuditState)) {
+									dlgEditRef.value.openDialog(editMode, res.data, false);
+									return;
+								}
+							}
+							ElMessageBox.alert('当前记录状态不能查看或编辑，请刷新后重试', '温馨提示', {});
+						} else {
+							ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {});
+						}
+					}
+				})
+				.catch((err) => {
+					console.error(err);
+					ElMessageBox.alert('网络故障', '温馨提示', {});
+				});
 		};
 		// 删除用户
 		const onRowDel = (row: Object) => {
