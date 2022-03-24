@@ -19,9 +19,9 @@ export default defineComponent({
 	},
 	setup(props) {
 		if (props.name?.indexOf('element') > -1) {
-			return () => h('i', { class: 'el-icon', style: `--font-size: ${props.size}; --color: ${props.color}` }, [h(resolveComponent(props.name))]);
+			return () => h('i', { class: 'el-icon', style: `--font-size: ${props.size};--color: ${props.color}` }, [h(resolveComponent(props.name))]);
 		} else {
-			return () => h('i', { class: props.name, style: `font-size: ${props.size}; color: ${props.color}` });
+			return () => h('i', { class: props.name, style: `font-size: ${props.size}px;color: ${props.color}` });
 		}
 	},
 });

@@ -56,25 +56,27 @@
 						<tr>
 							<td class="bg-gray text-right">委托事项</td>
 							<td colspan="9">
-								<el-checkbox :checked="ruleForm.MedicalDiagnosisState>0" v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2" disabled>医学诊断审查</el-checkbox>
-								<el-checkbox :checked="ruleForm.InjuryRelationState>0" v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2" disabled>伤病关系审查</el-checkbox>
-								<el-checkbox :checked="ruleForm.InjuryDiscernState>0" v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2" disabled>新旧伤鉴别</el-checkbox>
-								<el-checkbox :checked="ruleForm.AppraisalOpportunityState>0" v-if="ruleForm.CaseMode==2" disabled>鉴定时机推荐</el-checkbox>
-								<el-checkbox :checked="ruleForm.DisabilityAssessState>0" v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2" disabled>伤残评估</el-checkbox>
-								<el-checkbox :checked="ruleForm.ThirdPhaseState>0" v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2" disabled>三期评估</el-checkbox>
+								<checkTag :checked="ruleForm.MedicalDiagnosisState>0" v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2" title="医学诊断审查"></checkTag>
+								<checkTag :checked="ruleForm.InjuryRelationState>0" v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2" title="伤病关系审查"></checkTag>
+								<checkTag :checked="ruleForm.InjuryDiscernState>0" v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2" title="新旧伤鉴别"></checkTag>
 
-								<el-checkbox :checked="ruleForm.NurseRelyState>0" v-if="ruleForm.CaseMode==2" disabled>护理依赖评估</el-checkbox>
-								<el-checkbox :checked="ruleForm.MedicalSourceState>0" v-if="ruleForm.CaseMode==2" disabled>医源性介入因素审查</el-checkbox>
+								<checkTag :checked="ruleForm.AppraisalOpportunityState>0" v-if="ruleForm.CaseMode==2" title="鉴定时机推荐"></checkTag>
 
-								<el-checkbox :checked="ruleForm.RealExamState>0" v-if="ruleForm.CaseMode==10" disabled>真实性审查</el-checkbox>
-								<el-checkbox :checked="ruleForm.LegalExamState>0" v-if="ruleForm.CaseMode==10" disabled>合法性审查</el-checkbox>
-								<el-checkbox :checked="ruleForm.CorrelationExamState>0" v-if="ruleForm.CaseMode==10" disabled>关联性审查</el-checkbox>
-								<el-checkbox :checked="ruleForm.CompleteExamState>0" v-if="ruleForm.CaseMode==10" disabled>完整性审查</el-checkbox>
-								<el-checkbox :checked="ruleForm.SufficiencyExamState>0" v-if="ruleForm.CaseMode==10" disabled>充分性审查</el-checkbox>
-								<el-checkbox :checked="ruleForm.TechniqueExamState>0" v-if="ruleForm.CaseMode==10" disabled>技术规范性审查</el-checkbox>
-								<el-checkbox :checked="ruleForm.StandardExamState>0" v-if="ruleForm.CaseMode==10" disabled>标准适用性审查</el-checkbox>
+								<checkTag :checked="ruleForm.DisabilityAssessState>0" v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2" title="伤残评估"></checkTag>
+								<checkTag :checked="ruleForm.ThirdPhaseState>0" v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2" title="三期评估"></checkTag>
 
-								<el-checkbox v-if="ruleForm.OtherState>0" :checked="ruleForm.OtherState>0" disabled>其他({{ruleForm.OtherTitle}})</el-checkbox>
+								<checkTag :checked="ruleForm.NurseRelyState>0" v-if="ruleForm.CaseMode==2" title="护理依赖评估"></checkTag>
+								<checkTag :checked="ruleForm.MedicalSourceState>0" v-if="ruleForm.CaseMode==2" title="医源性介入因素审查"></checkTag>
+
+								<checkTag :checked="ruleForm.RealExamState>0" v-if="ruleForm.CaseMode==10" title="真实性审查"></checkTag>
+								<checkTag :checked="ruleForm.LegalExamState>0" v-if="ruleForm.CaseMode==10" title="合法性审查"></checkTag>
+								<checkTag :checked="ruleForm.CorrelationExamState>0" v-if="ruleForm.CaseMode==10" title="关联性审查"></checkTag>
+								<checkTag :checked="ruleForm.CompleteExamState>0" v-if="ruleForm.CaseMode==10" title="完整性审查"></checkTag>
+								<checkTag :checked="ruleForm.SufficiencyExamState>0" v-if="ruleForm.CaseMode==10" title="充分性审查"></checkTag>
+								<checkTag :checked="ruleForm.TechniqueExamState>0" v-if="ruleForm.CaseMode==10" title="技术规范性审查"></checkTag>
+								<checkTag :checked="ruleForm.StandardExamState>0" v-if="ruleForm.CaseMode==10" title="标准适用性审查"></checkTag>
+								
+								<checkTag :checked="ruleForm.OtherState>0" v-if="ruleForm.OtherState>0" :title="`其他(${ruleForm.OtherTitle})`"></checkTag>
 							</td>
 						</tr>
 						<tr>
@@ -197,12 +199,13 @@ import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessageBox } from 'element-plus';
 import imgList from '/@/components/image/index.vue';
+import checkTag from '/@/components/checkTag/index.vue';
 export default {
 	name: 'auditEdit',
 	props:{
 		step:Number,
 	},
-	components: { imgList },
+	components: { imgList,checkTag },
 	setup(props, { emit }) {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
