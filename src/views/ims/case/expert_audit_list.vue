@@ -29,14 +29,6 @@
 						</el-button>
 					</el-form-item>
 					<el-form-item> </el-form-item>
-					<!-- <el-form-item v-auth:[moduleKey]="'btn.UserAdd'"> 
-						<el-button size="small" type="primary" @click="onOpenAddDlg"  >
-							<el-icon>
-								<elementPlus />
-							</el-icon>
-							{{ $t('message.action.add') }}
-						</el-button>
-					</el-form-item> -->
 					<el-form-item> </el-form-item>
 				</el-form>
 			</div>
@@ -76,21 +68,47 @@
 				</el-table-column>
 				<el-table-column prop="ExpertAuditBy" label="专家姓名" width="80" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertAuditTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
-				<el-table-column label="操作" width="120" fixed="right">
+				<el-table-column prop="State" label="状态" width="60" align="center" fixed="right">
 					<template #default="scope">
+						<el-tag type="success" effect="plain" size="small" v-if="scope.row.InsurerReviewState == 10">通过</el-tag>
+						<el-tag type="danger" effect="plain" size="small" v-else-if="scope.row.InsurerReviewState == 5">驳回</el-tag>
+						<el-tag type="primary" effect="plain" size="small" v-else-if="scope.row.InsurerReviewState > 0">待审</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
+				<el-table-column label="操作" width="150" fixed="right">
+					<template #default="scope">
+						<el-button size="small" plain type="info" v-if="scope.row.ExpertAuditState > 0" @click="onOpenEditDlg(false, scope.row)">
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							查看
+						</el-button>
 						<el-button
 							size="small"
 							plain
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
-							v-if="scope.row.InsurerReviewState == 2"
-							@click="onOpenEditDlg(scope.row)"
+							v-if="scope.row.ExpertAuditState == 2"
+							@click="onOpenEditDlg(true, scope.row)"
 						>
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							审核
+						</el-button>
+						<el-button
+							size="small"
+							plain
+							type="warning"
+							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
+							v-if="scope.row.ExpertAuditState == 1"
+							@click="onGetItem(scope.row)"
+						>
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							接单
 						</el-button>
 					</template>
 				</el-table-column>
@@ -109,7 +127,7 @@
 			>
 			</el-pagination>
 		</el-card>
-		<dlgEdit ref="dlgEditRef" />
+		<dlgEdit ref="dlgEditRef" :step="7" />
 	</div>
 </template>
 
@@ -126,7 +144,7 @@ export default {
 	name: 'baseUsers',
 	components: { dlgEdit },
 	setup() {
-		const moduleKey = 'api_ims_first_audit';
+		const moduleKey = 'api_ims_expert_audit';
 		const { proxy } = getCurrentInstance() as any;
 		const dlgEditRef = ref();
 		const state: any = reactive({
@@ -227,13 +245,80 @@ export default {
 				}
 			}
 		};
-		// 打开新增用户弹窗
-		const onOpenAddDlg = () => {
-			dlgEditRef.value.openDialog({});
+		const onGetItem = (row: Object) => {
+			ElMessageBox.confirm(`确定要接单“${row.CaseNo}”吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			})
+				.then(() => {
+					state.tableData.loading = true;
+					request({
+						url: `/v1/ims/casepersonline/${row.Id}`,
+						method: 'get',
+					})
+						.then((res) => {
+							if (res.errcode == 0) {
+								console.log(res.data.InsurerReviewState);
+								if (res.data.Id > 0) {
+									if (res.data.InsurerReviewState > 0) {
+										let url = `/v1/ims/casepersonline/5/${row.Id}`; //专家意见书提交
+										request({
+											url: url,
+											method: 'post',
+											data: res.data,
+										})
+											.then((code) => {
+												state.tableData.loading = false;
+												if (code.errcode == 0) {
+													ElMessage.success('操作成功！');
+													onGetTableData();
+												}
+											})
+											.catch((err) => {
+												state.tableData.loading = false;
+											});
+									}
+								} else {
+									ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {});
+								}
+							}
+						})
+						.catch((err) => {
+							console.error(err);
+							state.tableData.loading = false;
+							ElMessageBox.alert('网络故障', '温馨提示', {});
+						});
+					return false;
+				})
+				.catch((err) => {});
 		};
 		// 打开修改用户弹窗
-		const onOpenEditDlg = (row: Object) => {
-			dlgEditRef.value.openDialog(row, false);
+		const onOpenEditDlg = (editMode: Boolean, row: Object) => {
+			request({
+				url: `/v1/ims/casepersonline/${row.Id}`,
+				method: 'get',
+			})
+				.then((res) => {
+					if (res.errcode == 0) {
+						console.log(res.data.InsurerReviewState);
+						if (res.data.Id > 0) {
+							if (res.data.InsurerReviewState > 0) {
+								if (!editMode || (editMode && res.data.InsurerReviewState)) {
+									dlgEditRef.value.openDialog(editMode, res.data, false);
+									return;
+								}
+							}
+							ElMessageBox.alert('当前记录状态不能查看或编辑，请刷新后重试', '温馨提示', {});
+						} else {
+							ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {});
+						}
+					}
+				})
+				.catch((err) => {
+					console.error(err);
+					ElMessageBox.alert('网络故障', '温馨提示', {});
+				});
 		};
 		// 删除用户
 		const onRowDel = (row: Object) => {
@@ -286,9 +371,9 @@ export default {
 			objectSpanMethod,
 			onGetTableData,
 			onResetSearch,
-			onOpenAddDlg,
 			onOpenEditDlg,
 			onRowDel,
+			onGetItem,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
