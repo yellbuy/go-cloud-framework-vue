@@ -44,9 +44,9 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" :loading="loading" size="small">{{ $t('message.action.saveAndAdd') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" :loading="loading" size="small">{{ $t('message.action.save') }}</el-button>
+					<el-button @click="onCancel" >{{ $t('message.action.cancel') }}</el-button>
+					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" :loading="loading" >{{ $t('message.action.saveAndAdd') }}</el-button>
+					<el-button type="primary" @click="onSubmit(true)" :loading="loading" >{{ $t('message.action.save') }}</el-button>
 					
 				</span>
 			</template>
