@@ -19,7 +19,7 @@
 						<!-- <tr>
 							<td colspan="10" class="bg-gray text-lg"><b>基本信息</b></td>
 						</tr> -->
-						<tr>
+						<!-- <tr>
 							<td class="bg-gray text-right">报案号</td>
 							<td>{{ ruleForm.CaseNo }}</td>
 							<td class="bg-gray text-right">委托单位</td>
@@ -205,11 +205,11 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="bg-gray text-right" colspan="9">具体条款</td>
-							<td v-if="IsDisable()">
+							<td class="bg-gray text-right" colspan="1">具体条款</td>
+							<td v-if="IsDisable()" colspan="8">
 								<el-input v-model="ruleForm.ExpertAuditTerm" type="textarea" />
 							</td>
-							<td v-if="!IsDisable()">
+							<td v-if="!IsDisable()" colspan="8">
 								{{ ruleForm.ExpertAuditTerm }}
 							</td>
 						</tr>
@@ -266,7 +266,7 @@
 							<td colspan="9" v-else-if="!editMode">
 								{{ ruleForm.ExpertReviewContent }}
 							</td>
-						</tr>
+						</tr> -->
 						<tr>
 							<td class="bg-gray text-right" rowspan="2">审核</td>
 							<td colspan="9" v-if="editMode">
