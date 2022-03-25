@@ -288,7 +288,6 @@ export default {
 			onProxyTenant,
 			onHandleSizeChange,
 			onHandleCurrentChange,
-			getThemeConfig,
 			dateFormatYMDHM,
 			...toRefs(state),
 		};
