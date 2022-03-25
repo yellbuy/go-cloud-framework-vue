@@ -77,7 +77,7 @@
 				<el-table-column prop="ExpertAuditBy" label="专家姓名" width="80" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertAuditTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
-				<el-table-column label="操作" width="120" fixed="right">
+				<el-table-column label="操作" width="150" fixed="right">
 					<template #default="scope">
 						<el-button size="small" plain type="info" v-if="scope.row.ExpertReviewState > 0" @click="onOpenEditDlg(false, scope.row)">
 							<el-icon>
@@ -104,7 +104,7 @@
 							type="warning"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							v-if="scope.row.ExpertReviewState == 1"
-							@click="getItem(scope.row.Id)"
+							@click="onGetItem(scope.row)"
 						>
 							<el-icon>
 								<elementEdit />
@@ -250,6 +250,56 @@ export default {
 		const onOpenAddDlg = () => {
 			dlgEditRef.value.openDialog({});
 		};
+		const onGetItem = (row: Object) => {
+			ElMessageBox.confirm(`确定要接单“${row.CaseNo}”吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			})
+				.then(() => {
+					state.tableData.loading = true;
+					request({
+						url: `/v1/ims/casepersonline/${row.Id}`,
+						method: 'get',
+					})
+						.then((res) => {
+							if (res.errcode == 0) {
+								console.log(res.data.InsurerReviewState);
+								if (res.data.Id > 0) {
+									if (res.data.InsurerReviewState > 0) {
+										let url = `/v1/ims/casepersonline/8/${row.Id}`; //专家审核接单
+										request({
+											url: url,
+											method: 'post',
+											data: res.data,
+										})
+											.then((code) => {
+												state.loading = false;
+												if (code.errcode == 0) {
+													ElMessage.success('操作成功！');
+													onGetTableData();
+												} else {
+													ElMessageBox.alert('操作失败', '温馨提示', code.errmsg);
+												}
+											})
+											.catch((err) => {
+												state.tableData.loading = false;
+											});
+									}
+								} else {
+									ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {});
+								}
+							}
+						})
+						.catch((err) => {
+							console.error(err);
+							state.tableData.loading = false;
+							ElMessageBox.alert('网络故障', '温馨提示', {});
+						});
+					return false;
+				})
+				.catch((err) => {});
+		};
 		// 打开修改用户弹窗
 		const onOpenEditDlg = (editMode: Boolean, row: Object) => {
 			request({
@@ -259,8 +309,8 @@ export default {
 				.then((res) => {
 					if (res.errcode == 0) {
 						if (res.data.Id > 0) {
-							if (res.data.ExportAuditState > 0) {
-								if (!editMode || (editMode && res.data.ExportAuditState)) {
+							if (res.data.ExpertAuditState > 0) {
+								if (!editMode || (editMode && res.data.ExpertAuditState)) {
 									dlgEditRef.value.openDialog(editMode, res.data, false);
 									return;
 								}
@@ -330,6 +380,7 @@ export default {
 			onOpenAddDlg,
 			onOpenEditDlg,
 			onRowDel,
+			onGetItem,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,

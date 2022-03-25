@@ -205,15 +205,12 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="9" v-if="IsDisable()">
-								<el-form-item label="具体条款">
-									<el-input v-model="ruleForm.ExpertAuditTerm" type="textarea" />
-								</el-form-item>
+							<td class="bg-gray text-right" colspan="9">具体条款</td>
+							<td v-if="IsDisable()">
+								<el-input v-model="ruleForm.ExpertAuditTerm" type="textarea" />
 							</td>
-							<td colspan="9" v-if="!IsDisable()">
-								<el-form-item label="具体条款">
-									{{ ruleForm.ExpertAuditTerm }}
-								</el-form-item>
+							<td v-if="!IsDisable()">
+								{{ ruleForm.ExpertAuditTerm }}
 							</td>
 						</tr>
 						<tr>
@@ -230,33 +227,33 @@
 							<td colspan="9">
 								<el-form-item label="鉴定时机">
 									<el-radio-group v-model="ruleForm.ExpertReviewOpportunityState" :disabled="!editMode">
-										<el-radio label="1">符合</el-radio>
-										<el-radio label="2">不符合</el-radio>
+										<el-radio :label="1">符合</el-radio>
+										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="鉴定程序">
 									<el-radio-group v-model="ruleForm.ExpertReviewProgramState" :disabled="!editMode">
-										<el-radio label="1">符合</el-radio>
-										<el-radio label="2">不符合</el-radio>
+										<el-radio :label="1">符合</el-radio>
+										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="标准适用">
 									<el-radio-group v-model="ruleForm.ExpertReviewStandardState" :disabled="!editMode">
-										<el-radio label="1">符合</el-radio>
-										<el-radio label="2">不符合</el-radio>
+										<el-radio :label="1">符合</el-radio>
+										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="鉴定资质">
 									<el-radio-group v-model="ruleForm.ExpertReviewQualificationState" :disabled="!editMode">
-										<el-radio label="1">符合</el-radio>
-										<el-radio label="2">不符合</el-radio>
+										<el-radio :label="1">符合</el-radio>
+										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="鉴定意见">
 									<el-radio-group v-model="ruleForm.ExpertReviewResultState" :disabled="!editMode">
-										<el-radio label="1">符合</el-radio>
-										<el-radio label="2">不符合</el-radio>
-										<el-radio label="3">有缺陷</el-radio>
+										<el-radio :label="1">符合</el-radio>
+										<el-radio :label="2">不符合</el-radio>
+										<el-radio :label="3">有缺陷</el-radio>
 									</el-radio-group>
 								</el-form-item>
 							</td>
@@ -264,7 +261,7 @@
 						<tr v-if="step == 10">
 							<td class="bg-gray text-right">审查意见</td>
 							<td colspan="9" v-if="editMode">
-								<el-input v-model="ruleForm.ExpertReviewContent" placeholder="如驳回，请输入理由" type="textarea" />
+								<el-input v-model="ruleForm.ExpertReviewContent" type="textarea" />
 							</td>
 							<td colspan="9" v-else-if="!editMode">
 								{{ ruleForm.ExpertReviewContent }}
@@ -361,20 +358,19 @@ export default {
 		});
 
 		// 打开弹窗
-		const openDialog = (editMode: Boolean, row: Object) => {
+		const openDialog = (Mode: Boolean, row: Object) => {
 			const model = JSON.parse(JSON.stringify(row));
-			state.editMode = JSON.parse(editMode);
-			console.log(props, typeof props.step);
+			state.editMode = JSON.parse(Mode);
 			state.ruleForm = model;
-			if (editMode) {
+			if (state.editMode) {
 				if (props.step == 7) {
 					//专家制作意见书
 					state.ruleForm.ExpertAuditState = 2;
-					state.ruleForm.ExpertAuditContent = '';
+					state.ruleForm.ExpertAuditRemark = '';
 				} else if (props.step == 10) {
 					//专家审核意见书
 					state.ruleForm.ExpertReviewState = 2;
-					state.ruleForm.ExpertReviewContent = '';
+					state.ruleForm.ExpertReviewRemark = '';
 				}
 			}
 			state.title = t('message.action.audit');
@@ -403,7 +399,7 @@ export default {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
-				if (state.ruleForm.ExpertAuditState == 5 && state.ruleForm.ExpertAuditContent == '') {
+				if (state.ruleForm.ExpertAuditState == 5 && state.ruleForm.ExpertAuditRemark == '') {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
 					return;
 				}
@@ -413,7 +409,7 @@ export default {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
-				if (state.ruleForm.ExpertReviewState == 5 && state.ruleForm.ExpertReviewContent == '') {
+				if (state.ruleForm.ExpertReviewState == 5 && state.ruleForm.ExpertReviewRemark == '') {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
 					return;
 				}

@@ -269,12 +269,10 @@ export default {
 											data: res.data,
 										})
 											.then((code) => {
-												state.loading = false;
+												state.tableData.loading = false;
 												if (code.errcode == 0) {
 													ElMessage.success('操作成功！');
 													onGetTableData();
-												} else {
-													ElMessageBox.alert('操作失败', '温馨提示', code.errmsg);
 												}
 											})
 											.catch((err) => {

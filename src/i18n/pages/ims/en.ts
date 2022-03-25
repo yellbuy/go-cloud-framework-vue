@@ -20,6 +20,7 @@ export default {
 			second_audit: 'second level audit',
 			expert_audit: 'expert review',
 			expert_review: 'expert review',
+			case_kind: 'Identification standard category',
 		},
 	}
 
