@@ -6,10 +6,10 @@
 			</div>
 			<template #dropdown>
 				<el-dropdown-menu>
-					<el-dropdown-item command="" :disabled="disabledSize === ''">{{ $t('message.user.dropdownDefault') }}</el-dropdown-item>
-					<el-dropdown-item command="medium" :disabled="disabledSize === 'medium'">{{ $t('message.user.dropdownMedium') }}</el-dropdown-item>
+					<el-dropdown-item command="large" :disabled="disabledSize === 'large'">{{ $t('message.user.dropdownLarge') }}</el-dropdown-item>
+					<el-dropdown-item command="default" :disabled="disabledSize === 'default'">{{ $t('message.user.dropdownDefault') }}</el-dropdown-item>
 					<el-dropdown-item command="small" :disabled="disabledSize === 'small'">{{ $t('message.user.dropdownSmall') }}</el-dropdown-item>
-					<el-dropdown-item command="mini" :disabled="disabledSize === 'mini'">{{ $t('message.user.dropdownMini') }}</el-dropdown-item>
+					<!-- <el-dropdown-item command="mini" :disabled="disabledSize === 'mini'">{{ $t('message.user.dropdownMini') }}</el-dropdown-item> -->
 				</el-dropdown-menu>
 			</template>
 		</el-dropdown>
@@ -65,10 +65,12 @@
 			<template #dropdown>
 				<el-dropdown-menu>
 					<el-dropdown-item command="/home">{{ $t('message.user.dropdown1') }}</el-dropdown-item>
-					<el-dropdown-item command="wareHouse">{{ $t('message.user.dropdown6') }}</el-dropdown-item>
+					<!-- <el-dropdown-item command="wareHouse">{{ $t('message.user.dropdown6') }}</el-dropdown-item> -->
 					<el-dropdown-item command="/personal">{{ $t('message.user.dropdown2') }}</el-dropdown-item>
-					<el-dropdown-item command="/404">{{ $t('message.user.dropdown3') }}</el-dropdown-item>
-					<el-dropdown-item command="/401">{{ $t('message.user.dropdown4') }}</el-dropdown-item>
+					<el-dropdown-item divided command="returnProxyParent" v-if="getUserInfos.isProxy>0">{{ $t('message.base.action.proxyParent') }}</el-dropdown-item>
+					<el-dropdown-item command="returnProxyTop" v-if="getUserInfos.isProxy>0">{{ $t('message.base.action.proxyTop') }}</el-dropdown-item>
+					<!-- <el-dropdown-item command="/404">{{ $t('message.user.dropdown3') }}</el-dropdown-item>
+					<el-dropdown-item command="/401">{{ $t('message.user.dropdown4') }}</el-dropdown-item> -->
 					<el-dropdown-item divided command="logOut">{{ $t('message.user.dropdown5') }}</el-dropdown-item>
 				</el-dropdown-menu>
 			</template>
@@ -89,6 +91,10 @@ import other from '/@/utils/other';
 import { Session, Local } from '/@/utils/storage';
 import UserNews from '/@/layout/navBars/breadcrumb/userNews.vue';
 import Search from '/@/layout/navBars/breadcrumb/search.vue';
+import request from '/@/utils/request';
+import { initFrontEndControlRoutes } from '/@/router/frontEnd';
+import { initBackEndControlRoutes } from '/@/router/backEnd';
+
 export default {
 	name: 'layoutBreadcrumbUser',
 	components: { UserNews, Search },
@@ -102,10 +108,11 @@ export default {
 			isScreenfull: false,
 			isShowUserNewsPopover: false,
 			disabledI18n: 'zh-cn',
-			disabledSize: '',
+			disabledSize: 'small',
 		});
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
+			console.log("store.state.userInfos.userInfos:",store.state.userInfos.userInfos)
 			return store.state.userInfos.userInfos;
 		});
 		// 获取布局配置信息
@@ -138,7 +145,61 @@ export default {
 		};
 		// 下拉菜单点击时
 		const onHandleCommandClick = (path: string) => {
-			if (path === 'logOut') {
+			if(path=="returnProxyParent"||path=="returnProxyTop"){
+				const isTop=path=="returnProxyTop";
+				request({
+					url: '/v1/base/proxy/return',
+					method: 'post',
+					params:{isTop:isTop}
+				})
+				.then((res) => {
+					if(res.errcode==0){
+						ElMessage.success({
+							showClose: true,
+							duration:2400,
+							message: t('message.base.action.proxySuccess'),
+							onClose:async function(){
+								try{
+									let defaultRoles: Array<string> = [];
+									let defaultAuthBtnList: Array<string> = [];
+									Session.clear();
+									const avatar=import.meta.env.VITE_API_URL+'/v1/avatar/user/'+res.data.user.Id+".jpg"
+									//console.debug(avatar)
+									// 用户信息模拟数据
+									const userInfos = {
+										username: res.data.user.Username,
+										realname:res.data.user.Name || res.data.user.NickName || res.data.user.Username,
+										photo:avatar,
+										time: new Date().getTime(),
+										roles: ["api"],
+										authBtnList: defaultAuthBtnList,
+										isProxy:res.data.user.IsProxy,
+									};
+									// 存储 token 到浏览器缓存
+									Session.set('token', res.data.token);
+									// 存储用户信息到浏览器缓存
+									Session.set('userInfo', userInfos);
+									Session.set('expiresToken',res.data.expiresAt);
+									Session.set("refreshTokenAt",res.data.refreshTokenAt);
+									// 1、请注意执行顺序(存储用户信息到vuex)
+									store.dispatch('userInfos/setUserInfos', userInfos);
+									resetRoute(); // 删除/重置路由
+									window.location.href="/";
+								} catch(err){
+									console.error(err)
+								}
+							}
+						})
+					}
+				})
+				.catch((err) => {
+					ElMessage({
+						showClose: true,
+						message: err,
+						type: 'error',
+					})
+				});
+			} else if(path === 'logOut') {
 				ElMessageBox({
 					closeOnClickModal: false,
 					closeOnPressEscape: false,
@@ -184,11 +245,12 @@ export default {
 		// 组件大小改变
 		const onComponentSizeChange = (size: string) => {
 			Local.remove('themeConfig');
+			//console.log("size:",size)
 			getThemeConfig.value.globalComponentSize = size;
 			Local.set('themeConfig', getThemeConfig.value);
-			proxy.$ELEMENT.size = size;
+			//proxy.$ELEMENT.size = size;
 			initComponentSize();
-			window.location.reload();
+			//window.location.reload();
 		};
 		// 语言切换
 		const onLanguageChange = (lang: string) => {
@@ -222,9 +284,16 @@ export default {
 		};
 		// 初始化全局组件大小
 		const initComponentSize = () => {
+			console.log("Local.get('themeConfig').globalComponentSize:",Local.get('themeConfig').globalComponentSize)
 			switch (Local.get('themeConfig').globalComponentSize) {
 				case '':
 					state.disabledSize = '';
+					break;
+				case 'large':
+					state.disabledSize = 'large';
+					break;
+				case 'default':
+					state.disabledSize = 'default';
 					break;
 				case 'medium':
 					state.disabledSize = 'medium';
@@ -244,6 +313,7 @@ export default {
 				initComponentSize();
 			}
 		});
+		
 		return {
 			getUserInfos,
 			onLayoutSetingClick,

@@ -1,10 +1,9 @@
-import { store } from '/@/store/index.ts';
-import { Session } from '/@/utils/storage';
-import { NextLoading } from '/@/utils/loading';
+import { getMenuAdmin } from '/@/api/menu/index';
 import { setAddRoute, setFilterMenuAndCacheTagsViewRoutes } from '/@/router/index';
 import { dynamicRoutes } from '/@/router/route';
-import { getMenuAdmin, getMenuTest } from '/@/api/menu/index';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { store } from '/@/store/index.ts';
+import { NextLoading } from '/@/utils/loading';
+import { Session } from '/@/utils/storage';
 
 const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
@@ -37,9 +36,10 @@ export async function initBackEndControlRoutes() {
 		store.dispatch('requestOldRoutes/setBackEndControlRoutes', res.ModuleList||[]);
 		store.dispatch('userInfos/setPermissionActions', res.ActionList);
 		// 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
+		//console.log("res.ModuleList:",res.ModuleList)
 		dynamicRoutes[0].children = await backEndComponent(res.ModuleList||[]);
-		// 添加动态路由
 		await setAddRoute();
+		
 		// 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
 		setFilterMenuAndCacheTagsViewRoutes();
 	}catch(er){
@@ -57,12 +57,6 @@ export async function initBackEndControlRoutes() {
 export async function  getBackEndControlRoutes() {
 	const res = await getMenuAdmin();
 	return res.data;
-	// 模拟 admin 与 test
-	const auth = store.state.userInfos.userInfos.roles[0];
-	// 管理员 admin
-	if (auth === 'admin') return getMenuAdmin();
-	// 其它用户 test
-	else return getMenuTest();
 }
 
 /**

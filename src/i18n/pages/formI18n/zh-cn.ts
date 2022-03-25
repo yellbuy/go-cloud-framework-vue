@@ -21,6 +21,8 @@ export default {
 		see: "查看",
 		draft:'草稿',
 		tempSave:'暂存',
+		frontend:'前台',
+		backend:'后台',
 	},
 	validRule: {
 		required: '必填项',

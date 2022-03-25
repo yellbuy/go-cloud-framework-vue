@@ -1,6 +1,6 @@
 <template>
-	<el-form class="login-content-form">
-		<el-form-item class="login-animation-one">
+	<el-form class="login-content-form" size="default">
+		<el-form-item class="login-animation-one" >
 			<el-input type="text" :placeholder="$t('message.account.accountPlaceholder1')" v-model="ruleForm.username" clearable autocomplete="off">
 				<template #prefix>
 					<el-icon class="el-input__icon"><elementUser /></el-icon>
@@ -127,7 +127,7 @@ export default defineComponent({
 					return;
 				}
 				const avatar=import.meta.env.VITE_API_URL+'/v1/avatar/user/'+res.data.user.Id+".jpg"
-				console.debug(avatar)
+				//console.debug(avatar)
 				// 用户信息模拟数据
 				const userInfos = {
 					username: res.data.user.Username,
@@ -136,6 +136,7 @@ export default defineComponent({
 					time: new Date().getTime(),
 					roles: ["api"],
 					authBtnList: defaultAuthBtnList,
+					isProxy:res.data.user.IsProxy,
 				};
 				// 存储 token 到浏览器缓存
 				Session.set('token', res.data.token);
