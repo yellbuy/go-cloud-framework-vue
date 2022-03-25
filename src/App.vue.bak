@@ -1,5 +1,5 @@
 <template>
-	<el-config-provider :locale="i18nLocale" :size="getThemeConfig.globalComponentSize" :message="messageConfig">
+	<el-config-provider :locale="i18nLocale" size="small" :message="messageConfig">
 		<router-view v-show="getThemeConfig.lockScreenTime !== 0" />
 		<LockScreen v-if="getThemeConfig.isLockScreen" />
 		<Setings ref="setingsRef" v-show="getThemeConfig.lockScreenTime !== 0" />

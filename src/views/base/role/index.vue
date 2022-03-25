@@ -2,24 +2,24 @@
 	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" size="small" :model="tableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef"  :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="角色名称：">
-						<el-input size="small" placeholder="请输入角色名称查询" v-model="tableData.param.name"> </el-input>
+						<el-input  placeholder="请输入角色名称查询" v-model="tableData.param.name"> </el-input>
 					</el-form-item>
 					<el-form-item>
-							<el-button size="small" @click="onResetSearch">
+							<el-button  @click="onResetSearch">
 								<el-icon>
 									<elementRefreshLeft />
 								</el-icon>
 								{{ $t('message.action.reset') }}
 							</el-button>
-							<el-button size="small" @click="onGetTableData(true)">
+							<el-button  @click="onGetTableData(true)">
 								<el-icon>
 									<elementSearch />
 								</el-icon>
 								{{ $t('message.action.search') }}
 							</el-button>
-							<el-button size="small" type="primary" @click="onModelAdd" v-auth:[moduleKey]="'btn.Add'">
+							<el-button  type="primary" @click="onModelAdd" v-auth:[moduleKey]="'btn.Add'">
 								<el-icon>
 									<elementPlus />
 								</el-icon>
@@ -30,7 +30,7 @@
 				</el-form>
 			</div>
 			<el-table :data="tableData.data"
-				v-loading="tableData.loading" style="width: 100%" size="small" :height="proxy.$calcMainHeight(-90)"
+				v-loading="tableData.loading" style="width: 100%"  :height="proxy.$calcMainHeight(-90)"
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
 				<el-table-column prop="Name" label="角色名称" width="120" show-overflow-tooltip fixed></el-table-column>
@@ -40,13 +40,13 @@
 				
 				<el-table-column label="操作" width="180" fixed="right">
 					<template #default="scope">
-						<el-button plain size="small" type="primary" @click="onModelEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button plain  type="primary" @click="onModelEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button plain size="small" type="danger" @click="onModelDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button plain  type="danger" @click="onModelDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>

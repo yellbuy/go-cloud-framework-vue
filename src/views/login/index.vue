@@ -5,7 +5,7 @@
 		</div>
 		<div class="login-content">
 			<div class="login-content-main">
-				<h4 class="login-content-title">{{ getThemeConfig.globalTitle }}后台模板</h4>
+				<h4 class="login-content-title">{{ getThemeConfig.globalTitle }}</h4>
 				<div v-if="!isScan">
 					<el-tabs v-model="tabsActiveName">
 						<el-tab-pane :label="$t('message.label.one1')" name="account">
@@ -62,7 +62,7 @@ export default {
 .login-container {
 	width: 100%;
 	height: 100%;
-	background: url('https://gitee.com/lyt-top/vue-next-admin-images/raw/master/login/bg-login.png') no-repeat;
+	background: url('/bg-login.png') no-repeat;
 	background-size: 100% 100%;
 	.login-logo {
 		position: absolute;

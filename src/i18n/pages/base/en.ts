@@ -8,7 +8,14 @@ export default {
 			role: 'systemRole',
 			user: 'systemUser',
 			tenant: 'systemTenant',
+			
 		},
+		action:{
+			proxyBackend:'backend',
+			proxyParent:'return parent level',
+			proxyTop:'return top level',
+			proxySuccess:'Permission authentication is successful, and it is about to jump...',
+		}
 	}
 	
 	

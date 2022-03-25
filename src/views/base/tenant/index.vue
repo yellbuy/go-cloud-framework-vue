@@ -2,24 +2,24 @@
 	<div class="base-tenant-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" size="small" :model="tableData.param" label-width="80px" :inline="true">
+				<el-form ref="searchFormRef"  :model="tableData.param" label-width="80px" :inline="true">
 					<el-form-item label="关键字：">
-						<el-input size="small" placeholder="请输入关键字模糊查询" v-model="tableData.param.username"> </el-input>
+						<el-input  placeholder="请输入关键字模糊查询" v-model="tableData.param.username"> </el-input>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="small" @click="onResetSearch">
+						<el-button  @click="onResetSearch">
 							<el-icon>
 								<elementRefreshLeft />
 							</el-icon>
 							{{ $t('message.action.reset') }}
 						</el-button>
-						<el-button size="small" @click="onGetTableData(true)">
+						<el-button  @click="onGetTableData(true)">
 							<el-icon>
 								<elementSearch />
 							</el-icon>
 							{{ $t('message.action.search') }}
 						</el-button>
-						<el-button size="small" type="primary" @click="onOpenDlgAdd"  v-auth:[moduleKey]="'btn.Add'">
+						<el-button  type="primary" @click="onOpenDlgAdd"  v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<elementPlus />
 							</el-icon>
@@ -31,7 +31,7 @@
 				</el-form>
 			</div>
 			<el-table :data="tableData.data" 
-				v-loading="tableData.loading" style="width: 100%" size="small" :height="proxy.$calcMainHeight(-90)"
+				v-loading="tableData.loading" style="width: 100%"  :height="proxy.$calcMainHeight(-90)"
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
 				<el-table-column prop="Name" label="单位名称" width="240" show-overflow-tooltip fixed></el-table-column>
@@ -41,8 +41,8 @@
 				<el-table-column prop="Addr" label="单位地址"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="State" label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" plain size="small" v-if="scope.row.State>0">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" plain size="small" v-else>{{ $t('message.action.disable') }}</el-tag>
+						<el-tag type="success" plain  v-if="scope.row.State>0">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" plain  v-else>{{ $t('message.action.disable') }}</el-tag>
 						
 					</template>
 				</el-table-column>
@@ -50,15 +50,21 @@
 				</el-table-column> -->
 				<el-table-column prop="CreationTime" label="创建时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="操作" width="180" fixed="right">
+				<el-table-column label="操作" width="240" fixed="right">
 					<template #default="scope">
-						<el-button size="small" plain type="primary" @click="onOpenDlgEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button plain type="info" @click="onProxyTenant(scope.row)" v-auth:[moduleKey]="'btn.Proxy'">
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							{{ $t('message.action.backend') }}
+						</el-button>
+						<el-button plain type="primary" @click="onOpenDlgEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button size="small" plain type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button plain type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
@@ -87,17 +93,28 @@
 
 <script lang="ts">
 import request from '/@/utils/request';
+import { useI18n } from 'vue-i18n';
+import { Session, Local } from '/@/utils/storage';
+import { useRouter } from 'vue-router';
+import { resetRoute } from '/@/router/index';
+import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import tenantEdit from './component/tenantEdit.vue';
 import other from '/@/utils/other';
+import { initFrontEndControlRoutes } from '/@/router/frontEnd';
+import { initBackEndControlRoutes } from '/@/router/backEnd';
+
 export default {
 	name: 'baseTenants',
 	components: { tenantEdit },
 	setup() {
 		const moduleKey='api_base_tenant';
 		const { proxy } = getCurrentInstance() as any;
+		const { t } = useI18n();
+		const router = useRouter();
+		const store = useStore();
 		const dlgEditRef = ref();
 		const state: any = reactive({
 			moduleKey:moduleKey,
@@ -143,6 +160,63 @@ export default {
 			}).catch(() => {
 				state.tableData.loading=false;
 			});
+		};
+
+		// 进入租户后台
+		const onProxyTenant = (row: Object)=>{
+			ElMessageBox.confirm(`确定进入租户后台吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(() => {
+				request({
+					url: `/v1/base/proxy/tenant/${row.Id}`,
+					method: 'post',
+				}).then((res)=>{
+					if(res.errcode==0){
+						ElMessage.success({
+							showClose: true,
+							duration:2400,
+							message: t('message.base.action.proxySuccess'),
+							onClose:async function(){
+								try{
+									let defaultRoles: Array<string> = [];
+									let defaultAuthBtnList: Array<string> = [];
+									Session.clear();
+									const avatar=import.meta.env.VITE_API_URL+'/v1/avatar/user/'+res.data.user.Id+".jpg"
+									//console.debug(avatar)
+									// 用户信息模拟数据
+									const userInfos = {
+										username: res.data.user.Username,
+										realname:res.data.user.Name || res.data.user.NickName || res.data.user.Username,
+										photo:avatar,
+										time: new Date().getTime(),
+										roles: ["api"],
+										authBtnList: defaultAuthBtnList,
+										isProxy:res.data.user.IsProxy,
+									};
+									// 存储 token 到浏览器缓存
+									Session.set('token', res.data.token);
+									// 存储用户信息到浏览器缓存
+									Session.set('userInfo', userInfos);
+									Session.set('expiresToken',res.data.expiresAt);
+									Session.set("refreshTokenAt",res.data.refreshTokenAt);
+									// 1、请注意执行顺序(存储用户信息到vuex)
+									store.dispatch('userInfos/setUserInfos', userInfos);
+									// 删除动态路由
+									await resetRoute();
+									window.location.href="/";
+								} catch(err){
+									console.error(err)
+								}
+							}
+						})
+					}
+				}).catch((err)=>{
+					console.error(err)
+				});
+			}).catch((err) => {
+			});
 			
 		};
 		// 打开新增用户弹窗
@@ -187,6 +261,7 @@ export default {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
+
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
@@ -201,6 +276,7 @@ export default {
 			onResetSearch,
 			onOpenDlgAdd,
 			onOpenDlgEdit,
+			onProxyTenant,
 			onRowDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

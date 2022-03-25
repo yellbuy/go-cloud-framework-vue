@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules"  label-width="90px" v-loading="loading">
 				<table class="yb-table" style="width:100%">
 					<thead>
 						<th width="8%" />
@@ -184,8 +184,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button v-if="editMode" :loading="loading" type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{ $t('message.action.submit') }}</el-button>
+					<el-button @click="onCancel" >{{ $t('message.action.cancel') }}</el-button>
+					<el-button v-if="editMode" :loading="loading" type="primary" @click="onSubmit(true)"  v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{ $t('message.action.submit') }}</el-button>
 					
 				</span>
 			</template>

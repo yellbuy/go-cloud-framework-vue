@@ -21,6 +21,8 @@ export default {
 		cancel:'cancel',
 		draft:'draft',
 		tempSave:'temp save',
+		frontend:'front end',
+		backend:'back end',
 	},
 	validRule:{
 		required:'Required.',

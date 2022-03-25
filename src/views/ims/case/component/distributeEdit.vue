@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules"  label-width="90px" v-loading="loading">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="登录账号" prop="Username">
@@ -113,9 +113,9 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" size="small" v-auth:[$parent.moduleKey]="'btn.UserAdd'">{{ $t('message.action.saveAndAdd') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.UserEdit','btn.UserAdd']">{{ $t('message.action.save') }}</el-button>
+					<el-button @click="onCancel" >{{ $t('message.action.cancel') }}</el-button>
+					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id"  v-auth:[$parent.moduleKey]="'btn.UserAdd'">{{ $t('message.action.saveAndAdd') }}</el-button>
+					<el-button type="primary" @click="onSubmit(true)"  v-auths:[$parent.moduleKey]="['btn.UserEdit','btn.UserAdd']">{{ $t('message.action.save') }}</el-button>
 					
 				</span>
 			</template>

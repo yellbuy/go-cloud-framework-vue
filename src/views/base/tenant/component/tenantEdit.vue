@@ -88,9 +88,9 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" size="small" :loading="loading" v-auth:[$parent.moduleKey]="'btn.Add'">{{ $t('message.action.saveAndAdd') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" :loading="loading" size="small" v-auths:[$parent.moduleKey]="['btn.Edit','btn.Add']">{{ $t('message.action.save') }}</el-button>
+					<el-button @click="onCancel" >{{ $t('message.action.cancel') }}</el-button>
+					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id"  :loading="loading" v-auth:[$parent.moduleKey]="'btn.Add'">{{ $t('message.action.saveAndAdd') }}</el-button>
+					<el-button type="primary" @click="onSubmit(true)" :loading="loading"  v-auths:[$parent.moduleKey]="['btn.Edit','btn.Add']">{{ $t('message.action.save') }}</el-button>
 				</span>
 			</template>
 		</el-dialog>

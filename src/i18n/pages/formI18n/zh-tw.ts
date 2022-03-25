@@ -21,6 +21,8 @@ export default {
 		cancel:'取消',
 		draft:'草稿',
 		tempSave:'暂存',
+		frontend:'前台',
+		backend:'后台',
 	},
 	validRule:{
 		required:'必填项',

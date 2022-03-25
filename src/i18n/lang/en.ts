@@ -93,6 +93,7 @@ export default {
 		title4: 'news',
 		title5: 'Full screen on',
 		title6: 'Full screen off',
+		dropdownLarge:'large',
 		dropdownDefault: 'default',
 		dropdownMedium: 'medium',
 		dropdownSmall: 'small',
