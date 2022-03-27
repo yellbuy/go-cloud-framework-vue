@@ -301,10 +301,10 @@ export default {
 			})
 				.then((res) => {
 					if (res.errcode == 0) {
-						console.log(res.data.InsurerReviewState);
 						if (res.data.Id > 0) {
 							if (res.data.InsurerReviewState > 0) {
 								if (!editMode || (editMode && res.data.InsurerReviewState)) {
+									console.log('请求成功');
 									dlgEditRef.value.openDialog(editMode, res.data, false);
 									return;
 								}

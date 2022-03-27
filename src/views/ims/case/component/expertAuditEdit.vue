@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules"  label-width="90px" v-loading="loading">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="90px" v-loading="loading">
 				<table class="yb-table" style="width: 100%">
 					<thead>
 						<th width="8%" />
@@ -16,9 +16,6 @@
 						<th width="13%" />
 					</thead>
 					<tbody>
-						<!-- <tr>
-							<td colspan="10" class="bg-gray text-lg"><b>基本信息</b></td>
-						</tr> -->
 						<tr>
 							<td class="bg-gray text-right">报案号</td>
 							<td>{{ ruleForm.CaseNo }}</td>
@@ -140,10 +137,10 @@
 								<imgList :ids="ruleForm.SurgeryPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.IconographyRecordPics">
+						<tr v-if="ruleForm.IconographyPics">
 							<td class="bg-gray text-right">影像学资料</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.IconographyRecordPics"></imgList>
+								<imgList :ids="ruleForm.IconographyPics"></imgList>
 							</td>
 						</tr>
 						<tr v-if="ruleForm.InspectionReportPics">
@@ -205,11 +202,11 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="bg-gray text-right" colspan="9">具体条款</td>
-							<td v-if="IsDisable()">
+							<td class="bg-gray text-right" colspan="1">具体条款</td>
+							<td v-if="IsDisable()" colspan="8">
 								<el-input v-model="ruleForm.ExpertAuditTerm" type="textarea" />
 							</td>
-							<td v-if="!IsDisable()">
+							<td v-if="!IsDisable()" colspan="8">
 								{{ ruleForm.ExpertAuditTerm }}
 							</td>
 						</tr>
@@ -358,9 +355,10 @@ export default {
 		});
 
 		// 打开弹窗
-		const openDialog = (Mode: Boolean, row: Object) => {
+		const openDialog = (editMode: Boolean, row: Object) => {
+			console.log('44444');
 			const model = JSON.parse(JSON.stringify(row));
-			state.editMode = JSON.parse(Mode);
+			state.editMode = JSON.parse(editMode);
 			state.ruleForm = model;
 			if (state.editMode) {
 				if (props.step == 7) {
@@ -375,6 +373,7 @@ export default {
 			}
 			state.title = t('message.action.audit');
 			state.isShowDialog = true;
+			console.log('55555');
 		};
 		const IsDisable = () => {
 			if (state.editMode && props.step == 7) {
@@ -414,6 +413,7 @@ export default {
 					return;
 				}
 			}
+			console.log('2222', state.ruleForm.ExpertAuditState);
 			state.loading = true;
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
@@ -428,6 +428,7 @@ export default {
 					})
 						.then((res) => {
 							state.loading = false;
+							console.log('33333');
 							if (res.errcode == 0) {
 								closeDialog();
 								proxy.$parent.onGetTableData();
