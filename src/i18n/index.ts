@@ -1,30 +1,30 @@
-import { createI18n } from 'vue-i18n';
-import zhcnLocale from 'element-plus/lib/locale/lang/zh-cn';
 import enLocale from 'element-plus/lib/locale/lang/en';
+import zhcnLocale from 'element-plus/lib/locale/lang/zh-cn';
 import zhtwLocale from 'element-plus/lib/locale/lang/zh-tw';
+import { createI18n } from 'vue-i18n';
+import pagesAdminEn from './pages/home/en';
+import pagesAdminZhcn from './pages/home/zh-cn';
+import pagesAdminZhtw from './pages/home/zh-tw';
+import nextEn from '/@/i18n/lang/en';
+import nextZhcn from '/@/i18n/lang/zh-cn';
+import nextZhtw from '/@/i18n/lang/zh-tw';
+import pagesBaseEn from '/@/i18n/pages/base/en';
+import pagesBaseZhcn from '/@/i18n/pages/base/zh-cn';
+import pagesBaseZhtw from '/@/i18n/pages/base/zh-tw';
+import pagesCommonEn from '/@/i18n/pages/common/en';
+import pagesCommonZhcn from '/@/i18n/pages/common/zh-cn';
+import pagesCommonZhtw from '/@/i18n/pages/common/zh-tw';
+import pagesFormI18nEn from '/@/i18n/pages/formI18n/en';
+import pagesFormI18nZhcn from '/@/i18n/pages/formI18n/zh-cn';
+import pagesFormI18nZhtw from '/@/i18n/pages/formI18n/zh-tw';
+import pagesImsEn from '/@/i18n/pages/ims/en';
+import pagesImsZhcn from '/@/i18n/pages/ims/zh-cn';
+import pagesImsZhtw from '/@/i18n/pages/ims/zh-tw';
+import pagesLoginEn from '/@/i18n/pages/login/en';
+import pagesLoginZhcn from '/@/i18n/pages/login/zh-cn';
+import pagesLoginZhtw from '/@/i18n/pages/login/zh-tw';
 import { store } from '/@/store/index';
 
-import nextZhcn from '/@/i18n/lang/zh-cn';
-import nextEn from '/@/i18n/lang/en';
-import nextZhtw from '/@/i18n/lang/zh-tw';
-
-import pagesAdminZhcn from './pages/home/zh-cn';
-import pagesAdminEn from './pages/home/en';
-import pagesAdminZhtw from './pages/home/zh-tw';
-import pagesLoginZhcn from '/@/i18n/pages/login/zh-cn';
-import pagesLoginEn from '/@/i18n/pages/login/en';
-import pagesLoginZhtw from '/@/i18n/pages/login/zh-tw';
-import pagesFormI18nZhcn from '/@/i18n/pages/formI18n/zh-cn';
-import pagesFormI18nEn from '/@/i18n/pages/formI18n/en';
-import pagesFormI18nZhtw from '/@/i18n/pages/formI18n/zh-tw';
-
-import pagesBaseZhcn from '/@/i18n/pages/base/zh-cn';
-import pagesBaseEn from '/@/i18n/pages/base/en';
-import pagesBaseZhtw from '/@/i18n/pages/base/zh-tw';
-
-import pagesImsZhcn from '/@/i18n/pages/ims/zh-cn';
-import pagesImsEn from '/@/i18n/pages/ims/en';
-import pagesImsZhtw from '/@/i18n/pages/ims/zh-tw';
 
 // 定义语言国际化内容
 /**
@@ -40,6 +40,7 @@ const messages = {
 			...pagesAdminZhcn,
 			...pagesLoginZhcn,
 			...pagesBaseZhcn,
+			...pagesCommonZhcn,
 			...pagesImsZhcn,
 			...pagesFormI18nZhcn,
 		},
@@ -51,6 +52,7 @@ const messages = {
 			...pagesAdminEn,
 			...pagesLoginEn,
 			...pagesBaseEn,
+			...pagesCommonEn,
 			...pagesImsEn,
 			...pagesFormI18nEn,
 		},
@@ -62,6 +64,7 @@ const messages = {
 			...pagesAdminZhtw,
 			...pagesLoginZhtw,
 			...pagesBaseZhtw,
+			...pagesCommonZhtw,
 			...pagesImsZhtw,
 			...pagesFormI18nZhtw,
 		},
