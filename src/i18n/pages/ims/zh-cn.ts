@@ -20,7 +20,7 @@ export default {
 			second_audit: '保司二级审核',
 			expert_audit: '专家审核',
 			expert_review: '专家复核',
-			case_kind: '鉴定标准类别',
+			parameter: '参数模板',
 		},
 	}
 

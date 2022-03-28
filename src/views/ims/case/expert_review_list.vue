@@ -222,7 +222,6 @@ export default {
 						} else {
 							item.rowSpan = 0;
 						}
-						//console.log("item.rowSpan:",item.rowSpan)
 					}
 					state.tableData.data = res.data;
 				})
@@ -238,7 +237,6 @@ export default {
 		}
 		const objectSpanMethod = ({ row, column, rowIndex, columnIndex }: SpanMethodProps) => {
 			if (columnIndex >= 1 && columnIndex < 6) {
-				//console.log("row.rowSpan：",row.rowSpan)
 				if (row.rowSpan > 0) {
 					return [row.rowSpan, 1];
 				} else {
@@ -264,7 +262,6 @@ export default {
 					})
 						.then((res) => {
 							if (res.errcode == 0) {
-								console.log(res.data.InsurerReviewState);
 								if (res.data.Id > 0) {
 									if (res.data.InsurerReviewState > 0) {
 										let url = `/v1/ims/casepersonline/8/${row.Id}`; //专家审核接单
@@ -292,7 +289,6 @@ export default {
 							}
 						})
 						.catch((err) => {
-							console.error(err);
 							state.tableData.loading = false;
 							ElMessageBox.alert('网络故障', '温馨提示', {});
 						});
@@ -322,7 +318,6 @@ export default {
 					}
 				})
 				.catch((err) => {
-					console.error(err);
 					ElMessageBox.alert('网络故障', '温馨提示', {});
 				});
 		};
