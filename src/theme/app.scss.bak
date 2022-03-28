@@ -106,7 +106,7 @@ body,
 	}
 	.layout-scrollbar {
 		@extend .el-scrollbar;
-		padding: 15px;
+		padding: 10px;
 	}
 	.layout-mian-height-50 {
 		height: calc(100vh - 50px);
@@ -260,4 +260,13 @@ body,
 	.pl#{$i} {
 		padding-left: #{$i}px !important;
 	}
+}
+
+/* YB新增样式 */
+.text-help-info{
+	margin-top:3px;
+	line-height: 18px;
+}
+.text-help-info span{
+	margin-left:5px;
 }

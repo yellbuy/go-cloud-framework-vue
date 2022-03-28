@@ -96,7 +96,7 @@ function post(url:string, params?:any, data?:any){
 	}
 	return service({url:url, method:"post", params:params, data:data});
 }
-export { service as request, get, post };
+export { service as request, get, post, appid };
 
 // 导出 axios 实例
 export default service;
