@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="90px" v-loading="loading">
+			<el-form ref="ruleFormRef" :model="ruleForm" label-width="90px" v-loading="loading">
 				<table class="yb-table" style="width: 100%">
 					<thead>
 						<th width="8%" />
@@ -195,10 +195,15 @@
 						<tr>
 							<td class="bg-gray text-right" rowspan="2">鉴定标准</td>
 							<td colspan="9" v-if="IsDisable()">
-								<el-input v-model="ruleForm.ExpertAuditStandard" type="textarea" />
+								<div v-for="(item, key) in caseKind" :key="key">
+									<el-checkbox v-model="item.Value" :label="item.Name" :true-label="1" :false-label="0" size="small" />
+								</div>
+								<!-- <el-input v-model="ruleForm.ExpertAuditStandard" type="textarea" /> -->
 							</td>
 							<td colspan="9" v-if="!IsDisable()">
-								{{ ruleForm.ExpertAuditStandard }}
+								<div v-for="(item, key) in caseKind" :key="key">
+									<checkTag :checked="item.Value == 1" :title="item.Name"></checkTag>
+								</div>
 							</td>
 						</tr>
 						<tr>
@@ -268,12 +273,12 @@
 							<td class="bg-gray text-right" rowspan="2">审核</td>
 							<td colspan="9" v-if="editMode">
 								<el-radio-group v-model="ruleForm.ExpertAuditState" v-if="step == 7">
-									<el-radio label="10">通过</el-radio>
-									<el-radio label="5">驳回</el-radio>
+									<el-radio :label="10">通过</el-radio>
+									<el-radio :label="5">驳回</el-radio>
 								</el-radio-group>
 								<el-radio-group v-model="ruleForm.ExpertReviewState" v-else-if="step == 10">
-									<el-radio label="10">通过</el-radio>
-									<el-radio label="5">驳回</el-radio>
+									<el-radio :label="10">通过</el-radio>
+									<el-radio :label="5">驳回</el-radio>
 								</el-radio-group>
 							</td>
 							<td colspan="9" v-else-if="step == 7">
@@ -336,27 +341,11 @@ export default {
 			loading: false,
 			ruleForm: {},
 			editMode: false,
-		});
-
-		const rules = reactive({
-			Username: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-				{
-					min: 1,
-					max: 50,
-					message: t('message.validRule.lengthRange', { min: 1, max: 50 }),
-					trigger: 'change',
-				},
-			],
+			caseKind: [],
 		});
 
 		// 打开弹窗
 		const openDialog = (editMode: Boolean, row: Object) => {
-			console.log('44444');
 			const model = JSON.parse(JSON.stringify(row));
 			state.editMode = JSON.parse(editMode);
 			state.ruleForm = model;
@@ -371,9 +360,57 @@ export default {
 					state.ruleForm.ExpertReviewRemark = '';
 				}
 			}
+			onGetCaseKind();
 			state.title = t('message.action.audit');
 			state.isShowDialog = true;
-			console.log('55555');
+		};
+		const onGetCaseKind = () => {
+			state.caseKind = [];
+			let type = '';
+			switch (state.ruleForm.CaseMode) {
+				case 1:
+					type = 'gs';
+					break;
+				case 2:
+					type = 'hs';
+					break;
+				case 10:
+					type = 'jd';
+					break;
+			}
+			request({
+				url: `/v1/common/commonpagedata`,
+				method: 'get',
+				params: {
+					type: type,
+					pageNum: 1,
+					pageSize: 10000,
+				},
+			})
+				.then((res) => {
+					if (res.errcode != 0) {
+						ElMessage.warning(res.errmsg);
+						return;
+					}
+					for (let i = 0; i < res.data.length; i++) {
+						state.caseKind.push({ Name: res.data[i].Name, Value: 0, Code: res.data[i].Code });
+					}
+					if (props.step != 7 || !state.editMode) {
+						//回显
+						if (state.ruleForm.ExpertAuditStandard != '') {
+							let list = state.ruleForm.ExpertAuditStandard.split(',');
+							for (let i = 0; i < state.caseKind.length; i++) {
+								for (let j = 0; j < list.length; j++) {
+									if (state.caseKind[i].Code == list[j]) {
+										state.caseKind[i].Value = 1;
+										break;
+									}
+								}
+							}
+						}
+					}
+				})
+				.catch(() => {});
 		};
 		const IsDisable = () => {
 			if (state.editMode && props.step == 7) {
@@ -413,35 +450,36 @@ export default {
 					return;
 				}
 			}
-			console.log('2222', state.ruleForm.ExpertAuditState);
-			state.loading = true;
-			proxy.$refs.ruleFormRef.validate((valid) => {
-				if (valid) {
-					let url = `/v1/ims/casepersonline/7/${state.ruleForm.Id}`; //专家意见书提交
-					if (props.step == 10) {
-						url = `/v1/ims/casepersonline/10/${state.ruleForm.Id}`; //专家审核提交
+			if (props.step == 7) {
+				let ExpertAuditStandardList = [];
+				for (let i = 0; i < state.caseKind.length; i++) {
+					if (state.caseKind[i].Value == 1) {
+						ExpertAuditStandardList.push(state.caseKind[i].Code);
 					}
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					})
-						.then((res) => {
-							state.loading = false;
-							console.log('33333');
-							if (res.errcode == 0) {
-								closeDialog();
-								proxy.$parent.onGetTableData();
-							}
-						})
-						.catch((err) => {
-							state.loading = false;
-						});
-					return false;
-				} else {
-					return false;
 				}
-			});
+				state.ruleForm.ExpertAuditStandard = ExpertAuditStandardList.toString();
+			}
+			state.loading = true;
+			let url = `/v1/ims/casepersonline/7/${state.ruleForm.Id}`; //专家意见书提交
+			if (props.step == 10) {
+				url = `/v1/ims/casepersonline/10/${state.ruleForm.Id}`; //专家审核提交
+			}
+			request({
+				url: url,
+				method: 'post',
+				data: state.ruleForm,
+			})
+				.then((res) => {
+					state.loading = false;
+					if (res.errcode == 0) {
+						closeDialog();
+						proxy.$parent.onGetTableData();
+					}
+				})
+				.catch((err) => {
+					state.loading = false;
+				});
+			return false;
 		};
 
 		return {
@@ -449,9 +487,9 @@ export default {
 			openDialog,
 			closeDialog,
 			onCancel,
-			rules,
 			onSubmit,
 			IsDisable,
+			onGetCaseKind,
 			...toRefs(state),
 		};
 	},

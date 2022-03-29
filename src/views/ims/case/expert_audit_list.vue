@@ -89,8 +89,8 @@
 							plain
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
-							v-if="scope.row.ExpertAuditState == 2"
 							@click="onOpenEditDlg(true, scope.row)"
+							v-if="scope.row.ExpertAuditState == 2"
 						>
 							<el-icon>
 								<elementEdit />
