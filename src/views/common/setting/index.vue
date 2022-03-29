@@ -1,6 +1,6 @@
 <template>
 	<el-tabs type="border-card">
-		<el-tab-pane :label="group.Name" v-for="(group,index) in list" :key="index">
+		<el-tab-pane :label="group.Name" v-for="(group,index) in list"  :key="index">
 			<el-form :model="groupItems[group.Key].items" :ref="'form_'+group.Key" label-width="160px">
 				<el-row :gutter="35">
 					<el-col
@@ -93,13 +93,11 @@
 							</el-input>
 							<template v-else-if="item.Type === 10">
 								<p>{{item.Name}}：</p>
-								<el-input
-									v-model="groupItems[group.Key].items[item.Key]"
-									type="textarea"
-									:autosize="{minRows: 10}"
-									:placeholder="item.Remark"
-									:disabled="item.Readonly">
-								</el-input>
+								<vue-ueditor-wrap :editor-id="`editor-${group.Key}-${item.Key}`"  
+								:editor-dependencies="['ueditor.config.js','ueditor.all.min.js','xiumi/xiumi-ue-dialog-v5.js','xiumi/xiumi-ue-v5.css']"
+								v-model="groupItems[group.Key].items[item.Key]" 
+								:config="{UEDITOR_HOME_URL:'/ueditor/',serverUrl:`${baseUrl}/v1/common/editor/${appid}`,headers:{'Authorization':token,Appid:appid},readonly:item.Readonly}" 
+								></vue-ueditor-wrap>
 							</template>
 							
 							<p :title="item.Remark" class="color-info-light font10 text-help-info" v-if="item.Remark"><SvgIcon name="fa fa-info-circle" /><span v-html="item.Remark"></span></p>
@@ -118,7 +116,7 @@
 					</el-col>
 				</el-row>
 				<el-divider />
-				<div style="text-align:center">
+				<div style="text-align:right">
 					<!-- <el-button native-type="reset" >{{ $t('message.action.reset') }}</el-button> -->
 					<el-button type="primary" @click="onSubmit(group.Key)" :groupKey="group.Key"  :loading="loading" v-auths:[$parent.moduleKey]="['btn.UserEdit','btn.UserAdd']">{{ $t('message.action.save') }}</el-button>
 				</div>

@@ -1,0 +1,6 @@
+.edui-button.edui-for-xiumi-connect .edui-button-wrap .edui-button-body .edui-icon {
+    /* background-image: url("https://xiumi.us/connect/ue/v5/xiumi-connect-icon.png") !important; */
+    background-image: url("/ueditor/xiumi/xiumi_logo.png") !important;
+    background-size: contain;
+    padding:0 5px 5px 0;
+}
