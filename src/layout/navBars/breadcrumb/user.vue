@@ -284,7 +284,7 @@ export default {
 		};
 		// 初始化全局组件大小
 		const initComponentSize = () => {
-			console.log("Local.get('themeConfig').globalComponentSize:",Local.get('themeConfig').globalComponentSize)
+			//console.log("Local.get('themeConfig').globalComponentSize:",Local.get('themeConfig').globalComponentSize)
 			switch (Local.get('themeConfig').globalComponentSize) {
 				case '':
 					state.disabledSize = '';

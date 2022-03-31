@@ -38,6 +38,7 @@ export async function initBackEndControlRoutes() {
 		// 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
 		//console.log("res.ModuleList:",res.ModuleList)
 		dynamicRoutes[0].children = await backEndComponent(res.ModuleList||[]);
+		//console.log("dynamicRoutes:",dynamicRoutes,res.ModuleList);
 		await setAddRoute();
 		
 		// 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
@@ -90,14 +91,17 @@ export function backEndComponent(routes: any) {
  */
 export function dynamicImport(dynamicViewsModules: Record<string, Function>, component: string) {
 	const keys = Object.keys(dynamicViewsModules);
+	
 	const matchKeys = keys.filter((key) => {
 		const k = key.replace(/..\/views|../, '');
 		return k.startsWith(`${component}`) || k.startsWith(`/${component}`);
 	});
+	//console.log("dynamicImport:",component)
 	if (matchKeys?.length === 1) {
 		const matchKey = matchKeys[0];
 		return dynamicViewsModules[matchKey];
 	}
+	
 	if (matchKeys?.length > 1) {
 		return false;
 	}

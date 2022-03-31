@@ -8,22 +8,24 @@
 		:collapse-transition="false"
 	>
 		<template v-for="val in menuLists">
-			<el-sub-menu :index="val.path" v-if="val.children && val.children.length > 0 && !val.meta.isHide" :key="val.path">
-				<template #title>
+			<template v-if="!val.meta.isHide">
+				<el-sub-menu :index="val.path" v-if="val.children && val.children.length > 0" :key="val.key">
+					<template #title>
+						<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
+						<span>{{ $t(val.meta.title) }}</span>
+					</template>
+					<SubItem :chil="val.children" />
+				</el-sub-menu>
+				<el-menu-item :index="val.path" :key="val.path" v-else>
 					<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
-					<span>{{ $t(val.meta.title) }}</span>
-				</template>
-				<SubItem :chil="val.children" />
-			</el-sub-menu>
-			<el-menu-item :index="val.path" :key="val.path" v-else-if="!val.meta.isHide">
-				<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
-				<template #title v-if="!val.meta.isLink || (val.meta.isLink && val.meta.isIframe)">
-					<span>{{ $t(val.meta.title) }}</span>
-				</template>
-				<template #title v-else>
-					<a :href="val.meta.isLink" target="_blank" rel="opener">{{ $t(val.meta.title) }}</a>
-				</template>
-			</el-menu-item>
+					<template #title v-if="!val.meta.isLink || (val.meta.isLink && val.meta.isIframe)">
+						<span>{{ $t(val.meta.title) }}</span>
+					</template>
+					<template #title v-else>
+						<a :href="val.meta.isLink" target="_blank" rel="opener">{{ $t(val.meta.title) }}</a>
+					</template>
+				</el-menu-item>
+			</template>
 		</template>
 	</el-menu>
 </template>

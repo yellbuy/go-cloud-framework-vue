@@ -83,6 +83,7 @@ export default {
 		// 菜单高亮点击事件
 		const onColumnsAsideMenuClick = (v: Object, k: number) => {
 			setColumnsAsideMove(k);
+			//console.log("onColumnsAsideMenuClick：",v,k)
 			let { path, redirect } = v as any;
 			if (redirect) router.push(redirect);
 			else router.push(path);

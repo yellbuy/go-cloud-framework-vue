@@ -42,6 +42,7 @@ export default {
 		// 设置/过滤路由（非静态路由/是否显示在菜单中）
 		const setFilterRoutes = () => {
 			let { layout, isClassicSplitMenu } = store.state.themeConfig.themeConfig;
+			//console.log("setFilterRoutes:",layout, isClassicSplitMenu,route.path)
 			if (layout === 'classic' && isClassicSplitMenu) {
 				state.menuList = delClassicChildren(filterRoutesFun(store.state.routesList.routesList));
 				const resData = setSendClassicChildren(route.path);
@@ -55,6 +56,7 @@ export default {
 			arr.map((v: any) => {
 				if (v.children) delete v.children;
 			});
+			//console.log("delClassicChildren:",arr)
 			return arr;
 		};
 		// 路由过滤递归函数
@@ -71,6 +73,7 @@ export default {
 		const setSendClassicChildren = (path: string) => {
 			const currentPathSplit = path.split('/');
 			let currentData: any = {};
+			//console.log("store.state.routesList.routesList:",path,store.state.routesList.routesList)
 			filterRoutesFun(store.state.routesList.routesList).map((v, k) => {
 				if (v.path === `/${currentPathSplit[1]}`) {
 					v['k'] = k;
