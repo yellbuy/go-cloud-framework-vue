@@ -15,13 +15,13 @@
 						</el-button-group>
 					</el-form-item>
 					<el-form-item>
-						<el-button  @click="onResetSearch">
+						<el-button type="info" @click="onResetSearch">
 							<el-icon>
 								<elementRefreshLeft />
 							</el-icon>
 							{{ $t('message.action.reset') }}
 						</el-button>
-						<el-button  @click="onGetTableData(true)">
+						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
 								<elementSearch />
 							</el-icon>

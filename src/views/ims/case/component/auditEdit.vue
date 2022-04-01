@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%">
+		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close :key="ruleForm.Id" v-if="ruleForm.Sn" width="80%">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules"  label-width="90px" v-loading="loading">
 				<table class="yb-table" style="width:100%">
 					<thead>
@@ -148,12 +148,12 @@
 							<td class="bg-gray text-right" rowspan="2">审核</td>
 							<td colspan="9" v-if="editMode">
 								<el-radio-group v-model="ruleForm.InsurerAuditState" v-if="step==2">
-									<el-radio label="10">通过</el-radio>
-									<el-radio label="5">驳回</el-radio>
+									<el-radio :label="10">通过</el-radio>
+									<el-radio :label="5">驳回</el-radio>
 								</el-radio-group>
 								<el-radio-group v-model="ruleForm.InsurerReviewState" v-else-if="step==3">
-									<el-radio label="10">通过</el-radio>
-									<el-radio label="5">驳回</el-radio>
+									<el-radio :label="10">通过</el-radio>
+									<el-radio :label="5">驳回</el-radio>
 								</el-radio-group>
 							</td>
 							<td colspan="9" v-else-if="step==2">
@@ -197,7 +197,7 @@
 import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElMessageBox } from 'element-plus';
+import { ElMessage,ElMessageBox } from 'element-plus';
 import imgList from '/@/components/image/index.vue';
 import checkTag from '/@/components/checkTag/index.vue';
 export default {
@@ -210,11 +210,14 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		const state = reactive({
-			isShowDialog: false,
+			isShowDialog: true,
 			title:t('message.action.audit'),
 			loading:false,
 			editMode:false,
 			ruleForm: {
+				Id:0,
+				InsurerAuditState:0,
+				InsurerReviewState:0,
 			},
 			deptData: [], // 部门数据
 		});
@@ -239,18 +242,18 @@ export default {
 		const openDialog = (editMode:Boolean,row: Object) => {
 			state.loading=false
 			state.editMode = editMode;
-			
+			state.isShowDialog = true;
 			if(editMode){
 				if(props.step==2){
-					state.ruleForm.InsurerAuditState=2;
-					state.ruleForm.InsurerAuditContent="";
+					row.InsurerAuditState=2;
+					row.InsurerAuditContent="";
 				} else if(props.step==3){
-					state.ruleForm.InsurerReviewState=2;
-					state.ruleForm.InsurerReviewContent="";
+					row.InsurerReviewState=2;
+					row.InsurerReviewContent="";
 				}
 			}
 			state.ruleForm = row;
-			state.isShowDialog = true;
+			
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -270,7 +273,7 @@ export default {
 				}
 				if(state.ruleForm.InsurerAuditState==5 && state.ruleForm.InsurerAuditContent==""){
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {})
-					return;
+					return false;
 				}
 			} else if(props.step==3){
 				state.ruleForm.InsurerReviewState=Number(state.ruleForm.InsurerReviewState)
@@ -280,7 +283,8 @@ export default {
 				}
 				if(state.ruleForm.InsurerReviewState==5 && state.ruleForm.InsurerReviewContent==""){
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {})
-					return;
+					
+					return false;
 				}
 			}
 
@@ -298,6 +302,8 @@ export default {
 						if(res.errcode==0){
 							closeDialog();
 							proxy.$parent.onGetTableData();
+						}else{
+							return false;
 						}
 					}).catch((err)=>{
 						state.loading=false;
@@ -307,6 +313,7 @@ export default {
 					return false;
 				}
 			});
+			return false;
 		};
 		// 页面加载时
 		onMounted(() => {

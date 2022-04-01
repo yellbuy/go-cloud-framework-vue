@@ -1,6 +1,257 @@
 <template>
 	<el-tabs type="border-card">
-		<el-tab-pane :label="group.Name" v-for="(group,index) in list"  :key="index">
+		<el-tab-pane :key="0" label="应用">
+			<el-form :model="ruleForm" ref="formRef_" label-width="70px">
+				<el-row :gutter="35">
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="名称"
+							:prop="ruleForm.Name"
+							:rules="[{ required: true, message: `名称不能为空`, trigger: 'blur' }]">
+							<el-input
+								v-model="ruleForm.Name"
+								placeholder="请输入名称"
+							></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="全名"
+							:prop="ruleForm.FullName">
+							<el-input
+								v-model="ruleForm.FullName"
+								placeholder="请输入全名"
+							></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="代码"
+							:prop="ruleForm.Code">
+							<el-input
+								v-model="ruleForm.Code"
+								placeholder="请输入代码"
+							></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="绑定域名"
+							:prop="ruleForm.Domain">
+							<el-input
+								v-model="ruleForm.Domain"
+								placeholder="请输入绑定域名"
+							></el-input>
+							<p title="绑定域名" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>可同时绑定多个域名，多个域名以英文“,”号分割</span></p>
+						</el-form-item>
+					</el-col>
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="Appid"
+							:prop="ruleForm.Appid">
+							<el-input
+								v-model="ruleForm.Appid"
+								disabled
+							></el-input>
+							<p title="绑定域名" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>应用标识，不可修改</span></p>
+						</el-form-item>
+					</el-col>
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="AppKey"
+							:prop="ruleForm.AppKey">
+							<el-input
+								type="password"
+								show-password
+								v-model="ruleForm.AppKey"
+								placeholder="AppKey"
+							></el-input>
+							<p title="绑定域名" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>修改后，API调用参数也需同步修改，否则会导致调用失败</span></p>
+						</el-form-item>
+					</el-col>
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="主页"
+							:prop="ruleForm.Homepage">
+							<el-input
+								v-model="ruleForm.Homepage"
+								placeholder="请输入主页"
+							></el-input>
+						</el-form-item>
+					</el-col>
+					
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="联系人"
+							:prop="ruleForm.Linkman">
+							<el-input
+								v-model="ruleForm.Linkman"
+								placeholder="请输入联系人"
+							></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="电话"
+							:prop="ruleForm.Phone">
+							<el-input
+								v-model="ruleForm.Phone"
+								placeholder="请输入电话"
+							></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="地址"
+							:prop="ruleForm.Addr">
+							<el-input
+								v-model="ruleForm.Addr"
+								placeholder="请输入地址"
+							></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="版权信息"
+							:prop="ruleForm.Copyright">
+							<el-input
+								v-model="ruleForm.Copyright"
+								placeholder="请输入版权信息"
+							></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20">
+						<el-form-item 
+							label="描述"
+							:prop="ruleForm.Desc">
+							<el-input
+								v-model="ruleForm.Desc"
+								placeholder="请输入描述"
+							></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="24"
+						:lg="24"
+						:xl="24"
+						class="mb20">
+						<el-form-item 
+							label="Logo"
+							:prop="ruleForm.Logo">
+							<el-upload
+								class="avatar-uploader"
+								:action="`${baseUrl}/v1/file/upload`"
+								name="file"
+								:headers="{Appid:appid,Authorization:token}"
+								:show-file-list="false"
+								:on-success="onImageUploadSuccess"
+								:before-upload="onBeforeImageUpload"
+							>
+								<img v-if="ruleForm.Logo" :src="baseStaticUrl+ruleForm.Logo" class="avatar" />
+								<SvgIcon v-else name="fa fa-plus" class="avatar-uploader-icon"/>
+							</el-upload>
+						</el-form-item>
+					</el-col>
+					
+					<el-col
+						:xs="24"
+						:sm="24"
+						:md="24"
+						:lg="24"
+						:xl="24"
+						class="mb20">
+						<el-form-item 
+							label="备注"
+							:prop="ruleForm.Remark">
+							<el-input
+								v-model="ruleForm.Remark"
+								placeholder="请输入备注"
+							></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-divider />
+				<div style="text-align:right">
+					<!-- <el-button native-type="reset" >{{ $t('message.action.reset') }}</el-button> -->
+					<el-button type="primary" @click="onInfoSubmit" :loading="loading" v-auths:[moduleKey]="['btn.Save']">{{ $t('message.action.save') }}</el-button>
+				</div>
+			</el-form>
+		</el-tab-pane>
+		<el-tab-pane :label="group.Name" v-for="(group,index) in list"  :key="index+1">
 			<el-form :model="groupItems[group.Key].items" :ref="'form_'+group.Key" label-width="160px">
 				<el-row :gutter="35">
 					<el-col
@@ -118,7 +369,7 @@
 				<el-divider />
 				<div style="text-align:right">
 					<!-- <el-button native-type="reset" >{{ $t('message.action.reset') }}</el-button> -->
-					<el-button type="primary" @click="onSubmit(group.Key)" :groupKey="group.Key"  :loading="loading" v-auths:[$parent.moduleKey]="['btn.UserEdit','btn.UserAdd']">{{ $t('message.action.save') }}</el-button>
+					<el-button type="primary" @click="onSubmit(group.Key)" :groupKey="group.Key"  :loading="loading" v-auths:[moduleKey]="['btn.Save']">{{ $t('message.action.save') }}</el-button>
 				</div>
 			</el-form>
 		</el-tab-pane>
@@ -148,6 +399,7 @@ export default {
 			moduleKey: moduleKey,
 			list:[],
 			groupItems:{},
+			ruleForm:{},
 		});
 		// 页面加载时
 		onMounted(() => {
@@ -225,6 +477,9 @@ export default {
 				state.loading = false;
 			});
 		};
+		const onInfoSubmit=()=>{
+
+		}
 		const onSubmit=(groupKey:String)=>{
 			if(groupKey==""){
 				//此处为基本信息管理
@@ -285,6 +540,7 @@ export default {
 
 		return {
 			proxy,
+			onInfoSubmit,
 			onSubmit,
 			onBeforeImageUpload,
 			onImageUploadSuccess,
