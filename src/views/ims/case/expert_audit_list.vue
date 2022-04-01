@@ -73,6 +73,7 @@
 						<el-tag type="success" effect="plain" size="small" v-if="scope.row.InsurerReviewState == 10">通过</el-tag>
 						<el-tag type="danger" effect="plain" size="small" v-else-if="scope.row.InsurerReviewState == 5">驳回</el-tag>
 						<el-tag type="primary" effect="plain" size="small" v-else-if="scope.row.InsurerReviewState > 0">待审</el-tag>
+						<el-tag type="warning" effect="plain" size="small" v-else-if="scope.row.InsurerReviewState == 0">请执行上一步</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>

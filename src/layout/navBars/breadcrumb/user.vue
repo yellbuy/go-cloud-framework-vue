@@ -64,11 +64,13 @@
 			</span>
 			<template #dropdown>
 				<el-dropdown-menu>
-					<el-dropdown-item command="/home">{{ $t('message.user.dropdown1') }}</el-dropdown-item>
+					<el-dropdown-item command="/">{{ $t('message.user.dropdown1') }}</el-dropdown-item>
 					<!-- <el-dropdown-item command="wareHouse">{{ $t('message.user.dropdown6') }}</el-dropdown-item> -->
-					<el-dropdown-item command="/personal">{{ $t('message.user.dropdown2') }}</el-dropdown-item>
-					<el-dropdown-item divided command="returnProxyParent" v-if="getUserInfos.isProxy>0">{{ $t('message.base.action.proxyParent') }}</el-dropdown-item>
-					<el-dropdown-item command="returnProxyTop" v-if="getUserInfos.isProxy>0">{{ $t('message.base.action.proxyTop') }}</el-dropdown-item>
+					<el-dropdown-item command="/base/user/profile">{{ $t('message.user.dropdown2') }}</el-dropdown-item>
+					<el-dropdown-item divided command="returnProxyParent" v-if="getUserInfos.isProxy > 0">{{
+						$t('message.base.action.proxyParent')
+					}}</el-dropdown-item>
+					<el-dropdown-item command="returnProxyTop" v-if="getUserInfos.isProxy > 0">{{ $t('message.base.action.proxyTop') }}</el-dropdown-item>
 					<!-- <el-dropdown-item command="/404">{{ $t('message.user.dropdown3') }}</el-dropdown-item>
 					<el-dropdown-item command="/401">{{ $t('message.user.dropdown4') }}</el-dropdown-item> -->
 					<el-dropdown-item divided command="logOut">{{ $t('message.user.dropdown5') }}</el-dropdown-item>
@@ -112,7 +114,7 @@ export default {
 		});
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
-			console.log("store.state.userInfos.userInfos:",store.state.userInfos.userInfos)
+			console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
 		// 获取布局配置信息
@@ -145,61 +147,61 @@ export default {
 		};
 		// 下拉菜单点击时
 		const onHandleCommandClick = (path: string) => {
-			if(path=="returnProxyParent"||path=="returnProxyTop"){
-				const isTop=path=="returnProxyTop";
+			if (path == 'returnProxyParent' || path == 'returnProxyTop') {
+				const isTop = path == 'returnProxyTop';
 				request({
 					url: '/v1/base/proxy/return',
 					method: 'post',
-					params:{isTop:isTop}
+					params: { isTop: isTop },
 				})
-				.then((res) => {
-					if(res.errcode==0){
-						ElMessage.success({
-							showClose: true,
-							duration:2400,
-							message: t('message.base.action.proxySuccess'),
-							onClose:async function(){
-								try{
-									let defaultRoles: Array<string> = [];
-									let defaultAuthBtnList: Array<string> = [];
-									Session.clear();
-									const avatar=import.meta.env.VITE_API_URL+'/v1/avatar/user/'+res.data.user.Id+".jpg"
-									//console.debug(avatar)
-									// 用户信息模拟数据
-									const userInfos = {
-										username: res.data.user.Username,
-										realname:res.data.user.Name || res.data.user.NickName || res.data.user.Username,
-										photo:avatar,
-										time: new Date().getTime(),
-										roles: ["api"],
-										authBtnList: defaultAuthBtnList,
-										isProxy:res.data.user.IsProxy,
-									};
-									// 存储 token 到浏览器缓存
-									Session.set('token', res.data.token);
-									// 存储用户信息到浏览器缓存
-									Session.set('userInfo', userInfos);
-									Session.set('expiresToken',res.data.expiresAt);
-									Session.set("refreshTokenAt",res.data.refreshTokenAt);
-									// 1、请注意执行顺序(存储用户信息到vuex)
-									store.dispatch('userInfos/setUserInfos', userInfos);
-									resetRoute(); // 删除/重置路由
-									window.location.href="/";
-								} catch(err){
-									console.error(err)
-								}
-							}
-						})
-					}
-				})
-				.catch((err) => {
-					ElMessage({
-						showClose: true,
-						message: err,
-						type: 'error',
+					.then((res) => {
+						if (res.errcode == 0) {
+							ElMessage.success({
+								showClose: true,
+								duration: 2400,
+								message: t('message.base.action.proxySuccess'),
+								onClose: async function () {
+									try {
+										let defaultRoles: Array<string> = [];
+										let defaultAuthBtnList: Array<string> = [];
+										Session.clear();
+										const avatar = import.meta.env.VITE_API_URL + '/v1/avatar/user/' + res.data.user.Id + '.jpg';
+										//console.debug(avatar)
+										// 用户信息模拟数据
+										const userInfos = {
+											username: res.data.user.Username,
+											realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
+											photo: avatar,
+											time: new Date().getTime(),
+											roles: ['api'],
+											authBtnList: defaultAuthBtnList,
+											isProxy: res.data.user.IsProxy,
+										};
+										// 存储 token 到浏览器缓存
+										Session.set('token', res.data.token);
+										// 存储用户信息到浏览器缓存
+										Session.set('userInfo', userInfos);
+										Session.set('expiresToken', res.data.expiresAt);
+										Session.set('refreshTokenAt', res.data.refreshTokenAt);
+										// 1、请注意执行顺序(存储用户信息到vuex)
+										store.dispatch('userInfos/setUserInfos', userInfos);
+										resetRoute(); // 删除/重置路由
+										window.location.href = '/';
+									} catch (err) {
+										console.error(err);
+									}
+								},
+							});
+						}
 					})
-				});
-			} else if(path === 'logOut') {
+					.catch((err) => {
+						ElMessage({
+							showClose: true,
+							message: err,
+							type: 'error',
+						});
+					});
+			} else if (path === 'logOut') {
 				ElMessageBox({
 					closeOnClickModal: false,
 					closeOnPressEscape: false,
@@ -235,6 +237,7 @@ export default {
 			} else if (path === 'wareHouse') {
 				window.open('https://gitee.com/lyt-top/vue-next-admin');
 			} else {
+				console.log('跳转的页面', path);
 				router.push(path);
 			}
 		};
@@ -313,7 +316,7 @@ export default {
 				initComponentSize();
 			}
 		});
-		
+
 		return {
 			getUserInfos,
 			onLayoutSetingClick,

@@ -1,6 +1,6 @@
 <template>
 	<el-form class="login-content-form" size="default">
-		<el-form-item class="login-animation-one" >
+		<el-form-item class="login-animation-one">
 			<el-input type="text" :placeholder="$t('message.account.accountPlaceholder1')" v-model="ruleForm.username" clearable autocomplete="off">
 				<template #prefix>
 					<el-icon class="el-input__icon"><elementUser /></el-icon>
@@ -82,13 +82,13 @@ export default defineComponent({
 		const store = useStore();
 		const route = useRoute();
 		const router = useRouter();
-		const isDevEnv=process.env.NODE_ENV === 'development';
+		const isDevEnv = process.env.NODE_ENV === 'development';
 		const state = reactive({
 			isShowPassword: false,
 			ruleForm: {
-				username: isDevEnv?'admin':'',
-				password: isDevEnv?'123456':'',
-				code: isDevEnv?'1234':'',
+				username: isDevEnv ? 'admin' : '',
+				password: isDevEnv ? '123456' : '',
+				code: isDevEnv ? '1234' : '',
 			},
 			loading: {
 				signIn: false,
@@ -120,30 +120,31 @@ export default defineComponent({
 				defaultRoles = testRoles;
 				defaultAuthBtnList = testAuthBtnList;
 			}
-			try{
-				const res= await signIn(state.ruleForm);
+			try {
+				const res = await signIn(state.ruleForm);
 				state.loading.signIn = false;
-				if(res.errcode!=0){
+				if (res.errcode != 0) {
 					return;
 				}
-				const avatar=import.meta.env.VITE_API_URL+'/v1/avatar/user/'+res.data.user.Id+".jpg"
+				const avatar = import.meta.env.VITE_API_URL + '/v1/avatar/user/' + res.data.user.Id + '.jpg';
 				//console.debug(avatar)
 				// 用户信息模拟数据
 				const userInfos = {
+					userid: res.data.user.Id,
 					username: res.data.user.Username,
-					realname:res.data.user.Name || res.data.user.NickName || res.data.user.Username,
-					photo:avatar,
+					realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
+					photo: avatar,
 					time: new Date().getTime(),
-					roles: ["api"],
+					roles: ['api'],
 					authBtnList: defaultAuthBtnList,
-					isProxy:res.data.user.IsProxy,
+					isProxy: res.data.user.IsProxy,
 				};
 				// 存储 token 到浏览器缓存
 				Session.set('token', res.data.token);
 				// 存储用户信息到浏览器缓存
 				Session.set('userInfo', userInfos);
-				Session.set('expiresToken',res.data.expiresAt);
-				Session.set("refreshTokenAt",res.data.refreshTokenAt);
+				Session.set('expiresToken', res.data.expiresAt);
+				Session.set('refreshTokenAt', res.data.refreshTokenAt);
 				// 1、请注意执行顺序(存储用户信息到vuex)
 				store.dispatch('userInfos/setUserInfos', userInfos);
 				if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
@@ -157,10 +158,9 @@ export default defineComponent({
 					// 执行完 initBackEndControlRoutes，再执行 signInSuccess
 					signInSuccess();
 				}
-			} catch(err){
+			} catch (err) {
 				state.loading.signIn = false;
 			}
-			
 		};
 		// 登录成功后的跳转
 		const signInSuccess = () => {
