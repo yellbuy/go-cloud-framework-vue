@@ -76,11 +76,9 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import { Session, Local } from '/@/utils/storage';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
 import { resetRoute } from '/@/router/index';
 import other from '/@/utils/other';
-import { getUserList } from '/@/api/base/user';
-import func from 'vue-editor-bridge';
+
 export default {
 	name: 'baseUsers',
 

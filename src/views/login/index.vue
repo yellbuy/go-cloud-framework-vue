@@ -32,6 +32,7 @@
 
 <script lang="ts">
 import { toRefs, reactive, computed } from 'vue';
+import {useRoute} from 'vue-router';
 import Account from '/@/views/login/component/account.vue';
 import Mobile from '/@/views/login/component/mobile.vue';
 import Scan from '/@/views/login/component/scan.vue';
@@ -40,6 +41,8 @@ export default {
 	name: 'loginIndex',
 	components: { Account, Mobile, Scan },
 	setup() {
+		const route=useRoute();
+		console.log(route)
 		const store = useStore();
 		const state = reactive({
 			tabsActiveName: 'account',
