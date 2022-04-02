@@ -35,11 +35,14 @@
 
 <script lang="ts">
 import { toRefs, reactive, defineComponent } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 export default defineComponent({
 	name: 'loginMobile',
 	setup() {
+		const route = useRoute();
 		const state = reactive({
 			ruleForm: {
+				appid:route.query.appid||"",
 				userName: '',
 				code: '',
 			},

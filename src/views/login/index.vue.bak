@@ -1,8 +1,7 @@
 <template>
 	<div class="login-container">
 		<div class="login-logo">
-			<img :src="app.LogoUrl" v-if="app.Id" width="100" height="100"/>
-			<span v-else>{{ app.Name||getThemeConfig.globalViceTitle }}</span>
+			<span v-if="app.Id>0">{{ app.Name||getThemeConfig.globalViceTitle }}</span>
 		</div>
 		<div class="login-content">
 			<div class="login-content-main">
@@ -24,12 +23,9 @@
 				</div> -->
 			</div>
 		</div>
-		<div class="login-copyright" v-if="app.Copyright">
-			<div class="mb5 login-copyright-company" v-html="app.Copyright"></div>
-		</div>
-		<div class="login-copyright" v-else>
-			<!-- <div class="mb5 login-copyright-company" >{{ $t('message.copyright.one5') }}</div>
-			<div class="login-copyright-msg">{{ $t('message.copyright.two6') }}</div> -->
+		<div class="login-copyright" v-if="app.Id>0">
+			<div class="mb5 login-copyright-company" >{{ $t('message.copyright.one5') }}</div>
+			<div class="login-copyright-msg">{{ $t('message.copyright.two6') }}</div>
 		</div>
 	</div>
 </template>
@@ -73,7 +69,6 @@ export default {
 			}).then((res)=>{
 				if(res.errcode==0){
 					state.app=res.data||{}
-					state.app.LogoUrl=import.meta.env.VITE_API_URL+"/v1/avatar/app/"+curAppid+".png"
 				}
 			}).catch((err)=>{
 				console.log(err)

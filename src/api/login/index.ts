@@ -18,11 +18,12 @@ export async function getUserList(params: object) {
  * @param params 要传的参数值
  * @returns 返回接口数据
  */
-export async function signIn(params: object) {
+export async function signIn(data: object,params:object) {
 	return await request({
 		url: '/v2/base/user/login', //后端登录接口地址
 		method: 'post',
-		data: params,
+		params:params,
+		data: data,
 	});
 }
 /**
