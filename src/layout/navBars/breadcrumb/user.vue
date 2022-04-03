@@ -114,7 +114,7 @@ export default {
 		});
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
-			console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
+			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
 		// 获取布局配置信息
@@ -176,6 +176,8 @@ export default {
 											roles: ['api'],
 											authBtnList: defaultAuthBtnList,
 											isProxy: res.data.user.IsProxy,
+											app:res.data.user.App||{},
+											tenant:res.data.user.Tenant||{},
 										};
 										// 存储 token 到浏览器缓存
 										Session.set('token', res.data.token);

@@ -232,6 +232,8 @@ export default {
 										roles: ["api"],
 										authBtnList: defaultAuthBtnList,
 										isProxy:res.data.user.IsProxy,
+										app:res.data.user.App||{},
+										tenant:res.data.user.Tenant||{},
 									};
 									// 存储 token 到浏览器缓存
 									Session.set('token', res.data.token);

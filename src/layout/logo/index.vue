@@ -1,10 +1,10 @@
 <template>
 	<div class="layout-logo" v-if="setShowLogo" @click="onThemeConfigChange">
-		<img src="/public/logo.ico" class="layout-logo-medium-img" />
-		<span>{{ getThemeConfig.globalTitle }}</span>
+		<img :src="logoUrl" class="layout-logo-medium-img" />
+		<span>{{ globalTitle }}</span>
 	</div>
 	<div class="layout-logo-size" v-else @click="onThemeConfigChange">
-		<img src="/public/logo.ico" class="layout-logo-size-img" />
+		<img :src="logoUrl" class="layout-logo-size-img" />
 	</div>
 </template>
 
@@ -20,6 +20,22 @@ export default {
 		const getThemeConfig = computed(() => {
 			return store.state.themeConfig.themeConfig;
 		});
+		// 获取用户信息 vuex
+		const logoUrl = computed(() => {
+			let imgUrl='/public/logo.ico';
+			if(store.state.userInfos.userInfos.tenant.Logo){
+				imgUrl=import.meta.env.VITE_URL+store.state.userInfos.userInfos.tenant.Logo;
+			} else if(store.state.userInfos.userInfos.app.Logo){
+				imgUrl=import.meta.env.VITE_URL+store.state.userInfos.userInfos.app.Logo;
+			}
+			
+			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
+			return imgUrl
+		});
+		// 获取用户信息 vuex
+		const globalTitle = computed(() => {
+			return store.state.userInfos.userInfos.tenant.Name || store.state.userInfos.userInfos.app.Name || store.state.themeConfig.themeConfig.globalTitle;
+		});
 		// 设置 logo 的显示。classic 经典布局默认显示 logo
 		const setShowLogo = computed(() => {
 			let { isCollapse, layout } = store.state.themeConfig.themeConfig;
@@ -32,6 +48,8 @@ export default {
 			store.state.themeConfig.themeConfig.isCollapse = !store.state.themeConfig.themeConfig.isCollapse;
 		};
 		return {
+			logoUrl,
+			globalTitle,
 			setShowLogo,
 			getThemeConfig,
 			onThemeConfigChange,

@@ -1,7 +1,7 @@
 <template>
-	<el-tabs type="border-card">
-		<el-tab-pane :key="0" label="应用">
-			<el-form :model="ruleForm" ref="formRef_" label-width="70px">
+	<el-tabs type="border-card" ref="tabsRef">
+		<el-tab-pane :key="0" :label="scopeKind==2?'应用':'实体'" v-if="scopeKind==2|| scopeKind==3">
+			<el-form :model="ruleForm" ref="formRef" label-width="70px">
 				<el-row :gutter="35">
 					<el-col
 						:xs="24"
@@ -12,7 +12,7 @@
 						class="mb20">
 						<el-form-item 
 							label="名称"
-							:prop="ruleForm.Name"
+							prop="Name"
 							:rules="[{ required: true, message: `名称不能为空`, trigger: 'blur' }]">
 							<el-input
 								v-model="ruleForm.Name"
@@ -29,7 +29,7 @@
 						class="mb20">
 						<el-form-item 
 							label="全名"
-							:prop="ruleForm.FullName">
+							prop="FullName">
 							<el-input
 								v-model="ruleForm.FullName"
 								placeholder="请输入全名"
@@ -45,7 +45,7 @@
 						class="mb20">
 						<el-form-item 
 							label="代码"
-							:prop="ruleForm.Code">
+							prop="Code">
 							<el-input
 								v-model="ruleForm.Code"
 								placeholder="请输入代码"
@@ -58,10 +58,10 @@
 						:md="12"
 						:lg="8"
 						:xl="8"
-						class="mb20">
+						class="mb20" v-if="scopeKind==2">
 						<el-form-item 
 							label="绑定域名"
-							:prop="ruleForm.Domain">
+							prop="Domain">
 							<el-input
 								v-model="ruleForm.Domain"
 								placeholder="请输入绑定域名"
@@ -75,15 +75,15 @@
 						:md="12"
 						:lg="8"
 						:xl="8"
-						class="mb20">
+						class="mb20" v-if="scopeKind==2">
 						<el-form-item 
 							label="Appid"
-							:prop="ruleForm.Appid">
+							prop="Appid">
 							<el-input
 								v-model="ruleForm.Appid"
 								disabled
 							></el-input>
-							<p title="绑定域名" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>应用标识，不可修改</span></p>
+							<p title="应用标识" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>应用标识，不可修改</span></p>
 						</el-form-item>
 					</el-col>
 					<el-col
@@ -92,17 +92,53 @@
 						:md="12"
 						:lg="8"
 						:xl="8"
-						class="mb20">
+						class="mb20" v-else>
+						<el-form-item 
+							label="Tid"
+							prop="Tid">
+							<el-input
+								v-model="ruleForm.Tid"
+								disabled
+							></el-input>
+							<p title="实体标识" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>实体标识，不可修改</span></p>
+						</el-form-item>
+					</el-col>
+					<el-col v-auth:[moduleKey]="'btn.Model'"
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20" v-if="scopeKind==2">
 						<el-form-item 
 							label="AppKey"
-							:prop="ruleForm.AppKey">
+							prop="AppKey">
 							<el-input
 								type="password"
 								show-password
 								v-model="ruleForm.AppKey"
 								placeholder="AppKey"
 							></el-input>
-							<p title="绑定域名" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>修改后，API调用参数也需同步修改，否则会导致调用失败</span></p>
+							<p title="AppKey" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>修改后，API调用参数也需同步修改，否则会导致调用失败</span></p>
+						</el-form-item>
+					</el-col>
+					<el-col v-auth:[moduleKey]="'btn.Model'"
+						:xs="24"
+						:sm="24"
+						:md="12"
+						:lg="8"
+						:xl="8"
+						class="mb20" v-else>
+						<el-form-item 
+							label="TenantKey"
+							prop="TenantKey">
+							<el-input
+								type="password"
+								show-password
+								v-model="ruleForm.TenantKey"
+								placeholder="TenantKey"
+							></el-input>
+							<p title="TenantKey" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>修改后，API调用参数也需同步修改，否则会导致调用失败</span></p>
 						</el-form-item>
 					</el-col>
 					<el-col
@@ -111,10 +147,10 @@
 						:md="12"
 						:lg="8"
 						:xl="8"
-						class="mb20">
+						class="mb20" v-if="scopeKind==2">
 						<el-form-item 
 							label="主页"
-							:prop="ruleForm.Homepage">
+							prop="Homepage">
 							<el-input
 								v-model="ruleForm.Homepage"
 								placeholder="请输入主页"
@@ -131,7 +167,7 @@
 						class="mb20">
 						<el-form-item 
 							label="联系人"
-							:prop="ruleForm.Linkman">
+							prop="Linkman">
 							<el-input
 								v-model="ruleForm.Linkman"
 								placeholder="请输入联系人"
@@ -147,7 +183,7 @@
 						class="mb20">
 						<el-form-item 
 							label="电话"
-							:prop="ruleForm.Phone">
+							prop="Phone">
 							<el-input
 								v-model="ruleForm.Phone"
 								placeholder="请输入电话"
@@ -163,7 +199,7 @@
 						class="mb20">
 						<el-form-item 
 							label="地址"
-							:prop="ruleForm.Addr">
+							prop="Addr">
 							<el-input
 								v-model="ruleForm.Addr"
 								placeholder="请输入地址"
@@ -179,7 +215,7 @@
 						class="mb20">
 						<el-form-item 
 							label="版权信息"
-							:prop="ruleForm.Copyright">
+							prop="Copyright">
 							<el-input
 								v-model="ruleForm.Copyright"
 								placeholder="请输入版权信息"
@@ -195,14 +231,14 @@
 						class="mb20">
 						<el-form-item 
 							label="描述"
-							:prop="ruleForm.Desc">
+							prop="Desc">
 							<el-input
 								v-model="ruleForm.Desc"
 								placeholder="请输入描述"
 							></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col
+					<el-col v-auth:[moduleKey]="'btn.Model'"
 						:xs="24"
 						:sm="24"
 						:md="24"
@@ -211,14 +247,14 @@
 						class="mb20">
 						<el-form-item 
 							label="Logo"
-							:prop="ruleForm.Logo">
+							prop="Logo">
 							<el-upload
 								class="avatar-uploader"
 								:action="`${baseUrl}/v1/file/upload`"
 								name="file"
 								:headers="{Appid:appid,Authorization:token}"
 								:show-file-list="false"
-								:on-success="onImageUploadSuccess"
+								:on-success="onLogoUploadSuccess"
 								:before-upload="onBeforeImageUpload"
 							>
 								<img v-if="ruleForm.Logo" :src="baseStaticUrl+ruleForm.Logo" class="avatar" />
@@ -236,7 +272,7 @@
 						class="mb20">
 						<el-form-item 
 							label="备注"
-							:prop="ruleForm.Remark">
+							prop="Remark">
 							<el-input
 								v-model="ruleForm.Remark"
 								placeholder="请输入备注"
@@ -247,10 +283,11 @@
 				<el-divider />
 				<div style="text-align:right">
 					<!-- <el-button native-type="reset" >{{ $t('message.action.reset') }}</el-button> -->
-					<el-button type="primary" @click="onInfoSubmit" :loading="loading" v-auths:[moduleKey]="['btn.Save']">{{ $t('message.action.save') }}</el-button>
+					<el-button type="primary" @click="onSubmitModel" :loading="loading" v-auth:[moduleKey]="'btn.Model'">{{ $t('message.action.save') }}</el-button>
 				</div>
 			</el-form>
 		</el-tab-pane>
+		
 		<el-tab-pane :label="group.Name" v-for="(group,index) in list"  :key="index+1">
 			<el-form :model="groupItems[group.Key].items" :ref="'form_'+group.Key" label-width="160px">
 				<el-row :gutter="35">
@@ -369,7 +406,7 @@
 				<el-divider />
 				<div style="text-align:right">
 					<!-- <el-button native-type="reset" >{{ $t('message.action.reset') }}</el-button> -->
-					<el-button type="primary" @click="onSubmit(group.Key)" :groupKey="group.Key"  :loading="loading" v-auths:[moduleKey]="['btn.Save']">{{ $t('message.action.save') }}</el-button>
+					<el-button type="primary" @click="onSubmit(group.Key)" :groupKey="group.Key"  :loading="loading" v-auth:[moduleKey]="'btn.Save'">{{ $t('message.action.save') }}</el-button>
 				</div>
 			</el-form>
 		</el-tab-pane>
@@ -377,21 +414,24 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, getCurrentInstance } from 'vue';
+import { toRefs, reactive, onMounted, ref, getCurrentInstance,computed } from 'vue';
 import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
 import { Session } from '/@/utils/storage';
 import {request,appid} from '/@/utils/request';
 import { emitKeypressEvents } from 'readline';
+import { useStore } from '/@/store/index';
 export default {
 	name: 'commonSetting',
 	components: {  },
 	setup(props,context) {
 		const moduleKey = 'api_common_setting';
 		const { proxy } = getCurrentInstance() as any;
+		const store = useStore();
 		const token = Session.get('token');
 		const state = reactive({
 			baseUrl:import.meta.env.VITE_API_URL,
 			baseStaticUrl:import.meta.env.VITE_URL,
+			scopeKind:0,
 			token:token,
 			appid:appid,
 			loading:false,
@@ -401,23 +441,27 @@ export default {
 			groupItems:{},
 			ruleForm:{},
 		});
+		
 		// 页面加载时
 		onMounted(() => {
+			//proxy.$refs.tabsRef.$children['model'].$el.style.display = 'none';
 			onLoadData();
 		});
 		//设置数据
 		const onLoadData = () => {
 			state.loading = true;
 			request({
-				url:'/v2/common/setting/group',
+				url:'/v1/admin/common/setting/group',
 				method:'get',
 				params:state.groupKey
 			}).then((res) => {
 				state.loading = false;
 				if(res.errcode==0){
 					console.log(res.data);
-					state.list=res.data;
-					for(const val of res.data){
+					state.scopeKind=res.data.scopeKind;
+					state.ruleForm=res.data.model;
+					state.list=res.data.groups;
+					for(const val of res.data.groups){
 						state.groupItems[val.Key]=val;
 						var items={}
 						for(const item of val.Items){
@@ -477,9 +521,48 @@ export default {
 				state.loading = false;
 			});
 		};
-		const onInfoSubmit=()=>{
-
-		}
+		const onSubmitModel=()=>{
+			if(state.scopeKind!=2 && state.scopeKind !=3){
+				return;
+			}
+			const url=state.scopeKind==2?`/v1/admin/base/app/${state.ruleForm.Id}`:`v1/admin/base/tenant/${state.ruleForm.Id}`
+			
+			proxy.$refs.formRef.validate((valid) => {
+				if (valid) {
+					state.loading=true;
+					request({
+						url: url,
+						method: 'post',
+						data: state.ruleForm,
+					}).then((res)=>{
+						state.loading=false;
+						if(res.errcode==0){
+							const userInfos=Session.get('userInfo')
+							let key=""
+							if(state.scopeKind==2){
+								key=state.ruleForm.AppKey;
+								userInfos.app=state.ruleForm;
+								userInfos.app.AppKey="";
+							} else {
+								userInfos.tenant=state.ruleForm;
+								key=state.ruleForm.TenantKey;
+								userInfos.tenant.TenantKey="";
+							}
+							store.dispatch('userInfos/setUserInfos', userInfos);
+							if(state.scopeKind==2){
+								state.ruleForm.AppKey=key;
+							} else {
+								state.ruleForm.TenantKey=key;
+							}
+							ElMessage.success("数据保存成功")
+						}
+					}).catch((err)=>{
+						state.loading=false;
+					});
+					return false;
+				}
+			})
+		};
 		const onSubmit=(groupKey:String)=>{
 			if(groupKey==""){
 				//此处为基本信息管理
@@ -490,7 +573,7 @@ export default {
 					return false;
 				}
 				state.loading=true;
-				const url=`/v2/common/setting/group?groupKey=${groupKey}`
+				const url=`/v1/admin/common/setting/group?groupKey=${groupKey}`
 				request({
 					url: url,
 					method: 'post',
@@ -506,6 +589,17 @@ export default {
 				return false;
 			})
 		};
+
+		const onLogoUploadSuccess: UploadProps['onSuccess'] = (
+			res, uploadFile
+			) => {
+				console.log("onSuccess:",res);
+				if(res.errcode!=0){
+					ElMessage.error(res.errmsg)
+					return;
+				}
+				state.ruleForm.Logo=res.data.src;
+			}
 
 		const onImageUploadSuccess: UploadProps['onSuccess'] = (
 			res, uploadFile
@@ -540,9 +634,10 @@ export default {
 
 		return {
 			proxy,
-			onInfoSubmit,
+			onSubmitModel,
 			onSubmit,
 			onBeforeImageUpload,
+			onLogoUploadSuccess,
 			onImageUploadSuccess,
 			...toRefs(state),
 		};
