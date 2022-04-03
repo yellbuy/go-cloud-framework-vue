@@ -29,7 +29,7 @@ export default {
 				imgUrl=import.meta.env.VITE_URL+store.state.userInfos.userInfos.app.Logo;
 			}
 			
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
+			console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return imgUrl
 		});
 		// 获取用户信息 vuex
