@@ -27,7 +27,7 @@
 				</template>
 			</el-input>
 		</el-form-item>
-		<el-form-item class="login-animation-three">
+		<!-- <el-form-item class="login-animation-three">
 			<el-row :gutter="15">
 				<el-col :span="16">
 					<el-input
@@ -49,7 +49,7 @@
 					</div>
 				</el-col>
 			</el-row>
-		</el-form-item>
+		</el-form-item> -->
 		<el-form-item class="login-animation-four pb10">
 			<el-button type="primary" class="login-content-submit" round @click="onSignIn" :loading="loading.signIn">
 				<span>{{ $t('message.account.accountBtnText') }}</span>
@@ -89,7 +89,7 @@ export default defineComponent({
 			ruleForm: {
 				username: isDevEnv ? 'admin' : '',
 				password: isDevEnv ? '123456' : '',
-				code: isDevEnv ? '1234' : '',
+				code: isDevEnv ? '1234' : '1234',
 			},
 			loading: {
 				signIn: false,
@@ -134,13 +134,15 @@ export default defineComponent({
 				//console.debug(avatar)
 				// 用户信息模拟数据
 				const userInfos = {
-					userid: res.data.user.Id,
+					uid: res.data.user.Id,
 					appid:res.data.user.Appid,
 					tid:res.data.user.Tid,
 					username: res.data.user.Username,
 					realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
-					photo: avatar,
+					mobile:res.data.user.Mobile,
+					avatar: avatar,
 					time: new Date().getTime(),
+					isAdmin:res.data.user.IsAdmin,
 					roles: ['api'],
 					authBtnList: defaultAuthBtnList,
 					isProxy: res.data.user.IsProxy,

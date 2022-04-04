@@ -92,7 +92,7 @@ export default {
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			ruleForm: {
-				Id: store.state.userInfos.userInfos.userid,
+				Id: store.state.userInfos.userInfos.uid,
 			},
 			passState: false,
 		});

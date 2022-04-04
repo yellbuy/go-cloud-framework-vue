@@ -1,22 +1,22 @@
 <template>
 	<div class="home-container">
 		<el-row :gutter="15">
-			<el-col :sm="6" class="mb15">
+			<el-col class="mb15">
 				<div class="home-card-item home-card-first">
 					<div class="flex-margin flex">
 						<img :src="getUserInfos.avatar" />
 						<div class="home-card-first-right ml15">
 							<div class="flex-margin">
 								<div class="home-card-first-right-title">
-									{{ currentTime }}，{{ getUserInfos.realname || getUserInfos.username }}！
+									{{ currentTime }}，{{ getUserInfos.username === '' ? 'test' : getUserInfos.realname || getUserInfos.username }}！
 								</div>
-								<div class="home-card-first-right-msg mt5">{{ getUserInfos.username === 'admin' ? '超级管理员' : '普通用户' }}</div>
+								<div class="home-card-first-right-msg mt5">{{ getUserInfos.isAdmin ? '超级管理员' : '普通用户' }}</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</el-col>
-			<el-col :sm="6" class="mb15" v-for="(v, k) in topCardItemList" :key="k">
+			<!-- <el-col :sm="6" class="mb15" v-for="(v, k) in topCardItemList" :key="k">
 				<div class="home-card-item home-card-item-box" :style="{ background: v.color }">
 					<div class="home-card-item-flex">
 						<div class="home-card-item-title pb3">{{ v.title }}</div>
@@ -26,9 +26,9 @@
 					</div>
 					<i :class="v.icon" :style="{ color: v.iconColor }"></i>
 				</div>
-			</el-col>
+			</el-col> -->
 		</el-row>
-		<el-row :gutter="15">
+		<!-- <el-row :gutter="15">
 			<el-col :xs="24" :sm="14" :md="14" :lg="16" :xl="16" class="mb15">
 				<el-card shadow="hover" :header="$t('message.card.title1')">
 					<div style="height: 200px" ref="homeLaboratoryRef"></div>
@@ -49,8 +49,8 @@
 					</div>
 				</el-card>
 			</el-col>
-		</el-row>
-		<el-row :gutter="15">
+		</el-row> -->
+		<!-- <el-row :gutter="15">
 			<el-col :xs="24" :sm="14" :md="14" :lg="16" :xl="16" class="home-warning-media">
 				<el-card shadow="hover" :header="$t('message.card.title3')" class="home-warning-card">
 					<el-table :data="tableData.data" style="width: 100%" stripe>
@@ -84,14 +84,14 @@
 					</div>
 				</el-card>
 			</el-col>
-		</el-row>
-		<el-row>
+		</el-row> -->
+		<!-- <el-row>
 			<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mt15">
 				<el-card shadow="hover" :header="$t('message.card.title5')">
 					<div style="height: 200px" ref="homeOvertimeRef"></div>
 				</el-card>
 			</el-col>
-		</el-row>
+		</el-row> -->
 	</div>
 </template>
 
@@ -138,6 +138,7 @@ export default {
 		});
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
+			console.log("store.state.userInfos.userInfos：",store.state.userInfos.userInfos)
 			return store.state.userInfos.userInfos;
 		});
 		// 当前时间提示语
@@ -307,10 +308,10 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
-			initNumCountUp();
-			initHomeLaboratory();
-			initHomeOvertime();
-			initEchartsResize();
+			// initNumCountUp();
+			// initHomeLaboratory();
+			// initHomeOvertime();
+			// initEchartsResize();
 		});
 		// 由于页面缓存原因，keep-alive
 		onActivated(() => {

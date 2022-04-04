@@ -78,9 +78,9 @@
 						class="mb20" v-if="scopeKind==2">
 						<el-form-item 
 							label="Appid"
-							prop="Appid">
+							prop="Id">
 							<el-input
-								v-model="ruleForm.Appid"
+								v-model="ruleForm.Id"
 								disabled
 							></el-input>
 							<p title="应用标识" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>应用标识，不可修改</span></p>
@@ -95,9 +95,9 @@
 						class="mb20" v-else>
 						<el-form-item 
 							label="Tid"
-							prop="Tid">
+							prop="Id">
 							<el-input
-								v-model="ruleForm.Tid"
+								v-model="ruleForm.Id"
 								disabled
 							></el-input>
 							<p title="实体标识" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>实体标识，不可修改</span></p>

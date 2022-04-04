@@ -187,13 +187,18 @@ export default {
 									//console.debug(avatar)
 									// 用户信息模拟数据
 									const userInfos = {
+										uid: res.data.user.Id,
+										appid:res.data.user.Appid,
+										tid:res.data.user.Tid,
 										username: res.data.user.Username,
-										realname:res.data.user.Name || res.data.user.NickName || res.data.user.Username,
-										photo:avatar,
+										realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
+										mobile:res.data.user.Mobile,
+										avatar: avatar,
 										time: new Date().getTime(),
-										roles: ["api"],
+										isAdmin:res.data.user.IsAdmin,
+										roles: ['api'],
 										authBtnList: defaultAuthBtnList,
-										isProxy:res.data.user.IsProxy,
+										isProxy: res.data.user.IsProxy,
 										app:res.data.user.App||{},
 										tenant:res.data.user.Tenant||{},
 									};

@@ -56,7 +56,7 @@
 		</div>
 		<el-dropdown :show-timeout="70" :hide-timeout="50" @command="onHandleCommandClick">
 			<span class="layout-navbars-breadcrumb-user-link">
-				<img :src="getUserInfos.photo" class="layout-navbars-breadcrumb-user-link-photo mr5" />
+				<img :src="getUserInfos.avatar" class="layout-navbars-breadcrumb-user-link-photo mr5" />
 				{{ getUserInfos.username === '' ? 'test' : getUserInfos.realname || getUserInfos.username }}
 				<el-icon class="el-icon--right">
 					<elementArrowDown />
@@ -169,10 +169,15 @@ export default {
 										//console.debug(avatar)
 										// 用户信息模拟数据
 										const userInfos = {
+											uid: res.data.user.Id,
+											appid:res.data.user.Appid,
+											tid:res.data.user.Tid,
 											username: res.data.user.Username,
 											realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
-											photo: avatar,
+											mobile:res.data.user.Mobile,
+											avatar: avatar,
 											time: new Date().getTime(),
+											isAdmin:res.data.user.IsAdmin,
 											roles: ['api'],
 											authBtnList: defaultAuthBtnList,
 											isProxy: res.data.user.IsProxy,

@@ -33,7 +33,8 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 			{
 				path: '/admin',
 				name: 'admin',
-				component: () => import('/@/views/home/index.vue'),
+				redirect: '/admin/index',
+				component: () => import('/@/views/home/common.vue'),
 				meta: {
 					title: 'message.router.admin',
 					isLink: '',
