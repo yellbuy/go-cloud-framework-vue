@@ -263,7 +263,8 @@ export default {
 						.then((res) => {
 							if (res.errcode == 0) {
 								if (res.data.Id > 0) {
-									if (res.data.InsurerReviewState > 0) {
+									console.log(res.data.ExpertReviewState);
+									if (res.data.ExpertReviewState > 0) {
 										let url = `/v1/ims/casepersonline/8/${row.Id}`; //专家审核接单
 										request({
 											url: url,
@@ -271,7 +272,7 @@ export default {
 											data: res.data,
 										})
 											.then((code) => {
-												state.loading = false;
+												state.tableData.loading = false;
 												if (code.errcode == 0) {
 													ElMessage.success('操作成功！');
 													onGetTableData();
@@ -305,8 +306,9 @@ export default {
 				.then((res) => {
 					if (res.errcode == 0) {
 						if (res.data.Id > 0) {
-							if (res.data.ExpertAuditState > 0) {
-								if (!editMode || (editMode && res.data.ExpertAuditState)) {
+							console.log(res.data.ExpertReviewState);
+							if (res.data.ExpertReviewState > 0) {
+								if (!editMode || (editMode && res.data.ExpertReviewState)) {
 									dlgEditRef.value.openDialog(editMode, res.data, false);
 									return;
 								}
