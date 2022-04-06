@@ -79,14 +79,13 @@
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
 				<el-table-column label="操作" width="150" fixed="right">
 					<template #default="scope">
-						<el-button size="small" plain type="info" v-if="scope.row.ExpertReviewState > 0" @click="onOpenEditDlg(false, scope.row)">
+						<el-button plain type="info" v-if="scope.row.ExpertReviewState > 0" @click="onOpenEditDlg(false, scope.row)">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							查看
 						</el-button>
 						<el-button
-							size="small"
 							plain
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
@@ -99,7 +98,6 @@
 							审核
 						</el-button>
 						<el-button
-							size="small"
 							plain
 							type="warning"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
