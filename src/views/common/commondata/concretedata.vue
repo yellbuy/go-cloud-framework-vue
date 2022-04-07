@@ -5,29 +5,15 @@
 				<el-tab-pane v-for="(item, key) in concreteDataList.data" :key="key" :label="item.Name" :name="item.Code"> </el-tab-pane>
 				<el-tab-pane label="基础代码" name="concretedata"> </el-tab-pane>
 			</el-tabs>
-			<el-form  :model="tableData.param" class="mb10 text-right"  :inline="true">
-				<el-button type="info" @click="onGetTableData(true)">
-						<el-icon>
-							<elementRefreshLeft />
-						</el-icon>
-						{{ $t('message.action.refresh') }}
-					</el-button>
-					<el-button  type="primary" @click="onOpenCommonDataDlg(0)">
-						<el-icon>
-							<elementPlus />
-						</el-icon>
-						{{ $t('message.action.add') }}
-					</el-button>
-			</el-form>
 			<el-table
 				:data="tableData.data"
 				v-loading="tableData.loading"
-				:height="proxy.$calcMainHeight(-120)"
+				:height="proxy.$calcMainHeight(-90)"
 				border
 				stripe
 				highlight-current-row
 			>
-				<el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip />
+				<el-table-column type="index" width="50" align="right" label="序号" fixed show-overflow-tooltip />
 				<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 				<el-table-column prop="Code" label="编码" show-overflow-tooltip />
 				<el-table-column prop="Status" label="状态" width="70" align="center" show-overflow-tooltip>
@@ -38,18 +24,32 @@
 				</el-table-column>
 				<el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip />
 				<el-table-column fixed="right" label="操作" width="180" show-overflow-tooltip>
+					<template #header>
+						<el-button  type="primary" @click="onOpenCommonDataDlg(0)">
+							<el-icon>
+								<elementCirclePlusFilled />
+							</el-icon>
+							&#8197;{{ $t('message.action.add') }}
+						</el-button>
+						<el-button type="info" @click="onGetTableData(true)">
+							<el-icon>
+								<elementRefresh />
+							</el-icon>
+							&#8197;{{ $t('message.action.refresh') }}
+						</el-button>
+					</template>
 					<template #default="scope">
 						<el-button  type="primary" plain @click="onOpenCommonDataDlg(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
-							{{ $t('message.action.edit') }}
+							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button  type="danger" plain @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
-							{{ $t('message.action.delete') }}
+							&#8197;{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
 				</el-table-column>

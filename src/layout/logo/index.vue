@@ -1,10 +1,10 @@
 <template>
 	<div class="layout-logo" v-if="setShowLogo" @click="onThemeConfigChange">
-		<img :src="logoUrl" class="layout-logo-medium-img" />
+		<el-image class="layout-logo-medium-img" :src="logoUrl" fit="cover" />
 		<span>{{ globalTitle }}</span>
 	</div>
 	<div class="layout-logo-size" v-else @click="onThemeConfigChange">
-		<img :src="logoUrl" class="layout-logo-size-img" />
+		<el-image class="layout-logo-size-img" :src="logoUrl" fit="cover" />
 	</div>
 </template>
 

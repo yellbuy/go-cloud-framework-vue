@@ -10,23 +10,19 @@
 						<el-input  placeholder="请输入姓名查询" v-model="tableData.param.name"> </el-input>
 					</el-form-item>
 					<el-form-item>
-						<el-button  @click="onResetSearch">
+						<el-button type="info" @click="onResetSearch">
 							<el-icon>
 								<elementRefreshLeft />
 							</el-icon>
 							{{ $t('message.action.reset') }}
 						</el-button>
-					</el-form-item>
-					<el-form-item>
-						<el-button  @click="onGetTableData(true)">
+						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
 								<elementSearch />
 							</el-icon>
 							{{ $t('message.action.search') }}
 						</el-button>
-					</el-form-item>
-					<el-form-item v-auth:[moduleKey]="'btn.UserAdd'"> 
-						<el-button  type="primary" @click="onOpenAddUser"  >
+						<el-button  type="primary" @click="onOpenAddUser"  v-auth:[moduleKey]="'btn.UserAdd'">
 							<el-icon>
 								<elementPlus />
 							</el-icon>

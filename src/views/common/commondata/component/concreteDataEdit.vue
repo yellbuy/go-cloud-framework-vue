@@ -31,8 +31,6 @@
 				<el-form-item label="值" prop="Value">
 					<el-input placeholder="请输入值" v-model="ruleForm.Value"> </el-input>
 				</el-form-item>
-				
-
 				<el-form-item label="说明" prop="Desc">
 					<el-input
 						v-model="ruleForm.Desc"
@@ -41,7 +39,6 @@
 						:placeholder="说明"
 					></el-input>
 				</el-form-item>
-				
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -60,7 +57,9 @@ import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import account from '/@/views/login/component/account.vue';
 export default {
+  components: { account },
 	name: 'ConcreteDataEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;

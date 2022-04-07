@@ -2,24 +2,24 @@
 	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" size="mini" :model="tableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="供应商：">
-						<el-input size="mini" placeholder="请输入供应商名称查询" v-model="tableData.param.name"> </el-input>
+						<el-input placeholder="请输入供应商名称查询" v-model="tableData.param.name"> </el-input>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" @click="onResetSearch">
+						<el-button type="info" @click="onResetSearch">
 							<el-icon>
 								<elementRefreshLeft />
 							</el-icon>
 							{{ $t('message.action.reset') }}
 						</el-button>
-						<el-button size="mini" @click="onGetTableData(true)">
+						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
 								<elementSearch />
 							</el-icon>
 							{{ $t('message.action.search') }}
 						</el-button>
-						<el-button size="mini" type="primary" @click="onModelAdd(false)" v-auth:[moduleKey]="'btn.CompanyAdd'">
+						<el-button type="primary" @click="onModelAdd(false)" v-auth:[moduleKey]="'btn.CompanyAdd'">
 							<el-icon>
 								<elementPlus />
 							</el-icon>
