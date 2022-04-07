@@ -27,7 +27,7 @@
 				</template>
 			</el-input>
 		</el-form-item>
-		<!-- <el-form-item class="login-animation-three">
+		<el-form-item class="login-animation-three" v-if="ruleForm.captchaId">
 			<el-row :gutter="15">
 				<el-col :span="16">
 					<el-input
@@ -44,12 +44,12 @@
 					</el-input>
 				</el-col>
 				<el-col :span="8">
-					<div class="login-content-code">
-						<span class="login-content-code-img">1234</span>
+					<div class="login-content-code" @click="onRefreshCaptcha">
+						<img class="login-content-code-img" :src="captcha"/>
 					</div>
 				</el-col>
 			</el-row>
-		</el-form-item> -->
+		</el-form-item>
 		<el-form-item class="login-animation-four pb10">
 			<el-button type="primary" class="login-content-submit" round @click="onSignIn" :loading="loading.signIn">
 				<span>{{ $t('message.account.accountBtnText') }}</span>
@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, defineComponent, computed, getCurrentInstance } from 'vue';
+import { toRefs, reactive, defineComponent, computed,onMounted, getCurrentInstance } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n';
@@ -73,6 +73,7 @@ import { useStore } from '/@/store/index';
 import { Session,Local } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { signIn } from '/@/api/login/index';
+import request from '/@/utils/request';
 
 export default defineComponent({
 	name: 'loginAccount',
@@ -86,10 +87,12 @@ export default defineComponent({
 		
 		const state = reactive({
 			isShowPassword: false,
+			captcha:"", //验证码
 			ruleForm: {
 				username: isDevEnv ? 'admin' : '',
 				password: isDevEnv ? '123456' : '',
-				code: isDevEnv ? '1234' : '1234',
+				captchaId: '', //验证码ID
+				code: isDevEnv ? '' : '',
 			},
 			loading: {
 				signIn: false,
@@ -128,6 +131,11 @@ export default defineComponent({
 				const res = await signIn(state.ruleForm,params);
 				state.loading.signIn = false;
 				if (res.errcode != 0) {
+					state.ruleForm.code="";
+					onRefreshCaptcha();
+					if(res.errcode!=100014){
+						state.ruleForm.password="";
+					}
 					return;
 				}
 				const avatar = import.meta.env.VITE_API_URL + '/v1/avatar/user/' + res.data.user.Id + '.jpg';
@@ -199,8 +207,32 @@ export default defineComponent({
 				proxy.mittBus.emit('onSignInClick');
 			}, 300);
 		};
+		const onRefreshCaptcha = () => {
+			request({
+				url: '/v1/base/user/captcha', //后端登录接口地址
+				method: 'post'
+			}).then(res=>{
+				if(res.errcode==0){
+					if(res.data.captchaId && res.data.captchaImg){
+						state.ruleForm.captchaId=res.data.captchaId;
+						state.captcha=res.data.captchaImg;
+					} else {
+						state.ruleForm.captchaId='';
+						state.captcha='';
+					}
+					
+				}
+			}).catch(err=>{
+				console.error(err)
+			});
+		}
+		// 页面加载时
+		onMounted(() => {
+			onRefreshCaptcha();
+		});
 		return {
 			currentTime,
+			onRefreshCaptcha,
 			onSignIn,
 			...toRefs(state),
 		};
