@@ -1,9 +1,9 @@
 <template>
 	<div class="base-concretedata-container">
 		<el-card shadow="hover">
-			<el-tabs v-model="activeName" class="demo-tabs" @tab-click="tabsName">
-				<el-tab-pane v-for="(item, key) in concreteDataList.data" :key="key" :label="item.Name" :name="item.Code"> </el-tab-pane>
-				<el-tab-pane label="基础代码" name="concretedata"> </el-tab-pane>
+			<el-tabs v-model="activeName" @tab-click="tabsName">
+				<el-tab-pane v-for="(item, index) in concreteDataList.data" :key="index+1" :label="item.Name" :name="item.Code"> </el-tab-pane>
+				<el-tab-pane label="基础代码" :key="0" name="concretedata"> </el-tab-pane>
 			</el-tabs>
 			<el-table
 				:data="tableData.data"
@@ -136,7 +136,7 @@ export default {
 						state.concreteDataList.data = res.data;
 						if(isInit && res.data && res.data.length>0){
 							state.activeName=res.data[0].Code;
-							onLoadTable(true);
+							tabsName();
 						}
 					}
 				})
@@ -225,11 +225,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.demo-tabs > .el-tabs__content {
-	padding: 32px;
-	background-color: #f4f5f7;
-	color: #6b778c;
-	font-size: 32px;
-	font-weight: 600;
-}
+
 </style>
