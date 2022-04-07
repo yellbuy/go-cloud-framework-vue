@@ -7,13 +7,13 @@
 						<el-input  placeholder="请输入关键字模糊查询" v-model="tableData.param.username"> </el-input>
 					</el-form-item>
 					<el-form-item>
-						<el-button  @click="onResetSearch">
+						<el-button type="info"  @click="onResetSearch">
 							<el-icon>
 								<elementRefreshLeft />
 							</el-icon>
 							{{ $t('message.action.reset') }}
 						</el-button>
-						<el-button  @click="onGetTableData(true)">
+						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
 								<elementSearch />
 							</el-icon>
@@ -74,10 +74,10 @@
 				</el-table-column>
 			</el-table>
 			<el-pagination
+				small
 				@size-change="onHandleSizeChange"
 				@current-change="onHandleCurrentChange"
 				class="mt15"
-				:pager-count="5"
 				:page-sizes="[10, 20, 30, 50, 100]"
 				v-model:current-page="tableData.param.pageNum"
 				background

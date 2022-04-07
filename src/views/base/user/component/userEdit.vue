@@ -27,7 +27,7 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="密码" prop="Password">
 							<el-input v-model="ruleForm.Password" type="new-password" placeholder="如需修改密码，请输入新密码" maxlength="50" clearable></el-input>
-							<p title="" class="color-info-light font10" v-if="ruleForm.Id>0"><SvgIcon name="fa fa-info-circle" />无需修改密码，请保留为空</p>
+							<p title="" class="color-info-light text-help-info font10" v-if="ruleForm.Id>0"><SvgIcon name="fa fa-info-circle" /><span>无需修改密码，请保留为空</span></p>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20" v-if="!ruleForm.Id">

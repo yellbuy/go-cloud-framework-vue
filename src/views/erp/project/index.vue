@@ -67,10 +67,10 @@
 				</el-table-column>
 			</el-table>
 			<el-pagination
+				small
 				@size-change="onHandleSizeChange"
 				@current-change="onHandleCurrentChange"
 				class="mt15"
-				:pager-count="5"
 				:page-sizes="[10, 20, 30, 50, 100]"
 				v-model:current-page="tableData.param.pageNum"
 				background

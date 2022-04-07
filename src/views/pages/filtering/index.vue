@@ -68,6 +68,7 @@
 			</div>
 			<template v-if="tableData.data.length > 0">
 				<el-pagination
+					small
 					style="text-align: right"
 					background
 					@size-change="onHandleSizeChange"

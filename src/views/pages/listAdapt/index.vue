@@ -35,6 +35,7 @@
 			<el-empty v-else description="暂无数据"></el-empty>
 			<template v-if="tableData.data.length > 0">
 				<el-pagination
+					small
 					style="text-align: right"
 					background
 					@size-change="onHandleSizeChange"

@@ -4,8 +4,9 @@ export default {
 		router: {
 			setting: '设置管理',
 			category: '分类管理',
-			commonData: '数据字典',
-			
+			commonData: '基础代码',
+			concreteData:'基础代码',
+			hierarchyData:'树形代码',
 		},
 		action:{
 		}

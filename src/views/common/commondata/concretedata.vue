@@ -1,28 +1,28 @@
 <template>
-	<div class="base-user-container">
+	<div class="base-concretedata-container">
 		<el-card shadow="hover">
-			<el-tabs v-model="activeName" type="card" class="demo-tabs" @tab-click="tabsName">
-				<el-tab-pane label="基础代码" name="commondata"> </el-tab-pane>
-				<el-tab-pane v-for="(item, key) in tableKindData.data" :key="key" :label="item.Name" :name="item.Code"> </el-tab-pane>
+			<el-tabs v-model="activeName" class="demo-tabs" @tab-click="tabsName">
+				<el-tab-pane v-for="(item, key) in concreteDataList.data" :key="key" :label="item.Name" :name="item.Code"> </el-tab-pane>
+				<el-tab-pane label="基础代码" name="concretedata"> </el-tab-pane>
 			</el-tabs>
-			<el-form size="mini" :model="tableData.param" label-width="90px" :inline="true">
+			<el-form  :model="tableData.param" label-width="60px" :inline="true">
 				<el-form-item label="名称">
-					<el-input size="mini" placeholder="请输入名称" v-model="tableData.param.name"> </el-input>
+					<el-input  placeholder="请输入名称" v-model="tableData.param.name"> </el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button size="mini" @click="onResetSearch">
+					<el-button type="info" @click="onResetSearch">
 						<el-icon>
 							<elementRefreshLeft />
 						</el-icon>
 						{{ $t('message.action.reset') }}
 					</el-button>
-					<el-button size="mini" @click="onGetTableData(true)">
+					<el-button type="info" @click="onGetTableData(true)">
 						<el-icon>
 							<elementSearch />
 						</el-icon>
 						{{ $t('message.action.search') }}
 					</el-button>
-					<el-button size="mini" type="primary" @click="onOpenCommondata(0)">
+					<el-button  type="primary" @click="onOpenCommonDataDlg(0)">
 						<el-icon>
 							<elementPlus />
 						</el-icon>
@@ -33,9 +33,7 @@
 			</el-form>
 			<el-table
 				:data="tableData.data"
-				style="width: 100%"
 				v-loading="tableData.loading"
-				size="mini"
 				:height="proxy.$calcMainHeight(-170)"
 				border
 				stripe
@@ -44,15 +42,16 @@
 				<el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip />
 				<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 				<el-table-column prop="Code" label="编码" show-overflow-tooltip />
-				<el-table-column fixed="right" label="操作" width="220" show-overflow-tooltip>
+				<el-table-column prop="Order" label="排序" width="100" align="right" show-overflow-tooltip />
+				<el-table-column fixed="right" label="操作" width="180" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button size="mini" type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button  type="primary" plain @click="onOpenCommonDataDlg(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button size="mini" type="danger" @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button  type="danger" plain @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
@@ -75,42 +74,41 @@
 			>
 			</el-pagination>
 		</el-card>
-		<commondataEdit ref="commondataEditRef" />
+		<concreteDataEdit ref="commondataEditRef" />
 	</div>
 </template>
 
 <script lang="ts">
 import { toRefs, reactive, onMounted, ref, getCurrentInstance } from 'vue';
-import commondataEdit from './component/edit.vue';
+import concreteDataEdit from './component/concreteDataEdit.vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import request from '/@/utils/request';
 export default {
 	name: 'baseUsers',
-	components: { commondataEdit },
+	components: { concreteDataEdit },
 	setup() {
 		const commondataEditRef = ref();
-		const moduleKey = 'api_ims_parameter';
+		const moduleKey = 'api_common_concretedata';
 		const { proxy } = getCurrentInstance() as any;
 		const state = reactive({
 			moduleKey: moduleKey,
-			activeName: 'commondata',
+			activeName: 'concretedata',
 			tableData: {
 				data: [],
 				total: 0,
 				loading: false,
 				param: {
-					type: 'commondata',
+					type: 'concretedata',
 					pageNum: 1,
 					pageSize: 20,
 					name: '',
 				},
 			},
-			tableKindData: {
+			concreteDataList: {
 				data: [],
-				total: 0,
 				loading: false,
 				param: {
-					type: 'commondata',
+					type: 'concretedata',
 					pageNum: 1,
 					pageSize: 20,
 					name: '',
@@ -119,7 +117,7 @@ export default {
 		});
 		// 页面加载时
 		onMounted(() => {
-			onLoadTable(true);
+			onGetConcreteData(true);
 		});
 		//切换页面
 		const tabsName = () => {
@@ -132,26 +130,25 @@ export default {
 			onGetTableData(refresh);
 		};
 		// 打开弹窗
-		const onOpenCommondata = (id: string) => {
+		const onOpenCommonDataDlg = (id: string) => {
 			commondataEditRef.value.openDialog(state.activeName, id, false);
 		};
 		const onResetSearch = () => {
 			state.tableData.param.name = '';
 			onGetTableData(true);
 		};
-		const onGetTableKindData = () => {
+		const onGetConcreteData = (isInit:boolean=false) => {
 			state.tableData.param.pageNum = 1;
 			state.tableData.param.pageSize = 10;
-			request({ url: `/v1/common/commonpagedata`, method: 'get', params: state.tableKindData.param })
+			request({ url: `/v1/admin/common/commondata`, method: 'get',params:{type:'concretedata'}})
 				.then((res) => {
-					if (res.errcode != 0) {
-						if (res.errcode != 0) {
-							ElMessage.warning(res.errmsg);
-							return;
+					if (res.errcode == 0) {
+						state.concreteDataList.data = res.data;
+						if(isInit && res.data && res.data.length>0){
+							state.activeName=res.data[0].Code;
+							onLoadTable(true);
 						}
 					}
-					state.tableKindData.data = res.data;
-					state.tableKindData.total = res.total;
 				})
 				.catch(() => {});
 		};
@@ -161,7 +158,7 @@ export default {
 				state.tableData.param.pageNum = 1;
 			}
 			state.tableData.loading = true;
-			request({ url: `/v1/common/commonpagedata`, method: 'get', params: state.tableData.param })
+			request({ url: `/v1/admin/common/commondata`, method: 'get',params:{type:state.tableData.param.type} })
 				.then((res) => {
 					state.tableData.loading = false;
 					if (res.errcode != 0) {
@@ -170,8 +167,8 @@ export default {
 							return;
 						}
 					}
-					if (state.activeName == 'commondata') {
-						onGetTableKindData();
+					if (state.activeName == 'concretedata') {
+						onGetConcreteData();
 					}
 					state.tableData.data = res.data;
 					state.tableData.total = res.total;
@@ -200,7 +197,7 @@ export default {
 				.then(() => {
 					state.tableData.loading = true;
 
-					const url = `/v1/common/commondata/delete/${Id}`;
+					const url = `/v1/admin/common/commondata/delete/${Id}`;
 					request({
 						url: url,
 						method: 'post',
@@ -209,6 +206,9 @@ export default {
 							state.tableData.loading = false;
 							if (res.errcode == 0) {
 								onGetTableData();
+							}
+							if (state.activeName == 'concretedata') {
+								onGetConcreteData();
 							}
 						})
 						.catch((err) => {
@@ -220,9 +220,8 @@ export default {
 		};
 		return {
 			commondataEditRef,
-			onOpenCommondata,
+			onOpenCommonDataDlg,
 			onGetTableData,
-			onGetTableKindData,
 			onRowDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
