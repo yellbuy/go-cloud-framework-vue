@@ -2,57 +2,61 @@
 	<div class="ims-case-firstaudit-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="150px" size="large" :inline="true">
+				<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" :inline="true">
 					<el-row :gutter="35">
-						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-							<el-form-item :label="'账号：'" prop="Username">
-								<el-input placeholder="请输入账号" v-model="ruleForm.Username" disabled> </el-input>
+						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
+							<el-form-item :label="'账户名：'" prop="Username">
+								<el-input v-model="ruleForm.Username" disabled> </el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
 							<el-form-item :label="'昵称：'">
 								<el-input placeholder="请输入昵称" v-model="ruleForm.Nickname" clearable> </el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
 							<el-form-item :label="'姓名：'" prop="Name">
 								<el-input placeholder="请输入真实姓名" v-model="ruleForm.Name" clearable> </el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
 							<el-form-item :label="'手机号：'" prop="Mobile">
 								<el-input placeholder="请输入手机号" v-model="ruleForm.Mobile" clearable> </el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
 							<el-form-item :label="'电话号码：'" prop="Tel">
 								<el-input placeholder="请输入电话号码" v-model="ruleForm.Tel" clearable> </el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
 							<el-form-item :label="'电子邮箱：'" prop="Email">
 								<el-input placeholder="请输入电子邮箱" v-model="ruleForm.Email" clearable> </el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb20">
+					</el-row>
+					<el-row :gutter="35">
+						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
 							<el-form-item :label="'修改密码：'">
 								<el-radio-group v-model="passState">
-									<el-radio :label="false" size="large">否</el-radio>
-									<el-radio :label="true" size="large">是</el-radio>
+									<el-radio :label="false">否</el-radio>
+									<el-radio :label="true">是</el-radio>
 								</el-radio-group>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb20" v-if="passState">
+					</el-row>
+					<el-row :gutter="35" v-if="passState">
+						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20" >
 							<el-form-item :label="'旧密码：'">
 								<el-input placeholder="请输入旧密码" type="password" show-password v-model="ruleForm.PasswordOld" clearable> </el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb20" v-if="passState">
+						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
 							<el-form-item :label="'新密码：'">
 								<el-input placeholder="请输入新密码" type="password" show-password v-model="ruleForm.Password" clearable> </el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb20" v-if="passState">
+						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
 							<el-form-item :label="'确认密码：'">
 								<el-input placeholder="请输入确认密码" type="password" show-password v-model="ruleForm.PasswordConfirm" clearable> </el-input>
 							</el-form-item>
@@ -118,13 +122,6 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			Tel: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
 			Email: [
 				{
 					required: true,
@@ -148,7 +145,7 @@ export default {
 		const onSubmit = () => {
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
-					const url = `/v1/base/user/${state.ruleForm.Id}`;
+					const url = `/v1/base/user/profile/${state.ruleForm.Id}`;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					request({
 						url: url,
