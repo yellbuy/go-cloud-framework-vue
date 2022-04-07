@@ -79,14 +79,13 @@
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
 				<el-table-column label="操作" width="150" fixed="right">
 					<template #default="scope">
-						<el-button size="small" plain type="info" v-if="scope.row.ExpertReviewState > 0" @click="onOpenEditDlg(false, scope.row)">
+						<el-button plain type="info" v-if="scope.row.ExpertReviewState > 0" @click="onOpenEditDlg(false, scope.row)">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							查看
 						</el-button>
 						<el-button
-							size="small"
 							plain
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
@@ -99,7 +98,6 @@
 							审核
 						</el-button>
 						<el-button
-							size="small"
 							plain
 							type="warning"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
@@ -263,7 +261,8 @@ export default {
 						.then((res) => {
 							if (res.errcode == 0) {
 								if (res.data.Id > 0) {
-									if (res.data.InsurerReviewState > 0) {
+									console.log(res.data.ExpertReviewState);
+									if (res.data.ExpertReviewState > 0) {
 										let url = `/v1/ims/casepersonline/8/${row.Id}`; //专家审核接单
 										request({
 											url: url,
@@ -271,7 +270,7 @@ export default {
 											data: res.data,
 										})
 											.then((code) => {
-												state.loading = false;
+												state.tableData.loading = false;
 												if (code.errcode == 0) {
 													ElMessage.success('操作成功！');
 													onGetTableData();
@@ -305,8 +304,9 @@ export default {
 				.then((res) => {
 					if (res.errcode == 0) {
 						if (res.data.Id > 0) {
-							if (res.data.ExpertAuditState > 0) {
-								if (!editMode || (editMode && res.data.ExpertAuditState)) {
+							console.log(res.data.ExpertReviewState);
+							if (res.data.ExpertReviewState > 0) {
+								if (!editMode || (editMode && res.data.ExpertReviewState)) {
 									dlgEditRef.value.openDialog(editMode, res.data, false);
 									return;
 								}

@@ -309,8 +309,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button v-if="editMode" type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{
+					<el-button @click="onCancel" >{{ $t('message.action.cancel') }}</el-button>
+					<el-button v-if="editMode" type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{
 						$t('message.action.submit')
 					}}</el-button>
 				</span>
