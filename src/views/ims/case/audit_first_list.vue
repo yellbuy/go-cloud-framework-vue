@@ -33,7 +33,7 @@
 				</el-form>
 			</div>
 			<el-table :data="tableData.data"  :span-method="objectSpanMethod"
-				v-loading="tableData.loading" style="width: 100%"  :height="proxy.$calcMainHeight(-90)"
+				v-loading="tableData.loading" style="width: 100%"  :height="proxy.$calcMainHeight(-75)"
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
 				<el-table-column prop="CaseNo" label="报案号" width="100"  fixed></el-table-column>

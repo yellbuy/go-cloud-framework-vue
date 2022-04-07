@@ -31,7 +31,7 @@
 				</el-form>
 			</div>
 			<el-table :data="tableData.data" 
-				v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-90)"
+				v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)"
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
 				<el-table-column prop="Name" label="单位名称" width="240" show-overflow-tooltip fixed></el-table-column>

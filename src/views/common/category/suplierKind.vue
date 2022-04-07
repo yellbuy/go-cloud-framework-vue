@@ -12,7 +12,7 @@
 				style="width: 100%"
 				v-loading="kindTableData.loading"
 				size="mini"
-				:height="proxy.$calcMainHeight(-90)"
+				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
 				highlight-current-row

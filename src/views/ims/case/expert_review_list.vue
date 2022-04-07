@@ -46,7 +46,7 @@
 				v-loading="tableData.loading"
 				style="width: 100%"
 				size="small"
-				:height="proxy.$calcMainHeight(-90)"
+				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
 				highlight-current-row

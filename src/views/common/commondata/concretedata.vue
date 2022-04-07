@@ -5,22 +5,12 @@
 				<el-tab-pane v-for="(item, key) in concreteDataList.data" :key="key" :label="item.Name" :name="item.Code"> </el-tab-pane>
 				<el-tab-pane label="基础代码" name="concretedata"> </el-tab-pane>
 			</el-tabs>
-			<el-form  :model="tableData.param" label-width="60px" :inline="true">
-				<el-form-item label="名称">
-					<el-input  placeholder="请输入名称" v-model="tableData.param.name"> </el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="info" @click="onResetSearch">
+			<el-form  :model="tableData.param" class="mb10 text-right"  :inline="true">
+				<el-button type="info" @click="onGetTableData(true)">
 						<el-icon>
 							<elementRefreshLeft />
 						</el-icon>
-						{{ $t('message.action.reset') }}
-					</el-button>
-					<el-button type="info" @click="onGetTableData(true)">
-						<el-icon>
-							<elementSearch />
-						</el-icon>
-						{{ $t('message.action.search') }}
+						{{ $t('message.action.refresh') }}
 					</el-button>
 					<el-button  type="primary" @click="onOpenCommonDataDlg(0)">
 						<el-icon>
@@ -28,13 +18,11 @@
 						</el-icon>
 						{{ $t('message.action.add') }}
 					</el-button>
-				</el-form-item>
-				<el-form-item></el-form-item>
 			</el-form>
 			<el-table
 				:data="tableData.data"
 				v-loading="tableData.loading"
-				:height="proxy.$calcMainHeight(-170)"
+				:height="proxy.$calcMainHeight(-120)"
 				border
 				stripe
 				highlight-current-row
@@ -42,7 +30,13 @@
 				<el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip />
 				<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 				<el-table-column prop="Code" label="编码" show-overflow-tooltip />
-				<el-table-column prop="Order" label="排序" width="100" align="right" show-overflow-tooltip />
+				<el-table-column prop="Status" label="状态" width="70" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="success" effect="plain"  v-if="scope.row.Status">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else>{{ $t('message.action.disable') }}</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip />
 				<el-table-column fixed="right" label="操作" width="180" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button  type="primary" plain @click="onOpenCommonDataDlg(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
@@ -126,21 +120,17 @@ export default {
 			onLoadTable(true);
 		};
 		//刷新表格
-		const onLoadTable = (refresh: boolean) => {
-			onGetTableData(refresh);
+		const onLoadTable = (gotoFirstPage: boolean) => {
+			onGetTableData(gotoFirstPage);
 		};
 		// 打开弹窗
 		const onOpenCommonDataDlg = (id: string) => {
 			commondataEditRef.value.openDialog(state.activeName, id, false);
 		};
-		const onResetSearch = () => {
-			state.tableData.param.name = '';
-			onGetTableData(true);
-		};
 		const onGetConcreteData = (isInit:boolean=false) => {
 			state.tableData.param.pageNum = 1;
 			state.tableData.param.pageSize = 10;
-			request({ url: `/v1/admin/common/commondata`, method: 'get',params:{type:'concretedata'}})
+			request({ url: `/v1/admin/common/commondata`, method: 'get',params:{type:'concretedata',pateSize:100000}})
 				.then((res) => {
 					if (res.errcode == 0) {
 						state.concreteDataList.data = res.data;
@@ -225,7 +215,6 @@ export default {
 			onRowDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
-			onResetSearch,
 			tabsName,
 			onLoadTable,
 			proxy,
