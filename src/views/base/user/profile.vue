@@ -38,26 +38,26 @@
 					<el-row :gutter="35">
 						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
 							<el-form-item :label="'修改密码：'">
-								<el-radio-group v-model="passState">
-									<el-radio :label="false">否</el-radio>
-									<el-radio :label="true">是</el-radio>
+								<el-radio-group v-model="ruleForm.PasswordReset">
+									<el-radio :label="0">否</el-radio>
+									<el-radio :label="1">是</el-radio>
 								</el-radio-group>
 							</el-form-item>
 						</el-col>
 					</el-row>
-					<el-row :gutter="35" v-if="passState">
-						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20" >
-							<el-form-item :label="'旧密码：'">
-								<el-input placeholder="请输入旧密码" type="password" show-password v-model="ruleForm.PasswordOld" clearable> </el-input>
+					<el-row :gutter="35" v-if="ruleForm.PasswordReset == 1">
+						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
+							<el-form-item :label="'旧密码：'" prop="Password">
+								<el-input placeholder="请输入旧密码" type="password" show-password v-model="ruleForm.Password" clearable> </el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
-							<el-form-item :label="'新密码：'">
-								<el-input placeholder="请输入新密码" type="password" show-password v-model="ruleForm.Password" clearable> </el-input>
+							<el-form-item :label="'新密码：'" prop="PasswordNew">
+								<el-input placeholder="请输入新密码" type="password" show-password v-model="ruleForm.PasswordNew" clearable> </el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" class="mb20">
-							<el-form-item :label="'确认密码：'">
+							<el-form-item :label="'确认密码：'" prop="PasswordConfirm">
 								<el-input placeholder="请输入确认密码" type="password" show-password v-model="ruleForm.PasswordConfirm" clearable> </el-input>
 							</el-form-item>
 						</el-col>
@@ -98,7 +98,6 @@ export default {
 			ruleForm: {
 				Id: store.state.userInfos.userInfos.uid,
 			},
-			passState: false,
 		});
 		const rules = reactive({
 			Username: [
@@ -123,6 +122,27 @@ export default {
 				},
 			],
 			Email: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Password: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			PasswordNew: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			PasswordConfirm: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -155,7 +175,7 @@ export default {
 						.then((res) => {
 							if (res.errcode == 0) {
 								ElMessage.success('操作成功！');
-								if (state.passState) {
+								if (state.ruleForm.PasswordReset == 1) {
 									Session.clear(); // 清除缓存/token等
 									resetRoute(); // 删除/重置路由
 									router.push('/login');
