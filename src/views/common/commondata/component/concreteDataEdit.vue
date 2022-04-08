@@ -114,7 +114,7 @@ export default {
 					state.ruleForm = res.data;
 				}
 			})
-			.catch((err) => {});
+			.catch((err) => {console.error(err)});
 		};
 		// 关闭弹窗
 		const closeDialog = () => {

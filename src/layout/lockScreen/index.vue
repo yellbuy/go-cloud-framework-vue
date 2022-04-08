@@ -28,16 +28,16 @@
 				<div v-show="isShowLoockLogin" class="layout-lock-screen-login">
 					<div class="layout-lock-screen-login-box">
 						<div class="layout-lock-screen-login-box-img">
-							<img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1813762643,1914315241&fm=26&gp=0.jpg" />
+							<img :src="getUserInfos.avatar" />
 						</div>
-						<div class="layout-lock-screen-login-box-name">Administrator</div>
+						<div class="layout-lock-screen-login-box-name">{{getUserInfos.realname || getUserInfos.username}}</div>
 						<div class="layout-lock-screen-login-box-value">
 							<el-input
+								type="password"
 								placeholder="请输入密码"
 								ref="layoutLockScreenInputRef"
 								v-model="lockScreenPassword"
-								@keyup.enter.native.stop="onLockScreenSubmit()"
-							>
+								@keyup.enter.native.stop="onLockScreenSubmit()">
 								<template #append>
 									<el-button @click="onLockScreenSubmit">
 										<el-icon class="el-input__icon">
@@ -60,10 +60,12 @@
 </template>
 
 <script lang="ts">
-import { nextTick, onMounted, reactive, toRefs, ref, onUnmounted, getCurrentInstance, defineComponent } from 'vue';
+import { nextTick, onMounted, reactive, toRefs, ref, computed,onUnmounted, getCurrentInstance, defineComponent } from 'vue';
 import { useStore } from '/@/store/index';
 import { formatDate } from '/@/utils/formatTime';
-import { Local } from '/@/utils/storage';
+import { Session,Local } from '/@/utils/storage';
+import { ElMessageBox } from 'element-plus';
+import request from '/@/utils/request';
 export default defineComponent({
 	name: 'layoutLockScreen',
 	setup() {
@@ -86,6 +88,11 @@ export default defineComponent({
 			isShowLockScreen: false,
 			isShowLockScreenIntervalTime: 0,
 			lockScreenPassword: '',
+		});
+		// 获取用户信息 vuex
+		const getUserInfos = computed(() => {
+			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
+			return store.state.userInfos.userInfos;
 		});
 		// 鼠标按下
 		const onDown = (down: any) => {
@@ -166,9 +173,27 @@ export default defineComponent({
 		};
 		// 密码输入点击事件
 		const onLockScreenSubmit = () => {
-			store.state.themeConfig.themeConfig.isLockScreen = false;
-			store.state.themeConfig.themeConfig.lockScreenTime = 30;
-			setLocalThemeConfig();
+			if(!state.lockScreenPassword){
+				//ElMessageBox.alert("请输入解锁密码");
+				window.alert("请输入解锁密码")
+				return;
+			}
+			request({
+				url: `/v1/admin/base/unlockscreen`,
+				method: 'post',
+				data:{Password:state.lockScreenPassword},
+			}).then((res) => {
+				state.lockScreenPassword='';
+				if (res.errcode != 0) {
+					window.alert(res.errmsg)
+					return;
+				}
+				store.state.themeConfig.themeConfig.isLockScreen = false;
+				store.state.themeConfig.themeConfig.lockScreenTime = 30;
+				setLocalThemeConfig();
+			})
+			.catch((err) => {console.error(err)});
+			
 		};
 		// 页面加载时
 		onMounted(() => {
@@ -183,6 +208,7 @@ export default defineComponent({
 		});
 		return {
 			layoutLockScreenInputRef,
+			getUserInfos,
 			onDown,
 			onMove,
 			onEnd,
@@ -211,7 +237,7 @@ export default defineComponent({
 }
 .layout-lock-screen-img {
 	@extend .layout-lock-screen-fixed;
-	background-image: url('https://gitee.com/lyt-top/vue-next-admin-images/raw/master/images/03.jpg');
+	background-image: url('bg_lock_screen.jpg');
 	background-size: 100% 100%;
 	z-index: 9999991;
 }
