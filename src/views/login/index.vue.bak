@@ -1,7 +1,8 @@
 <template>
 	<div class="login-container">
 		<div class="login-logo">
-			<span v-if="app.Id>0">{{ app.Name||getThemeConfig.globalViceTitle }}</span>
+			<img :src="app.LogoUrl" v-if="app.Id" width="100" height="100"/>
+			<span v-else>{{ app.Name||getThemeConfig.globalViceTitle }}</span>
 		</div>
 		<div class="login-content">
 			<div class="login-content-main">
@@ -23,9 +24,12 @@
 				</div> -->
 			</div>
 		</div>
-		<div class="login-copyright" v-if="app.Id>0">
-			<div class="mb5 login-copyright-company" >{{ $t('message.copyright.one5') }}</div>
-			<div class="login-copyright-msg">{{ $t('message.copyright.two6') }}</div>
+		<div class="login-copyright" v-if="app.Copyright">
+			<div class="mb5 login-copyright-company" v-html="app.Copyright"></div>
+		</div>
+		<div class="login-copyright" v-else>
+			<!-- <div class="mb5 login-copyright-company" >{{ $t('message.copyright.one5') }}</div>
+			<div class="login-copyright-msg">{{ $t('message.copyright.two6') }}</div> -->
 		</div>
 	</div>
 </template>
@@ -64,11 +68,12 @@ export default {
 			const localAppid=Local.get('appid');
 			curAppid=curAppid||localAppid||appid;
 			request({
-				url: `/v1/admin/base/app/${curAppid}`, //后端登录接口地址
+				url: `/v1/base/app/${curAppid}`, //后端APP获取非授权接口地址
 				method: 'get'
 			}).then((res)=>{
 				if(res.errcode==0){
 					state.app=res.data||{}
+					state.app.LogoUrl=import.meta.env.VITE_API_URL+"/v1/avatar/app/"+curAppid+".png"
 				}
 			}).catch((err)=>{
 				console.log(err)

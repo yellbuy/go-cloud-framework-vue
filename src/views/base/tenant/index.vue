@@ -150,7 +150,7 @@ export default {
 				state.tableData.param.pageNum=1;
 			}
 			state.tableData.loading=true;
-			request("/v2/base/tenants",state.tableData.param).then((res)=>{
+			request("/v1/admin/base/tenants",state.tableData.param).then((res)=>{
 				state.tableData.loading=false;
 				if(res.errcode!=0){
 					return;

@@ -20,7 +20,7 @@ export async function getUserList(params: object) {
  */
 export async function signIn(data: object,params:object) {
 	return await request({
-		url: '/v2/base/user/login', //后端登录接口地址
+		url: '/v2/admin/base/user/login', //后端登录接口地址
 		method: 'post',
 		params:params,
 		data: data,

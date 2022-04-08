@@ -209,7 +209,7 @@ export default defineComponent({
 		};
 		const onRefreshCaptcha = () => {
 			request({
-				url: '/v1/admin/base/user/captcha', //后端登录接口地址
+				url: '/v1/base/user/captcha', //后端登录接口地址
 				method: 'post'
 			}).then(res=>{
 				if(res.errcode==0){
