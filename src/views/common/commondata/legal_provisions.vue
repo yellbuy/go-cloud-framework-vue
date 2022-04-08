@@ -10,17 +10,17 @@
 					<el-input  placeholder="请输入名称" v-model="tableData.param.name"> </el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button  @click="onResetSearch">
+					<el-button type="info" @click="onResetSearch">
 						<el-icon>
 							<elementRefreshLeft />
 						</el-icon>
-						{{ $t('message.action.reset') }}
+						&#8197;{{ $t('message.action.reset') }}
 					</el-button>
-					<el-button  @click="onGetTableData(true)">
+					<el-button type="info" @click="onGetTableData(true)">
 						<el-icon>
 							<elementSearch />
 						</el-icon>
-						{{ $t('message.action.search') }}
+						&#8197;{{ $t('message.action.search') }}
 					</el-button>
 					<el-button  type="primary" @click="onOpenCommondata(0)">
 						<el-icon>
@@ -50,13 +50,13 @@
 							<el-icon>
 								<elementEdit />
 							</el-icon>
-							{{ $t('message.action.edit') }}
+							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button  type="danger" @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
-							{{ $t('message.action.delete') }}
+							&#8197;{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
 				</el-table-column>

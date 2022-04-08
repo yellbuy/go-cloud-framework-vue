@@ -2,9 +2,9 @@
 	<div class="ims-case-firstaudit-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" size="small" :model="tableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item :label="'关键字：'">
-						<el-input size="small" placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
+						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button-group>
@@ -15,20 +15,19 @@
 						</el-button-group>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="small" @click="onResetSearch">
+						<el-button type="info" @click="onResetSearch">
 							<el-icon>
 								<elementRefreshLeft />
 							</el-icon>
 							&#8197;{{ $t('message.action.reset') }}
 						</el-button>
-						<el-button size="small" @click="onGetTableData(true)">
+						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
 								<elementSearch />
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
 					</el-form-item>
-					<el-form-item> </el-form-item>
 					<el-form-item> </el-form-item>
 				</el-form>
 			</div>
@@ -53,26 +52,26 @@
 				<el-table-column prop="PersonName" label="伤者姓名" width="80" align="center" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CaseMode" label="委托类型" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="primary" effect="plain" size="small" v-if="scope.row.CaseMode == 1">估损</el-tag>
-						<el-tag type="success" effect="plain" size="small" v-else-if="scope.row.CaseMode == 2">核损</el-tag>
-						<el-tag type="warning" effect="plain" size="small" v-else-if="scope.row.CaseMode == 10">鉴定</el-tag>
+						<el-tag type="primary" effect="plain" v-if="scope.row.CaseMode == 1">估损</el-tag>
+						<el-tag type="success" effect="plain" v-else-if="scope.row.CaseMode == 2">核损</el-tag>
+						<el-tag type="warning" effect="plain" v-else-if="scope.row.CaseMode == 10">鉴定</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="CaseType" label="分类" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="primary" effect="plain" size="small" v-if="scope.row.CaseType == 1">门诊就医</el-tag>
-						<el-tag type="success" effect="plain" size="small" v-else-if="scope.row.CaseType == 2">住院非手续</el-tag>
-						<el-tag type="warning" effect="plain" size="small" v-else-if="scope.row.CaseType == 3">住院手续</el-tag>
-						<el-tag type="danger" effect="plain" size="small" v-else-if="scope.row.CaseType == 10">死亡</el-tag>
+						<el-tag type="primary" effect="plain" v-if="scope.row.CaseType == 1">门诊就医</el-tag>
+						<el-tag type="success" effect="plain" v-else-if="scope.row.CaseType == 2">住院非手续</el-tag>
+						<el-tag type="warning" effect="plain" v-else-if="scope.row.CaseType == 3">住院手续</el-tag>
+						<el-tag type="danger" effect="plain" v-else-if="scope.row.CaseType == 10">死亡</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="ExpertAuditBy" label="专家姓名" width="80" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertAuditTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="State" label="状态" width="60" align="center" fixed="right">
 					<template #default="scope">
-						<el-tag type="success" effect="plain" size="small" v-if="scope.row.ExpertAuditState == 10">通过</el-tag>
-						<el-tag type="danger" effect="plain" size="small" v-else-if="scope.row.ExpertAuditState == 5">驳回</el-tag>
-						<el-tag type="primary" effect="plain" size="small" v-else-if="scope.row.ExpertAuditState > 0">待审</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.ExpertAuditState == 10">通过</el-tag>
+						<el-tag type="danger" effect="plain" v-else-if="scope.row.ExpertAuditState == 5">驳回</el-tag>
+						<el-tag type="primary" effect="plain" v-else-if="scope.row.ExpertAuditState > 0">待审</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>

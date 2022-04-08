@@ -13,13 +13,13 @@
 							<el-input  placeholder="请输入名称" v-model="jsTableData.param.name"> </el-input>
 						</el-form-item>
 						<el-form-item>
-							<el-button  @click="onResetSearch">
+							<el-button type="info" @click="onResetSearch">
 								<el-icon>
 									<elementRefreshLeft />
 								</el-icon>
 								&#8197;{{ $t('message.action.reset') }}
 							</el-button>
-							<el-button  @click="onGetJsTableData(true)">
+							<el-button type="info" @click="onGetJsTableData(true)">
 								<el-icon>
 									<elementSearch />
 								</el-icon>
@@ -95,23 +95,23 @@
 							<el-input  placeholder="请输入名称" v-model="zgTableData.param.name"> </el-input>
 						</el-form-item>
 						<el-form-item>
-							<el-button  @click="onResetSearch">
+							<el-button type="info" @click="onResetSearch">
 								<el-icon>
 									<elementRefreshLeft />
 								</el-icon>
-								{{ $t('message.action.reset') }}
+								&#8197;{{ $t('message.action.reset') }}
 							</el-button>
-							<el-button  @click="onGetZgTableData(true)">
+							<el-button type="info" @click="onGetZgTableData(true)">
 								<el-icon>
 									<elementSearch />
 								</el-icon>
-								{{ $t('message.action.search') }}
+								&#8197;{{ $t('message.action.search') }}
 							</el-button>
 							<el-button  type="primary" @click="onOpenCommondata(0)">
 								<el-icon>
 									<elementPlus />
 								</el-icon>
-								{{ $t('message.action.add') }}
+								&#8197;{{ $t('message.action.add') }}
 							</el-button>
 						</el-form-item>
 						<el-form-item></el-form-item>
@@ -141,13 +141,13 @@
 									<el-icon>
 										<elementEdit />
 									</el-icon>
-									{{ $t('message.action.edit') }}
+									&#8197;{{ $t('message.action.edit') }}
 								</el-button>
 								<el-button  type="danger" @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingDel'">
 									<el-icon>
 										<elementCloseBold />
 									</el-icon>
-									{{ $t('message.action.delete') }}
+									&#8197;{{ $t('message.action.delete') }}
 								</el-button>
 							</template>
 						</el-table-column>
