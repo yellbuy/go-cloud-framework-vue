@@ -179,7 +179,7 @@
 				<el-form-item>
 					<el-button size="mini" type="primary" @click="onOpenItemDialog('zgps')">
 						<el-icon>
-							<elementPlus />
+							<elementCirclePlusFilled />
 						</el-icon>
 						{{ $t('message.action.add') }}
 					</el-button>

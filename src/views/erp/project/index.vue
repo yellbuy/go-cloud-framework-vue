@@ -2,31 +2,31 @@
 	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" size="mini" :model="tableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef"  :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="比选编号">
-						<el-input size="mini" placeholder="请输入比选编号查询" v-model="tableData.param.no"> </el-input>
+						<el-input  placeholder="请输入比选编号查询" v-model="tableData.param.no"> </el-input>
 					</el-form-item>
 					<el-form-item label="比选项目">
-						<el-input size="mini" placeholder="请输入比选项目查询" v-model="tableData.param.name"> </el-input>
+						<el-input  placeholder="请输入比选项目查询" v-model="tableData.param.name"> </el-input>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="mini" @click="onResetSearch">
+						<el-button  @click="onResetSearch">
 							<el-icon>
 								<elementRefreshLeft />
 							</el-icon>
 							{{ $t('message.action.reset') }}
 						</el-button>
-						<el-button size="mini" @click="onGetTableData(true)">
+						<el-button  @click="onGetTableData(true)">
 							<el-icon>
 								<elementSearch />
 							</el-icon>
-							{{ $t('message.action.search') }}
+							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button size="mini" type="primary" @click="onModelAdd" v-auth:[moduleKey]="'btn.BidProjectAdd'">
+						<el-button  type="primary" @click="onModelAdd" v-auth:[moduleKey]="'btn.BidProjectAdd'">
 							<el-icon>
-								<elementPlus />
+								<elementCirclePlusFilled />
 							</el-icon>
-							{{ $t('message.action.add') }}
+							&#8197;{{ $t('message.action.add') }}
 						</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
@@ -36,7 +36,7 @@
 				:data="tableData.data"
 				v-loading="tableData.loading"
 				style="width: 100%"
-				size="mini"
+				
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
@@ -51,17 +51,17 @@
 				<el-table-column prop="ReviewTime" label="评选日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="180" fixed="right">
 					<template #default="scope">
-						<el-button size="mini" type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.BidProjectEdit'">
+						<el-button  type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.BidProjectEdit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
-							{{ $t('message.action.edit') }}
+							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button size="mini" type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.BidProjectDel'">
+						<el-button  type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.BidProjectDel'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
-							{{ $t('message.action.delete') }}
+							&#8197;{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
 				</el-table-column>

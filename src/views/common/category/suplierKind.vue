@@ -3,9 +3,9 @@
 		<el-card shadow="hover">
 			<el-button size="mini" type="primary" @click="onOpenCommondata(0)" v-auth:[moduleKey]="'btn.CategoryAdd'">
 				<el-icon>
-					<elementPlus />
+					<elementCirclePlusFilled />
 				</el-icon>
-				{{ $t('message.action.add') }}
+				&#8197;{{ $t('message.action.add') }}
 			</el-button>
 			<el-table
 				:data="kindTableData.data"
@@ -26,13 +26,13 @@
 							<el-icon>
 								<elementEdit />
 							</el-icon>
-							{{ $t('message.action.edit') }}
+							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button size="mini" type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.CategoryDel'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
-							{{ $t('message.action.delete') }}
+							&#8197;{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
 				</el-table-column>

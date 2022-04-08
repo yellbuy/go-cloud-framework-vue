@@ -11,19 +11,19 @@
 								<el-icon>
 									<elementRefreshLeft />
 								</el-icon>
-								{{ $t('message.action.reset') }}
+								&#8197;{{ $t('message.action.reset') }}
 							</el-button>
 							<el-button type="info" @click="onGetTableData(true)">
 								<el-icon>
 									<elementSearch />
 								</el-icon>
-								{{ $t('message.action.search') }}
+								&#8197;{{ $t('message.action.search') }}
 							</el-button>
 							<el-button  type="primary" @click="onModelAdd" v-auth:[moduleKey]="'btn.Add'">
 								<el-icon>
-									<elementPlus />
+									<elementCirclePlusFilled />
 								</el-icon>
-								{{ $t('message.action.add') }}
+								&#8197;{{ $t('message.action.add') }}
 							</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
@@ -44,13 +44,13 @@
 							<el-icon>
 								<elementEdit />
 							</el-icon>
-							{{ $t('message.action.edit') }}
+							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button plain  type="danger" @click="onModelDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
-							{{ $t('message.action.delete') }}
+							&#8197;{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
 				</el-table-column>

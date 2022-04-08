@@ -19,13 +19,13 @@
 							<el-icon>
 								<elementRefreshLeft />
 							</el-icon>
-							{{ $t('message.action.reset') }}
+							&#8197;{{ $t('message.action.reset') }}
 						</el-button>
 						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
 								<elementSearch />
 							</el-icon>
-							{{ $t('message.action.search') }}
+							&#8197;{{ $t('message.action.search') }}
 						</el-button>
 					</el-form-item>
 					<el-form-item>
@@ -77,13 +77,13 @@
 							<el-icon>
 								<elementEdit />
 							</el-icon>
-							查看
+							&#8197;{{ $t('message.action.see') }}
 						</el-button>
 						<el-button  plain  type="primary" v-if="scope.row.InsurerReviewState == 2" @click="onOpenEditDlg(true,scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
-							审核
+							&#8197;{{ $t('message.action.audit') }}
 						</el-button>
 					</template>
 				</el-table-column>

@@ -5,28 +5,28 @@
 				<el-tab-pane label="基础代码" name="commondata"> </el-tab-pane>
 				<el-tab-pane v-for="(item, key) in tableKindData.data" :key="key" :label="item.Name" :name="item.Code"> </el-tab-pane>
 			</el-tabs>
-			<el-form size="mini" :model="tableData.param" label-width="90px" :inline="true">
+			<el-form  :model="tableData.param" label-width="90px" :inline="true">
 				<el-form-item label="名称">
-					<el-input size="mini" placeholder="请输入名称" v-model="tableData.param.name"> </el-input>
+					<el-input  placeholder="请输入名称" v-model="tableData.param.name"> </el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button size="mini" @click="onResetSearch">
+					<el-button  @click="onResetSearch">
 						<el-icon>
 							<elementRefreshLeft />
 						</el-icon>
 						{{ $t('message.action.reset') }}
 					</el-button>
-					<el-button size="mini" @click="onGetTableData(true)">
+					<el-button  @click="onGetTableData(true)">
 						<el-icon>
 							<elementSearch />
 						</el-icon>
 						{{ $t('message.action.search') }}
 					</el-button>
-					<el-button size="mini" type="primary" @click="onOpenCommondata(0)">
+					<el-button  type="primary" @click="onOpenCommondata(0)">
 						<el-icon>
-							<elementPlus />
+							<elementCirclePlusFilled />
 						</el-icon>
-						{{ $t('message.action.add') }}
+						&#8197;{{ $t('message.action.add') }}
 					</el-button>
 				</el-form-item>
 				<el-form-item></el-form-item>
@@ -35,7 +35,7 @@
 				:data="tableData.data"
 				style="width: 100%"
 				v-loading="tableData.loading"
-				size="mini"
+				
 				:height="proxy.$calcMainHeight(-170)"
 				border
 				stripe
@@ -46,13 +46,13 @@
 				<el-table-column prop="Code" label="编码" show-overflow-tooltip />
 				<el-table-column fixed="right" label="操作" width="220" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button size="mini" type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button  type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button size="mini" type="danger" @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button  type="danger" @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>

@@ -13,6 +13,7 @@ export default {
 		audit:'审核',
 		confirm:'确认',
 		see: "查看",
+		distribute:'分配',
 		save:'保存',
 		saveAndAdd:'保存并新增',
 		reset:'重置',

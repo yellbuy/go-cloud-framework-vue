@@ -3,33 +3,33 @@
 		<el-card shadow="hover">
 			<el-tabs v-model="activeName" type="card" class="demo-tabs" @tab-click="tabsName">
 				<el-tab-pane label="资格评审" name="zgps">
-					<el-form size="mini" :model="jsTableData.param" label-width="90px" :inline="true">
+					<el-form  :model="jsTableData.param" label-width="90px" :inline="true">
 						<el-form-item label="类别">
-							<el-select v-model="jsTableData.param.categoryId" size="mini" class="m-2" placeholder="请选择类别" clearable>
+							<el-select v-model="jsTableData.param.categoryId"  class="m-2" placeholder="请选择类别" clearable>
 								<el-option v-for="item in supKindData" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="名称">
-							<el-input size="mini" placeholder="请输入名称" v-model="jsTableData.param.name"> </el-input>
+							<el-input  placeholder="请输入名称" v-model="jsTableData.param.name"> </el-input>
 						</el-form-item>
 						<el-form-item>
-							<el-button size="mini" @click="onResetSearch">
+							<el-button  @click="onResetSearch">
 								<el-icon>
 									<elementRefreshLeft />
 								</el-icon>
-								{{ $t('message.action.reset') }}
+								&#8197;{{ $t('message.action.reset') }}
 							</el-button>
-							<el-button size="mini" @click="onGetJsTableData(true)">
+							<el-button  @click="onGetJsTableData(true)">
 								<el-icon>
 									<elementSearch />
 								</el-icon>
-								{{ $t('message.action.search') }}
+								&#8197;{{ $t('message.action.search') }}
 							</el-button>
-							<el-button size="mini" type="primary" @click="onOpenCommondata(0)">
+							<el-button  type="primary" @click="onOpenCommondata(0)">
 								<el-icon>
-									<elementPlus />
+									<elementCirclePlusFilled />
 								</el-icon>
-								{{ $t('message.action.add') }}
+								&#8197;{{ $t('message.action.add') }}
 							</el-button>
 						</el-form-item>
 						<el-form-item></el-form-item>
@@ -38,7 +38,7 @@
 						:data="zgTableData.data"
 						style="width: 100%"
 						v-loading="zgTableData.loading"
-						size="mini"
+						
 						:height="proxy.$calcMainHeight(-170)"
 						border
 						stripe
@@ -55,17 +55,17 @@
 						<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 						<el-table-column fixed="right" label="操作" width="220" show-overflow-tooltip>
 							<template #default="scope">
-								<el-button size="mini" type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
+								<el-button  type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
 									<el-icon>
 										<elementEdit />
 									</el-icon>
-									{{ $t('message.action.edit') }}
+									&#8197;{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button size="mini" type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.SettingDel'">
+								<el-button  type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.SettingDel'">
 									<el-icon>
 										<elementCloseBold />
 									</el-icon>
-									{{ $t('message.action.delete') }}
+									&#8197;{{ $t('message.action.delete') }}
 								</el-button>
 							</template>
 						</el-table-column>
@@ -85,29 +85,29 @@
 					</el-pagination>
 				</el-tab-pane>
 				<el-tab-pane label="技术评审" name="jsps">
-					<el-form size="mini" :model="jsTableData.param" label-width="90px" :inline="true">
+					<el-form  :model="jsTableData.param" label-width="90px" :inline="true">
 						<el-form-item label="类别">
-							<el-select v-model="zgTableData.param.categoryId" size="mini" class="m-2" placeholder="请选择类别" clearable>
+							<el-select v-model="zgTableData.param.categoryId"  class="m-2" placeholder="请选择类别" clearable>
 								<el-option v-for="item in supKindData" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="名称">
-							<el-input size="mini" placeholder="请输入名称" v-model="zgTableData.param.name"> </el-input>
+							<el-input  placeholder="请输入名称" v-model="zgTableData.param.name"> </el-input>
 						</el-form-item>
 						<el-form-item>
-							<el-button size="mini" @click="onResetSearch">
+							<el-button  @click="onResetSearch">
 								<el-icon>
 									<elementRefreshLeft />
 								</el-icon>
 								{{ $t('message.action.reset') }}
 							</el-button>
-							<el-button size="mini" @click="onGetZgTableData(true)">
+							<el-button  @click="onGetZgTableData(true)">
 								<el-icon>
 									<elementSearch />
 								</el-icon>
 								{{ $t('message.action.search') }}
 							</el-button>
-							<el-button size="mini" type="primary" @click="onOpenCommondata(0)">
+							<el-button  type="primary" @click="onOpenCommondata(0)">
 								<el-icon>
 									<elementPlus />
 								</el-icon>
@@ -120,7 +120,7 @@
 						:data="jsTableData.data"
 						style="width: 100%"
 						v-loading="jsTableData.loading"
-						size="mini"
+						
 						:height="proxy.$calcMainHeight(-170)"
 						border
 						stripe
@@ -137,13 +137,13 @@
 						<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 						<el-table-column fixed="right" label="操作" width="220" show-overflow-tooltip>
 							<template #default="scope">
-								<el-button size="mini" type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
+								<el-button  type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
 									<el-icon>
 										<elementEdit />
 									</el-icon>
 									{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button size="mini" type="danger" @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingDel'">
+								<el-button  type="danger" @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingDel'">
 									<el-icon>
 										<elementCloseBold />
 									</el-icon>

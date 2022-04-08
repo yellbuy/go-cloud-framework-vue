@@ -21,7 +21,7 @@
 						</el-button>
 						<el-button  type="primary" @click="onOpenDlgAdd"  v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
-								<elementPlus />
+								<elementCirclePlusFilled />
 							</el-icon>
 							{{ $t('message.action.add') }}
 						</el-button>

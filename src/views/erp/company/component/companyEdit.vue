@@ -67,9 +67,9 @@
 				<el-divider content-position="left">资质信息*</el-divider>
 				<el-button size="mini" type="primary" @click="onModelAdd" v-if="!disable">
 					<el-icon>
-						<elementPlus />
+						<elementCirclePlusFilled />
 					</el-icon>
-					{{ $t('message.action.add') }}
+					&#8197;{{ $t('message.action.add') }}
 				</el-button>
 				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="mini" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />

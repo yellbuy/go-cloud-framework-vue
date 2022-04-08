@@ -17,13 +17,13 @@
 							<el-icon>
 								<elementSearch />
 							</el-icon>
-							{{ $t('message.action.search') }}
+							&#8197;{{ $t('message.action.search') }}
 						</el-button>
 						<el-button type="primary" @click="onModelAdd(false)" v-auth:[moduleKey]="'btn.CompanyAdd'">
 							<el-icon>
-								<elementPlus />
+								<elementCirclePlusFilled />
 							</el-icon>
-							{{ $t('message.action.add') }}
+							&#8197;{{ $t('message.action.add') }}
 						</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>

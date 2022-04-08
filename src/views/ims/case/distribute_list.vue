@@ -11,7 +11,7 @@
 							<el-icon>
 								<elementRefreshLeft />
 							</el-icon>
-							{{ $t('message.action.reset') }}
+							&#8197;{{ $t('message.action.reset') }}
 						</el-button>
 					</el-form-item>
 					<el-form-item>
@@ -19,17 +19,9 @@
 							<el-icon>
 								<elementSearch />
 							</el-icon>
-							{{ $t('message.action.search') }}
+							&#8197;{{ $t('message.action.search') }}
 						</el-button>
 					</el-form-item>
-					<!-- <el-form-item v-auth:[moduleKey]="'btn.UserAdd'"> 
-						<el-button size="small" type="primary" @click="onOpenAddUser"  >
-							<el-icon>
-								<elementPlus />
-							</el-icon>
-							{{ $t('message.action.add') }}
-						</el-button>
-					</el-form-item> -->
 					<el-form-item>
 					</el-form-item>
 				</el-form>
@@ -72,7 +64,7 @@
 							<el-icon>
 								<elementEdit />
 							</el-icon>
-							分配
+							&#8197;{{ $t('message.action.distribute') }}
 						</el-button>
 					</template>
 				</el-table-column>

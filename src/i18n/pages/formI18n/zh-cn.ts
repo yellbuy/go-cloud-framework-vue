@@ -19,6 +19,7 @@ export default {
 		submit: '提交',
 		cancel: '取消',
 		see: "查看",
+		distribute:'分配',
 		draft:'草稿',
 		tempSave:'暂存',
 		frontend:'前台',

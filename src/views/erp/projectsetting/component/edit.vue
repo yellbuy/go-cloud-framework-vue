@@ -2,41 +2,41 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-divider content-position="left">类别信息</el-divider>
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading" :disabled="disable">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules"  label-width="90px" v-loading="loading" :disabled="disable">
 				<el-form-item label="类别" prop="CategoryId">
-					<el-select v-model="ruleForm.CategoryId" size="mini" class="m-2" placeholder="请选择类别" clearable>
+					<el-select v-model="ruleForm.CategoryId"  class="m-2" placeholder="请选择类别" clearable>
 						<el-option v-for="item in supKindData" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="名称" prop="Name">
-					<el-input size="mini" placeholder="请输入名称" v-model="ruleForm.Name"> </el-input>
+					<el-input  placeholder="请输入名称" v-model="ruleForm.Name"> </el-input>
 				</el-form-item>
 			</el-form>
 			<el-divider content-position="left">详情信息</el-divider>
-			<el-button size="mini" type="primary" @click="onModelAdd" v-if="!disable">
+			<el-button  type="primary" @click="onModelAdd" v-if="!disable">
 				<el-icon>
-					<elementPlus />
+					<elementCirclePlusFilled />
 				</el-icon>
-				{{ $t('message.action.add') }}
+				&#8197;{{ $t('message.action.add') }}
 			</el-button>
-			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="mini" border stripe highlight-current-row>
+			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%"  border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
 				<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
 				<el-table-column prop="TechnicalMaxScore" label="最高分数" v-if="ruleForm.Kind != 'zgps'" show-overflow-tooltip />
 				<el-table-column label="操作" width="180" fixed="right">
 					<template #default="scope">
-						<el-button size="mini" type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
+						<el-button  type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
-							{{ $t('message.action.edit') }}
+							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button size="mini" type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
+						<el-button  type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
-							{{ $t('message.action.delete') }}
+							&#8197;{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
 				</el-table-column>
@@ -50,7 +50,7 @@
 				</span>
 			</template>
 			<el-dialog v-model="dialogVisible" title="明细信息" width="50%">
-				<el-form ref="lineFormRef" :model="tableItem" :rules="lineRules" size="mini" label-width="130px" v-loading="loading">
+				<el-form ref="lineFormRef" :model="tableItem" :rules="lineRules"  label-width="130px" v-loading="loading">
 					<el-form-item label="评审内容" prop="Content">
 						<el-input v-model="tableItem.Content"></el-input>
 					</el-form-item>

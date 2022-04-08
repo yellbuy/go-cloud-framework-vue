@@ -19,24 +19,15 @@
 							<el-icon>
 								<elementRefreshLeft />
 							</el-icon>
-							{{ $t('message.action.reset') }}
+							&#8197;{{ $t('message.action.reset') }}
 						</el-button>
 						<el-button size="small" @click="onGetTableData(true)">
 							<el-icon>
 								<elementSearch />
 							</el-icon>
-							{{ $t('message.action.search') }}
+							&#8197;{{ $t('message.action.search') }}
 						</el-button>
 					</el-form-item>
-					<el-form-item> </el-form-item>
-					<!-- <el-form-item v-auth:[moduleKey]="'btn.UserAdd'"> 
-						<el-button size="small" type="primary" @click="onOpenAddDlg"  >
-							<el-icon>
-								<elementPlus />
-							</el-icon>
-							{{ $t('message.action.add') }}
-						</el-button>
-					</el-form-item> -->
 					<el-form-item> </el-form-item>
 				</el-form>
 			</div>
@@ -83,7 +74,7 @@
 							<el-icon>
 								<elementEdit />
 							</el-icon>
-							查看
+							&#8197;{{ $t('message.action.see') }}
 						</el-button>
 						<el-button
 							plain
@@ -95,7 +86,7 @@
 							<el-icon>
 								<elementEdit />
 							</el-icon>
-							审核
+							&#8197;{{ $t('message.action.audit') }}
 						</el-button>
 						<el-button
 							plain

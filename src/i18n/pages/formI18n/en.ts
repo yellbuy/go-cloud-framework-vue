@@ -15,6 +15,7 @@ export default {
 		reset:'reset',
 		clear:'clear',
 		see: "see",
+		distribute:'distribute',
 		save:'save',
 		saveAndAdd:'save and add',
 		submit:'submit',
