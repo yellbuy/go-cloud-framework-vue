@@ -47,7 +47,7 @@ service.interceptors.response.use(
 	(response) => {
 		// 对响应数据做点什么
 		const res = response.data;
-		console.debug("response:",res);
+		//console.debug("response:",res);
 		if (res.errcode && res.errcode !== 0) {
 			
 			// `token` 过期或者账号已在别处登录
