@@ -117,7 +117,7 @@ export default {
 				state.tableData.param.pageNum=1;
 			}
 			state.tableData.loading=true;
-			request({url:"/v1/base/roles",method: 'get',params:state.tableData.param}).then((res)=>{
+			request({url:"/v1/admin/base/roles",method: 'get',params:state.tableData.param}).then((res)=>{
 				state.tableData.loading=false;
 				if(res.errcode!=0){
 					return;
@@ -145,7 +145,7 @@ export default {
 				type: 'warning',
 			}).then(() => {
 				state.tableData.loading=true;
-				const url=`/v1/base/role/delete/${row.Id}`;
+				const url=`/v1/admin/base/role/delete/${row.Id}`;
 				request({
 					url: url,
 					method: 'post',

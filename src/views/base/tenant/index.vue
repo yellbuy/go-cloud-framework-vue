@@ -170,7 +170,7 @@ export default {
 				type: 'warning',
 			}).then(() => {
 				request({
-					url: `/v1/base/proxy/tenant/${row.Id}`,
+					url: `/v1/admin/base/proxy/tenant/${row.Id}`,
 					method: 'post',
 				}).then((res)=>{
 					if(res.errcode==0){
@@ -242,7 +242,7 @@ export default {
 				type: 'warning',
 			}).then(() => {
 				state.tableData.loading=true;
-				const url=`/v1/base/tenant/delete/${row.Id}`;
+				const url=`/v1/admin/base/tenant/delete/${row.Id}`;
 				request({
 					url: url,
 					method: 'post',

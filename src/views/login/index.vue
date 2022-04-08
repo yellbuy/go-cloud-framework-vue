@@ -68,7 +68,7 @@ export default {
 			const localAppid=Local.get('appid');
 			curAppid=curAppid||localAppid||appid;
 			request({
-				url: `/v1/base/app/${curAppid}`, //后端登录接口地址
+				url: `/v1/admin/base/app/${curAppid}`, //后端登录接口地址
 				method: 'get'
 			}).then((res)=>{
 				if(res.errcode==0){

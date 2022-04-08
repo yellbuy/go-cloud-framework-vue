@@ -152,7 +152,7 @@ export default {
 		});
 		const getItem = () => {
 			request({
-				url: '/v1/base/users/' + state.ruleForm.Id,
+				url: '/v1/admin/base/users/' + state.ruleForm.Id,
 				method: 'get',
 			}).then((res) => {
 				if (res.errcode == 0) {
@@ -165,7 +165,7 @@ export default {
 		const onSubmit = () => {
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
-					const url = `/v1/base/user/profile/${state.ruleForm.Id}`;
+					const url = `/v1/admin/base/user/profile/${state.ruleForm.Id}`;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					request({
 						url: url,

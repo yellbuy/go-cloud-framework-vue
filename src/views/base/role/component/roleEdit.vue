@@ -141,7 +141,7 @@ export default {
 					state.ruleForm.Perms = proxy.$refs.treePerm.getCheckedKeys();
 					const halfCheckedKeys = proxy.$refs.treePerm.getHalfCheckedKeys()||[];
 					state.ruleForm.Perms.push(...halfCheckedKeys);
-					const url=state.ruleForm.Id>0?`/v1/base/role/${state.ruleForm.Id}`:`/v1/base/role`;
+					const url=state.ruleForm.Id>0?`/v1/admin/base/role/${state.ruleForm.Id}`:`/v1/admin/base/role`;
 					state.ruleForm.Id=state.ruleForm.Id.toString();
 					request({
 						url: url,
@@ -228,7 +228,7 @@ export default {
 			state.permTree.data=[];
 			//加载权限数据
 			request({
-				url: `v1/base/role/permissions/${state.ruleForm.Id}`,
+				url: `v1/admin/base/role/permissions/${state.ruleForm.Id}`,
 				method: 'get',
 			}).then((res)=>{
 				if(res.errcode!=0){

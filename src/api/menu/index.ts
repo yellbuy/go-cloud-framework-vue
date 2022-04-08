@@ -13,7 +13,7 @@ import request from '/@/utils/request';
  */
 export function getMenuAdmin(params?: object) {
 	return request({
-		url: '/v1/base/admin/permission',
+		url: '/v1/admin/base/permission',
 		method: 'get',
 		params,
 	});

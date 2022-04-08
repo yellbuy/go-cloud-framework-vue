@@ -150,7 +150,7 @@ export default {
 			if (path == 'returnProxyParent' || path == 'returnProxyTop') {
 				const isTop = path == 'returnProxyTop';
 				request({
-					url: '/v1/base/proxy/return',
+					url: '/v1/admin/base/proxy/return',
 					method: 'post',
 					params: { isTop: isTop },
 				})

@@ -6,7 +6,7 @@ import request from '/@/utils/request';
  */
 export function getUserList(params: object) {
 	return request({
-		url: '/v1/base/users',
+		url: '/v1/admin/base/users',
 		method: 'get',
 		params: params,
 	});

@@ -7,7 +7,7 @@ import request from '/@/utils/request';
  */
 export async function getUserList(params: object) {
 	return await request({
-		url: '/v1/base/persons',
+		url: '/v1/admin/base/persons',
 		method: 'get',
 		data: params,
 	});

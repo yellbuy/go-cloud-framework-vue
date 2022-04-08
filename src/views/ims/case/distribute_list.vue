@@ -202,7 +202,7 @@ export default {
 				type: 'warning',
 			}).then(() => {
 				state.tableData.loading=true;
-				const url=`/v1/base/user/delete/${row.Id}`;
+				const url=`/v1/admin/base/user/delete/${row.Id}`;
 				request({
 					url: url,
 					method: 'post',

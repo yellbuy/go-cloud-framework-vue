@@ -211,7 +211,7 @@ export default {
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
 					state.loading=true;
-					const url=state.ruleForm.Id>0?`/v1/base/user/${state.ruleForm.Id}`:`/v1/base/user`;
+					const url=state.ruleForm.Id>0?`/v1/admin/base/user/${state.ruleForm.Id}`:`/v1/admin/base/user`;
 					state.ruleForm.Id=state.ruleForm.Id.toString();
 					state.ruleForm.Order=Number.parseInt(state.ruleForm.Order||0);
 					state.ruleForm.RoleIds=state.ruleForm.CheckedRoleList.join(",");
@@ -248,7 +248,7 @@ export default {
 			state.ruleForm.CheckedRoleList=[];
 			//加载权限数据
 			request({
-				url: `v1/base/roles`,
+				url: `v1/admin/base/roles`,
 				method: 'get',
 				params:{pageSize:1000000}
 			}).then((res)=>{

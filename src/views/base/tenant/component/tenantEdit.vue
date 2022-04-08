@@ -185,7 +185,7 @@ export default {
 			proxy.$refs.ruleFormRef.validate((valid) => {
 				if (valid) {
 					
-					const url=state.ruleForm.Id>0?`/v1/base/tenant/${state.ruleForm.Id}`:`/v1/base/tenant`;
+					const url=state.ruleForm.Id>0?`/v1/admin/base/tenant/${state.ruleForm.Id}`:`/v1/admin/base/tenant`;
 					state.ruleForm.Id=state.ruleForm.Id.toString();
 					if(state.ruleForm.Id==0 && state.ruleForm.Username){
 						if(state.ruleForm.Password==""){
