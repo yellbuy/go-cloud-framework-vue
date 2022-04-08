@@ -1,5 +1,5 @@
 <template>
-	<div class="common-concretedata-container">
+	<div class="common-hierarchydata-container">
 		<el-card shadow="hover">
 			<el-tabs v-model="activeName" @tab-click="tabsName">
 				<el-tab-pane v-for="(item, index) in concreteDataList.data" :key="index+1" :label="item.Name" :name="item.Code"> </el-tab-pane>
@@ -8,9 +8,12 @@
 			<el-table
 				:data="tableData.data"
 				v-loading="tableData.loading"
-				:height="proxy.$calcMainHeight(-90)"
+				:height="proxy.$calcMainHeight(-50)"
 				border
 				stripe
+				row-key="Id"
+				default-expand-all
+				:tree-props="{ children: 'Children', hasChildren: 'HasChildren' }"
 				highlight-current-row
 			>
 				<el-table-column type="index" width="50" align="right" label="序号" fixed show-overflow-tooltip />
@@ -25,7 +28,7 @@
 				<el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip />
 				<el-table-column fixed="right" label="操作" width="180" show-overflow-tooltip>
 					<template #header>
-						<el-button  type="primary" @click="onOpenCommonDataDlg(0)">
+						<el-button  type="primary" @click="onOpenCommonDataDlg(0,0)">
 							<el-icon>
 								<elementCirclePlusFilled />
 							</el-icon>
@@ -39,7 +42,7 @@
 						</el-button>
 					</template>
 					<template #default="scope">
-						<el-button  type="primary" plain @click="onOpenCommonDataDlg(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button  type="primary" plain @click="onOpenCommonDataDlg(scope.row.Id,scope.row.Parentid)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -54,36 +57,23 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination
-				small
-				@size-change="onHandleSizeChange"
-				@current-change="onHandleCurrentChange"
-				class="mt15"
-				:page-sizes="[10, 20, 30]"
-				v-model:current-page="tableData.param.pageNum"
-				background
-				v-model:page-size="tableData.param.pageSize"
-				layout="total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
-			</el-pagination>
 		</el-card>
-		<concreteDataEdit ref="commondataEditRef" />
+		<hierarchyDataEdit ref="commondataEditRef" />
 	</div>
 </template>
 
 <script lang="ts">
 import { toRefs, reactive, onMounted, ref, getCurrentInstance } from 'vue';
-import concreteDataEdit from './component/concreteDataEdit.vue';
+import hierarchyDataEdit from './component/hierarchyDataEdit.vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import request from '/@/utils/request';
 export default {
-	name: 'commonConcreteData',
-	components: { concreteDataEdit },
+	name: 'commonHierarchyData',
+	components: { hierarchyDataEdit },
 	setup() {
-		const commonTypeCode='concretecommondata'
+		const commonTypeCode='hierarchycommondata'
 		const commondataEditRef = ref();
-		const moduleKey = 'api_common_concretedata';
+		const moduleKey = 'api_common_hierarchydata';
 		const { proxy } = getCurrentInstance() as any;
 		const state = reactive({
 			moduleKey: moduleKey,
@@ -95,8 +85,6 @@ export default {
 				loading: false,
 				param: {
 					type: commonTypeCode,
-					pageNum: 1,
-					pageSize: 20,
 					name: '',
 				},
 			},
@@ -105,15 +93,13 @@ export default {
 				loading: false,
 				param: {
 					type: commonTypeCode,
-					pageNum: 1,
-					pageSize: 20,
 					name: '',
 				},
 			},
 		});
 		// 页面加载时
 		onMounted(() => {
-			onGetConcreteData(true);
+			onGetHierarchyData(true);
 		});
 		//切换页面
 		const tabsName = () => {
@@ -126,13 +112,11 @@ export default {
 			onGetTableData(gotoFirstPage);
 		};
 		// 打开弹窗
-		const onOpenCommonDataDlg = (id: string) => {
-			commondataEditRef.value.openDialog(state.activeName, id, false);
+		const onOpenCommonDataDlg = (id: string,parentId:string) => {
+			commondataEditRef.value.openDialog(state.activeName, id, parentId, state.tableData.data);
 		};
-		const onGetConcreteData = (isInit:boolean=false) => {
-			state.tableData.param.pageNum = 1;
-			state.tableData.param.pageSize = 10;
-			request({ url: `/v1/admin/common/commondata`, method: 'get',params:{type:commonTypeCode,pateSize:100000}})
+		const onGetHierarchyData = (isInit:boolean=false) => {
+			request({ url: `/v1/admin/common/concretedata`, method: 'get',params:{type:commonTypeCode,pageSize:100000}})
 				.then((res) => {
 					if (res.errcode == 0) {
 						state.concreteDataList.data = res.data;
@@ -146,11 +130,8 @@ export default {
 		};
 		//查询表格数据
 		const onGetTableData = (gotoFirstPage: boolean = false) => {
-			if (gotoFirstPage) {
-				state.tableData.param.pageNum = 1;
-			}
 			state.tableData.loading = true;
-			request({ url: `/v1/admin/common/commondata`, method: 'get',params:{type:state.tableData.param.type} })
+			request({ url: `/v1/admin/common/hierarchydata`, method: 'get',params:{type:state.tableData.param.type} })
 				.then((res) => {
 					state.tableData.loading = false;
 					if (res.errcode != 0) {
@@ -160,7 +141,7 @@ export default {
 						}
 					}
 					if (state.activeName == commonTypeCode) {
-						onGetConcreteData();
+						onGetHierarchyData();
 					}
 					state.tableData.data = res.data;
 					state.tableData.total = res.total;
@@ -170,16 +151,7 @@ export default {
 					state.tableData.loading = false;
 				});
 		};
-		// 分页改变
-		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.pageSize = val;
-			onGetTableData();
-		};
-		// 分页改变
-		const onHandleCurrentChange = (val: number) => {
-			state.tableData.param.pageNum = val;
-			onGetTableData();
-		};
+		
 		const onRowDel = (Id: number) => {
 			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -200,7 +172,7 @@ export default {
 								onGetTableData();
 							}
 							if (state.activeName == commonTypeCode) {
-								onGetConcreteData();
+								onGetHierarchyData();
 							}
 						})
 						.catch((err) => {
@@ -215,8 +187,6 @@ export default {
 			onOpenCommonDataDlg,
 			onGetTableData,
 			onRowDel,
-			onHandleSizeChange,
-			onHandleCurrentChange,
 			tabsName,
 			onLoadTable,
 			proxy,
@@ -227,5 +197,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+	.el-cascader {
+		width:100% !important;
+	}
 </style>
