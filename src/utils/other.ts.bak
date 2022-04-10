@@ -1,12 +1,11 @@
-import { nextTick } from 'vue';
-import type { App } from 'vue';
 import * as svg from '@element-plus/icons-vue';
+import type { App } from 'vue';
+import { nextTick } from 'vue';
+import SvgIcon from '/@/components/svgIcon/index.vue';
+import { i18n } from '/@/i18n/index';
 import router from '/@/router/index';
 import { store } from '/@/store/index';
-import { i18n } from '/@/i18n/index';
 import { Local } from '/@/utils/storage';
-import SvgIcon from '/@/components/svgIcon/index.vue';
-import { judementSameArr } from './arrayOperation';
 
 /**
  * 导出全局注册 element plus svg 图标
@@ -28,11 +27,17 @@ export function elSvg(app: App) {
 export function useTitle() {
 	nextTick(() => {
 		let webTitle = '';
-		let globalTitle: string = store.state.themeConfig.themeConfig.globalTitle;
+		// 获取用户信息 vuex
+		let globalTitle: string = "";
+		if(router.currentRoute.value.path != '/login' && store.state.userInfos && store.state.userInfos.userInfos){
+			globalTitle=(store.state.userInfos.userInfos.tenant && store.state.userInfos.userInfos.tenant.Name) 
+				|| (store.state.userInfos.userInfos.app && store.state.userInfos.userInfos.app.Name)
+				|| store.state.themeConfig.themeConfig.globalTitle;
+		} 
 		router.currentRoute.value.path === '/login'
 			? (webTitle = router.currentRoute.value.meta.title as any)
 			: (webTitle = i18n.global.t(router.currentRoute.value.meta.title as any));
-		document.title = `${webTitle} - ${globalTitle}` || globalTitle;
+		document.title = `${webTitle} - ${globalTitle}`;
 	});
 }
 

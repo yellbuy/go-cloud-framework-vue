@@ -29,10 +29,10 @@ export function useTitle() {
 		let webTitle = '';
 		// 获取用户信息 vuex
 		let globalTitle: string = "";
-		if(router.currentRoute.value.path != '/login'){
+		if(router.currentRoute.value.path != '/login' && store.state.userInfos && store.state.userInfos.userInfos){
 			globalTitle=(store.state.userInfos.userInfos.tenant && store.state.userInfos.userInfos.tenant.Name) 
-			|| (store.state.userInfos.userInfos.app && store.state.userInfos.userInfos.app.Name)
-			|| store.state.themeConfig.themeConfig.globalTitle;
+				|| (store.state.userInfos.userInfos.app && store.state.userInfos.userInfos.app.Name)
+				|| store.state.themeConfig.themeConfig.globalTitle;
 		} 
 		router.currentRoute.value.path === '/login'
 			? (webTitle = router.currentRoute.value.meta.title as any)

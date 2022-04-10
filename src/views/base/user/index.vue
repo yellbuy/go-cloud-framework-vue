@@ -96,7 +96,6 @@ import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } 
 import { ElMessageBox, ElMessage } from 'element-plus';
 import userEdit from './component/userEdit.vue';
 import other from '/@/utils/other';
-import { getUserList } from '/@/api/base/user';
 export default {
 	name: 'baseUsers',
 	components: { userEdit },
@@ -133,22 +132,19 @@ export default {
 		
 
 		// 初始化表格数据
-		const onGetTableData = (gotoFirstPage:boolean=false) => {
+		const onGetTableData = async (gotoFirstPage:boolean=false) => {
 			if(gotoFirstPage){
 				state.tableData.param.pageNum=1;
 			}
 			state.tableData.loading=true;
-			getUserList(state.tableData.param).then((res)=>{
-				state.tableData.loading=false;
-				if(res.errcode!=0){
-					return;
-				}
+			try{
+				const res = await proxy.$api.base.user.getList(state.tableData.param);
 				state.tableData.data = res.data;
 				state.tableData.total = res.total;
-			}).catch(() => {
+			}
+			finally{
 				state.tableData.loading=false;
-			});
-			
+			}			
 		};
 		// 打开新增用户弹窗
 		const onOpenAddUser = () => {

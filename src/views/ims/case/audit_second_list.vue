@@ -115,7 +115,6 @@ import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } 
 import { ElMessageBox, ElMessage } from 'element-plus';
 import dlgEdit from './component/auditEdit.vue';
 import other from '/@/utils/other';
-import { getUserList } from '/@/api/base/user';
 export default {
 	name: 'baseUsers',
 	components: { dlgEdit },

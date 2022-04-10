@@ -72,7 +72,6 @@ import { initBackEndControlRoutes } from '/@/router/backEnd';
 import { useStore } from '/@/store/index';
 import { Session,Local } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
-import { signIn } from '/@/api/login/index';
 import request from '/@/utils/request';
 
 export default defineComponent({
@@ -128,7 +127,7 @@ export default defineComponent({
 			const params={appid:route.query.appid||localAppid||""};
 			console.log("params:",params)
 			try {
-				const res = await signIn(state.ruleForm,params);
+				const res = await proxy.$api.base.user.signIn(state.ruleForm,params);
 				state.loading.signIn = false;
 				if (res.errcode != 0) {
 					state.ruleForm.code="";

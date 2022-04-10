@@ -2,30 +2,48 @@ import enLocale from 'element-plus/lib/locale/lang/en';
 import zhcnLocale from 'element-plus/lib/locale/lang/zh-cn';
 import zhtwLocale from 'element-plus/lib/locale/lang/zh-tw';
 import { createI18n } from 'vue-i18n';
-import pagesAdminEn from './pages/home/en';
-import pagesAdminZhcn from './pages/home/zh-cn';
-import pagesAdminZhtw from './pages/home/zh-tw';
+import pagesFormI18nEn from './formI18n/en';
+import pagesFormI18nZhcn from './formI18n/zh-cn';
+import pagesFormI18nZhtw from './formI18n/zh-tw';
 import nextEn from '/@/i18n/lang/en';
 import nextZhcn from '/@/i18n/lang/zh-cn';
 import nextZhtw from '/@/i18n/lang/zh-tw';
-import pagesBaseEn from '/@/i18n/pages/base/en';
-import pagesBaseZhcn from '/@/i18n/pages/base/zh-cn';
-import pagesBaseZhtw from '/@/i18n/pages/base/zh-tw';
-import pagesCommonEn from '/@/i18n/pages/common/en';
-import pagesCommonZhcn from '/@/i18n/pages/common/zh-cn';
-import pagesCommonZhtw from '/@/i18n/pages/common/zh-tw';
-import pagesFormI18nEn from '/@/i18n/pages/formI18n/en';
-import pagesFormI18nZhcn from '/@/i18n/pages/formI18n/zh-cn';
-import pagesFormI18nZhtw from '/@/i18n/pages/formI18n/zh-tw';
-import pagesImsEn from '/@/i18n/pages/ims/en';
-import pagesImsZhcn from '/@/i18n/pages/ims/zh-cn';
-import pagesImsZhtw from '/@/i18n/pages/ims/zh-tw';
-import pagesLoginEn from '/@/i18n/pages/login/en';
-import pagesLoginZhcn from '/@/i18n/pages/login/zh-cn';
-import pagesLoginZhtw from '/@/i18n/pages/login/zh-tw';
+
+
 import { store } from '/@/store/index';
 
-
+//自动导入pages文件夹下的本地化文件
+const files = import.meta.globEager('./pages/**/*.ts')
+const localeMessages = Object.keys(files).reduce(
+  (localeMessages: { [key: string]: any }, path: string) => {
+    const moduleNames = path.replace(/(\.\/pages\/|\.ts)/g, '').split("/");
+	//文件名称为语言类型的名称
+	const localName=moduleNames[moduleNames.length-1];
+	if(!localeMessages[localName]){
+		//首次加载，初始化对象
+		localeMessages[localName]={}
+	}
+	
+    let curModule=localeMessages[localName]
+    moduleNames.forEach((val,index,array)=>{
+        if(index>=moduleNames.length-2){
+            return;
+        }
+        curModule[val]={}
+        curModule=curModule[val]
+    })
+    const func=files[path]?.default;
+	if(moduleNames.length>1){
+		curModule[moduleNames[moduleNames.length-2]]=Object.assign({},func)
+	} else {
+		localeMessages[localName]=Object.assign({},func)
+	}
+    
+    
+    return localeMessages
+  },
+  {}
+)
 // 定义语言国际化内容
 /**
  * 说明：
@@ -37,36 +55,24 @@ const messages = {
 		...zhcnLocale,
 		message: {
 			...nextZhcn,
-			...pagesAdminZhcn,
-			...pagesLoginZhcn,
-			...pagesBaseZhcn,
-			...pagesCommonZhcn,
-			...pagesImsZhcn,
 			...pagesFormI18nZhcn,
+			...localeMessages[zhcnLocale.name]
 		},
 	},
 	[enLocale.name]: {
 		...enLocale,
 		message: {
 			...nextEn,
-			...pagesAdminEn,
-			...pagesLoginEn,
-			...pagesBaseEn,
-			...pagesCommonEn,
-			...pagesImsEn,
 			...pagesFormI18nEn,
+			...localeMessages[enLocale.name]
 		},
 	},
 	[zhtwLocale.name]: {
 		...zhtwLocale,
 		message: {
 			...nextZhtw,
-			...pagesAdminZhtw,
-			...pagesLoginZhtw,
-			...pagesBaseZhtw,
-			...pagesCommonZhtw,
-			...pagesImsZhtw,
 			...pagesFormI18nZhtw,
+			...localeMessages[zhtwLocale.name]
 		},
 	},
 };
