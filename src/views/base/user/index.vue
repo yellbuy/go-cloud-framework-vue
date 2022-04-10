@@ -139,8 +139,10 @@ export default {
 			state.tableData.loading=true;
 			try{
 				const res = await proxy.$api.base.user.getList(state.tableData.param);
-				state.tableData.data = res.data;
-				state.tableData.total = res.total;
+				if(res.errcode==0){
+					state.tableData.data = res.data;
+					state.tableData.total = res.total;
+				}
 			}
 			finally{
 				state.tableData.loading=false;
