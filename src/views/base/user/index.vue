@@ -138,7 +138,7 @@ export default {
 			}
 			state.tableData.loading=true;
 			try{
-				const res = await proxy.$api.base.user1.getList(state.tableData.param);
+				const res = await proxy.$api.base.user.getList(state.tableData.param);
 				state.tableData.data = res.data;
 				state.tableData.total = res.total;
 			}
