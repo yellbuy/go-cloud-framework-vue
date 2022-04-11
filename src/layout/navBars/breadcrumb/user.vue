@@ -93,7 +93,6 @@ import other from '/@/utils/other';
 import { Session, Local } from '/@/utils/storage';
 import UserNews from '/@/layout/navBars/breadcrumb/userNews.vue';
 import Search from '/@/layout/navBars/breadcrumb/search.vue';
-import request from '/@/utils/request';
 import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
 
@@ -146,68 +145,55 @@ export default {
 			proxy.mittBus.emit('openSetingsDrawer');
 		};
 		// 下拉菜单点击时
-		const onHandleCommandClick = (path: string) => {
+		const onHandleCommandClick = async (path: string) => {
 			if (path == 'returnProxyParent' || path == 'returnProxyTop') {
 				const isTop = path == 'returnProxyTop';
-				request({
-					url: '/v1/admin/base/proxy/return',
-					method: 'post',
-					params: { isTop: isTop },
-				})
-					.then((res) => {
-						if (res.errcode == 0) {
-							ElMessage.success({
-								showClose: true,
-								duration: 2400,
-								message: t('message.base.action.proxySuccess'),
-								onClose: async function () {
-									try {
-										let defaultRoles: Array<string> = [];
-										let defaultAuthBtnList: Array<string> = [];
-										Session.clear();
-										const avatar = import.meta.env.VITE_API_URL + '/v1/avatar/user/' + res.data.user.Id + '.jpg';
-										//console.debug(avatar)
-										// 用户信息模拟数据
-										const userInfos = {
-											uid: res.data.user.Id,
-											appid:res.data.user.Appid,
-											tid:res.data.user.Tid,
-											username: res.data.user.Username,
-											realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
-											mobile:res.data.user.Mobile,
-											avatar: avatar,
-											time: new Date().getTime(),
-											isAdmin:res.data.user.IsAdmin,
-											roles: ['api'],
-											authBtnList: defaultAuthBtnList,
-											isProxy: res.data.user.IsProxy,
-											app:res.data.user.App||{},
-											tenant:res.data.user.Tenant||{},
-										};
-										// 存储 token 到浏览器缓存
-										Session.set('token', res.data.token);
-										// 存储用户信息到浏览器缓存
-										Session.set('userInfo', userInfos);
-										Session.set('expiresToken', res.data.expiresAt);
-										Session.set('refreshTokenAt', res.data.refreshTokenAt);
-										// 1、请注意执行顺序(存储用户信息到vuex)
-										store.dispatch('userInfos/setUserInfos', userInfos);
-										resetRoute(); // 删除/重置路由
-										window.location.href = '/';
-									} catch (err) {
-										console.error(err);
-									}
-								},
-							});
-						}
-					})
-					.catch((err) => {
-						ElMessage({
-							showClose: true,
-							message: err,
-							type: 'error',
-						});
+				const res=await proxy.$api.base.proxy.return({isTop});
+				if (res.errcode == 0) {
+					ElMessage.success({
+						showClose: true,
+						duration: 2400,
+						message: t('message.base.action.proxySuccess'),
+						onClose: async function () {
+							try {
+								let defaultRoles: Array<string> = [];
+								let defaultAuthBtnList: Array<string> = [];
+								Session.clear();
+								const avatar = import.meta.env.VITE_API_URL + '/v1/avatar/user/' + res.data.user.Id + '.jpg';
+								//console.debug(avatar)
+								// 用户信息模拟数据
+								const userInfos = {
+									uid: res.data.user.Id,
+									appid:res.data.user.Appid,
+									tid:res.data.user.Tid,
+									username: res.data.user.Username,
+									realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
+									mobile:res.data.user.Mobile,
+									avatar: avatar,
+									time: new Date().getTime(),
+									isAdmin:res.data.user.IsAdmin,
+									roles: ['api'],
+									authBtnList: defaultAuthBtnList,
+									isProxy: res.data.user.IsProxy,
+									app:res.data.user.App||{},
+									tenant:res.data.user.Tenant||{},
+								};
+								// 存储 token 到浏览器缓存
+								Session.set('token', res.data.token);
+								// 存储用户信息到浏览器缓存
+								Session.set('userInfo', userInfos);
+								Session.set('expiresToken', res.data.expiresAt);
+								Session.set('refreshTokenAt', res.data.refreshTokenAt);
+								// 1、请注意执行顺序(存储用户信息到vuex)
+								store.dispatch('userInfos/setUserInfos', userInfos);
+								resetRoute(); // 删除/重置路由
+								window.location.href = '/';
+							} catch (err) {
+								console.error(err);
+							}
+						},
 					});
+				}
 			} else if (path === 'logOut') {
 				ElMessageBox({
 					closeOnClickModal: false,
@@ -238,11 +224,11 @@ export default {
 						router.push('/login');
 						setTimeout(() => {
 							ElMessage.success(t('message.user.logOutSuccess'));
-						}, 300);
+						}, 360);
 					})
 					.catch(() => {});
 			} else if (path === 'wareHouse') {
-				window.open('https://gitee.com/lyt-top/vue-next-admin');
+				window.open('https://www.ybxxjs.com');
 			} else {
 				console.log('跳转的页面', path);
 				router.push(path);

@@ -63,7 +63,6 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessageBox, ElMessage } from 'element-plus';
@@ -128,24 +127,15 @@ export default {
 			state.options = options;
 		};
 		const loadRowById = (id: string,Type:string) => {
-			const url = `/v1/admin/common/commondata/${id}`;
-			request({
-				url: url,
-				method: 'get',
-			}).then((res) => {
-				if (res.errcode == 0) {
-					state.ruleForm = res.data;
-					if(res.data.Parentid && res.data.Parentid!='0' && Type!=commonTypeCode){
-						state.ruleForm.parentids=[res.data.Parentid];
-					} else {
-						state.ruleForm.parentids=[];
-					}
-					console.log("state.ruleForm.parentids:",state.ruleForm.parentids)
+			const res= await proxy.$api.common.commondata.getById(id);
+			if (res.errcode == 0) {
+				state.ruleForm = res.data;
+				if(res.data.Parentid && res.data.Parentid!='0' && Type!=commonTypeCode){
+					state.ruleForm.parentids=[res.data.Parentid];
+				} else {
+					state.ruleForm.parentids=[];
 				}
-			})
-			.catch((err) => {
-				console.error(err)
-			});
+			}
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -165,7 +155,6 @@ export default {
 				console.log(valid);
 				if (valid) {
 					// state.loading = true;
-					const url = state.ruleForm.Id > 0 ? `/v1/admin/common/commondata/${state.ruleForm.Id}` : `/v1/admin/common/commondata`;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.Order = parseInt(state.ruleForm.Order);
 					state.ruleForm.Status = parseInt(state.ruleForm.Status);
@@ -176,29 +165,21 @@ export default {
 						//取最后一条记录
 						state.ruleForm.Parentid=state.ruleForm.parentids[state.ruleForm.parentids.length-1];
 					}
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					})
-						.then((res) => {
-							state.loading = false;
-							if (res.errcode == 0) {
-								if (isCloseDlg) {
-									closeDialog();
-								} else {
-									proxy.$refs.ruleFormRef.resetFields();
-									state.ruleForm.Id = 0;
-								}
+					try{
+						const res = proxy.$api.common.commondata.save(state.ruleForm);
+						if (res.errcode == 0) {
+							if (isCloseDlg) {
+								closeDialog();
+							} else {
+								proxy.$refs.ruleFormRef.resetFields();
+								state.ruleForm.Id = 0;
 							}
-						})
-						.catch(() => {
-							state.loading = false;
-						});
-					return false;
-				} else {
-					return false;
-				}
+						}
+					} finally{
+						state.loading = false;
+					}
+				} 
+				return false;
 			});
 		};
 		// 页面加载时

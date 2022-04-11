@@ -7,8 +7,7 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import { toRefs, reactive,watch, defineComponent, onUnmounted, onMounted } from 'vue';
+import { toRefs, reactive,watch, defineComponent, onUnmounted, onMounted,getCurrentInstance } from 'vue';
 export default defineComponent({
 	name: 'imageList',
 	props:{
@@ -22,6 +21,7 @@ export default defineComponent({
         },
 	},
 	setup(props, { emit }) {
+		const { proxy } = getCurrentInstance() as any;
 		const state = reactive({
 			imgList:[],
 			staticBaseUrl:props.baseUrl
@@ -29,26 +29,19 @@ export default defineComponent({
 		if(!state.staticBaseUrl){
 			state.staticBaseUrl=import.meta.env.VITE_URL
 		}
-		const loadPics=((ids:String)=>{
+		const loadPics=(async (ids:String)=>{
 			state.imgList=[];
 			if(ids){
-				request({
-					url: '/v1/file/parse',
-					method: 'get',
-					params: {ids:ids},
-				}).then((res)=>{
-					if(res.errcode!=0){
-						console.debug(res.errmsg)
-					} else if(res.data.length){
+				const res=await proxy.$api.common.file.parse({ids});
+				if(res.errcode==0){
+					if(res.data.length){
 						res.data.forEach(function(val){
 							if(val.Savepath){
 								state.imgList.push(state.staticBaseUrl+val.Savepath)
 							}
 						})
 					}
-				}).catch((err)=>{
-					console.error(err)
-				});
+				} 
 			}
 		});
 

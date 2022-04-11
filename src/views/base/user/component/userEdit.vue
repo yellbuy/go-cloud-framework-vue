@@ -74,26 +74,26 @@
 					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
 						<el-form-item prop="IsAdmin">
 							<el-checkbox v-model="ruleForm.IsAdmin" :true-label="1" :false-label="0">管理员</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>管理员拥有所有权限</p>
+							<p title="" class="color-info-light font10 ml5" ><SvgIcon name="fa fa-info-circle" class="mr3"/>管理员拥有所有权限</p>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
 						<el-form-item label="" prop="IsExternal">
 							<el-checkbox v-model="ruleForm.IsExternal" :true-label="1" :false-label="0">外部用户</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>外部用户不允许登录后台</p>
+							<p title="" class="color-info-light font10 ml5" ><SvgIcon name="fa fa-info-circle" class="mr3"/>外部用户不允许登录后台</p>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
 						<el-form-item label="" prop="AllowBackendLogin">
 							<el-checkbox v-model="ruleForm.AllowBackendLogin" :true-label="1" :false-label="0">后台允许登录</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>是否允许登录系统后台</p>
+							<p title="" class="color-info-light font10 ml5" ><SvgIcon name="fa fa-info-circle" class="mr3"/>是否允许登录系统后台</p>
 						</el-form-item>
 						
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
 						<el-form-item label="" prop="AllowFrontendLogin">
 							<el-checkbox v-model="ruleForm.AllowFrontendLogin" :true-label="1" :false-label="0">前台允许登录</el-checkbox>
-							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录前台和客户端</p>
+							<p title="" class="color-info-light font10 ml5" ><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录前台和客户端</p>
 						</el-form-item>
 						
 					</el-col>
@@ -208,20 +208,14 @@ export default {
 		// 新增
 		const onSubmit = (isCloseDlg:boolean) => {
 			
-			proxy.$refs.ruleFormRef.validate((valid) => {
+			proxy.$refs.ruleFormRef.validate(async (valid:any) => {
 				if (valid) {
-					state.loading=true;
-					const url=state.ruleForm.Id>0?`/v1/admin/base/user/${state.ruleForm.Id}`:`/v1/admin/base/user`;
 					state.ruleForm.Id=state.ruleForm.Id.toString();
 					state.ruleForm.Order=Number.parseInt(state.ruleForm.Order||0);
 					state.ruleForm.RoleIds=state.ruleForm.CheckedRoleList.join(",");
-					
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					}).then((res)=>{
-						state.loading=false;
+					state.loading=true;
+					try{
+						const res = await proxy.$api.base.user.save(state.ruleForm)
 						if(res.errcode==0){
 							if(isCloseDlg){
 								closeDialog();
@@ -232,43 +226,36 @@ export default {
 							}
 							proxy.$parent.onGetTableData();
 						}
-					}).catch((err)=>{
+					} finally {
 						state.loading=false;
-					});
-					return false;
+					}
 				} else {
 					return false;
 				}
 			});
 		};
 		//加载角色数据
-		const onInitRoleData=((roleIds:string)=>{
+		const onInitRoleData=(async (roleIds:string)=>{
 			
 			state.ruleForm.RoleList=[];
 			state.ruleForm.CheckedRoleList=[];
-			//加载权限数据
-			request({
-				url: `v1/admin/base/roles`,
-				method: 'get',
-				params:{pageSize:1000000}
-			}).then((res)=>{
-				if(res.errcode!=0){
-					return;
-				}
-				
-				const roleIdArr=roleIds.split(",");
-				for (const val of res.data) {
-					val.Checked=false;
-					for(const id of roleIdArr){
-						if(val.Id==id){
-							state.ruleForm.CheckedRoleList.push(val.Id)
-							val.Checked=true
-							break;
-						}
+			const res= await proxy.$api.base.role.getList({pageSize:1000000});
+			if(res.errcode!=0){
+				return;
+			}
+			
+			const roleIdArr=roleIds.split(",");
+			for (const val of res.data) {
+				val.Checked=false;
+				for(const id of roleIdArr){
+					if(val.Id==id){
+						state.ruleForm.CheckedRoleList.push(val.Id)
+						val.Checked=true
+						break;
 					}
 				}
-				state.ruleForm.RoleList=res.data;
-			})
+			}
+			state.ruleForm.RoleList=res.data;
 		})
 
 		// 初始化部门数据

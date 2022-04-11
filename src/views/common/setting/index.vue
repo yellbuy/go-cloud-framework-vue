@@ -252,7 +252,7 @@
 								class="avatar-uploader"
 								:action="`${baseUrl}/v1/file/upload`"
 								name="file"
-								:headers="{Appid:appid,Authorization:token}"
+								:headers="{Appid:getUserInfos.appid,Authorization:token}"
 								:show-file-list="false"
 								:on-success="onLogoUploadSuccess"
 								:before-upload="onBeforeImageUpload"
@@ -347,7 +347,7 @@
 								:action="`${baseUrl}/v1/file/upload?groupKey=${group.Key}&itemKey=${item.Key}`"
 								v-else-if="item.Type === 6"
 								name="file"
-								:headers="{Appid:appid,Authorization:token}"
+								:headers="{Appid:getUserInfos.appid,Authorization:token}"
 								:show-file-list="false"
 								:on-success="onImageUploadSuccess"
 								:before-upload="onBeforeImageUpload"
@@ -384,7 +384,7 @@
 								<vue-ueditor-wrap :editor-id="`editor-${group.Key}-${item.Key}`"  
 								:editor-dependencies="['ueditor.config.js','ueditor.all.min.js','xiumi/xiumi-ue-dialog-v5.js','xiumi/xiumi-ue-v5.css']"
 								v-model="groupItems[group.Key].items[item.Key]" 
-								:config="{UEDITOR_HOME_URL:'/ueditor/',serverUrl:`${baseUrl}/v1/common/editor/${appid}`,headers:{'Authorization':token,Appid:appid},readonly:item.Readonly}" 
+								:config="{UEDITOR_HOME_URL:'/ueditor/',serverUrl:`${baseUrl}/v1/common/editor/${getUserInfos.appid}`,headers:{'Authorization':token,Appid:getUserInfos.appid},readonly:item.Readonly}" 
 								></vue-ueditor-wrap>
 							</template>
 							
@@ -417,7 +417,6 @@
 import { toRefs, reactive, onMounted, ref, getCurrentInstance,computed } from 'vue';
 import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
 import { Session } from '/@/utils/storage';
-import {request,appid} from '/@/utils/request';
 import { emitKeypressEvents } from 'readline';
 import { useStore } from '/@/store/index';
 export default {
@@ -427,13 +426,17 @@ export default {
 		const moduleKey = 'api_common_setting';
 		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
+		// 获取用户信息 vuex
+		const getUserInfos = computed(() => {
+			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
+			return store.state.userInfos.userInfos;
+		});
 		const token = Session.get('token');
 		const state = reactive({
 			baseUrl:import.meta.env.VITE_API_URL,
 			baseStaticUrl:import.meta.env.VITE_URL,
 			scopeKind:0,
 			token:token,
-			appid:appid,
 			loading:false,
 			groupKey:'',
 			moduleKey: moduleKey,
@@ -448,16 +451,12 @@ export default {
 			onLoadData();
 		});
 		//设置数据
-		const onLoadData = () => {
+		const onLoadData = async () => {
 			state.loading = true;
-			request({
-				url:'/v1/admin/common/setting/group',
-				method:'get',
-				params:state.groupKey
-			}).then((res) => {
-				state.loading = false;
+			try{
+				const res=await proxy.$api.common.setting.getGroup({groupKey:state.groupKey});
 				if(res.errcode==0){
-					console.log(res.data);
+					//console.log(res.data);
 					state.scopeKind=res.data.scopeKind;
 					state.ruleForm=res.data.model;
 					state.list=res.data.groups;
@@ -515,27 +514,25 @@ export default {
 						state.groupItems[val.Key].items=items
 					}
 				}
-
-			}).catch((err) => {
-				ElMessage.error(err)
-				state.loading = false;
-			});
+			}finally{
+				state.loading=false;
+			}
 		};
 		const onSubmitModel=()=>{
 			if(state.scopeKind!=2 && state.scopeKind !=3){
 				return;
 			}
-			const url=state.scopeKind==2?`/v1/admin/base/app/${state.ruleForm.Id}`:`v1/admin/base/tenant/${state.ruleForm.Id}`
 			
-			proxy.$refs.formRef.validate((valid) => {
+			proxy.$refs.formRef.validate(async (valid:any) => {
 				if (valid) {
 					state.loading=true;
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					}).then((res)=>{
-						state.loading=false;
+					try{
+						let res:any={}
+						if(state.scopeKind==2){
+							res=await proxy.$api.base.app.update(state.ruleForm)
+						} else {
+							res=await proxy.$api.base.tenant.update(state.ruleForm)
+						}
 						if(res.errcode==0){
 							const userInfos=Session.get('userInfo')
 							let key=""
@@ -556,38 +553,30 @@ export default {
 							}
 							ElMessage.success("数据保存成功")
 						}
-					}).catch((err)=>{
+					} finally{
 						state.loading=false;
-					});
-					return false;
+					}
 				}
+				return false;
 			})
 		};
 		const onSubmit=(groupKey:String)=>{
-			if(groupKey==""){
-				//此处为基本信息管理
-			}
 			const form=proxy.$refs["form_"+groupKey][0];
-			form.validate((valid) => {
+			form.validate(async (valid:any) => {
 				if (!valid) {
 					return false;
 				}
 				state.loading=true;
-				const url=`/v1/admin/common/setting/group?groupKey=${groupKey}`
-				request({
-					url: url,
-					method: 'post',
-					data: state.groupItems[groupKey].items,
-				}).then((res)=>{
-					state.loading=false;
+				try{
+					const res=await proxy.$api.common.setting.updateGroup(groupKey,state.groupItems[groupKey].items);
 					if(res.errcode==0){
 						ElMessage.success("数据保存成功")
 					}
-				}).catch((err)=>{
+				}finally{
 					state.loading=false;
-				});
-				return false;
+				}
 			})
+			return false;
 		};
 
 		const onLogoUploadSuccess: UploadProps['onSuccess'] = (
@@ -639,6 +628,7 @@ export default {
 			onBeforeImageUpload,
 			onLogoUploadSuccess,
 			onImageUploadSuccess,
+			getUserInfos,
 			...toRefs(state),
 		};
 	},

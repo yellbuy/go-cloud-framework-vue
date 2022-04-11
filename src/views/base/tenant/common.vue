@@ -92,7 +92,6 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
 import { useI18n } from 'vue-i18n';
 import { Session, Local } from '/@/utils/storage';
 import { resetRoute } from '/@/router/index';
@@ -141,21 +140,21 @@ export default {
 		}
 		
 		// 初始化表格数据
-		const onGetTableData = (gotoFirstPage:boolean=false) => {
+		const onGetTableData =async (gotoFirstPage:boolean=false) => {
 			if(gotoFirstPage){
 				state.tableData.param.pageNum=1;
 			}
 			state.tableData.loading=true;
-			request("/v1/admin/base/tenants",state.tableData.param).then((res)=>{
-				state.tableData.loading=false;
+			try{
+				const res = await proxy.$api.base.tenant.getList(state.tableData.param)
 				if(res.errcode!=0){
 					return;
 				}
 				state.tableData.data = res.data;
 				state.tableData.total = res.total;
-			}).catch(() => {
+			} finally{
 				state.tableData.loading=false;
-			});
+			}
 			
 		};
 		// 打开新增用户弹窗
@@ -172,20 +171,18 @@ export default {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
-			}).then(() => {
+			}).then(async () => {
 				state.tableData.loading=true;
-				const url=`/v1/admin/base/tenant/delete/${row.Id}`;
-				request({
-					url: url,
-					method: 'post',
-				}).then((res)=>{
-					state.tableData.loading=false;
-					if(res.errcode==0){
-						onGetTableData();
+				state.tableData.loading=true;
+				try{
+					const res= await proxy.$api.base.tenant.delete(row.Id);
+					if(res.errcode!=0){
+						return;
 					}
-				}).catch((err)=>{
+					onGetTableData();
+				} finally {
 					state.tableData.loading=false;
-				});
+				}
 				return false;
 			}).catch((err) => {
 			});
@@ -206,72 +203,66 @@ export default {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
-			}).then(() => {
-				request({
-					url: `/v1/admin/base/proxy/tenant/${row.Id}`,
-					method: 'post',
-				}).then((res)=>{
-					if(res.errcode==0){
-						ElMessage.success({
-							showClose: true,
-							duration:2400,
-							message: t('message.base.action.proxySuccess'),
-							onClose:async function(){
-								try{
-									let defaultRoles: Array<string> = [];
-									let defaultAuthBtnList: Array<string> = [];
-									Session.clear();
-									const avatar=import.meta.env.VITE_API_URL+'/v1/avatar/user/'+res.data.user.Id+".jpg"
-									//console.debug(avatar)
-									// 用户信息模拟数据
-									const userInfos = {
-										uid: res.data.user.Id,
-										appid:res.data.user.Appid,
-										tid:res.data.user.Tid,
-										username: res.data.user.Username,
-										realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
-										mobile:res.data.user.Mobile,
-										avatar: avatar,
-										time: new Date().getTime(),
-										isAdmin:res.data.user.IsAdmin,
-										roles: ['api'],
-										authBtnList: defaultAuthBtnList,
-										isProxy: res.data.user.IsProxy,
-										app:res.data.user.App||{},
-										tenant:res.data.user.Tenant||{},
-									};
-									// 存储 token 到浏览器缓存
-									Session.set('token', res.data.token);
-									// 存储用户信息到浏览器缓存
-									Session.set('userInfo', userInfos);
-									Session.set('expiresToken',res.data.expiresAt);
-									Session.set("refreshTokenAt",res.data.refreshTokenAt);
-									// 1、请注意执行顺序(存储用户信息到vuex)
-									store.dispatch('userInfos/setUserInfos', userInfos);
-									resetRoute(); // 删除/重置路由
-									window.location.href="/";
-									return;
-									// 删除动态路由
-									await resetRoute();
-									if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
-										// 前端控制路由，2、请注意执行顺序
-										await initFrontEndControlRoutes();
-									} else {
-										// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
-										// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
-										await initBackEndControlRoutes();
-										// 执行完 initBackEndControlRoutes，再执行 signInSuccess
-									}
-									window.location.href="/";
-								} catch(err){
-									console.error(err)
+			}).then(async () => {
+				const res=await proxy.$api.base.proxy.enterTenant(row.Id);
+				if(res.errcode==0){
+					ElMessage.success({
+						showClose: true,
+						duration:2400,
+						message: t('message.base.action.proxySuccess'),
+						onClose:async function(){
+							try{
+								let defaultRoles: Array<string> = [];
+								let defaultAuthBtnList: Array<string> = [];
+								Session.clear();
+								const avatar=import.meta.env.VITE_API_URL+'/v1/avatar/user/'+res.data.user.Id+".jpg"
+								//console.debug(avatar)
+								// 用户信息模拟数据
+								const userInfos = {
+									uid: res.data.user.Id,
+									appid:res.data.user.Appid,
+									tid:res.data.user.Tid,
+									username: res.data.user.Username,
+									realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
+									mobile:res.data.user.Mobile,
+									avatar: avatar,
+									time: new Date().getTime(),
+									isAdmin:res.data.user.IsAdmin,
+									roles: ['api'],
+									authBtnList: defaultAuthBtnList,
+									isProxy: res.data.user.IsProxy,
+									app:res.data.user.App||{},
+									tenant:res.data.user.Tenant||{},
+								};
+								// 存储 token 到浏览器缓存
+								Session.set('token', res.data.token);
+								// 存储用户信息到浏览器缓存
+								Session.set('userInfo', userInfos);
+								Session.set('expiresToken',res.data.expiresAt);
+								Session.set("refreshTokenAt",res.data.refreshTokenAt);
+								// 1、请注意执行顺序(存储用户信息到vuex)
+								store.dispatch('userInfos/setUserInfos', userInfos);
+								resetRoute(); // 删除/重置路由
+								window.location.href="/";
+								return;
+								// 删除动态路由
+								await resetRoute();
+								if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
+									// 前端控制路由，2、请注意执行顺序
+									await initFrontEndControlRoutes();
+								} else {
+									// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
+									// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
+									await initBackEndControlRoutes();
+									// 执行完 initBackEndControlRoutes，再执行 signInSuccess
 								}
+								window.location.href="/";
+							} catch(err){
+								console.error(err)
 							}
-						})
-					}
-				}).catch((err)=>{
-					console.error(err)
-				});
+						}
+					})
+				}
 			}).catch((err) => {
 				console.error(err)
 			});

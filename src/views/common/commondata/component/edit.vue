@@ -65,9 +65,13 @@ export default {
 			],
 		});
 		// 打开弹窗
-		const openDialog = (Type: string, id: string, disable: boolean) => {
-			if (id != '0') {
-				GetByIdRow(id);
+		const openDialog = async (Type: string, id: string, disable: boolean) => {
+			if (id && id != '0') {
+				const res = await proxy.$api.common.commondata.getById(id)
+				if (res.errcode != 0) {
+					return;
+				}
+				state.ruleForm = res.data;
 				state.title = t('message.action.edit');
 			} else {
 				state.ruleForm.Id = 0;
@@ -78,21 +82,7 @@ export default {
 			state.isShowDialog = true;
 			state.disable = disable;
 		};
-		const GetByIdRow = (Id: string) => {
-			const url = `/v1/common/commondata/getbyid/${Id}`;
-			request({
-				url: url,
-				method: 'get',
-			})
-				.then((res) => {
-					if (res.errcode == 0) {
-						state.ruleForm = res.data;
-					} else {
-						ElMessage.warning(res.errmsg);
-					}
-				})
-				.catch((err) => {});
-		};
+		
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
@@ -107,36 +97,24 @@ export default {
 		// 新增
 		const onSubmit = (isCloseDlg: boolean) => {
 			console.log(state.ruleForm);
-			proxy.$refs.ruleFormRef.validate((valid: any) => {
+			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				console.log(valid);
 				if (valid) {
 					// state.loading = true;
 					const url = state.ruleForm.Id > 0 ? `/v1/common/commondata/${state.ruleForm.Id}` : `/v1/common/commondata`;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.Order = parseInt(state.ruleForm.Order);
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					})
-						.then((res) => {
-							state.loading = false;
-							if (res.errcode == 0) {
-								if (isCloseDlg) {
-									closeDialog();
-								} else {
-									proxy.$refs.ruleFormRef.resetFields();
-									state.ruleForm.Id = 0;
-								}
-							}
-						})
-						.catch(() => {
-							state.loading = false;
-						});
-					return false;
-				} else {
-					return false;
-				}
+					const res = await proxy.$api.common.commondata.save(state.ruleForm)
+					if (res.errcode == 0) {
+						if (isCloseDlg) {
+							closeDialog();
+						} else {
+							proxy.$refs.ruleFormRef.resetFields();
+							state.ruleForm.Id = 0;
+						}
+					}
+				} 
+				return false;
 			});
 		};
 		// 页面加载时
@@ -146,7 +124,6 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
-			GetByIdRow,
 			rules,
 			onSubmit,
 			...toRefs(state),

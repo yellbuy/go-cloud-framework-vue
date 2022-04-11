@@ -72,8 +72,6 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import commonFunction from '/@/utils/commonFunction';
 import { useRouter } from 'vue-router';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n';
@@ -150,46 +148,30 @@ export default {
 				},
 			],
 		});
-		const getItem = () => {
-			request({
-				url: '/v1/admin/base/users/' + state.ruleForm.Id,
-				method: 'get',
-			}).then((res) => {
-				if (res.errcode == 0) {
-					state.ruleForm = res.data;
-				} else {
-					ElMessage.warning(res.errmsg);
-				}
-			});
+		const getItem = async () => {
+			const res=await proxy.$api.base.user.getById(state.ruleForm.Id)
+			if (res.errcode == 0) {
+				state.ruleForm = res.data;
+			}
 		};
 		const onSubmit = () => {
-			proxy.$refs.ruleFormRef.validate((valid) => {
+			proxy.$refs.ruleFormRef.validate(async (valid:any) => {
 				if (valid) {
-					const url = `/v1/admin/base/user/profile/${state.ruleForm.Id}`;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					})
-						.then((res) => {
-							if (res.errcode == 0) {
-								ElMessage.success('操作成功！');
-								if (state.ruleForm.PasswordReset == 1) {
-									Session.clear(); // 清除缓存/token等
-									resetRoute(); // 删除/重置路由
-									router.push('/login');
-									setTimeout(() => {
-										ElMessage.success(t('message.user.logOutSuccess'));
-									}, 300);
-								}
-							}
-						})
-						.catch((err) => {});
-					return false;
-				} else {
-					return false;
-				}
+					const res=await proxy.$api.base.user.updateProfile(state.ruleForm);
+					if (res.errcode == 0) {
+						ElMessage.success('操作成功！');
+						if (state.ruleForm.PasswordReset == 1) {
+							Session.clear(); // 清除缓存/token等
+							resetRoute(); // 删除/重置路由
+							router.push('/login');
+							setTimeout(() => {
+								ElMessage.success(t('message.user.logOutSuccess'));
+							}, 480);
+						}
+					}
+				} 
+				return false;
 			});
 		};
 

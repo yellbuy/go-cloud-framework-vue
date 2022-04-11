@@ -210,7 +210,6 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessage, ElMessageBox } from 'element-plus';
@@ -303,31 +302,19 @@ export default {
 					return false;
 				}
 			}
-
-			state.loading = true;
-			proxy.$refs.ruleFormRef.validate((valid) => {
+			
+			proxy.$refs.ruleFormRef.validate(async (valid:any) => {
 				if (valid) {
-					const url = `/v1/ims/casepersonline/${props.step}/${state.ruleForm.Id}`;
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					})
-						.then((res) => {
-							state.loading = false;
-							if (res.errcode == 0) {
-								closeDialog();
-								proxy.$parent.onGetTableData();
-							} else {
-								return false;
-							}
-						})
-						.catch((err) => {
-							state.loading = false;
-						});
-					return false;
-				} else {
-					return false;
+					state.loading = true;
+					try{
+						const res=await proxy.$api.ims.casepersonline.updateStep(props.step,state.ruleForm)
+						if (res.errcode == 0) {
+							closeDialog();
+							proxy.$parent.onGetTableData();
+						}
+					} finally{
+						state.loading = false;
+					}
 				}
 			});
 			return false;

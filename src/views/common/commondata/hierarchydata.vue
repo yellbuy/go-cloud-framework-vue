@@ -66,7 +66,6 @@
 import { toRefs, reactive, onMounted, ref, getCurrentInstance } from 'vue';
 import hierarchyDataEdit from './component/hierarchyDataEdit.vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import request from '/@/utils/request';
 export default {
 	name: 'commonHierarchyData',
 	components: { hierarchyDataEdit },
@@ -115,41 +114,39 @@ export default {
 		const onOpenCommonDataDlg = (id: string,parentId:string) => {
 			commondataEditRef.value.openDialog(state.activeName, id, parentId, state.tableData.data);
 		};
-		const onGetHierarchyData = (isInit:boolean=false) => {
-			request({ url: `/v1/admin/common/concretedata`, method: 'get',params:{type:commonTypeCode,pageSize:100000}})
-				.then((res) => {
-					if (res.errcode == 0) {
-						state.concreteDataList.data = res.data;
-						if(isInit && res.data && res.data.length>0){
-							state.activeName=res.data[0].Code;
-							tabsName();
-						}
+		const onGetHierarchyData = async (isInit:boolean=false) => {
+			try{
+				const res=await proxy.$api.common.commondata.getConcreteDataList({type:commonTypeCode,pageSize:100000})
+				if (res.errcode == 0) {
+					state.concreteDataList.data = res.data;
+					if(isInit && res.data && res.data.length>0){
+						state.activeName=res.data[0].Code;
+						tabsName();
 					}
-				})
-				.catch(() => {});
+				}
+			} finally {
+
+			}
 		};
 		//查询表格数据
-		const onGetTableData = (gotoFirstPage: boolean = false) => {
+		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			state.tableData.loading = true;
-			request({ url: `/v1/admin/common/hierarchydata`, method: 'get',params:{type:state.tableData.param.type} })
-				.then((res) => {
-					state.tableData.loading = false;
-					if (res.errcode != 0) {
-						if (res.errcode != 0) {
-							ElMessage.warning(res.errmsg);
-							return;
-						}
-					}
-					if (state.activeName == commonTypeCode) {
-						onGetHierarchyData();
-					}
-					state.tableData.data = res.data;
-					state.tableData.total = res.total;
-					console.log('执行');
-				})
-				.catch(() => {
-					state.tableData.loading = false;
-				});
+			try{
+				if (state.activeName == commonTypeCode) {
+					await onGetHierarchyData();
+					return
+				}
+
+				const res=await proxy.$api.common.commondata.getHierarchyDataList({type:state.tableData.param.type})
+				if (res.errcode != 0) {
+					return;
+				}
+				state.tableData.data = res.data;
+				state.tableData.total = res.total;
+			} finally {
+				state.tableData.loading = false;
+			}
+			
 		};
 		
 		const onRowDel = (Id: number) => {
@@ -157,30 +154,23 @@ export default {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
+			}).then(async () => {
+				state.tableData.loading = true;
+				try{
+					const res=await proxy.$api.common.commondata.delete(Id)
+					if (res.errcode != 0) {
+						return;
+					}
+					if (state.activeName == commonTypeCode) {
+						await onGetHierarchyData();
+					} else {
+						await onGetTableData();
+					}
+				} finally {
+					state.tableData.loading = false;
+				}
+				return false;
 			})
-				.then(() => {
-					state.tableData.loading = true;
-
-					const url = `/v1/admin/common/commondata/delete/${Id}`;
-					request({
-						url: url,
-						method: 'post',
-					})
-						.then((res) => {
-							state.tableData.loading = false;
-							if (res.errcode == 0) {
-								onGetTableData();
-							}
-							if (state.activeName == commonTypeCode) {
-								onGetHierarchyData();
-							}
-						})
-						.catch((err) => {
-							state.tableData.loading = false;
-						});
-					return false;
-				})
-				.catch((err) => {});
 		};
 		return {
 			commondataEditRef,

@@ -207,99 +207,18 @@ export default {
 		// 新增
 		const onSubmit = (isCloseDlg:boolean) => {
 			state.loading=true;
-			proxy.$refs.ruleFormRef.validate((valid) => {
+			proxy.$refs.ruleFormRef.validate((valid:any) => {
 				if (valid) {
-					const url=state.ruleForm.Id>0?`/v1/admin/base/user/${state.ruleForm.Id}`:`/v1/admin/base/user`;
-					state.ruleForm.Id=state.ruleForm.Id.toString();
-					state.ruleForm.Order=Number.parseInt(state.ruleForm.Order||0);
-					state.ruleForm.RoleIds=state.ruleForm.CheckedRoleList.join(",");
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					}).then((res)=>{
-						state.loading=false;
-						if(res.errcode==0){
-							if(isCloseDlg){
-								closeDialog();
-							} else {
-								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id=0;
-								state.ruleForm.PasswordConfirm='';
-							}
-							proxy.$parent.onGetTableData();
-						}
-					}).catch((err)=>{
-						state.loading=false;
-					});
+					//需写保存逻辑
 					return false;
 				} else {
 					return false;
 				}
 			});
 		};
-		//加载角色数据
-		const onInitRoleData=((roleIds:string)=>{
-			
-			state.ruleForm.RoleList=[];
-			state.ruleForm.CheckedRoleList=[];
-			//加载权限数据
-			request({
-				url: `v1/admin/base/roles`,
-				method: 'get',
-				params:{pageSize:1000000}
-			}).then((res)=>{
-				if(res.errcode!=0){
-					return;
-				}
-				
-				const roleIdArr=roleIds.split(",");
-				for (const val of res.data) {
-					val.Checked=false;
-					for(const id of roleIdArr){
-						if(val.Id==id){
-							state.ruleForm.CheckedRoleList.push(val.Id)
-							val.Checked=true
-							break;
-						}
-					}
-				}
-				state.ruleForm.RoleList=res.data;
-			})
-		})
-
-		// 初始化部门数据
-		const initTableData = () => {
-			state.deptData.push({
-				deptName: 'vueNextAdmin',
-				createTime: new Date().toLocaleString(),
-				status: true,
-				sort: Number.parseInt(Math.random()),
-				describe: '顶级部门',
-				id: Math.random(),
-				children: [
-					{
-						deptName: 'IT外包服务',
-						createTime: new Date().toLocaleString(),
-						status: true,
-						sort: Number.parseInt(Math.random()),
-						describe: '总部',
-						id: Math.random(),
-					},
-					{
-						deptName: '资本控股',
-						createTime: new Date().toLocaleString(),
-						status: true,
-						sort: Number.parseInt(Math.random()),
-						describe: '分部',
-						id: Math.random(),
-					},
-				],
-			});
-		};
+		
 		// 页面加载时
 		onMounted(() => {
-			initTableData();
 		});
 		return {
 			t,

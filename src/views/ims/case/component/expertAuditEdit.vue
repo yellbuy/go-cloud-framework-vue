@@ -158,49 +158,49 @@
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">基本案情</td>
-							<td colspan="9" v-if="IsDisable()">
+							<td colspan="9" v-if="isDisable()">
 								<el-input v-model="ruleForm.ExpertAuditTitle" type="textarea" />
 							</td>
-							<td colspan="9" v-if="!IsDisable()">
+							<td colspan="9" v-if="!isDisable()">
 								{{ ruleForm.ExpertAuditTitle }}
 							</td>
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">委托材料</td>
-							<td colspan="9" v-if="IsDisable()">
+							<td colspan="9" v-if="isDisable()">
 								<el-input v-model="ruleForm.ExpertAuditMaterial" type="textarea" />
 							</td>
-							<td colspan="9" v-if="!IsDisable()">
+							<td colspan="9" v-if="!isDisable()">
 								{{ ruleForm.ExpertAuditMaterial }}
 							</td>
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">医学诊断</td>
-							<td colspan="9" v-if="IsDisable()">
+							<td colspan="9" v-if="isDisable()">
 								<el-input v-model="ruleForm.ExpertAuditDiagnosis" type="textarea" />
 							</td>
-							<td colspan="9" v-if="!IsDisable()">
+							<td colspan="9" v-if="!isDisable()">
 								{{ ruleForm.ExpertAuditDiagnosis }}
 							</td>
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">评估意见</td>
-							<td colspan="9" v-if="IsDisable()">
+							<td colspan="9" v-if="isDisable()">
 								<el-input v-model="ruleForm.ExpertAuditContent" type="textarea" />
 							</td>
-							<td colspan="9" v-if="!IsDisable()">
+							<td colspan="9" v-if="!isDisable()">
 								{{ ruleForm.ExpertAuditContent }}
 							</td>
 						</tr>
 						<tr>
 							<td class="bg-gray text-right" rowspan="2">鉴定标准</td>
-							<td colspan="9" v-if="IsDisable()">
+							<td colspan="9" v-if="isDisable()">
 								<div v-for="(item, key) in caseKind" :key="key">
 									<el-checkbox v-model="item.Value" :label="item.Name" :true-label="1" :false-label="0" size="small" />
 								</div>
 								<!-- <el-input v-model="ruleForm.ExpertAuditStandard" type="textarea" /> -->
 							</td>
-							<td colspan="9" v-if="!IsDisable()">
+							<td colspan="9" v-if="!isDisable()">
 								<div v-for="(item, key) in caseKind" :key="key">
 									<checkTag :checked="item.Value == 1" :title="item.Name"></checkTag>
 								</div>
@@ -208,19 +208,19 @@
 						</tr>
 						<tr>
 							<td class="bg-gray text-right" colspan="1">具体条款</td>
-							<td v-if="IsDisable()" colspan="8">
+							<td v-if="isDisable()" colspan="8">
 								<el-input v-model="ruleForm.ExpertAuditTerm" type="textarea" />
 							</td>
-							<td v-if="!IsDisable()" colspan="8">
+							<td v-if="!isDisable()" colspan="8">
 								{{ ruleForm.ExpertAuditTerm }}
 							</td>
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">法律法规</td>
-							<td colspan="9" v-if="IsDisable()">
+							<td colspan="9" v-if="isDisable()">
 								<el-input v-model="ruleForm.ExpertAuditLaw" type="textarea" />
 							</td>
-							<td colspan="9" v-if="!IsDisable()">
+							<td colspan="9" v-if="!isDisable()">
 								{{ ruleForm.ExpertAuditLaw }}
 							</td>
 						</tr>
@@ -364,7 +364,7 @@ export default {
 			state.title = t('message.action.audit');
 			state.isShowDialog = true;
 		};
-		const onGetCaseKind = () => {
+		const onGetCaseKind = async () => {
 			state.caseKind = [];
 			let type = '';
 			switch (state.ruleForm.CaseMode) {
@@ -378,41 +378,33 @@ export default {
 					type = 'jd';
 					break;
 			}
-			request({
-				url: `/v1/common/commonpagedata`,
-				method: 'get',
-				params: {
-					type: type,
-					pageNum: 1,
-					pageSize: 10000,
-				},
+			const res=await proxy.$api.common.commondata.getConcreteDataList({
+				type: type,
+				pageNum: 1,
+				pageSize: 10000,
 			})
-				.then((res) => {
-					if (res.errcode != 0) {
-						ElMessage.warning(res.errmsg);
-						return;
-					}
-					for (let i = 0; i < res.data.length; i++) {
-						state.caseKind.push({ Name: res.data[i].Name, Value: 0, Code: res.data[i].Code });
-					}
-					if (props.step != 7 || !state.editMode) {
-						//回显
-						if (state.ruleForm.ExpertAuditStandard != '') {
-							let list = state.ruleForm.ExpertAuditStandard.split(',');
-							for (let i = 0; i < state.caseKind.length; i++) {
-								for (let j = 0; j < list.length; j++) {
-									if (state.caseKind[i].Code == list[j]) {
-										state.caseKind[i].Value = 1;
-										break;
-									}
-								}
+			if (res.errcode != 0) {
+				return;
+			}
+			for (let i = 0; i < res.data.length; i++) {
+				state.caseKind.push({ Name: res.data[i].Name, Value: 0, Code: res.data[i].Code });
+			}
+			if (props.step != 7 || !state.editMode) {
+				//回显
+				if (state.ruleForm.ExpertAuditStandard != '') {
+					let list = state.ruleForm.ExpertAuditStandard.split(',');
+					for (let i = 0; i < state.caseKind.length; i++) {
+						for (let j = 0; j < list.length; j++) {
+							if (state.caseKind[i].Code == list[j]) {
+								state.caseKind[i].Value = 1;
+								break;
 							}
 						}
 					}
-				})
-				.catch(() => {});
+				}
+			}
 		};
-		const IsDisable = () => {
+		const isDisable = () => {
 			if (state.editMode && props.step == 7) {
 				return true;
 			} else {
@@ -428,7 +420,7 @@ export default {
 			closeDialog();
 		};
 		// 新增
-		const onSubmit = (isCloseDlg: boolean) => {
+		const onSubmit = async(isCloseDlg: boolean) => {
 			if (props.step == 7) {
 				state.ruleForm.ExpertAuditState = Number(state.ruleForm.ExpertAuditState);
 				if (state.ruleForm.ExpertAuditState != 5 && state.ruleForm.ExpertAuditState != 10) {
@@ -460,25 +452,16 @@ export default {
 				state.ruleForm.ExpertAuditStandard = ExpertAuditStandardList.toString();
 			}
 			state.loading = true;
-			let url = `/v1/ims/casepersonline/7/${state.ruleForm.Id}`; //专家意见书提交
-			if (props.step == 10) {
-				url = `/v1/ims/casepersonline/10/${state.ruleForm.Id}`; //专家审核提交
+			try{
+				const res=await proxy.$api.ims.casepersonline.updateStep(props.step,state.ruleForm)
+				if (res.errcode == 0) {
+					closeDialog();
+					proxy.$parent.onGetTableData();
+				}
+			} finally{
+				state.loading = false;
 			}
-			request({
-				url: url,
-				method: 'post',
-				data: state.ruleForm,
-			})
-				.then((res) => {
-					state.loading = false;
-					if (res.errcode == 0) {
-						closeDialog();
-						proxy.$parent.onGetTableData();
-					}
-				})
-				.catch((err) => {
-					state.loading = false;
-				});
+			
 			return false;
 		};
 
@@ -488,7 +471,7 @@ export default {
 			closeDialog,
 			onCancel,
 			onSubmit,
-			IsDisable,
+			isDisable,
 			onGetCaseKind,
 			...toRefs(state),
 		};

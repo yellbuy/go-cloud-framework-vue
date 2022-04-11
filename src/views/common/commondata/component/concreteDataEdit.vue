@@ -53,7 +53,6 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessageBox, ElMessage } from 'element-plus';
@@ -104,17 +103,11 @@ export default {
 			state.isShowDialog = true;
 			state.disable = disable;
 		};
-		const loadRowById = (id: string) => {
-			const url = `/v1/admin/common/commondata/${id}`;
-			request({
-				url: url,
-				method: 'get',
-			}).then((res) => {
-				if (res.errcode == 0) {
-					state.ruleForm = res.data;
-				}
-			})
-			.catch((err) => {console.error(err)});
+		const loadRowById = async (id: string) => {
+			const res= await proxy.$api.common.commondata.getById(id);
+			if (res.errcode == 0) {
+				state.ruleForm = res.data;
+			}
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -130,7 +123,7 @@ export default {
 		// 新增
 		const onSubmit = (isCloseDlg: boolean) => {
 			console.log(state.ruleForm);
-			proxy.$refs.ruleFormRef.validate((valid: any) => {
+			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				console.log(valid);
 				if (valid) {
 					// state.loading = true;
@@ -138,29 +131,21 @@ export default {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.Order = parseInt(state.ruleForm.Order);
 					state.ruleForm.Status = parseInt(state.ruleForm.Status);
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					})
-						.then((res) => {
-							state.loading = false;
-							if (res.errcode == 0) {
-								if (isCloseDlg) {
-									closeDialog();
-								} else {
-									proxy.$refs.ruleFormRef.resetFields();
-									state.ruleForm.Id = 0;
-								}
+					try{
+						const res = proxy.$api.common.commondata.save(state.ruleForm);
+						if (res.errcode == 0) {
+							if (isCloseDlg) {
+								closeDialog();
+							} else {
+								proxy.$refs.ruleFormRef.resetFields();
+								state.ruleForm.Id = 0;
 							}
-						})
-						.catch(() => {
-							state.loading = false;
-						});
-					return false;
-				} else {
-					return false;
-				}
+						}
+					} finally{
+						state.loading = false;
+					}
+				} 
+				return false;
 			});
 		};
 		// 页面加载时

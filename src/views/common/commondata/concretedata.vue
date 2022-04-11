@@ -76,7 +76,6 @@
 import { toRefs, reactive, onMounted, ref, getCurrentInstance } from 'vue';
 import concreteDataEdit from './component/concreteDataEdit.vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import request from '/@/utils/request';
 export default {
 	name: 'commonConcreteData',
 	components: { concreteDataEdit },
@@ -129,46 +128,43 @@ export default {
 		const onOpenCommonDataDlg = (id: string) => {
 			commondataEditRef.value.openDialog(state.activeName, id, false);
 		};
-		const onGetConcreteData = (isInit:boolean=false) => {
+		const onGetConcreteData = async (isInit:boolean=false) => {
 			state.tableData.param.pageNum = 1;
-			state.tableData.param.pageSize = 10;
-			request({ url: `/v1/admin/common/commondata`, method: 'get',params:{type:commonTypeCode,pateSize:100000}})
-				.then((res) => {
-					if (res.errcode == 0) {
-						state.concreteDataList.data = res.data;
-						if(isInit && res.data && res.data.length>0){
-							state.activeName=res.data[0].Code;
-							tabsName();
-						}
+			state.tableData.param.pageSize = 20;
+			try{
+				const res=await proxy.$api.common.commondata.getList({type:commonTypeCode,pateSize:100000})
+				if (res.errcode == 0) {
+					state.concreteDataList.data = res.data;
+					if(isInit && res.data && res.data.length>0){
+						state.activeName=res.data[0].Code;
+						tabsName();
 					}
-				})
-				.catch(() => {});
+				}
+			}finally{
+
+			}
 		};
 		//查询表格数据
-		const onGetTableData = (gotoFirstPage: boolean = false) => {
+		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
 			state.tableData.loading = true;
-			request({ url: `/v1/admin/common/commondata`, method: 'get',params:{type:state.tableData.param.type} })
-				.then((res) => {
-					state.tableData.loading = false;
-					if (res.errcode != 0) {
-						if (res.errcode != 0) {
-							ElMessage.warning(res.errmsg);
-							return;
-						}
-					}
-					if (state.activeName == commonTypeCode) {
-						onGetConcreteData();
-					}
-					state.tableData.data = res.data;
-					state.tableData.total = res.total;
-					console.log('执行');
-				})
-				.catch(() => {
-					state.tableData.loading = false;
-				});
+			try{
+				
+				if (state.activeName == commonTypeCode) {
+					await onGetConcreteData();
+					return;
+				}
+				const res= await proxy.$api.common.commondata.getList(state.tableData.param)
+				if (res.errcode != 0) {
+					return;
+				}
+				state.tableData.data = res.data;
+				state.tableData.total = res.total;
+			}finally{
+				state.tableData.loading = false;
+			}
 		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
@@ -180,35 +176,28 @@ export default {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
-		const onRowDel = (Id: number) => {
+		const onRowDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
+			}).then(async () => {
+				state.tableData.loading = true;
+				try {
+					const res=await proxy.$api.common.commondata.del(Id);
+					if (res.errcode == 0) {
+						if (state.activeName == commonTypeCode) {
+							onGetConcreteData();
+						} else {
+							onGetTableData();
+						}
+					}
+				} finally {
+					state.tableData.loading = false;
+				}
+				return false;
 			})
-				.then(() => {
-					state.tableData.loading = true;
-
-					const url = `/v1/admin/common/commondata/delete/${Id}`;
-					request({
-						url: url,
-						method: 'post',
-					})
-						.then((res) => {
-							state.tableData.loading = false;
-							if (res.errcode == 0) {
-								onGetTableData();
-							}
-							if (state.activeName == commonTypeCode) {
-								onGetConcreteData();
-							}
-						})
-						.catch((err) => {
-							state.tableData.loading = false;
-						});
-					return false;
-				})
-				.catch((err) => {});
+			.catch((err) => {});
 		};
 		return {
 			commondataEditRef,

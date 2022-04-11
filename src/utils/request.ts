@@ -139,10 +139,12 @@ const _request=(config:RequestConfig)=>{
 	}
 	config.headers=Object.assign(config.headers||{},{"Nonce":config.nonce})
 	
-	return new Promise((resolve, reject) => {
+	return new Promise<RequestResponse>((resolve, reject) => {
 		service({
 			...config
-		}).then((res) => {
+		}).then((response) => {
+			const res:RequestResponse={errcode:response.errcode,errmsg:response.errmsg,data:response.data,total:response.total}
+			
 			if(res.errcode !=0 && res.errcode!=100001 && res.errcode!=100002 && config.notifyError){
 				ElNotification.error({
 					title: '温馨提示',
@@ -156,7 +158,7 @@ const _request=(config:RequestConfig)=>{
 				// 	type: 'error',
 				// })
 			}
-			resolve({...res});
+			resolve(res);
 		}).catch((error) => {
 			reject(error);
 		})
@@ -176,21 +178,24 @@ const http={
 	post:(url:string, data?:any,config?:RequestConfig)=>{
 		return _request({
 			method: 'post',
-			url: url,
+			url,
+			data,
 			...config
 		})
 	},
 	put:(url:string, data?:any,config?:RequestConfig)=>{
 		return _request({
 			method: 'put',
-			url: url,
+			url,
+			data,
 			...config
 		})
 	},
 	delete:(url:string, data?:any,config?:RequestConfig)=>{
 		return _request({
 			method: 'delete',
-			url: url,
+			url,
+			data,
 			...config
 		})
 	},
@@ -232,7 +237,7 @@ export interface RequestConfig extends AxiosRequestConfig {
 	notifyError?:boolean;
 }
 
-export interface Response {
+export interface RequestResponse {
 	errcode: number;
 	data:any;
 	total?:number;

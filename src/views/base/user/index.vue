@@ -157,28 +157,23 @@ export default {
 			userEditRef.value.openDialog(row);
 		};
 		// 删除用户
-		const onRowDel = (row: Object) => {
+		const onRowDel =(row: Object) => {
 			ElMessageBox.confirm(`确定要删除账户“${row.Username}”吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
-			}).then(() => {
+			}).then(async ()=>{
 				state.tableData.loading=true;
-				const url=`/v1/admin/base/user/delete/${row.Id}`;
-				request({
-					url: url,
-					method: 'post',
-				}).then((res)=>{
-					state.tableData.loading=false;
+				try {
+					const res = await proxy.$api.base.user.delete(row.Id)
 					if(res.errcode==0){
 						onGetTableData();
 					}
-				}).catch((err)=>{
+				}
+				finally {
 					state.tableData.loading=false;
-				});
-				return false;
-			}).catch((err) => {
-			});
+				}
+			})
 		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {

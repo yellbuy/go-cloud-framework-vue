@@ -9,10 +9,10 @@
 				<h4 class="login-content-title" v-if="app.Id>0">{{ app.Name|| getThemeConfig.globalTitle }}</h4>
 				<div v-if="!isScan">
 					<el-tabs v-model="tabsActiveName">
-						<el-tab-pane :label="$t('message.label.one1')" name="account">
+						<el-tab-pane :label="$t('pages.login.label.one1')" name="account">
 							<Account />
 						</el-tab-pane>
-						<!-- <el-tab-pane :label="$t('message.label.two2')" name="mobile">
+						<!-- <el-tab-pane :label="$t('pages.login.label.two2')" name="mobile">
 							<Mobile />
 						</el-tab-pane> -->
 					</el-tabs>
@@ -28,8 +28,8 @@
 			<div class="mb5 login-copyright-company" v-html="app.Copyright"></div>
 		</div>
 		<div class="login-copyright" v-else>
-			<!-- <div class="mb5 login-copyright-company" >{{ $t('message.copyright.one5') }}</div>
-			<div class="login-copyright-msg">{{ $t('message.copyright.two6') }}</div> -->
+			<!-- <div class="mb5 login-copyright-company" >{{ $t('pages.login.copyright.one5') }}</div>
+			<div class="login-copyright-msg">{{ $t('pages.login.copyright.two6') }}</div> -->
 		</div>
 	</div>
 </template>
@@ -60,24 +60,18 @@ export default {
 			return store.state.themeConfig.themeConfig;
 		});
 		// 页面加载时
-		onMounted(() => {
+		onMounted(async () => {
 			let curAppid=route.query.appid;
 			if(curAppid=="-1"){
 				curAppid=appid
 			}
 			const localAppid=Local.get('appid');
 			curAppid=curAppid||localAppid||appid;
-			request({
-				url: `/v1/base/app/${curAppid}`, //后端APP获取非授权接口地址
-				method: 'get'
-			}).then((res)=>{
-				if(res.errcode==0){
-					state.app=res.data||{}
-					state.app.LogoUrl=import.meta.env.VITE_API_URL+"/v1/avatar/app/"+curAppid+".png"
-				}
-			}).catch((err)=>{
-				console.log(err)
-			});
+			const res=await proxy.$api.base.app.getCacheById(curAppid)
+			if(res.errcode==0){
+				state.app=res.data||{}
+				state.app.LogoUrl=import.meta.env.VITE_API_URL+"/v1/avatar/app/"+curAppid+".png"
+			}
 		});
 		return {
 			getThemeConfig,

@@ -13,8 +13,8 @@ export default {
 		two6: 'Copyright: 四川业贝信息技术有限公司 川ICP备16026413号',
 	},
 	account: {
-		accountPlaceholder1: '用户名 admin 或不输均为 test',
-		accountPlaceholder2: '密码：123456',
+		accountPlaceholder1: '用户登录名',
+		accountPlaceholder2: '请输入密码',
 		accountPlaceholder3: '请输入验证码',
 		accountBtnText: '登 录',
 	},

@@ -108,7 +108,6 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
 import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
 import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
@@ -160,25 +159,20 @@ export default {
 		
 
 		// 初始化表格数据
-		const onGetTableData = (gotoFirstPage:boolean=false) => {
+		const onGetTableData = async (gotoFirstPage:boolean=false) => {
 			if(gotoFirstPage){
 				state.tableData.param.pageNum=1;
 			}
 			state.tableData.loading=true;
-			state.tableData.data =[
-			];
-			state.tableData.loading=false;
-			request({
-				url: '/v1/ims/casepersonlines',
-				method: 'get',
-				params: state.tableData.param,
-			}).then((res)=>{
-				state.tableData.loading=false;
+			state.tableData.data =[];
+			try{
+				const res = await proxy.$api.ims.casepersonline.getList(state.tableData.param);
 				if(res.errcode!=0){
 					return;
 				}
 				state.tableData.total=res.total;
 				let caseId="0";
+				//表格合并
 				for(const i in res.data){
 					const index = Number.parseInt(i);
 					const item=res.data[index];
@@ -199,11 +193,9 @@ export default {
 					//console.log("item.rowSpan:",item.rowSpan)
 				}
 				state.tableData.data = res.data;
-				
-			}).catch(() => {
+			}finally{
 				state.tableData.loading=false;
-			});
-			
+			}
 		};
 		interface SpanMethodProps {
 			row: any
@@ -228,30 +220,22 @@ export default {
 		}
 		
 		// 打开修改用户弹窗
-		const onOpenEditDlg = (editMode:Boolean,row: Object) => {
-			request({
-					url: `/v1/ims/casepersonline/${row.Id}`,
-					method: 'get',
-				}).then((res)=>{
-					if(res.errcode == 0){
-						if(res.data.Id>0){
-							if(res.data.InsurerAuditState>0){
-								if(!editMode || (editMode && res.data.InsurerAuditState)){
-									dlgEditRef.value.openDialog(editMode,res.data);
-									return;
-								}
-							}
-							ElMessageBox.alert('当前记录状态不能查看或编辑，请刷新后重试', '温馨提示', {}) 
-							
-						} else{
-							ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {})
+		const onOpenEditDlg = async (editMode:Boolean,row: Object) => {
+			const res = await proxy.$api.ims.casepersonline.getById(row.Id);
+			if(res.errcode == 0){
+				if(res.data.Id>0){
+					if(res.data.InsurerAuditState>0){
+						if(!editMode || (editMode && res.data.InsurerAuditState)){
+							dlgEditRef.value.openDialog(editMode,res.data);
+							return;
 						}
 					}
+					ElMessageBox.alert('当前记录状态不能查看或编辑，请刷新后重试', '温馨提示', {}) 
 					
-				}).catch((err)=>{
-					console.error(err)
-					ElMessageBox.alert('网络故障', '温馨提示', {})
-				});
+				} else{
+					ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {})
+				}
+			}
 			
 		};
 		// 删除记录
@@ -260,22 +244,17 @@ export default {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
-			}).then(() => {
+			}).then(async () => {
 				state.tableData.loading=true;
-				const url=`/v1/ims/casepersonline/delete/${row.Id}`;
-				request({
-					url: url,
-					method: 'post',
-				}).then((res)=>{
-					state.tableData.loading=false;
-					if(res.errcode==0){
+				try{
+					const res = await proxy.$api.ims.casepersonline.delete(row.Id);
+					if(res.errcode == 0){
 						onGetTableData();
 					}
-				}).catch((err)=>{
+				} finally{
 					state.tableData.loading=false;
-				});
+				}
 				return false;
-			}).catch((err) => {
 			});
 		};
 		// 分页改变

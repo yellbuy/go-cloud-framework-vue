@@ -48,7 +48,7 @@ const localeMessages = Object.keys(files).reduce(
 /**
  * 说明：
  * /src/i18n/lang 下的 ts 为框架的国际化内容
- * /src/i18n/pages 下的 ts 为各界面的国际化内容
+ * /src/i18n/formi18n 下的 ts 为各界面的国际化内容
  */
 const messages = {
 	[zhcnLocale.name]: {
@@ -56,6 +56,8 @@ const messages = {
 		message: {
 			...nextZhcn,
 			...pagesFormI18nZhcn,
+		},
+		pages: {
 			...localeMessages[zhcnLocale.name]
 		},
 	},
@@ -66,12 +68,18 @@ const messages = {
 			...pagesFormI18nEn,
 			...localeMessages[enLocale.name]
 		},
+		pages: {
+			...localeMessages[enLocale.name]
+		},
 	},
 	[zhtwLocale.name]: {
 		...zhtwLocale,
 		message: {
 			...nextZhtw,
 			...pagesFormI18nZhtw,
+			
+		},
+		pages: {
 			...localeMessages[zhtwLocale.name]
 		},
 	},

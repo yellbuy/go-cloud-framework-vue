@@ -13,16 +13,16 @@ export default {
 		two6: 'Copyright: 四川业贝信息技术有限公司 川ICP備16026413號',
 	},
 	account: {
-		accountPlaceholder1: '用戶名admin或不輸均為test',
-		accountPlaceholder2: '密碼：123456',
+		accountPlaceholder1: '用戶名',
+		accountPlaceholder2: '密碼',
 		accountPlaceholder3: '請輸入驗證碼',
-		accountBtnText: '登入',
+		accountBtnText: '登 入',
 	},
 	mobile: {
 		placeholder1: '請輸入手機號',
 		placeholder2: '請輸入驗證碼',
 		codeText: '獲取驗證碼',
-		btnText: '登入',
+		btnText: '登 入',
 	},
 	signInText: '歡迎回來！',
 };

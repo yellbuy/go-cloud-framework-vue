@@ -88,7 +88,6 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
 import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
 import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
@@ -185,26 +184,22 @@ export default {
 		const onOpenuserEdit = (row: Object) => {
 			userEditRef.value.openDialog(row);
 		};
-		// 删除用户
+		// 删除记录
 		const onRowDel = (row: Object) => {
-			ElMessageBox.confirm(`确定要删除账户“${row.Username}”吗?`, '提示', {
+			ElMessageBox.confirm(`确定要删除记录“${row.Sn}”吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
-			}).then(() => {
+			}).then(async () => {
 				state.tableData.loading=true;
-				const url=`/v1/admin/base/user/delete/${row.Id}`;
-				request({
-					url: url,
-					method: 'post',
-				}).then((res)=>{
-					state.tableData.loading=false;
-					if(res.errcode==0){
+				try{
+					const res = await proxy.$api.ims.casepersonline.delete(row.Id);
+					if(res.errcode == 0){
 						onGetTableData();
 					}
-				}).catch((err)=>{
+				} finally{
 					state.tableData.loading=false;
-				});
+				}
 				return false;
 			}).catch((err) => {
 			});

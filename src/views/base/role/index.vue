@@ -74,7 +74,6 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
 import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
@@ -112,22 +111,21 @@ export default {
 		}
 		
 		// 初始化表格数据
-		const onGetTableData = (gotoFirstPage:boolean=false) => {
+		const onGetTableData = async (gotoFirstPage:boolean=false) => {
 			if(gotoFirstPage){
 				state.tableData.param.pageNum=1;
 			}
 			state.tableData.loading=true;
-			request({url:"/v1/admin/base/roles",method: 'get',params:state.tableData.param}).then((res)=>{
-				state.tableData.loading=false;
+			try{
+				const res=await proxy.$api.base.role.getList(state.tableData.param);
 				if(res.errcode!=0){
 					return;
 				}
 				state.tableData.data = res.data;
 				state.tableData.total = res.total;
-			}).catch(() => {
+			} finally {
 				state.tableData.loading=false;
-			});
-			
+			}
 		};
 		// 打开新增用户弹窗
 		const onModelAdd = () => {
@@ -143,20 +141,17 @@ export default {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
-			}).then(() => {
+			}).then(async () => {
 				state.tableData.loading=true;
-				const url=`/v1/admin/base/role/delete/${row.Id}`;
-				request({
-					url: url,
-					method: 'post',
-				}).then((res)=>{
-					state.tableData.loading=false;
-					if(res.errcode==0){
-						onGetTableData();
+				try{
+					const res=await proxy.$api.base.role.delete(row.Id);
+					if(res.errcode!=0){
+						return;
 					}
-				}).catch((err)=>{
+					onGetTableData();
+				} finally {
 					state.tableData.loading=false;
-				});
+				}
 				return false;
 			}).catch((err) => {
 			});

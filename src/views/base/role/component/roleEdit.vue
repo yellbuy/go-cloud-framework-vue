@@ -135,36 +135,30 @@ export default {
 		// 新增
 		const onSubmit = (isCloseDlg:boolean) => {
 			
-			proxy.$refs.ruleFormRef.validate((valid) => {
+			proxy.$refs.ruleFormRef.validate(async (valid:any) => {
 				if (valid) {
-					state.loading=true;
 					state.ruleForm.Perms = proxy.$refs.treePerm.getCheckedKeys();
 					const halfCheckedKeys = proxy.$refs.treePerm.getHalfCheckedKeys()||[];
 					state.ruleForm.Perms.push(...halfCheckedKeys);
-					const url=state.ruleForm.Id>0?`/v1/admin/base/role/${state.ruleForm.Id}`:`/v1/admin/base/role`;
 					state.ruleForm.Id=state.ruleForm.Id.toString();
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					}).then((res)=>{
-						state.loading=false;
-						if(res.errcode==0){
-							if(isCloseDlg){
-								closeDialog();
-							} else {
-								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id=0;
-							}
-							proxy.$parent.onGetTableData();
+					state.loading=true;
+					try{
+						const res = await proxy.$api.base.role.save(state.ruleForm);
+						if(res.errcode!=0){
+							return;
 						}
-					}).catch((err)=>{
+						if(isCloseDlg){
+							closeDialog();
+						} else {
+							proxy.$refs.ruleFormRef.resetFields();
+							state.ruleForm.Id=0;
+						}
+						proxy.$parent.onGetTableData();
+					} finally {
 						state.loading=false;
-					});
-					return false;
-				} else {
-					return false;
-				}
+					}
+				} 
+				return false;
 			});
 		};
 
@@ -209,7 +203,7 @@ export default {
 		}
 
 		//加载角色权限数据
-		const onInitPermData=(()=>{
+		const onInitPermData=(async()=>{
 			//递归所有子节点的选中Key
 			const insertCheckedKeys=(val:any)=>{
 				for(const child of val.list){
@@ -226,53 +220,51 @@ export default {
 			state.permTree.expandedKeys=[];
 			state.permTree.checkedKeys=[];
 			state.permTree.data=[];
+
 			//加载权限数据
-			request({
-				url: `v1/admin/base/role/permissions/${state.ruleForm.Id}`,
-				method: 'get',
-			}).then((res)=>{
-				if(res.errcode!=0){
-					return;
+			const res = await proxy.$api.base.role.getPermissionsById(state.ruleForm.Id)
+			if(res.errcode!=0){
+				return;
+			}
+			state.permTree.data=res.data||[];
+			
+			//第一层级
+			for (const val of res.data) {
+				val.name=t(val.name)
+				val.parent="";
+				state.permTree.expandedKeys.push(val.value)
+				if(val.checked){
+					state.permTree.checkedKeys.push(val.value)
 				}
-				state.permTree.data=res.data||[];
-				//第一层级
-				for (const val of res.data) {
-					val.name=t(val.name)
-					val.parent="";
-					state.permTree.expandedKeys.push(val.value)
-					if(val.checked){
-						state.permTree.checkedKeys.push(val.value)
-					}
-					//是否有下级
-					if(val.list && val.list.length>0){
-						//第2层级
-						for(const val2 of val.list){
-							val2.parent=val.value
-							val2.name=t(val2.name)
-							state.permTree.expandedKeys.push(val2.value)
-							if(val2.checked){
-								state.permTree.checkedKeys.push(val2.value)
-							}
-							//是否有下级
-							if(val2.list && val2.list.length>0){
-								//第3层级
-								for(const val3 of val2.list){
-									val3.parent=val2.value
-									val3.name=t(val3.name)
-									state.permTree.expandedKeys.push(val3.value)
-									if(val3.checked){
-										state.permTree.checkedKeys.push(val3.value)
-										if(val3.list && val3.list.length>0){
-											insertCheckedKeys(val3)
-										}
+				//是否有下级
+				if(val.list && val.list.length>0){
+					//第2层级
+					for(const val2 of val.list){
+						val2.parent=val.value
+						val2.name=t(val2.name)
+						state.permTree.expandedKeys.push(val2.value)
+						if(val2.checked){
+							state.permTree.checkedKeys.push(val2.value)
+						}
+						//是否有下级
+						if(val2.list && val2.list.length>0){
+							//第3层级
+							for(const val3 of val2.list){
+								val3.parent=val2.value
+								val3.name=t(val3.name)
+								state.permTree.expandedKeys.push(val3.value)
+								if(val3.checked){
+									state.permTree.checkedKeys.push(val3.value)
+									if(val3.list && val3.list.length>0){
+										insertCheckedKeys(val3)
 									}
 								}
 							}
 						}
 					}
-					proxy.$refs.treePerm.setCheckedKeys(state.permTree.checkedKeys);
 				}
-			})
+				proxy.$refs.treePerm.setCheckedKeys(state.permTree.checkedKeys);
+			}
 		})
 		
 		// 页面加载时

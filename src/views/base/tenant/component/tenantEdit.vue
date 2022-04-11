@@ -98,7 +98,6 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessage, ElMessageBox } from 'element-plus';
@@ -182,10 +181,9 @@ export default {
 		// 新增
 		const onSubmit = (isCloseDlg:boolean) => {
 			
-			proxy.$refs.ruleFormRef.validate((valid) => {
+			proxy.$refs.ruleFormRef.validate(async (valid:any) => {
 				if (valid) {
 					
-					const url=state.ruleForm.Id>0?`/v1/admin/base/tenant/${state.ruleForm.Id}`:`/v1/admin/base/tenant`;
 					state.ruleForm.Id=state.ruleForm.Id.toString();
 					if(state.ruleForm.Id==0 && state.ruleForm.Username){
 						if(state.ruleForm.Password==""){
@@ -205,12 +203,8 @@ export default {
 					state.ruleForm.UserIsAdmin=Number(state.ruleForm.UserIsAdmin)
 					
 					state.loading=true;
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					}).then((res)=>{
-						state.loading=false;
+					try{
+						const res = await proxy.$api.base.tenant.save(state.ruleForm);
 						if(res.errcode==0){
 							if(isCloseDlg){
 								closeDialog();
@@ -223,9 +217,10 @@ export default {
 							}
 							proxy.$parent.onGetTableData();
 						}
-					}).catch((err)=>{
+					} finally {
 						state.loading=false;
-					});
+					}
+					
 					return false;
 				} else {
 					return false;

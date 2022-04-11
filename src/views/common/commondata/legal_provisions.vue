@@ -192,7 +192,7 @@ export default {
 			onGetTableData();
 		};
 		const onRowDel = (Id: number) => {
-			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
+			ElMessageBox.confirm(`确定要删除当前记录吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',

@@ -122,7 +122,6 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
 import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
@@ -173,7 +172,7 @@ export default {
 		// })
 
 		// 初始化表格数据
-		const onGetTableData = (gotoFirstPage: boolean = false) => {
+		const onGetTableData = async(gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
@@ -181,18 +180,15 @@ export default {
 			state.tableData.data = [];
 			state.tableData.total = 2;
 			state.tableData.loading = false;
-			request({
-				url: '/v1/ims/casepersonlines',
-				method: 'get',
-				params: state.tableData.param,
-			})
-				.then((res) => {
-					state.tableData.loading = false;
-					if (res.errcode != 0) {
+
+			try{
+				const res = await proxy.$api.ims.casepersonline.getList(state.tableData.param);
+				if (res.errcode != 0) {
 						return;
 					}
 					state.tableData.total = res.total;
 					let caseId = '0';
+					//合并单元格
 					for (const i in res.data) {
 						const index = Number.parseInt(i);
 						const item = res.data[index];
@@ -212,10 +208,9 @@ export default {
 						}
 					}
 					state.tableData.data = res.data;
-				})
-				.catch(() => {
-					state.tableData.loading = false;
-				});
+			}finally{
+				state.tableData.loading=false;
+			}
 		};
 		interface SpanMethodProps {
 			row: any;
@@ -241,103 +236,45 @@ export default {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
-			})
-				.then(() => {
-					state.tableData.loading = true;
-					request({
-						url: `/v1/ims/casepersonline/${row.Id}`,
-						method: 'get',
-					})
-						.then((res) => {
-							if (res.errcode == 0) {
-								if (res.data.Id > 0) {
-									console.log(res.data.ExpertReviewState);
-									if (res.data.ExpertReviewState > 0) {
-										let url = `/v1/ims/casepersonline/8/${row.Id}`; //专家审核接单
-										request({
-											url: url,
-											method: 'post',
-											data: res.data,
-										})
-											.then((code) => {
-												state.tableData.loading = false;
-												if (code.errcode == 0) {
-													ElMessage.success('操作成功！');
-													onGetTableData();
-												} else {
-													ElMessageBox.alert('操作失败', '温馨提示', code.errmsg);
-												}
-											})
-											.catch((err) => {
-												state.tableData.loading = false;
-											});
-									}
-								} else {
-									ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {});
-								}
-							}
-						})
-						.catch((err) => {
-							state.tableData.loading = false;
-							ElMessageBox.alert('网络故障', '温馨提示', {});
-						});
-					return false;
-				})
-				.catch((err) => {});
-		};
-		// 打开修改用户弹窗
-		const onOpenEditDlg = (editMode: Boolean, row: Object) => {
-			request({
-				url: `/v1/ims/casepersonline/${row.Id}`,
-				method: 'get',
-			})
-				.then((res) => {
-					if (res.errcode == 0) {
-						if (res.data.Id > 0) {
-							console.log(res.data.ExpertReviewState);
-							if (res.data.ExpertReviewState > 0) {
-								if (!editMode || (editMode && res.data.ExpertReviewState)) {
-									dlgEditRef.value.openDialog(editMode, res.data, false);
-									return;
-								}
-							}
-							ElMessageBox.alert('当前记录状态不能查看或编辑，请刷新后重试', '温馨提示', {});
-						} else {
-							ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {});
-						}
-					}
-				})
-				.catch((err) => {
-					ElMessageBox.alert('网络故障', '温馨提示', {});
-				});
-		};
-		// 删除用户
-		const onRowDel = (row: Object) => {
-			ElMessageBox.confirm(`确定要删除记录“${row.Sn}”吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(() => {
-					state.tableData.loading = true;
-					const url = `/v1/ims/case/audit/delete/${row.Id}`;
-					request({
-						url: url,
-						method: 'post',
-					})
-						.then((res) => {
-							state.tableData.loading = false;
-							if (res.errcode == 0) {
+			}).then(async () => {
+				state.tableData.loading = true;
+				try{
+					const res = await proxy.$api.ims.casepersonline.getById(row.Id);
+					if (res.data.Id > 0) {
+						console.log(res.data.ExpertReviewState);
+						if (res.data.ExpertReviewState > 0) {
+							const setpRes=await proxy.$api.ims.casepersonline.updateStep(8,res.data);
+							if (setpRes.errcode == 0) {
+								ElMessage.success('操作成功！');
 								onGetTableData();
 							}
-						})
-						.catch((err) => {
-							state.tableData.loading = false;
-						});
-					return false;
-				})
-				.catch((err) => {});
+						}
+					} else {
+						ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {});
+					}
+				} finally{
+					state.tableData.loading = false;
+				}
+			})
 		};
+		// 打开修改用户弹窗
+		const onOpenEditDlg = async (editMode: Boolean, row: Object) => {
+			const res = await proxy.$api.ims.casepersonline.getById(row.Id);
+			if (res.errcode == 0) {
+				if (res.data.Id > 0) {
+					if (res.data.ExpertReviewState > 0) {
+						if (!editMode || (editMode && res.data.ExpertReviewState)) {
+							dlgEditRef.value.openDialog(editMode, res.data, false);
+							return;
+						}
+					}
+					ElMessageBox.alert('当前记录状态不能查看或编辑，请刷新后重试', '温馨提示', {});
+				} else {
+					ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {});
+				}
+			}
+		};
+		
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;

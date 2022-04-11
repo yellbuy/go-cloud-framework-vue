@@ -65,7 +65,6 @@ import { useStore } from '/@/store/index';
 import { formatDate } from '/@/utils/formatTime';
 import { Session,Local } from '/@/utils/storage';
 import { ElMessageBox } from 'element-plus';
-import request from '/@/utils/request';
 export default defineComponent({
 	name: 'layoutLockScreen',
 	setup() {
@@ -172,28 +171,21 @@ export default defineComponent({
 			Local.set('themeConfig', store.state.themeConfig.themeConfig);
 		};
 		// 密码输入点击事件
-		const onLockScreenSubmit = () => {
+		const onLockScreenSubmit = async () => {
 			if(!state.lockScreenPassword){
 				//ElMessageBox.alert("请输入解锁密码");
 				window.alert("请输入解锁密码")
 				return;
 			}
-			request({
-				url: `/v1/admin/base/unlockscreen`,
-				method: 'post',
-				data:{Password:state.lockScreenPassword},
-			}).then((res) => {
-				state.lockScreenPassword='';
-				if (res.errcode != 0) {
-					window.alert(res.errmsg)
-					return;
-				}
-				store.state.themeConfig.themeConfig.isLockScreen = false;
-				store.state.themeConfig.themeConfig.lockScreenTime = 30;
-				setLocalThemeConfig();
-			})
-			.catch((err) => {console.error(err)});
-			
+			const res = await proxy.$api.base.user.unlockScreen({Password:state.lockScreenPassword});
+			state.lockScreenPassword='';
+			if (res.errcode != 0) {
+				window.alert(res.errmsg)
+				return;
+			}
+			store.state.themeConfig.themeConfig.isLockScreen = false;
+			store.state.themeConfig.themeConfig.lockScreenTime = 30;
+			setLocalThemeConfig();
 		};
 		// 页面加载时
 		onMounted(() => {

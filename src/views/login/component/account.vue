@@ -1,7 +1,7 @@
 <template>
-	<el-form class="login-content-form" size="default">
+	<el-form class="login-content-form" size="large">
 		<el-form-item class="login-animation-one">
-			<el-input type="text" :placeholder="$t('message.account.accountPlaceholder1')" v-model="ruleForm.username" clearable autocomplete="off">
+			<el-input type="text" :placeholder="$t('pages.login.account.accountPlaceholder1')" v-model="ruleForm.username" clearable autocomplete="off">
 				<template #prefix>
 					<el-icon class="el-input__icon"><elementUser /></el-icon>
 				</template>
@@ -10,7 +10,7 @@
 		<el-form-item class="login-animation-two">
 			<el-input
 				:type="isShowPassword ? 'text' : 'password'"
-				:placeholder="$t('message.account.accountPlaceholder2')"
+				:placeholder="$t('pages.login.account.accountPlaceholder2')"
 				v-model="ruleForm.password"
 				autocomplete="off"
 			>
@@ -33,7 +33,7 @@
 					<el-input
 						type="text"
 						maxlength="4"
-						:placeholder="$t('message.account.accountPlaceholder3')"
+						:placeholder="$t('pages.login.account.accountPlaceholder3')"
 						v-model="ruleForm.code"
 						clearable
 						autocomplete="off"
@@ -52,12 +52,12 @@
 		</el-form-item>
 		<el-form-item class="login-animation-four pb10">
 			<el-button type="primary" class="login-content-submit" round @click="onSignIn" :loading="loading.signIn">
-				<span>{{ $t('message.account.accountBtnText') }}</span>
+				<span>{{ $t('pages.login.account.accountBtnText') }}</span>
 			</el-button>
 		</el-form-item>
 		<!-- <el-form-item class="login-animation-five">
-			<el-button type="text" size="small">{{ $t('message.link.one3') }}</el-button>
-			<el-button type="text" size="small">{{ $t('message.link.two4') }}</el-button>
+			<el-button type="text" size="small">{{ $t('pages.login.link.one3') }}</el-button>
+			<el-button type="text" size="small">{{ $t('pages.login.link.two4') }}</el-button>
 		</el-form-item> -->
 	</el-form>
 </template>
@@ -72,7 +72,6 @@ import { initBackEndControlRoutes } from '/@/router/backEnd';
 import { useStore } from '/@/store/index';
 import { Session,Local } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
-import request from '/@/utils/request';
 
 export default defineComponent({
 	name: 'loginAccount',
@@ -142,19 +141,19 @@ export default defineComponent({
 				// 用户信息模拟数据
 				const userInfos = {
 					uid: res.data.user.Id,
-					appid:res.data.user.Appid,
-					tid:res.data.user.Tid,
+					appid: res.data.user.Appid,
+					tid: res.data.user.Tid,
 					username: res.data.user.Username,
 					realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
-					mobile:res.data.user.Mobile,
+					mobile: res.data.user.Mobile,
 					avatar: avatar,
 					time: new Date().getTime(),
-					isAdmin:res.data.user.IsAdmin,
+					isAdmin: res.data.user.IsAdmin,
 					roles: ['api'],
 					authBtnList: defaultAuthBtnList,
 					isProxy: res.data.user.IsProxy,
-					app:res.data.user.App||{},
-					tenant:res.data.user.Tenant||{},
+					app: res.data.user.App || {},
+					tenant: res.data.user.Tenant || {},
 				};
 				// 存储 token 到浏览器缓存
 				Local.set('appid', userInfos.appid);
@@ -177,7 +176,8 @@ export default defineComponent({
 					// 执行完 initBackEndControlRoutes，再执行 signInSuccess
 					signInSuccess();
 				}
-			} catch (err) {
+			} 
+			finally{
 				state.loading.signIn = false;
 			}
 		};
@@ -200,30 +200,25 @@ export default defineComponent({
 			setTimeout(() => {
 				// 关闭 loading
 				state.loading.signIn = true;
-				const signInText = t('message.signInText');
+				const signInText = t('pages.login.signInText');
 				ElMessage.success(`${currentTimeInfo}，${signInText}`);
 				// 修复防止退出登录再进入界面时，需要刷新样式才生效的问题，初始化布局样式等(登录的时候触发，目前方案)
 				proxy.mittBus.emit('onSignInClick');
 			}, 300);
 		};
-		const onRefreshCaptcha = () => {
-			request({
-				url: '/v1/base/user/captcha', //后端登录接口地址
-				method: 'post'
-			}).then(res=>{
-				if(res.errcode==0){
-					if(res.data.captchaId && res.data.captchaImg){
-						state.ruleForm.captchaId=res.data.captchaId;
-						state.captcha=res.data.captchaImg;
-					} else {
-						state.ruleForm.captchaId='';
-						state.captcha='';
-					}
-					
+		const onRefreshCaptcha = async () => {
+			const res = await proxy.$api.base.user.postCaptcha();
+			if(res.errcode==0){
+				if(res.data.captchaId && res.data.captchaImg){
+					state.ruleForm.captchaId=res.data.captchaId;
+					state.captcha=res.data.captchaImg;
+				} else {
+					state.ruleForm.captchaId='';
+					state.captcha='';
 				}
-			}).catch(err=>{
-				console.error(err)
-			});
+				
+			}
+			
 		}
 		// 页面加载时
 		onMounted(() => {

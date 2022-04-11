@@ -2,18 +2,18 @@
 	<div class="base-tenant-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef"  :model="tableData.param" label-width="80px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="80px" :inline="true">
 					<el-form-item label="关键字：">
 						<el-input  placeholder="请输入关键字模糊查询" v-model="tableData.param.username"> </el-input>
 					</el-form-item>
 					<el-form-item>
-						<el-button type="info" @click="onResetSearch">
+						<el-button type="info"  @click="onResetSearch">
 							<el-icon>
 								<elementRefreshLeft />
 							</el-icon>
 							&#8197;{{ $t('message.action.reset') }}
 						</el-button>
-						<el-button type="info"  @click="onGetTableData(true)">
+						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
 								<elementSearch />
 							</el-icon>
@@ -31,7 +31,7 @@
 				</el-form>
 			</div>
 			<el-table :data="tableData.data" 
-				v-loading="tableData.loading" style="width: 100%"  :height="proxy.$calcMainHeight(-75)"
+				v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)"
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
 				<el-table-column prop="Name" label="单位名称" width="240" show-overflow-tooltip fixed></el-table-column>
@@ -41,8 +41,8 @@
 				<el-table-column prop="Addr" label="单位地址"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="State" label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" plain  v-if="scope.row.State>0">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" plain  v-else>{{ $t('message.action.disable') }}</el-tag>
+						<el-tag type="success" effect="plain"  v-if="scope.row.State>0">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else>{{ $t('message.action.disable') }}</el-tag>
 						
 					</template>
 				</el-table-column>
@@ -52,19 +52,19 @@
 				</el-table-column>
 				<el-table-column label="操作" width="240" fixed="right">
 					<template #default="scope">
-						<el-button plain type="info" @click="onProxyTenant(scope.row)" v-auth:[moduleKey]="'btn.Proxy'">
+						<el-button plain  type="info" @click="onProxyTenant(scope.row)" v-auth:[moduleKey]="'btn.Proxy'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							&#8197;{{ $t('message.action.backend') }}
 						</el-button>
-						<el-button plain type="primary" @click="onOpenDlgEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button  plain type="primary" @click="onOpenDlgEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button plain type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button  plain type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
@@ -92,11 +92,10 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
 import { useI18n } from 'vue-i18n';
 import { Session, Local } from '/@/utils/storage';
-import { useRouter } from 'vue-router';
 import { resetRoute } from '/@/router/index';
+import { useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
@@ -107,12 +106,12 @@ import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
 
 export default {
-	name: 'baseTenants',
+	name: 'baseCommonTenants',
 	components: { tenantEdit },
 	setup() {
 		const moduleKey='api_base_tenant';
-		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
+		const { proxy } = getCurrentInstance() as any;
 		const router = useRouter();
 		const store = useStore();
 		const dlgEditRef = ref();
@@ -139,40 +138,74 @@ export default {
 			state.tableData.param.name="";
 			onGetTableData(true)
 		}
-		// effect(()=>{
-		// 	state.tableData.param.pageIndex = state.tableData.param.pageNum+1;
-		// })
 		
-
 		// 初始化表格数据
-		const onGetTableData = (gotoFirstPage:boolean=false) => {
+		const onGetTableData =async (gotoFirstPage:boolean=false) => {
 			if(gotoFirstPage){
 				state.tableData.param.pageNum=1;
 			}
 			state.tableData.loading=true;
-			request("/v1/admin/base/tenants",state.tableData.param).then((res)=>{
-				state.tableData.loading=false;
+			try{
+				const res = await proxy.$api.base.tenant.getList(state.tableData.param)
 				if(res.errcode!=0){
 					return;
 				}
 				state.tableData.data = res.data;
 				state.tableData.total = res.total;
-			}).catch(() => {
+			} finally{
 				state.tableData.loading=false;
+			}
+			
+		};
+		// 打开新增用户弹窗
+		const onOpenDlgAdd = () => {
+			dlgEditRef.value.openDialog({});
+		};
+		// 打开修改用户弹窗
+		const onOpenDlgEdit = (row: Object) => {
+			dlgEditRef.value.openDialog(row);
+		};
+		// 删除用户
+		const onRowDel = (row: Object) => {
+			ElMessageBox.confirm(`确定要删除单位“${row.Name}”吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				state.tableData.loading=true;
+				state.tableData.loading=true;
+				try{
+					const res= await proxy.$api.base.tenant.delete(row.Id);
+					if(res.errcode!=0){
+						return;
+					}
+					onGetTableData();
+				} finally {
+					state.tableData.loading=false;
+				}
+				return false;
+			}).catch((err) => {
 			});
 		};
-
+		// 分页改变
+		const onHandleSizeChange = (val: number) => {
+			state.tableData.param.pageSize = val;
+			onGetTableData();
+		};
+		// 分页改变
+		const onHandleCurrentChange = (val: number) => {
+			state.tableData.param.pageNum = val;
+			onGetTableData();
+		};
 		// 进入租户后台
 		const onProxyTenant = (row: Object)=>{
 			ElMessageBox.confirm(`确定进入租户后台吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
-			}).then(() => {
-				request({
-					url: `/v1/admin/base/proxy/tenant/${row.Id}`,
-					method: 'post',
-				}).then((res)=>{
+			}).then(async () => {
+				try{
+					const res=await proxy.$api.base.proxy.enterTenant(row.Id);
 					if(res.errcode==0){
 						ElMessage.success({
 							showClose: true,
@@ -210,8 +243,20 @@ export default {
 									Session.set("refreshTokenAt",res.data.refreshTokenAt);
 									// 1、请注意执行顺序(存储用户信息到vuex)
 									store.dispatch('userInfos/setUserInfos', userInfos);
+									resetRoute(); // 删除/重置路由
+									window.location.href="/";
+									return;
 									// 删除动态路由
 									await resetRoute();
+									if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
+										// 前端控制路由，2、请注意执行顺序
+										await initFrontEndControlRoutes();
+									} else {
+										// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
+										// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
+										await initBackEndControlRoutes();
+										// 执行完 initBackEndControlRoutes，再执行 signInSuccess
+									}
 									window.location.href="/";
 								} catch(err){
 									console.error(err)
@@ -219,54 +264,10 @@ export default {
 							}
 						})
 					}
-				}).catch((err)=>{
-					console.error(err)
-				});
+				}
 			}).catch((err) => {
+				console.error(err)
 			});
-			
-		};
-		// 打开新增用户弹窗
-		const onOpenDlgAdd = () => {
-			dlgEditRef.value.openDialog({});
-		};
-		// 打开修改用户弹窗
-		const onOpenDlgEdit = (row: Object) => {
-			dlgEditRef.value.openDialog(row);
-		};
-		// 删除用户
-		const onRowDel = (row: Object) => {
-			ElMessageBox.confirm(`确定要删除单位“${row.Name}”吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(() => {
-				state.tableData.loading=true;
-				const url=`/v1/admin/base/tenant/delete/${row.Id}`;
-				request({
-					url: url,
-					method: 'post',
-				}).then((res)=>{
-					state.tableData.loading=false;
-					if(res.errcode==0){
-						onGetTableData();
-					}
-				}).catch((err)=>{
-					state.tableData.loading=false;
-				});
-				return false;
-			}).catch((err) => {
-			});
-		};
-		// 分页改变
-		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.pageSize = val;
-			onGetTableData();
-		};
-		// 分页改变
-		const onHandleCurrentChange = (val: number) => {
-			state.tableData.param.pageNum = val;
-			onGetTableData();
 		};
 
 		// 页面加载时
@@ -283,8 +284,8 @@ export default {
 			onResetSearch,
 			onOpenDlgAdd,
 			onOpenDlgEdit,
-			onProxyTenant,
 			onRowDel,
+			onProxyTenant,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
