@@ -75,7 +75,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
-				<el-table-column label="操作" width="150" fixed="right">
+				<el-table-column label="操作" width="160" fixed="right">
 					<template #default="scope">
 						<el-button plain type="info" v-if="scope.row.ExpertAuditState > 1" @click="onOpenEditDlg(false, scope.row)">
 							<el-icon>
@@ -187,7 +187,7 @@ export default {
 			state.tableData.total = 2;
 			try{
 				const res = await proxy.$api.ims.casepersonline.getList(state.tableData.param);
-				if(res.errcode!=0){
+				if(res.errcode!==0){
 					return;
 				}
 				state.tableData.total = res.total;
@@ -314,7 +314,6 @@ export default {
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
-			onRowDel,
 			onGetItem,
 			onHandleSizeChange,
 			onHandleCurrentChange,

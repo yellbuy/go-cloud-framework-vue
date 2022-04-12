@@ -8,7 +8,7 @@ export default {
 	 * @returns 返回接口数据
 	 */
 	getList:async (params: object={})=>{
-		const url=`/v1/admin/base/v1/roles`;
+		const url=`/v1/admin/base/roles`;
 		return await http.get(url, params);
 	},
 	/**

@@ -68,7 +68,7 @@
 				<el-table-column prop="ExpertAuditBy" label="专家姓名" width="80" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertAuditTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
-				<el-table-column label="操作" width="150" fixed="right">
+				<el-table-column label="操作" width="160" fixed="right">
 					<template #default="scope">
 						<el-button plain type="info" v-if="scope.row.ExpertReviewState > 0" @click="onOpenEditDlg(false, scope.row)">
 							<el-icon>
@@ -183,31 +183,31 @@ export default {
 
 			try{
 				const res = await proxy.$api.ims.casepersonline.getList(state.tableData.param);
-				if (res.errcode != 0) {
-						return;
-					}
-					state.tableData.total = res.total;
-					let caseId = '0';
-					//合并单元格
-					for (const i in res.data) {
-						const index = Number.parseInt(i);
-						const item = res.data[index];
-						item.rowSpan = 1;
-						if (item.CaseId != caseId) {
-							let curIndex = index;
-							caseId = item.CaseId;
-							while (++curIndex < res.data.length) {
-								if (caseId == res.data[curIndex].CaseId) {
-									item.rowSpan += 1;
-								} else {
-									break;
-								}
+				if (res.errcode !== 0) {
+					return;
+				}
+				state.tableData.total = res.total;
+				let caseId = '0';
+				//合并单元格
+				for (const i in res.data) {
+					const index = Number.parseInt(i);
+					const item = res.data[index];
+					item.rowSpan = 1;
+					if (item.CaseId != caseId) {
+						let curIndex = index;
+						caseId = item.CaseId;
+						while (++curIndex < res.data.length) {
+							if (caseId == res.data[curIndex].CaseId) {
+								item.rowSpan += 1;
+							} else {
+								break;
 							}
-						} else {
-							item.rowSpan = 0;
 						}
+					} else {
+						item.rowSpan = 0;
 					}
-					state.tableData.data = res.data;
+				}
+				state.tableData.data = res.data;
 			}finally{
 				state.tableData.loading=false;
 			}
@@ -301,7 +301,6 @@ export default {
 			onResetSearch,
 			onOpenAddDlg,
 			onOpenEditDlg,
-			onRowDel,
 			onGetItem,
 			onHandleSizeChange,
 			onHandleCurrentChange,

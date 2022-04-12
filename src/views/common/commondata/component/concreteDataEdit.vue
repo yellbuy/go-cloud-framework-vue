@@ -127,12 +127,11 @@ export default {
 				console.log(valid);
 				if (valid) {
 					// state.loading = true;
-					const url = state.ruleForm.Id > 0 ? `/v1/admin/common/commondata/${state.ruleForm.Id}` : `/v1/admin/common/commondata`;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.Order = parseInt(state.ruleForm.Order);
 					state.ruleForm.Status = parseInt(state.ruleForm.Status);
 					try{
-						const res = proxy.$api.common.commondata.save(state.ruleForm);
+						const res = await proxy.$api.common.commondata.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();

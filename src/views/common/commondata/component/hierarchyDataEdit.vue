@@ -151,7 +151,7 @@ export default {
 		// 新增
 		const onSubmit = (isCloseDlg: boolean) => {
 			console.log(state.ruleForm);
-			proxy.$refs.ruleFormRef.validate((valid: any) => {
+			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				console.log(valid);
 				if (valid) {
 					// state.loading = true;
@@ -166,8 +166,9 @@ export default {
 						state.ruleForm.Parentid=state.ruleForm.parentids[state.ruleForm.parentids.length-1];
 					}
 					try{
-						const res = proxy.$api.common.commondata.save(state.ruleForm);
+						const res = await proxy.$api.common.commondata.save(state.ruleForm);
 						if (res.errcode == 0) {
+							
 							if (isCloseDlg) {
 								closeDialog();
 							} else {

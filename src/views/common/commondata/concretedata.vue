@@ -152,10 +152,6 @@ export default {
 			state.tableData.loading = true;
 			try{
 				
-				if (state.activeName == commonTypeCode) {
-					await onGetConcreteData();
-					return;
-				}
 				const res= await proxy.$api.common.commondata.getList(state.tableData.param)
 				if (res.errcode != 0) {
 					return;

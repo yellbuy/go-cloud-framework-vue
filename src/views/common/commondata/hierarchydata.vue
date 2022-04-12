@@ -132,11 +132,6 @@ export default {
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			state.tableData.loading = true;
 			try{
-				if (state.activeName == commonTypeCode) {
-					await onGetHierarchyData();
-					return
-				}
-
 				const res=await proxy.$api.common.commondata.getHierarchyDataList({type:state.tableData.param.type})
 				if (res.errcode != 0) {
 					return;
