@@ -14,6 +14,7 @@ import { store } from '/@/store/index';
 
 //自动导入pages文件夹下的本地化文件
 const files = import.meta.globEager('./pages/**/*.ts')
+
 const localeMessages = Object.keys(files).reduce(
   (localeMessages: { [key: string]: any }, path: string) => {
     const moduleNames = path.replace(/(\.\/pages\/|\.ts)/g, '').split("/");
@@ -29,7 +30,9 @@ const localeMessages = Object.keys(files).reduce(
         if(index>=moduleNames.length-2){
             return;
         }
-        curModule[val]={}
+		if(!curModule[val]){
+			curModule[val]={}
+		}        
         curModule=curModule[val]
     })
     const func=files[path]?.default;

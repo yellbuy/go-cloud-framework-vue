@@ -8,7 +8,10 @@ const api = Object.keys(files).reduce(
         if(index==moduleNames.length-1){
             return;
         }
-        curModule[val]={}
+        if(!curModule[val]){
+          curModule[val]={}
+        }
+        
         curModule=curModule[val]
     })
     const func=files[path]?.default;

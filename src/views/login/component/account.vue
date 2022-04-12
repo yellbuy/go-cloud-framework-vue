@@ -207,7 +207,7 @@ export default defineComponent({
 			}, 300);
 		};
 		const onRefreshCaptcha = async () => {
-			const res = await proxy.$api.base.user.postCaptcha();
+			const res = await proxy.$api.base.user.getCaptcha();
 			if(res.errcode==0){
 				if(res.data.captchaId && res.data.captchaImg){
 					state.ruleForm.captchaId=res.data.captchaId;

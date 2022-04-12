@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, computed, onMounted } from 'vue';
+import { toRefs, reactive, computed, onMounted, getCurrentInstance } from 'vue';
 import Account from '/@/views/login/component/account.vue';
 import Mobile from '/@/views/login/component/mobile.vue';
 import Scan from '/@/views/login/component/scan.vue';
@@ -49,6 +49,8 @@ export default {
 	setup() {
 		const route = useRoute();
 		const store = useStore();
+		const { proxy } = getCurrentInstance() as any;
+
 		const state = reactive({
 			tabsActiveName: 'account',
 			isTabPaneShow: true,
@@ -67,7 +69,7 @@ export default {
 			}
 			const localAppid=Local.get('appid');
 			curAppid=curAppid||localAppid||appid;
-			const res=await proxy.$api.base.app.getCacheById(curAppid)
+			const res = await proxy.$api.base.app.getCacheById(curAppid)
 			if(res.errcode==0){
 				state.app=res.data||{}
 				state.app.LogoUrl=import.meta.env.VITE_API_URL+"/v1/avatar/app/"+curAppid+".png"

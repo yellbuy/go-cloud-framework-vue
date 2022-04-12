@@ -12,6 +12,15 @@ export default{
 		return await http.post(url, data,{params});
 	},
 	/**
+	 * 刷新Token
+	 * @param params 要传的参数值
+	 * @returns 返回接口数据
+	 */
+	refreshToken:async ()=> {
+		const url='/v1/base/user/refreshtoken';
+		return await http.post(url);
+	},
+	/**
 	 * 获取用户列表
 	 * @param params 要传的参数值
 	 * @returns 返回接口数据
@@ -42,9 +51,9 @@ export default{
 	 * 获取验证码
 	 * @returns 返回接口数据
 	 */
-	 postCaptcha:async ()=>{
+	 getCaptcha:async ()=>{
 		const url=`/v1/base/user/captcha`;
-		return await http.post(url);
+		return await http.get(url);
 	},
 	
 	/**

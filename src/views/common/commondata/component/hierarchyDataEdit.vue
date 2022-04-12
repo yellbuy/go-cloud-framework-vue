@@ -126,7 +126,7 @@ export default {
 			state.isShowDialog = true;
 			state.options = options;
 		};
-		const loadRowById = (id: string,Type:string) => {
+		const loadRowById = async(id: string,Type:string) => {
 			const res= await proxy.$api.common.commondata.getById(id);
 			if (res.errcode == 0) {
 				state.ruleForm = res.data;
