@@ -61,16 +61,17 @@
 									<el-option :label="opt.Name || opt.Username" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
 								</el-select>
 							</td>
-							<td class="bg-gray text-right">复审</td>
-							<td style="padding:0">
-								<el-select v-if="editMode" v-model="ruleForm.ExpertReviewUid" size="default" clearable 
-								@change="onExpertReviewChange"
-								placeholder="请选择分配的复审人">
-									<el-option label="无" :value="'0'" :key="index"/>
-									<el-option :label="opt.Name || opt.Username" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
-								</el-select>
-							</td>
-							
+							<template v-if="ruleForm.ExpertAuditState==10">
+								<td class="bg-gray text-right">复审</td>
+								<td style="padding:0">
+									<el-select v-if="editMode" v-model="ruleForm.ExpertReviewUid" size="default" clearable 
+									@change="onExpertReviewChange"
+									placeholder="请选择分配的复审人">
+										<el-option label="无" :value="'0'" :key="index"/>
+										<el-option :label="opt.Name || opt.Username" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
+									</el-select>
+								</td>
+							</template>
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">委托事项</td>

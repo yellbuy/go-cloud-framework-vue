@@ -80,7 +80,7 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
-						<el-button  plain  type="primary" v-if="(scope.row.ExpertAuditState>=2 && scope.row.ExpertAuditState<=3) || (scope.row.ExpertReviewState>=2 && scope.row.ExpertReviewState<=3)" @click="onOpenEditDlg(true,scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
+						<el-button  plain  type="primary" v-if="(scope.row.ExpertAuditState>=1 && scope.row.ExpertAuditState<=3) || (scope.row.ExpertReviewState>=1 && scope.row.ExpertReviewState<=3)" @click="onOpenEditDlg(true,scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>

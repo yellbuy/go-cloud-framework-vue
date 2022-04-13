@@ -74,13 +74,13 @@
 				</el-table-column> -->
 				<el-table-column label="操作" width="160" fixed="right">
 					<template #default="scope">
-						<el-button  plain  type="info" v-if="scope.row.InsurerAuditState>0" @click="onOpenEditDlg(false,scope.row)">
+						<el-button  plain  type="info" @click="onOpenEditDlg(false,scope.row)">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
-						<el-button  plain  type="primary" v-if="(scope.row.ExpertAuditState>=2 && scope.row.ExpertAuditState<=3) || (scope.row.ExpertReviewState>=2 && scope.row.ExpertReviewState<=3)" @click="onOpenEditDlg(true,scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
+						<el-button  plain  type="primary"  @click="onOpenEditDlg(true,scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -224,16 +224,8 @@ export default {
 			const res = await proxy.$api.ims.casepersonline.getById(row.Id);
 			if(res.errcode == 0){
 				if(res.data.Id>0){
-					//是否满足分配条件
-					const enableDistribute=(res.data.ExpertAuditState >= 2 && res.data.ExpertAuditState <= 3) 
-					|| (res.data.ExpertReviewState >= 2 && res.data.ExpertReviewState <= 3);
-
-					if(!editMode || (editMode  && enableDistribute)) {
-						dlgEditRef.value.openDialog(editMode,res.data);
-						return;
-					}
-					ElMessageBox.alert('当前记录状态不能查看或编辑，请刷新后重试', '温馨提示', {}) 
-					
+					dlgEditRef.value.openDialog(editMode,res.data);
+					return;
 				} else{
 					ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {})
 				}

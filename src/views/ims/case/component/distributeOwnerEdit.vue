@@ -54,10 +54,10 @@
 							<td class="bg-gray text-right">出险时间</td>
 							<td >{{ proxy.$utils.dateFormat(ruleForm.CaseTime,"yyyy-mm-dd") }}</td>
 							
-							<td class="bg-gray text-right">下单人</td>
-							<td style="padding:0">
-								<el-select v-if="editMode" v-model="ruleForm.CreateUid" size="default" clearable 
-								@change="onOwnerChange" placeholder="请选择分配的下单人">
+							<td class="bg-gray text-right" v-if="editMode">新委托人</td>
+							<td style="padding:0" v-if="editMode" >
+								<el-select v-model="ruleForm.CreateUid" size="default" clearable 
+								@change="onOwnerChange" placeholder="请选择分配的委托人">
 									<el-option label="无" :value="'0'" :key="index"/>
 									<el-option :label="opt.Name || opt.Username" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
 								</el-select>
@@ -258,7 +258,7 @@ export default {
 		const onSubmit = (isCloseDlg: boolean) => {
 			if (props.step == 20) {
 				if (Number(state.ruleForm.CreateUid)==0 || state.ruleForm.CreateBy=="") {
-					ElMessageBox.alert('请选择下单人', '温馨提示', {});
+					ElMessageBox.alert('请选择新委托人', '温馨提示', {});
 					return;
 				}
 			}
