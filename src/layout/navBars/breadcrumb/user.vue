@@ -68,9 +68,9 @@
 					<!-- <el-dropdown-item command="wareHouse">{{ $t('message.user.dropdown6') }}</el-dropdown-item> -->
 					<el-dropdown-item command="/base/user/profile">{{ $t('message.user.dropdown2') }}</el-dropdown-item>
 					<el-dropdown-item divided command="returnProxyParent" v-if="getUserInfos.isProxy > 0">{{
-						$t('message.base.action.proxyParent')
+						$t('pages.base.action.proxyParent')
 					}}</el-dropdown-item>
-					<el-dropdown-item command="returnProxyTop" v-if="getUserInfos.isProxy > 0">{{ $t('message.base.action.proxyTop') }}</el-dropdown-item>
+					<el-dropdown-item command="returnProxyTop" v-if="getUserInfos.isProxy > 0">{{ $t('pages.base.action.proxyTop') }}</el-dropdown-item>
 					<!-- <el-dropdown-item command="/404">{{ $t('message.user.dropdown3') }}</el-dropdown-item>
 					<el-dropdown-item command="/401">{{ $t('message.user.dropdown4') }}</el-dropdown-item> -->
 					<el-dropdown-item divided command="logOut">{{ $t('message.user.dropdown5') }}</el-dropdown-item>
@@ -148,12 +148,12 @@ export default {
 		const onHandleCommandClick = async (path: string) => {
 			if (path == 'returnProxyParent' || path == 'returnProxyTop') {
 				const isTop = path == 'returnProxyTop';
-				const res=await proxy.$api.base.proxy.return({isTop});
+				const res=await proxy.$api.base.proxy.return(isTop);
 				if (res.errcode == 0) {
 					ElMessage.success({
 						showClose: true,
 						duration: 2400,
-						message: t('message.base.action.proxySuccess'),
+						message: t('pages.base.action.proxySuccess'),
 						onClose: async function () {
 							try {
 								let defaultRoles: Array<string> = [];

@@ -1,5 +1,8 @@
 // 定义内容
 export default {
+	router: {
+		audit: 'company audit',
+	},
 	case: {
 		no: 'no',
 		tenant: 'tenant',

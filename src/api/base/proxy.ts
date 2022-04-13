@@ -20,4 +20,13 @@ export default {
 		const url=`/v1/admin/base/proxy/tenant/${id}`;
 		return await http.post(url);
 	},
+	/**
+	 * 代理返回
+	 * @param id 租户标识
+	 * @returns 返回接口数据
+	 */
+	 return:async(isTop:boolean)=>{
+		const url=`/v1/admin/base/proxy/return?isTop={isTop}`;
+		return await http.post(url);
+	},
 }

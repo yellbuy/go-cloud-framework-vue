@@ -1,5 +1,8 @@
 // 定义内容
 export default {
+	router: {
+		audit: '保司审核',
+	},
 	case: {
 		no: 'no',
 		tenant: 'tenant',

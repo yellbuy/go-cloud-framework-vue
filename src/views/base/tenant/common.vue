@@ -209,7 +209,7 @@ export default {
 					ElMessage.success({
 						showClose: true,
 						duration:2400,
-						message: t('message.base.action.proxySuccess'),
+						message: t('pages.base.action.proxySuccess'),
 						onClose:async function(){
 							try{
 								let defaultRoles: Array<string> = [];
