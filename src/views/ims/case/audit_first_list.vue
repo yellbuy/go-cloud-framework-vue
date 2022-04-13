@@ -219,7 +219,7 @@ export default {
 			}
 		}
 		
-		// 打开修改用户弹窗
+		// 打开修改弹窗
 		const onOpenEditDlg = async (editMode:Boolean,row: Object) => {
 			const res = await proxy.$api.ims.casepersonline.getById(row.Id);
 			if(res.errcode == 0){

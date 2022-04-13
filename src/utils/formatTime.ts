@@ -15,6 +15,7 @@ export function formatDate(date: Date, format: string): string {
 	let qut = Math.floor((date.getMonth() + 3) / 3).toString(); // 季度
 	const opt: { [key: string]: string } = {
 		'Y+': date.getFullYear().toString(), // 年
+		'y+': date.getFullYear().toString(), // 年
 		'm+': (date.getMonth() + 1).toString(), // 月(月份从0开始，要+1)
 		'd+': date.getDate().toString(), // 日
 		'H+': date.getHours().toString(), // 时

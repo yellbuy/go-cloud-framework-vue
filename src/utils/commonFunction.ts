@@ -35,7 +35,7 @@ export default function () {
 
 	
 	/* 日期格式化 */
-	const dateFormat = (date:any, fmt='yyyy-MM-dd hh:mm:ss')=>  {
+	const dateFormat = (date:any, fmt='YYYY-mm-dd HH:MM:SS')=>  {
 		return formatDate(new Date(date),fmt)
 	}
 	// 小数格式化

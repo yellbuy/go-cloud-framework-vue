@@ -178,7 +178,6 @@ export default {
 			}
 			state.tableData.loading = true;
 			state.tableData.data = [];
-			state.tableData.total = 2;
 			state.tableData.loading = false;
 
 			try{

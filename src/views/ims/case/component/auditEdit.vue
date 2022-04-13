@@ -51,7 +51,9 @@
 							<td v-if="ruleForm.CaseMode == 1">估损</td>
 							<td v-else-if="ruleForm.CaseMode == 2">核损</td>
 							<td v-else-if="ruleForm.CaseMode == 10">鉴定</td>
-							<td colspan="6"></td>
+							<td class="bg-gray text-right">出险时间</td>
+							<td >{{ proxy.$utils.dateFormat(ruleForm.CaseTime,"yyyy-mm-dd") }}</td>
+							<td colspan="4"></td>
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">委托事项</td>
@@ -323,6 +325,7 @@ export default {
 		onMounted(() => {});
 		return {
 			t,
+			proxy,
 			openDialog,
 			closeDialog,
 			onCancel,

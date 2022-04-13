@@ -184,7 +184,6 @@ export default {
 			}
 			state.tableData.loading = true;
 			state.tableData.data = [];
-			state.tableData.total = 2;
 			try{
 				const res = await proxy.$api.ims.casepersonline.getList(state.tableData.param);
 				if(res.errcode!==0){
