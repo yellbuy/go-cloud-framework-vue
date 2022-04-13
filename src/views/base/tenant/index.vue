@@ -166,8 +166,8 @@ export default {
 			dlgEditRef.value.openDialog(row);
 		};
 		// 删除用户
-		const onRowDel = (row: Object) => {
-			ElMessageBox.confirm(`确定要删除单位“${row.Name}”吗?`, '提示', {
+		const onRowDel = async (row: Object) => {
+			ElMessageBox.confirm(`确定要删除“${row.Name}”吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
@@ -242,18 +242,18 @@ export default {
 							resetRoute(); // 删除/重置路由
 							window.location.href="/";
 							return;
-							// 删除动态路由
-							await resetRoute();
-							if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
-								// 前端控制路由，2、请注意执行顺序
-								await initFrontEndControlRoutes();
-							} else {
-								// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
-								// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
-								await initBackEndControlRoutes();
-								// 执行完 initBackEndControlRoutes，再执行 signInSuccess
-							}
-							window.location.href="/";
+							// // 删除动态路由
+							// await resetRoute();
+							// if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
+							// 	// 前端控制路由，2、请注意执行顺序
+							// 	await initFrontEndControlRoutes();
+							// } else {
+							// 	// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
+							// 	// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
+							// 	await initBackEndControlRoutes();
+							// 	// 执行完 initBackEndControlRoutes，再执行 signInSuccess
+							// }
+							// window.location.href="/";
 						}
 					})
 				}
