@@ -53,7 +53,24 @@
 							<td v-else-if="ruleForm.CaseMode == 10">鉴定</td>
 							<td class="bg-gray text-right">出险时间</td>
 							<td >{{ proxy.$utils.dateFormat(ruleForm.CaseTime,"yyyy-mm-dd") }}</td>
-							<td colspan="4"></td>
+							<td class="bg-gray text-right">专家</td>
+							<td style="padding:0">
+								<el-select v-if="editMode" v-model="ruleForm.ExpertAuditUid" size="default" clearable 
+								@change="onExpertAuditChange" placeholder="请选择分配的专家">
+									<el-option label="无" :value="'0'" :key="index"/>
+									<el-option :label="opt.Name || opt.Username" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
+								</el-select>
+							</td>
+							<td class="bg-gray text-right">复审</td>
+							<td style="padding:0">
+								<el-select v-if="editMode" v-model="ruleForm.ExpertReviewUid" size="default" clearable 
+								@change="onExpertReviewChange"
+								placeholder="请选择分配的复审人">
+									<el-option label="无" :value="'0'" :key="index"/>
+									<el-option :label="opt.Name || opt.Username" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
+								</el-select>
+							</td>
+							
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">委托事项</td>
@@ -161,41 +178,7 @@
 								<imgList :ids="ruleForm.OtherPics"></imgList>
 							</td>
 						</tr>
-						<tr>
-							<td class="bg-gray text-right" rowspan="2">审核</td>
-							<td colspan="9" v-if="editMode">
-								<el-radio-group v-model="ruleForm.InsurerAuditState" v-if="step == 2">
-									<el-radio :label="10">通过</el-radio>
-									<el-radio :label="5">驳回</el-radio>
-								</el-radio-group>
-								<el-radio-group v-model="ruleForm.InsurerReviewState" v-else-if="step == 3">
-									<el-radio :label="10">通过</el-radio>
-									<el-radio :label="5">驳回</el-radio>
-								</el-radio-group>
-							</td>
-							<td colspan="9" v-else-if="step == 2">
-								<el-tag type="success" effect="plain" v-if="ruleForm.InsurerAuditState == 10">通过</el-tag>
-								<el-tag type="danger" effect="plain" v-else-if="ruleForm.InsurerAuditState == 5">驳回</el-tag>
-								<el-tag type="primary" effect="plain" v-else>待审</el-tag>
-							</td>
-							<td colspan="9" v-else-if="step == 3">
-								<el-tag type="success" effect="plain" v-if="ruleForm.InsurerReviewState == 10">通过</el-tag>
-								<el-tag type="danger" effect="plain" v-else-if="ruleForm.InsurerReviewState == 5">驳回</el-tag>
-								<el-tag type="primary" effect="plain" v-else>待审</el-tag>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="9" v-if="editMode">
-								<el-input v-model="ruleForm.InsurerAuditContent" placeholder="如驳回，请输入理由" type="textarea" v-if="step == 2" />
-								<el-input v-model="ruleForm.InsurerReviewContent" placeholder="如驳回，请输入理由" type="textarea" v-else-if="step == 3" />
-							</td>
-							<td colspan="9" v-else-if="step == 2">
-								{{ ruleForm.InsurerAuditContent }}
-							</td>
-							<td colspan="9" v-else-if="step == 3">
-								{{ ruleForm.InsurerReviewContent }}
-							</td>
-						</tr>
+						
 					</tbody>
 				</table>
 			</el-form>
@@ -228,7 +211,7 @@ export default {
 		const { t } = useI18n();
 		const state = reactive({
 			isShowDialog: true,
-			title: t('message.action.audit'),
+			title: t('message.action.distribute'),
 			loading: false,
 			editMode: false,
 			ruleForm: {
@@ -236,7 +219,7 @@ export default {
 				InsurerAuditState: 0,
 				InsurerReviewState: 0,
 			},
-			deptData: [], // 部门数据
+			userList: [], // 部门数据
 		});
 
 		const rules = reactive({
@@ -282,25 +265,13 @@ export default {
 		};
 		// 新增
 		const onSubmit = (isCloseDlg: boolean) => {
-			if (props.step == 2) {
-				state.ruleForm.InsurerAuditState = Number(state.ruleForm.InsurerAuditState);
-				if (state.ruleForm.InsurerAuditState != 5 && state.ruleForm.InsurerAuditState != 10) {
-					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
+			if (props.step == 25) {
+				if (Number(state.ruleForm.ExpertAuditUid)==0 || state.ruleForm.ExpertAuditBy=="") {
+					ElMessageBox.alert('请选择专家', '温馨提示', {});
 					return;
 				}
-				if (state.ruleForm.InsurerAuditState == 5 && state.ruleForm.InsurerAuditContent == '') {
-					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
-					return false;
-				}
-			} else if (props.step == 3) {
-				state.ruleForm.InsurerReviewState = Number(state.ruleForm.InsurerReviewState);
-				if (state.ruleForm.InsurerReviewState != 5 && state.ruleForm.InsurerReviewState != 10) {
-					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
-					return;
-				}
-				if (state.ruleForm.InsurerReviewState == 5 && state.ruleForm.InsurerReviewContent == '') {
-					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
-
+				if (Number(state.ruleForm.ExpertReviewUid)>0 && state.ruleForm.ExpertReviewBy=="") {
+					ElMessageBox.alert('请选择复核专家', '温馨提示', {});
 					return false;
 				}
 			}
@@ -321,8 +292,34 @@ export default {
 			});
 			return false;
 		};
+		const onExpertAuditChange=((uid:string)=>{
+			for(const user of state.userList){
+				if(user.Id==uid){
+					state.ruleForm.ExpertAuditBy=user?.Name||user?.Username||"";
+					return;
+				}
+			}
+			
+
+		});
+		const onExpertReviewChange=((uid:string)=>{
+			for(const user of state.userList){
+				if(user.Id==uid){
+					state.ruleForm.ExpertReviewBy=user?.Name||user?.Username||"";
+					return;
+				}
+			}
+		});
+		
 		// 页面加载时
-		onMounted(() => {});
+		onMounted(async () => {
+			//加载用户信息
+			const res=await proxy.$api.base.user.getList({pageSize:100000000})
+			if(res.errcode===0){
+				state.userList=res.data
+			}
+			//userList
+		});
 		return {
 			t,
 			proxy,
@@ -330,6 +327,8 @@ export default {
 			closeDialog,
 			onCancel,
 			rules,
+			onExpertAuditChange,
+			onExpertReviewChange,
 			onSubmit,
 			...toRefs(state),
 		};

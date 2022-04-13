@@ -103,7 +103,7 @@
 			>
 			</el-pagination>
 		</el-card>
-		<dlgEdit ref="dlgEditRef" :step="2" />
+		<dlgEdit ref="dlgEditRef" :step="20" />
 	</div>
 </template>
 
@@ -112,7 +112,7 @@ import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
 import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import dlgEdit from './component/distributeEdit.vue';
+import dlgEdit from './component/distributeOwnerEdit.vue';
 import other from '/@/utils/other';
 export default {
 	name: 'imsDistributeList',
@@ -129,8 +129,8 @@ export default {
 				loading: false,
 				param: {
 					kind:"insurance",
-					searchPage:10, // 1：保司二级审核，2：保司三级审核，5：制作专家，6：审核专家，10：平台
-					searchMode:2, //0：所有，1：待审，2：已审，3：我审核的
+					searchPage:1, // 1：保司二级审核，2：保司三级审核，5：制作专家，6：审核专家，10：平台
+					searchMode:0, //0：所有，1：待审，2：已审，3：我审核的
 					keyword:"",
 					pageNum: 1,
 					pageSize: 20,
