@@ -6,12 +6,8 @@ import { useI18n } from 'vue-i18n';
 import { formatDate } from '/@/utils/formatTime';
 
 export default function () {
-	const { t } = useI18n();
+	
 	const { toClipboard } = useClipboard();
-	//百分比格式化
-	const percentFormat = (row: any, column: number, cellValue: any) => {
-		return cellValue ? `${cellValue}%` : '-';
-	};
 	
 	//列表日期时间格式化
 	const dateFormatYMD = (row: any, column: number, cellValue: any) => {
@@ -54,10 +50,15 @@ export default function () {
 	const copyObj = (obj:any)=> {
 		return JSON.parse(JSON.stringify(obj));
 	}
+	//百分比格式化
+	const percentFormat = (row: any, column: number, cellValue: any) => {
+		return cellValue ? `${cellValue}%` : '-';
+	};
 	// 点击复制文本
 	const copyText = (text: string) => {
 		return new Promise((resolve, reject) => {
 			try {
+				const { t } = useI18n();
 				//复制
 				toClipboard(text);
 				//下面可以设置复制成功的提示框等操作

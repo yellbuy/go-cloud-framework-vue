@@ -25,7 +25,7 @@
 				<el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip />
 				<el-table-column fixed="right" label="操作" width="180" show-overflow-tooltip>
 					<template #header>
-						<el-button  type="primary" @click="onOpenCommonDataDlg(0)">
+						<el-button  type="primary" @click="onOpenCommonDataDlg()">
 							<el-icon>
 								<elementCirclePlusFilled />
 							</el-icon>
@@ -39,7 +39,7 @@
 						</el-button>
 					</template>
 					<template #default="scope">
-						<el-button  type="primary" plain @click="onOpenCommonDataDlg(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button  type="primary" plain @click="onOpenCommonDataDlg(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -125,8 +125,14 @@ export default {
 			onGetTableData(gotoFirstPage);
 		};
 		// 打开弹窗
-		const onOpenCommonDataDlg = (id: string) => {
-			commondataEditRef.value.openDialog(state.activeName, id, false);
+		const onOpenCommonDataDlg = (row?:object) => {
+			let data=row;
+			if(!data){
+				data={Type:state.activeName,Status:1,Order:100}
+			} else{
+				data=proxy.$utils.copyObj(row)
+			}
+			commondataEditRef.value.openDialog(data, false);
 		};
 		const onGetConcreteData = async (isInit:boolean=false) => {
 			state.tableData.param.pageNum = 1;

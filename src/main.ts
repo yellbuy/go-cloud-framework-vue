@@ -9,15 +9,18 @@ import other from '/@/utils/other';
 
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
-import VueUeditorWrap from 'vue-ueditor-wrap';
 import mitt from 'mitt';
 import VueGridLayout from 'vue-grid-layout';
+import VueUeditorWrap from 'vue-ueditor-wrap';
 import screenShort from 'vue-web-screen-shot';
 import '/@/theme/index.scss';
 
 import api from '/@/api';
 import '/@/theme/index.scss';
-import commonFunc from '/@/utils/commonFunction';
+
+
+
+import utils from '/@/utils';
 import errorHandler from '/@/utils/errorHandler';
 import { NextLoading } from '/@/utils/loading';
 import { http } from '/@/utils/request';
@@ -41,8 +44,8 @@ app
 	
 app.config.globalProperties.mittBus = mitt();
 app.config.globalProperties.$api = api;
-app.config.globalProperties.$http = http;
-app.config.globalProperties.$utils = commonFunc;
+app.config.globalProperties.$http = http; 
+app.config.globalProperties.$utils = utils; 
 app.config.globalProperties.$calcMainHeight = other.calcMainHeight;
 app.config.globalProperties.$loading = NextLoading;
 

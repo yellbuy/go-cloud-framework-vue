@@ -14,8 +14,9 @@ const api = Object.keys(files).reduce(
         
         curModule=curModule[val]
     })
+    
     const func=files[path]?.default;
-    curModule[moduleNames[moduleNames.length-1]]=Object.assign({},func)
+    curModule[moduleNames.at(-1)!]=Object.assign({},func)
     
     return api
   },

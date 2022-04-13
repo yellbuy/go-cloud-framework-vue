@@ -101,41 +101,25 @@ export default {
 			],
 		});
 		// 打开弹窗
-		const openDialog = (Type: string, id: string, parentId:string, options: []) => {
-			state.ruleForm.Name='';
-			state.ruleForm.Code='';
-			state.ruleForm.Remark='';
-			state.ruleForm.Status=1;
-			state.ruleForm.Order = 100;
-			state.ruleForm.Type = Type;
-			if(Type==commonTypeCode){
+		const openDialog = (row:any, options: []) => {
+			state.ruleForm=row;
+			if(row.Type==commonTypeCode){
 				state.ruleForm.Parentid='0';
 				state.ruleForm.parentids=[];
 			} else {
-				state.ruleForm.Parentid=parentId;
-				state.ruleForm.parentids=[parentId];
+				state.ruleForm.Parentid=row.Parentid||"0";
+				state.ruleForm.parentids=[row.Parentid||"0"];
 			}
-			if (id && id != '0') {
-				loadRowById(id,Type);
-				state.title = t('message.action.edit');
-			} else {
-				state.ruleForm.Id = 0;
+			if (!row.Id) {
+				state.ruleForm.Id = '0';
 				state.title = t('message.action.add');
+				
+			} else {
+				state.title = t('message.action.edit');
 			}
 
 			state.isShowDialog = true;
 			state.options = options;
-		};
-		const loadRowById = async(id: string,Type:string) => {
-			const res= await proxy.$api.common.commondata.getById(id);
-			if (res.errcode == 0) {
-				state.ruleForm = res.data;
-				if(res.data.Parentid && res.data.Parentid!='0' && Type!=commonTypeCode){
-					state.ruleForm.parentids=[res.data.Parentid];
-				} else {
-					state.ruleForm.parentids=[];
-				}
-			}
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -159,7 +143,7 @@ export default {
 					state.ruleForm.Order = parseInt(state.ruleForm.Order);
 					state.ruleForm.Status = parseInt(state.ruleForm.Status);
 					
-					if(!state.ruleForm.parentids.length){
+					if(!state.ruleForm.parentids || !state.ruleForm.parentids.length){
 						state.ruleForm.Parentid='0';
 					} else{
 						//取最后一条记录

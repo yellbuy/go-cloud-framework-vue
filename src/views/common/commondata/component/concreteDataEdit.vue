@@ -86,29 +86,24 @@ export default {
 			],
 		});
 		// 打开弹窗
-		const openDialog = (Type: string, id: string, disable: boolean) => {
-			state.ruleForm.Name='';
-			state.ruleForm.Code='';
-			state.ruleForm.Remark='';
-			state.ruleForm.Status=1;
-			state.ruleForm.Order = 100;
-			state.ruleForm.Type = Type;
-			if (id && id != '0') {
-				loadRowById(id);
-				state.title = t('message.action.edit');
-			} else {
-				state.ruleForm.Id = 0;
+		const openDialog = (row:any, disable: boolean) => {
+			state.ruleForm=row;
+			if (!row.Id) {
+				row.Id="0"
 				state.title = t('message.action.add');
+				
+			} else {
+				state.title = t('message.action.edit');
 			}
 			state.isShowDialog = true;
 			state.disable = disable;
 		};
-		const loadRowById = async (id: string) => {
-			const res= await proxy.$api.common.commondata.getById(id);
-			if (res.errcode == 0) {
-				state.ruleForm = res.data;
-			}
-		};
+		// const loadRowById = async (id: string) => {
+		// 	const res= await proxy.$api.common.commondata.getById(id);
+		// 	if (res.errcode == 0) {
+		// 		state.ruleForm = res.data;
+		// 	}
+		// };
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
