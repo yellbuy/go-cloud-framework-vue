@@ -126,15 +126,12 @@ export default {
 			let isDynamicPath = to.meta.isDynamic ? to.meta.isDynamicPath : path;
 			let current = state.tagsViewList.filter(
 				(v: any) =>
-					v.path === isDynamicPath &&
-					isObjectValueEqual(
-						to.meta.isDynamic ? (v.params ? v.params : null) : v.query ? v.query : null,
-						to.meta.isDynamic ? (to?.params ? to?.params : null) : to?.query ? to?.query : null
-					)
+					// 修改
+					v.name === to.name
 			);
 			if (current.length <= 0) {
 				// 防止：Avoid app logic that relies on enumerating keys on a component instance. The keys will be empty in production mode to avoid performance overhead.
-				let findItem = state.tagsViewRoutesList.find((v: any) => (v.meta.isDynamic && v.meta.isDynamicPath === isDynamicPath) || v.path===to.path);
+				let findItem = state.tagsViewRoutesList.find((v: any) => (v.name==to.name));
 				if (!findItem || findItem.meta.isAffix) return false;
 				if (findItem.meta.isLink && !findItem.meta.isIframe) return false;
 				to.meta.isDynamic ? (findItem.params = to.params) : (findItem.query = to.query);
@@ -166,21 +163,14 @@ export default {
 			nextTick(async () => {
 				// 修复：https://gitee.com/lyt-top/vue-next-admin/issues/I3YX6G
 				let item = '';
-				if (to && to.meta.isDynamic) {
+				if (to) {
 					// 动态路由（xxx/:id/:name"）：参数不同，开启多个 tagsview
 					!getThemeConfig.value.isShareTagsView 
 						? await solveAddTagsView(path, to) 
 						: await singleAddTagsView(path, to);
 						
-					if (state.tagsViewList.some((v: any) => v.meta.isDynamicPath === to.meta.isDynamicPath)) return false;
-					item = state.tagsViewRoutesList.find((v: any) => v.meta.isDynamicPath === to.meta.isDynamicPath);
-				} else {
-					// 普通路由：参数不同，开启多个 tagsview
-					!getThemeConfig.value.isShareTagsView
-						? await solveAddTagsView(path, to) 
-						: await singleAddTagsView(path, to);
-					if (state.tagsViewList.some((v: any) => v.path === path)) return false;
-					item = state.tagsViewRoutesList.find((v: any) => v.path === path);
+					if (state.tagsViewList.some((v: any) => v.name==to.name)) return false;
+					item = state.tagsViewRoutesList.find((v: any) => v.name==to.name);
 				}
 				if(!item) {
 					return false
@@ -486,7 +476,8 @@ export default {
 		onBeforeRouteUpdate(async (to) => {
 			state.routeActive = setTagsViewHighlight(to);
 			state.routePath = to.meta.isDynamic ? to.meta.isDynamicPath : to.path;
-			await addTagsView(to.path, to);
+			//修改
+			await addTagsView(state.routePath, to);
 			getTagsRefsIndex(getThemeConfig.value.isShareTagsView ? state.routePath : state.routeActive);
 		});
 		// 监听路由的变化，动态赋值给 tagsView

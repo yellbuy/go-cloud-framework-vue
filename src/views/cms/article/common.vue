@@ -19,6 +19,12 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
+						<el-button  type="primary" @click="onOpenAddUser"  v-auth:[moduleKey]="'btn.ArticleAdd'">
+							<el-icon>
+								<elementCirclePlusFilled />
+							</el-icon>
+							&#8197;{{ $t('message.action.add') }}
+						</el-button>
 					</el-form-item>
 					<el-form-item>
 					</el-form-item>
@@ -64,13 +70,13 @@
 				<el-table-column prop="CommentNum" label="评论数" width="80" align="right"></el-table-column>
 				<el-table-column label="操作" width="160" fixed="right">
 					<template #default="scope">
-						<el-button  type="primary" plain @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button  type="primary" plain @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.ArticleEdit'">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button  type="danger" plain @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button  type="danger" plain @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.ArticleDel'">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
