@@ -117,7 +117,7 @@ export default {
 				});
 				await addTagsView(route.path, route);
 			}
-			
+			debugger
 			// 初始化当前元素(li)的下标
 			getTagsRefsIndex(getThemeConfig.value.isShareTagsView ? state.routePath : state.routeActive);
 		};
@@ -171,7 +171,7 @@ export default {
 					!getThemeConfig.value.isShareTagsView 
 						? await solveAddTagsView(path, to) 
 						: await singleAddTagsView(path, to);
-						
+						debugger
 					if (state.tagsViewList.some((v: any) => v.meta.isDynamicPath === to.meta.isDynamicPath)) return false;
 					item = state.tagsViewRoutesList.find((v: any) => v.meta.isDynamicPath === to.meta.isDynamicPath);
 				} else {
@@ -487,6 +487,7 @@ export default {
 			state.routeActive = setTagsViewHighlight(to);
 			state.routePath = to.meta.isDynamic ? to.meta.isDynamicPath : to.path;
 			await addTagsView(to.path, to);
+			debugger
 			getTagsRefsIndex(getThemeConfig.value.isShareTagsView ? state.routePath : state.routeActive);
 		});
 		// 监听路由的变化，动态赋值给 tagsView

@@ -167,7 +167,7 @@ const _request=(config:RequestConfig)=>{
 const http={
 	request:_request,
 	get:(url:string, params?:any,config?:RequestConfig)=>{
-		console.log("config:",config)
+		//console.log("config:",config)
 		return _request({
 			method: 'get',
 			url: url,

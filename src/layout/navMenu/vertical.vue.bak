@@ -9,14 +9,14 @@
 	>
 		<template v-for="val in menuLists">
 			<template v-if="!val.meta.isHide">
-				<el-sub-menu :index="val.path" v-if="val.children && val.children.length > 0" :key="val.key">
+				<el-sub-menu :index="val.meta.isDynamicPath || val.path" v-if="val.children && val.children.length > 0" :key="val.key">
 					<template #title>
 						<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
 						<span>{{ $t(val.meta.title) }}</span>
 					</template>
 					<SubItem :chil="val.children" />
 				</el-sub-menu>
-				<el-menu-item :index="val.path" :key="val.path" v-else>
+				<el-menu-item :index="val.meta.isDynamicPath || val.path" :key="val.key" v-else>
 					<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
 					<template #title v-if="!val.meta.isLink || (val.meta.isLink && val.meta.isIframe)">
 						<span>{{ $t(val.meta.title) }}</span>
