@@ -453,6 +453,7 @@ export default defineComponent({
 					let elActive = document.querySelector('.el-menu-item.is-active');
 					if (!elActive) return false;
 					if (getThemeConfig.value.isMenuBarColorHighlight) {
+						
 						elsItems.forEach((el: any) => el.setAttribute('id', ``));
 						elActive.setAttribute('id', `add-is-active`);
 						Local.set('menuBarHighlightId', elActive.getAttribute('id'));

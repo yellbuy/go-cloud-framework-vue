@@ -134,7 +134,8 @@ export default {
 				let findItem = state.tagsViewRoutesList.find((v: any) => (v.name==to.name));
 				if (!findItem || findItem.meta.isAffix) return false;
 				if (findItem.meta.isLink && !findItem.meta.isIframe) return false;
-				to.meta.isDynamic ? (findItem.params = to.params) : (findItem.query = to.query);
+				to.meta.isDynamic ? (findItem.params = to.params, findItem.query = to.query) : (findItem.query = to.query);
+				
 				findItem.url = setTagsViewHighlight(findItem);
 				state.tagsViewList.push({ ...findItem });
 				addBrowserSetSession(state.tagsViewList);
@@ -144,13 +145,8 @@ export default {
 		const singleAddTagsView = (path: string, to?: any) => {
 			let isDynamicPath = to.meta.isDynamic ? to.meta.isDynamicPath : path;
 			state.tagsViewList.forEach((v) => {
-				if (
-					v.path === isDynamicPath &&
-					!isObjectValueEqual(
-						to.meta.isDynamic ? (v.params ? v.params : null) : v.query ? v.query : null,
-						to.meta.isDynamic ? (to?.params ? to?.params : null) : to?.query ? to?.query : null
-					)
-				) {
+				// 修改
+				if (v.name==to.name) {
 					to.meta.isDynamic ? (v.params = to.params) : (v.query = to.query);
 					v.url = setTagsViewHighlight(v);
 					addBrowserSetSession(state.tagsViewList);
@@ -254,6 +250,7 @@ export default {
 		const getCurrentRouteItem = (path: string, cParams: { [key: string]: any }) => {
 			const itemRoute = Session.get('tagsViewList') ? Session.get('tagsViewList') : state.tagsViewList;
 			return itemRoute.find((v: any) => {
+				
 				if (
 					v.path === path &&
 					isObjectValueEqual(
@@ -275,7 +272,7 @@ export default {
 			switch (item.contextMenuClickId) {
 				case 0:
 					// 刷新当前
-					if (meta.isDynamic) await router.push({ name, params });
+					if (meta.isDynamic) await router.push({ name, params, query });
 					else await router.push({ path, query });
 					refreshCurrentTagsView(route.fullPath);
 					break;
@@ -285,7 +282,7 @@ export default {
 					break;
 				case 2:
 					// 关闭其它
-					if (meta.isDynamic) await router.push({ name, params });
+					if (meta.isDynamic) await router.push({ name, params, query });
 					else await router.push({ path, query });
 					closeOtherTagsView(path);
 					break;
@@ -309,6 +306,7 @@ export default {
 		// 当前的 tagsView 项点击时
 		const onTagsClick = (v: any, k: number) => {
 			state.tagsRefsIndex = k;
+			
 			router.push(v);
 		};
 		// 处理 tagsView 高亮（多标签详情时使用，单标签详情未使用）
