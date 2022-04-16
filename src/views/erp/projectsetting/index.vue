@@ -79,7 +79,7 @@
 						v-model:current-page="zgTableData.param.pageNum"
 						background
 						v-model:page-size="zgTableData.param.pageSize"
-						layout="total, sizes, prev, pager, next, jumper"
+						layout="->, total, sizes, prev, pager, next, jumper"
 						:total="zgTableData.total"
 					>
 					</el-pagination>
@@ -161,7 +161,7 @@
 						v-model:current-page="jsTableData.param.pageNum"
 						background
 						v-model:page-size="jsTableData.param.pageSize"
-						layout="total, sizes, prev, pager, next, jumper"
+						layout="->, total, sizes, prev, pager, next, jumper"
 						:total="jsTableData.total"
 					>
 					</el-pagination>

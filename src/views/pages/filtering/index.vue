@@ -76,7 +76,7 @@
 					:page-sizes="[10, 20, 30]"
 					:current-page="tableData.param.pageNum"
 					:page-size="tableData.param.pageSize"
-					layout="total, sizes, prev, pager, next, jumper"
+					layout="->, total, sizes, prev, pager, next, jumper"
 					:total="tableData.total"
 				>
 				</el-pagination>

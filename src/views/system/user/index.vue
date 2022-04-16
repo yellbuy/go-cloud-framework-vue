@@ -48,7 +48,7 @@
 				v-model:current-page="tableData.param.pageNum"
 				background
 				v-model:page-size="tableData.param.pageSize"
-				layout="total, sizes, prev, pager, next, jumper"
+				layout="->, total, sizes, prev, pager, next, jumper"
 				:total="tableData.total"
 			>
 			</el-pagination>
