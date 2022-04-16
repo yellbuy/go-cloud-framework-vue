@@ -472,10 +472,24 @@ export default {
 		});
 		// 路由更新时
 		onBeforeRouteUpdate(async (to) => {
+			console.log("router:",router,router.options)
+			console.log("router:",router.getRoutes())
+			const routers=router.getRoutes()
+			const curRouter=routers.find((val)=>{
+				return (val.meta.isDynamic && val.meta.isDynamicPath==to.fullPath)||(!val.meta.isDynamic && val.path==to.fullPath)
+			})
+			//修正引用同一个组件的BUG
+			if(curRouter){
+				to.meta.title=curRouter.meta.title
+				to.name=curRouter.name
+				to.meta.isDynamic=curRouter.meta.isDynamic
+				to.meta.isDynamicPath=curRouter.meta.isDynamicPath
+			}
 			state.routeActive = setTagsViewHighlight(to);
 			state.routePath = to.meta.isDynamic ? to.meta.isDynamicPath : to.path;
 			//修改
 			await addTagsView(state.routePath, to);
+			
 			getTagsRefsIndex(getThemeConfig.value.isShareTagsView ? state.routePath : state.routeActive);
 		});
 		// 监听路由的变化，动态赋值给 tagsView

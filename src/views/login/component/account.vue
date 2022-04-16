@@ -168,14 +168,13 @@ export default defineComponent({
 				if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
 					// 前端控制路由，2、请注意执行顺序
 					await initFrontEndControlRoutes();
-					signInSuccess();
 				} else {
 					// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
 					// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
 					await initBackEndControlRoutes();
 					// 执行完 initBackEndControlRoutes，再执行 signInSuccess
-					signInSuccess();
 				}
+				signInSuccess();
 			} 
 			finally{
 				state.loading.signIn = false;
@@ -194,6 +193,7 @@ export default defineComponent({
 					query: Object.keys(route.query?.params).length > 0 ? JSON.parse(route.query?.params) : '',
 				});
 			} else {
+				//window.location.href="/#/"
 				router.push('/');
 			}
 			// 登录成功提示

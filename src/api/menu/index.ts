@@ -1,4 +1,4 @@
-import request from '/@/utils/request';
+import { http } from '/@/utils/request';
 
 /**
  * 后端控制菜单模拟json，路径在 https://gitee.com/lyt-top/vue-next-admin-images/tree/master/menu
@@ -11,12 +11,8 @@ import request from '/@/utils/request';
  * @param params 要传的参数值，非必传
  * @returns 返回接口数据
  */
-export function getMenuAdmin(params?: object) {
-	return request({
-		url: '/v1/admin/base/permission',
-		method: 'get',
-		params,
-	});
+export async function getMenuAdmin(params?: object) {
+	return await http.get('/v1/admin/base/permission',params);
 }
 
 /**

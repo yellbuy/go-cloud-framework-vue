@@ -63,6 +63,7 @@ export function formatTwoStageRoutes(arr: any) {
 				v.meta['isDynamic'] = true;
 				v.meta['isDynamicPath'] = v.url || v.path;
 			}
+			
 			newArr[0].children.push({ ...v });
 			// 存 name 值，keep-alive 中 include 使用，实现路由的缓存
 			// 路径：/@/layout/routerView/parent.vue
