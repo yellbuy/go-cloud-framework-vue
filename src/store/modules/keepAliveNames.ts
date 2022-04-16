@@ -15,7 +15,7 @@ const keepAliveNamesModule: Module<KeepAliveNamesState, RootStateTypes> = {
 	},
 	actions: {
 		// 设置路由缓存（name字段）
-		async setCacheKeepAlive({ commit }, data: Array<string>) {
+		setCacheKeepAlive({ commit }, data: Array<string>) {
 			commit('getCacheKeepAlive', data);
 		},
 	},

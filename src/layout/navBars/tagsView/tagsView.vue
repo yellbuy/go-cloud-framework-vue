@@ -306,7 +306,6 @@ export default {
 		// 当前的 tagsView 项点击时
 		const onTagsClick = (v: any, k: number) => {
 			state.tagsRefsIndex = k;
-			
 			router.push(v);
 		};
 		// 处理 tagsView 高亮（多标签详情时使用，单标签详情未使用）
