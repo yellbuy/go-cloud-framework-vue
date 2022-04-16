@@ -111,9 +111,9 @@ export default defineComponent({
 			// admin 按钮权限标识
 			let adminAuthBtnList: Array<string> = ['btn.add', 'btn.del', 'btn.edit', 'btn.link'];
 			// test 页面权限标识，对应路由 meta.roles，用于控制路由的显示/隐藏
-			let testRoles: Array<string> = ['common'];
+			let testRoles: Array<string> = ['common']; 
 			// test 按钮权限标识
-			let testAuthBtnList: Array<string> = ['btn.add', 'btn.link'];
+			let testAuthBtnList: Array<string> = ['btn.add', 'btn.link']; 
 			// 不同用户模拟不同的用户权限
 			if (state.ruleForm.username === 'admin') {
 				defaultRoles = adminRoles;
@@ -172,9 +172,33 @@ export default defineComponent({
 					// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
 					// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
 					await initBackEndControlRoutes();
+					const routers = router.getRoutes()
+					console.log("routers1:", routers)
 					// 执行完 initBackEndControlRoutes，再执行 signInSuccess
 				}
+
 				signInSuccess();
+				//需要定时执行的代码
+				// const routers = router.getRoutes()
+				// console.log("routers2:",routers)
+				// if(routers.length > 4){
+				// 	signInSuccess();
+				// } else {
+				// 	//解决特定情况下可能未获取到路由的BUG
+				// 	let count=0; //执行次数
+				// 	const timer = setInterval(() => {
+				// 		//需要定时执行的代码
+				// 		const routers = router.getRoutes()
+				// 		console.log("routers2:",routers)
+				// 		if(routers.length > 4 || count > 10){
+				// 			//有路由，进行登录处理
+				// 			clearInterval(timer);
+				// 			signInSuccess();
+				// 		}
+				// 		count++;
+				// 	},360)
+				// }
+				
 			} 
 			finally{
 				state.loading.signIn = false;

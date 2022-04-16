@@ -78,6 +78,8 @@ export default {
 				time: new Date().getTime(),
 				roles: defaultRoles,
 				authBtnList: defaultAuthBtnList,
+				app:{},
+				tenant:{},
 			};
 			Session.set('userInfo', userInfos);
 			store.dispatch('userInfos/setUserInfos', userInfos); // 请注意执行顺序(存储用户信息vuex)

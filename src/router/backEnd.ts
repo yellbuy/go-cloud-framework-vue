@@ -1,5 +1,5 @@
 import { getMenuAdmin } from '/@/api/menu/index';
-import { setAddRoute, setFilterMenuAndCacheTagsViewRoutes } from '/@/router/index';
+import { setAddRoute, setFilterMenuAndCacheTagsViewRoutesForBackEnd } from '/@/router/index';
 import { dynamicRoutes } from '/@/router/route';
 import { store } from '/@/store/index.ts';
 import { NextLoading } from '/@/utils/loading';
@@ -20,12 +20,14 @@ const dynamicViewsModules: Record<string, Function> = Object.assign({}, { ...lay
  * @method store.dispatch('userInfos/setUserInfos') 触发初始化用户信息
  * @method store.dispatch('requestOldRoutes/setBackEndControlRoutes') 存储接口原始路由（未处理component），根据需求选择使用
  * @method setAddRoute 添加动态路由
- * @method setFilterMenuAndCacheTagsViewRoutes 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
+ * @method setFilterMenuAndCacheTagsViewRoutesForBackEnd 设置后端默认情况下就应该有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
  */
 export async function initBackEndControlRoutes() {
 	// 界面 loading 动画开始执行
 	if (window.nextLoading === undefined) NextLoading.start();
+	
 	// 无 token 停止执行下一步
+	console.log("initBackEndControlRoutes token:",Session.get('token'))
 	if (!Session.get('token')) return false;
 	// 触发初始化用户信息
 	store.dispatch('userInfos/setUserInfos');
@@ -36,17 +38,19 @@ export async function initBackEndControlRoutes() {
 		store.dispatch('requestOldRoutes/setBackEndControlRoutes', res.ModuleList||[]);
 		store.dispatch('userInfos/setPermissionActions', res.ActionList);
 		// 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
-		//console.log("res.ModuleList:",res.ModuleList)
+		//console.log("initBackEndControlRoutes res.ModuleList:",res.ModuleList)
 		dynamicRoutes[0].children = await backEndComponent(res.ModuleList||[]);
-		//console.log("dynamicRoutes:",dynamicRoutes,res.ModuleList);
-		await setAddRoute();
+		
+		setAddRoute(); 
 		
 		// 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
-		setFilterMenuAndCacheTagsViewRoutes();
-	}catch(er){
-		NextLoading.done();
+		setFilterMenuAndCacheTagsViewRoutesForBackEnd();
+	} catch(er){
+		console.error(er)
 		//ElMessage.error(er.message)
-	}	
+	}finally{
+		NextLoading.done();
+	}
 	
 }
 
