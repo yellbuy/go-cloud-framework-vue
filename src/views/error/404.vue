@@ -12,7 +12,7 @@
 				</div>
 			</div>
 			<div class="right">
-				<img src="https://gitee.com/lyt-top/vue-next-admin-images/raw/master/error/404.png" />
+				<img :src="imgUrl" />
 			</div>
 		</div>
 	</div>
@@ -27,7 +27,9 @@ export default {
 		const onGoHome = () => {
 			router.push('/');
 		};
+		const imgUrl = import.meta.env.VITE_URL+'/img/404.png';
 		return {
+			imgUrl,
 			onGoHome,
 		};
 	},

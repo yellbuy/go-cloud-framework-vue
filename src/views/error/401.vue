@@ -12,7 +12,7 @@
 				</div>
 			</div>
 			<div class="right">
-				<img src="https://gitee.com/lyt-top/vue-next-admin-images/raw/master/error/401.png" />
+				<img :src="imgUrl" />
 			</div>
 		</div>
 	</div>
@@ -29,7 +29,9 @@ export default {
 			Session.clear();
 			router.push('/login');
 		};
+		const imgUrl = import.meta.env.VITE_URL+'/img/401.png';
 		return {
+			imgUrl,
 			onSetAuth,
 		};
 	},

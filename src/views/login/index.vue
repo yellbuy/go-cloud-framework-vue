@@ -87,7 +87,7 @@ export default {
 .login-container {
 	width: 100%;
 	height: 100%;
-	background: url('/bg-login.png') no-repeat;
+	background: url('../img/bg_login.png') no-repeat;
 	background-size: 100% 100%;
 	.login-logo {
 		position: absolute;

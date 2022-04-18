@@ -19,7 +19,7 @@ const localeMessages = Object.keys(files).reduce(
   (localeMessages: { [key: string]: any }, path: string) => {
     const moduleNames = path.replace(/(\.\/pages\/|\.ts)/g, '').split("/");
 	//文件名称为语言类型的名称
-	const localName=moduleNames.at(-1)!;
+	const localName=moduleNames[moduleNames.length-1]
 	if(!localeMessages[localName]){
 		//首次加载，初始化对象
 		localeMessages[localName]={}
@@ -37,12 +37,14 @@ const localeMessages = Object.keys(files).reduce(
     })
     const func=files[path]?.default;
 	if(moduleNames.length>1){
-		curModule[moduleNames.at(-2)!]=Object.assign({},func);
+		const curKey=moduleNames[moduleNames.length-2]
+		curModule[curKey]=Object.assign({},func);
+		//进行当前层级语言包的合并
 		localeMessages[localName]=Object.assign(localeMessages[localName],curModule);
 	} else {
+		//进行语言包合并
 		localeMessages[localName]=Object.assign(localeMessages[localName],func);
 	}
-    
     
     return localeMessages
   },

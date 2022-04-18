@@ -229,7 +229,7 @@ export default defineComponent({
 }
 .layout-lock-screen-img {
 	@extend .layout-lock-screen-fixed;
-	background-image: url('bg_lock_screen.jpg');
+	background-image: url('../img/bg_lock_screen.jpg');
 	background-size: 100% 100%;
 	z-index: 9999991;
 }
