@@ -10,7 +10,6 @@
 						<el-button-group>
 							<el-button :type="tableData.param.searchMode==1?'primary':'info'" @click="onChangeSearchMode(1)" plain>待审核</el-button>
 							<el-button :type="tableData.param.searchMode==2?'primary':'info'" @click="onChangeSearchMode(2)" plain>已审核</el-button>
-							<el-button :type="tableData.param.searchMode==3?'primary':'info'" @click="onChangeSearchMode(3)" plain>我审核的</el-button>
 							<el-button :type="tableData.param.searchMode==0?'primary':'info'" @click="onChangeSearchMode(0)" plain>所有审核</el-button>
 						</el-button-group>
 					</el-form-item>
@@ -72,7 +71,7 @@
 						<el-tag type="primary" effect="plain"  v-else-if="scope.row.InsurerAuditState>0">待审</el-tag>
 					</template>
 				</el-table-column> -->
-				<el-table-column label="操作" :width="proxy.$calcWidth(160)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button  plain  type="info" v-if="scope.row.InsurerAuditState>0" @click="onOpenEditDlg(false,scope.row)">
 							<el-icon>

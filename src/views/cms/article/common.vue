@@ -68,7 +68,7 @@
 				<el-table-column prop="ViewNum" label="阅读量" width="80" align="right"></el-table-column>
 				<el-table-column prop="LikeNum" label="点赞数" width="80" align="right"></el-table-column>
 				<el-table-column prop="CommentNum" label="评论数" width="80" align="right"></el-table-column>
-				<el-table-column label="操作" :width="proxy.$calcWidth(160)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button  type="primary" plain @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.ArticleEdit'">
 							<el-icon>

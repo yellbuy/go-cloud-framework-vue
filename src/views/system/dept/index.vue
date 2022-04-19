@@ -37,7 +37,7 @@
 				</el-table-column>
 				<el-table-column prop="describe" label="部门描述" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" :width="proxy.$calcWidth(160)">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)">
 					<template #default="scope">
 						<el-button type="text" @click="onOpenAddDept(scope.row)">新增</el-button>
 						<el-button type="text" @click="onOpenEditDept(scope.row)">修改</el-button>

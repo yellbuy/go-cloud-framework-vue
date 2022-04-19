@@ -164,11 +164,40 @@ const _request=(config:RequestConfig)=>{
 		})
 	})
 }
+const _download=(config:RequestConfig)=>{
+	console.log("config：",config)
+	config=Object.assign({notifyError:true},config)
+	
+	//const headers:Record<string, string> = {};
+	if(!config.nonce){
+		config.nonce=uuidv7()
+	}
+	config.headers=Object.assign(config.headers||{},{"Nonce":config.nonce})
+	
+	return new Promise<RequestResponse>((resolve, reject) => {
+		service({
+			...config
+		}).then((res) => {
+			resolve(res);
+		}).catch((error) => {
+			reject(error);
+		})
+	})
+}
 const http={
 	request:_request,
 	get:(url:string, params?:any,config?:RequestConfig)=>{
 		//console.log("config:",config)
 		return _request({
+			method: 'get',
+			url: url,
+			params: params,
+			...config
+		})
+	},
+	download:(url:string, params?:any,config?:RequestConfig)=>{
+		//console.log("config:",config)
+		return _download({
 			method: 'get',
 			url: url,
 			params: params,

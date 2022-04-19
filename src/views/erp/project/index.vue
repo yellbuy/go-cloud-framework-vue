@@ -49,7 +49,7 @@
 				<el-table-column prop="fanwei" label="比选范围" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="EndTime" label="报名截止日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="ReviewTime" label="评选日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" :width="proxy.$calcWidth(180)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button  type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.BidProjectEdit'">
 							<el-icon>

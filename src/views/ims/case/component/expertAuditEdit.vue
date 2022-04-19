@@ -371,13 +371,13 @@ export default {
 			let type = '';
 			switch (state.ruleForm.CaseMode) {
 				case 1:
-					type = 'gs';
+					type = 'case_mode_gs';
 					break;
 				case 2:
-					type = 'hs';
+					type = 'case_mode_hs';
 					break;
 				case 10:
-					type = 'jd';
+					type = 'case_mode_jd';
 					break;
 			}
 			const res=await proxy.$api.common.commondata.getConcreteDataList({

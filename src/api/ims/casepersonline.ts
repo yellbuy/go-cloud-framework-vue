@@ -21,6 +21,15 @@ export default{
 		return await http.get(url);
 	},
 	/**
+	 * 获取记录
+	 * @param id 要传的标识
+	 * @returns 返回接口数据
+	 */
+	 downloadById:async (id:number|string)=>{
+		const url=`/v1/ims/casepersonline/pdfout/${id}?command=casePdf`;
+		return await http.download(url);
+	},
+	/**
 	 * 新增
 	 * @param data 记录
 	 * @returns 返回接口数据

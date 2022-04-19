@@ -44,7 +44,7 @@
 						<el-tag type="success" size="small">{{ scope.row.xx }}菜单</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" :width="proxy.$calcWidth(160)">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)">
 					<template #default="scope">
 						<el-button type="text" @click="onOpenAddMenu(scope.row)">新增</el-button>
 						<el-button type="text" @click="onOpenEditMenu(scope.row)">修改</el-button>

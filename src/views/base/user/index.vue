@@ -54,7 +54,7 @@
 				</el-table-column>
 				<el-table-column prop="LoginTime" label="最后登录时间" :formatter="dateFormatYMDHM" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="操作" :width="proxy.$calcWidth(180)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button  plain type="primary" @click="onOpenuserEdit(scope.row)" v-auth:[moduleKey]="'btn.UserEdit'">
 							<el-icon>

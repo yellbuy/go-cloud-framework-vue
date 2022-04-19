@@ -72,7 +72,7 @@
 						<el-tag type="primary" effect="plain"  v-else-if="scope.row.InsurerAuditState>0">待审</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" :width="proxy.$calcWidth(160)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button  plain  type="info" v-if="scope.row.InsurerAuditState>0" @click="onOpenEditDlg(false,scope.row)">
 							<el-icon>
@@ -85,6 +85,12 @@
 								<elementEdit />
 							</el-icon>
 							&#8197;{{ $t('message.action.audit') }}
+						</el-button>
+						<el-button  plain  type="primary" v-if="scope.row.ExpertReviewState==10" @click="onDownload(scope.row)" v-auth:[moduleKey]="'btn.Download'">
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							&#8197;{{ $t('message.action.download') }}
 						</el-button>
 					</template>
 				</el-table-column>
@@ -114,12 +120,14 @@ import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } 
 import { ElMessageBox, ElMessage } from 'element-plus';
 import dlgEdit from './component/auditEdit.vue';
 import other from '/@/utils/other';
+import { useStore } from '/@/store/index';
 export default {
 	name: 'baseUsers',
 	components: { dlgEdit },
 	setup() {
 		const moduleKey='api_ims_first_audit';
 		const { proxy } = getCurrentInstance() as any;
+		const store = useStore();
 		const dlgEditRef = ref();
 		const state: any = reactive({
 			moduleKey:moduleKey,
@@ -238,6 +246,14 @@ export default {
 			}
 			
 		};
+		const onDownload=async (row:Object)=>{
+			if(!row || !row.Id || row.Id=="0"){
+				return;
+			}
+			const baseUrl=import.meta.env.VITE_API_URL;
+			const url=`${baseUrl}/v1/ims/casepersonline/download/${row.Id}/${row.Sn}.pdf?appid=${store.state.userInfos.userInfos.appid}`;
+			window.open(url,"_blank")
+		};
 		// 删除记录
 		const onRowDel = (row: Object) => {
 			ElMessageBox.confirm(`确定要删除记录“${row.Sn}”吗?`, '提示', {
@@ -282,6 +298,7 @@ export default {
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
+			onDownload,
 			onRowDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

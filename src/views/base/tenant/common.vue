@@ -50,7 +50,7 @@
 				</el-table-column> -->
 				<el-table-column prop="CreationTime" label="创建时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="操作" :width="proxy.$calcWidth(240)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
 						<el-button plain  type="info" @click="onProxyTenant(scope.row)" v-auth:[moduleKey]="'btn.Proxy'">
 							<el-icon>

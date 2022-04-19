@@ -32,7 +32,7 @@
 				</el-table-column>
 				<el-table-column prop="describe" label="用户描述" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" :width="proxy.$calcWidth(100)">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)">
 					<template #default="scope">
 						<el-button :disabled="scope.row.userName === 'admin'" type="text" @click="onOpenEditUser(scope.row)">修改</el-button>
 						<el-button :disabled="scope.row.userName === 'admin'" type="text" @click="onRowDel(scope.row)">删除</el-button>

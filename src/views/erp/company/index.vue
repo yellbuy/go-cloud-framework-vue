@@ -53,7 +53,7 @@
 						<el-tag type="danger" v-if="scope.row.State == 1">禁用</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" :width="proxy.$calcWidth(280)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(280)" fixed="right">
 					<template #default="scope">
 						<el-button size="mini" type="warning" @click="onModelDisable(scope.row)" v-auth:[moduleKey]="'btn.CompanyDisable'">
 							<span v-if="scope.row.State == 0">{{ $t('message.action.disable') }}</span>
