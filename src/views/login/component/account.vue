@@ -1,5 +1,5 @@
 <template>
-	<el-form class="login-content-form" size="large">
+	<el-form class="login-content-form" size="large" @keyup.enter="onSignIn">
 		<el-form-item class="login-animation-one">
 			<el-input type="text" :placeholder="$t('pages.login.account.accountPlaceholder1')" v-model="ruleForm.username" clearable autocomplete="off">
 				<template #prefix>
@@ -102,6 +102,9 @@ export default defineComponent({
 		});
 		// 登录
 		const onSignIn = async () => {
+			if(state.loading.signIn){
+				return;
+			}
 			// 模拟数据
 			state.loading.signIn = true;
 			let defaultRoles: Array<string> = [];

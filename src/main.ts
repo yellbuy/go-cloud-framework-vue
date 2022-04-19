@@ -47,6 +47,7 @@ app.config.globalProperties.$api = api;
 app.config.globalProperties.$http = http; 
 app.config.globalProperties.$utils = utils; 
 app.config.globalProperties.$calcMainHeight = other.calcMainHeight;
+app.config.globalProperties.$calcWidth = other.calcWidth;
 app.config.globalProperties.$loading = NextLoading;
 
 //全局代码错误捕捉

@@ -38,7 +38,7 @@
 				
 				<el-table-column prop="Remark" label="备注" show-overflow-tooltip></el-table-column>
 				
-				<el-table-column label="操作" width="180" fixed="right">
+				<el-table-column label="操作" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button plain  type="primary" @click="onModelEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>

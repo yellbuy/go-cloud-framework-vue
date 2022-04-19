@@ -24,7 +24,7 @@
 				<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
 				<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
 				<el-table-column prop="TechnicalMaxScore" label="最高分数" v-if="ruleForm.Kind != 'zgps'" show-overflow-tooltip />
-				<el-table-column label="操作" width="180" fixed="right">
+				<el-table-column label="操作" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button  type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
 							<el-icon>

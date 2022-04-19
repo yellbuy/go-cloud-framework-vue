@@ -71,7 +71,7 @@
 						<el-tag type="primary" effect="plain"  v-else-if="scope.row.InsurerReviewState>0">待审</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" width="160" fixed="right">
+				<el-table-column label="操作" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button  plain  type="info" v-if="scope.row.InsurerReviewState > 0" @click="onOpenEditDlg(false,scope.row)">
 							<el-icon>

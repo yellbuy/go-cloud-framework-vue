@@ -87,7 +87,7 @@
 							<el-image style="width: 70px; height: 70px" :src="showImage(scope.row.Files)" alt=""></el-image>
 						</template>
 					</el-table-column>
-					<el-table-column label="操作" width="180" fixed="right">
+					<el-table-column label="操作" :width="proxy.$calcWidth(180)" fixed="right">
 						<template #default="scope">
 							<el-button size="mini" type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.CompanyLineEdit'">
 								<el-icon>

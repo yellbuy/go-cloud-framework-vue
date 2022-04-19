@@ -44,11 +44,11 @@
 						<el-tag type="success" size="small">{{ scope.row.xx }}菜单</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" show-overflow-tooltip width="140">
+				<el-table-column label="操作" :width="proxy.$calcWidth(160)">
 					<template #default="scope">
-						<el-button size="mini" type="text" @click="onOpenAddMenu(scope.row)">新增</el-button>
-						<el-button size="mini" type="text" @click="onOpenEditMenu(scope.row)">修改</el-button>
-						<el-button size="mini" type="text" @click="onTabelRowDel(scope.row)">删除</el-button>
+						<el-button type="text" @click="onOpenAddMenu(scope.row)">新增</el-button>
+						<el-button type="text" @click="onOpenEditMenu(scope.row)">修改</el-button>
+						<el-button type="text" @click="onTabelRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

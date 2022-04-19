@@ -23,7 +23,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip />
-				<el-table-column fixed="right" label="操作" width="180" show-overflow-tooltip>
+				<el-table-column fixed="right" label="操作" :width="proxy.$calcWidth(180)" show-overflow-tooltip>
 					<template #header>
 						<el-button  type="primary" @click="onOpenCommonDataDlg()">
 							<el-icon>

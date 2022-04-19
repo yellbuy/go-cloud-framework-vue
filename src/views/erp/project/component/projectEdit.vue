@@ -68,7 +68,7 @@
 							<el-table-column prop="Name" label="设备名称" show-overflow-tooltip></el-table-column>
 							<el-table-column prop="Remark" label="备注" show-overflow-tooltip></el-table-column>
 							<el-table-column prop="Qty" label="数量" show-overflow-tooltip></el-table-column>
-							<el-table-column label="操作" width="180" fixed="right">
+							<el-table-column label="操作" :width="proxy.$calcWidth(160)" fixed="right">
 								<template #default="scope">
 									<el-button size="mini" type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.BidProjectEdit'">
 										<el-icon>
@@ -194,7 +194,7 @@
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
 				<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
-				<el-table-column label="操作" width="180" fixed="right">
+				<el-table-column label="操作" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button size="mini" type="primary" @click="onOpenItemDialog('zgps', scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
 							<el-icon>
@@ -232,7 +232,7 @@
 				<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
 				<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
 				<el-table-column prop="TechnicalMaxScore" label="最高分数" show-overflow-tooltip />
-				<el-table-column label="操作" width="180" fixed="right">
+				<el-table-column label="操作" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button size="mini" type="primary" @click="onOpenItemDialog('zgps', scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
 							<el-icon>

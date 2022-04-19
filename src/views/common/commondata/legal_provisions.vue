@@ -44,7 +44,7 @@
 				<el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip />
 				<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 				<el-table-column prop="Code" label="编码" show-overflow-tooltip />
-				<el-table-column fixed="right" label="操作" width="220" show-overflow-tooltip>
+				<el-table-column fixed="right" label="操作" :width="proxy.$calcWidth(220)">
 					<template #default="scope">
 						<el-button  type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>

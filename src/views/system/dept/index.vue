@@ -37,11 +37,11 @@
 				</el-table-column>
 				<el-table-column prop="describe" label="部门描述" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" show-overflow-tooltip width="140">
+				<el-table-column label="操作" :width="proxy.$calcWidth(160)">
 					<template #default="scope">
-						<el-button size="mini" type="text" @click="onOpenAddDept(scope.row)">新增</el-button>
-						<el-button size="mini" type="text" @click="onOpenEditDept(scope.row)">修改</el-button>
-						<el-button size="mini" type="text" @click="onTabelRowDel(scope.row)">删除</el-button>
+						<el-button type="text" @click="onOpenAddDept(scope.row)">新增</el-button>
+						<el-button type="text" @click="onOpenEditDept(scope.row)">修改</el-button>
+						<el-button type="text" @click="onTabelRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

@@ -1,6 +1,7 @@
 import * as svg from '@element-plus/icons-vue';
 import type { App } from 'vue';
 import { nextTick } from 'vue';
+import { globalComponentSize } from './other';
 import SvgIcon from '/@/components/svgIcon/index.vue';
 import { i18n } from '/@/i18n/index';
 import router from '/@/router/index';
@@ -138,6 +139,20 @@ export function calcMainHeight(offsetHeight:number,minHeight:number=600){
 	}
 	return `${height}px`
 }
+export function calcWidth(smallWidth:number){
+	let size=globalComponentSize
+	//默认为small
+	if(!size || size=="small"){
+		return smallWidth;
+	}
+	if(size=="medium"){
+		return smallWidth*1.3;
+	}
+	if(size=="large"){
+		return smallWidth*1.5;
+	}
+	return smallWidth;
+}
 /**
  * 统一批量导出
  * @method elSvg 导出全局注册 element plus svg 图标
@@ -166,6 +181,9 @@ const other = {
 	},
 	calcMainHeight: (offsetHeight:number,minHeight:number=500)=>{
 		return calcMainHeight(offsetHeight,minHeight);
+	},
+	calcWidth: (smallWidth:number)=>{
+		return calcWidth(smallWidth);
 	}
 };
 

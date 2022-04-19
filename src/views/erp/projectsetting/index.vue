@@ -53,7 +53,7 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="Name" label="名称" show-overflow-tooltip />
-						<el-table-column fixed="right" label="操作" width="220" show-overflow-tooltip>
+						<el-table-column fixed="right" label="操作" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button  type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
 									<el-icon>
@@ -135,7 +135,7 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="Name" label="名称" show-overflow-tooltip />
-						<el-table-column fixed="right" label="操作" width="220" show-overflow-tooltip>
+						<el-table-column fixed="right" label="操作" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button  type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
 									<el-icon>

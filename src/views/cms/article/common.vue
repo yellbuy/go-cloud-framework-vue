@@ -19,7 +19,7 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button  type="primary" @click="onOpenAddUser"  v-auth:[moduleKey]="'btn.ArticleAdd'">
+						<el-button  type="primary" @click="onOpenEditDlg"  v-auth:[moduleKey]="'btn.ArticleAdd'">
 							<el-icon>
 								<elementCirclePlusFilled />
 							</el-icon>
@@ -68,7 +68,7 @@
 				<el-table-column prop="ViewNum" label="阅读量" width="80" align="right"></el-table-column>
 				<el-table-column prop="LikeNum" label="点赞数" width="80" align="right"></el-table-column>
 				<el-table-column prop="CommentNum" label="评论数" width="80" align="right"></el-table-column>
-				<el-table-column label="操作" width="160" fixed="right">
+				<el-table-column label="操作" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button  type="primary" plain @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.ArticleEdit'">
 							<el-icon>
@@ -173,74 +173,18 @@ export default {
 					return;
 				}
 				state.tableData.total=res.total;
-				let caseId="0";
-				//表格合并
-				for(const i in res.data){
-					const index = Number.parseInt(i);
-					const item=res.data[index];
-					item.rowSpan=1;
-					if(item.CaseId!=caseId){
-						let curIndex = index;
-						caseId=item.CaseId;
-						while(++curIndex < res.data.length){
-							if(caseId==res.data[curIndex].CaseId){
-								item.rowSpan+=1
-							} else {
-								break;
-							}
-						}
-					} else {
-						item.rowSpan=0;
-					}
-					//console.log("item.rowSpan:",item.rowSpan)
-				}
 				state.tableData.data = res.data;
 			}finally{
 				state.tableData.loading=false;
 			}
 		};
-		interface SpanMethodProps {
-			row: any
-			column: TableColumnCtx<any>
-			rowIndex: number
-			columnIndex: number
-		}
-		const objectSpanMethod = ({
-			row,
-			column,
-			rowIndex,
-			columnIndex,
-		}: SpanMethodProps) => {
-			if(columnIndex>=1 && columnIndex<6){
-				//console.log("row.rowSpan：",row.rowSpan)
-				if(row.rowSpan>0){
-					return [row.rowSpan,1]
-				} else{
-					return [0,0]
-				}
-			}
-		}
 		
 		// 打开修改弹窗
-		const onOpenEditDlg = async (editMode:Boolean,row: Object) => {
-			const res = await proxy.$api.ims.casepersonline.getById(row.Id);
-			if(res.errcode == 0){
-				if(res.data.Id>0){
-					//是否满足分配条件
-					const enableDistribute=(res.data.ExpertAuditState >= 2 && res.data.ExpertAuditState <= 3) 
-					|| (res.data.ExpertReviewState >= 2 && res.data.ExpertReviewState <= 3);
-
-					if(!editMode || (editMode  && enableDistribute)) {
-						dlgEditRef.value.openDialog(editMode,res.data);
-						return;
-					}
-					ElMessageBox.alert('当前记录状态不能查看或编辑，请刷新后重试', '温馨提示', {}) 
-					
-				} else{
-					ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {})
-				}
+		const onOpenEditDlg = async (row: Object) => {
+			if(!row){
+				row={}
 			}
-			
+			dlgEditRef.value.openDialog(row);
 		};
 		// 删除记录
 		const onRowDel = (row: Object) => {
@@ -251,7 +195,7 @@ export default {
 			}).then(async () => {
 				state.tableData.loading=true;
 				try{
-					const res = await proxy.$api.ims.casepersonline.delete(row.Id);
+					const res = await proxy.$api.cms.article.delete(row.Id);
 					if(res.errcode == 0){
 						onGetTableData();
 					}
@@ -282,7 +226,6 @@ export default {
 			proxy,
 			dlgEditRef,
 			onChangeSearchMode,
-			objectSpanMethod,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
