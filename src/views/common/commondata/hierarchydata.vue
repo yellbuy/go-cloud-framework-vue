@@ -19,13 +19,31 @@
 				<el-table-column type="index" width="50" align="right" label="序号" fixed show-overflow-tooltip />
 				<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 				<el-table-column prop="Code" label="编码" show-overflow-tooltip />
-				<el-table-column prop="Status" label="状态" width="70" align="center" show-overflow-tooltip>
+				<el-table-column prop="Status" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" effect="plain"  v-if="scope.row.Status">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain"  v-else>{{ $t('message.action.disable') }}</el-tag>
+						<el-switch v-model="scope.row.Status" inline-prompt width="50" v-auth:[moduleKey]="'btn.Edit'"
+						@change="proxy.$api.common.table.updateById('common_data','status',scope.row.Id,scope.row.Status)" 
+						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
+						<el-tag type="success" effect="plain"  v-if="scope.row.Status" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip />
+				<el-table-column prop="Order" label="排序" width="100" align="center">
+					<template #header>
+						<el-button  type="text" v-if="tableData.data" 
+							@click="proxy.$api.common.table.update('common_data','Order', tableData.data||[], 0, 'Children')" v-auth:[moduleKey]="'btn.Edit'">
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							&#8197;排序{{ $t('message.action.update') }}
+						</el-button>
+						<span v-no-auth:[moduleKey]="'btn.Edit'">排序</span>
+					</template>
+					<template #default="scope">
+						<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'"> </el-input>
+						<span v-no-auth:[moduleKey]="'btn.Edit'">{{scope.row.Order}}</span>
+					</template>
+				</el-table-column>
 				<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" show-overflow-tooltip>
 					<template #header>
 						<el-button  type="primary" @click="onOpenCommonDataDlg()">
