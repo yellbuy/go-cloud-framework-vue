@@ -59,7 +59,7 @@
 								<el-select v-model="ruleForm.CreateUid" size="default" clearable 
 								@change="onOwnerChange" placeholder="请选择分配的委托人">
 									<el-option label="无" :value="'0'" :key="index"/>
-									<el-option :label="opt.Name || opt.Username" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
+									<el-option :label="opt.Name+'('+opt.Username+')'" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
 								</el-select>
 							</td>
 						</tr>

@@ -58,7 +58,7 @@
 								<el-select v-if="editMode" v-model="ruleForm.ExpertAuditUid" size="default" clearable 
 								@change="onExpertAuditChange" placeholder="请选择分配的专家">
 									<el-option label="无" :value="'0'" :key="index"/>
-									<el-option :label="opt.Name || opt.Username" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
+									<el-option :label="opt.Name+'('+opt.Username+')'" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
 								</el-select>
 							</td>
 							<template v-if="ruleForm.ExpertAuditState==10">
@@ -68,7 +68,7 @@
 									@change="onExpertReviewChange"
 									placeholder="请选择分配的复审人">
 										<el-option label="无" :value="'0'" :key="index"/>
-										<el-option :label="opt.Name || opt.Username" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
+										<el-option :label="opt.Name+'('+opt.Username+')'" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
 									</el-select>
 								</td>
 							</template>

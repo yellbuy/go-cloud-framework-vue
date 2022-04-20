@@ -126,6 +126,7 @@ export default {
 		};
 		//刷新表格
 		const onLoadTable = (gotoFirstPage: boolean) => {
+			
 			onGetTableData(gotoFirstPage);
 		};
 		// 打开弹窗
@@ -156,6 +157,9 @@ export default {
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			state.tableData.loading = true;
 			try{
+				if (state.activeName == commonTypeCode) {
+					await onGetHierarchyData(false);
+				} 
 				const res=await proxy.$api.common.commondata.getHierarchyDataList({type:state.tableData.param.type})
 				if (res.errcode != 0) {
 					return;
@@ -182,9 +186,8 @@ export default {
 					}
 					if (state.activeName == commonTypeCode) {
 						await onGetHierarchyData();
-					} else {
-						await onGetTableData();
-					}
+					} 
+					await onGetTableData();
 				} finally {
 					state.tableData.loading = false;
 				}

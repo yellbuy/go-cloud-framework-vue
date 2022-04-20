@@ -66,7 +66,7 @@
 				<el-dropdown-menu>
 					<el-dropdown-item command="/">{{ $t('message.user.dropdown1') }}</el-dropdown-item>
 					<!-- <el-dropdown-item command="wareHouse">{{ $t('message.user.dropdown6') }}</el-dropdown-item> -->
-					<el-dropdown-item command="/base/user/profile">{{ $t('message.user.dropdown2') }}</el-dropdown-item>
+					<el-dropdown-item command="/admin/profile">{{ $t('message.user.dropdown2') }}</el-dropdown-item>
 					<el-dropdown-item divided command="returnProxyParent" v-if="getUserInfos.isProxy > 0">{{
 						$t('pages.base.action.proxyParent')
 					}}</el-dropdown-item>

@@ -30,7 +30,7 @@
 							<p title="" class="color-info-light text-help-info font10" v-if="ruleForm.Id>0"><SvgIcon name="fa fa-info-circle" /><span>无需修改密码，请保留为空</span></p>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20" v-if="!ruleForm.Id">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="确认密码" prop="PasswordConfirm">
 							<el-input v-model="ruleForm.PasswordConfirm" type="new-password" placeholder="请输入确认密码" maxlength="50" clearable></el-input>
 						</el-form-item>
@@ -174,7 +174,21 @@ export default {
 					message: t('message.validRule.lengthRange',{'min':1,'max':50}),
 					trigger: 'change',
 				},
-			]
+			],
+			Name: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Mobile: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
 		});
 
 		// 打开弹窗

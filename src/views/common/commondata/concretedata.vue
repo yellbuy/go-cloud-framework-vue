@@ -141,6 +141,7 @@ export default {
 		};
 		//刷新表格
 		const onLoadTable = (gotoFirstPage: boolean) => {
+			
 			onGetTableData(gotoFirstPage);
 		};
 		
@@ -177,7 +178,9 @@ export default {
 			}
 			state.tableData.loading = true;
 			try{
-				
+				if (state.activeName == commonTypeCode) {
+					await onGetConcreteData(false);
+				} 
 				const res= await proxy.$api.common.commondata.getList(state.tableData.param)
 				if (res.errcode != 0) {
 					return;
@@ -206,13 +209,14 @@ export default {
 			}).then(async () => {
 				state.tableData.loading = true;
 				try {
-					const res=await proxy.$api.common.commondata.del(Id);
+					const res=await proxy.$api.common.commondata.delete(Id);
 					if (res.errcode == 0) {
+						debugger
 						if (state.activeName == commonTypeCode) {
-							onGetConcreteData();
-						} else {
-							onGetTableData();
-						}
+							await onGetConcreteData();
+						} 
+						await onGetTableData();
+						
 					}
 				} finally {
 					state.tableData.loading = false;

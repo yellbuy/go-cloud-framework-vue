@@ -224,14 +224,14 @@ export default {
 			if(res.errcode == 0){
 				if(res.data.Id>0){
 					//是否满足分配条件
-					const enableDistribute=(res.data.ExpertAuditState >= 2 && res.data.ExpertAuditState <= 3) 
-					|| (res.data.ExpertReviewState >= 2 && res.data.ExpertReviewState <= 3);
+					const disableDistribute=(res.data.ExpertAuditState >= 5) 
+					&& (res.data.ExpertReviewState >= 5);
 
-					if(!editMode || (editMode  && enableDistribute)) {
+					if(!editMode || (editMode  && !disableDistribute)) {
 						dlgEditRef.value.openDialog(editMode,res.data);
 						return;
 					}
-					ElMessageBox.alert('当前记录状态不能查看或编辑，请刷新后重试', '温馨提示', {}) 
+					ElMessageBox.alert('当前状态无需分配专家', '温馨提示', {}) 
 					
 				} else{
 					ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {})
