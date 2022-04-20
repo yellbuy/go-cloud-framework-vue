@@ -33,12 +33,23 @@
 							<el-input v-model="ruleForm.Remark" placeholder="单位备注信息" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :sm="12" :md="12">
+					<el-col :sm="24" :md="12">
+						<el-form-item label="置顶" prop="IsTop">
+							<el-checkbox v-model="ruleForm.IsTop" :true-label="1" :false-label="0">置顶</el-checkbox>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="排序" prop="Order">
+							<el-input v-model="ruleForm.Order" placeholder="排序" type="number" :step="10"></el-input>
+							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>值小的靠前显示</p>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
 						<el-form-item prop="State" label="状态">
 							<el-checkbox v-model="ruleForm.State" :true-label="1" :false-label="0">有效</el-checkbox>
 						</el-form-item>
 					</el-col>
-					<el-col :sm="12" :md="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item prop="UserCreateState" label="">
 							<el-checkbox v-model="ruleForm.UserCreateState" :true-label="1" :false-label="0">创建登录账号</el-checkbox>
 						</el-form-item>
@@ -50,6 +61,12 @@
 						<el-form-item prop="Username" label="用户名" maxlength="50">
 							<el-input v-model="ruleForm.Username" placeholder="登录账号" clearable></el-input>
 							<p title="" class="color-info-light font10" ><SvgIcon name="fa fa-info-circle" class="mr3"/>用户名必须唯一</p>
+						</el-form-item>
+					</el-col>
+					
+					<el-col :sm="12" :md="3">
+						<el-form-item label="状态" prop="UserState">
+							<el-checkbox v-model="ruleForm.UserState" :true-label="1" :false-label="0">有效</el-checkbox>
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="3">
@@ -159,6 +176,8 @@ export default {
 				state.ruleForm.UserCreateState=1;
 				state.ruleForm.Id=0;
 				state.ruleForm.State=1;
+				state.ruleForm.IsTop=0;
+				state.ruleForm.Order=100;
 			}
 			state.ruleForm.UserState=1;
 			state.ruleForm.UserIsAdmin=1;
@@ -167,7 +186,6 @@ export default {
 			state.ruleForm.UserConfirmPassword='';
 			state.ruleForm.UserRealName='';
 			state.ruleForm.UserMobile='';
-			state.ruleForm.Order=100;
 			state.isShowDialog = true;
 		};
 		// 关闭弹窗

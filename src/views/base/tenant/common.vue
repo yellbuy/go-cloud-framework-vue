@@ -39,11 +39,38 @@
 				<el-table-column prop="Phone" label="电话" width="100" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Linkman" label="联系人" width="70" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Addr" label="单位地址"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="State" label="状态" width="70" align="center" show-overflow-tooltip>
+				<el-table-column prop="State" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" effect="plain"  v-if="scope.row.State>0">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain"  v-else>{{ $t('message.action.disable') }}</el-tag>
-						
+						<el-switch v-model="scope.row.State" inline-prompt width="50" v-auth:[moduleKey]="'btn.Edit'"
+						@change="proxy.$api.common.table.updateById('base_tenant','State',scope.row.Id,scope.row.State)" 
+						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
+						<el-tag type="success" effect="plain"  v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="IsTop" label="置顶" width="70" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-switch v-model="scope.row.IsTop" inline-prompt v-auth:[moduleKey]="'btn.Edit'"
+						@change="proxy.$api.common.table.updateById('base_tenant','IsTop',scope.row.Id,scope.row.IsTop)" 
+						:active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+						<el-tag type="success" effect="plain"  v-if="scope.row.IsTop" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.yes') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.no') }}</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Order" label="排序" width="100" align="center">
+					<template #header>
+						<el-button  type="text" v-if="tableData.data" 
+							@click="proxy.$api.common.table.update('base_tenant','Order', tableData.data||[], 0)" v-auth:[moduleKey]="'btn.Edit'">
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							&#8197;排序{{ $t('message.action.update') }}
+						</el-button>
+						<span v-no-auth:[moduleKey]="'btn.Edit'">排序</span>
+					</template>
+					<template #default="scope">
+						<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'"> </el-input>
+						<span v-no-auth:[moduleKey]="'btn.Edit'">{{scope.row.Order}}</span>
 					</template>
 				</el-table-column>
 				<!-- <el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip>

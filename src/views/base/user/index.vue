@@ -42,14 +42,39 @@
 				
 				<el-table-column prop="Tel" label="电话" width="150" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Email" label="邮箱" width="150" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Enable" label="用户状态" width="70" align="center" show-overflow-tooltip>
+				<el-table-column prop="Enable" label="状态" width="80" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-switch v-model="scope.row.Enable" inline-prompt width="50" v-auth:[moduleKey]="'btn.UserEdit'"
+						@change="proxy.$api.common.table.updateById('base_user','Enable',scope.row.Id,scope.row.Enable)" 
+						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
+						<el-tag type="success" effect="plain"  v-if="scope.row.Enable" v-no-auth:[moduleKey]="'btn.UserEdit'">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.UserEdit'">{{ $t('message.action.disable') }}</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Order" label="排序" width="100" align="center">
+					<template #header>
+						<el-button  type="text" v-if="tableData.data" 
+							@click="proxy.$api.common.table.update('base_user','Order', tableData.data||[], 0)" v-auth:[moduleKey]="'btn.UserEdit'">
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							&#8197;排序{{ $t('message.action.update') }}
+						</el-button>
+						<span v-no-auth:[moduleKey]="'btn.UserEdit'">排序</span>
+					</template>
+					<template #default="scope">
+						<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.UserEdit'"> </el-input>
+						<span v-no-auth:[moduleKey]="'btn.UserEdit'">{{scope.row.Order}}</span>
+					</template>
+				</el-table-column>
+				<!-- <el-table-column prop="Enable" label="用户状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" effect="plain"  v-if="scope.row.Enable">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain"  v-else>{{ $t('message.action.disable') }}</el-tag>
 					</template>
-				</el-table-column>
-				<el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip>
-				</el-table-column>
+				</el-table-column> -->
+				<!-- <el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip>
+				</el-table-column> -->
 				<el-table-column prop="CreateTime" label="创建时间" :formatter="dateFormatYMDHM" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column prop="LoginTime" label="最后登录时间" :formatter="dateFormatYMDHM" show-overflow-tooltip>
