@@ -67,6 +67,13 @@
 				</el-table-column>
 				<el-table-column prop="ExpertAuditBy" label="专家姓名" width="80" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertAuditTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="State" label="状态" width="60" align="center" fixed="right">
+					<template #default="scope">
+						<el-tag type="success" effect="plain" v-if="scope.row.ExpertReviewState == 10">通过</el-tag>
+						<el-tag type="danger" effect="plain" v-else-if="scope.row.ExpertReviewState == 5">驳回</el-tag>
+						<el-tag type="primary" effect="plain" v-else-if="scope.row.ExpertReviewState > 0">待审</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
@@ -172,7 +179,7 @@ export default {
 		// })
 
 		// 初始化表格数据
-		const onGetTableData = async(gotoFirstPage: boolean = false) => {
+		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
@@ -180,7 +187,7 @@ export default {
 			state.tableData.data = [];
 			state.tableData.loading = false;
 
-			try{
+			try {
 				const res = await proxy.$api.ims.casepersonline.getList(state.tableData.param);
 				if (res.errcode !== 0) {
 					return;
@@ -207,8 +214,8 @@ export default {
 					}
 				}
 				state.tableData.data = res.data;
-			}finally{
-				state.tableData.loading=false;
+			} finally {
+				state.tableData.loading = false;
 			}
 		};
 		interface SpanMethodProps {
@@ -237,12 +244,12 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				state.tableData.loading = true;
-				try{
+				try {
 					const res = await proxy.$api.ims.casepersonline.getById(row.Id);
 					if (res.data.Id > 0) {
 						console.log(res.data.ExpertReviewState);
 						if (res.data.ExpertReviewState > 0) {
-							const setpRes=await proxy.$api.ims.casepersonline.updateStep(8,res.data);
+							const setpRes = await proxy.$api.ims.casepersonline.updateStep(8, res.data);
 							if (setpRes.errcode == 0) {
 								ElMessage.success('操作成功！');
 								onGetTableData();
@@ -251,10 +258,10 @@ export default {
 					} else {
 						ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {});
 					}
-				} finally{
+				} finally {
 					state.tableData.loading = false;
 				}
-			})
+			});
 		};
 		// 打开修改用户弹窗
 		const onOpenEditDlg = async (editMode: Boolean, row: Object) => {
@@ -273,7 +280,7 @@ export default {
 				}
 			}
 		};
-		
+
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
