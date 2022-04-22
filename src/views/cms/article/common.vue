@@ -19,7 +19,7 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button  type="primary" @click="onOpenEditDlg"  v-auth:[moduleKey]="'btn.ArticleAdd'">
+						<el-button  type="primary" @click="onOpenEditDlg()"  v-auth:[moduleKey]="'btn.ArticleAdd'">
 							<el-icon>
 								<elementCirclePlusFilled />
 							</el-icon>
@@ -30,42 +30,83 @@
 					</el-form-item>
 				</el-form>
 			</div>
-			<el-table :data="tableData.data"  :span-method="objectSpanMethod"
-				v-loading="tableData.loading" style="width: 100%"  :height="proxy.$calcMainHeight(-75)"
-				border stripe highlight-current-row>
+			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%"  
+				:height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
-				<el-table-column prop="Id" label="标识" width="100" align="right"></el-table-column>
+				<el-table-column prop="Id" label="标识" width="160" align="right"></el-table-column>
 				<el-table-column prop="ImgUrl" label="封面图" width="70" align="center"></el-table-column>
 				<el-table-column prop="Title" label="标题" width="200" ></el-table-column>
-				<el-table-column prop="SpecialName" label="所属专题" width="180" ></el-table-column>
+				<!-- <el-table-column prop="SpecialName" label="所属专题" width="180" ></el-table-column> -->
 				<el-table-column prop="CreateBy" label="创建人" width="70" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CreateTime" label="创建时间" width="110" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="PublishTime" label="发布时间" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Status" label="状态" width="70" align="center" show-overflow-tooltip>
+				<el-table-column prop="CreateTime" label="创建时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="PublishTime" label="发布时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="State" label="状态" width="80" align="center">
 					<template #default="scope">
-						<el-tag type="primary" effect="plain"  v-if="scope.row.Status==0">草稿</el-tag>
-						<el-tag type="success" effect="plain"  v-else-if="scope.row.Status==1">发布</el-tag>
+						<el-switch v-model="scope.row.State" inline-prompt width="50" v-auth:[moduleKey]="'btn.ArticleEdit'"
+						@change="proxy.$api.common.table.updateById('cms_article','State',scope.row.Id,scope.row.State)" 
+						:active-text="$t('message.action.publish')" :inactive-text="$t('message.action.draft')" :active-value="1" :inactive-value="0"/>
+						<el-tag type="success" effect="plain"  v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.publish') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.draft') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="IsTop" label="置顶" width="70" align="center" show-overflow-tooltip>
+				<el-table-column prop="AuditState" label="审核" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="primary" effect="plain"  v-if="scope.row.IsTop==0">否</el-tag>
-						<el-tag type="success" effect="plain"  v-else-if="scope.row.IsTop==1">是</el-tag>
+						<el-switch v-model="scope.row.AuditState" inline-prompt width="50" v-auth:[moduleKey]="'btn.ArticleAudit'" v-if="scope.row.State==1"
+						@change="proxy.$api.common.table.updateById('cms_article','AuditState',scope.row.Id,scope.row.AuditState)" 
+						:active-text="$t('message.action.approval')" :inactive-text="scope.row.AuditState==0?$t('message.action.pending'):$t('message.action.disapproval')" :active-value="1" :inactive-value="scope.row.AuditState==0?0:-1"/>
+						
+						<el-tag type="success" effect="plain"  v-if="scope.row.State==1 && scope.row.AuditState==1" v-no-auth:[moduleKey]="'btn.ArticleAudit'">{{ $t('message.action.approval') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else-if="scope.row.State==1 && scope.row.AuditState==-1" v-no-auth:[moduleKey]="'btn.ArticleAudit'">{{ $t('message.action.disapproval') }}</el-tag>
+						<el-tag type="info" effect="plain"  v-else-if="scope.row.State==1" v-no-auth:[moduleKey]="'btn.ArticleAudit'">{{ $t('message.action.pending') }}</el-tag>
+						<span></span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="IsSwiper" label="轮播" width="70" align="center" show-overflow-tooltip>
+				<el-table-column prop="IsTop" label="置顶" width="70" align="center">
 					<template #default="scope">
-						<el-tag type="primary" effect="plain"  v-if="scope.row.IsSwiper==0">否</el-tag>
-						<el-tag type="success" effect="plain"  v-else-if="scope.row.IsSwiper==1">是</el-tag>
+						<el-switch v-model="scope.row.IsTop" inline-prompt v-auth:[moduleKey]="'btn.ArticleEdit'"
+						@change="proxy.$api.common.table.updateById('cms_article','IsTop',scope.row.Id,scope.row.IsTop)" 
+						:active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+						<el-tag type="success" effect="plain"  v-if="scope.row.IsTop" v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.yes') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.no') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="IsPromote" label="推荐" width="70" align="center" show-overflow-tooltip>
+
+				<el-table-column prop="IsSwiper" label="轮播" width="80" align="center">
 					<template #default="scope">
-						<el-tag type="primary" effect="plain"  v-if="scope.row.IsPromote==0">否</el-tag>
-						<el-tag type="success" effect="plain"  v-else-if="scope.row.IsPromote==1">是</el-tag>
+						<el-switch v-model="scope.row.IsSwiper" inline-prompt width="50" v-auth:[moduleKey]="'btn.ArticleEdit'"
+						@change="proxy.$api.common.table.updateById('cms_article','IsSwiper',scope.row.Id,scope.row.IsSwiper)" 
+						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
+						<el-tag type="success" effect="plain"  v-if="scope.row.IsSwiper" v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="ViewNum" label="阅读量" width="80" align="right"></el-table-column>
+
+				<el-table-column prop="IsPromote" label="推荐" width="80" align="center">
+					<template #default="scope">
+						<el-switch v-model="scope.row.IsPromote" inline-prompt width="50" v-auth:[moduleKey]="'btn.ArticleEdit'"
+						@change="proxy.$api.common.table.updateById('cms_article','IsPromote',scope.row.Id,scope.row.IsPromote)" 
+						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
+						<el-tag type="success" effect="plain"  v-if="scope.row.IsPromote" v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.disable') }}</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="ViewNum" label="阅读量" width="100" align="center">
+					<template #header>
+						<el-button  type="text" v-if="tableData.data" 
+							@click="proxy.$api.common.table.update('cms_article','ViewNum', tableData.data||[], 0)" v-auth:[moduleKey]="'btn.ArticleEdit'">
+							<el-icon>
+								<elementEdit />
+							</el-icon>
+							&#8197;阅读量{{ $t('message.action.update') }}
+						</el-button>
+						<span v-no-auth:[moduleKey]="'btn.ArticleEdit'">阅读量</span>
+					</template>
+					<template #default="scope">
+						<el-input type="number" placeholder="排序" v-model="scope.row.ViewNum" input-style="text-align:right" v-auth:[moduleKey]="'btn.ArticleEdit'"> </el-input>
+						<span v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{scope.row.ViewNum}}</span>
+					</template>
+				</el-table-column>
+				
 				<el-table-column prop="LikeNum" label="点赞数" width="80" align="right"></el-table-column>
 				<el-table-column prop="CommentNum" label="评论数" width="80" align="right"></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
@@ -100,7 +141,7 @@
 			</el-pagination>
 			
 		</el-card>
-		<dlgEdit ref="dlgEditRef" :step="25" />
+		<dlgEdit ref="dlgEditRef" :allow-edit-category="false" :allow-edit-special="false" :step="25" />
 	</div>
 </template>
 
@@ -133,6 +174,7 @@ export default {
 				param: {
 					searchPage:10, // 1：保司二级审核，2：保司三级审核，5：制作专家，6：审核专家，10：平台
 					searchMode:2, //0：所有，1：待审，2：已审，3：我审核的
+					loadRelatedSel:false, //不加载栏目关联数据
 					keyword:"",
 					pageNum: 1,
 					pageSize: 20,
@@ -182,7 +224,7 @@ export default {
 		// 打开修改弹窗
 		const onOpenEditDlg = async (row: Object) => {
 			if(!row){
-				row={}
+				row = { Kind:state.kind, CategoryId:"0", SpecialId:"0" }
 			}
 			dlgEditRef.value.openDialog(row);
 		};

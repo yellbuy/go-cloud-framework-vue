@@ -7,10 +7,10 @@
 						<el-form-item label="标题" prop="Title">
 							<el-input v-model="ruleForm.Title" autofocus placeholder="请输入标题" maxlength="100" clearable></el-input>
 						</el-form-item>
-						<el-form-item label="所属栏目" prop="CategoryId">
+						<el-form-item label="所属栏目" prop="CategoryId" v-if="allowEditCategory">
 							<el-input v-model="ruleForm.CategoryId" placeholder="请输入账户名" maxlength="50" clearable></el-input>
 						</el-form-item>
-						<el-form-item label="所属专题" prop="SpecialId" >
+						<el-form-item label="所属专题" prop="SpecialId" v-if="allowEditSpecial">
 							<el-input v-model="ruleForm.SpecialId" placeholder="请输入账户名" maxlength="50" clearable></el-input>
 						</el-form-item>
 						<el-form-item label="封面图" prop="ImgUrl">
@@ -30,6 +30,14 @@
 							</div>
 							
 						</el-form-item>
+						<el-form-item label="发布时间" prop="PublishTime">
+							<el-date-picker
+								v-model="ruleForm.PublishTime"
+								type="datetime"
+								format="YYYY-MM-DD HH:mm:ss"
+								placeholder="选择发布时间"
+							/>
+						</el-form-item>
 						<el-form-item prop="IsShowCover" label="正文显示封面" v-if="ruleForm.ImgUrl">
 							<el-radio v-model="ruleForm.IsShowCover" :label="0">否</el-radio>
     						<el-radio v-model="ruleForm.IsShowCover" :label="ruleForm.ImgUrl?1:0">是</el-radio>
@@ -40,11 +48,9 @@
 						<el-form-item label="外链地址" prop="LinkUrl">
 							<el-input v-model="ruleForm.LinkUrl" placeholder="外链地址" maxlength="255" clearable></el-input>
 						</el-form-item>
-						<el-form-item label="发布时间" prop="PublishTime">
-							<el-input v-model="ruleForm.PublishTime" placeholder="发布时间" maxlength="255" clearable></el-input>
-						</el-form-item>
+						
 						<el-form-item label="文章摘要" prop="Description">
-							<el-input v-model="ruleForm.Description" placeholder="文章摘要" clearable 
+							<el-input v-model="ruleForm.Description" placeholder="文章摘要" maxlength="255" clearable 
 							type="textarea" :autosize="{minRows: 3, maxRows:6}" ></el-input>
 						</el-form-item>
 					</el-col>
@@ -66,6 +72,11 @@
 								<el-form-item prop="State" label="状态">
 									<el-radio v-model="ruleForm.State" :label="0">草稿</el-radio>
 									<el-radio v-model="ruleForm.State" :label="1">发布</el-radio>
+								</el-form-item>
+								<el-form-item prop="AuditState" label="审核" v-if="ruleForm.State" v-auth:[$parent.moduleKey]="'btn.ArticleAudit'">
+									<el-radio v-model="ruleForm.AuditState" :label="1">通过</el-radio>
+									<el-radio v-model="ruleForm.AuditState" :label="0">待审</el-radio>
+									<el-radio v-model="ruleForm.AuditState" :label="-1">驳回</el-radio>
 								</el-form-item>
 								<el-form-item prop="IsTop" label="置顶">
 									<el-radio v-model="ruleForm.IsTop" :label="0">否</el-radio>
@@ -97,8 +108,8 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel" >{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id"  :loading="loading" v-auth:[$parent.moduleKey]="'btn.UserAdd'">{{ $t('message.action.saveAndAdd') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)"  :loading="loading" v-auths:[$parent.moduleKey]="['btn.UserEdit','btn.UserAdd']">{{ $t('message.action.save') }}</el-button>
+					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id"  :loading="loading" v-auth:[$parent.moduleKey]="'btn.ArticleAdd'">{{ $t('message.action.saveAndAdd') }}</el-button>
+					<el-button type="primary" @click="onSubmit(true)"  :loading="loading" v-auths:[$parent.moduleKey]="['btn.ArticleEdit','btn.ArticleAdd']">{{ $t('message.action.save') }}</el-button>
 					
 				</span>
 			</template>
@@ -113,6 +124,10 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 export default {
 	name: 'baseUserEdit',
+	props:{
+		allowEditCategory:{type:Boolean,default:true},
+		allowEditSpecial:{type:Boolean,default:true},
+	},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -173,11 +188,13 @@ export default {
 			state.loading=false
 			const model = JSON.parse(JSON.stringify(row))
 			state.ruleForm = model;
+			state.ruleForm.AuditState=0; //打开窗口，重新设置为待审状态
 			if(row && row.Id>0){
 				state.title=t('message.action.edit');
 			}else{
 				state.title=t('message.action.add');
 				state.ruleForm.Id=0;
+				state.ruleForm.PublishTime=new Date();
 				state.ruleForm.State=0;
 				state.ruleForm.IsTop=0;
 				state.ruleForm.IsShowCover=0;
@@ -186,8 +203,6 @@ export default {
 			}
 			state.isShowDialog = true;
 
-			//加载角色数据
-			onInitRoleData(row.RoleIds||"");
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -204,10 +219,18 @@ export default {
 				if (valid) {
 					state.ruleForm.Id=state.ruleForm.Id.toString();
 					state.ruleForm.Order=Number.parseInt(state.ruleForm.Order||0);
-					state.ruleForm.RoleIds=state.ruleForm.CheckedRoleList.join(",");
+					if(state.ruleForm.State==0){
+						//草稿重置为设置未待审状态
+						state.ruleForm.AuditState=0;
+					}
+					if(!state.ruleForm.Description){
+						//未填入主题，截取正文纯文本
+						var ue = window.UE.getEditor('editor-content');
+						state.ruleForm.Description=ue.getContentTxt().substr(0,255);
+					}
 					state.loading=true;
 					try{
-						const res = await proxy.$api.base.user.save(state.ruleForm)
+						const res = await proxy.$api.cms.article.save(state.ruleForm)
 						if(res.errcode==0){
 							if(isCloseDlg){
 								closeDialog();

@@ -48,6 +48,7 @@
 						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
+				
 				<el-table-column prop="IsTop" label="置顶" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch v-model="scope.row.IsTop" inline-prompt v-auth:[moduleKey]="'btn.Edit'"

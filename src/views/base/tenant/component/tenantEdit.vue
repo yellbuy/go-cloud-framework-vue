@@ -69,11 +69,6 @@
 							<el-checkbox v-model="ruleForm.UserState" :true-label="1" :false-label="0">有效</el-checkbox>
 						</el-form-item>
 					</el-col>
-					<el-col :sm="12" :md="3">
-						<el-form-item label="状态" prop="UserState">
-							<el-checkbox v-model="ruleForm.UserState" :true-label="1" :false-label="0">有效</el-checkbox>
-						</el-form-item>
-					</el-col>
 					<el-col :sm="12" :md="9">
 						<el-form-item prop="UserIsAdmin">
 							<el-checkbox v-model="ruleForm.UserIsAdmin" :true-label="1" :false-label="0">管理员</el-checkbox>
