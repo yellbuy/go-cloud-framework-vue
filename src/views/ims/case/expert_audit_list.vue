@@ -69,7 +69,8 @@
 				<el-table-column prop="ExpertAuditTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="State" label="状态" width="60" align="center" fixed="right">
 					<template #default="scope">
-						<el-tag type="success" effect="plain" v-if="scope.row.ExpertAuditState == 10">通过</el-tag>
+						<el-tag type="danger" effect="plain" v-if="scope.row.ExpertReviewState == 5">驳回</el-tag>
+						<el-tag type="success" effect="plain" v-else-if="scope.row.ExpertAuditState == 10">通过</el-tag>
 						<el-tag type="danger" effect="plain" v-else-if="scope.row.ExpertAuditState == 5">驳回</el-tag>
 						<el-tag type="primary" effect="plain" v-else-if="scope.row.ExpertAuditState > 0">待审</el-tag>
 					</template>

@@ -71,13 +71,13 @@
 					<template #default="scope">
 						<el-tag type="success" effect="plain" v-if="scope.row.ExpertReviewState == 10">通过</el-tag>
 						<el-tag type="danger" effect="plain" v-else-if="scope.row.ExpertReviewState == 5">驳回</el-tag>
-						<el-tag type="primary" effect="plain" v-else-if="scope.row.ExpertReviewState > 0">待审</el-tag>
+						<el-tag type="primary" effect="plain" v-else>待审</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
-						<el-button plain type="info" v-if="scope.row.ExpertReviewState > 0" @click="onOpenEditDlg(false, scope.row)">
+						<el-button plain type="info" v-if="scope.row.ExpertAuditState > 0" @click="onOpenEditDlg(false, scope.row)">
 							<el-icon>
 								<elementSearch />
 							</el-icon>

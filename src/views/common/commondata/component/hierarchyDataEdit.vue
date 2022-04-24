@@ -4,13 +4,13 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="60px" v-loading="loading" >
 				<el-form-item label="名称" prop="Name">
 					<el-col :span="12">
-					<el-input placeholder="请输入名称" v-model="ruleForm.Name"> </el-input>
+					<el-input placeholder="请输入名称" v-model="ruleForm.Name" :readonly="ruleForm.Predefined"> </el-input>
 					<p title="" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>名称必须唯一</span></p>
 					</el-col>
 				</el-form-item>
 				<el-form-item label="编码" prop="Code">
 					<el-col :span="12">
-					<el-input placeholder="请输入编码" v-model="ruleForm.Code"> </el-input>
+					<el-input placeholder="请输入编码" v-model="ruleForm.Code" :readonly="ruleForm.Predefined"> </el-input>
 					<p title="" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>编码必须唯一，不填则默认为名称</span></p>
 					</el-col>
 				</el-form-item>
@@ -36,7 +36,7 @@
 					</el-col>
 				</el-form-item>
 				<el-form-item prop="Status" label="状态">
-					<el-checkbox v-model="ruleForm.Status" :true-label="1" :false-label="0">有效</el-checkbox>
+					<el-checkbox v-model="ruleForm.Status" :true-label="1" :false-label="0" :disabled="ruleForm.Predefined">有效</el-checkbox>
 				</el-form-item>
 				<el-form-item label="值" prop="Value">
 					<el-input placeholder="请输入值" v-model="ruleForm.Value"> </el-input>

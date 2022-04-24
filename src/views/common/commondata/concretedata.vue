@@ -16,11 +16,17 @@
 				<el-table-column type="index" width="50" align="right" label="序号" fixed show-overflow-tooltip />
 				<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 				<el-table-column prop="Code" label="编码" show-overflow-tooltip />
+				<el-table-column prop="Predefined" label="内置" width="60" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="success" effect="plain"  v-if="scope.row.Predefined">{{ $t('message.action.yes') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else>{{ $t('message.action.no') }}</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column prop="Status" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch v-model="scope.row.Status" inline-prompt width="50" v-auth:[moduleKey]="'btn.Edit'"
 						@change="proxy.$api.common.table.updateById('common_data','status',scope.row.Id,scope.row.Status)" 
-						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
+						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0" :disabled="scope.row.Predefined"/>
 						<el-tag type="success" effect="plain"  v-if="scope.row.Status" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
@@ -64,7 +70,7 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button  type="danger" plain @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button  type="danger" plain @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'" v-if="!scope.row.Predefined">
 							<el-icon>
 								<elementCloseBold />
 							</el-icon>
