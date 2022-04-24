@@ -161,6 +161,12 @@
 								<imgList :ids="ruleForm.OtherPics"></imgList>
 							</td>
 						</tr>
+						<tr v-if="ruleForm.InsurerAuditState == 5 || ruleForm.InsurerReviewState == 5 || ruleForm.ExpertAuditState == 5 || ruleForm.ExpertReviewState == 5">
+							<td class="bg-gray text-right">驳回原因</td>
+							<td colspan="9">
+								{{ ruleForm.Remark }}
+							</td>
+						</tr>
 						<tr>
 							<td class="bg-gray text-right" rowspan="2">审核</td>
 							<td colspan="9" v-if="editMode">

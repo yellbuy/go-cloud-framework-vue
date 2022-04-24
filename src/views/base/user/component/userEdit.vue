@@ -95,9 +95,7 @@
 							<el-checkbox v-model="ruleForm.AllowFrontendLogin" :true-label="1" :false-label="0">前台允许登录</el-checkbox>
 							<p title="" class="color-info-light font10 ml5" ><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录前台和客户端</p>
 						</el-form-item>
-						
 					</el-col>
-					
 				</el-row>
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -116,7 +114,6 @@
 					<el-button @click="onCancel" >{{ $t('message.action.cancel') }}</el-button>
 					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id"  :loading="loading" v-auth:[$parent.moduleKey]="'btn.UserAdd'">{{ $t('message.action.saveAndAdd') }}</el-button>
 					<el-button type="primary" @click="onSubmit(true)"  :loading="loading" v-auths:[$parent.moduleKey]="['btn.UserEdit','btn.UserAdd']">{{ $t('message.action.save') }}</el-button>
-					
 				</span>
 			</template>
 		</el-dialog>

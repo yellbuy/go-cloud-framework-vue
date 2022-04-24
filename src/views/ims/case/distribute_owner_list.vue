@@ -75,7 +75,7 @@
 					<template #default="scope">
 						<el-button  plain  type="info" @click="onOpenEditDlg(false,scope.row)">
 							<el-icon>
-								<elementEdit />
+								<elementSearch />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>

@@ -76,7 +76,7 @@
 					<template #default="scope">
 						<el-button  plain  type="info" v-if="scope.row.InsurerAuditState>0" @click="onOpenEditDlg(false,scope.row)">
 							<el-icon>
-								<elementEdit />
+								<elementSearch />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>

@@ -79,7 +79,7 @@
 					<template #default="scope">
 						<el-button plain type="info" v-if="scope.row.ExpertReviewState > 0" @click="onOpenEditDlg(false, scope.row)">
 							<el-icon>
-								<elementEdit />
+								<elementSearch />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
@@ -87,9 +87,8 @@
 							plain
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
-							v-if="scope.row.ExpertReviewState == 2"
-							@click="onOpenEditDlg(true, scope.row)"
-						>
+							v-if="scope.row.ExpertReviewState == 2 && scope.row.ExpertReviewUid == uid"
+							@click="onOpenEditDlg(true, scope.row)">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -100,8 +99,7 @@
 							type="warning"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							v-if="scope.row.ExpertReviewState == 1"
-							@click="onGetItem(scope.row)"
-						>
+							@click="onGetItem(scope.row)">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -133,6 +131,7 @@ import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import { useStore } from '/@/store/index';
 import dlgEdit from './component/expertAuditEdit.vue';
 import other from '/@/utils/other';
 export default {
@@ -141,9 +140,11 @@ export default {
 	setup() {
 		const moduleKey = 'api_ims_expert_review';
 		const { proxy } = getCurrentInstance() as any;
+		const store = useStore();
 		const dlgEditRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
+			uid:store.state.userInfos.userInfos.uid,
 			tableData: {
 				data: [],
 				total: 0,
@@ -269,7 +270,7 @@ export default {
 			if (res.errcode == 0) {
 				if (res.data.Id > 0) {
 					if (res.data.ExpertReviewState > 0) {
-						if (!editMode || (editMode && res.data.ExpertReviewState)) {
+						if (!editMode || (editMode && res.data.ExpertReviewState && res.data.ExpertReviewUid==state.uid)) {
 							dlgEditRef.value.openDialog(editMode, res.data, false);
 							return;
 						}

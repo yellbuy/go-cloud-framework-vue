@@ -37,10 +37,10 @@
 				v-loading="tableData.loading" style="width: 100%"  :height="proxy.$calcMainHeight(-75)"
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
-				<el-table-column prop="Username" label="账户名" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Name" label="姓名" width="130" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Username" label="登录账号" width="100" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Name" label="姓名" width="100" show-overflow-tooltip></el-table-column>
 				
-				<el-table-column prop="Tel" label="电话" width="150" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Tel" label="电话" width="110" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Email" label="邮箱" width="150" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Enable" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
@@ -67,18 +67,21 @@
 						<span v-no-auth:[moduleKey]="'btn.UserEdit'">{{scope.row.Order}}</span>
 					</template>
 				</el-table-column>
-				<!-- <el-table-column prop="Enable" label="用户状态" width="70" align="center" show-overflow-tooltip>
+				<el-table-column prop="IsAdmin" label="管理员" width="70" align="center">
 					<template #default="scope">
-						<el-tag type="success" effect="plain"  v-if="scope.row.Enable">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain"  v-else>{{ $t('message.action.disable') }}</el-tag>
+						<el-tag type="success" effect="plain"  v-if="scope.row.IsAdmin">{{ $t('message.action.yes') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else>{{ $t('message.action.no') }}</el-tag>
 					</template>
-				</el-table-column> -->
+				</el-table-column>
 				<!-- <el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip>
 				</el-table-column> -->
-				<el-table-column prop="CreateTime" label="创建时间" :formatter="dateFormatYMDHM" show-overflow-tooltip>
+				<el-table-column prop="RoleNames" label="所属角色" width="180" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="LoginTime" label="最后登录时间" :formatter="dateFormatYMDHM" show-overflow-tooltip>
+				<el-table-column prop="LoginTime" label="最后登录时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip>
 				</el-table-column>
+				<el-table-column prop="CreateTime" label="创建时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip>
+				</el-table-column>
+				
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button  plain type="primary" @click="onOpenuserEdit(scope.row)" v-auth:[moduleKey]="'btn.UserEdit'">

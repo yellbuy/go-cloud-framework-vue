@@ -79,7 +79,7 @@
 					<template #default="scope">
 						<el-button plain type="info" v-if="scope.row.ExpertAuditState > 1" @click="onOpenEditDlg(false, scope.row)">
 							<el-icon>
-								<elementEdit />
+								<elementSearch />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
@@ -88,8 +88,7 @@
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							@click="onOpenEditDlg(true, scope.row)"
-							v-if="scope.row.ExpertAuditState == 2"
-						>
+							v-if="scope.row.ExpertAuditState == 2 || (scope.row.ExpertAuditState == 10 && scope.row.ExpertReviewState == 5)">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -100,8 +99,7 @@
 							type="warning"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							v-if="scope.row.ExpertAuditState == 1"
-							@click="onGetItem(scope.row)"
-						>
+							@click="onGetItem(scope.row)">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -263,7 +261,7 @@ export default {
 			})
 			return false
 		};
-		// 打开修改用户弹窗
+		// 打开详情弹窗
 		const onOpenEditDlg = async(editMode: Boolean, row: Object) => {
 
 			try{
@@ -272,7 +270,7 @@ export default {
 					console.log(res.data.ExpertAuditState);
 					if (res.data.Id > 0) {
 						if (res.data.ExpertAuditState > 0) {
-							if (!editMode || (editMode && res.data.ExpertAuditState)) {
+							if (!editMode || (editMode && ((res.data.ExpertAuditState > 0 && res.data.ExpertAuditState < 10) || (res.data.ExpertAuditState == 10 && res.data.ExpertReviewState==5)))) {
 								dlgEditRef.value.openDialog(editMode, res.data, false);
 								return;
 							}
