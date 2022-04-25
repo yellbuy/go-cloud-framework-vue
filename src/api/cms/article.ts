@@ -13,6 +13,18 @@ export default {
 		const url=`/v1/admin/cms/articles/${kind}/${scopeLevel}`;
 		return await http.get(url, params);
 	},
+	/**
+	 * 获取前台文章列表
+	 * @param kind 文章分类
+	 * @param scopeLevel 数据权限层级过滤参数，0：默认层级，1：系统级，2：应用级，3：租户级，4：用户级
+	 * @param params 要传的参数值
+	 * @returns 返回接口数据
+	 */
+	 getFrontEndList:async (kind:string,params: object={})=>{
+		 params["kind"]=kind;
+		const url=`/v1/cms/article`;
+		return await http.get(url, params);
+	},
     getById:async (id:number|string)=>{
 		const url=`/v1/admin/cms/article/${id}`;
 		return await http.get(url);

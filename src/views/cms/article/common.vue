@@ -41,6 +41,7 @@
 						<el-image v-if="scope.row.ImgUrl" lazy preview-teleported
 							style="width: 20px; height: 20px"
 							:src="baseStaticUrl+scope.row.ImgUrl"
+							hide-on-click-modal
 							:preview-src-list="[baseStaticUrl+scope.row.ImgUrl]"
 							:initial-index="0"
 							fit="cover" >

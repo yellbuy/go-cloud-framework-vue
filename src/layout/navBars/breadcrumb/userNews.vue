@@ -7,37 +7,27 @@
 		<div class="content-box">
 			<template v-if="newsList.length > 0">
 				<div class="content-box-item" v-for="(v, k) in newsList" :key="k">
-					<div>{{ v.label }}</div>
+					<div>{{ v.Title }}</div>
 					<div class="content-box-msg">
-						{{ v.value }}
+						{{ v.Description }}
 					</div>
-					<div class="content-box-time">{{ v.time }}</div>
+					<div class="content-box-time">{{ v.PublishTime }}</div>
 				</div>
 			</template>
-			<el-empty :description="$t('message.user.newDesc')" v-else></el-empty>
+			<el-empty v-else :description="$t('message.user.newDesc')" ></el-empty>
 		</div>
 		<div class="foot-box" @click="onGoToGiteeClick" v-if="newsList.length > 0">{{ $t('message.user.newGo') }}</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { reactive, toRefs } from 'vue';
+import { reactive, toRefs,onMounted,getCurrentInstance } from 'vue';
 export default {
 	name: 'layoutBreadcrumbUserNews',
 	setup() {
+		const { proxy } = getCurrentInstance() as any;
 		const state = reactive({
-			newsList: [
-				{
-					label: '关于版本发布的通知',
-					value: 'vue-next-admin，基于 vue3 + CompositionAPI + typescript + vite + element plus，正式发布时间：2021年02月28日！',
-					time: '2020-12-08',
-				},
-				{
-					label: '关于学习交流的通知',
-					value: 'QQ群号码 665452019，欢迎小伙伴入群学习交流探讨！',
-					time: '2020-12-08',
-				},
-			],
+			newsList: [],
 		});
 		// 全部已读点击
 		const onAllReadClick = () => {
@@ -47,6 +37,14 @@ export default {
 		const onGoToGiteeClick = () => {
 			window.open('https://gitee.com/lyt-top/vue-next-admin');
 		};
+		// 页面加载时
+		onMounted(async () => {
+			//sortKind:3，按最新排序，isClick：0：未读
+			const res=await proxy.$api.cms.article.getFrontEndList('notice',{isClick:0})
+			if(res.errcode==0){
+				state.newsList=res.data;
+			}
+		});
 		return {
 			onAllReadClick,
 			onGoToGiteeClick,
