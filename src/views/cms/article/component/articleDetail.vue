@@ -1,6 +1,6 @@
 <template>
 	<div class="cms-detail-article-container">
-		<el-dialog v-model="isShowDialog" width="60%">
+		<el-dialog v-model="isShowDialog">
 			<div class="text-center font24 mb10">{{ruleForm.Title}}</div>
 			
 			<div class="text-center sub-title">
@@ -215,7 +215,7 @@ export default {
 .sub-title{
 	padding:10px;
 	background-color: var(--el-color-info-light-9);
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	
 }
 .divider{
