@@ -101,9 +101,9 @@
 							v-if="scope.row.ExpertReviewState == 1"
 							@click="onGetItem(scope.row)">
 							<el-icon>
-								<elementEdit />
+								<elementFinished />
 							</el-icon>
-							接单
+							&#8197;{{ $t('message.action.takeOrders') }}
 						</el-button>
 					</template>
 				</el-table-column>

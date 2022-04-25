@@ -26,6 +26,7 @@ export default {
 		cancel: '取消',
 		see: "查看",
 		distribute:'分配',
+		takeOrders:'接单',
 		draft:'草稿',
 		publish:'发布',
 		approval:'通过',

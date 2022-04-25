@@ -16,6 +16,7 @@ export default {
 		confirm:'确认',
 		see: "查看",
 		distribute:'分配',
+		takeOrders:'接单',
 		save:'保存',
 		saveAndAdd:'保存并新增',
 		upload:'上传',

@@ -56,7 +56,7 @@
 							<td colspan="4"></td>
 						</tr>
 						<tr>
-							<td class="bg-gray text-right">委托事项</td>
+							<td class="bg-gray text-right">委托内容</td>
 							<td colspan="9">
 								<checkTag
 									:checked="ruleForm.MedicalDiagnosisState > 0"
@@ -142,10 +142,10 @@
 								<imgList :ids="ruleForm.SurgeryPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.IconographyRecordPics">
+						<tr v-if="ruleForm.IconographyPics">
 							<td class="bg-gray text-right">影像学资料</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.IconographyRecordPics"></imgList>
+								<imgList :ids="ruleForm.IconographyPics"></imgList>
 							</td>
 						</tr>
 						<tr v-if="ruleForm.InspectionReportPics">
@@ -161,7 +161,7 @@
 								<imgList :ids="ruleForm.OtherPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.InsurerAuditState == 5 || ruleForm.InsurerReviewState == 5 || ruleForm.ExpertAuditState == 5 || ruleForm.ExpertReviewState == 5">
+						<tr v-if="ruleForm.Remark">
 							<td class="bg-gray text-right">驳回原因</td>
 							<td colspan="9">
 								{{ ruleForm.Remark }}
@@ -190,16 +190,34 @@
 								<el-tag type="primary" effect="plain" v-else>待审</el-tag>
 							</td>
 						</tr>
-						<tr>
+						<tr v-if="(step == 2 && ruleForm.InsurerAuditState==5) || (step == 3 && ruleForm.InsurerReviewState==5)">
 							<td colspan="9" v-if="editMode">
-								<el-input v-model="ruleForm.InsurerAuditContent" placeholder="如驳回，请输入理由" type="textarea" v-if="step == 2" />
-								<el-input v-model="ruleForm.InsurerReviewContent" placeholder="如驳回，请输入理由" type="textarea" v-else-if="step == 3" />
+								<template v-if="step == 2 && ruleForm.InsurerAuditState==5">
+									<div v-for="val in disapprovalReasons" :key="val.Name">
+										<el-radio :label="val.Name" v-model="ruleForm.InsurerAuditContent">{{val.Name}}</el-radio>
+									</div>
+									<div>
+										<el-radio label="其他" v-model="ruleForm.InsurerAuditContent">其他&#8197;&#8197;<el-input v-model="ruleForm.InsurerAuditRemark" placeholder="请输入" :input-style="{width:'600px'}" 
+										v-if="ruleForm.InsurerAuditContent=='其他'" /></el-radio>
+									</div>
+								</template>
+								<template v-else-if="step == 3 && ruleForm.InsurerReviewState==5">
+									<div v-for="val in disapprovalReasons" :key="val.Name">
+										<el-radio :label="val.Name" v-model="ruleForm.InsurerReviewContent" v-for="val in disapprovalReasons" :key="val.Name">{{val.Name}}</el-radio>
+									</div>
+									<div>
+										<el-radio label="其他" v-model="ruleForm.InsurerReviewContent">其他&#8197;&#8197;<el-input v-model="ruleForm.InsurerReviewRemark" placeholder="请输入" :input-style="{width:'600px'}" 
+										v-if="ruleForm.InsurerReviewContent=='其他'" /></el-radio>
+									</div>
+								</template>
+								<!-- <el-input v-model="ruleForm.InsurerAuditContent" placeholder="如驳回，请输入理由" type="textarea" v-if="step == 2" />
+								<el-input v-model="ruleForm.InsurerReviewContent" placeholder="如驳回，请输入理由" type="textarea" v-else-if="step == 3" /> -->
 							</td>
 							<td colspan="9" v-else-if="step == 2">
-								{{ ruleForm.InsurerAuditContent }}
+								{{ ruleForm.InsurerAuditContent }}&#8197;&#8197;{{ ruleForm.InsurerAuditRemark }}
 							</td>
 							<td colspan="9" v-else-if="step == 3">
-								{{ ruleForm.InsurerReviewContent }}
+								{{ ruleForm.InsurerReviewContent }}&#8197;&#8197;{{ ruleForm.InsurerReviewRemark }}
 							</td>
 						</tr>
 					</tbody>
@@ -242,6 +260,7 @@ export default {
 				InsurerAuditState: 0,
 				InsurerReviewState: 0,
 			},
+			disapprovalReasons:[],
 			deptData: [], // 部门数据
 		});
 
@@ -270,10 +289,12 @@ export default {
 			if (editMode) {
 				if (props.step == 2) {
 					row.InsurerAuditState = 2;
-					row.InsurerAuditContent = '';
+					state.ruleForm.ExpertAuditContent = '';
+					state.ruleForm.ExpertAuditRemark = '';
 				} else if (props.step == 3) {
 					row.InsurerReviewState = 2;
-					row.InsurerReviewContent = '';
+					state.ruleForm.ExpertReviewContent = '';
+					state.ruleForm.ExpertReviewRemark = '';
 				}
 			}
 			state.ruleForm = row;
@@ -286,6 +307,25 @@ export default {
 		const onCancel = () => {
 			closeDialog();
 		};
+		const onGetDisapprovalReason = async () => {
+			if (!state.editMode){
+				return
+			}
+			state.disapprovalReasons = [];
+			const type = 'insurer_audit_disapproval_reason';
+			
+			const res=await proxy.$api.common.commondata.getConcreteDataList({
+				type: type,
+				pageNum: 1,
+				pageSize: 10000,
+			})
+			if (res.errcode != 0) {
+				return;
+			}
+			for (let i = 0; i < res.data.length; i++) {
+				state.disapprovalReasons.push({ Name: res.data[i].Name, Value: 0, Code: res.data[i].Code });
+			}
+		};
 		// 新增
 		const onSubmit = (isCloseDlg: boolean) => {
 			if (props.step == 2) {
@@ -294,7 +334,7 @@ export default {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
-				if (state.ruleForm.InsurerAuditState == 5 && state.ruleForm.InsurerAuditContent == '') {
+				if (state.ruleForm.InsurerAuditState == 5 && (state.ruleForm.InsurerAuditContent == '' || (state.ruleForm.InsurerAuditContent == '其他' && state.ruleForm.InsurerAuditRemark==""))) {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
 					return false;
 				}
@@ -304,7 +344,7 @@ export default {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
-				if (state.ruleForm.InsurerReviewState == 5 && state.ruleForm.InsurerReviewContent == '') {
+				if (state.ruleForm.InsurerReviewState == 5 && (state.ruleForm.InsurerReviewContent == '' || (state.ruleForm.InsurerReviewContent == '其他' && state.ruleForm.InsurerReviewRemark==""))) {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
 
 					return false;
@@ -328,7 +368,9 @@ export default {
 			return false;
 		};
 		// 页面加载时
-		onMounted(() => {});
+		onMounted(() => {
+			onGetDisapprovalReason()
+		});
 		return {
 			t,
 			proxy,

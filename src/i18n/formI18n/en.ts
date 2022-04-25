@@ -18,6 +18,7 @@ export default {
 		clear:'clear',
 		see: "see",
 		distribute:'distribute',
+		takeOrders:'take orders',
 		save:'save',
 		saveAndAdd:'save and add',
 		upload:'upload',

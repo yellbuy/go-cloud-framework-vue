@@ -102,9 +102,9 @@
 							v-if="scope.row.ExpertAuditState == 1"
 							@click="onGetItem(scope.row)">
 							<el-icon>
-								<elementEdit />
+								<elementFinished />
 							</el-icon>
-							接单
+							&#8197;{{ $t('message.action.takeOrders') }}
 						</el-button>
 					</template>
 				</el-table-column>
@@ -272,6 +272,10 @@ export default {
 					if (res.data.Id > 0) {
 						if (res.data.ExpertAuditState > 0) {
 							if (!editMode || (editMode && ((res.data.ExpertAuditState > 0 && res.data.ExpertAuditState < 10) || (res.data.ExpertAuditState == 10 && res.data.ExpertReviewState==5)))) {
+								if(res.data.CaseMode == 1 || res.data.CaseMode == 2) {
+									res.data.MedicalDiagnosisState = 1 //估损、核损，医学诊断审查必填
+									res.data.ThirdPhaseState = 1       //估损、核损，三期评估必填
+								}
 								dlgEditRef.value.openDialog(editMode, res.data, false);
 								return;
 							}
