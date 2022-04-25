@@ -24,6 +24,8 @@ export default {
 		export:'导出',
 		submit: '提交',
 		cancel: '取消',
+		close:'关闭',
+		detail:'详情',
 		see: "查看",
 		distribute:'分配',
 		takeOrders:'接单',

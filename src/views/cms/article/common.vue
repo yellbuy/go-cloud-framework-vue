@@ -31,11 +31,32 @@
 				</el-form>
 			</div>
 			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%"  
-				:height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
+				:height="proxy.$calcMainHeight(-75)" @cell-click="onCellClick"
+				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
-				<el-table-column prop="Id" label="标识" width="160" align="right"></el-table-column>
-				<el-table-column prop="ImgUrl" label="封面图" width="70" align="center"></el-table-column>
-				<el-table-column prop="Title" label="标题" width="200" ></el-table-column>
+				<el-table-column prop="Id" label="标识" width="160" align="right">
+				</el-table-column>
+				<el-table-column prop="ImgUrl" label="封面图" width="60" align="center">
+					<template #default="scope">
+						<el-image v-if="scope.row.ImgUrl" lazy preview-teleported
+							style="width: 20px; height: 20px"
+							:src="baseStaticUrl+scope.row.ImgUrl"
+							:preview-src-list="[baseStaticUrl+scope.row.ImgUrl]"
+							:initial-index="0"
+							fit="cover" >
+								<template #error>
+									<div class="image-slot">
+										<SvgIcon name="elementPicture"/>
+									</div>
+								</template>
+						</el-image>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Title" label="标题" width="200" >
+					<template #default="scope">
+						<SvgIcon name="fa fa-angle-right"/><span class="title-link ml5">{{scope.row.Title}}</span>
+					</template>
+				</el-table-column>
 				<!-- <el-table-column prop="SpecialName" label="所属专题" width="180" ></el-table-column> -->
 				<el-table-column prop="CreateBy" label="创建人" width="70" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CreateTime" label="创建时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
@@ -142,6 +163,7 @@
 			
 		</el-card>
 		<dlgEdit ref="dlgEditRef" :allow-edit-category="false" :allow-edit-special="false" :step="25" />
+		<dlgDetail ref="dlgDetailRef" :step="25" />
 	</div>
 </template>
 
@@ -152,10 +174,11 @@ import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } 
 import { useRoute } from "vue-router";
 import { ElMessageBox, ElMessage } from 'element-plus';
 import dlgEdit from './component/articleEdit.vue';
+import dlgDetail from './component/articleDetail.vue';
 import other from '/@/utils/other';
 export default {
 	name: 'cmsArticleCommon',
-	components: { dlgEdit },
+	components: { dlgEdit,dlgDetail },
 	setup() {
 		const route=useRoute();
 		const kind = route.params.kind;
@@ -163,10 +186,12 @@ export default {
 		const moduleKey=`api_cms_article_${kind}`;
 		const { proxy } = getCurrentInstance() as any;
 		const dlgEditRef = ref();
+		const dlgDetailRef = ref();
 		const state: any = reactive({
 			moduleKey:moduleKey,
 			kind,
 			scopeLevel,
+			baseStaticUrl:import.meta.env.VITE_URL,
 			tableData: {
 				data: [],
 				total: 0,
@@ -257,6 +282,16 @@ export default {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
+		const onCellClick= async (row:any, column:any, cell:any, event:any) => {
+			console.log(column)
+			if(row && column.property=="Title"){
+				const res=await proxy.$api.cms.article.getById(row.Id)
+				if(res.errcode==0){
+					dlgDetailRef.value.openDialog(res.data);
+				}
+				
+			}
+		};
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
@@ -266,6 +301,7 @@ export default {
 	
 		return {
 			proxy,
+			dlgDetailRef,
 			dlgEditRef,
 			onChangeSearchMode,
 			onGetTableData,
@@ -274,6 +310,7 @@ export default {
 			onRowDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
+			onCellClick,
 			dateFormatYMDHM,
 			...toRefs(state),
 		};
@@ -282,4 +319,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.title-link{
+	text-decoration:none; 
+	color:var(--el-color-primary-dark-2);
+	cursor: pointer;
+}
+.title-link:hover{
+	text-decoration:none; 
+	border-bottom:1px solid var(--el-color-primary-dark-2); /* #555换成链接的颜色 */
+	display: inline-block; 
+	padding-bottom:0px; 
+	color:var(--el-color-primary-dark-2);
+	cursor: pointer;
+}
+
 </style>

@@ -24,7 +24,7 @@
 									:show-file-list="false"
 									:on-success="onImageUploadSuccess"
 									:before-upload="onBeforeImageUpload">
-									<img v-if="ruleForm.ImgUrl" :src="baseStaticUrl+ruleForm.ImgUrl" class="avatar" />
+									<img v-if="ruleForm.ImgUrl" :src="baseStaticUrl+ruleForm.ImgUrl" width="150" height="150" class="avatar" />
 									<SvgIcon v-else name="fa fa-plus" class="avatar-uploader-icon"/>
 								</el-upload>
 							</div>
@@ -139,6 +139,7 @@ export default {
 		});
 		const state = reactive({
 			isShowDialog: false,
+			baseStaticUrl:import.meta.env.VITE_URL,
 			title:t('message.action.add'),
 			loading:false,
 			ruleForm: {
@@ -314,7 +315,7 @@ export default {
 	},
 };
 </script>
-<style>
+<style scoped lang="scss">
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;

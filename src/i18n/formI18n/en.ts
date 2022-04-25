@@ -27,6 +27,8 @@ export default {
 		export:'export',
 		submit:'submit',
 		cancel:'cancel',
+		close:'close',
+		detail:'detail',
 		draft:'draft',
 		publish:'publish',
 		approval:'pass',

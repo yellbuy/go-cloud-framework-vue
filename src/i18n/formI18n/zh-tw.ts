@@ -25,6 +25,8 @@ export default {
 		export:'导出',
 		reset:'重置',
 		clear:'清空',
+		close:'关闭',
+		detail:'详情',
 		submit:'提交',
 		cancel:'取消',
 		draft:'草稿',
