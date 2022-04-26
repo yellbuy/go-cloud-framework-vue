@@ -89,7 +89,7 @@
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							@click="onOpenEditDlg(true, scope.row)"
-							v-if="(scope.row.ExpertAuditState == 2 || (scope.row.ExpertAuditState == 10 && scope.row.ExpertReviewState == 5)) && scope.row.ExpertAuditUid == uid">
+							v-if="(scope.row.ExpertAuditState == 2 && scope.row.ExpertAuditUid == uid) || (scope.row.ExpertAuditState == 10 && scope.row.ExpertReviewState == 5 && scope.row.ExpertAuditUid == uid)">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -133,7 +133,7 @@ import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
-import dlgEdit from './component/expertAuditEdit.vue';
+import dlgEdit from './component/expertEdit.vue';
 export default {
 	name: 'baseUsers',
 	components: { dlgEdit },

@@ -193,49 +193,41 @@
 						</tr>
 						<tr v-if="0">
 							<td class="bg-gray text-right">基本案情</td>
-							<td colspan="9" v-if="isDisable()">
+							<td colspan="9" v-if="allowEdit()">
 								<el-input v-model="ruleForm.ExpertAuditTitle" type="textarea" />
 							</td>
-							<td colspan="9" v-if="!isDisable()">
+							<td colspan="9" v-if="!allowEdit()">
 								{{ ruleForm.ExpertAuditTitle }}
 							</td>
 						</tr>
 						<tr v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2">
 							<td class="bg-gray text-right">委托材料</td>
-							<td colspan="9" v-if="isDisable()">
+							<td colspan="9" v-if="allowEdit()">
 								<el-input v-model="ruleForm.ExpertAuditMaterial" type="textarea" />
 							</td>
-							<td colspan="9" v-if="!isDisable()">
+							<td colspan="9" v-else>
 								{{ ruleForm.ExpertAuditMaterial }}
 							</td>
 						</tr>
 						<tr v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2">
 							<td class="bg-gray text-right">医学诊断</td>
-							<td colspan="9" v-if="isDisable()">
+							<td colspan="9" v-if="allowEdit()">
 								<el-input v-model="ruleForm.ExpertAuditDiagnosis" type="textarea" />
 							</td>
-							<td colspan="9" v-if="!isDisable()">
+							<td colspan="9" v-else>
 								{{ ruleForm.ExpertAuditDiagnosis }}
 							</td>
 						</tr>
-						<tr v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2">
-							<td class="bg-gray text-right">评估意见</td>
-							<td colspan="9" v-if="isDisable()">
-								<el-input v-model="ruleForm.ExpertAuditEval" type="textarea" />
-							</td>
-							<td colspan="9" v-if="!isDisable()">
-								{{ ruleForm.ExpertAuditEval }}
-							</td>
-						</tr>
+						
 						<tr v-if="0">
 							<td class="bg-gray text-right" rowspan="2">鉴定标准</td>
-							<td colspan="9" v-if="isDisable()">
+							<td colspan="9" v-if="allowEdit()">
 								<div v-for="(item, key) in caseKind" :key="key">
 									<el-checkbox v-model="item.Value" :label="item.Name" :true-label="1" :false-label="0" size="small" />
 								</div>
 								<!-- <el-input v-model="ruleForm.ExpertAuditStandard" type="textarea" /> -->
 							</td>
-							<td colspan="9" v-if="!isDisable()">
+							<td colspan="9" v-else>
 								<div v-for="(item, key) in caseKind" :key="key">
 									<checkTag :checked="item.Value == 1" :title="item.Name"></checkTag>
 								</div>
@@ -243,19 +235,19 @@
 						</tr>
 						<tr v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2">
 							<td class="bg-gray text-right" colspan="1">具体条款</td>
-							<td v-if="isDisable()" colspan="8">
+							<td v-if="allowEdit()" colspan="8">
 								<el-input v-model="ruleForm.ExpertAuditTerm" type="textarea" />
 							</td>
-							<td v-if="!isDisable()" colspan="8">
+							<td v-else colspan="8">
 								{{ ruleForm.ExpertAuditTerm }}
 							</td>
 						</tr>
 						<tr v-if="0">
 							<td class="bg-gray text-right">法律法规</td>
-							<td colspan="9" v-if="isDisable()">
+							<td colspan="9" v-if="allowEdit()">
 								<el-input v-model="ruleForm.ExpertAuditLaw" type="textarea" />
 							</td>
-							<td colspan="9" v-if="!isDisable()">
+							<td colspan="9" v-else>
 								{{ ruleForm.ExpertAuditLaw }}
 							</td>
 						</tr>
@@ -295,13 +287,21 @@
 								</el-form-item>
 							</td>
 						</tr>
-						<tr v-if="step == 10">
-							<td class="bg-gray text-right">审查意见</td>
-							<td colspan="9" v-if="editMode">
-								<el-input v-model="ruleForm.ExpertReviewContent" type="textarea" />
+						<tr>
+							<td class="bg-gray text-right">
+								<span v-if="ruleForm.CaseMode != 10">评估意见</span>
+								<span v-else>审查意见</span>
 							</td>
-							<td colspan="9" v-else-if="!editMode">
-								{{ ruleForm.ExpertReviewContent }}
+							<td colspan="9" v-if="allowEdit()">
+								<vue-ueditor-wrap :editor-id="`editor-content`"  
+									:editor-dependencies="['ueditor.config.js','ueditor.all.min.js','xiumi/xiumi-ue-dialog-v5.js','xiumi/xiumi-ue-v5.css']"
+									v-model="ruleForm.ExpertAuditEval" 
+									:config="{UEDITOR_HOME_URL:'/ueditor/',serverUrl:`${baseUrl}/v1/common/editor/${getUserInfos.appid}`,headers:{'Authorization':token,Appid:getUserInfos.appid}}" 
+									>
+								</vue-ueditor-wrap>
+							</td>
+							<td colspan="9" v-else>
+								<div v-html="ruleForm.ExpertAuditEval"></div>
 							</td>
 						</tr>
 						<tr v-if="ruleForm.Remark">
@@ -380,11 +380,13 @@
 
 <script lang="ts">
 import request from '/@/utils/request';
-import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
+import { reactive, toRefs, onMounted, computed,getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessageBox } from 'element-plus';
 import imgList from '/@/components/image/index.vue';
 import checkTag from '/@/components/checkTag/index.vue';
+import { useStore } from '/@/store/index';
+
 export default {
 	name: 'expertAuditEdit',
 	props: {
@@ -394,6 +396,12 @@ export default {
 	setup(props) {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
+		const store = useStore();
+		// 获取用户信息 vuex
+		const getUserInfos = computed(() => {
+			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
+			return store.state.userInfos.userInfos;
+		});
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -491,7 +499,7 @@ export default {
 				state.disapprovalReasons.push({ Name: res.data[i].Name, Value: 0, Code: res.data[i].Code });
 			}
 		};
-		const isDisable = () => {
+		const allowEdit = () => {
 			if (state.editMode && props.step == 7) {
 				return true;
 			} else {
@@ -565,12 +573,13 @@ export default {
 		return {
 			t,
 			proxy,
+			getUserInfos,
 			openDialog,
 			closeDialog,
 			onCancel,
 			disableChange,
 			onSubmit,
-			isDisable,
+			allowEdit,
 			onGetCaseKind,
 			...toRefs(state),
 		};

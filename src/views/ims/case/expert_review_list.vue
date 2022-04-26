@@ -132,7 +132,7 @@ import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
-import dlgEdit from './component/expertAuditEdit.vue';
+import dlgEdit from './component/expertEdit.vue';
 import other from '/@/utils/other';
 export default {
 	name: 'baseUsers',

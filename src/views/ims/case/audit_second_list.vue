@@ -112,7 +112,7 @@ import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
 import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import dlgEdit from './component/auditEdit.vue';
+import dlgEdit from './component/insurerEdit.vue';
 import other from '/@/utils/other';
 export default {
 	name: 'baseUsers',
