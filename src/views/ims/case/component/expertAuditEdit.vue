@@ -221,10 +221,10 @@
 						<tr v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2">
 							<td class="bg-gray text-right">评估意见</td>
 							<td colspan="9" v-if="isDisable()">
-								<el-input v-model="ruleForm.ExpertAuditContent" type="textarea" />
+								<el-input v-model="ruleForm.ExpertAuditEval" type="textarea" />
 							</td>
 							<td colspan="9" v-if="!isDisable()">
-								{{ ruleForm.ExpertAuditContent }}
+								{{ ruleForm.ExpertAuditEval }}
 							</td>
 						</tr>
 						<tr v-if="0">

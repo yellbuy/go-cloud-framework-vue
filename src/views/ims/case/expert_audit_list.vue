@@ -89,7 +89,7 @@
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							@click="onOpenEditDlg(true, scope.row)"
-							v-if="scope.row.ExpertAuditState == 2 || (scope.row.ExpertAuditState == 10 && scope.row.ExpertReviewState == 5)">
+							v-if="(scope.row.ExpertAuditState == 2 || (scope.row.ExpertAuditState == 10 && scope.row.ExpertReviewState == 5)) && scope.row.ExpertAuditUid == uid">
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -132,6 +132,7 @@ import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import { useStore } from '/@/store/index';
 import dlgEdit from './component/expertAuditEdit.vue';
 export default {
 	name: 'baseUsers',
@@ -139,9 +140,11 @@ export default {
 	setup() {
 		const moduleKey = 'api_ims_expert_audit';
 		const { proxy } = getCurrentInstance() as any;
+		const store = useStore();
 		const dlgEditRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
+			uid:store.state.userInfos.userInfos.uid,
 			tableData: {
 				data: [],
 				total: 0,
