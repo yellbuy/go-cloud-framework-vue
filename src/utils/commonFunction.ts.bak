@@ -6,12 +6,8 @@ import { useI18n } from 'vue-i18n';
 import { formatDate } from '/@/utils/formatTime';
 
 export default function () {
-	const { t } = useI18n();
+	
 	const { toClipboard } = useClipboard();
-	//百分比格式化
-	const percentFormat = (row: any, column: number, cellValue: any) => {
-		return cellValue ? `${cellValue}%` : '-';
-	};
 	
 	//列表日期时间格式化
 	const dateFormatYMD = (row: any, column: number, cellValue: any) => {
@@ -39,7 +35,7 @@ export default function () {
 
 	
 	/* 日期格式化 */
-	const dateFormat = (date:any, fmt='yyyy-MM-dd hh:mm:ss')=>  {
+	const dateFormat = (date:any, fmt='YYYY-mm-dd HH:MM:SS')=>  {
 		return formatDate(new Date(date),fmt)
 	}
 	// 小数格式化
@@ -54,10 +50,15 @@ export default function () {
 	const copyObj = (obj:any)=> {
 		return JSON.parse(JSON.stringify(obj));
 	}
+	//百分比格式化
+	const percentFormat = (row: any, column: number, cellValue: any) => {
+		return cellValue ? `${cellValue}%` : '-';
+	};
 	// 点击复制文本
 	const copyText = (text: string) => {
 		return new Promise((resolve, reject) => {
 			try {
+				const { t } = useI18n();
 				//复制
 				toClipboard(text);
 				//下面可以设置复制成功的提示框等操作
@@ -81,6 +82,21 @@ export default function () {
 		return numStr.replace(/(\d)(?=(\d{3})+\.)/g, ($0, $1)=> {
 			return $1 + ',';
 		}).replace(/\.$/, '');
+	}
+
+	/* 是否为合法URL地址 */
+	const isUrl = (url:string)=> {
+		const reg=/^(\/\/|[hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+ 		return reg.test(url)
+	}
+	
+	/* 静态路径解析 */
+	const staticUrlParse = (path:string)=> {
+ 		if(isUrl(path)){
+			 //完整域名路径，直接返回
+			 return path;
+		 }
+		 return import.meta.env.VITE_URL+path
 	}
 
 	/* 常用加解密 */
@@ -118,6 +134,7 @@ export default function () {
 	}
 
 	return {
+		isUrl,
 		percentFormat,
 		dateFormat,
 		dateFormatYMD,
@@ -127,6 +144,7 @@ export default function () {
 		scaleFormat,
 		scale2Format,
 		groupSeparator,
+		staticUrlParse,
 		crypto,
 		copyObj,
 		copyText,

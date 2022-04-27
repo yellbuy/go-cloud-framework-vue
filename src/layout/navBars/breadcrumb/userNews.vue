@@ -2,51 +2,88 @@
 	<div class="layout-navbars-breadcrumb-user-news">
 		<div class="head-box">
 			<div class="head-box-title">{{ $t('message.user.newTitle') }}</div>
-			<div class="head-box-btn" v-if="newsList.length > 0" @click="onAllReadClick">{{ $t('message.user.newBtn') }}</div>
+			<div class="head-box-btn" v-if="articleCount" @click="onAllReadClick">{{ $t('message.user.newBtn') }}</div>
 		</div>
 		<div class="content-box">
-			<template v-if="newsList.length > 0">
-				<div class="content-box-item" v-for="(v, k) in newsList" :key="k">
-					<div>{{ v.Title }}</div>
-					<div class="content-box-msg">
-						{{ v.Description }}
-					</div>
-					<div class="content-box-time">{{ v.PublishTime }}</div>
+			<template v-if="articleCount">
+				<div class="content-box-item" v-for="(v, k) in newsList" :key="k" >
+					<template v-if="!v.IsClick">
+						<div><el-link type="primary" underline @click="onArticleClick(v)">{{ v.Title }}</el-link></div>
+						<div class="content-box-msg">
+							{{ v.Description }}
+						</div>
+						<div class="content-box-time">{{ v.PublishTime }}</div>
+					</template>
 				</div>
+				
 			</template>
 			<el-empty v-else :description="$t('message.user.newDesc')" ></el-empty>
 		</div>
 		<div class="foot-box" @click="onGoToGiteeClick" v-if="newsList.length > 0">{{ $t('message.user.newGo') }}</div>
+		<articleDetail ref="articleDetailDlgRef" />
 	</div>
 </template>
 
 <script lang="ts">
-import { reactive, toRefs,onMounted,getCurrentInstance } from 'vue';
+import { reactive, toRefs,ref,onMounted,getCurrentInstance,computed } from 'vue';
+import articleDetail from '/@/views/cms/article/component/articleDetail.vue';
 export default {
 	name: 'layoutBreadcrumbUserNews',
-	setup() {
+	components: { articleDetail },
+	setup(props,{ emit }) {
 		const { proxy } = getCurrentInstance() as any;
+		const articleDetailDlgRef = ref();
 		const state = reactive({
 			newsList: [],
 		});
+		// 未读文章数
+		const articleCount = computed(() => {
+			return state.newsList.filter((val:any)=>{
+				return !val.IsClick;
+			}).length;
+		});
 		// 全部已读点击
-		const onAllReadClick = () => {
-			state.newsList = [];
+		const onAllReadClick = async () => {
+			const ids = state.newsList.filter((val:any)=>{
+				return !val.IsClick;
+			}).map((val:any)=>{
+				return val.Id;
+			})
+			const res = await proxy.$api.cms.article.updateIsClick(ids);
+			if(res.errcode==0){
+				state.newsList=[];
+				emit("onUpdateNews", []);
+			}
+			
 		};
 		// 前往通知中心点击
 		const onGoToGiteeClick = () => {
 			window.open('https://gitee.com/lyt-top/vue-next-admin');
 		};
-		// 页面加载时
-		onMounted(async () => {
+		const getNewsList=async ()=>{
 			//sortKind:3，按最新排序，isClick：0：未读
-			const res=await proxy.$api.cms.article.getFrontEndList('notice',{isClick:0})
+			const res=await proxy.$api.cms.article.getFrontEndList('notice',{isClick:0,pageSize:3})
 			if(res.errcode==0){
 				state.newsList=res.data;
+				emit("onUpdateNews", res.data);
 			}
+		}
+		const onArticleClick=async(item:any)=>{
+			const res=await proxy.$api.cms.article.getById(item.Id)
+			if(res.errcode==0){
+				articleDetailDlgRef.value.openDialog(res.data);
+				await getNewsList()
+			}
+		}
+		// 页面加载时
+		onMounted(async () => {
+			await getNewsList();
 		});
 		return {
+			articleCount,
+			articleDetailDlgRef,
 			onAllReadClick,
+			onArticleClick,
 			onGoToGiteeClick,
 			...toRefs(state),
 		};
@@ -76,11 +113,13 @@ export default {
 	}
 	.content-box {
 		font-size: 13px;
+		
 		.content-box-item {
-			padding-top: 12px;
-			&:last-of-type {
-				padding-bottom: 12px;
+			padding-top: 8px;
+			&:not(last-of-type) {
+				border-bottom: dotted 1px var(--el-color-info-light-7);
 			}
+			padding-bottom: 8px;
 			.content-box-msg {
 				color: #999999;
 				margin-top: 5px;

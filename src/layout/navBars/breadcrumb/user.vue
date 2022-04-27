@@ -33,17 +33,17 @@
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSetingClick">
 			<i class="icon-skin iconfont" :title="$t('message.user.title3')"></i>
 		</div>
-		<div class="layout-navbars-breadcrumb-user-icon" v-if="true">
+		<div class="layout-navbars-breadcrumb-user-icon">
 			<el-popover placement="bottom" trigger="click" v-model:visible="isShowUserNewsPopover" :width="300" popper-class="el-popover-pupop-user-news">
 				<template #reference>
-					<el-badge :is-dot="true" @click="isShowUserNewsPopover = !isShowUserNewsPopover">
+					<el-badge :is-dot="newsCount" @click="isShowUserNewsPopover = !isShowUserNewsPopover">
 						<el-icon :title="$t('message.user.title4')">
 							<elementBell />
 						</el-icon>
 					</el-badge>
 				</template>
-				<transition name="el-zoom-in-top">
-					<UserNews v-show="isShowUserNewsPopover" />
+				<transition name="el-zoom-in-top" @onUpdateNews="onUpdateNewsCount">
+					<UserNews v-show="isShowUserNewsPopover" ref="userNewsRef"/>
 				</transition>
 			</el-popover>
 		</div>
@@ -82,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { ref, getCurrentInstance, computed, reactive, toRefs, onMounted } from 'vue';
+import { ref, getCurrentInstance, computed, reactive, toRefs, onMounted,nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import screenfull from 'screenfull';
@@ -105,12 +105,15 @@ export default {
 		const router = useRouter();
 		const store = useStore();
 		const searchRef = ref();
+		const userNewsRef = ref();
 		const state = reactive({
+			newsCount:0,
 			isScreenfull: false,
 			isShowUserNewsPopover: false,
 			disabledI18n: 'zh-cn',
 			disabledSize: 'small',
 		});
+
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
 			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
@@ -139,6 +142,10 @@ export default {
 				if (screenfull.isFullscreen) state.isScreenfull = true;
 				else state.isScreenfull = false;
 			});
+		};
+		//更新新闻数
+		const onUpdateNewsCount = (newsList:[])=>{
+			state.newsCount=newsList.filter((val:any)=>!val.IsClick).length;;
 		};
 		// 布局配置 icon 点击时
 		const onLayoutSetingClick = () => {
@@ -312,6 +319,7 @@ export default {
 
 		return {
 			getUserInfos,
+			onUpdateNewsCount,
 			onLayoutSetingClick,
 			onHandleCommandClick,
 			onScreenfullClick,
@@ -319,6 +327,7 @@ export default {
 			onComponentSizeChange,
 			onLanguageChange,
 			searchRef,
+			userNewsRef,
 			layoutUserFlexNum,
 			...toRefs(state),
 		};
