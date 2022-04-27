@@ -49,14 +49,21 @@
 							<td v-else-if="ruleForm.CaseMode == 2">核损</td>
 							<td v-else-if="ruleForm.CaseMode == 10">鉴定</td>
 							<td class="bg-gray text-right">出险时间</td>
-							<td >{{ proxy.$utils.dateFormat(ruleForm.CaseTime,"yyyy-mm-dd") }}</td>
+							<td>{{ proxy.$utils.dateFormat(ruleForm.CaseTime, 'yyyy-mm-dd') }}</td>
 							<td colspan="4"></td>
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">委托内容</td>
 							<td colspan="9" class="check-box">
-								<el-checkbox v-model="ruleForm.MedicalDiagnosisState" @change="disableChange('MedicalDiagnosisState')" :true-label="1" :false-label="0"
-								v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2" :disabled="!editMode">*医学诊断审查</el-checkbox>
+								<el-checkbox
+									v-model="ruleForm.MedicalDiagnosisState"
+									@change="disableChange('MedicalDiagnosisState')"
+									:true-label="1"
+									:false-label="0"
+									v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2"
+									:disabled="!editMode"
+									>*医学诊断审查</el-checkbox
+								>
 								<!-- <checkTag
 									:checked="ruleForm.MedicalDiagnosisState > 0"
 									v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2"
@@ -67,63 +74,127 @@
 									v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2"
 									title="伤病关系审查"
 								></checkTag> -->
-								<el-checkbox v-model="ruleForm.InjuryRelationState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2" :disabled="!editMode">伤病关系审查</el-checkbox>
+								<el-checkbox
+									v-model="ruleForm.InjuryRelationState"
+									:true-label="1"
+									:false-label="0"
+									v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2"
+									:disabled="!editMode"
+									>伤病关系审查</el-checkbox
+								>
 								<!-- <checkTag
 									:checked="ruleForm.InjuryDiscernState > 0"
 									v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2"
 									title="新旧伤鉴别"
 								></checkTag> -->
-								<el-checkbox v-model="ruleForm.InjuryDiscernState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2" :disabled="!editMode">新旧伤鉴别</el-checkbox>
+								<el-checkbox
+									v-model="ruleForm.InjuryDiscernState"
+									:true-label="1"
+									:false-label="0"
+									v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2"
+									:disabled="!editMode"
+									>新旧伤鉴别</el-checkbox
+								>
 
 								<!-- <checkTag :checked="ruleForm.AppraisalOpportunityState > 0" v-if="ruleForm.CaseMode == 2" title="鉴定时机推荐"></checkTag> -->
-								<el-checkbox v-model="ruleForm.AppraisalOpportunityState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 2" :disabled="!editMode">鉴定时机推荐</el-checkbox>
+								<el-checkbox
+									v-model="ruleForm.AppraisalOpportunityState"
+									:true-label="1"
+									:false-label="0"
+									v-if="ruleForm.CaseMode == 2"
+									:disabled="!editMode"
+									>鉴定时机推荐</el-checkbox
+								>
 								<!-- <checkTag
 									:checked="ruleForm.DisabilityAssessState > 0"
 									v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2"
 									title="伤残评估"
 								></checkTag> -->
-								<el-checkbox v-model="ruleForm.DisabilityAssessState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2" :disabled="!editMode">伤残评估</el-checkbox>
+								<el-checkbox
+									v-model="ruleForm.DisabilityAssessState"
+									:true-label="1"
+									:false-label="0"
+									v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2"
+									:disabled="!editMode"
+									>伤残评估</el-checkbox
+								>
 
-								<el-checkbox v-model="ruleForm.ThirdPhaseState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2" 
-								@change="disableChange('ThirdPhaseState')" :disabled="!editMode">*三期评估</el-checkbox>
+								<el-checkbox
+									v-model="ruleForm.ThirdPhaseState"
+									:true-label="1"
+									:false-label="0"
+									v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2"
+									@change="disableChange('ThirdPhaseState')"
+									:disabled="!editMode"
+									>*三期评估</el-checkbox
+								>
 
 								<!-- <checkTag :checked="ruleForm.ThirdPhaseState > 0" v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2" title="三期评估"></checkTag> -->
 
-								<el-checkbox v-model="ruleForm.NurseRelyState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 2" :disabled="!editMode">护理依赖评估</el-checkbox>
+								<el-checkbox v-model="ruleForm.NurseRelyState" :true-label="1" :false-label="0" v-if="ruleForm.CaseMode == 2" :disabled="!editMode"
+									>护理依赖评估</el-checkbox
+								>
 								<!-- <checkTag :checked="ruleForm.NurseRelyState > 0" v-if="ruleForm.CaseMode == 2" title="护理依赖评估"></checkTag> -->
-								<el-checkbox v-model="ruleForm.MedicalSourceState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 2" :disabled="!editMode">医源性介入因素审查</el-checkbox>
+								<el-checkbox
+									v-model="ruleForm.MedicalSourceState"
+									:true-label="1"
+									:false-label="0"
+									v-if="ruleForm.CaseMode == 2"
+									:disabled="!editMode"
+									>医源性介入因素审查</el-checkbox
+								>
 								<!-- <checkTag :checked="ruleForm.MedicalSourceState > 0" v-if="ruleForm.CaseMode == 2" title="医源性介入因素审查"></checkTag> -->
 
-								<el-checkbox v-model="ruleForm.RealExamState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 10" :disabled="!editMode">真实性审查</el-checkbox>
+								<el-checkbox v-model="ruleForm.RealExamState" :true-label="1" :false-label="0" v-if="ruleForm.CaseMode == 10" :disabled="!editMode"
+									>真实性审查</el-checkbox
+								>
 								<!-- <checkTag :checked="ruleForm.RealExamState > 0" v-if="ruleForm.CaseMode == 10" title="真实性审查"></checkTag> -->
 
-								<el-checkbox v-model="ruleForm.LegalExamState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 10" :disabled="!editMode">合法性审查</el-checkbox>
+								<el-checkbox v-model="ruleForm.LegalExamState" :true-label="1" :false-label="0" v-if="ruleForm.CaseMode == 10" :disabled="!editMode"
+									>合法性审查</el-checkbox
+								>
 								<!-- <checkTag :checked="ruleForm.LegalExamState > 0" v-if="ruleForm.CaseMode == 10" title="合法性审查"></checkTag> -->
-								<el-checkbox v-model="ruleForm.CorrelationExamState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 10" :disabled="!editMode">关联性审查</el-checkbox>
+								<el-checkbox
+									v-model="ruleForm.CorrelationExamState"
+									:true-label="1"
+									:false-label="0"
+									v-if="ruleForm.CaseMode == 10"
+									:disabled="!editMode"
+									>关联性审查</el-checkbox
+								>
 								<!-- <checkTag :checked="ruleForm.CorrelationExamState > 0" v-if="ruleForm.CaseMode == 10" title="关联性审查"></checkTag> -->
 								<!-- <checkTag :checked="ruleForm.CompleteExamState > 0" v-if="ruleForm.CaseMode == 10" title="完整性审查"></checkTag> -->
-								<el-checkbox v-model="ruleForm.CompleteExamState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 10" :disabled="!editMode">充分性审查</el-checkbox>
+								<el-checkbox
+									v-model="ruleForm.CompleteExamState"
+									:true-label="1"
+									:false-label="0"
+									v-if="ruleForm.CaseMode == 10"
+									:disabled="!editMode"
+									>充分性审查</el-checkbox
+								>
 								<!-- <checkTag :checked="ruleForm.SufficiencyExamState > 0" v-if="ruleForm.CaseMode == 10" title="充分性审查"></checkTag> -->
 								<!-- <checkTag :checked="ruleForm.TechniqueExamState > 0" v-if="ruleForm.CaseMode == 10" title="技术规范性审查"></checkTag> -->
-								<el-checkbox v-model="ruleForm.TechniqueExamState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 10" :disabled="!editMode">技术规范性审查</el-checkbox>
-								<el-checkbox v-model="ruleForm.StandardExamState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.CaseMode == 10" :disabled="!editMode">标准适用性审查</el-checkbox>
+								<el-checkbox
+									v-model="ruleForm.TechniqueExamState"
+									:true-label="1"
+									:false-label="0"
+									v-if="ruleForm.CaseMode == 10"
+									:disabled="!editMode"
+									>技术规范性审查</el-checkbox
+								>
+								<el-checkbox
+									v-model="ruleForm.StandardExamState"
+									:true-label="1"
+									:false-label="0"
+									v-if="ruleForm.CaseMode == 10"
+									:disabled="!editMode"
+									>标准适用性审查</el-checkbox
+								>
 
 								<!-- <checkTag :checked="ruleForm.StandardExamState > 0" v-if="ruleForm.CaseMode == 10" title="标准适用性审查"></checkTag> -->
-								<el-checkbox v-model="ruleForm.OtherState" :true-label="1" :false-label="0" 
-								v-if="ruleForm.OtherState > 0" :disabled="!editMode">其他({{ruleForm.OtherTitle}}</el-checkbox>
+								<el-checkbox v-model="ruleForm.OtherState" :true-label="1" :false-label="0" v-if="ruleForm.OtherState > 0" :disabled="!editMode"
+									>其他({{ ruleForm.OtherTitle }}</el-checkbox
+								>
 								<!-- <checkTag :checked="ruleForm.OtherState > 0" v-if="ruleForm.OtherState > 0" :title="`其他(${ruleForm.OtherTitle})`"></checkTag> -->
 							</td>
 						</tr>
@@ -200,8 +271,9 @@
 								{{ ruleForm.ExpertAuditTitle }}
 							</td>
 						</tr>
-						<tr v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2">
-							<td class="bg-gray text-right">委托材料</td>
+						<tr>
+							<td class="bg-gray text-right" v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2">委托材料</td>
+							<td class="bg-gray text-right" v-else-if="ruleForm.CaseMode == 10">审查材料</td>
 							<td colspan="9" v-if="allowEdit()">
 								<el-input v-model="ruleForm.ExpertAuditMaterial" type="textarea" />
 							</td>
@@ -209,7 +281,7 @@
 								{{ ruleForm.ExpertAuditMaterial }}
 							</td>
 						</tr>
-						<tr v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2">
+						<tr v-if="ruleForm.CaseMode == 1 || ruleForm.CaseMode == 2">
 							<td class="bg-gray text-right">医学诊断</td>
 							<td colspan="9" v-if="allowEdit()">
 								<el-input v-model="ruleForm.ExpertAuditDiagnosis" type="textarea" />
@@ -218,7 +290,7 @@
 								{{ ruleForm.ExpertAuditDiagnosis }}
 							</td>
 						</tr>
-						
+
 						<tr v-if="0">
 							<td class="bg-gray text-right" rowspan="2">鉴定标准</td>
 							<td colspan="9" v-if="allowEdit()">
@@ -233,7 +305,7 @@
 								</div>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.CaseMode==1 || ruleForm.CaseMode==2">
+						<tr v-if="0">
 							<td class="bg-gray text-right" colspan="1">具体条款</td>
 							<td v-if="allowEdit()" colspan="8">
 								<el-input v-model="ruleForm.ExpertAuditTerm" type="textarea" />
@@ -251,35 +323,35 @@
 								{{ ruleForm.ExpertAuditLaw }}
 							</td>
 						</tr>
-						<tr v-if="step == 10">
+						<tr v-if="ruleForm.CaseMode == 10">
 							<td class="bg-gray text-right">审查内容</td>
 							<td colspan="9">
 								<el-form-item label="鉴定时机">
-									<el-radio-group v-model="ruleForm.ExpertReviewOpportunityState" :disabled="!editMode">
+									<el-radio-group v-model="ruleForm.ExpertReviewOpportunityState" :disabled="!editMode || step == 10">
 										<el-radio :label="1">符合</el-radio>
 										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="鉴定程序">
-									<el-radio-group v-model="ruleForm.ExpertReviewProgramState" :disabled="!editMode">
+									<el-radio-group v-model="ruleForm.ExpertReviewProgramState" :disabled="!editMode || step == 10">
 										<el-radio :label="1">符合</el-radio>
 										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="标准适用">
-									<el-radio-group v-model="ruleForm.ExpertReviewStandardState" :disabled="!editMode">
+									<el-radio-group v-model="ruleForm.ExpertReviewStandardState" :disabled="!editMode || step == 10">
 										<el-radio :label="1">符合</el-radio>
 										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="鉴定资质">
-									<el-radio-group v-model="ruleForm.ExpertReviewQualificationState" :disabled="!editMode">
+									<el-radio-group v-model="ruleForm.ExpertReviewQualificationState" :disabled="!editMode || step == 10">
 										<el-radio :label="1">符合</el-radio>
 										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="鉴定意见">
-									<el-radio-group v-model="ruleForm.ExpertReviewResultState" :disabled="!editMode">
+									<el-radio-group v-model="ruleForm.ExpertReviewResultState" :disabled="!editMode || step == 10">
 										<el-radio :label="1">符合</el-radio>
 										<el-radio :label="2">不符合</el-radio>
 										<el-radio :label="3">有缺陷</el-radio>
@@ -293,11 +365,16 @@
 								<span v-else>审查意见</span>
 							</td>
 							<td colspan="9" v-if="allowEdit()">
-								<vue-ueditor-wrap :editor-id="`editor-content`"  
-									:editor-dependencies="['ueditor.config.js','ueditor.all.min.js','xiumi/xiumi-ue-dialog-v5.js','xiumi/xiumi-ue-v5.css']"
-									v-model="ruleForm.ExpertAuditEval" 
-									:config="{UEDITOR_HOME_URL:'/ueditor/',serverUrl:`${baseUrl}/v1/common/editor/${getUserInfos.appid}`,headers:{'Authorization':token,Appid:getUserInfos.appid}}" 
-									>
+								<vue-ueditor-wrap
+									:editor-id="`editor-content`"
+									:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js', 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css']"
+									v-model="ruleForm.ExpertAuditEval"
+									:config="{
+										UEDITOR_HOME_URL: '/ueditor/',
+										serverUrl: `${baseUrl}/v1/common/editor/${getUserInfos.appid}`,
+										headers: { Authorization: token, Appid: getUserInfos.appid },
+									}"
+								>
 								</vue-ueditor-wrap>
 							</td>
 							<td colspan="9" v-else>
@@ -333,42 +410,50 @@
 								<el-tag type="primary" effect="plain" v-else>待审</el-tag>
 							</td>
 						</tr>
-						<tr v-if="(step == 7 && ruleForm.ExpertAuditState==5)|| (step == 10 && ruleForm.ExpertReviewState==5)">
+						<tr v-if="(step == 7 && ruleForm.ExpertAuditState == 5) || (step == 10 && ruleForm.ExpertReviewState == 5)">
 							<td colspan="9" v-if="editMode">
-								<template v-if="step == 7 && ruleForm.ExpertAuditState==5">
+								<template v-if="step == 7 && ruleForm.ExpertAuditState == 5">
 									<div v-for="val in disapprovalReasons" :key="val.Name">
-										<el-radio :label="val.Name" v-model="ruleForm.ExpertAuditContent">{{val.Name}}</el-radio>
+										<el-radio :label="val.Name" v-model="ruleForm.ExpertAuditContent">{{ val.Name }}</el-radio>
 									</div>
 									<div>
-										<el-radio label="其他" v-model="ruleForm.ExpertAuditContent">其他&#8197;&#8197;<el-input v-model="ruleForm.ExpertAuditRemark" placeholder="请输入" :input-style="{width:'600px'}" 
-										v-if="ruleForm.ExpertAuditContent=='其他'" /></el-radio>
+										<el-radio label="其他" v-model="ruleForm.ExpertAuditContent"
+											>其他&#8197;&#8197;<el-input
+												v-model="ruleForm.ExpertAuditRemark"
+												placeholder="请输入"
+												:input-style="{ width: '600px' }"
+												v-if="ruleForm.ExpertAuditContent == '其他'"
+										/></el-radio>
 									</div>
 								</template>
-								<template v-else-if="step == 10 && ruleForm.ExpertAuditState==5">
+								<template v-else-if="step == 10 && ruleForm.ExpertReviewState == 5">
 									<div v-for="val in disapprovalReasons" :key="val.Name">
-										<el-radio :label="val.Name" v-model="ruleForm.ExpertAuditContent" v-for="val in disapprovalReasons" :key="val.Name">{{val.Name}}</el-radio>
+										<el-radio :label="val.Name" v-model="ruleForm.ExpertAuditContent" v-for="val in disapprovalReasons" :key="val.Name">{{
+											val.Name
+										}}</el-radio>
 									</div>
 									<div>
-										<el-radio label="其他" v-model="ruleForm.ExpertReviewContent">其他&#8197;&#8197;<el-input v-model="ruleForm.ExpertReviewRemark" placeholder="请输入" :input-style="{width:'600px'}" 
-										v-if="ruleForm.ExpertReviewContent=='其他'" /></el-radio>
+										<el-radio label="其他" v-model="ruleForm.ExpertReviewContent"
+											>其他&#8197;&#8197;<el-input
+												v-model="ruleForm.ExpertReviewRemark"
+												placeholder="请输入"
+												:input-style="{ width: '600px' }"
+												v-if="ruleForm.ExpertReviewContent == '其他'"
+										/></el-radio>
 									</div>
 								</template>
 								<!-- <el-input v-model="ruleForm.ExpertAuditRemark" placeholder="如驳回，请输入理由" type="textarea" v-if="step == 7" />
 								<el-input v-model="ruleForm.ExpertReviewRemark" placeholder="如驳回，请输入理由" type="textarea" v-else-if="step == 10" /> -->
 							</td>
-							<td colspan="9" v-else-if="step == 7">
-								{{ ruleForm.ExpertAuditContent }}&#8197;&#8197;{{ ruleForm.ExpertAuditRemark }}
-							</td>
-							<td colspan="9" v-else-if="step == 10">
-								{{ ruleForm.ExpertReviewContent }}&#8197;&#8197;{{ ruleForm.ExpertAuditRemark }}
-							</td>
+							<td colspan="9" v-else-if="step == 7">{{ ruleForm.ExpertAuditContent }}&#8197;&#8197;{{ ruleForm.ExpertAuditRemark }}</td>
+							<td colspan="9" v-else-if="step == 10">{{ ruleForm.ExpertReviewContent }}&#8197;&#8197;{{ ruleForm.ExpertAuditRemark }}</td>
 						</tr>
 					</tbody>
 				</table>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" >{{ $t('message.action.cancel') }}</el-button>
+					<el-button @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
 					<el-button v-if="editMode" type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{
 						$t('message.action.submit')
 					}}</el-button>
@@ -380,7 +465,7 @@
 
 <script lang="ts">
 import request from '/@/utils/request';
-import { reactive, toRefs, onMounted, computed,getCurrentInstance } from 'vue';
+import { reactive, toRefs, onMounted, computed, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessageBox } from 'element-plus';
 import imgList from '/@/components/image/index.vue';
@@ -409,7 +494,7 @@ export default {
 			ruleForm: {},
 			editMode: false,
 			caseKind: [],
-			disapprovalReasons:[]
+			disapprovalReasons: [],
 		});
 
 		// 打开弹窗
@@ -423,6 +508,11 @@ export default {
 					state.ruleForm.ExpertAuditState = 2;
 					state.ruleForm.ExpertAuditContent = '';
 					state.ruleForm.ExpertAuditRemark = '';
+					state.ruleForm.ExpertReviewOpportunityState = 1;
+					state.ruleForm.ExpertReviewProgramState = 1;
+					state.ruleForm.ExpertReviewStandardState = 1;
+					state.ruleForm.ExpertReviewResultState = 1;
+					state.ruleForm.ExpertReviewQualificationState = 1;
 				} else if (props.step == 10) {
 					//专家审核意见书
 					state.ruleForm.ExpertReviewState = 2;
@@ -449,11 +539,11 @@ export default {
 					type = 'case_mode_jd';
 					break;
 			}
-			const res=await proxy.$api.common.commondata.getConcreteDataList({
+			const res = await proxy.$api.common.commondata.getConcreteDataList({
 				type: type,
 				pageNum: 1,
 				pageSize: 10000,
-			})
+			});
 			if (res.errcode != 0) {
 				return;
 			}
@@ -476,22 +566,22 @@ export default {
 			}
 		};
 		const onGetDisapprovalReason = async () => {
-			if (!state.editMode){
-				return
+			if (!state.editMode) {
+				return;
 			}
 			state.disapprovalReasons = [];
 			let type = '';
-			if(props.step==7){
-				type="expert_audit_disapproval_reason"
-			} else if(props.step==10){
-				type="insurer_review_disapproval_reason"
+			if (props.step == 7) {
+				type = 'expert_audit_disapproval_reason';
+			} else if (props.step == 10) {
+				type = 'insurer_review_disapproval_reason';
 			}
-			
-			const res=await proxy.$api.common.commondata.getConcreteDataList({
+
+			const res = await proxy.$api.common.commondata.getConcreteDataList({
 				type: type,
 				pageNum: 1,
 				pageSize: 10000,
-			})
+			});
 			if (res.errcode != 0) {
 				return;
 			}
@@ -506,9 +596,9 @@ export default {
 				return false;
 			}
 		};
-		const disableChange=(field:string)=>{
-			state.ruleForm[field]=1
-		}
+		const disableChange = (field: string) => {
+			state.ruleForm[field] = 1;
+		};
 		// 关闭弹窗
 		const closeDialog = () => {
 			state.isShowDialog = false;
@@ -518,19 +608,30 @@ export default {
 			closeDialog();
 		};
 		// 新增
-		const onSubmit = async(isCloseDlg: boolean) => {
+		const onSubmit = async (isCloseDlg: boolean) => {
 			if (props.step == 7) {
 				state.ruleForm.ExpertAuditState = Number(state.ruleForm.ExpertAuditState);
 				if (state.ruleForm.ExpertAuditState != 5 && state.ruleForm.ExpertAuditState != 10) {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
-				if (state.ruleForm.ExpertAuditState == 5 && (state.ruleForm.ExpertAuditContent == '' || (state.ruleForm.ExpertAuditContent == '其他' && state.ruleForm.ExpertAuditRemark==""))) {
+				if (
+					state.ruleForm.ExpertAuditState == 5 &&
+					(state.ruleForm.ExpertAuditContent == '' || (state.ruleForm.ExpertAuditContent == '其他' && state.ruleForm.ExpertAuditRemark == ''))
+				) {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
 					return;
 				}
-				if(state.ruleForm.CaseMode==10 && (!state.ruleForm.RealExamState && !state.ruleForm.LegalExamState && !state.ruleForm.CorrelationExamState
-				&& !state.ruleForm.CompleteExamState && !state.ruleForm.TechniqueExamState && !state.ruleForm.StandardExamState && !state.ruleForm.OtherState)){
+				if (
+					state.ruleForm.CaseMode == 10 &&
+					!state.ruleForm.RealExamState &&
+					!state.ruleForm.LegalExamState &&
+					!state.ruleForm.CorrelationExamState &&
+					!state.ruleForm.CompleteExamState &&
+					!state.ruleForm.TechniqueExamState &&
+					!state.ruleForm.StandardExamState &&
+					!state.ruleForm.OtherState
+				) {
 					ElMessageBox.alert('请选择委托内容', '温馨提示', {});
 					return;
 				}
@@ -540,12 +641,13 @@ export default {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
-				if (state.ruleForm.ExpertReviewState == 5 && (state.ruleForm.ExpertReviewContent == '' || (state.ruleForm.ExpertReviewContent == '其他' && state.ruleForm.ExpertReviewRemark==""))) {
+				if (
+					state.ruleForm.ExpertReviewState == 5 &&
+					(state.ruleForm.ExpertReviewContent == '' || (state.ruleForm.ExpertReviewContent == '其他' && state.ruleForm.ExpertReviewRemark == ''))
+				) {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
 					return;
 				}
-				
-				
 			}
 			if (props.step == 7) {
 				let ExpertAuditStandardList = [];
@@ -557,16 +659,17 @@ export default {
 				state.ruleForm.ExpertAuditStandard = ExpertAuditStandardList.toString();
 			}
 			state.loading = true;
-			try{
-				const res=await proxy.$api.ims.casepersonline.updateStep(props.step,state.ruleForm)
+			try {
+				console.log('提交的数据', state.ruleForm.ExpertReviewProgramState);
+				const res = await proxy.$api.ims.casepersonline.updateStep(props.step, state.ruleForm);
 				if (res.errcode == 0) {
 					closeDialog();
 					proxy.$parent.onGetTableData();
 				}
-			} finally{
+			} finally {
 				state.loading = false;
 			}
-			
+
 			return false;
 		};
 
@@ -588,14 +691,12 @@ export default {
 </script>
 <style scoped lang="scss">
 :root {
---el-checkbox-disabled-checked-input-fill: var(--el-checkbox-checked-bg-color);
---el-checkbox-disabled-checked-input-border-color: var(--el-checkbox-checked-input-border-color);
+	--el-checkbox-disabled-checked-input-fill: var(--el-checkbox-checked-bg-color);
+	--el-checkbox-disabled-checked-input-border-color: var(--el-checkbox-checked-input-border-color);
 }
 @import '../../../../theme/mixins/mixins.scss';
 .check-box {
-	
 	.el-checkbox__input.is-disabled.is-checked .el-checkbox__inner {
-		 
 		background-color: #79bbff !important;
 		border-color: #79bbff !important;
 	}
@@ -603,7 +704,6 @@ export default {
 		color: var(--el-checkbox-checked-text-color) !important;
 	}
 }
-
 
 // .el-checkbox__input.is-disabled+.el-checkbox__label {
 //     color: var(--el-checkbox-checked-text-color) !important;
