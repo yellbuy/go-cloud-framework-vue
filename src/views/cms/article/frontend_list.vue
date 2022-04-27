@@ -98,7 +98,7 @@ import { useRoute } from "vue-router";
 import { ElMessageBox, ElMessage } from 'element-plus';
 import other from '/@/utils/other';
 export default {
-	name: 'cmsArticleList',
+	name: 'cmsArticleFrontendList',
 	setup() {
 		const route=useRoute();
 		const kind = route.params.kind;

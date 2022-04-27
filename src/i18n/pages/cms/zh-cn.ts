@@ -5,7 +5,7 @@ export default {
 		article: '文章',
 		news: '新闻',
 		forum: '论坛',
-		
+		noticeCenter:'通知中心',
 	},
 	field:{
 		

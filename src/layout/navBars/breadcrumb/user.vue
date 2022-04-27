@@ -42,7 +42,7 @@
 						</el-icon>
 					</el-badge>
 				</template>
-				<transition name="el-zoom-in-top" @onUpdateNews="onUpdateNewsCount">
+				<transition name="el-zoom-in-top" @onShowUserNewsPopover="onShowUserNewsPopover" @onUpdateNews="onUpdateNewsCount">
 					<UserNews v-show="isShowUserNewsPopover" ref="userNewsRef"/>
 				</transition>
 			</el-popover>
@@ -147,6 +147,11 @@ export default {
 		const onUpdateNewsCount = (newsList:[])=>{
 			state.newsCount=newsList.length;;
 		};
+		//更新新闻数
+		const onShowUserNewsPopover = (isShow:boolean)=>{
+			state.isShowUserNewsPopover=isShow;
+		};
+		
 		// 布局配置 icon 点击时
 		const onLayoutSetingClick = () => {
 			proxy.mittBus.emit('openSetingsDrawer');
@@ -320,6 +325,7 @@ export default {
 		return {
 			getUserInfos,
 			onUpdateNewsCount,
+			onShowUserNewsPopover,
 			onLayoutSetingClick,
 			onHandleCommandClick,
 			onScreenfullClick,

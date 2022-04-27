@@ -5,7 +5,7 @@ export default {
 		article: 'article',
 		news: 'news',
 		forum: 'forum',
-		
+		noticeCenter:'notice center',
 	},
 	field:{
 		

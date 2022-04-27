@@ -70,8 +70,9 @@ export default {
 		};
 		// 前往通知中心点击
 		const onGotoArticleList = () => {
-			window.open(`/#/article/list/notice`,"_blank")
-			//router.push(`/article/list`);
+			//window.open(`/#/article/list/notice`,"_blank")
+			emit("onShowUserNewsPopover", false);
+			router.push(`/admin/articlecenter/notice`);
 		};
 		const getNewsList=async ()=>{
 			//sortKind:3，按最新排序，isClick：0：未读
@@ -86,6 +87,7 @@ export default {
 			state.newsList = state.newsList.filter((val:any)=>{
 				return val.Id!=item.Id;
 			})
+			emit("onShowUserNewsPopover", false);
 			emit("onUpdateNews", state.newsList);
 			window.open(`/#/article/detail/${item.Id}`,"_blank")
 			//router.push(`/article/detail/${item.Id}`);
