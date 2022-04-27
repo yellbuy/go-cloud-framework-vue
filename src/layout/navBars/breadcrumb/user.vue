@@ -145,7 +145,7 @@ export default {
 		};
 		//更新新闻数
 		const onUpdateNewsCount = (newsList:[])=>{
-			state.newsCount=newsList.filter((val:any)=>!val.IsClick).length;;
+			state.newsCount=newsList.length;;
 		};
 		// 布局配置 icon 点击时
 		const onLayoutSetingClick = () => {

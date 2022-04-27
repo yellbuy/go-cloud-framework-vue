@@ -85,6 +85,7 @@ export default {
 		signIn: 'signIn',
 		notFound: 'notFound',
 		noPower: 'noPower',
+		notice: 'notice',
 	},
 	user: {
 		title0: 'Component size',

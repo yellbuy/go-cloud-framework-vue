@@ -1171,7 +1171,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
 		},
 	},
 	{
-		path: '/article/list/:kind',
+		path: '/article/list',
 		name: 'articleList',
 		component: () => import('/@/views/pages/article/list.vue'),
 		meta: {

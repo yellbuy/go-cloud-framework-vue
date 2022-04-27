@@ -84,6 +84,7 @@ export default {
 		signIn: '登入',
 		notFound: '找不到此頁面',
 		noPower: '沒有許可權',
+		notice: '通知公告',
 	},
 	user: {
 		title0: '組件大小',

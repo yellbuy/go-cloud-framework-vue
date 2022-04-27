@@ -6,8 +6,8 @@
 		</div>
 		<div class="content-box">
 			<template v-if="articleCount">
-				<div class="content-box-item" v-for="(v, k) in newsList" :key="k" >
-					<template v-if="!v.IsClick">
+				<div class="content-box-item" v-for="(v, index) in newsList" :key="index" >
+					<template v-if="index<3">
 						<div><el-link type="primary" underline @click="onArticleClick(v)">{{ v.Title }}</el-link></div>
 						<div class="content-box-msg">
 							{{ v.Description }}
@@ -19,18 +19,21 @@
 			</template>
 			<el-empty v-else :description="$t('message.user.newDesc')" ></el-empty>
 		</div>
-		<div class="foot-box" @click="onGoToGiteeClick" v-if="newsList.length > 0">{{ $t('message.user.newGo') }}</div>
+		<div class="foot-box" @click="onGotoArticleList" v-if="newsList.length > 0">{{ $t('message.user.newGo') }}</div>
 		<articleDetail ref="articleDetailDlgRef" />
 	</div>
 </template>
 
 <script lang="ts">
 import { reactive, toRefs,ref,onMounted,getCurrentInstance,computed } from 'vue';
+import { useRouter } from 'vue-router';
 import articleDetail from '/@/views/cms/article/component/articleDetail.vue';
 export default {
 	name: 'layoutBreadcrumbUserNews',
 	components: { articleDetail },
 	setup(props,{ emit }) {
+		const MAX_COUNT:number=3
+		const router = useRouter();
 		const { proxy } = getCurrentInstance() as any;
 		const articleDetailDlgRef = ref();
 		const state = reactive({
@@ -44,36 +47,48 @@ export default {
 		});
 		// 全部已读点击
 		const onAllReadClick = async () => {
-			const ids = state.newsList.filter((val:any)=>{
-				return !val.IsClick;
-			}).map((val:any)=>{
+			const newsList=state.newsList.filter((val:any,index:number)=>{
+				return index < MAX_COUNT;
+			})
+			const ids = newsList.map((val:any)=>{
 				return val.Id;
 			})
 			const res = await proxy.$api.cms.article.updateIsClick(ids);
 			if(res.errcode==0){
-				state.newsList=[];
-				emit("onUpdateNews", []);
+				//设置点击标记
+				for(const val of newsList){
+					val.IsClick = 1;
+				}
+				//过滤移除
+				state.newsList = state.newsList.filter((val:any)=>{
+					return !val.IsClick;
+				})
+				emit("onUpdateNews", state.newsList);
 			}
+			
 			
 		};
 		// 前往通知中心点击
-		const onGoToGiteeClick = () => {
-			window.open('https://gitee.com/lyt-top/vue-next-admin');
+		const onGotoArticleList = () => {
+			window.open(`/#/article/list/notice`,"_blank")
+			//router.push(`/article/list`);
 		};
 		const getNewsList=async ()=>{
 			//sortKind:3，按最新排序，isClick：0：未读
-			const res=await proxy.$api.cms.article.getFrontEndList('notice',{isClick:0,pageSize:3})
+			const res=await proxy.$api.cms.article.getFrontEndList('notice',{isClick:0,pageSize:10})
 			if(res.errcode==0){
 				state.newsList=res.data;
 				emit("onUpdateNews", res.data);
 			}
 		}
 		const onArticleClick=async(item:any)=>{
-			const res=await proxy.$api.cms.article.getById(item.Id)
-			if(res.errcode==0){
-				articleDetailDlgRef.value.openDialog(res.data);
-				await getNewsList()
-			}
+			//移除当前项
+			state.newsList = state.newsList.filter((val:any)=>{
+				return val.Id!=item.Id;
+			})
+			emit("onUpdateNews", state.newsList);
+			window.open(`/#/article/detail/${item.Id}`,"_blank")
+			//router.push(`/article/detail/${item.Id}`);
 		}
 		// 页面加载时
 		onMounted(async () => {
@@ -84,7 +99,7 @@ export default {
 			articleDetailDlgRef,
 			onAllReadClick,
 			onArticleClick,
-			onGoToGiteeClick,
+			onGotoArticleList,
 			...toRefs(state),
 		};
 	},

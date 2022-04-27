@@ -212,12 +212,13 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.sub-title{
+.sub-title {
 	padding:10px;
+	color:var(--el-color-info);
 	background-color: var(--el-color-info-light-9);
 	margin-bottom: 10px;
-	
 }
+
 .divider{
 	margin:10px 0;
 	border-bottom: 1px dashed var(--el-color-info-light-5);
