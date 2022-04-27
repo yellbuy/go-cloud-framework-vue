@@ -10,7 +10,7 @@ export default {
 	 * @returns 返回接口数据
 	 */
 	getList:async (kind:string,scopeLevel:string|number=0,params: object={})=>{
-		const url=`/v1/admin/cms/articles/${kind}/${scopeLevel}`;
+		const url=`/v1/admin/cms/article/${kind}/${scopeLevel}`;
 		return await http.get(url, params);
 	},
 	/**

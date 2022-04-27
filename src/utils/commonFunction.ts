@@ -84,6 +84,21 @@ export default function () {
 		}).replace(/\.$/, '');
 	}
 
+	/* 是否为合法URL地址 */
+	const isUrl = (url:string)=> {
+		const reg=/^(\/\/|[hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+ 		return reg.test(url)
+	}
+	
+	/* 静态路径解析 */
+	const staticUrlParse = (path:string)=> {
+ 		if(isUrl(path)){
+			 //完整域名路径，直接返回
+			 return path;
+		 }
+		 return import.meta.env.VITE_URL+path
+	}
+
 	/* 常用加解密 */
 	const crypto = {
 		//MD5加密
@@ -119,6 +134,7 @@ export default function () {
 	}
 
 	return {
+		isUrl,
 		percentFormat,
 		dateFormat,
 		dateFormatYMD,
@@ -128,6 +144,7 @@ export default function () {
 		scaleFormat,
 		scale2Format,
 		groupSeparator,
+		staticUrlParse,
 		crypto,
 		copyObj,
 		copyText,

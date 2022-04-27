@@ -12,7 +12,7 @@
 			</div>
 			<!-- <div class="divider"/> -->
 			<div class="text-center" v-if="ruleForm.IsShowCover && ruleForm.ImgUrl">
-				<img :src="baseStaticUrl+ruleForm.ImgUrl">
+				<img :src="proxy.$utils.staticUrlParse(ruleForm.ImgUrl)">
 			</div>
 			<div class="mt10" v-html="ruleForm.Content"></div>
 			<template #footer>
@@ -48,7 +48,6 @@ export default {
 		const state = reactive({
 			isShowDialog: false,
 			title:t('message.action.detail'),
-			baseStaticUrl:import.meta.env.VITE_URL,
 			loading:false,
 			ruleForm: {
 				Id:0,
@@ -198,6 +197,7 @@ export default {
 		});
 		return {
 			t,
+			proxy,
 			openDialog,
 			closeDialog,
 			onCancel,

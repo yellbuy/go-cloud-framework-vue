@@ -257,7 +257,7 @@
 								:on-success="onLogoUploadSuccess"
 								:before-upload="onBeforeImageUpload"
 							>
-								<img v-if="ruleForm.Logo" :src="baseStaticUrl+ruleForm.Logo" class="avatar" />
+								<img v-if="ruleForm.Logo" :src="proxy.$utils.staticUrlParse(ruleForm.Logo)" class="avatar" />
 								<SvgIcon v-else name="fa fa-plus" class="avatar-uploader-icon"/>
 							</el-upload>
 						</el-form-item>
@@ -352,7 +352,7 @@
 								:on-success="onImageUploadSuccess"
 								:before-upload="onBeforeImageUpload"
 							>
-								<img v-if="groupItems[group.Key].items[item.Key]" :src="baseStaticUrl+groupItems[group.Key].items[item.Key]" class="avatar" />
+								<img v-if="groupItems[group.Key].items[item.Key]" :src="proxy.$utils.staticUrlParse(groupItems[group.Key].items[item.Key])" class="avatar" />
 								<SvgIcon v-else name="fa fa-plus" class="avatar-uploader-icon"/>
 							</el-upload>
 							<el-input
@@ -434,7 +434,6 @@ export default {
 		const token = Session.get('token');
 		const state = reactive({
 			baseUrl:import.meta.env.VITE_API_URL,
-			baseStaticUrl:import.meta.env.VITE_URL,
 			scopeKind:0,
 			token:token,
 			loading:false,

@@ -40,9 +40,9 @@
 					<template #default="scope">
 						<el-image v-if="scope.row.ImgUrl" lazy preview-teleported
 							style="width: 20px; height: 20px"
-							:src="baseStaticUrl+scope.row.ImgUrl"
+							:src="proxy.$utils.staticUrlParse(scope.row.ImgUrl)"
 							hide-on-click-modal
-							:preview-src-list="[baseStaticUrl+scope.row.ImgUrl]"
+							:preview-src-list="[proxy.$utils.staticUrlParse(scope.row.ImgUrl)]"
 							:initial-index="0"
 							fit="cover" >
 								<template #error>
@@ -192,7 +192,6 @@ export default {
 			moduleKey:moduleKey,
 			kind,
 			scopeLevel,
-			baseStaticUrl:import.meta.env.VITE_URL,
 			tableData: {
 				data: [],
 				total: 0,

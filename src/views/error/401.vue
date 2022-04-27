@@ -29,7 +29,7 @@ export default {
 			Session.clear();
 			router.push('/login');
 		};
-		const imgUrl = import.meta.env.VITE_URL+'/img/401.png';
+		const imgUrl = '/img/401.png';
 		return {
 			imgUrl,
 			onSetAuth,

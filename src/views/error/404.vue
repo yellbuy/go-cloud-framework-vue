@@ -27,7 +27,7 @@ export default {
 		const onGoHome = () => {
 			router.push('/');
 		};
-		const imgUrl = import.meta.env.VITE_URL+'/img/404.png';
+		const imgUrl = '/img/404.png';
 		return {
 			imgUrl,
 			onGoHome,

@@ -24,9 +24,9 @@ export default {
 		const logoUrl = computed(() => {
 			let imgUrl='/public/logo.ico';
 			if(store.state.userInfos.userInfos.tenant.Logo){
-				imgUrl=import.meta.env.VITE_URL+store.state.userInfos.userInfos.tenant.Logo;
+				imgUrl=proxy.$utils.staticUrlParse(store.state.userInfos.userInfos.tenant.Logo);
 			} else if(store.state.userInfos.userInfos.app.Logo){
-				imgUrl=import.meta.env.VITE_URL+store.state.userInfos.userInfos.app.Logo;
+				imgUrl=proxy.$utils.staticUrlParse(store.state.userInfos.userInfos.app.Logo);
 			}
 			
 			console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
