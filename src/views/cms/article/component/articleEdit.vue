@@ -141,6 +141,7 @@ export default {
 			isShowDialog: false,
 			title:t('message.action.add'),
 			loading:false,
+			baseUrl:import.meta.env.VITE_API_URL,
 			ruleForm: {
 				Id:0,
 				Title: '', // 账户名称

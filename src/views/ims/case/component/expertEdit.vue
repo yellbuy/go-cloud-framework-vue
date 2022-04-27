@@ -490,6 +490,7 @@ export default {
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
+			baseUrl:import.meta.env.VITE_API_URL,
 			loading: false,
 			ruleForm: {},
 			editMode: false,
