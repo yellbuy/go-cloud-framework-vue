@@ -121,6 +121,7 @@
 import { toRefs, reactive, onMounted, ref, getCurrentInstance,computed } from 'vue';
 import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
 import { useI18n } from 'vue-i18n';
+import { Session } from '/@/utils/storage';
 import { useStore } from '/@/store/index';
 export default {
 	name: 'baseUserEdit',
@@ -132,6 +133,7 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		const store = useStore();
+		const token = Session.get('token');
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
 			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
@@ -141,6 +143,7 @@ export default {
 			isShowDialog: false,
 			title:t('message.action.add'),
 			loading:false,
+			token:token,
 			baseUrl:import.meta.env.VITE_API_URL,
 			ruleForm: {
 				Id:0,

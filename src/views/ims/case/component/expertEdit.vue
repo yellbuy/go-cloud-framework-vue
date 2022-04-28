@@ -467,6 +467,7 @@
 import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, computed, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Session } from '/@/utils/storage';
 import { ElMessageBox } from 'element-plus';
 import imgList from '/@/components/image/index.vue';
 import checkTag from '/@/components/checkTag/index.vue';
@@ -482,6 +483,7 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		const store = useStore();
+		const token = Session.get('token');
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
 			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
@@ -491,6 +493,7 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			baseUrl:import.meta.env.VITE_API_URL,
+			token:token,
 			loading: false,
 			ruleForm: {},
 			editMode: false,
