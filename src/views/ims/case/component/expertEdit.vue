@@ -465,13 +465,15 @@
 
 <script lang="ts">
 import request from '/@/utils/request';
-import { reactive, toRefs, onMounted, computed, getCurrentInstance } from 'vue';
+import { reactive, toRefs, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Session } from '/@/utils/storage';
 import { ElMessageBox } from 'element-plus';
 import imgList from '/@/components/image/index.vue';
 import checkTag from '/@/components/checkTag/index.vue';
 import { useStore } from '/@/store/index';
+import html2canvas from 'html2canvas';
+import { URLSearchParams } from 'url';
 
 export default {
 	name: 'expertAuditEdit',
@@ -499,6 +501,7 @@ export default {
 			editMode: false,
 			caseKind: [],
 			disapprovalReasons: [],
+			html: '',
 		});
 
 		// 打开弹窗
@@ -639,6 +642,24 @@ export default {
 					ElMessageBox.alert('请选择委托内容', '温馨提示', {});
 					return;
 				}
+				if (state.ruleForm.ExpertAuditState == 10) {
+					let obj = document.getElementsByTagName('iframe');
+					let findobj = null;
+					for (let nowobj of obj) {
+						if (nowobj.id.indexOf('ueditor') > -1) {
+							findobj = nowobj;
+							break;
+						}
+					}
+					if (findobj) {
+						await html2canvas(findobj.contentWindow.document.body).then((canvas) => {
+							let url = canvas.toDataURL('image/png');
+							state.ruleForm.ExpertAuditEvalImage = url;
+						});
+					} else {
+						state.ruleForm.ExpertAuditEvalImage = '';
+					}
+				}
 			} else if (props.step == 10) {
 				state.ruleForm.ExpertReviewState = Number(state.ruleForm.ExpertReviewState);
 				if (state.ruleForm.ExpertReviewState != 5 && state.ruleForm.ExpertReviewState != 10) {
@@ -663,8 +684,10 @@ export default {
 				state.ruleForm.ExpertAuditStandard = ExpertAuditStandardList.toString();
 			}
 			state.loading = true;
+			console.log('提交的图片', state.ruleForm.ExpertAuditEvalImage);
 			try {
 				console.log('提交的数据', state.ruleForm.ExpertReviewProgramState);
+				console.log('提交的图片', state.ruleForm.ExpertAuditEvalImage);
 				const res = await proxy.$api.ims.casepersonline.updateStep(props.step, state.ruleForm);
 				if (res.errcode == 0) {
 					closeDialog();
@@ -681,6 +704,7 @@ export default {
 			t,
 			proxy,
 			getUserInfos,
+			imageTofile,
 			openDialog,
 			closeDialog,
 			onCancel,
