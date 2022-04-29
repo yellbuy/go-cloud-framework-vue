@@ -207,59 +207,59 @@
 							<td colspan="9"><imgList :ids="ruleForm.Pics"></imgList></td>
 						</tr>
 
-						<tr v-if="ruleForm.MedicalDiagnosisPics">
+						<tr>
 							<td class="bg-gray text-right">诊断证明书</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.MedicalDiagnosisPics"></imgList>
+								<imgList v-if="ruleForm.MedicalDiagnosisPics" :ids="ruleForm.MedicalDiagnosisPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.CaseType == 1 && ruleForm.MedicalRecordPics">
+						<tr v-if="ruleForm.CaseType == 1">
 							<td class="bg-gray text-right">门急诊病历</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.MedicalRecordPics"></imgList>
+								<imgList v-if="ruleForm.MedicalRecordPics" :ids="ruleForm.MedicalRecordPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="(ruleForm.CaseType == 2 || ruleForm.CaseType == 3 || ruleForm.CaseType == 10) && ruleForm.InHospitalPics">
+						<tr v-if="ruleForm.CaseType == 2 || ruleForm.CaseType == 3 || ruleForm.CaseType == 10">
 							<td class="bg-gray text-right">住院记录（或首程病志）</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.InHospitalPics"></imgList>
+								<imgList v-if="ruleForm.InHospitalPics" :ids="ruleForm.InHospitalPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="(ruleForm.CaseType == 2 || ruleForm.CaseType == 3) && ruleForm.LeaveHospitalPics">
+						<tr v-if="ruleForm.CaseType == 2 || ruleForm.CaseType == 3">
 							<td class="bg-gray text-right">出院记录</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.LeaveHospitalPics"></imgList>
+								<imgList v-if="ruleForm.LeaveHospitalPics" :ids="ruleForm.LeaveHospitalPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.CaseType == 10 && ruleForm.DeathRecordPics">
+						<tr v-if="ruleForm.CaseType == 10">
 							<td class="bg-gray text-right">死亡记录</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.DeathRecordPics"></imgList>
+								<imgList v-if="ruleForm.DeathRecordPics" :ids="ruleForm.DeathRecordPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.CaseType == 10 && ruleForm.SurgeryPics">
+						<tr v-if="ruleForm.CaseType == 10">
 							<td class="bg-gray text-right">行手术治疗的需提供手术记录</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.SurgeryPics"></imgList>
+								<imgList v-if="ruleForm.SurgeryPics" :ids="ruleForm.SurgeryPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.IconographyPics">
+						<tr>
 							<td class="bg-gray text-right">影像学资料</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.IconographyPics"></imgList>
+								<imgList v-if="ruleForm.IconographyPics" :ids="ruleForm.IconographyPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.InspectionReportPics">
+						<tr>
 							<td class="bg-gray text-right">检查报告单</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.InspectionReportPics"></imgList>
+								<imgList v-if="ruleForm.InspectionReportPics" :ids="ruleForm.InspectionReportPics"></imgList>
 							</td>
 						</tr>
 
-						<tr v-if="ruleForm.OtherPics">
+						<tr v-if="ruleForm.CaseType == 1 || ruleForm.CaseType == 2 || ruleForm.CaseType == 3">
 							<td class="bg-gray text-right">补充材料</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.OtherPics"></imgList>
+								<imgList v-if="ruleForm.OtherPics" :ids="ruleForm.OtherPics"></imgList>
 							</td>
 						</tr>
 						<tr v-if="0">
@@ -365,9 +365,10 @@
 								<span v-else>审查意见</span>
 							</td>
 							<td colspan="9" v-if="allowEdit()">
+								<!-- , 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css' -->
 								<vue-ueditor-wrap
 									:editor-id="`editor-content`"
-									:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js', 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css']"
+									:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js']"
 									v-model="ruleForm.ExpertAuditEval"
 									:config="{
 										UEDITOR_HOME_URL: '/ueditor/',
