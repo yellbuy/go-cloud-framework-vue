@@ -1,10 +1,10 @@
 <template>
 	<div class="cms_article-container">
 		<el-card shadow="hover">
-			<!-- <div class="">
+			<div class="">
 				<el-form ref="searchFormRef"  :model="tableData.param" label-width="90px" :inline="true">
-					<el-form-item :label="'关键字：'">
-						<el-input  placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
+					<el-form-item :label="'标题：'">
+						<el-input  placeholder="请输入标题查询" v-model="tableData.param.title"> </el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -23,10 +23,10 @@
 					<el-form-item>
 					</el-form-item>
 				</el-form>
-			</div> -->
+			</div>
 			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%"  
-				:height="proxy.$calcMainHeight(180)" @cell-click="onCellClick"
-				border stripe highlight-current-row>
+				:height="proxy.$calcMainHeight(-30)" @cell-click="onCellClick"
+				stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
 				<el-table-column prop="ImgUrl" label="封面图" width="60" align="center">
 					<template #default="scope">
@@ -47,7 +47,7 @@
 				</el-table-column>
 				<el-table-column prop="Title" label="标题" >
 					<template #default="scope">
-						<SvgIcon name="fa fa-angle-right"/><span class="title-link ml5">{{scope.row.Title}}</span>
+						<SvgIcon name="fa fa-angle-right"/><span class="ml5" :class="scope.row.IsClick?'title-readed-link':'title-link'">{{scope.row.Title}}</span>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Description" width="270" label="描述" show-overflow-tooltip>
@@ -64,11 +64,11 @@
 				</el-table-column>
 
 				
-				<el-table-column prop="ViewNum" label="阅读量" width="80" align="right">
+				<el-table-column prop="ClickNum" label="阅读量" width="80" align="right">
 				</el-table-column>
 				
-				<el-table-column prop="LikeNum" label="点赞数" width="80" align="right"></el-table-column>
-				<el-table-column prop="CommentNum" label="评论数" width="80" align="right"></el-table-column>
+				<el-table-column prop="FaviorNum" label="点赞数" width="80" align="right"></el-table-column>
+				<el-table-column prop="ReplyNum" label="评论数" width="80" align="right"></el-table-column>
 				<el-table-column prop="CreateBy" label="创建人" width="70" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CreateTime" label="创建时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 			</el-table>
@@ -81,7 +81,7 @@
 				v-model:current-page="tableData.param.pageNum"
 				background
 				v-model:page-size="tableData.param.pageSize"
-				layout="->, total, sizes, prev, pager, next, jumper"
+				layout="->, sizes, prev, next"
 				:total="tableData.total"
 			>
 			</el-pagination>
@@ -115,7 +115,7 @@ export default {
 					searchPage:10, // 1：保司二级审核，2：保司三级审核，5：制作专家，6：审核专家，10：平台
 					searchMode:2, //0：所有，1：待审，2：已审，3：我审核的
 					loadRelatedSel:false, //不加载栏目关联数据
-					keyword:"",
+					title:"",
 					pageNum: 1,
 					pageSize: 30,
 				},
@@ -181,12 +181,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.title-readed-link{
+	text-decoration:none; 
+	color:var(--el-color-info);
+	cursor: pointer;
+}
 .title-link{
 	text-decoration:none; 
 	color:var(--el-color-primary-dark-2);
 	cursor: pointer;
 }
-.title-link:hover{
+.title-link:hover,.title-readed-link:hover{
 	text-decoration:none; 
 	border-bottom:1px solid var(--el-color-primary-dark-2); /* #555换成链接的颜色 */
 	display: inline-block; 

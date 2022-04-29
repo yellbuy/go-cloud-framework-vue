@@ -112,7 +112,7 @@
 						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="ViewNum" label="阅读量" width="100" align="center">
+				<el-table-column prop="ViewNum" label="虚拟阅读量" width="100" align="center">
 					<template #header>
 						<el-button  type="text" v-if="tableData.data" 
 							@click="proxy.$api.common.table.update('cms_article','ViewNum', tableData.data||[], 0)" v-auth:[moduleKey]="'btn.ArticleEdit'">
@@ -128,9 +128,10 @@
 						<span v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{scope.row.ViewNum}}</span>
 					</template>
 				</el-table-column>
-				
-				<el-table-column prop="LikeNum" label="点赞数" width="80" align="right"></el-table-column>
-				<el-table-column prop="CommentNum" label="评论数" width="80" align="right"></el-table-column>
+				<el-table-column prop="ClickNum" label="阅读量" width="80" align="right">
+				</el-table-column>
+				<el-table-column prop="FaviorNum" label="点赞数" width="80" align="right"></el-table-column>
+				<el-table-column prop="ReplyNum" label="评论数" width="80" align="right"></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button  type="primary" plain @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.ArticleEdit'">

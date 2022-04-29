@@ -19,7 +19,7 @@
 			</template>
 			<el-empty v-else :description="$t('message.user.newDesc')" ></el-empty>
 		</div>
-		<div class="foot-box" @click="onGotoArticleList" v-if="newsList.length > 0">{{ $t('message.user.newGo') }}</div>
+		<div class="foot-box" @click="onGotoArticleList">{{ $t('message.user.newGo') }}</div>
 		<articleDetail ref="articleDetailDlgRef" />
 	</div>
 </template>
