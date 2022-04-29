@@ -428,7 +428,7 @@
 								</template>
 								<template v-else-if="step == 10 && ruleForm.ExpertReviewState == 5">
 									<div v-for="val in disapprovalReasons" :key="val.Name">
-										<el-radio :label="val.Name" v-model="ruleForm.ExpertAuditContent" v-for="val in disapprovalReasons" :key="val.Name">{{
+										<el-radio :label="val.Name" v-model="ruleForm.ExpertReviewContent" v-for="val in disapprovalReasons" :key="val.Name">{{
 											val.Name
 										}}</el-radio>
 									</div>
@@ -494,8 +494,8 @@ export default {
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			baseUrl:import.meta.env.VITE_API_URL,
-			token:token,
+			baseUrl: import.meta.env.VITE_API_URL,
+			token: token,
 			loading: false,
 			ruleForm: {},
 			editMode: false,
@@ -652,7 +652,7 @@ export default {
 						}
 					}
 					if (findobj) {
-						await html2canvas(findobj.contentWindow.document.body).then((canvas) => {
+						await html2canvas(findobj.contentWindow.document.body, { useCORS: true, scrollY: 0, scrollX: 0, allowTaint: true }).then((canvas) => {
 							let url = canvas.toDataURL('image/png');
 							state.ruleForm.ExpertAuditEvalImage = url;
 						});
@@ -684,9 +684,7 @@ export default {
 				state.ruleForm.ExpertAuditStandard = ExpertAuditStandardList.toString();
 			}
 			state.loading = true;
-			console.log('提交的图片', state.ruleForm.ExpertAuditEvalImage);
 			try {
-				console.log('提交的数据', state.ruleForm.ExpertReviewProgramState);
 				console.log('提交的图片', state.ruleForm.ExpertAuditEvalImage);
 				const res = await proxy.$api.ims.casepersonline.updateStep(props.step, state.ruleForm);
 				if (res.errcode == 0) {
@@ -704,7 +702,6 @@ export default {
 			t,
 			proxy,
 			getUserInfos,
-			imageTofile,
 			openDialog,
 			closeDialog,
 			onCancel,
