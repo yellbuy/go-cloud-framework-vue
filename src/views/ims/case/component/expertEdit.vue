@@ -546,11 +546,7 @@ export default {
 					type = 'case_mode_jd';
 					break;
 			}
-			const res = await proxy.$api.common.commondata.getConcreteDataList({
-				type: type,
-				pageNum: 1,
-				pageSize: 10000,
-			});
+			const res = await proxy.$api.common.commondata.getConcreteDataListByScope(type,1,2);
 			if (res.errcode != 0) {
 				return;
 			}
@@ -584,11 +580,7 @@ export default {
 				type = 'insurer_review_disapproval_reason';
 			}
 
-			const res = await proxy.$api.common.commondata.getConcreteDataList({
-				type: type,
-				pageNum: 1,
-				pageSize: 10000,
-			});
+			const res = await proxy.$api.common.commondata.getConcreteDataListByScope(type,1,2);
 			if (res.errcode != 0) {
 				return;
 			}

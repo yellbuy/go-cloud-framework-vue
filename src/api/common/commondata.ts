@@ -15,6 +15,28 @@ export default{
 		const url=`/v1/admin/common/commondata/${id}`;
 		return await http.get(url);
 	},
+	/**
+	 * 获取基础代码列表
+	 * @param type:字典类型；
+	 * @param scopeMode：模式，0按scopeLevel，多少级有多少个Filter参数；1按scopeKind，始终3个参数，按所在层级不足时填充0
+	 * @param scopeValue：层级值，0：当前用户所在层级，1：系统，2：应用，3：租户，4：用户
+	 * @returns 返回接口数据
+	 */
+	 getConcreteDataListByScope:async (tp:string,scopeMode:number=0,scopeValue:number=0)=>{
+		const url=`/v1/admin/common/concretedata/${tp}/${scopeMode}/${scopeValue}`;
+		return await http.get(url);
+	},
+    /**
+	 * 获取层次代码列表
+	 * @param type:字典类型；
+	 * @param scopeMode：模式，0按scopeLevel，多少级有多少个Filter参数；1按scopeKind，始终3个参数，按所在层级不足时填充0
+	 * @param scopeValue：层级值，0：当前用户所在层级，1：系统，2：应用，3：租户，4：用户
+	 * @returns 返回接口数据
+	 */
+     getHierarchyDataListByScope:async (tp:string,scopeMode:number=0,scopeValue:number=0)=>{
+		const url=`/v1/admin/common/hierarchydata/${tp}/${scopeMode}/${scopeValue}`;
+		return await http.get(url);
+	},
     /**
 	 * 获取基础代码列表
 	 * @param params 要传的参数值
