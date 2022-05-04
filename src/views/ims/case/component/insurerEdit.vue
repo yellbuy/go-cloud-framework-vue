@@ -52,7 +52,7 @@
 							<td v-else-if="ruleForm.CaseMode == 2">核损</td>
 							<td v-else-if="ruleForm.CaseMode == 10">鉴定</td>
 							<td class="bg-gray text-right">出险时间</td>
-							<td >{{ proxy.$utils.dateFormat(ruleForm.CaseTime,"yyyy-mm-dd") }}</td>
+							<td>{{ proxy.$utils.dateFormat(ruleForm.CaseTime, 'yyyy-mm-dd') }}</td>
 							<td colspan="4"></td>
 						</tr>
 						<tr>
@@ -105,60 +105,59 @@
 							<td colspan="1" class="bg-gray text-right">案情照片</td>
 							<td colspan="9"><imgList :ids="ruleForm.Pics"></imgList></td>
 						</tr>
-
-						<tr v-if="ruleForm.MedicalDiagnosisPics">
+						<tr>
 							<td class="bg-gray text-right">诊断证明书</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.MedicalDiagnosisPics"></imgList>
+								<imgList v-if="ruleForm.MedicalDiagnosisPics" :ids="ruleForm.MedicalDiagnosisPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.CaseType == 1 && ruleForm.MedicalRecordPics">
+						<tr v-if="ruleForm.CaseType == 1">
 							<td class="bg-gray text-right">门急诊病历</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.MedicalRecordPics"></imgList>
+								<imgList v-if="ruleForm.MedicalRecordPics" :ids="ruleForm.MedicalRecordPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="(ruleForm.CaseType == 2 || ruleForm.CaseType == 3 || ruleForm.CaseType == 10) && ruleForm.InHospitalPics">
+						<tr v-if="ruleForm.CaseType == 2 || ruleForm.CaseType == 3 || ruleForm.CaseType == 10">
 							<td class="bg-gray text-right">住院记录（或首程病志）</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.InHospitalPics"></imgList>
+								<imgList v-if="ruleForm.InHospitalPics" :ids="ruleForm.InHospitalPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="(ruleForm.CaseType == 2 || ruleForm.CaseType == 3) && ruleForm.LeaveHospitalPics">
+						<tr v-if="ruleForm.CaseType == 2 || ruleForm.CaseType == 3">
 							<td class="bg-gray text-right">出院记录</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.LeaveHospitalPics"></imgList>
+								<imgList v-if="ruleForm.LeaveHospitalPics" :ids="ruleForm.LeaveHospitalPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.CaseType == 10 && ruleForm.DeathRecordPics">
+						<tr v-if="ruleForm.CaseType == 10">
 							<td class="bg-gray text-right">死亡记录</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.DeathRecordPics"></imgList>
+								<imgList v-if="ruleForm.DeathRecordPics" :ids="ruleForm.DeathRecordPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.CaseType == 10 && ruleForm.SurgeryPics">
+						<tr v-if="ruleForm.CaseType == 10">
 							<td class="bg-gray text-right">行手术治疗的需提供手术记录</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.SurgeryPics"></imgList>
+								<imgList v-if="ruleForm.SurgeryPics" :ids="ruleForm.SurgeryPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.IconographyPics">
+						<tr>
 							<td class="bg-gray text-right">影像学资料</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.IconographyPics"></imgList>
+								<imgList v-if="ruleForm.IconographyPics" :ids="ruleForm.IconographyPics"></imgList>
 							</td>
 						</tr>
-						<tr v-if="ruleForm.InspectionReportPics">
+						<tr>
 							<td class="bg-gray text-right">检查报告单</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.InspectionReportPics"></imgList>
+								<imgList v-if="ruleForm.InspectionReportPics" :ids="ruleForm.InspectionReportPics"></imgList>
 							</td>
 						</tr>
 
-						<tr v-if="ruleForm.OtherPics">
+						<tr v-if="ruleForm.CaseType == 1 || ruleForm.CaseType == 2 || ruleForm.CaseType == 3">
 							<td class="bg-gray text-right">补充材料</td>
 							<td colspan="9">
-								<imgList :ids="ruleForm.OtherPics"></imgList>
+								<imgList v-if="ruleForm.OtherPics" :ids="ruleForm.OtherPics"></imgList>
 							</td>
 						</tr>
 						<tr v-if="ruleForm.Remark">
@@ -190,35 +189,43 @@
 								<el-tag type="primary" effect="plain" v-else>待审</el-tag>
 							</td>
 						</tr>
-						<tr v-if="(step == 2 && ruleForm.InsurerAuditState==5) || (step == 3 && ruleForm.InsurerReviewState==5)">
+						<tr v-if="(step == 2 && ruleForm.InsurerAuditState == 5) || (step == 3 && ruleForm.InsurerReviewState == 5)">
 							<td colspan="9" v-if="editMode">
-								<template v-if="step == 2 && ruleForm.InsurerAuditState==5">
+								<template v-if="step == 2 && ruleForm.InsurerAuditState == 5">
 									<div v-for="val in disapprovalReasons" :key="val.Name">
-										<el-radio :label="val.Name" v-model="ruleForm.InsurerAuditContent">{{val.Name}}</el-radio>
+										<el-radio :label="val.Name" v-model="ruleForm.InsurerAuditContent">{{ val.Name }}</el-radio>
 									</div>
 									<div>
-										<el-radio label="其他" v-model="ruleForm.InsurerAuditContent">其他&#8197;&#8197;<el-input v-model="ruleForm.InsurerAuditRemark" placeholder="请输入" :input-style="{width:'600px'}" 
-										v-if="ruleForm.InsurerAuditContent=='其他'" /></el-radio>
+										<el-radio label="其他" v-model="ruleForm.InsurerAuditContent"
+											>其他&#8197;&#8197;<el-input
+												v-model="ruleForm.InsurerAuditRemark"
+												placeholder="请输入"
+												:input-style="{ width: '600px' }"
+												v-if="ruleForm.InsurerAuditContent == '其他'"
+										/></el-radio>
 									</div>
 								</template>
-								<template v-else-if="step == 3 && ruleForm.InsurerReviewState==5">
+								<template v-else-if="step == 3 && ruleForm.InsurerReviewState == 5">
 									<div v-for="val in disapprovalReasons" :key="val.Name">
-										<el-radio :label="val.Name" v-model="ruleForm.InsurerReviewContent" v-for="val in disapprovalReasons" :key="val.Name">{{val.Name}}</el-radio>
+										<el-radio :label="val.Name" v-model="ruleForm.InsurerReviewContent" v-for="val in disapprovalReasons" :key="val.Name">{{
+											val.Name
+										}}</el-radio>
 									</div>
 									<div>
-										<el-radio label="其他" v-model="ruleForm.InsurerReviewContent">其他&#8197;&#8197;<el-input v-model="ruleForm.InsurerReviewRemark" placeholder="请输入" :input-style="{width:'600px'}" 
-										v-if="ruleForm.InsurerReviewContent=='其他'" /></el-radio>
+										<el-radio label="其他" v-model="ruleForm.InsurerReviewContent"
+											>其他&#8197;&#8197;<el-input
+												v-model="ruleForm.InsurerReviewRemark"
+												placeholder="请输入"
+												:input-style="{ width: '600px' }"
+												v-if="ruleForm.InsurerReviewContent == '其他'"
+										/></el-radio>
 									</div>
 								</template>
 								<!-- <el-input v-model="ruleForm.InsurerAuditContent" placeholder="如驳回，请输入理由" type="textarea" v-if="step == 2" />
 								<el-input v-model="ruleForm.InsurerReviewContent" placeholder="如驳回，请输入理由" type="textarea" v-else-if="step == 3" /> -->
 							</td>
-							<td colspan="9" v-else-if="step == 2">
-								{{ ruleForm.InsurerAuditContent }}&#8197;&#8197;{{ ruleForm.InsurerAuditRemark }}
-							</td>
-							<td colspan="9" v-else-if="step == 3">
-								{{ ruleForm.InsurerReviewContent }}&#8197;&#8197;{{ ruleForm.InsurerReviewRemark }}
-							</td>
+							<td colspan="9" v-else-if="step == 2">{{ ruleForm.InsurerAuditContent }}&#8197;&#8197;{{ ruleForm.InsurerAuditRemark }}</td>
+							<td colspan="9" v-else-if="step == 3">{{ ruleForm.InsurerReviewContent }}&#8197;&#8197;{{ ruleForm.InsurerReviewRemark }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -260,7 +267,7 @@ export default {
 				InsurerAuditState: 0,
 				InsurerReviewState: 0,
 			},
-			disapprovalReasons:[],
+			disapprovalReasons: [],
 			deptData: [], // 部门数据
 		});
 
@@ -297,6 +304,7 @@ export default {
 					state.ruleForm.ExpertReviewRemark = '';
 				}
 			}
+			onGetDisapprovalReason();
 			state.ruleForm = row;
 		};
 		// 关闭弹窗
@@ -308,8 +316,8 @@ export default {
 			closeDialog();
 		};
 		const onGetDisapprovalReason = async () => {
-			if (!state.editMode){
-				return
+			if (!state.editMode) {
+				return;
 			}
 			state.disapprovalReasons = [];
 			const type = 'insurer_audit_disapproval_reason';
@@ -330,7 +338,10 @@ export default {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
-				if (state.ruleForm.InsurerAuditState == 5 && (state.ruleForm.InsurerAuditContent == '' || (state.ruleForm.InsurerAuditContent == '其他' && state.ruleForm.InsurerAuditRemark==""))) {
+				if (
+					state.ruleForm.InsurerAuditState == 5 &&
+					(state.ruleForm.InsurerAuditContent == '' || (state.ruleForm.InsurerAuditContent == '其他' && state.ruleForm.InsurerAuditRemark == ''))
+				) {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
 					return false;
 				}
@@ -340,23 +351,26 @@ export default {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
-				if (state.ruleForm.InsurerReviewState == 5 && (state.ruleForm.InsurerReviewContent == '' || (state.ruleForm.InsurerReviewContent == '其他' && state.ruleForm.InsurerReviewRemark==""))) {
+				if (
+					state.ruleForm.InsurerReviewState == 5 &&
+					(state.ruleForm.InsurerReviewContent == '' || (state.ruleForm.InsurerReviewContent == '其他' && state.ruleForm.InsurerReviewRemark == ''))
+				) {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
 
 					return false;
 				}
 			}
-			
-			proxy.$refs.ruleFormRef.validate(async (valid:any) => {
+
+			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
-					try{
-						const res=await proxy.$api.ims.casepersonline.updateStep(props.step,state.ruleForm)
+					try {
+						const res = await proxy.$api.ims.casepersonline.updateStep(props.step, state.ruleForm);
 						if (res.errcode == 0) {
 							closeDialog();
 							proxy.$parent.onGetTableData();
 						}
-					} finally{
+					} finally {
 						state.loading = false;
 					}
 				}
@@ -364,9 +378,7 @@ export default {
 			return false;
 		};
 		// 页面加载时
-		onMounted(() => {
-			onGetDisapprovalReason()
-		});
+		onMounted(() => {});
 		return {
 			t,
 			proxy,
