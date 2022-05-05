@@ -102,7 +102,7 @@ export default {
 	setup() {
 		const route=useRoute();
 		const kind = route.params.kind;
-		const scopeLevel=route.params.scopeLevel||0;
+		const scopeLevel=route.params.scopeValue||0;
 		const { proxy } = getCurrentInstance() as any;
 		const state: any = reactive({
 			kind,

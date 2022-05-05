@@ -184,7 +184,8 @@ export default {
 	setup() {
 		const route=useRoute();
 		const kind = route.params.kind;
-		const scopeLevel=route.params.scopeLevel||0;
+		const scopeMode=route.params.scopeMode||0;
+		const scopeValue=route.params.scopeValue||0;
 		const moduleKey=`api_cms_article_${kind}`;
 		const { proxy } = getCurrentInstance() as any;
 		const dlgEditRef = ref();
@@ -192,7 +193,8 @@ export default {
 		const state: any = reactive({
 			moduleKey:moduleKey,
 			kind,
-			scopeLevel,
+			scopeMode,
+			scopeValue,
 			tableData: {
 				data: [],
 				total: 0,
@@ -236,7 +238,7 @@ export default {
 			state.tableData.loading=true;
 			state.tableData.data =[];
 			try{
-				const res = await proxy.$api.cms.article.getList(state.kind, state.scopeLevel, state.tableData.param);
+				const res = await proxy.$api.cms.article.getListByScope(state.kind,state.scopeMode, state.scopeValue, state.tableData.param);
 				if(res.errcode!=0){
 					return;
 				}
