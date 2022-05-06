@@ -415,32 +415,33 @@
 							<td colspan="9" v-if="editMode">
 								<template v-if="step == 7 && ruleForm.ExpertAuditState == 5">
 									<div v-for="val in disapprovalReasons" :key="val.Name">
-										<el-radio :label="val.Name" v-model="ruleForm.ExpertAuditContent">{{ val.Name }}</el-radio>
+										<el-checkbox v-model="val.Value" :label="val.Name" :true-label="1" :false-label="0" size="small" />
 									</div>
+									<!-- <div v-for="val in disapprovalReasons" :key="val.Name">
+										<el-radio :label="val.Name" v-model="ruleForm.ExpertAuditContent">{{ val.Name }}</el-radio>
+									</div> -->
 									<div>
-										<el-radio label="其他" v-model="ruleForm.ExpertAuditContent"
+										<el-checkbox true-label="其他" v-model="otherRemark"
 											>其他&#8197;&#8197;<el-input
 												v-model="ruleForm.ExpertAuditRemark"
 												placeholder="请输入"
 												:input-style="{ width: '600px' }"
-												v-if="ruleForm.ExpertAuditContent == '其他'"
-										/></el-radio>
+												v-if="otherRemark == '其他'"
+										/></el-checkbox>
 									</div>
 								</template>
 								<template v-else-if="step == 10 && ruleForm.ExpertReviewState == 5">
 									<div v-for="val in disapprovalReasons" :key="val.Name">
-										<el-radio :label="val.Name" v-model="ruleForm.ExpertReviewContent" v-for="val in disapprovalReasons" :key="val.Name">{{
-											val.Name
-										}}</el-radio>
+										<el-checkbox v-model="val.Value" :label="val.Name" :true-label="1" :false-label="0" size="small" />
 									</div>
 									<div>
-										<el-radio label="其他" v-model="ruleForm.ExpertReviewContent"
+										<el-checkbox true-label="其他" v-model="otherRemark"
 											>其他&#8197;&#8197;<el-input
 												v-model="ruleForm.ExpertReviewRemark"
 												placeholder="请输入"
 												:input-style="{ width: '600px' }"
-												v-if="ruleForm.ExpertReviewContent == '其他'"
-										/></el-radio>
+												v-if="otherRemark == '其他'"
+										/></el-checkbox>
 									</div>
 								</template>
 								<!-- <el-input v-model="ruleForm.ExpertAuditRemark" placeholder="如驳回，请输入理由" type="textarea" v-if="step == 7" />
@@ -502,6 +503,7 @@ export default {
 			editMode: false,
 			caseKind: [],
 			disapprovalReasons: [],
+			otherRemark: '',
 			html: '',
 		});
 
@@ -547,7 +549,7 @@ export default {
 					type = 'case_mode_jd';
 					break;
 			}
-			const res = await proxy.$api.common.commondata.getConcreteDataListByScope(type,1,2);
+			const res = await proxy.$api.common.commondata.getConcreteDataListByScope(type, 1, 2);
 			if (res.errcode != 0) {
 				return;
 			}
@@ -581,7 +583,7 @@ export default {
 				type = 'insurer_review_disapproval_reason';
 			}
 
-			const res = await proxy.$api.common.commondata.getConcreteDataListByScope(type,1,2);
+			const res = await proxy.$api.common.commondata.getConcreteDataListByScope(type, 1, 2);
 			if (res.errcode != 0) {
 				return;
 			}
@@ -615,12 +617,16 @@ export default {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
+				state.ruleForm.ExpertAuditContent = contentTostring();
 				if (
 					state.ruleForm.ExpertAuditState == 5 &&
-					(state.ruleForm.ExpertAuditContent == '' || (state.ruleForm.ExpertAuditContent == '其他' && state.ruleForm.ExpertAuditRemark == ''))
+					!(state.ruleForm.ExpertAuditContent != '' || (state.otherRemark == '其他' && state.ruleForm.ExpertAuditRemark != ''))
 				) {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
 					return;
+				}
+				if (state.otherRemark != '其他') {
+					state.ruleForm.ExpertAuditRemark == '';
 				}
 				if (
 					state.ruleForm.CaseMode == 10 &&
@@ -659,12 +665,17 @@ export default {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
+				state.ruleForm.ExpertReviewContent = contentTostring();
+				console.log(state.ruleForm.ExpertReviewContent, state.otherRemark);
 				if (
 					state.ruleForm.ExpertReviewState == 5 &&
-					(state.ruleForm.ExpertReviewContent == '' || (state.ruleForm.ExpertReviewContent == '其他' && state.ruleForm.ExpertReviewRemark == ''))
+					!(state.ruleForm.ExpertReviewContent != '' || (state.otherRemark == '其他' && state.ruleForm.ExpertReviewRemark != ''))
 				) {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
 					return;
+				}
+				if (state.otherRemark != '其他') {
+					state.ruleForm.ExpertReviewRemark == '';
 				}
 			}
 			if (props.step == 7) {
@@ -690,6 +701,15 @@ export default {
 
 			return false;
 		};
+		const contentTostring = () => {
+			let list = [];
+			for (let i = 0; i < state.disapprovalReasons.length; i++) {
+				if (state.disapprovalReasons[i].Value == 1) {
+					list.push(state.disapprovalReasons[i].Name);
+				}
+			}
+			return list.toString();
+		};
 
 		return {
 			t,
@@ -702,6 +722,7 @@ export default {
 			onSubmit,
 			allowEdit,
 			onGetCaseKind,
+			contentTostring,
 			...toRefs(state),
 		};
 	},
