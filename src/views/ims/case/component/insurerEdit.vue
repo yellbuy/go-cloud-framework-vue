@@ -193,32 +193,30 @@
 							<td colspan="9" v-if="editMode">
 								<template v-if="step == 2 && ruleForm.InsurerAuditState == 5">
 									<div v-for="val in disapprovalReasons" :key="val.Name">
-										<el-radio :label="val.Name" v-model="ruleForm.InsurerAuditContent">{{ val.Name }}</el-radio>
+										<el-checkbox v-model="val.Value" :label="val.Name" :true-label="1" :false-label="0" size="small" />
 									</div>
 									<div>
-										<el-radio label="其他" v-model="ruleForm.InsurerAuditContent"
+										<el-checkbox true-label="其他" v-model="otherRemark"
 											>其他&#8197;&#8197;<el-input
 												v-model="ruleForm.InsurerAuditRemark"
 												placeholder="请输入"
 												:input-style="{ width: '600px' }"
-												v-if="ruleForm.InsurerAuditContent == '其他'"
-										/></el-radio>
+												v-if="otherRemark == '其他'"
+										/></el-checkbox>
 									</div>
 								</template>
 								<template v-else-if="step == 3 && ruleForm.InsurerReviewState == 5">
 									<div v-for="val in disapprovalReasons" :key="val.Name">
-										<el-radio :label="val.Name" v-model="ruleForm.InsurerReviewContent" v-for="val in disapprovalReasons" :key="val.Name">{{
-											val.Name
-										}}</el-radio>
+										<el-checkbox v-model="val.Value" :label="val.Name" :true-label="1" :false-label="0" size="small" />
 									</div>
 									<div>
-										<el-radio label="其他" v-model="ruleForm.InsurerReviewContent"
+										<el-checkbox true-label="其他" v-model="otherRemark"
 											>其他&#8197;&#8197;<el-input
 												v-model="ruleForm.InsurerReviewRemark"
 												placeholder="请输入"
 												:input-style="{ width: '600px' }"
-												v-if="ruleForm.InsurerReviewContent == '其他'"
-										/></el-radio>
+												v-if="otherRemark == '其他'"
+										/></el-checkbox>
 									</div>
 								</template>
 								<!-- <el-input v-model="ruleForm.InsurerAuditContent" placeholder="如驳回，请输入理由" type="textarea" v-if="step == 2" />
@@ -268,6 +266,7 @@ export default {
 				InsurerReviewState: 0,
 			},
 			disapprovalReasons: [],
+			otherRemark: '',
 			deptData: [], // 部门数据
 		});
 
@@ -321,8 +320,8 @@ export default {
 			}
 			state.disapprovalReasons = [];
 			const type = 'insurer_audit_disapproval_reason';
-			
-			const res = await proxy.$api.common.commondata.getConcreteDataListByScope(type,1,2);
+
+			const res = await proxy.$api.common.commondata.getConcreteDataListByScope(type, 1, 2);
 			if (res.errcode != 0) {
 				return;
 			}
@@ -338,12 +337,16 @@ export default {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
+				state.ruleForm.InsurerAuditContent = contentTostring();
 				if (
 					state.ruleForm.InsurerAuditState == 5 &&
-					(state.ruleForm.InsurerAuditContent == '' || (state.ruleForm.InsurerAuditContent == '其他' && state.ruleForm.InsurerAuditRemark == ''))
+					!(state.ruleForm.InsurerAuditContent != '' || (state.otherRemark == '其他' && state.ruleForm.InsurerAuditRemark != ''))
 				) {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
 					return false;
+				}
+				if (state.otherRemark != '其他') {
+					state.ruleForm.InsurerAuditRemark == '';
 				}
 			} else if (props.step == 3) {
 				state.ruleForm.InsurerReviewState = Number(state.ruleForm.InsurerReviewState);
@@ -351,16 +354,18 @@ export default {
 					ElMessageBox.alert('请选择审核结果', '温馨提示', {});
 					return;
 				}
+				state.ruleForm.InsurerReviewContent = contentTostring();
 				if (
-					state.ruleForm.InsurerReviewState == 5 &&
-					(state.ruleForm.InsurerReviewContent == '' || (state.ruleForm.InsurerReviewContent == '其他' && state.ruleForm.InsurerReviewRemark == ''))
+					state.ruleForm.InsurerAuditState == 5 &&
+					!(state.ruleForm.InsurerReviewContent != '' || (state.otherRemark == '其他' && state.ruleForm.InsurerReviewRemark != ''))
 				) {
 					ElMessageBox.alert('请输入审核驳回理由', '温馨提示', {});
-
 					return false;
 				}
+				if (state.otherRemark != '其他') {
+					state.ruleForm.InsurerAuditRemark == '';
+				}
 			}
-
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
@@ -377,6 +382,15 @@ export default {
 			});
 			return false;
 		};
+		const contentTostring = () => {
+			let list = [];
+			for (let i = 0; i < state.disapprovalReasons.length; i++) {
+				if (state.disapprovalReasons[i].Value == 1) {
+					list.push(state.disapprovalReasons[i].Name);
+				}
+			}
+			return list.toString();
+		};
 		// 页面加载时
 		onMounted(() => {});
 		return {
@@ -385,6 +399,7 @@ export default {
 			openDialog,
 			closeDialog,
 			onCancel,
+			contentTostring,
 			rules,
 			onSubmit,
 			...toRefs(state),
