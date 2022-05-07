@@ -62,7 +62,7 @@ cd vue-next-admin
 cnpm install
 
 # 运行项目
-cnpm run dev
+cnpm run reserve
 
 # 打包发布
 cnpm run build

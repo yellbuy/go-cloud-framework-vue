@@ -5,6 +5,8 @@ export default {
 		form: 'form',
 		reporter: 'reporter',
 		bigScreen:'big screen',
+		designer: 'designer',
+		lowCode:'low code',
 	},
 	action:{
 	}
