@@ -144,7 +144,7 @@
 /* eslint-disable handle-callback-err */
 
 import { DEP_CONFIG, ROLE_CONFIG, CONFIG_LIST } from './config.js'
-import { debounce } from '@/utils/index.js'
+import { debounce } from '/@/utils/meta.js'
 
 export default {
   name: 'fc-org-transfer',
@@ -208,6 +208,7 @@ export default {
   },
   mounted () {
     this.isNumEnough()
+    debugger
     this.debounceSearch = debounce(this.searchDepUser, 500)
   },
   methods: {

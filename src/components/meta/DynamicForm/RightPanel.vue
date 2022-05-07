@@ -728,11 +728,11 @@
   </div>
 </template>
 
-<script>
-import { isArray } from "util";
-import TreeNodeDialog from "./TreeNodeDialog";
-import { isNumberStr } from "./utils/index";
-import IconsDialog from "./IconsDialog";
+<script lang="jsx">
+//import { isArray } from "util";
+import TreeNodeDialog from "./TreeNodeDialog.vue";
+import { isNumberStr } from "./utils/index.js";
+import IconsDialog from "./IconsDialog.vue";
 import {
   inputComponents,
   selectComponents,
@@ -740,7 +740,7 @@ import {
 } from "./components/generator/config";
 import { saveFormConf } from "./utils/db";
 import draggable from "vuedraggable";
-import {mergeNumberOfExps, validExp, toRPN, calcRPN} from '@/utils/index.js'
+import {mergeNumberOfExps, validExp, toRPN, calcRPN} from '/@/utils/meta.js'
 const dateTimeFormat = {
   date: "yyyy-MM-dd",
   week: "yyyy 第 WW 周",
@@ -1049,7 +1049,7 @@ export default {
       return val;
     },
     onDefaultValueInput(str) {
-      if (isArray(this.activeData.defaultValue)) {
+      if (Array.isArray(this.activeData.defaultValue)) {
         // 数组
         this.$set(
           this.activeData,

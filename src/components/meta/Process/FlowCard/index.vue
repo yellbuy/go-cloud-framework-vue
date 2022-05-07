@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 import { NodeUtils } from "./util.js";
 const isCondition = data => data.type === "condition";
 const notEmptyArray = arr => Array.isArray(arr) && arr.length > 0;

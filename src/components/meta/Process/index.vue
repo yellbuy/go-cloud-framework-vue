@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 import FlowCard from "./FlowCard/index.vue";
 import PropPanel from "./PropPanel/index.vue";
 import { NodeUtils, getMockData } from "./FlowCard/util.js";

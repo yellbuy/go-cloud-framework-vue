@@ -5,9 +5,9 @@
  *Title: form-generator/Element UI表单设计及代码生成器 
  *GitHub: https://github.com/JakHuang/form-generator
  */
- <script>
+ <script lang="jsx">
 import draggable from 'vuedraggable'
-import render from './components/render'
+import render from './components/render.jsx'
 
 const components = {
   itemBtns(h, element, index, parent, root) {

@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <el-row class="cmp-container">
     <el-col :span="4" class="label">{{props.title}}</el-col>
     <el-col :span="18" >

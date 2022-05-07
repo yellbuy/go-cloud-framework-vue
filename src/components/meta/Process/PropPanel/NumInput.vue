@@ -62,7 +62,7 @@
  </el-row>
 </template>
 <script>
-import RowWrapper from './RowWrapper'
+import RowWrapper from './RowWrapper.vue'
 export default {
   model: {
     prop: "value",

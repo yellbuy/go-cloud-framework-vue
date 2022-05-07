@@ -20,7 +20,7 @@
         size="mini"
         v-model="properties.title"
         v-show="titleInputVisible"
-        v-clickoutside="_ => titleInputVisible=false"
+        v-ClickOutside="_ => titleInputVisible=false"
         style="z-index:9;max-width: 200px;"
       ></el-input>
       <el-select
@@ -214,10 +214,10 @@
   </el-drawer>
 </template>
 <script>
-import Clickoutside from "element-ui/src/utils/clickoutside"
+import {ClickOutside} from "element-plus/lib"
 import { NodeUtils } from "../FlowCard/util.js"
-import RowWrapper from './RowWrapper'
-import NumInput from "./NumInput"
+import RowWrapper from './RowWrapper.vue'
+import NumInput from "./NumInput.vue"
 const rangeType = {
   'lt': '<',
   'lte':'≤',
@@ -324,7 +324,7 @@ export default {
     }
   },
   directives: {
-    Clickoutside
+    ClickOutside
   },
   methods: {
     getFormOperates(){

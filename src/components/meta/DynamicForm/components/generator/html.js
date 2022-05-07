@@ -10,7 +10,7 @@
 
 
 import { trigger } from './config'
-import { isArray } from 'util'
+//import { isArray } from 'util'
 
 let confGlobal
 let someSpanIsNot24

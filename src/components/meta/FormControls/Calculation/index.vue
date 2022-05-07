@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import { getAmountChinese, mergeNumberOfExps, validExp, toRPN, calcRPN, debounce } from '@/utils'
+import { getAmountChinese, mergeNumberOfExps, validExp, toRPN, calcRPN, debounce } from '/@/utils/meta.js'
 export default {
   model:{
     prop: 'value',
@@ -80,6 +80,7 @@ export default {
       handler: function(val) {
         if(!val) return
         if (!this.computeExps) { // formData更新可能比较频繁
+        debugger
           this.computeExps = debounce(this.execRPN, 500)
         }
         this.computeExps()

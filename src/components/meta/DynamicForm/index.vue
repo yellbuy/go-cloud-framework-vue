@@ -213,14 +213,17 @@
   </div>
 </template>
 
-<script>
+<script lang="tsx">
+import { useStore } from '/@/store/index';
+import { useI18n } from 'vue-i18n';
+import { toRefs, reactive, onMounted, ref, getCurrentInstance,computed,watch,nextTick } from 'vue';
 import draggable from "vuedraggable";
 // import { saveAs } from 'file-saver'
 // import beautifier from 'beautifier'
 // import ClipboardJS from 'clipboard'
-import render from "./components/render";
+import render from "./components/render.jsx";
 // import FormDrawer from './FormDrawer'
-import RightPanel from "./RightPanel";
+import RightPanel from "./RightPanel.vue";
 import {
   inputComponents,
   selectComponents,
@@ -243,9 +246,9 @@ import {
 } from "./components/generator/html";
 import { makeUpJs } from "./components/generator/js";
 import { makeUpCss } from "./components/generator/css";
-import drawingDefalut from "./components/generator/drawingDefalut";
+import drawingDefalut from "./components/generator/drawingDefalut.js";
 // import CodeTypeDialog from './CodeTypeDialog'
-import DraggableItem from "./DraggableItem";
+import DraggableItem from "./DraggableItem.vue";
 import {
   getDrawingList,
   saveDrawingList,
@@ -253,7 +256,7 @@ import {
   // saveIdGlobal,
   getFormConf
 } from "./utils/db";
-import { debounce } from '@/utils'
+import { debounce } from '/@/utils/meta.js'
 
 const emptyActiveData = { style: {}, autosize: {} };
 let oldActiveId;
@@ -270,10 +273,14 @@ export default {
     // CodeTypeDialog,
   },
   props:['tabName', 'conf'],
-  data() {
+  
+  setup(props) {
+    const store = useStore();
+    const { proxy } = getCurrentInstance() as any;
+    const { t } = useI18n();
     const storageList = getDrawingList()
     const drawingList = Array.isArray(storageList) && storageList.length ? storageList : drawingDefalut
-    return {
+    const state= reactive({
       // idGlobal,
       formConf,
       inputComponents,
@@ -293,422 +300,424 @@ export default {
       activeData: drawingList[0],
       activeTabName: "common",
       ipadMode: 'portrait'
-    };
-  },
-  watch: {
-    // eslint-disable-next-line func-names
-   
-    activeId: {
-      handler(val) {
-        oldActiveId = val;
-      },
+    });
+    // 监听data的数据
+    watch(() => state.activeId, (val) => {
+      oldActiveId = val;
+    }, {
+      deep: true, // 深度监听
       immediate: true
-    },
-    drawingList: {
-      handler(val) {
-        if (!val) return
-        if (!this.afterDrawingChange) {
-          this.afterDrawingChange = debounce(this.handlerListChange, 400) // 使用了deep 所以刷新会比较频繁
-        }
-        this.afterDrawingChange()
-      },
-      deep: true,
-      immediate: true
-    },
-    // idGlobal: {
-    //   handler(val) {
-    //     saveIdGlobal(val);
-    //   },
-    //   immediate: true
-    // }
-  },
-  created() {
-    if (typeof this.conf === 'object' && this.conf !== null) {
-      this.drawingList = this.conf.fields
-      Object.assign(this.formConf, this.conf)
-    }else{
-      const drawingListInDB = getDrawingList()
-      const hasStorage = Array.isArray(drawingListInDB) && drawingListInDB.length > 0
-      this.drawingList = hasStorage ? drawingListInDB : drawingDefalut
-      formConfInDB && (this.formConf = formConfInDB)
-    }
-    this.activeFormItem(this.drawingList[0])
-    this.$nextTick(_ => this.getIpadMode())
+    })
 
-    // const clipboard = new ClipboardJS('#copyNode', {
-    //   text: trigger => {
-    //     const codeStr = this.generateCode()
-    //     this.$notify({
-    //       title: '成功',
-    //       message: '代码已复制到剪切板，可粘贴。',
-    //       type: 'success'
-    //     })
-    //     return codeStr
-    //   }
-    // })
-    // clipboard.on('error', e => {
-    //   this.$message.error('代码复制失败')
-    // })
-  },
-  methods: {
-    getIpadMode () {
-      const {clientHeight, clientWidth} = this.$refs.ipad
-      this.ipadMode = clientWidth * 0.74 > clientHeight ? 'landscape' : 'portrait'
-    },
-    handlerListChange(val){
-      const vm = this
-      this.$store.commit('clearPCondition') // 清除所有条件 重新检测赋值
-      const canUsedAsPCon = (conf, parent) => {
-          const isRangeCmp = ['fc-date-duration','fc-time-duration'].includes(conf.tag)
-          if(isRangeCmp && !conf.showDuration) return false
-          if(parent && parent.rowType === 'table') return false 
-          if(!conf.proCondition || !conf.required) return false
-          if(conf.tag === 'el-select' && conf.multiple) return false
-          return true 
+    // 监听data的数据
+    watch(() => state.drawingList, (val) => {
+      if (!val) return
+        if (!proxy.afterDrawingChange) {
+          proxy.afterDrawingChange = debounce(handlerListChange, 400) // 使用了deep 所以刷新会比较频繁
         }
-        const loop = (data, parent) => {
-          if(!data) return
-          Array.isArray(data.children) && data.children.forEach(child => loop(child, data))
-          if(Array.isArray(data)){
-            data.forEach(loop)
-          }else{
-            canUsedAsPCon(data, parent) 
-            ? vm.$store.commit("addPCondition", data) 
-            : vm.$store.commit("delPCondition", data.formId)
+        proxy.afterDrawingChange()
+        
+    }, {
+      deep: true, // 深度监听
+      immediate: true
+    })
+
+    const getIpadMode =(proxy:any)=> {
+        const {clientHeight, clientWidth} = proxy.$refs.ipad;
+          // const clientWidth = proxy.$refs.ipad.clientWidth;
+          // const clientHeight = proxy.$refs.ipad.clientHeight;
+          
+          state.ipadMode = clientWidth * 0.74 > clientHeight ? 'landscape' : 'portrait'
+        
+      }
+      const handlerListChange=(val)=> {
+        const vm = this
+        store.commit('clearPCondition') // 清除所有条件 重新检测赋值
+        const canUsedAsPCon = (conf, parent) => {
+            const isRangeCmp = ['fc-date-duration','fc-time-duration'].includes(conf.tag)
+            if(isRangeCmp && !conf.showDuration) return false
+            if(parent && parent.rowType === 'table') return false 
+            if(!conf.proCondition || !conf.required) return false
+            if(conf.tag === 'el-select' && conf.multiple) return false
+            return true 
           }
-        }
-        loop(this.drawingList)
-        saveDrawingList(this.drawingList)
-        this.$store.commit('updateFormItemList', this.drawingList)
-        // if (val.length === 0) this.idGlobal = 100;
-    },
-    /**
-     * 判断是否是常用组件
-     * 非常用组件即套餐组件  不能新填或删除子组件
-     */
-    isCommonCmp(name){
-      return this.commonComponents.findIndex(t => t.label === name) > -1
-    },
-    /**
-     * 阻止表格中嵌套行容器
-     * 定制组件不能添加子组件
-     */
-    shouldClone(to, from ,target, event, conf){
-       // .drawing-row-item —— 行容器的类名 ipad里面的组件才会带有
-      // 直接拖拽的行容器 最外层含有.drawing-row-item
-      // 定制组件 内部含有.drawing-row-item
-      // const hasRow = target.classList.contains('.drawing-row-item') || target.querySelector('.drawing-row-item') !== null
-      // const isRowContainer = ['布局容器', '表格/明细'].includes(target.innerText) //是阻止从左侧拖拽嵌套
-      // const isCusFromLeft = target.classList.contains('custom-component')
-      const targetConf = target._underlying_vm_
-      const isRowContainer = conf.cmpType === 'common' && conf.rowType === 'layout'
-      if (isRowContainer) return true
-      if (conf.cmpType === 'custom') return false
-      if (conf.rowType === 'table') {
-        if (targetConf.layout === 'rowFormItem') return false
-        if (this.isFilledPCon([targetConf.formId])) return false
-      }
-      return  true
-    },
-    activeFormItem(element) {
-      if(element){
-        this.activeData = element;
-        this.activeId = element.formId;
-      }
-    },
-    onEnd(obj, a) {
-      if (obj.from !== obj.to) {
-        this.activeId = tempActiveData.formId;
-        this.activeData = tempActiveData;
-      }
-    },
-    onMianDragEnd(obj, a) {
-      this.activeFormItem(this.drawingList[obj.newIndex]);
-    },
-    getSameTagCmpNum(tag){
-      return this.drawingList.reduce((count, item) => {
-        if(item.children){
-          return count + item.children.reduce((c, t)=>{
-            return t.tag === tag ? c + 1 : c
-          }, 0)
-        }
-        return item.tag === tag ? count + 1 : count
-      }, 0)
-    },
-    createCmpLabel(cmp){
-      const len = this.getSameTagCmpNum(cmp.tag)
-      return len ? cmp.label + len : cmp.label
-    },
-    addComponent(item) {
-      const clone = this.cloneComponent(item);
-      this.drawingList.push(clone);
-      this.activeFormItem(clone);
-    },
-    getMaxId () {
-      if(this.drawingList.length){
-        let maxId = 0
-        const loop = (data, parent) => {
-          if(!data) return
-          Array.isArray(data.children) && data.children.forEach(child => loop(child, data))
-          if(Array.isArray(data)) {
-            data.forEach(loop)
-          }else{
-            maxId = Math.max(data.formId, maxId)
+          const loop = (data, parent) => {
+            if(!data) return
+            Array.isArray(data.children) && data.children.forEach(child => loop(child, data))
+            if(Array.isArray(data)){
+              data.forEach(loop)
+            }else{
+              canUsedAsPCon(data, parent) 
+              ? store.commit("meta/addPCondition", data) 
+              : store.commit("meta/delPCondition", data.formId)
+              // ? vm.$store.commit("addPCondition", data) 
+              // : vm.$store.commit("delPCondition", data.formId)
+            }
           }
+          loop(state.drawingList,null)
+          saveDrawingList(state.drawingList)
+          store.commit('meta/updateFormItemList', state.drawingList)
+          // if (val.length === 0) this.idGlobal = 100;
+      }
+      /**
+       * 判断是否是常用组件
+       * 非常用组件即套餐组件  不能新填或删除子组件
+       */
+      const isCommonCmp=(name)=> {
+        return state.commonComponents.findIndex(t => t.label === name) > -1
+      }
+      /**
+       * 阻止表格中嵌套行容器
+       * 定制组件不能添加子组件
+       */
+      const shouldClone=(to, from ,target, event, conf)=> {
+        // .drawing-row-item —— 行容器的类名 ipad里面的组件才会带有
+        // 直接拖拽的行容器 最外层含有.drawing-row-item
+        // 定制组件 内部含有.drawing-row-item
+        // const hasRow = target.classList.contains('.drawing-row-item') || target.querySelector('.drawing-row-item') !== null
+        // const isRowContainer = ['布局容器', '表格/明细'].includes(target.innerText) //是阻止从左侧拖拽嵌套
+        // const isCusFromLeft = target.classList.contains('custom-component')
+        const targetConf = target._underlying_vm_
+        const isRowContainer = conf.cmpType === 'common' && conf.rowType === 'layout'
+        if (isRowContainer) return true
+        if (conf.cmpType === 'custom') return false
+        if (conf.rowType === 'table') {
+          if (targetConf.layout === 'rowFormItem') return false
+          if (this.isFilledPCon([targetConf.formId])) return false
         }
-        loop(this.drawingList)
+        return  true
+      }
+
+      const activeFormItem=(element)=> {
+        if(element){
+          state.activeData = element;
+          state.activeId = element.formId;
+        }
+      }
+
+      const onEnd=(obj, a)=> {
+        if (obj.from !== obj.to) {
+          state.activeId = tempActiveData.formId;
+          state.activeData = tempActiveData;
+        }
+      }
+      const onMianDragEnd=(obj, a) => {
+        activeFormItem(this.drawingList[obj.newIndex]);
+      }
+      const getSameTagCmpNum=(tag)=>{
+        return state.drawingList.reduce((count, item) => {
+          if(item.children){
+            return count + item.children.reduce((c, t)=>{
+              return t.tag === tag ? c + 1 : c
+            }, 0)
+          }
+          return item.tag === tag ? count + 1 : count
+        }, 0)
+      }
+      const createCmpLabel=(cmp)=> {
+        const len = getSameTagCmpNum(cmp.tag)
+        return len ? cmp.label + len : cmp.label
+      }
+
+      const addComponent=(item)=> {
+        const clone = cloneComponent(item);
+        state.drawingList.push(clone);
+        activeFormItem(clone);
+      }
+      const getMaxId= () => {
+        if(state.drawingList.length){
+          let maxId = 0
+          const loop = (data, parent) => {
+            if(!data) return
+            Array.isArray(data.children) && data.children.forEach(child => loop(child, data))
+            if(Array.isArray(data)) {
+              data.forEach(loop)
+            }else{
+              maxId = Math.max(data.formId, maxId)
+            }
+          }
+          loop(state.drawingList)
+          return maxId
+        }
+        return 0
+      }
+
+      const getNextId=()=>{
+        let maxId = getMaxId() + 1
         return maxId
       }
-      return 0
-    },
-    getNextId(){
-      let maxId = this.getMaxId() + 1
-      return maxId
-    },
-    cloneComponent(origin) {
-      const clone = JSON.parse(JSON.stringify(origin));
-      clone.formId = this.getNextId();
-      // clone.span = formConf.span;
-      clone.renderKey = clone.formId + new Date().getTime(); // 改变renderKey后可以实现强制更新组件
-      if (!clone.layout) clone.layout = "colFormItem";
-      if (clone.layout === "colFormItem") {
-        clone.label = this.createCmpLabel(clone)
-        clone.vModel = `field${clone.formId}`;
-        clone.placeholder !== undefined && (clone.placeholder += clone.label);
-        tempActiveData = clone;
-      } else if (clone.layout === "rowFormItem") {
-        if (clone.rowType === 'table') {
-          clone.vModel = `field${clone.formId}`;
-        }
-        // delete clone.label;
-        clone.componentName = `row${clone.formId}`;
-        clone.gutter = this.formConf.gutter;
-        this.cloneChildrenOfRowFormItem(clone);
-        tempActiveData = clone;
-      }
-      return tempActiveData;
-    },
-    cloneChildrenOfRowFormItem(rowFormItem) {
-      if (rowFormItem.children && rowFormItem.children.length) {
-        let children = rowFormItem.children;
-        children.forEach((clone, index) => {
-          clone.formId = rowFormItem.formId + index + 1;
-          // clone.span = formConf.span;
-          clone.renderKey = clone.formId + new Date().getTime(); // 改变renderKey后可以实现强制更新组件
-          if (!clone.layout) clone.layout = "colFormItem";
-          if (clone.layout === "colFormItem") {
-            clone.vModel = `field${clone.formId}`;
-            clone.placeholder !== undefined &&
-              (clone.placeholder += clone.label);
-          } else if (clone.layout === "rowFormItem") {
-            delete clone.label;
-            clone.componentName = `row${clone.formId}`;
-            clone.gutter = this.formConf.gutter;
-            this.cloneChildrenOfRowFormItem(clone);
-          }
-        });
-      }
-    },
-    isEmptyRowContainer(){
-      const rowContainer = this.drawingList.find(t => t.layout === 'rowFormItem')
-      if(rowContainer){
-        return rowContainer.children.length === 0
-      }
-    },
-    AssembleFormData() {
-        this.formData = {
-          ...this.formConf,
-          fields: JSON.parse(JSON.stringify(this.drawingList))
-        };
-    },
-    /**
-     * 供父组件使用 获取表单JSON
-     */
-    getData() {
-      return new Promise((resolve, reject) => {
-        if(this.drawingList.length === 0){
-          reject({ msg: '表单不允许为空', target: this.tabName})
-          return
-        }
 
-        if(this.isEmptyRowContainer()){
-          reject({ msg: '您的行容器中没有组件', target: this.tabName})
-          return
+      const cloneComponent=(origin)=> {
+        const clone = JSON.parse(JSON.stringify(origin));
+        clone.formId = getNextId();
+        // clone.span = formConf.span;
+        clone.renderKey = clone.formId + new Date().getTime(); // 改变renderKey后可以实现强制更新组件
+        if (!clone.layout) clone.layout = "colFormItem";
+        if (clone.layout === "colFormItem") {
+          clone.label = this.createCmpLabel(clone)
+          clone.vModel = `field${clone.formId}`;
+          clone.placeholder !== undefined && (clone.placeholder += clone.label);
+          tempActiveData = clone;
+        } else if (clone.layout === "rowFormItem") {
+          if (clone.rowType === 'table') {
+            clone.vModel = `field${clone.formId}`;
+          }
+          // delete clone.label;
+          clone.componentName = `row${clone.formId}`;
+          clone.gutter = this.formConf.gutter;
+          cloneChildrenOfRowFormItem(clone);
+          tempActiveData = clone;
         }
-        this.AssembleFormData();
-        resolve({ formData: this.formData, target: this.tabName})
-      })
-    },
-    preview(){
-       this.AssembleFormData();
-      // 这是沿用form-generator 创建文本模板的方法
+        return tempActiveData;
+      }
+
+      const cloneChildrenOfRowFormItem=(rowFormItem)=> {
+        if (rowFormItem.children && rowFormItem.children.length) {
+          let children = rowFormItem.children;
+          children.forEach((clone, index) => {
+            clone.formId = rowFormItem.formId + index + 1;
+            // clone.span = formConf.span;
+            clone.renderKey = clone.formId + new Date().getTime(); // 改变renderKey后可以实现强制更新组件
+            if (!clone.layout) clone.layout = "colFormItem";
+            if (clone.layout === "colFormItem") {
+              clone.vModel = `field${clone.formId}`;
+              clone.placeholder !== undefined &&
+                (clone.placeholder += clone.label);
+            } else if (clone.layout === "rowFormItem") {
+              delete clone.label;
+              clone.componentName = `row${clone.formId}`;
+              clone.gutter = state.formConf.gutter;
+              cloneChildrenOfRowFormItem(clone);
+            }
+          });
+        }
+      }
+      const isEmptyRowContainer=()=>{
+        const rowContainer = state.drawingList.find(t => t.layout === 'rowFormItem')
+        if(rowContainer){
+          return rowContainer.children.length === 0
+        }
+      }
+
+      const AssembleFormData=()=> {
+          state.formData = {
+            ...state.formConf,
+            fields: JSON.parse(JSON.stringify(state.drawingList))
+          };
+      }
+      /**
+       * 供父组件使用 获取表单JSON
+       */
+      const getData=()=> {
+        return new Promise((resolve, reject) => {
+          if(state.drawingList.length === 0){
+            reject({ msg: '表单不允许为空', target: state.tabName})
+            return
+          }
+
+          if(isEmptyRowContainer()){
+            reject({ msg: '您的行容器中没有组件', target: state.tabName})
+            return
+          }
+          AssembleFormData();
+          resolve({ formData: state.formData, target: state.tabName})
+        })
+      }
+
+      const preview=()=>{
+        AssembleFormData();
+        // 这是沿用form-generator 创建文本模板的方法
+        
+        //  let htmlCode = makeUpHtml(this.formData, "file");
+        //  let jsCode = makeUpJs(this.formData, "file");
+        //  let cssCode = makeUpCss(this.formData);
+        //  this.$router.push({
+        //    name: "preview",
+        //    params: {
+        //      formData: {
+        //        htmlCode,
+        //        jsCode,
+        //        cssCode
+        //      }
+        //    }
+        //  });
       
-      //  let htmlCode = makeUpHtml(this.formData, "file");
-      //  let jsCode = makeUpJs(this.formData, "file");
-      //  let cssCode = makeUpCss(this.formData);
-      //  this.$router.push({
-      //    name: "preview",
-      //    params: {
-      //      formData: {
-      //        htmlCode,
-      //        jsCode,
-      //        cssCode
-      //      }
-      //    }
-      //  });
-    
-     // 这是使用jsx渲染
-     this.$router.push({ name: "jsxPreview", params: { formData: this.formData } });
-    },
-    generate(data) {
-      const func = this[`exec${titleCase(this.operationType)}`];
-      this.generateConf = data;
-      func && func(data);
-    },
-    // execRun(data) {
-    //   this.AssembleFormData()
-    //   this.drawerVisible = true
-    // },
-    // execDownload(data) {
-    //   const codeStr = this.generateCode()
-    //   const blob = new Blob([codeStr], { type: 'text/plain;charset=utf-8' })
-    //   saveAs(blob, data.fileName)
-    // },
-    execCopy(data) {
-      document.getElementById("copyNode").click();
-    },
-    empty() {
-      if(this.isFilledPCon()) {
-        this.$message.warning("尚有组件已作为流程判断条件，无法删除");
-        return;
+      // 这是使用jsx渲染
+      this.$router.push({ name: "jsxPreview", params: { formData: this.formData } });
       }
-      this.$confirm("确定要清空所有组件吗？", "提示", { type: "warning" }).then(
-        () => {
-          this.drawingList = [];
-          // this.idGlobal = 100;
-          this.$store.commit('clearPCondition')
+      const generate=(data)=> {
+        const func = this[`exec${titleCase(this.operationType)}`];
+        state.generateConf = data;
+        func && func(data);
+      }
+      // execRun(data) {
+      //   this.AssembleFormData()
+      //   this.drawerVisible = true
+      // },
+      // execDownload(data) {
+      //   const codeStr = this.generateCode()
+      //   const blob = new Blob([codeStr], { type: 'text/plain;charset=utf-8' })
+      //   saveAs(blob, data.fileName)
+      // },
+      const execCopy=(data) =>{
+        document.getElementById("copyNode").click();
+      }
+      const empty=()=> {
+        if(isFilledPCon()) {
+          proxy.$message.warning("尚有组件已作为流程判断条件，无法删除");
+          return;
         }
-      );
-    },
-    drawingItemCopy(item, parent) {
-      let clone = JSON.parse(JSON.stringify(item));
-      clone = this.createIdAndKey(clone);
-      parent.push(clone);
-      this.activeFormItem(clone);
-    },
-    createIdAndKey(item) {
-      item.formId = this.getNextId();
-      item.renderKey = clone.formId + new Date().getTime();
-      if (item.layout === "colFormItem") {
-        item.vModel = `field${item.formId}`;
-      } else if (item.layout === "rowFormItem") {
-        item.componentName = `row${item.formId}`;
-      }
-      if (Array.isArray(item.children)) {
-        item.children = item.children.map(childItem =>
-          this.createIdAndKey(childItem)
+        proxy.$confirm("确定要清空所有组件吗？", "提示", { type: "warning" }).then(
+          () => {
+            state.drawingList = [];
+            // this.idGlobal = 100;
+            store.commit('meta/clearPCondition')
+          }
         );
       }
-      return item;
-    },
-    isFilledPCon(formIds){
-      const processCmp = this.$parent.$children.find(t => t.isProcessCmp)
-      return processCmp && processCmp.isFilledPCon(formIds)
-    },
-    checkColItem (cmp) {
-      if(!cmp) return false
-      const isPcon = this.$store.state.processConditions.find(t => t.formId == cmp.formId) ? true : false
-      return isPcon && this.isFilledPCon([cmp.formId])
-    },
-    // 判断是否已被流程图作为条件必填项了
-    isProCondition(cmp){
-      if (Array.isArray(cmp.children) && cmp.children.length) { // 容器组件需要检查子元素
-        if (cmp.rowType === 'table') return false // 表格的子元素不可能为流程条件
-        let flag = false
-        const loop = (el) => {
-          if (flag) return // flag === true 代表找到了一个了 不需要再找下一个
-          if(Array.isArray(el)){
-            el.some(e => {
-              if(e.children) loop(e.children)
-              return this.checkColItem(e)
-            }) && (flag = true)
+      const drawingItemCopy=(item, parent)=> {
+        let clone = JSON.parse(JSON.stringify(item));
+        clone = createIdAndKey(clone);
+        parent.push(clone);
+        activeFormItem(clone);
+      }
+      const createIdAndKey=(item)=> {
+        item.formId = getNextId();
+        item.renderKey = clone.formId + new Date().getTime();
+        if (item.layout === "colFormItem") {
+          item.vModel = `field${item.formId}`;
+        } else if (item.layout === "rowFormItem") {
+          item.componentName = `row${item.formId}`;
+        }
+        if (Array.isArray(item.children)) {
+          item.children = item.children.map(childItem =>
+            createIdAndKey(childItem)
+          );
+        }
+        return item;
+      }
+      const isFilledPCon=(formIds)=>{
+        const processCmp = proxy.$parent.$children.find(t => t.isProcessCmp)
+        return processCmp && processCmp.isFilledPCon(formIds)
+      }
+      const checkColItem =(cmp)=> {
+        if(!cmp) return false
+        const isPcon = store.state.meta.processConditions.find(t => t.formId == cmp.formId) ? true : false
+        return isPcon && isFilledPCon([cmp.formId])
+      }
+      // 判断是否已被流程图作为条件必填项了
+      const isProCondition=(cmp)=>{
+        if (Array.isArray(cmp.children) && cmp.children.length) { // 容器组件需要检查子元素
+          if (cmp.rowType === 'table') return false // 表格的子元素不可能为流程条件
+          let flag = false
+          const loop = (el) => {
+            if (flag) return // flag === true 代表找到了一个了 不需要再找下一个
+            if(Array.isArray(el)){
+              el.some(e => {
+                if(e.children) loop(e.children)
+                return checkColItem(e)
+              }) && (flag = true)
+            }
           }
+          loop(cmp.children)
+          return flag
+        }else{
+          return checkColItem(cmp)
         }
-        loop(cmp.children)
-        return flag
-      }else{
-        return this.checkColItem(cmp)
       }
-    },
-    drawingItemDelete(index, parent) {
-      // 首先判断是否是流程条件 再判断是否有节点使用过
-      if (this.isProCondition(parent[index])) {
-        this.$message.warning("该组件已作为流程判断条件，无法删除");
-        return 
-      }
-      this.$store.commit("delPCondition", parent[index].formId);
-      parent.splice(index, 1);
-      this.$nextTick(() => {
-        const len = this.drawingList.length;
-        if (len) {
-          this.activeFormItem(this.drawingList[len - 1]);
+      const drawingItemDelete=(index, parent)=> {
+        // 首先判断是否是流程条件 再判断是否有节点使用过
+        if (isProCondition(parent[index])) {
+          proxy.$message.warning("该组件已作为流程判断条件，无法删除");
+          return 
         }
-      });
-    },
-    // generateCode() {
-    //   const { type } = this.generateConf
-    //   this.AssembleFormData()
-    //   const script = vueScript(makeUpJs(this.formData, type))
-    //   const html = vueTemplate(makeUpHtml(this.formData, type))
-    //   const css = cssStyle(makeUpCss(this.formData))
-    //   return beautifier.html(html + script + css, beautifierConf.html)
-    // },
-    // download() {
-    //   this.dialogVisible = true
-    //   this.showFileName = true
-    //   this.operationType = 'download'
-    // },
-    run() {
-      this.dialogVisible = true;
-      this.showFileName = false;
-      this.operationType = "run";
-    },
-    // copy() {
-    //   this.dialogVisible = true
-    //   this.showFileName = false
-    //   this.operationType = 'copy'
-    // },
-    tagChange(newTag) {
-      newTag = this.cloneComponent(newTag);
-      newTag.vModel = this.activeData.vModel;
-      newTag.formId = this.activeId;
-      newTag.span = this.activeData.span;
-      delete this.activeData.tag;
-      delete this.activeData.tagIcon;
-      //   delete this.activeData.document;
-      Object.keys(newTag).forEach(key => {
-        if (
-          this.activeData[key] !== undefined &&
-          typeof this.activeData[key] === typeof newTag[key]
-        ) {
-          newTag[key] = this.activeData[key];
-        }
-      });
-      this.activeData = newTag;
-      this.updateDrawingList(newTag, this.drawingList);
-    },
-    updateDrawingList(newTag, list) {
-      const index = list.findIndex(item => item.formId === this.activeId);
-      if (index > -1) {
-        list.splice(index, 1, newTag);
-      } else {
-        list.forEach(item => {
-          if (Array.isArray(item.children))
-            this.updateDrawingList(newTag, item.children);
+        store.commit("delPCondition", parent[index].formId);
+        parent.splice(index, 1);
+        nextTick(() => {
+          const len = state.drawingList.length;
+          if (len) {
+            activeFormItem(state.drawingList[len - 1]);
+          }
         });
       }
-    }
-  }
+      // generateCode() {
+      //   const { type } = this.generateConf
+      //   this.AssembleFormData()
+      //   const script = vueScript(makeUpJs(this.formData, type))
+      //   const html = vueTemplate(makeUpHtml(this.formData, type))
+      //   const css = cssStyle(makeUpCss(this.formData))
+      //   return beautifier.html(html + script + css, beautifierConf.html)
+      // },
+      // download() {
+      //   this.dialogVisible = true
+      //   this.showFileName = true
+      //   this.operationType = 'download'
+      // },
+      const run=() =>{
+        state.dialogVisible = true;
+        state.showFileName = false;
+        state.operationType = "run";
+      }
+      // copy() {
+      //   this.dialogVisible = true
+      //   this.showFileName = false
+      //   this.operationType = 'copy'
+      // },
+      const tagChange=(newTag)=> {
+        newTag = cloneComponent(newTag);
+        newTag.vModel = state.activeData.vModel;
+        newTag.formId = state.activeId;
+        newTag.span = state.activeData.span;
+        delete state.activeData.tag;
+        delete state.activeData.tagIcon;
+        //   delete this.activeData.document;
+        Object.keys(newTag).forEach(key => {
+          if (
+            state.activeData[key] !== undefined &&
+            typeof state.activeData[key] === typeof newTag[key]
+          ) {
+            newTag[key] = state.activeData[key];
+          }
+        });
+        state.activeData = newTag;
+        updateDrawingList(newTag, state.drawingList);
+      }
+      const updateDrawingList=(newTag, list) =>{
+        const index = list.findIndex(item => item.formId === state.activeId);
+        if (index > -1) {
+          list.splice(index, 1, newTag);
+        } else {
+          list.forEach(item => {
+            if (Array.isArray(item.children))
+              state.updateDrawingList(newTag, item.children);
+          });
+        }
+      }
+    onMounted(()=>{
+    if (typeof props.conf === 'object' && props.conf !== null) {
+          state.drawingList = props.conf.fields
+          Object.assign(state.formConf, props.conf)
+        }else{
+          const drawingListInDB = getDrawingList()
+          const hasStorage = Array.isArray(drawingListInDB) && drawingListInDB.length > 0
+          state.drawingList = hasStorage ? drawingListInDB : drawingDefalut
+          formConfInDB && (state.formConf = formConfInDB)
+        }
+        activeFormItem(state.drawingList[0])
+        nextTick(()=> getIpadMode(proxy))
+    })
+    
+    
+    return {
+			t,
+			proxy,
+      isProCondition,
+			...toRefs(state),
+		};
+  },
+  
+  
+  
 };
 </script>
 

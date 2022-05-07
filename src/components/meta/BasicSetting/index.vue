@@ -47,14 +47,19 @@
     </el-dialog>
   </div>
 </template>
-<script>
+<script lang="ts">
+import { useI18n } from 'vue-i18n';
+import { toRefs, reactive, onMounted, ref, getCurrentInstance,computed } from 'vue';
 export default {
   components: {},
   props: ['tabName', 'initiator', 'conf'],
-  data() {
-    const req = require.context( '@/assets/approverIcon', false, /\.png$/ )
-    const iconList = req.keys().map((t, idx) => ({src: req(t), id: idx}))
-    return {
+  setup() {
+    const { proxy } = getCurrentInstance() as any;
+    const { t } = useI18n();
+    const req = import.meta.globEager('../../../assets/meta/*.png')
+    const keys=Object.values(req)
+    const iconList = keys.map((t, idx) => ({src: t.default, id: idx}))
+    const state = reactive({
       dialogVisible: false,
       activeIcon: iconList[0].id,
       selectedIcon: iconList[0].id,
@@ -100,7 +105,12 @@ export default {
         "label": "其他",
         "value": 7
       }],
-    }
+    })
+    return {
+			t,
+			proxy,
+			...toRefs(state),
+		};
   },
   computed: {
     activeIconSrc(){

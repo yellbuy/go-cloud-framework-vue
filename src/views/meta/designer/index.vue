@@ -61,10 +61,10 @@
 
 <script>
 // @ is an alias to /src
-import Process from "/@/components/meta/Process";
-import DynamicForm from "/@/components/meta/DynamicForm";
-import BasicSetting from '/@/components/meta/BasicSetting'
-import AdvancedSetting from '/@/components/meta/AdvancedSetting'
+import Process from "/@/components/meta/Process/index.vue";
+import DynamicForm from "/@/components/meta/DynamicForm/index.vue";
+import BasicSetting from '/@/components/meta/BasicSetting/index.vue'
+import AdvancedSetting from '/@/components/meta/AdvancedSetting/index.vue'
 import { GET_MOCK_CONF } from '../api'
 const beforeUnload = function (e) {
   var confirmationMessage = '离开网站可能会丢失您编辑得内容';
