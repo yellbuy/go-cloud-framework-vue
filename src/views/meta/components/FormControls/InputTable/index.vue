@@ -128,7 +128,7 @@
 </template>
 <script>
 import { useableProps } from './config'
-import render from './render.js'
+import render from './render.jsx'
 // useableProps —— 需要的组件属性 很多属性在表格中没用 需要过滤
 export default {
   name: "fc-input-table",

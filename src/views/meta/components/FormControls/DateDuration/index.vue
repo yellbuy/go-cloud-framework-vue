@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import { timeCalculate } from '@/utils' 
+import { timeCalculate } from '/@/utils/meta.js' 
 export default {
   model:{
     prop: 'value',

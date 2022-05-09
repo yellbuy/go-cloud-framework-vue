@@ -56,7 +56,7 @@ export default {
   setup() {
     const { proxy } = getCurrentInstance() as any;
     const { t } = useI18n();
-    const req = import.meta.globEager('../../../assets/meta/*.png')
+    const req = import.meta.globEager('../../../../assets/meta/*.png')
     const keys=Object.values(req)
     const iconList = keys.map((t, idx) => ({src: t.default, id: idx}))
     const state = reactive({

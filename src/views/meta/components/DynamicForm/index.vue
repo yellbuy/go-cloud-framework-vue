@@ -332,7 +332,7 @@ export default {
       }
       const handlerListChange=(val)=> {
         const vm = this
-        store.commit('clearPCondition') // 清除所有条件 重新检测赋值
+        store.commit('meta/clearPCondition') // 清除所有条件 重新检测赋值
         const canUsedAsPCon = (conf, parent) => {
             const isRangeCmp = ['fc-date-duration','fc-time-duration'].includes(conf.tag)
             if(isRangeCmp && !conf.showDuration) return false

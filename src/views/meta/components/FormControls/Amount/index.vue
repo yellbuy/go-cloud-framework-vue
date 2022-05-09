@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import {getAmountChinese} from '@/utils'
+import {getAmountChinese} from '/@/utils/meta.js'
 export default {
   model: {
     prop: 'value',
