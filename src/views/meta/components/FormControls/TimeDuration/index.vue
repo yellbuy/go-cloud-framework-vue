@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-time-picker v-model="timeRange" v-bind="{...$props, ...$attrs}" v-on="$listeners" ></el-time-picker>
+    <el-time-picker v-model="timeRange" v-bind="{...$props, ...$attrs}" ></el-time-picker>
     <div v-if="showDuration" class="explain-text">时长: {{duration}}</div>
   </div>
 </template>

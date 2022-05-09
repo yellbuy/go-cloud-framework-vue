@@ -11,7 +11,6 @@
       v-bind="$attrs"
       width="980px"
       :modal-append-to-body="false"
-      v-on="$listeners"
       @open="onOpen"
       @close="onClose"
     >

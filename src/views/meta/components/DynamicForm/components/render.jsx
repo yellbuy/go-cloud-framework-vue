@@ -88,9 +88,9 @@ const componentChild = {
     }
   }
 }
-
+import { h } from "vue";
 export default {
-  render ( h ) {
+  render () {
     const dataObject = {
       attrs: {},
       props: {},

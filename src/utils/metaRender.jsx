@@ -91,12 +91,12 @@ const componentChild = {
     }
   }
 }
-
+import { h } from "vue";
 export default {
   create(){
 
   },
-  render ( h ) {
+  render () {
     const confClone = JSON.parse( JSON.stringify( this.conf ) )
     const dataObject = {
       attrs: {},

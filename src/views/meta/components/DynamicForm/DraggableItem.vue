@@ -8,10 +8,11 @@
  <script lang="jsx">
 import draggable from 'vuedraggable'
 import render from './components/render.jsx'
+import { h } from "vue";
 
 const components = {
   itemBtns(h, element, index, parent, root) {
-    const { copyItem, deleteItem } = this.$listeners
+    const { copyItem, deleteItem } = this.$attrs
     const visibility ='visibility:' + (root && root.cmpType === 'custom' ? 'hidden;' : 'visible;')
     return  [
       <span class="drawing-item-delete" style={visibility} title="删除" onClick={event => {
@@ -24,13 +25,14 @@ const components = {
 }
 const layouts = {
   colFormItem(h, element, index, parent, root) {
-    const { activeItem } = this.$listeners
+   
+    const { onActiveItem } = this.$attrs
     let className = this.activeId === element.formId ? 'drawing-item active-from-item' : 'drawing-item'
     if (this.formConf.unFocusedComponentBorder) className += ' unfocus-bordered'
   
     return (
       <el-col span={element.span} class={className}
-        nativeOnClick={event => { (activeItem(element),event.stopPropagation()) }}>
+        nativeOnClick={event => { (onActiveItem(element),event.stopPropagation()) }}>
         <el-form-item label-width={element.labelWidth ? `${element.labelWidth}px` : null}
           label={element.label} required={element.required}>
           <render key={element.renderKey} conf={element} onInput={ event => {
@@ -42,7 +44,7 @@ const layouts = {
     )
   },
   rowFormItem(h, element, index, parent) {
-    const { activeItem } = this.$listeners
+    const { onActiveItem } = this.$attrs
     const { put } = this.$attrs
     const className = this.activeId === element.formId ? 'drawing-row-item active-from-item' : 'drawing-row-item'
    
@@ -57,7 +59,7 @@ const layouts = {
     return (
       <el-col span={element.span}>
         <el-row gutter={element.gutter} class={className} style="margin-left:0;"
-          nativeOnClick={event => { (activeItem(element), event.stopPropagation()) }}>
+          nativeOnClick={event => { (onActiveItem(element), event.stopPropagation()) }}>
           <span class="component-name" >{element.label}</span>
           <draggable list={element.children} animation={0} group={group} disabled={isCustom} class="drag-wrapper" v-slots={{
                 item: () => (
@@ -105,7 +107,7 @@ export default {
     'activeId',
     'formConf'
   ],
-  render(h) {
+  render() {
     const layout = layouts[this.element.layout]
 
     if (layout) {

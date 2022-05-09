@@ -83,8 +83,9 @@ const componentChild = {
     }
   }
 }
+import { h } from "vue"
 export default {
-  render ( h ) {
+  render () {
     const vNode = {
       // 与 `v-bind:class` 的 API 相同，
       // 接受一个字符串、对象或字符串和对象组成的数组
