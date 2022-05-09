@@ -3,9 +3,12 @@
     <header class="page__header">
       <div class="page-actions">
         <div style="border-right:1px solid #c5c5c5;cursor: pointer;" @click="exit">
-          <i class="el-icon-arrow-left"></i>
+          <el-icon>
+            <elementArrowLeft />
+          </el-icon>
+          <!-- <i class="el-icon-arrow-left"></i> -->
         </div>
-        <div>{{ title }}</div>
+        <!-- <div>{{ title }}</div> -->
       </div>
       <div class="step-tab">
         <div
@@ -21,6 +24,7 @@
         <div class="ghost-step step" :style="{transform: translateX}"></div>
       </div>
       <el-button size="small" class="publish-btn" @click="publish">发布</el-button>
+      <div></div>
     </header>
     <section class="page__content" v-if="mockData">
       <BasicSetting
@@ -189,16 +193,19 @@ $header-height = 54px;
   box-sizing: border-box;
 
   .page__header {
+    
     width: 100%;
     height: $header-height;
-    flex-center()
+    display:flex;
+    align-items:center;
+    // justify-content:center;
     justify-content: space-between;
     box-sizing: border-box;
     color: white;
     background: #3296fa;
     font-size: 14px;
     position: fixed;
-    top: 0;
+    top: 80px;
 
     .page-actions {
       height: 100%;

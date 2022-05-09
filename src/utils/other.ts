@@ -1,4 +1,5 @@
 import * as svg from '@element-plus/icons-vue';
+
 import type { App } from 'vue';
 import { nextTick } from 'vue';
 import { globalComponentSize } from './other';
@@ -7,6 +8,7 @@ import { i18n } from '/@/i18n/index';
 import router from '/@/router/index';
 import { store } from '/@/store/index';
 import { Local } from '/@/utils/storage';
+import MetaSvgIcon from '/@/views/meta/components/DynamicForm/components/SvgIcon/index.vue'; // svg component
 
 /**
  * 导出全局注册 element plus svg 图标
@@ -19,6 +21,15 @@ export function elSvg(app: App) {
 		app.component(`element${icons[i].name}`, icons[i]);
 	}
 	app.component('SvgIcon', SvgIcon);
+}
+
+/**
+ * 导出全局注册 element plus svg 图标
+ * @param app vue 实例
+ * @description 使用：https://element-plus.gitee.io/zh-CN/component/icon.html
+ */
+ export function metaSvg(app: App) {
+	app.component('MetaSvgIcon', MetaSvgIcon);
 }
 
 /**
@@ -165,6 +176,9 @@ export function calcWidth(smallWidth:number){
 const other = {
 	elSvg: (app: App) => {
 		elSvg(app);
+	},
+	metaSvg: (app: App) => {
+		metaSvg(app);
 	},
 	useTitle: () => {
 		useTitle();

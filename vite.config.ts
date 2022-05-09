@@ -1,8 +1,9 @@
 import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 import { resolve } from 'path';
 import type { UserConfig } from 'vite';
 import { loadEnv } from './src/utils/viteBuild';
-import vueJsx from '@vitejs/plugin-vue-jsx'
+import { svgBuilder } from './src/views/meta/components/DynamicForm/icons/index.js';
 
 const pathResolve = (dir: string): any => {
 	return resolve(__dirname, '.', dir);
@@ -16,7 +17,7 @@ const alias: Record<string, string> = {
 };
 
 const viteConfig: UserConfig = {
-	plugins: [vue(),vueJsx()],
+	plugins: [vue(),vueJsx(),svgBuilder('./src/views/meta/components/DynamicForm/icons/svg/')],
 	root: process.cwd(),
 	resolve: { alias },
 	base: process.env.NODE_ENV === 'production' ? VITE_PUBLIC_PATH : './',

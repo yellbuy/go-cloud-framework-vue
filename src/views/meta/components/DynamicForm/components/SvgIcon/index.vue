@@ -22,7 +22,7 @@ function isExternal(path) {
 }
 
 export default {
-  name: 'SvgIcon',
+  name: 'MetaSvgIcon',
   props: {
     iconClass: {
       type: String,

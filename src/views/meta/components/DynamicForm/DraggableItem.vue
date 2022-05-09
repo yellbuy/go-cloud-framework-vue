@@ -59,8 +59,11 @@ const layouts = {
         <el-row gutter={element.gutter} class={className} style="margin-left:0;"
           nativeOnClick={event => { (activeItem(element), event.stopPropagation()) }}>
           <span class="component-name" >{element.label}</span>
-          <draggable list={element.children} animation={0} group={group} disabled={isCustom} class="drag-wrapper">
-            {child}
+          <draggable list={element.children} animation={0} group={group} disabled={isCustom} class="drag-wrapper" v-slots={{
+                item: () => (
+                    {child}
+                )
+            }}>
           </draggable>
           { components.itemBtns.apply(this, arguments)}
           {

@@ -31,7 +31,7 @@ app.config.errorHandler = errorHandler
 
 directive(app);
 other.elSvg(app);
-
+other.metaSvg(app);
 app
 	.use(router)
 	.use(store, key)

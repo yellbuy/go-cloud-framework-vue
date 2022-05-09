@@ -17,7 +17,7 @@
           <el-tab-pane label="常用组件" name="common">
             <div class="components-list">
               <!-- <div class="components-title">
-                <svg-icon icon-class="component" />输入型组件
+                <meta-svg-icon icon-class="component" />输入型组件
               </div>-->
               <draggable
                 class="components-draggable"
@@ -28,20 +28,17 @@
                 :sort="false"
                 @end="onEnd"
               >
-                <div
-                  v-for="(element, index) in commonComponents"
-                  :key="index"
-                  class="components-item"
-                  @click="addComponent(element)"
-                >
+              <template #item="{element}">
+                <div  class="components-item" @click="addComponent(element)"  >
                   <div class="components-body">
-                    <svg-icon :icon-class="element.tagIcon" />
-                    {{ element.label }}
+                    <meta-svg-icon :icon-class="element.tagIcon" />
+                   {{ element.label }}
                   </div>
                 </div>
+                </template>
               </draggable>
               <!-- <div class="components-title">
-                <svg-icon icon-class="component" />选择型组件
+                <meta-svg-icon icon-class="component" />选择型组件
               </div>-->
               <!-- <draggable
                 class="components-draggable"
@@ -59,13 +56,13 @@
                   @click="addComponent(element)"
                 >
                   <div class="components-body">
-                    <svg-icon :icon-class="element.tagIcon" />
+                    <meta-svg-icon :icon-class="element.tagIcon" />
                     {{ element.label }}
                   </div>
                 </div>
               </draggable>-->
               <!-- <div class="components-title">
-                <svg-icon icon-class="component" />布局型组件
+                <meta-svg-icon icon-class="component" />布局型组件
               </div>-->
               <!-- <draggable
                 class="components-draggable"
@@ -83,7 +80,7 @@
                   @click="addComponent(element)"
                 >
                   <div class="components-body">
-                    <svg-icon :icon-class="element.tagIcon" />
+                    <meta-svg-icon :icon-class="element.tagIcon" />
                     {{ element.label }}
                   </div>
                 </div>
@@ -93,7 +90,7 @@
           <el-tab-pane label="定制组件" name="custom">
             <div class="components-list">
               <!-- <div class="components-title">
-                <svg-icon icon-class="component" />布局型组件
+                <meta-svg-icon icon-class="component" />布局型组件
               </div>-->
               <draggable
                 class="components-draggable"
@@ -104,17 +101,14 @@
                 :sort="false"
                 @end="onEnd"
               >
-                <div
-                  v-for="(element, index) in customMadeComponents"
-                  :key="index"
-                  class="components-item custom-component"
-                  @click="addComponent(element)"
-                >
+              <template #item="{element}">
+                <div  class="components-item custom-component" @click="addComponent(element)" >
                   <div class="components-body">
-                    <svg-icon :icon-class="element.tagIcon" />
+                    <meta-svg-icon :icon-class="element.tagIcon" />
                     {{ element.label }}
                   </div>
                 </div>
+              </template>
               </draggable>
             </div>
           </el-tab-pane>
@@ -160,19 +154,19 @@
                       group="componentsGroup"
                       @end="onMianDragEnd"
                     >
-                      <draggable-item
-                        v-for="(element, index) in drawingList"
-                        :key="element.renderKey"
-                        :drawing-list="drawingList"
-                        :element="element"
-                        :index="index"
-                        :active-id="activeId"
-                        :form-conf="formConf"
-                        :put="shouldClone"
-                        @activeItem="activeFormItem"
-                        @copyItem="drawingItemCopy"
-                        @deleteItem="drawingItemDelete"
-                      />
+                    <template #item="{element}">
+                        <draggable-item
+                          :drawing-list="drawingList"
+                          :element="element"
+                          :index="index"
+                          :active-id="activeId"
+                          :form-conf="formConf"
+                          :put="shouldClone"
+                          @activeItem="activeFormItem"
+                          @copyItem="drawingItemCopy"
+                          @deleteItem="drawingItemDelete"
+                        />
+                    </template>
                     </draggable>
                     <div v-show="!drawingList.length" class="empty-info">从左侧拖入或点选组件进行表单设计</div>
                   </el-form>
@@ -301,26 +295,7 @@ export default {
       activeTabName: "common",
       ipadMode: 'portrait'
     });
-    // 监听data的数据
-    watch(() => state.activeId, (val) => {
-      oldActiveId = val;
-    }, {
-      deep: true, // 深度监听
-      immediate: true
-    })
-
-    // 监听data的数据
-    watch(() => state.drawingList, (val) => {
-      if (!val) return
-        if (!proxy.afterDrawingChange) {
-          proxy.afterDrawingChange = debounce(handlerListChange, 400) // 使用了deep 所以刷新会比较频繁
-        }
-        proxy.afterDrawingChange()
-        
-    }, {
-      deep: true, // 深度监听
-      immediate: true
-    })
+    
 
     const getIpadMode =(proxy:any)=> {
         const {clientHeight, clientWidth} = proxy.$refs.ipad;
@@ -330,35 +305,35 @@ export default {
           state.ipadMode = clientWidth * 0.74 > clientHeight ? 'landscape' : 'portrait'
         
       }
-      const handlerListChange=(val)=> {
-        const vm = this
-        store.commit('meta/clearPCondition') // 清除所有条件 重新检测赋值
-        const canUsedAsPCon = (conf, parent) => {
-            const isRangeCmp = ['fc-date-duration','fc-time-duration'].includes(conf.tag)
-            if(isRangeCmp && !conf.showDuration) return false
-            if(parent && parent.rowType === 'table') return false 
-            if(!conf.proCondition || !conf.required) return false
-            if(conf.tag === 'el-select' && conf.multiple) return false
-            return true 
+    const handlerListChange=(val)=> {
+      const vm = this
+      store.commit('meta/clearPCondition') // 清除所有条件 重新检测赋值
+      const canUsedAsPCon = (conf, parent) => {
+          const isRangeCmp = ['fc-date-duration','fc-time-duration'].includes(conf.tag)
+          if(isRangeCmp && !conf.showDuration) return false
+          if(parent && parent.rowType === 'table') return false 
+          if(!conf.proCondition || !conf.required) return false
+          if(conf.tag === 'el-select' && conf.multiple) return false
+          return true 
+        }
+        const loop = (data, parent) => {
+          if(!data) return
+          Array.isArray(data.children) && data.children.forEach(child => loop(child, data))
+          if(Array.isArray(data)){
+            data.forEach(loop)
+          }else{
+            canUsedAsPCon(data, parent) 
+            ? store.commit("meta/addPCondition", data) 
+            : store.commit("meta/delPCondition", data.formId)
+            // ? vm.$store.commit("addPCondition", data) 
+            // : vm.$store.commit("delPCondition", data.formId)
           }
-          const loop = (data, parent) => {
-            if(!data) return
-            Array.isArray(data.children) && data.children.forEach(child => loop(child, data))
-            if(Array.isArray(data)){
-              data.forEach(loop)
-            }else{
-              canUsedAsPCon(data, parent) 
-              ? store.commit("meta/addPCondition", data) 
-              : store.commit("meta/delPCondition", data.formId)
-              // ? vm.$store.commit("addPCondition", data) 
-              // : vm.$store.commit("delPCondition", data.formId)
-            }
-          }
-          loop(state.drawingList,null)
-          saveDrawingList(state.drawingList)
-          store.commit('meta/updateFormItemList', state.drawingList)
-          // if (val.length === 0) this.idGlobal = 100;
-      }
+        }
+        loop(state.drawingList,null)
+        saveDrawingList(state.drawingList)
+        store.commit('meta/updateFormItemList', state.drawingList)
+        // if (val.length === 0) this.idGlobal = 100;
+    }
       /**
        * 判断是否是常用组件
        * 非常用组件即套餐组件  不能新填或删除子组件
@@ -597,8 +572,11 @@ export default {
         return item;
       }
       const isFilledPCon=(formIds)=>{
-        const processCmp = proxy.$parent.$children.find(t => t.isProcessCmp)
-        return processCmp && processCmp.isFilledPCon(formIds)
+        const processCmp = proxy.$parent.$refs.processDesign;
+        if(processCmp && processCmp.isProcessCmp){
+          return processCmp.isFilledPCon(formIds)
+        }
+        return false;
       }
       const checkColItem =(cmp)=> {
         if(!cmp) return false
@@ -706,7 +684,26 @@ export default {
         activeFormItem(state.drawingList[0])
         nextTick(()=> getIpadMode(proxy))
     })
-    
+    // 监听data的数据
+    watch(() => state.activeId, (val) => {
+      oldActiveId = val;
+    }, {
+      deep: true, // 深度监听
+      immediate: true
+    })
+
+    // 监听data的数据
+    watch(() => state.drawingList, (val) => {
+      if (!val) return
+      if (!proxy.afterDrawingChange) {
+        proxy.afterDrawingChange = debounce(handlerListChange, 400) // 使用了deep 所以刷新会比较频繁
+      }
+      proxy.afterDrawingChange()
+        
+    }, {
+      deep: true, // 深度监听
+      immediate: true
+    })
     
     return {
 			t,
@@ -814,7 +811,7 @@ export default {
 </style>
 
 <style lang="stylus" scoped>
-.svg-icon {
+.meta-svg-icon {
   float: right;
 }
 

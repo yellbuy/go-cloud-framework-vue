@@ -1,7 +1,7 @@
 <script lang="jsx">
 import render from '/@/utils/metaRender.jsx'
 import { GET_MOCK_CONF } from '../api'
-import { trigger } from '/@/components/meta/DynamicForm/components/generator/config.js'
+import { trigger } from '../components/DynamicForm/components/generator/config.js'
 /**
  * 校验组织机构组件是否为空
  */

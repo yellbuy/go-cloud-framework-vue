@@ -32,7 +32,7 @@
                   :label="item.label"
                   :value="item.tagIcon"
                 >
-                  <svg-icon class="node-icon" :icon-class="item.tagIcon" />
+                  <meta-svg-icon class="node-icon" :icon-class="item.tagIcon" />
                   <span> {{ item.label }}</span>
                 </el-option>
               </el-option-group>
@@ -295,7 +295,8 @@
               group="selectItem"
               handle=".option-drag"
             >
-              <div v-for="(item, index) in activeData.options" :key="index" class="select-item">
+             <template #item="{element}">
+              <div class="select-item">
                 <div class="select-line-icon option-drag">
                   <i class="el-icon-s-operation" />
                 </div>
@@ -303,8 +304,8 @@
                 <el-input
                   placeholder="选项值"
                   size="small"
-                  :value="item.value"
-                  @input="setOptionValue(item, $event)"
+                  :value="element.value"
+                  @input="setOptionValue(element, $event)"
                 />
                 <div
                   class="close-btn select-line-icon"
@@ -313,6 +314,7 @@
                   <i class="el-icon-remove-outline" />
                 </div>
               </div>
+              </template>
             </draggable>
             <div style="margin-left: 20px;">
               <el-button
@@ -592,7 +594,7 @@
             >
               <span slot-scope="{ node, data }">
                 <span class="node-label">
-                  <svg-icon class="node-icon" :icon-class="data.tagIcon" />
+                  <meta-svg-icon class="node-icon" :icon-class="data.tagIcon" />
                   {{ node.label }}
                 </span>
               </span>
