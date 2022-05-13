@@ -66,6 +66,8 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="ExpertAuditBy" label="专家姓名" width="80" align="center" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="ExpertAuditReceiveTime" label="接单时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip>
+				</el-table-column>
 				<el-table-column prop="ExpertAuditTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="State" label="状态" width="60" align="center" fixed="right">
 					<template #default="scope">
@@ -89,7 +91,11 @@
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							@click="onOpenEditDlg(true, scope.row)"
-							v-if="(scope.row.ExpertAuditState == 2 && scope.row.ExpertAuditUid == uid) || (scope.row.ExpertAuditState == 10 && scope.row.ExpertReviewState == 5 && scope.row.ExpertAuditUid == uid)">
+							v-if="
+								(scope.row.ExpertAuditState == 2 && scope.row.ExpertAuditUid == uid) ||
+								(scope.row.ExpertAuditState == 10 && scope.row.ExpertReviewState == 5 && scope.row.ExpertAuditUid == uid)
+							"
+						>
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -100,7 +106,8 @@
 							type="warning"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							v-if="scope.row.ExpertAuditState == 1"
-							@click="onGetItem(scope.row)">
+							@click="onGetItem(scope.row)"
+						>
 							<el-icon>
 								<elementFinished />
 							</el-icon>
@@ -144,7 +151,7 @@ export default {
 		const dlgEditRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
-			uid:store.state.userInfos.userInfos.uid,
+			uid: store.state.userInfos.userInfos.uid,
 			tableData: {
 				data: [],
 				total: 0,
@@ -186,9 +193,9 @@ export default {
 			}
 			state.tableData.loading = true;
 			state.tableData.data = [];
-			try{
+			try {
 				const res = await proxy.$api.ims.casepersonline.getList(state.tableData.param);
-				if(res.errcode!==0){
+				if (res.errcode !== 0) {
 					return;
 				}
 				state.tableData.total = res.total;
@@ -214,8 +221,8 @@ export default {
 					//console.log("item.rowSpan:",item.rowSpan)
 				}
 				state.tableData.data = res.data;
-			}finally{
-				state.tableData.loading=false;
+			} finally {
+				state.tableData.loading = false;
 			}
 		};
 		interface SpanMethodProps {
@@ -239,15 +246,15 @@ export default {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
-			}).then(async() => {
+			}).then(async () => {
 				state.tableData.loading = true;
-				try{
+				try {
 					const res = await proxy.$api.ims.casepersonline.getById(row.Id);
-					if(res.errcode == 0){
+					if (res.errcode == 0) {
 						console.log(res.data.ExpertAuditState);
 						if (res.data.Id > 0) {
 							if (res.data.ExpertAuditState > 0) {
-								const setpRes=await proxy.$api.ims.casepersonline.updateStep(5,res.data);
+								const setpRes = await proxy.$api.ims.casepersonline.updateStep(5, res.data);
 								if (setpRes.errcode == 0) {
 									ElMessage.success('操作成功！');
 									onGetTableData();
@@ -257,27 +264,29 @@ export default {
 							ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {});
 						}
 					}
-
-				} finally{
+				} finally {
 					state.tableData.loading = false;
 				}
-				
-			})
-			return false
+			});
+			return false;
 		};
 		// 打开详情弹窗
-		const onOpenEditDlg = async(editMode: Boolean, row: Object) => {
-
-			try{
+		const onOpenEditDlg = async (editMode: Boolean, row: Object) => {
+			try {
 				const res = await proxy.$api.ims.casepersonline.getById(row.Id);
-				if(res.errcode == 0){
+				if (res.errcode == 0) {
 					console.log(res.data.ExpertAuditState);
 					if (res.data.Id > 0) {
 						if (res.data.ExpertAuditState > 0) {
-							if (!editMode || (editMode && ((res.data.ExpertAuditState > 0 && res.data.ExpertAuditState < 10) || (res.data.ExpertAuditState == 10 && res.data.ExpertReviewState==5)))) {
-								if(res.data.CaseMode == 1 || res.data.CaseMode == 2) {
-									res.data.MedicalDiagnosisState = 1 //估损、核损，医学诊断审查必填
-									res.data.ThirdPhaseState = 1       //估损、核损，三期评估必填
+							if (
+								!editMode ||
+								(editMode &&
+									((res.data.ExpertAuditState > 0 && res.data.ExpertAuditState < 10) ||
+										(res.data.ExpertAuditState == 10 && res.data.ExpertReviewState == 5)))
+							) {
+								if (res.data.CaseMode == 1 || res.data.CaseMode == 2) {
+									res.data.MedicalDiagnosisState = 1; //估损、核损，医学诊断审查必填
+									res.data.ThirdPhaseState = 1; //估损、核损，三期评估必填
 								}
 								dlgEditRef.value.openDialog(editMode, res.data, false);
 								return;
@@ -288,12 +297,11 @@ export default {
 						ElMessageBox.alert('记录不存在或已被删除', '温馨提示', {});
 					}
 				}
-
-			} finally{
+			} finally {
 				state.tableData.loading = false;
 			}
 		};
-		
+
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
