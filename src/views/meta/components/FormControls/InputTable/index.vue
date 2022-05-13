@@ -11,7 +11,7 @@
     :summary-method="getTableSummaries">
       <el-table-column width="50" align="center">
         <!-- 序号 -->
-        <template slot-scope="scope">
+        <template #default="scope">
           <div class="row-action">
             <span class="index">
               {{scope.$index + 1}}
@@ -28,11 +28,11 @@
         :key="head.formId"
         :min-width="head['min-width']"
         :prop="head.vModel">
-         <template slot="header">
+         <template #header>
            <span style="color: #f56c6c;" v-if="head.required">*</span>
            {{head['label']}}
          </template>
-        <template slot-scope="scope">
+        <template #default="scope">
              <!-- 单选框组 多选框组 都替换成下拉 并添加options -->
               <template v-if="['el-select', 'el-checkbox-group','el-radio-group'].includes(head.tag)">
                 <el-select  
