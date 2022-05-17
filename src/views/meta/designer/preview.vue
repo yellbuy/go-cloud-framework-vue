@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-import Vue from "vue";
+//import Vue from "vue";
 let styleDom = null
 const loadStyle = cssCode => {
   styleDom = document.createElement('style')
@@ -55,9 +55,9 @@ export default {
     // defaultData 可以将默认formData覆盖到data中
     const { jsCode, htmlCode, cssCode } = this.$route.params.formData
     loadStyle(cssCode)
-    const OPTION = loadVueOption(jsCode, htmlCode, defData)
-    const Form = Vue.extend(OPTION)
-    new Form().$mount("#customForm")
+    // const OPTION = loadVueOption(jsCode, htmlCode, defData)
+    // const Form = Vue.extend(OPTION)
+    // new Form().$mount("#customForm")
   },
   beforeDestroy(){
     styleDom && styleDom.remove()
