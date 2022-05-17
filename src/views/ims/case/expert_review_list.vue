@@ -66,6 +66,8 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="ExpertAuditBy" label="专家姓名" width="80" align="center" show-overflow-tooltip> </el-table-column>
+				<!-- <el-table-column prop="ExpertAuditReceiveTime" label="接单时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip>
+				</el-table-column> -->
 				<el-table-column prop="ExpertAuditTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="State" label="状态" width="60" align="center" fixed="right">
 					<template #default="scope">
@@ -88,7 +90,8 @@
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							v-if="scope.row.ExpertReviewState == 2 && scope.row.ExpertReviewUid == uid"
-							@click="onOpenEditDlg(true, scope.row)">
+							@click="onOpenEditDlg(true, scope.row)"
+						>
 							<el-icon>
 								<elementEdit />
 							</el-icon>
@@ -99,7 +102,8 @@
 							type="warning"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							v-if="scope.row.ExpertReviewState == 1"
-							@click="onGetItem(scope.row)">
+							@click="onGetItem(scope.row)"
+						>
 							<el-icon>
 								<elementFinished />
 							</el-icon>
@@ -144,7 +148,7 @@ export default {
 		const dlgEditRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
-			uid:store.state.userInfos.userInfos.uid,
+			uid: store.state.userInfos.userInfos.uid,
 			tableData: {
 				data: [],
 				total: 0,
@@ -270,7 +274,7 @@ export default {
 			if (res.errcode == 0) {
 				if (res.data.Id > 0) {
 					if (res.data.ExpertReviewState > 0) {
-						if (!editMode || (editMode && res.data.ExpertReviewState && res.data.ExpertReviewUid==state.uid)) {
+						if (!editMode || (editMode && res.data.ExpertReviewState && res.data.ExpertReviewUid == state.uid)) {
 							dlgEditRef.value.openDialog(editMode, res.data, false);
 							return;
 						}

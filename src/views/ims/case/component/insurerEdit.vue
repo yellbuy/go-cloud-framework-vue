@@ -101,9 +101,9 @@
 							<td colspan="1" class="bg-gray text-right">简要案情</td>
 							<td colspan="9">{{ ruleForm.CaseContent }}</td>
 						</tr>
-						<tr v-if="ruleForm.Pics">
+						<tr v-if="ruleForm.CasePics">
 							<td colspan="1" class="bg-gray text-right">案情照片</td>
-							<td colspan="9"><imgList :ids="ruleForm.Pics"></imgList></td>
+							<td colspan="9"><imgList :ids="ruleForm.CasePics"></imgList></td>
 						</tr>
 						<tr>
 							<td class="bg-gray text-right">诊断证明书</td>
