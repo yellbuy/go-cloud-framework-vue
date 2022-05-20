@@ -6,6 +6,7 @@
  *GitHub: https://github.com/JakHuang/form-generator
  */
 
+import { h } from "vue"
 import { makeMap } from '../utils'
 
 // 参考https://github.com/vuejs/vue/blob/v2.6.10/src/platforms/web/server/util.js
@@ -45,8 +46,8 @@ const componentChild = {
     options ( h, conf, key ) {
       const list = []
       conf.options.forEach( item => {
-        list.push( <el-option label={item.label} value={item.value} disabled={item.disabled}></el-option> )
-      } )
+        list.push(<el-option label={item.label} value={item.value} disabled={item.disabled}></el-option>)
+      })
       return list
     }
   },
@@ -88,7 +89,6 @@ const componentChild = {
     }
   }
 }
-import { h } from "vue";
 export default {
   render () {
     const dataObject = {

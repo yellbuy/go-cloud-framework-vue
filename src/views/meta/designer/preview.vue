@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-//import Vue from "vue";
+import { App } from "vue";
 let styleDom = null
 const loadStyle = cssCode => {
   styleDom = document.createElement('style')

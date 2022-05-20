@@ -12,13 +12,14 @@ import { h } from "vue";
 
 const components = {
   itemBtns(h, element, index, parent, root) {
-    const { copyItem, deleteItem } = this.$attrs
+    const { onCopyItem, onDeleteItem } = this.$attrs
     const visibility ='visibility:' + (root && root.cmpType === 'custom' ? 'hidden;' : 'visible;')
     return  [
       <span class="drawing-item-delete" style={visibility} title="删除" onClick={event => {
-        deleteItem(index, parent); event.stopPropagation()
+        onDeleteItem(index, parent); event.stopPropagation()
       }}>
-        <i class="el-icon-close" />
+      <SvgIcon name="elementClose" size={8}/>
+        // <i class="el-icon-close" />
       </span>
     ]
   }
@@ -35,7 +36,7 @@ const layouts = {
         nativeOnClick={event => { (onActiveItem(element),event.stopPropagation()) }}>
         <el-form-item label-width={element.labelWidth ? `${element.labelWidth}px` : null}
           label={element.label} required={element.required}>
-          <render key={element.renderKey} conf={element} onInput={ event => {
+          <render key={element.renderKey||(element.formId||0+new Date().getTime())} conf={element} onInput={ event => {
             this.$set(element, 'defaultValue', event)
           }} />
         </el-form-item>

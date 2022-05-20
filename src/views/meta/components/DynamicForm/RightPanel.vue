@@ -295,7 +295,7 @@
               group="selectItem"
               handle=".option-drag"
             >
-             <template #item="{element}">
+             <template #item="{element,index}">
               <div class="select-item">
                 <div class="select-line-icon option-drag">
                   <i class="el-icon-s-operation" />
@@ -1108,6 +1108,7 @@ export default {
     colorFormatChange(val) {
       this.activeData.defaultValue = null;
       this.activeData["show-alpha"] = val.indexOf("a") > -1;
+      debugger
       this.activeData.renderKey = this.activeData.formId + new Date().getTime(); // 更新renderKey,重新渲染该组件
     },
     openIconsDialog(model) {

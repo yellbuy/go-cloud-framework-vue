@@ -12,6 +12,7 @@ export const formConf = {
 }
 
 export const inputComponents = [{
+  layout: 'colFormItem',
   label: '单行输入框',
   tag: 'el-input',
   tagIcon: 'input',
@@ -36,6 +37,7 @@ export const inputComponents = [{
   asSummary: false
 },
 {
+  layout: 'colFormItem',
   label: '多行输入框',
   tag: 'el-input',
   tagIcon: 'textarea',
@@ -85,6 +87,7 @@ export const inputComponents = [{
 // asSummary: false
 //   },
 {
+  layout: 'colFormItem',
   label: '数字输入框',
   tag: 'el-input-number',
   tagIcon: 'number',
@@ -106,6 +109,7 @@ export const inputComponents = [{
   proCondition: true
 },
 {
+  layout: 'colFormItem',
   label: '金额',
   tag: 'fc-amount',
   tagIcon: 'amount',
@@ -130,6 +134,7 @@ export const inputComponents = [{
 ]
 
 export const selectComponents = [{
+  layout: 'colFormItem',
   label: '下拉选择',
   tag: 'el-select',
   tagIcon: 'select',
@@ -155,6 +160,7 @@ export const selectComponents = [{
   proCondition: true
 },
 {
+  layout: 'colFormItem',
   label: '级联选择',
   tag: 'el-cascader',
   tagIcon: 'cascader',
@@ -194,6 +200,7 @@ export const selectComponents = [{
   asSummary: false
 },
 {
+  layout: 'colFormItem',
   label: '省市区',
   tag: 'el-cascader',
   tagIcon: 'area',
@@ -224,6 +231,7 @@ export const selectComponents = [{
   asSummary: false
 },
 {
+  layout: 'colFormItem',
   label: '单选框组',
   tag: 'el-radio-group',
   tagIcon: 'radio',
@@ -248,6 +256,7 @@ export const selectComponents = [{
   proCondition: true
 },
 {
+  layout: 'colFormItem',
   label: '多选框组',
   tag: 'el-checkbox-group',
   tagIcon: 'checkbox',
@@ -294,6 +303,7 @@ export const selectComponents = [{
 // asSummary: false
 //   },
 {
+  layout: 'colFormItem',
   label: '滑块',
   tag: 'el-slider',
   tagIcon: 'slider',
@@ -314,6 +324,7 @@ export const selectComponents = [{
 },
 
 {
+  layout: 'colFormItem',
   label: '组织机构',
   tag: 'fc-org-select',
   tagIcon: 'dept',
@@ -345,6 +356,7 @@ export const selectComponents = [{
 
 
 {
+  layout: 'colFormItem',
   // el-time-picker
   label: '时间选择',
   tag: 'el-time-picker',
@@ -368,6 +380,7 @@ export const selectComponents = [{
   asSummary: false
 },
 {
+  layout: 'colFormItem',
   label: '时间范围',
   tag: 'fc-time-duration',
   showDuration: false,
@@ -391,6 +404,7 @@ export const selectComponents = [{
   asSummary: false
 },
 {
+  layout: 'colFormItem',
   label: '日期选择',
   tag: 'el-date-picker',
   tagIcon: 'date',
@@ -412,6 +426,7 @@ export const selectComponents = [{
   asSummary: false
 },
 {
+  layout: 'colFormItem',
   label: '日期范围',
   tag: 'fc-date-duration',
   showDuration: false,
@@ -436,6 +451,7 @@ export const selectComponents = [{
   asSummary: false
 },
 {
+  layout: 'colFormItem',
   label: '评分',
   tag: 'el-rate',
   tagIcon: 'rate',
@@ -471,6 +487,7 @@ export const selectComponents = [{
 // asSummary: false
 //   },
 {
+  layout: 'colFormItem',
   label: '附件',
   tag: 'el-upload',
   tagIcon: 'upload',
@@ -494,6 +511,7 @@ export const selectComponents = [{
   asSummary: false
 },
 {
+  layout: 'colFormItem',
   label: '计算公式',
   type: 'calculate',
   tag: 'fc-calculate',

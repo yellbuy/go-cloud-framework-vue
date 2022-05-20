@@ -90,7 +90,7 @@ function colWrapper ( element, str ) {
 }
 
 const layouts = {
-  colFormItem ( element, noFormItem = false ) {
+  colFormItem(element, noFormItem = false ) {
     let labelWidth = ''
     if ( element.labelWidth && element.labelWidth !== confGlobal.labelWidth ) {
       labelWidth = `label-width="${element.labelWidth}px"`

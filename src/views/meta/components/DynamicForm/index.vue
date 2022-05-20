@@ -26,13 +26,12 @@
                 :clone="cloneComponent"
                 draggable=".components-item"
                 :sort="false"
-                @end="onEnd"
               >
-              <template #item="{element}">
+              <template #item="{element,index}">
                 <div  class="components-item" @click="addComponent(element)"  >
                   <div class="components-body">
                     <meta-svg-icon :icon-class="element.tagIcon" />
-                   {{ element.label }}
+                  {{ element.label }}
                   </div>
                 </div>
                 </template>
@@ -99,9 +98,10 @@
                 :clone="cloneComponent"
                 draggable=".components-item"
                 :sort="false"
+                item-key="label"
                 @end="onEnd"
               >
-              <template #item="{element}">
+              <template #item="{element,index}">
                 <div  class="components-item custom-component" @click="addComponent(element)" >
                   <div class="components-body">
                     <meta-svg-icon :icon-class="element.tagIcon" />
@@ -151,10 +151,10 @@
                       class="drawing-board"
                       :list="drawingList"
                       :animation="200"
-                      group="componentsGroup"
+                      :group="{ name: 'componentsGroup', pull: 'true', put:true }"
                       @end="onMianDragEnd"
                     >
-                    <template #item="{element}">
+                    <template #item="{element,index}">
                         <draggable-item
                           :drawing-list="drawingList"
                           :element="element"
@@ -254,7 +254,7 @@ import { debounce } from '/@/utils/meta.js'
 
 const emptyActiveData = { style: {}, autosize: {} };
 let oldActiveId;
-let tempActiveData;
+let tempActiveData:any;
 const formConfInDB = getFormConf();
 // const idGlobal = getIdGlobal();
 export default {
@@ -358,7 +358,7 @@ export default {
         if (conf.cmpType === 'custom') return false
         if (conf.rowType === 'table') {
           if (targetConf.layout === 'rowFormItem') return false
-          if (this.isFilledPCon([targetConf.formId])) return false
+          if (isFilledPCon([targetConf.formId])) return false
         }
         return  true
       }
@@ -371,13 +371,16 @@ export default {
       }
 
       const onEnd=(obj, a)=> {
+        debugger
         if (obj.from !== obj.to) {
-          state.activeId = tempActiveData.formId;
-          state.activeData = tempActiveData;
+          if(tempActiveData){
+            state.activeId = tempActiveData.formId;
+            state.activeData = tempActiveData;
+          }
         }
       }
       const onMianDragEnd=(obj, a) => {
-        activeFormItem(this.drawingList[obj.newIndex]);
+        activeFormItem(drawingList[obj.newIndex]);
       }
       const getSameTagCmpNum=(tag)=>{
         return state.drawingList.reduce((count, item) => {
@@ -395,6 +398,7 @@ export default {
       }
 
       const addComponent=(item)=> {
+        debugger
         const clone = cloneComponent(item);
         state.drawingList.push(clone);
         activeFormItem(clone);
@@ -429,7 +433,7 @@ export default {
         clone.renderKey = clone.formId + new Date().getTime(); // 改变renderKey后可以实现强制更新组件
         if (!clone.layout) clone.layout = "colFormItem";
         if (clone.layout === "colFormItem") {
-          clone.label = this.createCmpLabel(clone)
+          clone.label = createCmpLabel(clone)
           clone.vModel = `field${clone.formId}`;
           clone.placeholder !== undefined && (clone.placeholder += clone.label);
           tempActiveData = clone;
@@ -439,10 +443,11 @@ export default {
           }
           // delete clone.label;
           clone.componentName = `row${clone.formId}`;
-          clone.gutter = this.formConf.gutter;
+          clone.gutter = formConf.gutter;
           cloneChildrenOfRowFormItem(clone);
           tempActiveData = clone;
         }
+        debugger
         return tempActiveData;
       }
 
@@ -518,10 +523,10 @@ export default {
         //  });
       
       // 这是使用jsx渲染
-      this.$router.push({ name: "jsxPreview", params: { formData: this.formData } });
+      proxy.$router.push({ name: "jsxPreview", params: { formData: formData } });
       }
       const generate=(data)=> {
-        const func = this[`exec${titleCase(this.operationType)}`];
+        const func = this[`exec${titleCase(operationType)}`];
         state.generateConf = data;
         func && func(data);
       }
@@ -550,15 +555,15 @@ export default {
           }
         );
       }
-      const drawingItemCopy=(item, parent)=> {
+      const drawingItemCopy=(item:any, parent:any)=> {
         let clone = JSON.parse(JSON.stringify(item));
         clone = createIdAndKey(clone);
         parent.push(clone);
         activeFormItem(clone);
       }
-      const createIdAndKey=(item)=> {
+      const createIdAndKey=(item:any)=> {
         item.formId = getNextId();
-        item.renderKey = clone.formId + new Date().getTime();
+        item.renderKey = item.formId + new Date().getTime();
         if (item.layout === "colFormItem") {
           item.vModel = `field${item.formId}`;
         } else if (item.layout === "rowFormItem") {
@@ -708,6 +713,15 @@ export default {
     return {
 			t,
 			proxy,
+      onEnd,
+      shouldClone,
+      addComponent,
+      empty,
+      onMianDragEnd,
+      tagChange,
+      activeFormItem,
+      drawingItemCopy,
+      drawingItemDelete,
       isProCondition,
 			...toRefs(state),
 		};
@@ -724,13 +738,17 @@ export default {
 
 #ipad {
     height: 100%;
-    display: flex;
+    /*display: flex; */ 
 
-  .outeripad, .ipadbody, .ipadscreen {
+  .outeripad, .ipadbody, .ipadscreen  {
     position: relative;
     height: 100%;
   }
 
+  .drawing-board{
+    height: 100%;
+    width:100%;
+  }
   .ipadcamera, .ipadhomebutton {
     position: absolute;
   }
