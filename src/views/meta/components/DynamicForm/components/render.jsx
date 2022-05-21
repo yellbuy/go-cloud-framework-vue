@@ -6,6 +6,7 @@
  *GitHub: https://github.com/JakHuang/form-generator
  */
 
+import { ElInput } from "element-plus"
 import { h } from "vue"
 import { makeMap } from '../utils'
 
@@ -99,7 +100,6 @@ export default {
     }
     const confClone = JSON.parse( JSON.stringify( this.conf ) )
     const children = []
-
     const childObjs = componentChild[confClone.tag]
     if ( childObjs ) {
       Object.keys( childObjs ).forEach( key => {
@@ -122,7 +122,9 @@ export default {
         dataObject.attrs[key] = val
       }
     } )
-    return h( this.conf.tag, dataObject, children )
+    
+    const result= h( ElInput, dataObject, children )
+    return result
   },
   props: ['conf']
 }

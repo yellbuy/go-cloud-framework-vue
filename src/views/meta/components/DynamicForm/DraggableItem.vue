@@ -37,7 +37,7 @@ const layouts = {
         <el-form-item label-width={element.labelWidth ? `${element.labelWidth}px` : null}
           label={element.label} required={element.required}>
           <render key={element.renderKey||(element.formId||0+new Date().getTime())} conf={element} onInput={ event => {
-            this.$set(element, 'defaultValue', event)
+            element.defaultValue=event
           }} />
         </el-form-item>
         { components.itemBtns.apply(this, arguments)}

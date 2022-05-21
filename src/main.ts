@@ -17,7 +17,8 @@ import '/@/theme/index.scss';
 
 import api from '/@/api';
 import '/@/theme/index.scss';
-
+import '/@/views/meta/components/DynamicForm/styles/index.styl';
+import formControls from '/@/views/meta/components/FormControls/index.ts';
 
 
 import utils from '/@/utils';
@@ -32,6 +33,8 @@ app.config.errorHandler = errorHandler
 directive(app);
 other.elSvg(app);
 other.metaSvg(app);
+formControls.install(app);
+
 app
 	.use(router)
 	.use(store, key)

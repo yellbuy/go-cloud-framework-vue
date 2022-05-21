@@ -208,7 +208,6 @@ export default {
   },
   mounted () {
     this.isNumEnough()
-    debugger
     this.debounceSearch = debounce(this.searchDepUser, 500)
   },
   methods: {
@@ -260,7 +259,8 @@ export default {
           !t.nodeId && (t.nodeId = this.getNodeProp(t, 'nodeId', this.activeTabName))
           return t
         })
-        this.$set(this.selectedData, this.activeTabName,nodes )
+        this.selectedData[this.activeTabName]=nodes
+        //this.$set(this.selectedData, this.activeTabName,nodes )
         this.isNumEnough()
         this.$forceUpdate()
       })
@@ -356,12 +356,15 @@ export default {
         this.tabKeys.push(key)
         let  data = this.value && this.value[key] ? this.value[key] : []
         data = data.map(t => ({ nodeId: mergedConfig.nodeId(t), ...t }))
-        this.$set(this.aloneCheckedData, key, data)
+        this.aloneCheckedData[key]=data
+        //this.$set(this.aloneCheckedData, key, data)
       }
       this.tabList.forEach(item => {
         const [key, customConf] = getTabProp(item)
-        this.$set(this.aloneCheckedData, key, [])
-        this.$set(this.selectedData, key, [])
+        this.aloneCheckedData[key]=[]
+        this.selectedData[key]=[]
+        // this.$set(this.aloneCheckedData, key, [])
+        // this.$set(this.selectedData, key, [])
         const defaultConf = CONFIG_LIST.find(t => t.tabKey === key)
         defaultConf && initDefaultData(key, Object.assign({}, defaultConf, customConf))
       })

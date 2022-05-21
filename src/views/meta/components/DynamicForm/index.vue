@@ -147,6 +147,9 @@
                     :disabled="formConf.disabled"
                     :label-width="formConf.labelWidth + 'px'"
                   >
+                    <!-- <el-form-item label="审批意见填写提示" prop="remarkTip">
+                      <el-input  type="textarea" placeholder="请输入"></el-input>
+                    </el-form-item> -->
                     <draggable
                       class="drawing-board"
                       :list="drawingList"
@@ -447,7 +450,6 @@ export default {
           cloneChildrenOfRowFormItem(clone);
           tempActiveData = clone;
         }
-        debugger
         return tempActiveData;
       }
 
@@ -734,7 +736,7 @@ export default {
 
 <style lang="stylus">
 
-@import './styles/home';
+@import './styles/home.styl';
 
 #ipad {
     height: 100%;
