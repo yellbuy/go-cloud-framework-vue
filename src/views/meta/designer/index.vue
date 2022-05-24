@@ -33,12 +33,15 @@
         v-show="activeStep === 'basicSetting'" 
         tabName="basicSetting"
         @initiatorChange="onInitiatorChange" /> 
-
-      <DynamicForm
+      <ElDesignForm ref="formDesign"
+        :conf="mockData.formData"
+        v-show="activeStep === 'formDesign'" 
+        tabName="formDesign" ></ElDesignForm>
+      <!-- <DynamicForm
         ref="formDesign"
         :conf="mockData.formData"
         v-show="activeStep === 'formDesign'" 
-        tabName="formDesign" />
+        tabName="formDesign" /> -->
 
       <Process  
         ref="processDesign"
@@ -64,6 +67,10 @@
 </template>
 
 <script>
+import {
+  ElDesignForm,
+  ElGenerateForm
+} from '/@/views/meta/components/FormCreate'
 // @ is an alias to /src
 import Process from "../components/Process/index.vue";
 import DynamicForm from "../components/DynamicForm/index.vue";
@@ -179,6 +186,8 @@ export default {
   components: {
     Process,
     DynamicForm,
+    ElDesignForm,
+    ElGenerateForm,
     BasicSetting,
     AdvancedSetting
   }
@@ -188,7 +197,7 @@ export default {
 $header-height = 54px;
 .page {
   width: 100vw;
-  height: 100vh;
+  height: 'calc(100vh - 100px - %s)' % $header-height;
   padding-top: $header-height;
   box-sizing: border-box;
 

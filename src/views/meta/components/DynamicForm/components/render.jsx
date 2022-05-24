@@ -6,10 +6,8 @@
  *GitHub: https://github.com/JakHuang/form-generator
  */
 
-import { ElInput } from "element-plus"
-import { h } from "vue"
+import { h, resolveComponent } from "vue"
 import { makeMap } from '../utils'
-
 // 参考https://github.com/vuejs/vue/blob/v2.6.10/src/platforms/web/server/util.js
 const isAttr = makeMap(
   'accept,accept-charset,accesskey,action,align,alt,async,autocomplete,'
@@ -36,10 +34,10 @@ function vModel ( self, dataObject, defaultValue ) {
 
 const componentChild = {
   'el-input': {
-    prepend ( h, conf, key ) {
+    prepend (h, conf, key) {
       return <template slot="prepend">{conf[key]}</template>
     },
-    append ( h, conf, key ) {
+    append (h, conf, key) {
       return <template slot="append">{conf[key]}</template>
     }
   },
@@ -53,7 +51,7 @@ const componentChild = {
     }
   },
   'el-radio-group': {
-    options ( h, conf, key ) {
+    options (h, conf, key) {
       const list = []
       conf.options.forEach( item => {
         if ( conf.optionType === 'button' ) list.push( <el-radio-button label={item.value}>{item.label}</el-radio-button> )
@@ -63,7 +61,7 @@ const componentChild = {
     }
   },
   'el-checkbox-group': {
-    options ( h, conf, key ) {
+    options (h, conf, key) {
       const list = []
       conf.options.forEach( item => {
         if ( conf.optionType === 'button' ) {
@@ -123,7 +121,7 @@ export default {
       }
     } )
     
-    const result= h( ElInput, dataObject, children )
+    const result= h(resolveComponent(this.conf.tag), dataObject, children)
     return result
   },
   props: ['conf']

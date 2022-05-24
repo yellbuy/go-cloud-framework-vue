@@ -385,7 +385,7 @@ export default {
       const onMianDragEnd=(obj, a) => {
         activeFormItem(drawingList[obj.newIndex]);
       }
-      const getSameTagCmpNum=(tag)=>{
+      const getSameTagCmpNum=(tag:any)=>{
         return state.drawingList.reduce((count, item) => {
           if(item.children){
             return count + item.children.reduce((c, t)=>{
@@ -395,13 +395,12 @@ export default {
           return item.tag === tag ? count + 1 : count
         }, 0)
       }
-      const createCmpLabel=(cmp)=> {
+      const createCmpLabel=(cmp:any)=> {
         const len = getSameTagCmpNum(cmp.tag)
         return len ? cmp.label + len : cmp.label
       }
 
-      const addComponent=(item)=> {
-        debugger
+      const addComponent=(item:any)=> {
         const clone = cloneComponent(item);
         state.drawingList.push(clone);
         activeFormItem(clone);
@@ -429,8 +428,9 @@ export default {
         return maxId
       }
 
-      const cloneComponent=(origin)=> {
+      const cloneComponent=(origin:any)=> {
         const clone = JSON.parse(JSON.stringify(origin));
+        
         clone.formId = getNextId();
         // clone.span = formConf.span;
         clone.renderKey = clone.formId + new Date().getTime(); // 改变renderKey后可以实现强制更新组件
@@ -749,7 +749,6 @@ export default {
 
   .drawing-board{
     height: 100%;
-    width:100%;
   }
   .ipadcamera, .ipadhomebutton {
     position: absolute;

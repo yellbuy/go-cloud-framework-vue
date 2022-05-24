@@ -12,12 +12,13 @@ const pathResolve = (dir: string): any => {
 const { VITE_PORT, VITE_OPEN, VITE_PUBLIC_PATH } = loadEnv();
 
 const alias: Record<string, string> = {
+	'@': pathResolve('./src/'),
 	'/@': pathResolve('./src/'),
 	'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
 };
 
 const viteConfig: UserConfig = {
-	plugins: [vue(),vueJsx(),svgBuilder('./src/views/meta/components/DynamicForm/icons/svg/')],
+	plugins: [vue(),vueJsx(),svgBuilder('./src/views/meta/components/DynamicForm/icons/svg/'),svgBuilder('./src/views/meta/components/FormCreate/icons/svg/')],
 	root: process.cwd(),
 	resolve: { alias },
 	base: process.env.NODE_ENV === 'production' ? VITE_PUBLIC_PATH : './',

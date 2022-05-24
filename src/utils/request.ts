@@ -1,8 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
-import { uuidv7 } from "uuidv7";
+import { v4 } from 'uuid';
 import { Session } from '/@/utils/storage';
-
 let appid = "158625451365892097"
 // 配置新建一个 axios 实例
 const service = axios.create({
@@ -135,7 +134,7 @@ const _request=(config:RequestConfig)=>{
 	
 	//const headers:Record<string, string> = {};
 	if(!config.nonce){
-		config.nonce=uuidv7()
+		config.nonce=v4().replaceAll('-', '')
 	}
 	config.headers=Object.assign(config.headers||{},{"Nonce":config.nonce})
 	
@@ -170,7 +169,7 @@ const _download=(config:RequestConfig)=>{
 	
 	//const headers:Record<string, string> = {};
 	if(!config.nonce){
-		config.nonce=uuidv7()
+		config.nonce=v4().replaceAll('-', '')
 	}
 	config.headers=Object.assign(config.headers||{},{"Nonce":config.nonce})
 	
