@@ -165,7 +165,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, PropType, toRefs, watchEffect } from 'vue'
+import { defineComponent, reactive, PropType, toRefs, watch,watchEffect } from 'vue'
 import { ElMessage } from 'element-plus'
 import { defaultsDeep } from 'lodash'
 import CodeEditor from '../../components/CodeEditor.vue'
@@ -180,7 +180,7 @@ import { copy } from '../../utils'
 import { CodeType, PlatformType } from '../../enums'
 import generateCode from '../../utils/generateCode'
 import { WidgetForm } from '../../config/element'
-
+import { useStore } from '/@/store/index';
 export default defineComponent({
   name: 'ElDesignForm',
   components: {
@@ -241,6 +241,7 @@ export default defineComponent({
     }
   },
   setup() {
+    const store = useStore();
     const state = reactive({
       element,
       codeType: CodeType,
@@ -300,6 +301,45 @@ export default defineComponent({
       state.codeLanguage = CodeType.Vue
       state.dataCodeVisible = true
     }
+
+     //处理流程条件
+    const handlerListChange=(list: any[])=> {
+      store.commit('meta/clearPCondition') // 清除所有条件 重新检测赋值
+      const canUsedAsPCon = (conf:any, parent:any) => {
+          if(!conf.key){
+            return false;
+          }
+          const isRangeCmp = ['fc-date-duration','fc-time-duration'].includes(conf.type)
+          if(isRangeCmp && !conf.showDuration) return false
+          if(parent && parent.type === 'table') return false 
+          if(!conf.options.proCondition || !conf.options.rules.required) return false
+          if(conf.type === 'select' && conf.multiple) return false
+          return true 
+        }
+        const loop = (data:any, parent:any) => {
+          if(!data) return
+          Array.isArray(data.children) && data.children.forEach((child:any) => loop(child, data))
+          if(Array.isArray(data)){
+            data.forEach(loop)
+          }else{
+            canUsedAsPCon(data, parent) 
+            ? store.commit("meta/addPCondition", data) 
+            : store.commit("meta/delPCondition", data.formId)
+          }
+        }
+        loop(list,null)
+        store.commit('meta/updateFormItemList', list)
+        // if (val.length === 0) this.idGlobal = 100;
+    }
+
+    // 监听data的数据
+    watch(() => state.widgetForm.list, (val:any) => {
+      if (!val) return
+      handlerListChange(state.widgetForm.list)
+    }, {
+      deep: true, // 深度监听
+      immediate: true
+    })
 
     watchEffect(() => {
       if (state.dataCodeVisible) {
