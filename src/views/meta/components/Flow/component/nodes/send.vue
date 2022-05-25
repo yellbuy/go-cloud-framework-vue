@@ -124,7 +124,73 @@
 					}
 
 				}
+			},
+
+			// 配合getPriorityLength 获取前一个节点条件数组长度 用于设置优先级
+			getPrevData() {
+			return NodeUtils.getPreviousNode(this.value.prevId, this.processData);
+			},
+			// 用于获取节点优先级范围
+			getPriorityLength() {
+			this.priorityLength = this.getPrevData().conditionNodes.length;
+			},
+			// 判断是否是条件节点
+			isConditionNode() {
+			return this.value ? NodeUtils.isConditionNode(this.value) : false;
+			},
+			/** 判断是否是审批节点*/
+			isApproverNode(){
+			return this.value ? NodeUtils.isApproverNode(this.value) : false;
+			},
+
+			isStartNode(){
+			return this.value ? NodeUtils.isStartNode(this.value) : false;
+			},
+
+			isCopyNode () {
+			return this.value ? NodeUtils.isCopyNode(this.value) : false
+			},
+
+			initInitiator(){
+			const initiator = this.value.properties && this.value.properties.initiator
+			this.initiator['dep&user'] = Array.isArray(initiator) ? initiator : []
+			},
+			/**
+			 * 初始化审批节点所需数据
+			 */
+			initApproverNodeData() {
+			for (const key in this.approverForm) {
+				if (this.value.properties.hasOwnProperty(key)) {
+				this.approverForm[key] = this.value.properties[key];
+				}
 			}
+			const approvers = this.approverForm.approvers
+			this.resetOrgColl()
+			if (Array.isArray(this.approverForm.approvers)) {
+				this.orgCollection[this.approverForm.assigneeType] = approvers
+			}
+			this.approverForm.formOperates = this.initFormOperates(this.value)
+			},
+			/**
+			 * 初始化条件节点数据
+			 */
+			initConditionNodeData(){
+			// 初始化条件表单数据
+			let nodeConditions = this.value.properties && this.value.properties.conditions
+			this.pconditions = JSON.parse(JSON.stringify(this.store.state.meta.processConditions));
+			this.initiator['dep&user'] = this.value.properties.initiator
+			if(Array.isArray(this.pconditions)){
+				this.showingPCons = [-1] // 默认显示发起人
+				this.pconditions.forEach(t => {
+				let temp = undefined
+				if(Array.isArray(nodeConditions)){
+					const con = nodeConditions.find(item => item.formId == t.formId)
+					con && con.conditionValue && (temp = con.conditionValue, this.showingPCons.push(t.formId))
+				}
+				this.$set(t, 'conditionValue', temp)
+				})
+			}
+			},
 		}
 	}
 </script>

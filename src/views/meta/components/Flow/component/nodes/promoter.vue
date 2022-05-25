@@ -190,7 +190,7 @@
 			const initiator = this.value.properties && this.value.properties.initiator
 			this.initiator['dep&user'] = Array.isArray(initiator) ? initiator : []
 			},
-				/**
+			/**
 			 * 初始化审批节点所需数据
 			 */
 			initApproverNodeData() {

@@ -34,8 +34,8 @@
 				<el-main style="padding:0 20px 20px 20px">
 					<!-- 审批人 -->
 					<section class="approver-pane" style="height:100%;" >
-						<el-tabs  class="pane-tab">
-							<el-tab-pane :label="'设置发起人'" name="config">
+						<el-tabs v-model="activeName" class="pane-tab">
+							<el-tab-pane  :label="'设置审批人'" name="config">
 								<div>
 									<div style="padding: 12px;">
 									<el-radio-group v-model="approverForm.assigneeType" style="line-height: 32px;" @change="resetOrgColl">
@@ -45,19 +45,18 @@
 									<div style="border-bottom: 1px solid #e5e5e5;padding-bottom: 1rem;">
 									<div v-if="approverForm.assigneeType === 'myself'"  class="option-box" style="color: #a5a5a5;">发起人自己将作为审批人处理审批单</div>
 									<div v-else-if="approverForm.assigneeType === 'optional'"  class="option-box">
-										<p>可选多人</p>
-										<el-switch v-model="approverForm.optionalMultiUser" active-color="#13ce66"> </el-switch>
-										<p>选择范围</p>
-										<el-select v-model="approverForm.optionalRange" size="mini">
+										<p style="font-size: 12px;">可选多人</p>
+										<el-switch v-model="approverForm.optionalMultiUser" active-color="#13ce66" size="small"> </el-switch>
+										<p style="font-size: 12px;">选择范围</p>
+										<el-select v-model="approverForm.optionalRange" size="small">
 										<el-option v-for="(item, index) in rangeOptions" :key="index" :label="item.label" :value="item.value"
 											:disabled="item.disabled"></el-option>
 										</el-select>
 									</div>
 									<div v-else-if="approverForm.assigneeType === 'director'">
-										<div style="font-size: 14px;padding-left: 1rem;">发起人的 
+										<div style="font-size: 12px;padding-left: 1rem;">发起人的 
 										<el-select v-model="directorLevel" size="small">
-											<el-option v-for="item in 5" :key="item" :label="item === 1 ? '直接主管': `第${item}级主管`" :value="item"
-											></el-option>
+											<el-option v-for="item in 5" :key="item" :label="item === 1 ? '直接主管': `第${item}级主管`" :value="item"></el-option>
 										</el-select>
 										<br>
 										<el-checkbox v-model="useDirectorProxy" style="margin-top: 1rem;">找不到主管时，由上级主管代审批</el-checkbox>
@@ -113,7 +112,7 @@
 					</section>
 					<el-form label-position="top">
 
-						<el-form-item label="审批人员类型">
+						<!-- <el-form-item label="审批人员类型">
 							<el-select v-model="form.setType">
 								<el-option :value="1" label="指定成员"></el-option>
 								<el-option :value="2" label="主管"></el-option>
@@ -157,9 +156,9 @@
 								<el-radio :label="1">自选一个人</el-radio>
 								<el-radio :label="2">自选多个人</el-radio>
 							</el-radio-group>
-						</el-form-item>
+						</el-form-item>-->
 
-						<el-form-item v-if="form.setType==7" label="连续主管审批终点">
+						<el-form-item v-if="approverForm.assigneeType === 'director'" label="连续主管审批终点">
 							<el-radio-group v-model="form.directorMode">
 								<el-radio :label="0">直到最上层主管</el-radio>
 								<el-radio :label="1">自定义审批终点</el-radio>
@@ -190,7 +189,7 @@
 								<p style="width: 100%;"><el-radio :label="3">或签 (有一人审批通过即可)</el-radio></p>
 							</el-radio-group>
 						</el-form-item>
-					</el-form>
+					</el-form> 
 				</el-main>
 				<el-footer>
 					<el-button type="primary" @click="save">保存</el-button>
@@ -203,7 +202,15 @@
 
 <script>
 	import addNode from './addNode.vue'
-
+	const defaultApproverForm = {
+		approvers:[], // 审批人集合
+		assigneeType: "user", // 指定审批人
+		formOperates:[], // 表单操作权限集合
+		counterSign: true, //是否为会签
+		// 审批类型为自选 出现 optionalMultiUser optionalRange
+		optionalMultiUser: false,
+		optionalRange: 'ALL', // USER<最多十个> / ALL / ROLE 
+	}
 	export default {
 		inject: ['select'],
 		props: {
@@ -214,10 +221,76 @@
 		},
 		data() {
 			return {
+				activeName:"config",
+      			fcOrgTabList:['dep', 'role', 'user', 'position'],
+
 				nodeConfig: {},
 				drawer: false,
 				isEditTitle: false,
-				form: {}
+				form: {},
+
+				initiator:{
+					'dep&user': []
+				}, 
+				priorityLength: 0, // 当为条件节点时  显示节点优先级选项的数据
+				orgCollection:{
+					dep: [],
+					role: [],
+					user: [],
+					position: []
+				},
+				useDirectorProxy: true, // 找不到主管时 上级主管代理审批
+				directorLevel: 1,  // 审批主管级别
+
+				startForm:{
+					formOperates: []
+				},
+				approverForm: JSON.parse(JSON.stringify(defaultApproverForm)),
+				optionalOptions: [
+					{
+					label: '自选一个人',
+					value: false
+					}, {
+					label: '自选多个人',
+					value: true
+					}],
+					rangeOptions: [
+					{
+					label: '全公司',
+					value: 'ALL'
+					}, {
+					label: '指定成员',
+					value: 'USER'
+					}, {
+					label: '角色',
+					value: 'ROLE'
+				}],
+				
+				assigneeTypeOptions:[
+					{
+					label:'指定成员',
+					value: 'user'
+					},
+					{
+					label:'主管',
+					value: 'director'
+					},
+					{
+					label:'角色',
+					value: 'role'
+					},
+					{
+					label:'岗位',
+					value: 'position'
+					},
+					{
+					label:'发起人自己',
+					value: 'myself'
+					},
+					{
+					label:'发起人自选',
+					value: 'optional'
+				}]
 			}
 		},
 		watch:{
@@ -283,7 +356,106 @@
 				}else if (nodeConfig.setType == 7) {
 					return "连续多级主管"
 				}
+			},
+
+			getFormOperates(){
+				let res = []
+				this.isApproverNode() && (res = this.approverForm.formOperates)
+				this.isStartNode() && (res = this.startForm.formOperates)
+				return res
+			},
+			resetOrgColl(){
+				for(let key in this.orgCollection){
+					this.orgCollection[key]=[]
+				}
+			},
+			onOrgChange(data){ },
+				timeTangeLabel(item){
+				const index = ['fc-time-duration','fc-date-duration'].findIndex(t => t === item.tag)
+				if(index > -1){
+					return '时长' + ['(小时)','(天)'][index]
+				}else{  
+					return item.label
+				}
+				},
+				getAssignTypeLabel(){
+				const res = this.assigneeTypeOptions.find(t => t.value === this.approverForm.assigneeType)
+				return res ? res.label : ''
+				},
+				changeAllFormOperate(val){
+				const target = this.isStartNode() ? this.startForm : this.approverForm
+				target.formOperates.forEach(t => t.formOperate = val)
+				},
+				// 是否可以显示当前条件组件
+				couldShowIt(item, ...tag) {
+				return tag.includes(item.tag)  && this.showingPCons.includes(item.formId);
+			},
+			
+			// 配合getPriorityLength 获取前一个节点条件数组长度 用于设置优先级
+			getPrevData() {
+			return NodeUtils.getPreviousNode(this.value.prevId, this.processData);
+			},
+			// 用于获取节点优先级范围
+			getPriorityLength() {
+			this.priorityLength = this.getPrevData().conditionNodes.length;
+			},
+			// 判断是否是条件节点
+			isConditionNode() {
+			return this.value ? NodeUtils.isConditionNode(this.value) : false;
+			},
+			/** 判断是否是审批节点*/
+			isApproverNode(){
+			return this.value ? NodeUtils.isApproverNode(this.value) : false;
+			},
+
+			isStartNode(){
+			return this.value ? NodeUtils.isStartNode(this.value) : false;
+			},
+
+			isCopyNode () {
+			return this.value ? NodeUtils.isCopyNode(this.value) : false
+			},
+
+			initInitiator(){
+			const initiator = this.value.properties && this.value.properties.initiator
+			this.initiator['dep&user'] = Array.isArray(initiator) ? initiator : []
+			},
+			/**
+			 * 初始化审批节点所需数据
+			 */
+			initApproverNodeData() {
+			for (const key in this.approverForm) {
+				if (this.value.properties.hasOwnProperty(key)) {
+				this.approverForm[key] = this.value.properties[key];
+				}
 			}
+			const approvers = this.approverForm.approvers
+			this.resetOrgColl()
+			if (Array.isArray(this.approverForm.approvers)) {
+				this.orgCollection[this.approverForm.assigneeType] = approvers
+			}
+			this.approverForm.formOperates = this.initFormOperates(this.value)
+			},
+			/**
+			 * 初始化条件节点数据
+			 */
+			initConditionNodeData(){
+			// 初始化条件表单数据
+			let nodeConditions = this.value.properties && this.value.properties.conditions
+			this.pconditions = JSON.parse(JSON.stringify(this.store.state.meta.processConditions));
+			this.initiator['dep&user'] = this.value.properties.initiator
+			if(Array.isArray(this.pconditions)){
+				this.showingPCons = [-1] // 默认显示发起人
+				this.pconditions.forEach(t => {
+				let temp = undefined
+				if(Array.isArray(nodeConditions)){
+					const con = nodeConditions.find(item => item.formId == t.formId)
+					con && con.conditionValue && (temp = con.conditionValue, this.showingPCons.push(t.formId))
+				}
+				t['conditionValue']=temp
+				})
+			}
+			},
 		}
 	}
 </script>
