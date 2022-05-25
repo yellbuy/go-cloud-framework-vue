@@ -66,8 +66,11 @@
 </script>
 
 <style lang="scss">
-	.sc-workflow-design {width: 100%;}
-	.sc-workflow-design .box-scale {display: inline-block;position: relative;width: 100%;padding: 54.5px 0px;align-items: flex-start;justify-content: center;flex-wrap: wrap;min-width: min-content;}
+	.sc-workflow-design {
+		width: 100%;
+		height:calc(100vh - 300px);
+	}
+	.sc-workflow-design .box-scale {display: inline-block;position: relative;width: 100%;align-items: flex-start;justify-content: center;flex-wrap: wrap;min-width: min-content;}
 
 	.sc-workflow-design {
 		.node-wrap {display: inline-flex;width: 100%;flex-flow: column wrap;justify-content: flex-start;align-items: center;padding: 0px 50px;position: relative;z-index: 1;}

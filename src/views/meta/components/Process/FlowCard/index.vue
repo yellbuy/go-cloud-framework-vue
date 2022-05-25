@@ -1,4 +1,5 @@
 <script lang="jsx">
+import { defineComponent, resolveComponent, h } from "vue";
 import { NodeUtils } from "./util.js";
 const isCondition = data => data.type === "condition";
 const notEmptyArray = arr => Array.isArray(arr) && arr.length > 0;
@@ -27,13 +28,17 @@ function createNormalCard(ctx, conf, h) {
           )}
         </div>
         <div class="actions" style="margin-right:4px;">
-          <i class="el-icon-close icon" onClick={this.eventLancher.bind(ctx, "deleteNode", conf, ctx.data)} ></i>
+        <el-icon class="icon" onClick={this.eventLancher.bind(ctx, "deleteNode", conf, ctx.data)}>
+          <elementClose />
+        </el-icon >
         </div>
       </header>
       <div class="body">
         <span class="text">{conf.content}</span>
         <div class="icon-wrapper right">
-          <i class="el-icon-arrow-right icon right-arrow"></i>
+          <el-icon class="icon">
+          <elementArrowRight />
+        </el-icon>
         </div>
       </div>
     </section>
@@ -70,16 +75,10 @@ let nodes = {
           </div>
           <span class="priority">优先级{conf.properties.priority + 1}</span>
           <div class="actions">
-            
-            <i
-              class="el-icon-close icon"
-              onClick={this.eventLancher.bind(
-                ctx,
-                "deleteNode",
-                conf,
-                ctx.data
-              )}
-            ></i>
+            <el-icon class="icon" onClick={this.eventLancher.bind( ctx, "deleteNode", conf, ctx.data)}>
+            <elementClose />
+          </el-icon>
+            // <i class="el-icon-close icon" onClick={this.eventLancher.bind( ctx, "deleteNode", conf, ctx.data )}></i>
           </div>
         </header>
         <div class="body">
@@ -94,7 +93,9 @@ let nodes = {
             ctx.data
           )}
         >
-          <i class="el-icon-arrow-left icon left-arrow"></i>
+        <el-icon class="icon">
+            <elementArrowLeft />
+          </el-icon>
         </div>
         <div
           class="icon-wrapper right"
@@ -105,7 +106,9 @@ let nodes = {
             ctx.data
           )}
         >
-          <i class="el-icon-arrow-right icon right-arrow"></i>
+          <el-icon class="icon">
+            <elementArrowRight />
+          </el-icon>
         </div>
       </section>
     );
@@ -133,6 +136,7 @@ function addNodeButton(ctx, data, h, isBranch = false) {
 
             <div>
               <div class="condition-icon" onClick={ctx.eventLancher.bind( ctx, "addCopyNode",  data, isBranch )} >
+             
                 <i class="el-icon-s-promotion iconfont" style="vertical-align: middle;"></i>
               </div>
               抄送人
@@ -147,7 +151,10 @@ function addNodeButton(ctx, data, h, isBranch = false) {
           </div>
 
           <button class="btn" type="button" slot="reference">
-            <i class="el-icon-plus icon"></i>
+          添加
+            <el-icon class="plus">
+              <elementPlus />
+            </el-icon>
           </button>
         </el-popover>
       </div>

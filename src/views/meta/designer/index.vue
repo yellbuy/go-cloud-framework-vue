@@ -42,13 +42,18 @@
         :conf="mockData.formData"
         v-show="activeStep === 'formDesign'" 
         tabName="formDesign" /> -->
-
-      <Process  
+      <Flow  
         ref="processDesign"
         :conf="mockData.processData"
         tabName="processDesign" 
         v-show="activeStep === 'processDesign'" 
         @startNodeChange="onStartChange"/>
+      <!-- <Process  
+        ref="processDesign"
+        :conf="mockData.processData"
+        tabName="processDesign" 
+        v-show="activeStep === 'processDesign'" 
+        @startNodeChange="onStartChange"/> -->
 
       <AdvancedSetting
         ref="advancedSetting"
@@ -72,6 +77,7 @@ import {
   ElGenerateForm
 } from '/@/views/meta/components/FormCreate'
 // @ is an alias to /src
+import Flow from "../components/Flow/index.vue";
 import Process from "../components/Process/index.vue";
 import DynamicForm from "../components/DynamicForm/index.vue";
 import BasicSetting from '../components/BasicSetting/index.vue'
@@ -184,6 +190,7 @@ export default {
     }
   },
   components: {
+    Flow,
     Process,
     DynamicForm,
     ElDesignForm,

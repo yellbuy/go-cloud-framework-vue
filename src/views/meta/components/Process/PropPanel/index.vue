@@ -214,6 +214,7 @@
   </el-drawer>
 </template>
 <script>
+import { useStore } from '/@/store/index';
 import {ClickOutside} from "element-plus/lib"
 import { NodeUtils } from "../FlowCard/util.js"
 import RowWrapper from './RowWrapper.vue'
@@ -238,6 +239,7 @@ export default {
   props: [/*当前节点数据*/"value", /*整个节点数据*/"processData"],
   data() {
     return {
+      store:useStore(),
       fcOrgTabList:['dep', 'role', 'user', 'position'],
       visible: false,  // 控制面板显隐
       globalFormOperate: null,  // 统一设置节点表单权限
@@ -320,7 +322,7 @@ export default {
       return this.pconditions.length - this.showingPCons.length + 1;
     },
     usedFormItems(){
-      return this.$store.state.formItemList
+      return this.store.state.meta.formItemList
     }
   },
   directives: {
@@ -379,7 +381,7 @@ export default {
         res.push(data)
         Array.isArray(t.children) && format(t.children, t.label)
       })
-      const formItems = this.$store.state.formItemList.filter(t => t.cmpType !== 'custom')
+      const formItems = this.store.state.meta.formItemList.filter(t => t.cmpType !== 'custom')
       format(formItems)
       return res
     },
@@ -546,7 +548,7 @@ export default {
     initConditionNodeData(){
       // 初始化条件表单数据
       let nodeConditions = this.value.properties && this.value.properties.conditions
-      this.pconditions = JSON.parse(JSON.stringify(this.$store.state.processConditions));
+      this.pconditions = JSON.parse(JSON.stringify(this.store.state.meta.processConditions));
       this.initiator['dep&user'] = this.value.properties.initiator
       if(Array.isArray(this.pconditions)){
         this.showingPCons = [-1] // 默认显示发起人

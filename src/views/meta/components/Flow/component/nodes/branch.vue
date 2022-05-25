@@ -48,7 +48,12 @@
 		<el-drawer title="条件设置" v-model="drawer" destroy-on-close append-to-body :size="600">
 			<template #title>
 				<div class="node-wrap-drawer__title">
-					<label @click="editTitle" v-if="!isEditTitle">{{form.nodeName}}<el-icon class="node-wrap-drawer__title-edit"><el-icon-edit /></el-icon></label>
+					<label @click="editTitle" v-if="!isEditTitle">{{form.nodeName}}
+						<SvgIcon class="node-wrap-drawer__title-edit" name="elementEdit">
+
+						</SvgIcon>
+						
+					</label>
 					<el-input v-if="isEditTitle" ref="nodeTitle" v-model="form.nodeName" clearable @blur="saveTitle" @keyup.enter="saveTitle"></el-input>
 				</div>
 			</template>

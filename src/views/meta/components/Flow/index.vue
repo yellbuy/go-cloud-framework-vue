@@ -1,20 +1,24 @@
 <template>
 	<el-container>
-		<el-header>
-			<el-page-header :content="data.name" style="float:left"></el-page-header>
-			<div class="do">
-				<el-button type="primary" @click="exportJson" v-no-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">
-					{{ $t('message.action.save') }}
-				</el-button>
-			</div>
-		</el-header>
 		<el-main>
-			<sc-workflow v-model="data.nodeConfig"></sc-workflow>
-		</el-main>
+			<div class="scale-slider">
+				<i class="btn">
+					<SvgIcon name="elementMinus" @click="changeScale(-step)"></SvgIcon>
+				</i>
+				
+				<span style="font-size:14px;">{{scaleVal}}%</span>
+				<i class="btn">
+					<SvgIcon name="elementPlus" @click="changeScale(step)"></SvgIcon>
+				</i>
+				
+			</div>
+			<sc-workflow v-model="data.nodeConfig" :style="{transform: `scale(${scaleVal / 100})`}"></sc-workflow>
+		</el-main> 
 	</el-container>
 </template>
 
 <script>
+
 	import scWorkflow from './component/designer.vue'
 
 	export default {
@@ -24,6 +28,8 @@
 		},
 		data() {
 			return {
+				scaleVal:100,
+				step:5,
 				data: {
 					"id": 1,
 					"name": "请假审批",
@@ -108,12 +114,40 @@
 			exportJson() {
 				this.$message("返回值请查看F12控制台console.log()")
 				console.log(this.data)
+			},
+			/**
+			 * 控制流程图缩放
+			 * @param { Object } val - 缩放增量 是step的倍数 可正可负
+			 */
+			changeScale(val) {
+			let v = this.scaleVal + val;
+			if (v > 0 && v <= 200) {
+				// 缩放介于0%~200%
+				this.scaleVal = v;
 			}
+			},
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+.scale-slider {
+  position: fixed;
+  margin-right: 18px;
+  right: 0;
+  z-index: 99;
+
+  .btn {
+    display: inline-block;
+    padding: 4px;
+    border: 1px solid #cacaca;
+    border-radius: 3px;
+    background: #FFF;
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+}
 .do {
 	float:right
 }
