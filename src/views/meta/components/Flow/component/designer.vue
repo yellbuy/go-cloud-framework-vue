@@ -60,7 +60,8 @@
 				this.$nextTick(() => {
 					this.$refs.useselect.open(type, data)
 				})
-			}
+			},
+			
 		}
 	}
 </script>

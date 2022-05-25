@@ -50,9 +50,7 @@
 				<div class="node-wrap-drawer__title">
 					<label @click="editTitle" v-if="!isEditTitle">{{form.nodeName}}
 						<SvgIcon class="node-wrap-drawer__title-edit" name="elementEdit">
-
 						</SvgIcon>
-						
 					</label>
 					<el-input v-if="isEditTitle" ref="nodeTitle" v-model="form.nodeName" clearable @blur="saveTitle" @keyup.enter="saveTitle"></el-input>
 				</div>
@@ -67,7 +65,75 @@
 							</el-radio-group>
 						</el-form-item>
 						<el-divider></el-divider>
-						<el-form-item>
+						<section class="condition-pane">
+							<row-wrapper title="发起人" v-if="1||showingPCons.includes(-1)">
+								<fc-org-select ref="condition-org" :tabList="['dep&user']" v-model="initiator" />
+							</row-wrapper>
+							
+							<template v-for="(item, index) in pconditions">
+								<!-- 计数 -->
+								<row-wrapper 
+								:key="index" 
+								:title="item.label" 
+								v-if="couldShowIt(item,'el-input-number','fc-date-duration','fc-time-duration','fc-amount', 'fc-calculate')">
+								<num-input
+									:key="index"
+									:title="timeTangeLabel(item)"
+									v-model="item.conditionValue"
+									style="padding-right: 6px;"
+								></num-input>
+								<template v-slot:action>
+									<i  class="el-icon-delete" style="cursor: pointer;" @click="onDelCondition(item)"></i>
+								</template>
+								</row-wrapper>
+								<!-- 单选组 -->
+								<row-wrapper 
+								:key="index" 
+								:title="item.label" 
+								v-if="couldShowIt(item,'el-radio-group')">
+								<el-radio-group v-model="item.conditionValue" class="radio-group">
+									<el-radio v-for="item in item.options" :label="item.label" :key="item.label">{{item.label}}</el-radio>
+								</el-radio-group>
+								<template v-slot:action>
+									<i  class="el-icon-delete" style="cursor: pointer;" @click="onDelCondition(item)"></i>
+								</template>
+								</row-wrapper>
+								
+								<!-- 下拉 -->
+								<row-wrapper 
+								:key="index" 
+								:title="item.label" 
+								v-if="couldShowIt(item,'el-select')">
+								<el-select v-model="item.conditionValue" placeholder="请选择" size="small">
+									<el-option
+									v-for="item in item.options"
+									:key="item.value"
+									:label="item.label"
+									:value="item.value"
+									></el-option>
+								</el-select>
+								<template v-slot:action>
+									<i  class="el-icon-delete" style="cursor: pointer;" @click="onDelCondition(item)"></i>
+									</template>
+								</row-wrapper>
+								<!-- 组织机构 -->
+								<row-wrapper :key="index" :title="item.label" v-if="couldShowIt(item,'fc-org-select')">
+								<fc-org-select 
+								v-model="item.conditionValue" 
+								:ref="'org' + index" 
+								:tabList="['dep']" 
+								/>
+								<template v-slot:action>
+									<i  class="el-icon-delete" style="cursor: pointer;" @click="onDelCondition(item)"></i>
+								</template>
+								</row-wrapper>
+							</template>
+							<div style="padding-left:10px;margin-top:2em;">
+								<el-button type="primary" size="small" icon="el-icon-plus" @click="dialogVisible=true">添加条件</el-button>
+								<span style="color:#aaa;margin-left:16px;">还有{{notUseConNum}}个可用条件</span>
+							</div>
+						</section>
+						<!-- <el-form-item>
 							<el-table :data="form.conditionList">
 								<el-table-column prop="label" label="描述">
 									<template #default="scope">
@@ -104,8 +170,8 @@
 									</template>
 								</el-table-column>
 							</el-table>
-						</el-form-item>
-						<p><el-button type="primary" icon="el-icon-plus" round @click="addConditionList">增加条件</el-button></p>
+						</el-form-item> -->
+						<!-- <p><el-button type="primary" icon="el-icon-plus" round @click="addConditionList">增加条件</el-button></p> -->
 					</el-form>
 				</el-main>
 				<el-footer>
@@ -119,17 +185,21 @@
 
 <script>
 	import addNode from './addNode.vue'
-
+	import rowWrapper from './rowWrapper.vue'
 	export default {
 		props: {
 			modelValue: { type: Object, default: () => {} }
 		},
 		components: {
-			addNode
+			addNode,
+			rowWrapper
 		},
 		data() {
 			return {
 				nodeConfig: {},
+				showingPCons: [], // 用户选择了得条件  被选中的才会被展示在面板上编辑
+				pconditions: [], // 从vuex中获取的可以作为流程图条件的集合
+				dialogVisible: false, // 控制流程条件选项Dialog显隐
 				drawer: false,
 				isEditTitle: false,
 				index: 0,

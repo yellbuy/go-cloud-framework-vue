@@ -32,6 +32,85 @@
 			</template>
 			<el-container>
 				<el-main style="padding:0 20px 20px 20px">
+					<!-- 审批人 -->
+					<section class="approver-pane" style="height:100%;" >
+						<el-tabs  class="pane-tab">
+							<el-tab-pane :label="'设置发起人'" name="config">
+								<div>
+									<div style="padding: 12px;">
+									<el-radio-group v-model="approverForm.assigneeType" style="line-height: 32px;" @change="resetOrgColl">
+										<el-radio v-for="item in assigneeTypeOptions" :label="item.value" :key="item.value" class="radio-item">{{item.label}}</el-radio>
+									</el-radio-group>
+									</div>
+									<div style="border-bottom: 1px solid #e5e5e5;padding-bottom: 1rem;">
+									<div v-if="approverForm.assigneeType === 'myself'"  class="option-box" style="color: #a5a5a5;">发起人自己将作为审批人处理审批单</div>
+									<div v-else-if="approverForm.assigneeType === 'optional'"  class="option-box">
+										<p>可选多人</p>
+										<el-switch v-model="approverForm.optionalMultiUser" active-color="#13ce66"> </el-switch>
+										<p>选择范围</p>
+										<el-select v-model="approverForm.optionalRange" size="mini">
+										<el-option v-for="(item, index) in rangeOptions" :key="index" :label="item.label" :value="item.value"
+											:disabled="item.disabled"></el-option>
+										</el-select>
+									</div>
+									<div v-else-if="approverForm.assigneeType === 'director'">
+										<div style="font-size: 14px;padding-left: 1rem;">发起人的 
+										<el-select v-model="directorLevel" size="small">
+											<el-option v-for="item in 5" :key="item" :label="item === 1 ? '直接主管': `第${item}级主管`" :value="item"
+											></el-option>
+										</el-select>
+										<br>
+										<el-checkbox v-model="useDirectorProxy" style="margin-top: 1rem;">找不到主管时，由上级主管代审批</el-checkbox>
+										</div>
+									</div>
+									<div v-else class="option-box">
+										<fc-org-select  
+										ref="approver-org" 
+										buttonType="button" 
+										v-model="orgCollection" 
+										:title="getAssignTypeLabel()" 
+										:tabList="fcOrgTabList.includes(approverForm.assigneeType) ? [approverForm.assigneeType] : ['dep']" 
+										@change="onOrgChange" />
+									</div>
+									</div>
+									<div class="option-box" style="border-bottom: 1px solid #e5e5e5;" v-if="orgCollection[approverForm.assigneeType] && orgCollection[approverForm.assigneeType].length > 1 || ['optional'].includes(approverForm.assigneeType)">
+									<p>多人审批时采用的审批方式</p>
+									<el-radio v-model="approverForm.counterSign" :label="true" class="radio-item">会签（须所有审批人同意）</el-radio>
+									<br>
+									<el-radio  v-model="approverForm.counterSign"  :label="false" class="radio-item">或签（一名审批人同意或拒绝即可）</el-radio>
+									</div>
+								</div>
+
+								</el-tab-pane>
+								<el-tab-pane label="表单权限" name="formAuth">
+								<div class="form-auth-table">
+									<header class="auth-table-header">
+									<div class="row">
+										<div class="label">表单字段</div>
+										<el-radio-group v-model="globalFormOperate"  class="radio-group" @change="changeAllFormOperate">
+										<el-radio :label="2" style="margin-left: 1rem;">可编辑</el-radio>
+										<el-radio :label="1">只读</el-radio>
+										<el-radio :label="0">隐藏</el-radio>
+										</el-radio-group>
+									</div>
+									</header>
+									<div class="auth-table-body">
+									<div v-for="item in getFormOperates()" :key="item.formId" class="row">
+										<div class="label">
+										<span class="required" v-show="item.required">*</span>
+										{{item.label}}
+										</div>
+										<el-radio-group v-model="item.formOperate"  class="radio-group">
+										<el-radio :label="2" style="margin-left: 1rem;"><span style="opacity: 0;">可编辑</span></el-radio>
+										<el-radio :label="1"><span style="opacity: 0;">只读</span></el-radio>
+										<el-radio :label="0"><span style="opacity: 0;">隐藏</span></el-radio>
+										</el-radio-group>
+									</div>
+									</div>
+								</div>
+							</el-tab-pane>
+						</el-tabs>
+					</section>
 					<el-form label-position="top">
 
 						<el-form-item label="审批人员类型">
