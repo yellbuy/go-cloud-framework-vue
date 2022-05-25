@@ -23,11 +23,12 @@
 #### 🌈 介绍
 
 云平台前端框架，基于 vue3.x + CompositionAPI + typescript + vite + element plus + vue-router-next + next.vuex，适配手机、平板、pc 的后台开源免费模板，希望减少工作量，帮助大家实现快速开发。
+更详细文档请耐心等待...
 
 #### ⛱️ 线上预览
 
-- vue3.x 版本预览（vue-next-admin）<a href="https://lyt-top.gitee.io/vue-next-admin-preview/#/login" target="_blank">https://lyt-top.gitee.io/vue-next-admin-preview/#/login</a>
-- vue2.x 版本预览（vue-prev-admin）<a href="https://lyt-top.gitee.io/vue-prev-admin-preview/#/login" target="_blank">https://lyt-top.gitee.io/vue-prev-admin-preview/#/login</a>
+- vue3.x 版本预览（yb-clouddata-api-vue）
+请耐心等待...
 
 #### 💒 代码仓库
 
@@ -71,18 +72,9 @@ cnpm run build
 
 - 若加群了没同意（一般秒过），那就是群满了（500 人群），请换一个群试试，3 群未满
 - 查看开发文档：请等待
-- 群号码：
-  1 群：<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=RdUY97Vx0T0vZ_1OOu-X1yFNkWgDwbjC&jump_from=webapi">665452019</a>
-
-  <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=RdUY97Vx0T0vZ_1OOu-X1yFNkWgDwbjC&jump_from=webapi">
-  	<img src="https://gitee.com/lyt-top/vue-next-admin-images/raw/master/user/qq1.png" width="220" height="220" alt="vue-next-admin 讨论群1" title="vue-next-admin 讨论群1"/>
-  </a>
-  <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=zVfy3gNy7pNWVK3kMduDzwU369PZg2fw&jump_from=webapi">
-  	<img src="https://gitee.com/lyt-top/vue-next-admin-images/raw/master/user/qq2.png" width="220" height="220" alt="vue-next-admin 讨论群2" title="vue-next-admin 讨论群2"/>
-  </a>
-  <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=02EWb5P2JkP-8iwzaDadgFdxA0HSHPpn&jump_from=webapi">
-  	<img src="https://gitee.com/lyt-top/vue-next-admin-images/raw/master/user/qq3.png" width="220" height="220" alt="vue-next-admin 讨论群3" title="vue-next-admin 讨论群3"/>
-  </a>
+- QQ号码：
+  1：997735419
+  
 
 #### 💒 集成后端
 
