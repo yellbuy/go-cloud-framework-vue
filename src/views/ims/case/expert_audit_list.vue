@@ -68,7 +68,7 @@
 				<el-table-column prop="ExpertAuditBy" label="专家姓名" width="80" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertAuditReceiveTime" label="接单时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="ExpertAuditTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="ExpertAuditTime" label="审核时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="State" label="状态" width="60" align="center" fixed="right">
 					<template #default="scope">
 						<el-tag type="danger" effect="plain" v-if="scope.row.ExpertReviewState == 5">驳回</el-tag>

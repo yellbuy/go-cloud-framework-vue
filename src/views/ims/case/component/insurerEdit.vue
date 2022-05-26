@@ -179,9 +179,18 @@
 								</el-radio-group>
 							</td>
 							<td colspan="9" v-else-if="step == 2">
-								<el-tag type="success" effect="plain" v-if="ruleForm.InsurerAuditState == 10">通过</el-tag>
+								<div v-if="ruleForm.ExpertAuditState != 5">
+									<el-tag type="success" effect="plain" v-if="ruleForm.InsurerAuditState == 10">保司通过</el-tag>
+									<el-tag type="danger" effect="plain" v-else-if="ruleForm.InsurerAuditState == 5">保司驳回</el-tag>
+									<el-tag type="primary" effect="plain" v-else-if="ruleForm.InsurerAuditState > 0">保司待审</el-tag>
+								</div>
+								<div v-if="ruleForm.ExpertAuditState == 5">
+									<el-tag type="danger" effect="plain" v-if="ruleForm.ExpertAuditState == 5 && ruleForm.InsurerAuditState == 10">专家驳回</el-tag>
+									<el-tag type="primary" effect="plain" v-else-if="ruleForm.InsurerAuditState > 0">保司待审</el-tag>
+								</div>
+								<!-- <el-tag type="success" effect="plain" v-if="ruleForm.InsurerAuditState == 10">通过</el-tag>
 								<el-tag type="danger" effect="plain" v-else-if="ruleForm.InsurerAuditState == 5">驳回</el-tag>
-								<el-tag type="primary" effect="plain" v-else>待审</el-tag>
+								<el-tag type="primary" effect="plain" v-else>待审</el-tag> -->
 							</td>
 							<td colspan="9" v-else-if="step == 3">
 								<el-tag type="success" effect="plain" v-if="ruleForm.InsurerReviewState == 10">通过</el-tag>
