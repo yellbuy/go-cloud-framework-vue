@@ -42,7 +42,7 @@
 				stripe
 				highlight-current-row
 			>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
+				<el-table-column type="index" label="序号" align="right" width="50" fixed />
 				<el-table-column prop="CaseNo" label="报案号" width="100" fixed></el-table-column>
 				<el-table-column prop="TName" label="委托单位" width="110"></el-table-column>
 				<el-table-column prop="UName" label="委托人" width="70" show-overflow-tooltip></el-table-column>
@@ -57,7 +57,7 @@
 						<el-tag type="warning" effect="plain" v-else-if="scope.row.CaseMode == 10">鉴定</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="CaseType" label="分类" width="100" align="center" show-overflow-tooltip>
+				<el-table-column prop="CaseType" label="分类" width="60" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="primary" effect="plain" v-if="scope.row.CaseType == 1">门诊就医</el-tag>
 						<el-tag type="success" effect="plain" v-else-if="scope.row.CaseType == 2">住院非手续</el-tag>
@@ -79,7 +79,7 @@
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertReviewReceiveTime" label="接单时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="ExpertReviewTime" label="审核时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
+				<!-- <el-table-column prop="ExpertReviewTime" label="审核时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column> -->
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button plain type="info" v-if="scope.row.ExpertAuditState > 0" @click="onOpenEditDlg(false, scope.row)">

@@ -22,6 +22,7 @@ export default {
 		second_audit: '保司二级审核',
 		expert_audit: '专家审核',
 		expert_review: '专家复核',
+		case_stat: '案件统计',
 		parameter: '参数模板',
 	},
 
