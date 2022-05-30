@@ -84,7 +84,7 @@ export default {
 	 * @returns 返回接口数据
 	 */
 	export: async (params: object = {}) => {
-		const url = `/v1/admin/ims/caseexport`;
-		return await http.get(url, params);
+		const url = `v1/admin/ims/casepersonlines`;
+		return await http.download(url, params);
 	},
 }

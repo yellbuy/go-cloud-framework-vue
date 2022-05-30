@@ -21,7 +21,17 @@
 							<el-option v-for="item in userData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
 					</el-form-item>
-
+					<el-form-item :label="'完成时间：'">
+						<el-date-picker
+							v-model="timeList"
+							type="datetimerange"
+							:shortcuts="shortcuts"
+							range-separator="到"
+							start-placeholder="开始时间"
+							end-placeholder="结束时间"
+							value-format="YYYY-MM-DD HH:mm:ss"
+						/>
+					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
 							<el-icon>
@@ -82,7 +92,7 @@
 				</el-table-column> -->
 				<el-table-column prop="ExpertAuditTime" label="审核时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertReviewTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="State" label="状态" width="60" align="center" fixed="right">
+				<el-table-column prop="State" label="状态" width="80" align="center" fixed="right">
 					<template #default="scope">
 						<el-tag type="danger" effect="plain" v-if="scope.row.ExpertReviewState == 5 || scope.row.ExpertAuditState == 5">驳回</el-tag>
 						<el-tag type="success" effect="plain" v-else-if="scope.row.ExpertReviewState == 10">已完成</el-tag>
@@ -110,6 +120,7 @@
 
 <script lang="ts">
 import commonFunction from '/@/utils/commonFunction';
+
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
@@ -120,8 +131,10 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
 		const dlgEditRef = ref();
+		const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
 		const state: any = reactive({
 			uid: store.state.userInfos.userInfos.uid,
+			timeList: [],
 			tableData: {
 				data: [],
 				total: 0,
@@ -136,6 +149,9 @@ export default {
 					state: -1,
 					pageNum: 1,
 					pageSize: 20,
+					expertReviewStatTime: '',
+					expertReviewEndTime: '',
+					isExport: false,
 				},
 			},
 			tidData: [], //委托单位
@@ -170,6 +186,9 @@ export default {
 			state.tableData.param.state = -1;
 			state.tableData.param.tid = '';
 			state.tableData.param.insurerAuditUids = '';
+			state.expertReviewStatTime = '';
+			state.expertReviewEndTime = '';
+			state.timeList = [];
 			onGetTableData(true);
 		};
 		// effect(()=>{
@@ -180,14 +199,35 @@ export default {
 		const exportExcel = async () => {
 			state.tableData.param.tid = state.tids.toString();
 			state.tableData.param.insurerAuditUids = state.insurerAuditUids.toString();
-			const res = await proxy.$api.ims.casepersonline.export(state.tableData.param);
-			if (res.errcode !== 0) {
-				return;
+
+			if (state.timeList && state.timeList.length == 2) {
+				state.tableData.param.expertReviewStatTime = state.timeList[0];
+				state.tableData.param.expertReviewEndTime = state.timeList[1];
+			} else {
+				state.tableData.param.expertReviewStatTime = '';
+				state.tableData.param.expertReviewEndTime = '';
 			}
+			state.tableData.param.isExport = true;
+			const res = await proxy.$api.ims.casepersonline.export(state.tableData.param);
+			if (res.size == 0) {
+				return;
+			} else {
+				// 返回不为空
+				var url = window.URL.createObjectURL(res);
+				var a = document.createElement('a');
+				a.href = url;
+				a.download = '赋能终端理赔' + new Date() + '.xlsx'; // 下载后的文件名称
+				a.click();
+			}
+
+			// if (res.errcode !== 0) {
+			// 	return;
+			// }
 		};
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			console.log('加载表格数据');
+			console.log('加载表格数据', state.timeList);
+			state.tableData.param.isExport = false;
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
@@ -197,6 +237,14 @@ export default {
 				console.log(state.tableData.param);
 				state.tableData.param.tid = state.tids.toString();
 				state.tableData.param.insurerAuditUids = state.insurerAuditUids.toString();
+				if (state.timeList && state.timeList.length == 2) {
+					state.tableData.param.expertReviewStatTime = state.timeList[0];
+					state.tableData.param.expertReviewEndTime = state.timeList[1];
+				} else {
+					state.tableData.param.expertReviewStatTime = '';
+					state.tableData.param.expertReviewEndTime = '';
+				}
+
 				const res = await proxy.$api.ims.casepersonline.getList(state.tableData.param);
 				if (res.errcode !== 0) {
 					return;
@@ -279,6 +327,7 @@ export default {
 		return {
 			proxy,
 			dlgEditRef,
+			defaultTime,
 			objectSpanMethod,
 			onGetTableData,
 			onResetSearch,
