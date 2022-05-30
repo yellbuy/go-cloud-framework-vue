@@ -1,14 +1,14 @@
 import { http } from '/@/utils/request';
 
-export default{
-	
+export default {
+
 	/**
 	 * 获取列表
 	 * @param params 要传的参数值
 	 * @returns 返回接口数据
 	 */
-	getList:async (params: object={})=>{
-		const url=`/v1/admin/ims/casepersonlines`;
+	getList: async (params: object = {}) => {
+		const url = `/v1/admin/ims/casepersonlines`;
 		return await http.get(url, params);
 	},
 	/**
@@ -16,8 +16,8 @@ export default{
 	 * @param id 要传的标识
 	 * @returns 返回接口数据
 	 */
-    getById:async (id:number|string)=>{
-		const url=`/v1/admin/ims/casepersonline/${id}`;
+	getById: async (id: number | string) => {
+		const url = `/v1/admin/ims/casepersonline/${id}`;
 		return await http.get(url);
 	},
 	/**
@@ -25,8 +25,8 @@ export default{
 	 * @param id 要传的标识
 	 * @returns 返回接口数据
 	 */
-	 downloadById:async (id:number|string)=>{
-		const url=`/v1/ims/casepersonline/pdfout/${id}?command=casePdf`;
+	downloadById: async (id: number | string) => {
+		const url = `/v1/ims/casepersonline/pdfout/${id}?command=casePdf`;
 		return await http.download(url);
 	},
 	/**
@@ -34,8 +34,8 @@ export default{
 	 * @param data 记录
 	 * @returns 返回接口数据
 	 */
-	insert:async(data:object)=>{
-		const url=`/v1/admin/ims/casepersonline`;
+	insert: async (data: object) => {
+		const url = `/v1/admin/ims/casepersonline`;
 		return await http.post(url, data);
 	},
 	/**
@@ -43,8 +43,8 @@ export default{
 	 * @param data 记录数据
 	 * @returns 返回接口数据
 	 */
-	 update:async(data:object)=>{
-		const url=`/v1/admin/ims/casepersonline/${data.Id}`;
+	update: async (data: object) => {
+		const url = `/v1/admin/ims/casepersonline/${data.Id}`;
 		return await http.post(url, data);
 	},
 	/**
@@ -52,8 +52,8 @@ export default{
 	 * @param data 记录数据
 	 * @returns 返回接口数据
 	 */
-	 updateStep:async(step:Number|String,data:object)=>{
-		const url=`/v1/admin/ims/casepersonline/${step}/${data.Id}`;
+	updateStep: async (step: Number | String, data: object) => {
+		const url = `/v1/admin/ims/casepersonline/${step}/${data.Id}`;
 		return await http.post(url, data);
 	},
 	/**
@@ -61,12 +61,12 @@ export default{
 	 * @param data 记录数据
 	 * @returns 返回接口数据
 	 */
-	save:async(data:object)=>{
-		if(!data.Id||data.Id=="0"){
-			const url=`/v1/admin/ims/casepersonline`;
+	save: async (data: object) => {
+		if (!data.Id || data.Id == "0") {
+			const url = `/v1/admin/ims/casepersonline`;
 			return await http.post(url, data);
 		}
-		const url=`/v1/admin/common/casepersonline/${data.Id}`;
+		const url = `/v1/admin/common/casepersonline/${data.Id}`;
 		return await http.post(url, data);
 	},
 	/**
@@ -74,8 +74,17 @@ export default{
 	 * @param id 记录标识
 	 * @returns 返回接口数据
 	 */
-	delete:async(id:number|string)=>{
-		const url=`/v1/admin/ims/casepersonline/delete/${id}`;
+	delete: async (id: number | string) => {
+		const url = `/v1/admin/ims/casepersonline/delete/${id}`;
 		return await http.post(url);
+	},
+	/**
+	 * 删除记录
+	 * @param id 记录标识
+	 * @returns 返回接口数据
+	 */
+	export: async (params: object = {}) => {
+		const url = `/v1/admin/ims/caseexport`;
+		return await http.get(url, params);
 	},
 }
