@@ -17,7 +17,7 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item :label="'专家姓名：'">
-						<el-select v-model="insurerAuditUids" multiple placeholder="请选择" style="width: 240px">
+						<el-select v-model="expertAuditUids" multiple placeholder="请选择" style="width: 240px">
 							<el-option v-for="item in userData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
 					</el-form-item>
@@ -96,7 +96,7 @@
 					<template #default="scope">
 						<el-tag type="danger" effect="plain" v-if="scope.row.ExpertReviewState == 5 || scope.row.ExpertAuditState == 5">驳回</el-tag>
 						<el-tag type="success" effect="plain" v-else-if="scope.row.ExpertReviewState == 10">已完成</el-tag>
-						<el-tag type="primary" effect="plain" v-else-if="scope.row.ExpertAuditState > 0">待审</el-tag>
+						<el-tag type="primary" effect="plain" v-else>待审</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
@@ -145,7 +145,7 @@ export default {
 					searchMode: 0, //0：所有，1：待审，2：已审，3：我审核的
 					no: '', //报案号
 					tid: '',
-					insurerAuditUids: '',
+					expertAuditUids: '',
 					state: -1,
 					pageNum: 1,
 					pageSize: 20,
@@ -156,7 +156,7 @@ export default {
 			},
 			tidData: [], //委托单位
 			userData: [], //用户
-			insurerAuditUids: [],
+			expertAuditUids: [],
 			tids: [],
 			stateData: [
 				{ Id: -1, Name: '全部' },
@@ -182,10 +182,10 @@ export default {
 		const onResetSearch = () => {
 			state.tableData.param.no = '';
 			state.tids = [];
-			state.insurerAuditUids = [];
+			state.expertAuditUids = [];
 			state.tableData.param.state = -1;
 			state.tableData.param.tid = '';
-			state.tableData.param.insurerAuditUids = '';
+			state.tableData.param.expertAuditUids = '';
 			state.expertReviewStatTime = '';
 			state.expertReviewEndTime = '';
 			state.timeList = [];
@@ -198,7 +198,7 @@ export default {
 		//导出
 		const exportExcel = async () => {
 			state.tableData.param.tid = state.tids.toString();
-			state.tableData.param.insurerAuditUids = state.insurerAuditUids.toString();
+			state.tableData.param.expertAuditUids = state.expertAuditUids.toString();
 
 			if (state.timeList && state.timeList.length == 2) {
 				state.tableData.param.expertReviewStatTime = state.timeList[0];
@@ -236,7 +236,7 @@ export default {
 			try {
 				console.log(state.tableData.param);
 				state.tableData.param.tid = state.tids.toString();
-				state.tableData.param.insurerAuditUids = state.insurerAuditUids.toString();
+				state.tableData.param.expertAuditUids = state.expertAuditUids.toString();
 				if (state.timeList && state.timeList.length == 2) {
 					state.tableData.param.expertReviewStatTime = state.timeList[0];
 					state.tableData.param.expertReviewEndTime = state.timeList[1];
