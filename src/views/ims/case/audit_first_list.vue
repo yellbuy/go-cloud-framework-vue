@@ -56,7 +56,7 @@
 						<el-tag type="warning" effect="plain" v-else-if="scope.row.CaseMode == 10">鉴定</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="CaseType" label="分类" width="80" align="center" show-overflow-tooltip>
+				<el-table-column prop="CaseType" label="分类" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="primary" effect="plain" v-if="scope.row.CaseType == 1">门诊就医</el-tag>
 						<el-tag type="success" effect="plain" v-else-if="scope.row.CaseType == 2">住院非手续</el-tag>
