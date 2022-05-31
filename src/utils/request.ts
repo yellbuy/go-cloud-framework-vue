@@ -134,7 +134,7 @@ const _request=(config:RequestConfig)=>{
 	
 	//const headers:Record<string, string> = {};
 	if(!config.nonce){
-		config.nonce=v4().replaceAll('-', '')
+		config.nonce=v4().replace(/-/g,"");
 	}
 	config.headers=Object.assign(config.headers||{},{"Nonce":config.nonce})
 	
@@ -164,24 +164,6 @@ const _request=(config:RequestConfig)=>{
 	})
 }
 const _download=(config:RequestConfig)=>{
-	console.log("config：",config)
-	config=Object.assign({notifyError:true},config)
-	
-	//const headers:Record<string, string> = {};
-	if(!config.nonce){
-		config.nonce=v4().replaceAll('-', '')
-	}
-	config.headers=Object.assign(config.headers||{},{"Nonce":config.nonce})
-	
-	return new Promise<RequestResponse>((resolve, reject) => {
-		service({
-			...config
-		}).then((res) => {
-			resolve(res);
-		}).catch((error) => {
-			reject(error);
-		})
-	})
 }
 const http={
 	request:_request,

@@ -167,7 +167,7 @@ export default defineComponent({
     }
 
     const handleCopyClick = (index: number, list: any[]) => {
-      const key = v4().replaceAll('-', '')
+      const key = v4().replace(/-/g,"");
       const oldList = JSON.parse(JSON.stringify(props.widgetForm.list))
 
       let copyData = {
@@ -221,7 +221,7 @@ export default defineComponent({
     const handleMoveAdd = (event: any) => {
       const { newIndex } = event
 
-      const key = v4().replaceAll('-', '')
+      const key = v4().replace(/-/g,"");
       const list = JSON.parse(JSON.stringify(props.widgetForm.list))
 
       list[newIndex] = {
@@ -273,7 +273,7 @@ export default defineComponent({
         return false
       }
 
-      const key = v4().replaceAll('-', '')
+      const key = v4().replace(/-/g,"");
 
       row.columns[index].list[newIndex] = {
         ...row.columns[index].list[newIndex],
