@@ -5,7 +5,7 @@
 				<template #reference>
 					<el-button type="primary" circle>
 						<el-icon>
-							<elementPlus />
+							<Plus />
 						</el-icon>
 					</el-button>
 				</template>
@@ -13,21 +13,21 @@
 					<ul>
 						<li>
 							<el-icon style="color: #ff943e;" @click="addType(1)">
-								<elementUserFilled />
+								<UserFilled />
 							</el-icon>
 							<!-- <el-icon style="color: #ff943e;" @click="addType(1)"><el-icon-user-filled /></el-icon> -->
 							<p>审批节点</p>
 						</li>
 						<li>
 							<el-icon style="color: #3296fa;" @click="addType(2)">
-								<elementPromotion />
+								<Promotion />
 							</el-icon>
 							<!-- <el-icon style="color: #3296fa;" @click="addType(2)"><el-icon-promotion /></el-icon> -->
 							<p>抄送节点</p>
 						</li>
 						<li>
 							<el-icon style="color: #15BC83;" @click="addType(4)">
-								<elementShare />
+								<Share />
 							</el-icon>
 							<!-- <el-icon style="color: #15BC83;" @click="addType(4)"><el-icon-share /></el-icon> -->
 							<p>条件分支</p>

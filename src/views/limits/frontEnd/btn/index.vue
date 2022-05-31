@@ -10,7 +10,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="primary" size="small">
 								<el-icon>
-									<elementDocumentAdd />
+									<DocumentAdd />
 								</el-icon>
 								新增
 							</el-button>
@@ -22,7 +22,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="info" size="small">
 								<el-icon>
-									<elementEdit />
+									<Edit />
 								</el-icon>
 								编辑
 							</el-button>
@@ -34,7 +34,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="danger" size="small">
 								<el-icon>
-									<elementDelete />
+									<Delete />
 								</el-icon>
 								删除
 							</el-button>
@@ -46,7 +46,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="success" size="small">
 								<el-icon>
-									<elementLink />
+									<Link />
 								</el-icon>
 								跳转
 							</el-button>
@@ -62,7 +62,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="primary" size="small">
 								<el-icon>
-									<elementDocumentAdd />
+									<DocumentAdd />
 								</el-icon>
 								新增
 							</el-button>
@@ -74,7 +74,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="info" size="small">
 								<el-icon>
-									<elementEdit />
+									<Edit />
 								</el-icon>
 								编辑
 							</el-button>
@@ -86,7 +86,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="danger" size="small">
 								<el-icon>
-									<elementDelete />
+									<Delete />
 								</el-icon>
 								删除
 							</el-button>
@@ -98,7 +98,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="success" size="small">
 								<el-icon>
-									<elementLink />
+									<Link />
 								</el-icon>
 								跳转
 							</el-button>
@@ -114,7 +114,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="primary" size="small">
 								<el-icon>
-									<elementDocumentAdd />
+									<DocumentAdd />
 								</el-icon>
 								新增
 							</el-button>
@@ -126,7 +126,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="info" size="small">
 								<el-icon>
-									<elementEdit />
+									<Edit />
 								</el-icon>
 								编辑
 							</el-button>
@@ -138,7 +138,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="danger" size="small">
 								<el-icon>
-									<elementDelete />
+									<Delete />
 								</el-icon>
 								删除
 							</el-button>
@@ -150,7 +150,7 @@
 						<div class="flex-warp-item-box">
 							<el-button type="success" size="small">
 								<el-icon>
-									<elementLink />
+									<Link />
 								</el-icon>
 								跳转
 							</el-button>
@@ -168,7 +168,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="primary" size="small">
 							<el-icon>
-								<elementDocumentAdd />
+								<DocumentAdd />
 							</el-icon>
 							新增
 						</el-button>
@@ -178,7 +178,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="info" size="small">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							编辑
 						</el-button>
@@ -188,7 +188,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="danger" size="small">
 							<el-icon>
-								<elementDelete />
+								<Delete />
 							</el-icon>
 							删除
 						</el-button>
@@ -198,7 +198,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="success" size="small">
 							<el-icon>
-								<elementLink />
+								<Link />
 							</el-icon>
 							跳转
 						</el-button>
@@ -212,7 +212,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="primary" size="small">
 							<el-icon>
-								<elementDocumentAdd />
+								<DocumentAdd />
 							</el-icon>
 							新增
 						</el-button>
@@ -222,7 +222,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="info" size="small">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							编辑
 						</el-button>
@@ -232,7 +232,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="danger" size="small">
 							<el-icon>
-								<elementDelete />
+								<Delete />
 							</el-icon>
 							删除
 						</el-button>
@@ -242,7 +242,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="success" size="small">
 							<el-icon>
-								<elementLink />
+								<Link />
 							</el-icon>
 							跳转
 						</el-button>
@@ -256,7 +256,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="primary" size="small">
 							<el-icon>
-								<elementDocumentAdd />
+								<DocumentAdd />
 							</el-icon>
 							新增
 						</el-button>
@@ -266,7 +266,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="info" size="small">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							编辑
 						</el-button>
@@ -276,7 +276,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="danger" size="small">
 							<el-icon>
-								<elementDelete />
+								<Delete />
 							</el-icon>
 							删除
 						</el-button>
@@ -286,7 +286,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="success" size="small">
 							<el-icon>
-								<elementLink />
+								<Link />
 							</el-icon>
 							跳转
 						</el-button>
@@ -303,7 +303,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="primary" size="small" @click="onAuthClick">
 							<el-icon>
-								<elementDocumentAdd />
+								<DocumentAdd />
 							</el-icon>
 							新增
 						</el-button>
@@ -313,7 +313,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="info" size="small" @click="onAuthsClick">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							编辑
 						</el-button>
@@ -323,7 +323,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="danger" size="small" @click="onAuthAllClick">
 							<el-icon>
-								<elementDelete />
+								<Delete />
 							</el-icon>
 							删除
 						</el-button>

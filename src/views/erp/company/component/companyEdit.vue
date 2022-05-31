@@ -67,7 +67,7 @@
 				<el-divider content-position="left">资质信息*</el-divider>
 				<el-button size="mini" type="primary" @click="onModelAdd" v-if="!disable">
 					<el-icon>
-						<elementCirclePlusFilled />
+						<CirclePlusFilled />
 					</el-icon>
 					&#8197;{{ $t('message.action.add') }}
 				</el-button>
@@ -91,13 +91,13 @@
 						<template #default="scope">
 							<el-button size="mini" type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.CompanyLineEdit'">
 								<el-icon>
-									<elementEdit />
+									<Edit />
 								</el-icon>
 								{{ $t('message.action.edit') }}
 							</el-button>
 							<el-button size="mini" type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.CompanyLineDel'">
 								<el-icon>
-									<elementCloseBold />
+									<CloseBold />
 								</el-icon>
 								{{ $t('message.action.delete') }}
 							</el-button>

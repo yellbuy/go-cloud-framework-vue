@@ -24,7 +24,7 @@
 				</el-table-column>
 				<el-table-column prop="Status" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-switch v-model="scope.row.Status" inline-prompt width="50" v-auth:[moduleKey]="'btn.Edit'"
+						<el-switch v-model="scope.row.Status" inline-prompt :width="42" v-auth:[moduleKey]="'btn.Edit'"
 						@change="proxy.$api.common.table.updateById('common_data','status',scope.row.Id,scope.row.Status)" 
 						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0" :disabled="scope.row.Predefined"/>
 						<el-tag type="success" effect="plain"  v-if="scope.row.Status" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
@@ -36,7 +36,7 @@
 						<el-button  type="text" v-if="tableData.data" 
 							@click="proxy.$api.common.table.update('common_data','Order', tableData.data||[], 0)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							&#8197;排序{{ $t('message.action.update') }}
 						</el-button>
@@ -52,13 +52,13 @@
 					<template #header>
 						<el-button  type="primary" @click="onOpenCommonDataDlg()" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
-								<elementCirclePlusFilled />
+								<CirclePlusFilled />
 							</el-icon>
 							&#8197;{{ $t('message.action.add') }}
 						</el-button>
 						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
-								<elementRefresh />
+								<Refresh />
 							</el-icon>
 							&#8197;{{ $t('message.action.refresh') }}
 						</el-button>
@@ -66,13 +66,13 @@
 					<template #default="scope">
 						<el-button  type="primary" plain @click="onOpenCommonDataDlg(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button  type="danger" plain @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'" v-if="!scope.row.Predefined">
 							<el-icon>
-								<elementCloseBold />
+								<CloseBold />
 							</el-icon>
 							&#8197;{{ $t('message.action.delete') }}
 						</el-button>

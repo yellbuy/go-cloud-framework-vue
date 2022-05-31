@@ -29,7 +29,7 @@ function createNormalCard(ctx, conf, h) {
         </div>
         <div class="actions" style="margin-right:4px;">
         <el-icon class="icon" onClick={this.eventLancher.bind(ctx, "deleteNode", conf, ctx.data)}>
-          <elementClose />
+          <Close />
         </el-icon >
         </div>
       </header>
@@ -37,7 +37,7 @@ function createNormalCard(ctx, conf, h) {
         <span class="text">{conf.content}</span>
         <div class="icon-wrapper right">
           <el-icon class="icon">
-          <elementArrowRight />
+          <ArrowRight />
         </el-icon>
         </div>
       </div>
@@ -76,7 +76,7 @@ let nodes = {
           <span class="priority">优先级{conf.properties.priority + 1}</span>
           <div class="actions">
             <el-icon class="icon" onClick={this.eventLancher.bind( ctx, "deleteNode", conf, ctx.data)}>
-            <elementClose />
+            <Close />
           </el-icon>
             // <i class="el-icon-close icon" onClick={this.eventLancher.bind( ctx, "deleteNode", conf, ctx.data )}></i>
           </div>
@@ -94,7 +94,7 @@ let nodes = {
           )}
         >
         <el-icon class="icon">
-            <elementArrowLeft />
+            <ArrowLeft />
           </el-icon>
         </div>
         <div
@@ -107,7 +107,7 @@ let nodes = {
           )}
         >
           <el-icon class="icon">
-            <elementArrowRight />
+            <ArrowRight />
           </el-icon>
         </div>
       </section>
@@ -153,7 +153,7 @@ function addNodeButton(ctx, data, h, isBranch = false) {
           <button class="btn" type="button" slot="reference">
           添加
             <el-icon class="plus">
-              <elementPlus />
+              <Plus />
             </el-icon>
           </button>
         </el-popover>

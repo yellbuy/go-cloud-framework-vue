@@ -3,7 +3,7 @@
 		<el-form-item class="login-animation-one">
 			<el-input type="text" :placeholder="$t('message.account.accountPlaceholder1')" v-model="ruleForm.username" clearable autocomplete="off">
 				<template #prefix>
-					<el-icon class="el-input__icon"><elementUser /></el-icon>
+					<el-icon class="el-input__icon"><User /></el-icon>
 				</template>
 			</el-input>
 		</el-form-item>
@@ -15,7 +15,7 @@
 				autocomplete="off"
 			>
 				<template #prefix>
-					<el-icon class="el-input__icon"><elementUnlock /></el-icon>
+					<el-icon class="el-input__icon"><Unlock /></el-icon>
 				</template>
 				<template #suffix>
 					<i
@@ -39,7 +39,7 @@
 						autocomplete="off"
 					>
 						<template #prefix>
-							<el-icon class="el-input__icon"><elementPosition /></el-icon>
+							<el-icon class="el-input__icon"><Position /></el-icon>
 						</template>
 					</el-input>
 				</el-col>

@@ -3,12 +3,12 @@
 		<div class="node-wrap-box" @click="show">
 			<div class="title" style="background: #ff943e;">
 				<el-icon class="icon">
-					<elementUserFilled />
+					<UserFilled />
 				</el-icon>
 				<!-- <el-icon class="icon"><el-icon-user-filled /></el-icon> -->
 				<span>{{ nodeConfig.nodeName }}</span>
 				<el-icon class="close" @click.stop="delNode()">
-					<elementClose />
+					<Close />
 				</el-icon>
 				<!-- <el-icon class="close" @click.stop="delNode()"><el-icon-close /></el-icon> -->
 			</div>
@@ -23,7 +23,7 @@
 				<div class="node-wrap-drawer__title">
 					<label @click="editTitle" v-if="!isEditTitle">{{form.nodeName}}
 						<el-icon class="node-wrap-drawer__title-edit">
-							<elementEdit />
+							<Edit />
 						</el-icon>
 						<!-- <el-icon class="node-wrap-drawer__title-edit"><el-icon-edit /></el-icon> -->
 					</label>
@@ -126,7 +126,7 @@
 						<el-form-item v-if="form.setType==1" label="选择成员">
 							<el-button type="primary" round @click="selectHandle(1, form.nodeUserList)">
 								<el-icon>
-									<elementPlus />
+									<Plus />
 								</el-icon>
 								选择人员
 						</el-button>
@@ -142,7 +142,7 @@
 						<el-form-item v-if="form.setType==3" label="选择角色">
 							<el-button type="primary" round @click="selectHandle(2, form.nodeRoleList)">
 								<el-icon>
-									<elementPlus />
+									<Plus />
 								</el-icon>
 								选择角色
 							</el-button>

@@ -11,7 +11,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="primary" size="small" @click="refreshCurrentTagsView">
 							<el-icon>
-								<elementRefreshRight />
+								<RefreshRight />
 							</el-icon>
 							刷新当前页
 						</el-button>
@@ -21,7 +21,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="info" size="small" @click="closeCurrentTagsView">
 							<el-icon>
-								<elementClose />
+								<Close />
 							</el-icon>
 							关闭当前页
 						</el-button>
@@ -31,7 +31,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="warning" size="small" @click="closeOtherTagsView">
 							<el-icon>
-								<elementCircleClose />
+								<CircleClose />
 							</el-icon>
 							关闭其它
 						</el-button>
@@ -41,7 +41,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="danger" size="small" @click="closeAllTagsView">
 							<el-icon>
-								<elementFolderDelete />
+								<FolderDelete />
 							</el-icon>
 							全部关闭
 						</el-button>
@@ -51,7 +51,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="success" size="small" @click="openCurrenFullscreen">
 							<el-icon>
-								<elementFullScreen />
+								<FullScreen />
 							</el-icon>
 							当前页全屏
 						</el-button>

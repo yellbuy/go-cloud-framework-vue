@@ -1,8 +1,7 @@
-import * as svg from '@element-plus/icons-vue';
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
 import type { App } from 'vue';
 import { nextTick } from 'vue';
-import { globalComponentSize } from './other';
 import SvgIcon from '/@/components/svgIcon/index.vue';
 import { i18n } from '/@/i18n/index';
 import router from '/@/router/index';
@@ -15,13 +14,13 @@ import MetaSvgIcon from '/@/views/meta/components/DynamicForm/components/SvgIcon
  * @param app vue 实例
  * @description 使用：https://element-plus.gitee.io/zh-CN/component/icon.html
  */
-export function elSvg(app: App) {
-	const icons = svg as any;
-	for (const i in icons) {
-		app.component(`element${icons[i].name}`, icons[i]);
+ export function elSvg(app: App) {
+	for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+		app.component(key, component)
 	}
 	app.component('SvgIcon', SvgIcon);
 }
+
 
 /**
  * 导出全局注册 element plus svg 图标

@@ -12,7 +12,7 @@
 				<el-col :span="16">
 					<el-input type="text" maxlength="4" :placeholder="$t('message.mobile.placeholder2')" v-model="ruleForm.code" clearable autocomplete="off">
 						<template #prefix>
-							<el-icon class="el-input__icon"><elementPosition /></el-icon>
+							<el-icon class="el-input__icon"><Position /></el-icon>
 						</template>
 					</el-input>
 				</el-col>

@@ -10,7 +10,7 @@
 		></el-alert>
 		<el-button type="primary" size="small" class="mt15" @click="onGoToFrontEndPage">
 			<el-icon>
-				<elementPosition />
+				<Position />
 			</el-icon>
 			立即前往前端控制路由
 		</el-button>

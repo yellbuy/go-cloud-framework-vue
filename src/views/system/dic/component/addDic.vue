@@ -26,12 +26,12 @@
 									<template #label>
 										<el-button type="primary" circle size="mini" @click="onAddRow" v-if="k === 0">
 											<el-icon>
-												<elementPlus />
+												<Plus />
 											</el-icon>
 										</el-button>
 										<el-button type="danger" circle size="mini" @click="onDelRow(k)" v-else>
 											<el-icon>
-												<elementDelete />
+												<Delete />
 											</el-icon>
 										</el-button>
 										<span class="ml10">字段</span>

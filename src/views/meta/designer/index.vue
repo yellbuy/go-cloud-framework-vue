@@ -4,7 +4,7 @@
       <div class="page-actions">
         <div style="border-right:1px solid #c5c5c5;cursor: pointer;" @click="exit">
           <el-icon>
-            <elementArrowLeft />
+            <ArrowLeft />
           </el-icon>
           <!-- <i class="el-icon-arrow-left"></i> -->
         </div>

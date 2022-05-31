@@ -5,13 +5,13 @@
 				<el-input size="small" placeholder="请输入角色名称" style="max-width: 180px"> </el-input>
 				<el-button size="small" type="primary" class="ml10">
 					<el-icon>
-						<elementSearch />
+						<Search />
 					</el-icon>
 					查询
 				</el-button>
 				<el-button size="small" type="success" class="ml10" @click="onOpenAddRole">
 					<el-icon>
-						<elementFolderAdd />
+						<FolderAdd />
 					</el-icon>
 					新增角色
 				</el-button>

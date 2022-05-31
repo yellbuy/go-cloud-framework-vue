@@ -124,7 +124,7 @@
 								<el-form-item>
 									<el-button type="primary">
 										<el-icon>
-											<elementPosition />
+											<Position />
 										</el-icon>
 										更新个人信息
 									</el-button>

@@ -10,7 +10,7 @@
 								<div class="sort-left" v-if="index!=0" @click.stop="arrTransfer(index,-1)">
 									<!-- <SvgIcon name="elementPlus" /> -->
 									<el-icon>
-										<elementArrowLeft />
+										<ArrowLeft />
 									</el-icon>
 									<!-- <el-icon><el-icon-arrow-left /></el-icon> -->
 								</div>
@@ -18,7 +18,7 @@
 									<span class="node-title">{{ item.nodeName }}</span>
 									<span class="priority-title">优先级{{item.priorityLevel}}</span>
 									<el-icon class="close" @click.stop="delTerm(index)">
-										<elementClose />
+										<Close />
 									</el-icon>
 									<!-- <el-icon class="close" @click.stop="delTerm(index)"><el-icon-close /></el-icon> -->
 								</div>
@@ -28,7 +28,7 @@
 								</div>
 								<div class="sort-right" v-if="index!=nodeConfig.conditionNodes.length-1" @click.stop="arrTransfer(index)">
 									<el-icon>
-										<elementArrowRight />
+										<ArrowRight />
 									</el-icon>
 									<!-- <el-icon><el-icon-arrow-right /></el-icon> -->
 								</div>

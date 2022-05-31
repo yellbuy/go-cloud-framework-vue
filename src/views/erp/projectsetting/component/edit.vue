@@ -15,7 +15,7 @@
 			<el-divider content-position="left">详情信息</el-divider>
 			<el-button  type="primary" @click="onModelAdd" v-if="!disable">
 				<el-icon>
-					<elementCirclePlusFilled />
+					<CirclePlusFilled />
 				</el-icon>
 				&#8197;{{ $t('message.action.add') }}
 			</el-button>
@@ -28,13 +28,13 @@
 					<template #default="scope">
 						<el-button  type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button  type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
 							<el-icon>
-								<elementCloseBold />
+								<CloseBold />
 							</el-icon>
 							&#8197;{{ $t('message.action.delete') }}
 						</el-button>

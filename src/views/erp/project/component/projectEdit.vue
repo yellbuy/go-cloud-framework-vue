@@ -57,7 +57,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-button size="mini" type="primary" @click="onModelAdd">
 							<el-icon>
-								<elementPlus />
+								<Plus />
 							</el-icon>
 							添加品目
 						</el-button>
@@ -72,13 +72,13 @@
 								<template #default="scope">
 									<el-button size="mini" type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.BidProjectEdit'">
 										<el-icon>
-											<elementEdit />
+											<Edit />
 										</el-icon>
 										{{ $t('message.action.edit') }}
 									</el-button>
 									<el-button size="mini" type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.BidProjectDel'">
 										<el-icon>
-											<elementCloseBold />
+											<CloseBold />
 										</el-icon>
 										{{ $t('message.action.delete') }}
 									</el-button>
@@ -179,12 +179,12 @@
 				<el-form-item>
 					<el-button size="mini" type="primary" @click="onOpenItemDialog('zgps')">
 						<el-icon>
-							<elementCirclePlusFilled />
+							<CirclePlusFilled />
 						</el-icon>
 						{{ $t('message.action.add') }}
 					</el-button>
 					<el-button size="mini" @click="onOpenItemDialog()">
-						<el-icon><elementEdit /></el-icon>
+						<el-icon><Edit /></el-icon>
 						获取
 					</el-button>
 				</el-form-item>
@@ -198,13 +198,13 @@
 					<template #default="scope">
 						<el-button size="mini" type="primary" @click="onOpenItemDialog('zgps', scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button size="mini" type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
 							<el-icon>
-								<elementCloseBold />
+								<CloseBold />
 							</el-icon>
 							{{ $t('message.action.delete') }}
 						</el-button>
@@ -216,12 +216,12 @@
 				<el-form-item>
 					<el-button size="mini" type="primary" @click="onOpenItemDialog('zgps')">
 						<el-icon>
-							<elementPlus />
+							<Plus />
 						</el-icon>
 						{{ $t('message.action.add') }}
 					</el-button>
 					<el-button size="mini" @click="onOpenItemDialog()">
-						<el-icon><elementEdit /></el-icon>
+						<el-icon><Edit /></el-icon>
 						获取
 					</el-button>
 				</el-form-item>
@@ -236,13 +236,13 @@
 					<template #default="scope">
 						<el-button size="mini" type="primary" @click="onOpenItemDialog('zgps', scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button size="mini" type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
 							<el-icon>
-								<elementCloseBold />
+								<CloseBold />
 							</el-icon>
 							{{ $t('message.action.delete') }}
 						</el-button>

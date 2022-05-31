@@ -41,7 +41,7 @@
 								<template #append>
 									<el-button @click="onLockScreenSubmit">
 										<el-icon class="el-input__icon">
-											<elementRight />
+											<Right />
 										</el-icon>
 									</el-button>
 								</template>

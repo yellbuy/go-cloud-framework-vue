@@ -9,19 +9,19 @@
 					<el-form-item>
 						<el-button type="info"  @click="onResetSearch">
 							<el-icon>
-								<elementRefreshLeft />
+								<RefreshLeft />
 							</el-icon>
 							&#8197;{{ $t('message.action.reset') }}
 						</el-button>
 						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
-								<elementSearch />
+								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
 						<el-button  type="primary" @click="onOpenDlgAdd"  v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
-								<elementCirclePlusFilled />
+								<CirclePlusFilled />
 							</el-icon>
 							&#8197;{{ $t('message.action.add') }}
 						</el-button>
@@ -30,18 +30,18 @@
 					</el-form-item>
 				</el-form>
 			</div>
-			<el-table :data="tableData.data" 
-				v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)"
+			<el-table :data="tableData.data"
+				v-loading="tableData.loading" style="width:100%" :height="proxy.$calcMainHeight(-75)"
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
 				<el-table-column prop="Name" label="单位名称" width="240" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Code" label="单位代码" width="180" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Code" label="单位代码" width="180" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Phone" label="电话" width="100" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Linkman" label="联系人" width="70" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Addr" label="单位地址"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="State" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-switch v-model="scope.row.State" inline-prompt width="50" v-auth:[moduleKey]="'btn.Edit'"
+						<el-switch v-model="scope.row.State" inline-prompt :width="42" v-auth:[moduleKey]="'btn.Edit'" 
 						@change="proxy.$api.common.table.updateById('base_tenant','State',scope.row.Id,scope.row.State)" 
 						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
 						<el-tag type="success" effect="plain"  v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
@@ -51,7 +51,7 @@
 				
 				<el-table-column prop="IsTop" label="置顶" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-switch v-model="scope.row.IsTop" inline-prompt v-auth:[moduleKey]="'btn.Edit'"
+						<el-switch v-model="scope.row.IsTop" inline-prompt v-auth:[moduleKey]="'btn.Edit'" 
 						@change="proxy.$api.common.table.updateById('base_tenant','IsTop',scope.row.Id,scope.row.IsTop)" 
 						:active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
 						<el-tag type="success" effect="plain"  v-if="scope.row.IsTop" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.yes') }}</el-tag>
@@ -63,7 +63,7 @@
 						<el-button  type="text" v-if="tableData.data" 
 							@click="proxy.$api.common.table.update('base_tenant','Order', tableData.data||[], 0)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							&#8197;排序{{ $t('message.action.update') }}
 						</el-button>
@@ -80,21 +80,21 @@
 				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
-						<el-button plain  type="info" @click="onProxyTenant(scope.row)" v-auth:[moduleKey]="'btn.Proxy'">
+						<el-button text bg  type="info" @click="onProxyTenant(scope.row)" v-auth:[moduleKey]="'btn.Proxy'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.backend') }}
 						</el-button>
-						<el-button  plain type="primary" @click="onOpenDlgEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button  text bg type="primary" @click="onOpenDlgEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button  plain type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button  text bg type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
-								<elementCloseBold />
+								<CloseBold />
 							</el-icon>
 							&#8197;{{ $t('message.action.delete') }}
 						</el-button>

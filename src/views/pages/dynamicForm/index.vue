@@ -65,12 +65,12 @@
 										<template #label>
 											<el-button type="primary" circle size="mini" @click="onAddRow" v-if="k === 0">
 												<el-icon>
-													<elementPlus />
+													<Plus />
 												</el-icon>
 											</el-button>
 											<el-button type="danger" circle size="mini" @click="onDelRow(k)" v-else>
 												<el-icon>
-													<elementDelete />
+													<Delete />
 												</el-icon>
 											</el-button>
 											<span class="ml10">年度</span>
@@ -98,7 +98,7 @@
 			<div class="flex-margin">
 				<el-button size="small" @click="onResetForm">
 					<el-icon>
-						<elementRefreshRight />
+						<RefreshRight />
 					</el-icon>
 					重置表单
 				</el-button>

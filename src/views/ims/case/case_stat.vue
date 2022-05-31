@@ -35,19 +35,19 @@
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
 							<el-icon>
-								<elementRefreshLeft />
+								<RefreshLeft />
 							</el-icon>
 							&#8197;{{ $t('message.action.reset') }}
 						</el-button>
 						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
-								<elementSearch />
+								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
 						<el-button type="info" @click="exportExcel()">
 							<el-icon>
-								<elementSearch />
+								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.export') }}
 						</el-button>

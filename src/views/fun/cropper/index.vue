@@ -13,7 +13,7 @@
 				</div>
 				<el-button type="primary" size="small" @click="onCropperDialogOpen">
 					<el-icon>
-						<elementCrop />
+						<Crop />
 					</el-icon>
 					更换头像
 				</el-button>

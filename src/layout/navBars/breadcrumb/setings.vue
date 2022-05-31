@@ -365,13 +365,13 @@
 					<el-alert :title="$t('message.layout.tipText')" type="warning" :closable="false"> </el-alert>
 					<el-button size="small" class="copy-config-btn" type="primary" ref="copyConfigBtnRef" @click="onCopyConfigClick">
 						<el-icon>
-							<elementCopyDocument />
+							<CopyDocument />
 						</el-icon>
 						{{ $t('message.layout.copyText') }}
 					</el-button>
 					<el-button size="small" class="copy-config-btn-reset" type="info" @click="onResetConfigClick">
 						<el-icon>
-							<elementRefreshRight />
+							<RefreshRight />
 						</el-icon>
 						{{ $t('message.layout.resetText') }}
 					</el-button>

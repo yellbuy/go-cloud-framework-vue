@@ -25,7 +25,7 @@
 					<div class="flex-warp-item-box">
 						<el-button type="primary" size="small" @click="refreshCurrent">
 							<el-icon>
-								<elementRefreshRight />
+								<RefreshRight />
 							</el-icon>
 							重置/刷新数值
 						</el-button>

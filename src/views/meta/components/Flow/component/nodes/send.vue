@@ -3,12 +3,12 @@
 		<div class="node-wrap-box" @click="show">
 			<div class="title" style="background: #3296fa;">
 				<el-icon class="icon">
-					<elementPromotion />
+					<Promotion />
 				</el-icon>
 				<!-- <el-icon class="icon"><el-icon-promotion /></el-icon> -->
 				<span>{{ nodeConfig.nodeName }}</span>
 				<el-icon class="close" @click.stop="delNode()">
-					<elementClose />
+					<Close />
 				</el-icon>
 				<!-- <el-icon class="close" @click.stop="delNode()"><el-icon-close /></el-icon> -->
 			</div>
@@ -23,7 +23,7 @@
 				<div class="node-wrap-drawer__title">
 					<label @click="editTitle" v-if="!isEditTitle">{{form.nodeName}}
 						<el-icon class="node-wrap-drawer__title-edit">
-							<elementEdit />
+							<Edit />
 						</el-icon>
 						<!-- <el-icon class="node-wrap-drawer__title-edit"><el-icon-edit /></el-icon> -->
 					</label>
@@ -36,7 +36,7 @@
 						<el-form-item label="选择要抄送的人员">
 							<el-button type="primary" icon="el-icon-plus" round @click="selectHandle(1, form.nodeUserList)">
 								<el-icon>
-									<elementPlus />
+									<Plus />
 								</el-icon>
 							选择人员</el-button>
 							<div class="tags-list">

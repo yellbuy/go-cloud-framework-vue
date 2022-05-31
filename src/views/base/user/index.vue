@@ -12,19 +12,19 @@
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
 							<el-icon>
-								<elementRefreshLeft />
+								<RefreshLeft />
 							</el-icon>
 							&#8197;{{ $t('message.action.reset') }}
 						</el-button>
 						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
-								<elementSearch />
+								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
 						<el-button  type="primary" @click="onOpenAddUser"  v-auth:[moduleKey]="'btn.UserAdd'">
 							<el-icon>
-								<elementCirclePlusFilled />
+								<CirclePlusFilled />
 							</el-icon>
 							&#8197;{{ $t('message.action.add') }}
 						</el-button>
@@ -44,7 +44,7 @@
 				<el-table-column prop="Email" label="邮箱" width="150" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Enable" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-switch v-model="scope.row.Enable" inline-prompt width="50" v-auth:[moduleKey]="'btn.UserEdit'"
+						<el-switch v-model="scope.row.Enable" inline-prompt :width="42" v-auth:[moduleKey]="'btn.UserEdit'"
 						@change="proxy.$api.common.table.updateById('base_user','Enable',scope.row.Id,scope.row.Enable)" 
 						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
 						<el-tag type="success" effect="plain"  v-if="scope.row.Enable" v-no-auth:[moduleKey]="'btn.UserEdit'">{{ $t('message.action.enable') }}</el-tag>
@@ -56,7 +56,7 @@
 						<el-button  type="text" v-if="tableData.data" 
 							@click="proxy.$api.common.table.update('base_user','Order', tableData.data||[], 0)" v-auth:[moduleKey]="'btn.UserEdit'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							&#8197;排序{{ $t('message.action.update') }}
 						</el-button>
@@ -86,13 +86,13 @@
 					<template #default="scope">
 						<el-button  plain type="primary" @click="onOpenuserEdit(scope.row)" v-auth:[moduleKey]="'btn.UserEdit'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button  plain type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.UserDel'">
 							<el-icon>
-								<elementCloseBold />
+								<CloseBold />
 							</el-icon>
 							&#8197;{{ $t('message.action.delete') }}
 						</el-button>

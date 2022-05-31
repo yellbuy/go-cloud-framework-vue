@@ -27,7 +27,7 @@
 		</el-dropdown>
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onSearchClick">
 			<el-icon :title="$t('message.user.title2')">
-				<elementSearch />
+				<Search />
 			</el-icon>
 		</div>
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSetingClick">
@@ -38,7 +38,7 @@
 				<template #reference>
 					<el-badge :is-dot="newsCount" @click="isShowUserNewsPopover = !isShowUserNewsPopover">
 						<el-icon :title="$t('message.user.title4')">
-							<elementBell />
+							<Bell />
 						</el-icon>
 					</el-badge>
 				</template>
@@ -59,7 +59,7 @@
 				<img :src="getUserInfos.avatar" class="layout-navbars-breadcrumb-user-link-photo mr5" />
 				{{ getUserInfos.username === '' ? 'test' : getUserInfos.realname || getUserInfos.username }}
 				<el-icon class="el-icon--right">
-					<elementArrowDown />
+					<ArrowDown />
 				</el-icon>
 			</span>
 			<template #dropdown>

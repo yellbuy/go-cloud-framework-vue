@@ -3,7 +3,7 @@
 		<el-card shadow="hover">
 			<el-button size="mini" type="primary" @click="onOpenCommondata(0)" v-auth:[moduleKey]="'btn.CategoryAdd'">
 				<el-icon>
-					<elementCirclePlusFilled />
+					<CirclePlusFilled />
 				</el-icon>
 				&#8197;{{ $t('message.action.add') }}
 			</el-button>
@@ -24,13 +24,13 @@
 					<template #default="scope">
 						<el-button size="mini" type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryEdit'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button size="mini" type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.CategoryDel'">
 							<el-icon>
-								<elementCloseBold />
+								<CloseBold />
 							</el-icon>
 							&#8197;{{ $t('message.action.delete') }}
 						</el-button>

@@ -3,7 +3,7 @@
 		<div class="node-wrap-box start-node" @click="show">
 			<div class="title" style="background: #576a95;">
 				<el-icon class="icon">
-					<elementUserFilled />
+					<UserFilled />
 				</el-icon>
 				<!-- <el-icon class="icon"><el-icon-user-filled /></el-icon> -->
 				<span>{{ nodeConfig.nodeName }}</span>
@@ -18,7 +18,7 @@
 				<div class="node-wrap-drawer__title">
 					<label @click="editTitle" v-if="!isEditTitle">{{form.nodeName}}
 						<el-icon class="node-wrap-drawer__title-edit">
-							<elementEdit />
+							<Edit />
 						</el-icon>
 						<!-- <el-icon class="node-wrap-drawer__title-edit"><el-icon-edit /></el-icon> -->
 					</label>
@@ -74,7 +74,7 @@
 						<el-form-item label="谁可以发起此审批">
 							<el-button type="primary" round @click="selectHandle(2, form.nodeRoleList)">
 								<el-icon>
-									<elementPlus />
+									<Plus />
 								</el-icon>
 								选择角色
 							</el-button>

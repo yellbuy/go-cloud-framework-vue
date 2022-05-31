@@ -16,13 +16,13 @@
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
 							<el-icon>
-								<elementRefreshLeft />
+								<RefreshLeft />
 							</el-icon>
 							&#8197;{{ $t('message.action.reset') }}
 						</el-button>
 						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
-								<elementSearch />
+								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
@@ -75,13 +75,13 @@
 					<template #default="scope">
 						<el-button  plain  type="info" @click="onOpenEditDlg(false,scope.row)">
 							<el-icon>
-								<elementSearch />
+								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
 						<el-button  plain  type="primary"  @click="onOpenEditDlg(true,scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
 							<el-icon>
-								<elementEdit />
+								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.distribute') }}
 						</el-button>

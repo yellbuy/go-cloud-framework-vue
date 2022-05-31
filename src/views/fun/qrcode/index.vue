@@ -13,7 +13,7 @@
 				</div>
 				<el-button type="primary" size="small" @click="onInitQrcode">
 					<el-icon>
-						<elementRefresh />
+						<Refresh />
 					</el-icon>
 					重新生成
 				</el-button>

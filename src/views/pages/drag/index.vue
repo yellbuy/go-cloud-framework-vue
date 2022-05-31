@@ -3,7 +3,7 @@
 		<el-card shadow="hover" header="拖动指令效果（v-drag）作用于 Dialog 对话框">
 			<el-button type="primary" @click="dialogVisible = true" size="small">
 				<el-icon>
-					<elementPointer />
+					<Pointer />
 				</el-icon>
 				点击打开 Dialog
 			</el-button>
@@ -14,7 +14,7 @@
 				<div class="drag-header">
 					<el-button type="success" size="small" v-drag="['.drag-container .drag-dom', '.drag-container .drag-header']">
 						<el-icon>
-							<elementPointer />
+							<Pointer />
 						</el-icon>
 						按住进行拖动测试
 					</el-button>

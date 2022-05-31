@@ -9,13 +9,13 @@
 								<el-form-item>
 									<el-button type="info" @click="onGetMainTableData(true)">
 										<el-icon>
-											<elementSearch />
+											<Search />
 										</el-icon>
 										&#8197;{{ $t('message.action.search') }}
 									</el-button>
 									<el-button  type="primary" @click="onOpenMainEditDlg()"  v-auth:[moduleKey]="'btn.CategoryAdd'">
 										<el-icon>
-											<elementCirclePlusFilled />
+											<CirclePlusFilled />
 										</el-icon>
 										&#8197;{{ $t('message.action.add') }}
 									</el-button>
@@ -48,13 +48,13 @@
 								<template #default="scope">
 									<el-button  type="primary" plain @click="onOpenMainEditDlg(scope.row)" v-auth:[moduleKey]="'btn.CategoryEdit'">
 										<el-icon>
-											<elementEdit />
+											<Edit />
 										</el-icon>
 										&#8197;{{ $t('message.action.edit') }}
 									</el-button>
 									<el-button  type="danger" plain @click="onMainRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryDel'">
 										<el-icon>
-											<elementCloseBold />
+											<CloseBold />
 										</el-icon>
 										&#8197;{{ $t('message.action.delete') }}
 									</el-button>
@@ -73,19 +73,19 @@
 								<el-form-item>
 									<el-button type="info" @click="onChildResetSearch">
 										<el-icon>
-											<elementRefreshLeft />
+											<RefreshLeft />
 										</el-icon>
 										&#8197;{{ $t('message.action.reset') }}
 									</el-button>
 									<el-button type="info" @click="onGetChildTableData(true)">
 										<el-icon>
-											<elementSearch />
+											<Search />
 										</el-icon>
 										&#8197;{{ $t('message.action.search') }}
 									</el-button>
 									<el-button  type="primary" @click="onOpenChildEditDlg()"  v-no-auth:[moduleKey]="'btn.GoodsAdd'">
 										<el-icon>
-											<elementCirclePlusFilled />
+											<CirclePlusFilled />
 										</el-icon>
 										&#8197;{{ $t('message.action.add') }}
 									</el-button>
@@ -139,19 +139,19 @@
 								</template>
 							</el-table-column>
 
-							<el-table-column prop="Id" label="标识" width="160" align="right">
+							<el-table-column prop="Id" label="标识" width="160" align="right" >
 							</el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 								<template #default="scope">
 									<el-button  type="primary" plain @click="onOpenChildEditDlg(scope.row)" v-auth:[moduleKey]="'btn.GoodsEdit'">
 										<el-icon>
-											<elementEdit />
+											<Edit />
 										</el-icon>
 										&#8197;{{ $t('message.action.edit') }}
 									</el-button>
 									<el-button  type="danger" plain @click="onRowChildDel(scope.row.Id)" v-auth:[moduleKey]="'btn.GoodsDel'">
 										<el-icon>
-											<elementCloseBold />
+											<CloseBold />
 										</el-icon>
 										&#8197;{{ $t('message.action.delete') }}
 									</el-button>

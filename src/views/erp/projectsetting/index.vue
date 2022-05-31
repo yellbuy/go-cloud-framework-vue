@@ -15,19 +15,19 @@
 						<el-form-item>
 							<el-button type="info" @click="onResetSearch">
 								<el-icon>
-									<elementRefreshLeft />
+									<RefreshLeft />
 								</el-icon>
 								&#8197;{{ $t('message.action.reset') }}
 							</el-button>
 							<el-button type="info" @click="onGetJsTableData(true)">
 								<el-icon>
-									<elementSearch />
+									<Search />
 								</el-icon>
 								&#8197;{{ $t('message.action.search') }}
 							</el-button>
 							<el-button  type="primary" @click="onOpenCommondata(0)">
 								<el-icon>
-									<elementCirclePlusFilled />
+									<CirclePlusFilled />
 								</el-icon>
 								&#8197;{{ $t('message.action.add') }}
 							</el-button>
@@ -57,13 +57,13 @@
 							<template #default="scope">
 								<el-button  type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
 									<el-icon>
-										<elementEdit />
+										<Edit />
 									</el-icon>
 									&#8197;{{ $t('message.action.edit') }}
 								</el-button>
 								<el-button  type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.SettingDel'">
 									<el-icon>
-										<elementCloseBold />
+										<CloseBold />
 									</el-icon>
 									&#8197;{{ $t('message.action.delete') }}
 								</el-button>
@@ -97,19 +97,19 @@
 						<el-form-item>
 							<el-button type="info" @click="onResetSearch">
 								<el-icon>
-									<elementRefreshLeft />
+									<RefreshLeft />
 								</el-icon>
 								&#8197;{{ $t('message.action.reset') }}
 							</el-button>
 							<el-button type="info" @click="onGetZgTableData(true)">
 								<el-icon>
-									<elementSearch />
+									<Search />
 								</el-icon>
 								&#8197;{{ $t('message.action.search') }}
 							</el-button>
 							<el-button  type="primary" @click="onOpenCommondata(0)">
 								<el-icon>
-									<elementPlus />
+									<Plus />
 								</el-icon>
 								&#8197;{{ $t('message.action.add') }}
 							</el-button>
@@ -139,13 +139,13 @@
 							<template #default="scope">
 								<el-button  type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
 									<el-icon>
-										<elementEdit />
+										<Edit />
 									</el-icon>
 									&#8197;{{ $t('message.action.edit') }}
 								</el-button>
 								<el-button  type="danger" @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingDel'">
 									<el-icon>
-										<elementCloseBold />
+										<CloseBold />
 									</el-icon>
 									&#8197;{{ $t('message.action.delete') }}
 								</el-button>

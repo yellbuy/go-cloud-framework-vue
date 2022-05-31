@@ -1,23 +1,22 @@
 import { createApp } from 'vue';
 
-import App from './App.vue';
-import router from './router';
-import { key, store } from './store';
-import { i18n } from '/@/i18n/index';
-import { directive } from '/@/utils/directive';
-import other from '/@/utils/other';
-
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import mitt from 'mitt';
 import VueGridLayout from 'vue-grid-layout';
 import VueUeditorWrap from 'vue-ueditor-wrap';
 import screenShort from 'vue-web-screen-shot';
+import App from './App.vue';
+import router from './router';
+import { key, store } from './store';
+import { i18n } from '/@/i18n/index';
 import '/@/theme/index.scss';
+import { directive } from '/@/utils/directive';
+import other from '/@/utils/other';
+// import '/@/views/meta/components/DynamicForm/styles/index.styl';
 
 import api from '/@/api';
 import '/@/theme/index.scss';
-import '/@/views/meta/components/DynamicForm/styles/index.styl';
 import formControls from '/@/views/meta/components/FormControls/index.ts';
 
 
