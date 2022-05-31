@@ -26,13 +26,13 @@
 				<el-table-column prop="TechnicalMaxScore" label="最高分数" v-if="ruleForm.Kind != 'zgps'" show-overflow-tooltip />
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
-						<el-button  type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
+						<el-button text bg type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
 							<el-icon>
 								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button  type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
+						<el-button text bg type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
 							<el-icon>
 								<CloseBold />
 							</el-icon>

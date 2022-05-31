@@ -64,13 +64,13 @@
 						</el-button>
 					</template>
 					<template #default="scope">
-						<el-button  type="primary" plain @click="onOpenCommonDataDlg(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg type="primary" plain @click="onOpenCommonDataDlg(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button  type="danger" plain @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'" v-if="!scope.row.Predefined">
+						<el-button text bg type="danger" plain @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'" v-if="!scope.row.Predefined">
 							<el-icon>
 								<CloseBold />
 							</el-icon>

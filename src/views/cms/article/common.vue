@@ -134,13 +134,13 @@
 				<el-table-column prop="ReplyNum" label="评论数" width="80" align="right"></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
-						<el-button  type="primary" plain @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.ArticleEdit'">
+						<el-button text bg type="primary" plain @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.ArticleEdit'">
 							<el-icon>
 								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button  type="danger" plain @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.ArticleDel'">
+						<el-button text bg type="danger" plain @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.ArticleDel'">
 							<el-icon>
 								<CloseBold />
 							</el-icon>

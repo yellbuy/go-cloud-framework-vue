@@ -70,13 +70,13 @@
 							<el-table-column prop="Qty" label="数量" show-overflow-tooltip></el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 								<template #default="scope">
-									<el-button size="mini" type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.BidProjectEdit'">
+									<el-button text bg type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.BidProjectEdit'">
 										<el-icon>
 											<Edit />
 										</el-icon>
 										{{ $t('message.action.edit') }}
 									</el-button>
-									<el-button size="mini" type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.BidProjectDel'">
+									<el-button text bg type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.BidProjectDel'">
 										<el-icon>
 											<CloseBold />
 										</el-icon>
@@ -196,13 +196,13 @@
 				<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
-						<el-button size="mini" type="primary" @click="onOpenItemDialog('zgps', scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
+						<el-button text bg type="primary" @click="onOpenItemDialog('zgps', scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
 							<el-icon>
 								<Edit />
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button size="mini" type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
+						<el-button text bg type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
 							<el-icon>
 								<CloseBold />
 							</el-icon>
@@ -234,13 +234,13 @@
 				<el-table-column prop="TechnicalMaxScore" label="最高分数" show-overflow-tooltip />
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
-						<el-button size="mini" type="primary" @click="onOpenItemDialog('zgps', scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
+						<el-button text bg type="primary" @click="onOpenItemDialog('zgps', scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
 							<el-icon>
 								<Edit />
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button size="mini" type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
+						<el-button text bg type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
 							<el-icon>
 								<CloseBold />
 							</el-icon>

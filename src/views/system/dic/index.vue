@@ -30,8 +30,8 @@
 				<el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(120)">
 					<template #default="scope">
-						<el-button type="text" @click="onOpenEditDic(scope.row)">修改</el-button>
-						<el-button type="text" @click="onRowDel(scope.row)">删除</el-button>
+						<el-button text bg type="primary" @click="onOpenEditDic(scope.row)">修改</el-button>
+						<el-button text bg type="danger" @click="onRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

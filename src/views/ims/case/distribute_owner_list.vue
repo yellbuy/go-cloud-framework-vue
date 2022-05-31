@@ -73,13 +73,13 @@
 				</el-table-column> -->
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
-						<el-button  plain  type="info" @click="onOpenEditDlg(false,scope.row)">
+						<el-button text bg type="info" @click="onOpenEditDlg(false,scope.row)">
 							<el-icon>
 								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
-						<el-button  plain  type="primary"  @click="onOpenEditDlg(true,scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
+						<el-button text bg type="primary"  @click="onOpenEditDlg(true,scope.row)" v-auth:[moduleKey]="'btn.AuditEdit'">
 							<el-icon>
 								<Edit />
 							</el-icon>

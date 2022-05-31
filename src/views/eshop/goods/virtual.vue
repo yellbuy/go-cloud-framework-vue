@@ -46,13 +46,13 @@
 
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 								<template #default="scope">
-									<el-button  type="primary" plain @click="onOpenMainEditDlg(scope.row)" v-auth:[moduleKey]="'btn.CategoryEdit'">
+									<el-button text bg type="primary" plain @click="onOpenMainEditDlg(scope.row)" v-auth:[moduleKey]="'btn.CategoryEdit'">
 										<el-icon>
 											<Edit />
 										</el-icon>
 										&#8197;{{ $t('message.action.edit') }}
 									</el-button>
-									<el-button  type="danger" plain @click="onMainRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryDel'">
+									<el-button text bg type="danger" plain @click="onMainRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryDel'">
 										<el-icon>
 											<CloseBold />
 										</el-icon>
@@ -143,13 +143,13 @@
 							</el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 								<template #default="scope">
-									<el-button  type="primary" plain @click="onOpenChildEditDlg(scope.row)" v-auth:[moduleKey]="'btn.GoodsEdit'">
+									<el-button text bg type="primary" plain @click="onOpenChildEditDlg(scope.row)" v-auth:[moduleKey]="'btn.GoodsEdit'">
 										<el-icon>
 											<Edit />
 										</el-icon>
 										&#8197;{{ $t('message.action.edit') }}
 									</el-button>
-									<el-button  type="danger" plain @click="onRowChildDel(scope.row.Id)" v-auth:[moduleKey]="'btn.GoodsDel'">
+									<el-button text bg type="danger" plain @click="onRowChildDel(scope.row.Id)" v-auth:[moduleKey]="'btn.GoodsDel'">
 										<el-icon>
 											<CloseBold />
 										</el-icon>

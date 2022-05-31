@@ -55,13 +55,13 @@
 						<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
 							<template #default="scope">
-								<el-button  type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
+								<el-button text bg type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
 									<el-icon>
 										<Edit />
 									</el-icon>
 									&#8197;{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button  type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.SettingDel'">
+								<el-button text bg type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.SettingDel'">
 									<el-icon>
 										<CloseBold />
 									</el-icon>
@@ -137,13 +137,13 @@
 						<el-table-column prop="Name" label="名称" show-overflow-tooltip />
 						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
 							<template #default="scope">
-								<el-button  type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
+								<el-button text bg type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
 									<el-icon>
 										<Edit />
 									</el-icon>
 									&#8197;{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button  type="danger" @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingDel'">
+								<el-button text bg type="danger" @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingDel'">
 									<el-icon>
 										<CloseBold />
 									</el-icon>

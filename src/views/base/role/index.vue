@@ -40,13 +40,13 @@
 				
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
-						<el-button plain  type="primary" @click="onModelEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg  type="primary" @click="onModelEdit(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button plain  type="danger" @click="onModelDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button text bg  type="danger" @click="onModelDel(scope.row)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<CloseBold />
 							</el-icon>

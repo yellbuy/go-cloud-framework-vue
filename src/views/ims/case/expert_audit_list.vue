@@ -80,14 +80,14 @@
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
-						<el-button plain type="info" v-if="scope.row.ExpertAuditState > 1" @click="onOpenEditDlg(false, scope.row)">
+						<el-button text bg type="info" v-if="scope.row.ExpertAuditState > 1" @click="onOpenEditDlg(false, scope.row)">
 							<el-icon>
 								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
 						<el-button
-							plain
+							text bg
 							type="primary"
 							v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
 							@click="onOpenEditDlg(true, scope.row)"

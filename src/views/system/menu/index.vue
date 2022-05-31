@@ -46,9 +46,9 @@
 				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)">
 					<template #default="scope">
-						<el-button type="text" @click="onOpenAddMenu(scope.row)">新增</el-button>
-						<el-button type="text" @click="onOpenEditMenu(scope.row)">修改</el-button>
-						<el-button type="text" @click="onTabelRowDel(scope.row)">删除</el-button>
+						<el-button text bg type="primary" @click="onOpenAddMenu(scope.row)">新增</el-button>
+						<el-button text bg type="primary" @click="onOpenEditMenu(scope.row)">修改</el-button>
+						<el-button text bg type="danger" @click="onTabelRowDel(scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

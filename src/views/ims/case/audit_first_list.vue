@@ -85,14 +85,14 @@
 				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(235)" fixed="right">
 					<template #default="scope">
-						<el-button plain type="info" v-if="scope.row.InsurerAuditState > 0" @click="onOpenEditDlg(false, scope.row)">
+						<el-button text bg type="info" v-if="scope.row.InsurerAuditState > 0" @click="onOpenEditDlg(false, scope.row)">
 							<el-icon>
 								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
 						<el-button
-							plain
+							text bg
 							type="primary"
 							v-if="scope.row.InsurerAuditState == 2"
 							@click="onOpenEditDlg(true, scope.row)"
@@ -104,7 +104,7 @@
 							&#8197;{{ $t('message.action.audit') }}
 						</el-button>
 						<el-button
-							plain
+							text bg
 							type="primary"
 							v-if="scope.row.ExpertReviewState == 10"
 							@click="onDownload(scope.row)"

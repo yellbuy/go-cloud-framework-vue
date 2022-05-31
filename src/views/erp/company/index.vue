@@ -55,17 +55,17 @@
 				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(280)" fixed="right">
 					<template #default="scope">
-						<el-button size="mini" type="warning" @click="onModelDisable(scope.row)" v-auth:[moduleKey]="'btn.CompanyDisable'">
+						<el-button text bg type="warning" @click="onModelDisable(scope.row)" v-auth:[moduleKey]="'btn.CompanyDisable'">
 							<span v-if="scope.row.State == 0">{{ $t('message.action.disable') }}</span>
 							<span v-if="scope.row.State == 1">{{ $t('message.action.enable') }}</span>
 						</el-button>
-						<el-button size="mini" type="primary" @click="onModelEdit(scope.row.Id, false)" v-auth:[moduleKey]="'btn.CompanyEdit'">
+						<el-button text bg type="primary" @click="onModelEdit(scope.row.Id, false)" v-auth:[moduleKey]="'btn.CompanyEdit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button size="mini" @click="onModelEdit(scope.row.Id, true)" v-auth:[moduleKey]="'btn.CompanyEdit'">
+						<el-button text bg @click="onModelEdit(scope.row.Id, true)" v-auth:[moduleKey]="'btn.CompanyEdit'">
 							{{ $t('message.action.see') }}
 						</el-button>
-						<el-button size="mini" type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.CompanyDel'">
+						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.CompanyDel'">
 							{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
