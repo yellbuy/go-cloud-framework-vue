@@ -401,9 +401,10 @@
 								</el-radio-group>
 							</td>
 							<td colspan="9" v-else-if="step == 7">
-								<el-tag type="success" effect="plain" v-if="ruleForm.ExpertAuditState == 10">通过</el-tag>
+								<el-tag type="danger" effect="plain" v-if="ruleForm.ExpertReviewState == 5">驳回</el-tag>
+								<el-tag type="success" effect="plain" v-else-if="ruleForm.ExpertAuditState == 10">通过</el-tag>
 								<el-tag type="danger" effect="plain" v-else-if="ruleForm.ExpertAuditState == 5">驳回</el-tag>
-								<el-tag type="primary" effect="plain" v-else>待审</el-tag>
+								<el-tag type="primary" effect="plain" v-else-if="ruleForm.ExpertAuditState > 0">待审</el-tag>
 							</td>
 							<td colspan="9" v-else-if="step == 10">
 								<el-tag type="success" effect="plain" v-if="ruleForm.ExpertReviewState == 10">通过</el-tag>
