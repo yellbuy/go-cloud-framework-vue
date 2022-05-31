@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" :key="ruleForm.Id" destroy-on-close width="80%">
+		<el-dialog :title="title" v-model="isShowDialog" :key="ruleForm.Id" destroy-on-close width="80%" fullscreen="true">
 			<el-form ref="ruleFormRef" :model="ruleForm" label-width="90px" v-loading="loading">
 				<table class="yb-table" style="width: 100%">
 					<thead>

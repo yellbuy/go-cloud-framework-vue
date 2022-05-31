@@ -8,7 +8,9 @@ const service = axios.create({
 	baseURL: import.meta.env.VITE_API_URL as any,
 	timeout: 100000,
 	headers: { 'Content-Type': 'application/json', 'Appid': appid },
+	responseType: '',
 });
+
 
 axios.defaults.retry = 3;
 axios.defaults.retryDelay = 10000;
@@ -20,7 +22,7 @@ service.interceptors.request.use(
 		const token = Session.get('token');
 		if (token) {
 			config.headers.common['Authorization'] = token;
-			
+
 			// const tokenExpiresAt=new Date(Session.get('expiresAt'));
 			// 	const refreshTokenAt=new Date(Session.get('refreshTokenAt'));
 			// 	const curTime=new Date();
@@ -29,12 +31,12 @@ service.interceptors.request.use(
 			// 		const data=await config({url:"/v1/base/user/refreshtoken",method: 'post'})
 			// 	}
 			// if(config.url=="/v1/base/user/refreshtoken"){
-				
+
 			// }
 		}
 
 		//时间戳
-		const curTime=new Date().getTime();
+		const curTime = new Date().getTime();
 		config.headers.common['Timestamp'] = curTime;
 		return config;
 	},
@@ -51,7 +53,7 @@ service.interceptors.response.use(
 		const res = response.data;
 		//console.debug("response:",res);
 		if (res.errcode && res.errcode !== 0) {
-			
+
 			// `token` 过期或者账号已在别处登录
 			if (res.errcode === 100001 || res.errcode === 100002) {
 				Session.clear(); // 清除浏览器全部临时缓存
@@ -62,15 +64,15 @@ service.interceptors.response.use(
 					confirmButtonText: '重新登录'
 				}).then(() => {
 					window.location.href = '/'; // 去登录页
-				}).catch(() => {})
+				}).catch(() => { })
 
 				// ElMessageBox.alert('无权限访问', '温馨提示', {})
 				// 	.then(() => {
 				// 		window.location.href = '/'; // 去登录页
 				// 	})
 				// 	.catch(() => {});
-					
-			} 
+
+			}
 			//return Promise.reject(service.interceptors.response);
 		} else {
 			//return Promise.resolve(res)
@@ -81,18 +83,18 @@ service.interceptors.response.use(
 		if (error.response) {
 			if (error.response.status == 404) {
 				ElMessage({
-					grouping:true,
+					grouping: true,
 					showClose: true,
 					message: "Status:404，正在请求不存在的服务器记录！",
-				 	duration:3600,
+					duration: 3600,
 					type: 'error',
 				})
 			} else if (error.response.status == 500) {
 				ElMessage({
-					grouping:true,
+					grouping: true,
 					showClose: true,
 					message: "Status:500，服务器发生错误！",
-				 	duration:3600,
+					duration: 3600,
 					type: 'error',
 				})
 				// ElNotification.error({
@@ -107,13 +109,13 @@ service.interceptors.response.use(
 					confirmButtonText: '重新登录'
 				}).then(() => {
 					window.location.href = '/'; // 去登录页
-				}).catch(() => {})
+				}).catch(() => { })
 			} else {
 				ElMessage({
-					grouping:true,
+					grouping: true,
 					showClose: true,
 					message: (error.response.data && error.response.data.message) || `Status:${error.response.status}，未知错误！`,
-				 	duration:3600,
+					duration: 3600,
 					type: 'error',
 				})
 			}
@@ -128,23 +130,23 @@ service.interceptors.response.use(
 	}
 );
 
-const _request=(config:RequestConfig)=>{
-	console.log("config：",config)
-	config=Object.assign({notifyError:true},config)
-	
+const _request = (config: RequestConfig) => {
+	console.log("config：", config)
+	config = Object.assign({ notifyError: true }, config)
+
 	//const headers:Record<string, string> = {};
 	if(!config.nonce){
 		config.nonce=v4().replace(/-/g,"");
 	}
-	config.headers=Object.assign(config.headers||{},{"Nonce":config.nonce})
-	
+	config.headers = Object.assign(config.headers || {}, { "Nonce": config.nonce })
+
 	return new Promise<RequestResponse>((resolve, reject) => {
 		service({
 			...config
 		}).then((response) => {
-			const res:RequestResponse={errcode:response.errcode,errmsg:response.errmsg,data:response.data,total:response.total}
-			
-			if(res.errcode !=0 && res.errcode!=100001 && res.errcode!=100002 && config.notifyError){
+			const res: RequestResponse = { errcode: response.errcode, errmsg: response.errmsg, data: response.data, total: response.total }
+
+			if (res.errcode != 0 && res.errcode != 100001 && res.errcode != 100002 && config.notifyError) {
 				ElNotification.error({
 					title: '温馨提示',
 					message: res.errmsg
@@ -165,10 +167,9 @@ const _request=(config:RequestConfig)=>{
 }
 const _download=(config:RequestConfig)=>{
 }
-const http={
-	request:_request,
-	get:(url:string, params?:any,config?:RequestConfig)=>{
-		//console.log("config:",config)
+const http = {
+	request: _request,
+	get: (url: string, params?: any, config?: RequestConfig) => {
 		return _request({
 			method: 'get',
 			url: url,
@@ -176,8 +177,8 @@ const http={
 			...config
 		})
 	},
-	download:(url:string, params?:any,config?:RequestConfig)=>{
-		//console.log("config:",config)
+	download: (url: string, params?: any, config?: RequestConfig) => {
+		console.log("config:", config)
 		return _download({
 			method: 'get',
 			url: url,
@@ -185,7 +186,7 @@ const http={
 			...config
 		})
 	},
-	post:(url:string, data?:any,config?:RequestConfig)=>{
+	post: (url: string, data?: any, config?: RequestConfig) => {
 		return _request({
 			method: 'post',
 			url,
@@ -193,7 +194,7 @@ const http={
 			...config
 		})
 	},
-	put:(url:string, data?:any,config?:RequestConfig)=>{
+	put: (url: string, data?: any, config?: RequestConfig) => {
 		return _request({
 			method: 'put',
 			url,
@@ -201,7 +202,7 @@ const http={
 			...config
 		})
 	},
-	delete:(url:string, data?:any,config?:RequestConfig)=>{
+	delete: (url: string, data?: any, config?: RequestConfig) => {
 		return _request({
 			method: 'delete',
 			url,
@@ -213,19 +214,19 @@ const http={
 	 * @param  {接口地址} url
 	 * @param  {JSONP回调函数名称} name
 	 */
-	 jsonp:(url:string, name='jsonp')=>{
+	jsonp: (url: string, name = 'jsonp') => {
 		return new Promise((resolve) => {
 			var script = document.createElement('script')
 			var _id = `jsonp${Math.ceil(Math.random() * 1000000)}`
 			script.id = _id
 			script.type = 'text/javascript'
 			script.src = url
-			window[name] =(response) => {
+			window[name] = (response) => {
 				resolve(response)
 				document.getElementsByTagName('head')[0].removeChild(script)
 				try {
 					delete window[name];
-				}catch(e){
+				} catch (e) {
 					window[name] = undefined;
 				}
 			}
@@ -244,12 +245,12 @@ export interface RequestConfig extends AxiosRequestConfig {
 	//随机字符串
 	nonce?: string;
 	//是否显示错误
-	notifyError?:boolean;
+	notifyError?: boolean;
 }
 
 export interface RequestResponse {
 	errcode: number;
-	data:any;
-	total?:number;
-	errmsg:string;
+	data: any;
+	total?: number;
+	errmsg: string;
 }
