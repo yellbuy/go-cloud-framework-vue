@@ -209,11 +209,11 @@ export default {
 			}
 			state.tableData.param.isExport = true;
 			const res = await proxy.$api.ims.casepersonline.export(state.tableData.param);
-			if (res.size == 0) {
+			if (res.data.size == 0) {
 				return;
 			} else {
 				// 返回不为空
-				var url = window.URL.createObjectURL(res);
+				var url = window.URL.createObjectURL(res.data);
 				var a = document.createElement('a');
 				a.href = url;
 				a.download = '赋能终端理赔' + new Date() + '.xlsx'; // 下载后的文件名称

@@ -26,8 +26,8 @@ export default {
 	 * @returns 返回接口数据
 	 */
 	downloadById: async (id: number | string) => {
-		const url = `/v1/ims/casepersonline/pdfout/${id}?command=casePdf`;
-		return await http.download(url);
+		const url = `/v1/ims/casepersonline/pdfout/${id}`;
+		return await http.get(url, { command: 'casePdf' }, { responseType: "blob" });
 	},
 	/**
 	 * 新增
@@ -85,6 +85,6 @@ export default {
 	 */
 	export: async (params: object = {}) => {
 		const url = `v1/admin/ims/casepersonlines`;
-		return await http.download(url, params);
+		return await http.get(url, params, { responseType: "blob" });
 	},
 }

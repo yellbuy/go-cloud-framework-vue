@@ -50,6 +50,9 @@ service.interceptors.request.use(
 // 添加响应拦截器
 service.interceptors.response.use(
 	(response) => {
+		if (response.config.responseType == "blob") {
+			return Promise.resolve({ errcode: 0, errmsg: "", data: response.data })
+		}
 		// 对响应数据做点什么
 		const res = response.data;
 		//console.debug("response:",res);
@@ -136,8 +139,8 @@ const _request = (config: RequestConfig) => {
 	config = Object.assign({ notifyError: true }, config)
 
 	//const headers:Record<string, string> = {};
-	if(!config.nonce){
-		config.nonce=v4().replace(/-/g,"");
+	if (!config.nonce) {
+		config.nonce = v4().replace(/-/g, "");
 	}
 	config.headers = Object.assign(config.headers || {}, { "Nonce": config.nonce })
 
@@ -166,21 +169,11 @@ const _request = (config: RequestConfig) => {
 		})
 	})
 }
-const _download=(config:RequestConfig)=>{
-}
+
 const http = {
 	request: _request,
 	get: (url: string, params?: any, config?: RequestConfig) => {
 		return _request({
-			method: 'get',
-			url: url,
-			params: params,
-			...config
-		})
-	},
-	download: (url: string, params?: any, config?: RequestConfig) => {
-		console.log("config:", config)
-		return _download({
 			method: 'get',
 			url: url,
 			params: params,
