@@ -1,115 +1,141 @@
 <template>
 	<div class="cms-edit-article-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="90%">
+		<el-dialog :title="title" v-model="isShowDialog" width="60%">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading">
-				<el-row :gutter="10">
-					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
-						<el-form-item label="标题" prop="Title">
-							<el-input v-model="ruleForm.Title" autofocus placeholder="请输入标题" maxlength="100" clearable></el-input>
+				<el-tabs type="border-card" ref="tabsRef">
+					<el-tab-pane :key="0" label="基本">
+						<el-row :gutter="10">
+							<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+								<el-form-item label="名称" prop="GoodsName">
+									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="请输入名称" maxlength="100" clearable></el-input>
+								</el-form-item>
+								<el-form-item label="所属类别" prop="CategoryId">
+									<el-tree-select v-model="ruleForm.CategoryId" placeholder="请选择父级" default-expand-all node-key="Id"
+									:value-key="Id" :current-node-key="ruleForm.CategoryId"
+									:data="cateList" :props="{label:'Name',value:'Id',children:'Children'}" check-strictly />
+								</el-form-item>
+								<el-form-item label="货号/编码" prop="GoodsSn">
+									<el-input v-model="ruleForm.GoodsSn" autofocus placeholder="请输入货号代码" maxlength="50" clearable></el-input>
+								</el-form-item>
+								<el-form-item label="在售" prop="IsOnSale">
+									<el-col :span="2">
+										<el-switch v-model="ruleForm.IsOnSale" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+									</el-col>
+									<el-col :span="6" class="text-right">
+										推荐：
+									</el-col>
+									<el-col :span="2">
+										<el-switch v-model="ruleForm.IsTop" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+									</el-col>
+									<el-col :span="6" class="text-right">
+										排序：
+									</el-col>
+									<el-col :span="8">
+										<el-input-number v-model="ruleForm.Order" :precision="0" :step="10" :min="0" />
+									</el-col>
+								</el-form-item>
+								<el-form-item label="兑换商品" prop="IsExchange">
+									<el-col :span="8">
+										<el-switch v-model="ruleForm.IsExchange" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+									</el-col>
+									<el-col :span="8" class="text-right">
+										消耗积分/金币：
+									</el-col>
+									<el-col :span="8">
+										<el-input-number v-model="ruleForm.ExchangeIntegral" :precision="0" :step="1" :min="0" />
+									</el-col>
+								</el-form-item>
+								<el-form-item label="原价" prop="MarketPrice">
+									<el-col :span="8">
+										<el-input-number v-model="ruleForm.MarketPrice" :precision="2" :step="1" :min="0" />
+									</el-col>
+									<el-col :span="8" class="text-right">
+										现价：
+									</el-col>
+									<el-col :span="8">
+										<el-input-number v-model="ruleForm.ShopPrice" :precision="2" :step="1" :min="0" />
+									</el-col>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+								<el-form-item label="视频源" prop="GoodsVideo">
+									<el-input v-model="ruleForm.GoodsVideo" autofocus placeholder="请填写视频源地址" maxlength="255" clearable></el-input>
+								</el-form-item>
+								<el-form-item label="封面图" prop="ImgUrl">
+									<el-input v-model="ruleForm.ImgUrl" placeholder="上传或输入" maxlength="255" clearable ></el-input>
+									<div class="mt10" style="border:1px gray dashed">
+										<el-upload
+											class="avatar-uploader"
+											:action="`${baseUrl}/v1/file/upload`"
+											name="file"
+											:headers="{Appid:getUserInfos.appid,Authorization:token}"
+											:show-file-list="false"
+											:on-success="onImageUploadSuccess"
+											:before-upload="onBeforeImageUpload">
+											<img v-if="ruleForm.ImgUrl" :src="proxy.$utils.staticUrlParse(ruleForm.ImgUrl)" width="150" height="150" class="avatar" />
+											<SvgIcon v-else name="fa fa-plus" class="avatar-uploader-icon"/>
+										</el-upload>
+									</div>
+								</el-form-item>
+							</el-col>
+						</el-row>
+					</el-tab-pane>
+					<el-tab-pane :key="1" label="详情">
+						<vue-ueditor-wrap :editor-id="`editor-content`"  
+							:editor-dependencies="['ueditor.config.js','ueditor.all.min.js','xiumi/xiumi-ue-dialog-v5.js','xiumi/xiumi-ue-v5.css']"
+							v-model="ruleForm.GoodsDesc" 
+							:config="{UEDITOR_HOME_URL:'/ueditor/',serverUrl:`${baseUrl}/v1/common/editor/${getUserInfos.appid}`,headers:{'Authorization':token,Appid:getUserInfos.appid}}" 
+						></vue-ueditor-wrap>
+					</el-tab-pane>
+					<el-tab-pane :key="2" label="扩展">
+						<el-form-item label="精品" prop="IsBest">
+							<el-col :span="3">
+								<el-switch v-model="ruleForm.IsBest" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+							</el-col>
+							<el-col :span="3" class="text-right">
+								新品：
+							</el-col>
+							<el-col :span="3">
+								<el-switch v-model="ruleForm.IsNew" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+							</el-col>
 						</el-form-item>
-						<el-form-item label="所属栏目" prop="CategoryId" v-if="allowEditCategory">
-							<el-input v-model="ruleForm.CategoryId" placeholder="请输入账户名" maxlength="50" clearable></el-input>
+						<el-form-item label="热门" prop="IsHot">
+							<el-col :span="3">
+								<el-switch v-model="ruleForm.IsHot" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+							</el-col>
+							<el-col :span="3" class="text-right">
+								促销：
+							</el-col>
+							<el-col :span="3">
+								<el-switch v-model="ruleForm.IsPromote" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+							</el-col>
 						</el-form-item>
-						<el-form-item label="所属专题" prop="SpecialId" v-if="allowEditSpecial">
-							<el-input v-model="ruleForm.SpecialId" placeholder="请输入账户名" maxlength="50" clearable></el-input>
+						<el-form-item label="虚拟销量" prop="GhostCount">
+							<el-col :span="3">
+								<el-input-number v-model="ruleForm.GhostCount" :precision="0" :step="10" :min="0" />
+							</el-col>
+							<el-col :span="3" class="text-right">
+								点击量：
+							</el-col>
+							<el-col :span="3">
+								<el-input-number v-model="ruleForm.ClickCount" :precision="0" :step="10" :min="0" />
+							</el-col>
 						</el-form-item>
-						<el-form-item label="封面图" prop="ImgUrl">
-							<el-input v-model="ruleForm.ImgUrl" placeholder="上传或输入" maxlength="255" clearable ></el-input>
-							<div class="mt10">
-								<el-upload
-									class="avatar-uploader"
-									:action="`${baseUrl}/v1/file/upload`"
-									name="file"
-									:headers="{Appid:getUserInfos.appid,Authorization:token}"
-									:show-file-list="false"
-									:on-success="onImageUploadSuccess"
-									:before-upload="onBeforeImageUpload">
-									<img v-if="ruleForm.ImgUrl" :src="proxy.$utils.staticUrlParse(ruleForm.ImgUrl)" width="150" height="150" class="avatar" />
-									<SvgIcon v-else name="fa fa-plus" class="avatar-uploader-icon"/>
-								</el-upload>
-							</div>
-							
+						<el-form-item label="关键字" prop="Keywords">
+							<el-input v-model="ruleForm.Keywords" autofocus placeholder="请输入关键字" maxlength="100" clearable></el-input>
 						</el-form-item>
-						<el-form-item label="发布时间" prop="PublishTime">
-							<el-date-picker
-								v-model="ruleForm.PublishTime"
-								type="datetime"
-								format="YYYY-MM-DD HH:mm:ss"
-								placeholder="选择发布时间"
-							/>
-						</el-form-item>
-						<el-form-item prop="IsShowCover" label="正文显示封面" v-if="ruleForm.ImgUrl">
-							<el-radio v-model="ruleForm.IsShowCover" :label="0">否</el-radio>
-    						<el-radio v-model="ruleForm.IsShowCover" :label="ruleForm.ImgUrl?1:0">是</el-radio>
-						</el-form-item>
-						<el-form-item label="文章来源" prop="Source">
-							<el-input v-model="ruleForm.Source" placeholder="文章来源" maxlength="50" clearable></el-input>
-						</el-form-item>
-						<el-form-item label="外链地址" prop="LinkUrl">
-							<el-input v-model="ruleForm.LinkUrl" placeholder="外链地址" maxlength="255" clearable></el-input>
-						</el-form-item>
-						
-						<el-form-item label="文章摘要" prop="Description">
-							<el-input v-model="ruleForm.Description" placeholder="文章摘要" maxlength="255" clearable 
+						<el-form-item label="简要描述" prop="GoodsBrief">
+							<el-input v-model="ruleForm.GoodsBrief" placeholder="简要描述" maxlength="255" clearable 
 							type="textarea" :autosize="{minRows: 3, maxRows:6}" ></el-input>
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
-						<vue-ueditor-wrap :editor-id="`editor-content`"  
-						:editor-dependencies="['ueditor.config.js','ueditor.all.min.js','xiumi/xiumi-ue-dialog-v5.js','xiumi/xiumi-ue-v5.css']"
-						v-model="ruleForm.Content" 
-						:config="{UEDITOR_HOME_URL:'/ueditor/',serverUrl:`${baseUrl}/v1/common/editor/${getUserInfos.appid}`,headers:{'Authorization':token,Appid:getUserInfos.appid}}" 
-						></vue-ueditor-wrap>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
-						<el-card class="box-card">
-							<template #header>
-							<div class="card-header">
-								<span>发布</span>
-							</div>
-							</template>
-							<div>
-								<el-form-item prop="State" label="状态">
-									<el-radio v-model="ruleForm.State" :label="0">草稿</el-radio>
-									<el-radio v-model="ruleForm.State" :label="1">发布</el-radio>
-								</el-form-item>
-								<el-form-item prop="AuditState" label="审核" v-if="ruleForm.State" v-auth:[$parent.moduleKey]="'btn.ArticleAudit'">
-									<el-radio v-model="ruleForm.AuditState" :label="1">通过</el-radio>
-									<el-radio v-model="ruleForm.AuditState" :label="0">待审</el-radio>
-									<el-radio v-model="ruleForm.AuditState" :label="-1">驳回</el-radio>
-								</el-form-item>
-								<el-form-item prop="IsTop" label="置顶">
-									<el-radio v-model="ruleForm.IsTop" :label="0">否</el-radio>
-									<el-radio v-model="ruleForm.IsTop" :label="1">是</el-radio>
-								</el-form-item>
-								<el-form-item prop="IsSwiper" label="轮播" v-if="ruleForm.ImgUrl">
-									<el-radio v-model="ruleForm.IsSwiper" :label="0">否</el-radio>
-									<el-radio v-model="ruleForm.IsSwiper" :label="ruleForm.ImgUrl?1:0">是</el-radio>
-								</el-form-item>
-								<el-form-item prop="IsPromote" label="推荐">
-									<el-radio v-model="ruleForm.IsPromote" :label="0">否</el-radio>
-									<el-radio v-model="ruleForm.IsPromote" :label="1">是</el-radio>
-								</el-form-item>
-								<el-form-item prop="ViewNum" label="虚拟阅读量">
-									<el-input type="number" v-model="ruleForm.ViewNum" placeholder="虚拟阅读量" 
-									maxlength="10" :min="0" :max="1000000000" :step="100">
-									<template #prepend>
-										<i name="" class="fa fa-eye font14"></i>
-									</template>
-									</el-input>
-								</el-form-item>
-							</div>
-						</el-card>
-					</el-col>
-					
-				</el-row>
-				
+					</el-tab-pane>
+				</el-tabs>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel" >{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id"  :loading="loading" v-auth:[$parent.moduleKey]="'btn.ArticleAdd'">{{ $t('message.action.saveAndAdd') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)"  :loading="loading" v-auths:[$parent.moduleKey]="['btn.ArticleEdit','btn.ArticleAdd']">{{ $t('message.action.save') }}</el-button>
+					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id"  :loading="loading" v-auth:[$parent.moduleKey]="'btn.GoodsAdd'">{{ $t('message.action.saveAndAdd') }}</el-button>
+					<el-button type="primary" @click="onSubmit(true)"  :loading="loading" v-auths:[$parent.moduleKey]="['btn.GoodsEdit','btn.GoodsAdd']">{{ $t('message.action.save') }}</el-button>
 					
 				</span>
 			</template>
@@ -145,34 +171,13 @@ export default {
 			loading:false,
 			token:token,
 			baseUrl:import.meta.env.VITE_API_URL,
+			cateList:[],
 			ruleForm: {
-				Id:0,
-				Title: '', // 账户名称
-				ImgUrl: '',
-				Name: '', // 用户昵称
-				Code:'',
-				Enable:1,
-				Order: 100, // 排序
-				Password:'',
-				PasswordConfirm:'',
-				Mobile:'',
-				Tel:'',
-				Email:'',
-				Addrcode:'',
-				RoleIds:'',
-				CheckedRoleList:[],
-				RoleList:[],
-				AllowBackendLogin:1,
-				AllowFrontendLogin:1,
-				IsExternal:0,
-				department: [], // 部门
-				Gender: 0 // 性别
 			},
-			deptData: [], // 部门数据
 		});
 
 		const rules = reactive({
-			Title: [
+			GoodsName: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -181,29 +186,40 @@ export default {
 				{
 					min: 1,
 					max: 100,
-					message: t('message.validRule.lengthRange',{'min':1,'max':50}),
+					message: t('message.validRule.lengthRange',{'min':1,'max':100}),
 					trigger: 'change',
+				},
+			],
+			CategoryId: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
 				},
 			]
 		});
 
 		// 打开弹窗
-		const openDialog = (row: Object) => {
+		const openDialog = (row: Object,cateList:any) => {
 			state.loading=false
 			const model = JSON.parse(JSON.stringify(row))
 			state.ruleForm = model;
-			state.ruleForm.AuditState=0; //打开窗口，重新设置为待审状态
+			state.cateList=cateList; 
 			if(row && row.Id>0){
 				state.title=t('message.action.edit');
 			}else{
 				state.title=t('message.action.add');
-				state.ruleForm.Id=0;
-				state.ruleForm.PublishTime=new Date();
-				state.ruleForm.State=0;
+				state.ruleForm.Id="0";
+				state.ruleForm.IsOnSale=1;
 				state.ruleForm.IsTop=0;
-				state.ruleForm.IsShowCover=0;
-				state.ruleForm.IsSwiper=0;
-				state.ruleForm.IsPromote=0;
+				state.ruleForm.Order=100;
+				state.ruleForm.IsExchange=1;
+				state.ruleForm.ExchangeIntegral=0;
+				
+				state.ruleForm.MarketPrice=0;
+				state.ruleForm.ShopPrice=0;
+				state.ruleForm.GhostCount=0;
+				state.ruleForm.ClickCount=0;
 			}
 			state.isShowDialog = true;
 
@@ -218,32 +234,21 @@ export default {
 		};
 		// 新增
 		const onSubmit = (isCloseDlg:boolean) => {
-			
 			proxy.$refs.ruleFormRef.validate(async (valid:any) => {
 				if (valid) {
 					state.ruleForm.Id=state.ruleForm.Id.toString();
 					state.ruleForm.Order=Number.parseInt(state.ruleForm.Order||0);
-					if(state.ruleForm.State==0){
-						//草稿重置为设置未待审状态
-						state.ruleForm.AuditState=0;
-					}
-					if(!state.ruleForm.Description){
-						//未填入主题，截取正文纯文本
-						var ue = window.UE.getEditor('editor-content');
-						state.ruleForm.Description=ue.getContentTxt().substr(0,255);
-					}
 					state.loading=true;
 					try{
-						const res = await proxy.$api.cms.article.save(state.ruleForm)
+						const res = await proxy.$api.eshop.goods.save(state.ruleForm)
 						if(res.errcode==0){
 							if(isCloseDlg){
 								closeDialog();
 							} else {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id=0;
-								state.ruleForm.PasswordConfirm='';
 							}
-							proxy.$parent.onGetTableData();
+							proxy.$parent.onGetChildTableData();
 						}
 					} finally {
 						state.loading=false;
@@ -253,30 +258,7 @@ export default {
 				}
 			});
 		};
-		//加载角色数据
-		const onInitRoleData=(async (roleIds:string)=>{
-			
-			state.ruleForm.RoleList=[];
-			state.ruleForm.CheckedRoleList=[];
-			const res= await proxy.$api.base.role.getList({pageSize:1000000});
-			if(res.errcode!=0){
-				return;
-			}
-			
-			const roleIdArr=roleIds.split(",");
-			for (const val of res.data) {
-				val.Checked=false;
-				for(const id of roleIdArr){
-					if(val.Id==id){
-						state.ruleForm.CheckedRoleList.push(val.Id)
-						val.Checked=true
-						break;
-					}
-				}
-			}
-			state.ruleForm.RoleList=res.data;
-		})
-
+		
 		const onImageUploadSuccess: UploadProps['onSuccess'] = (res, uploadFile) => {
 			console.log("onSuccess:",res);
 			if(res.errcode!=0){
@@ -320,6 +302,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.el-select{
+	width:100%;
+}
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;

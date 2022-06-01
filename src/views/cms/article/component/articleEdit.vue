@@ -15,7 +15,7 @@
 						</el-form-item>
 						<el-form-item label="封面图" prop="ImgUrl">
 							<el-input v-model="ruleForm.ImgUrl" placeholder="上传或输入" maxlength="255" clearable ></el-input>
-							<div class="mt10">
+							<div class="mt10" style="border:1px gray dashed">
 								<el-upload
 									class="avatar-uploader"
 									:action="`${baseUrl}/v1/file/upload`"

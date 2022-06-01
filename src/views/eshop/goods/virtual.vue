@@ -11,7 +11,7 @@
 										<el-icon>
 											<Search />
 										</el-icon>
-										&#8197;{{ $t('message.action.search') }}
+										&#8197;{{ $t('message.action.refresh') }}
 									</el-button>
 									<el-button  type="primary" @click="onOpenMainEditDlg()"  v-auth:[moduleKey]="'btn.CategoryAdd'">
 										<el-icon>
@@ -26,24 +26,28 @@
 						</div>
 						<el-table :data="mainTableData.data" row-key="Id" table-layout="fixed" :lazy="false" v-loading="mainTableData.loading" 
 							:height="proxy.$calcMainHeight(-35)" @cell-click="onMainCellClick" default-expand-all
-							 stripe highlight-current-row style="width:100%">
-							<el-table-column prop="Title" label="类别" show-overflow-tooltip width="200" >
-							</el-table-column>
-							<el-table-column prop="Id" label="标识" width="160" align="right">
+							 stripe highlight-current-row :tree-props="{children:'Children'}">
+							<el-table-column prop="Name" label="类别" show-overflow-tooltip :width="200" >
 							</el-table-column>
 							
-							
-							
-							<el-table-column prop="IsTop" label="置顶" width="70" align="center">
+							<el-table-column prop="Order" label="排序" :width="80" align="center">
+								<template #header>
+									<el-button  type="text" v-if="mainTableData.data" 
+										@click="proxy.$api.common.table.update('common_category','Order', mainTableData.data||[], 0)" v-auth:[moduleKey]="'btn.Edit'">
+										<el-icon>
+											<Edit />
+										</el-icon>
+										&#8197;排序{{ $t('message.action.update') }}
+									</el-button>
+									<span v-no-auth:[moduleKey]="'btn.Edit'">排序</span>
+								</template>
 								<template #default="scope">
-									<el-switch v-model="scope.row.IsTop" inline-prompt v-auth:[moduleKey]="'btn.CategoryEdit'"
-									@change="proxy.$api.common.table.updateById('common_category','IsTop',scope.row.Id,scope.row.IsTop)" 
-									:active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
-									<el-tag type="success" effect="plain"  v-if="scope.row.IsTop" v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{ $t('message.action.yes') }}</el-tag>
-									<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{ $t('message.action.no') }}</el-tag>
+									<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'"> </el-input>
+									<span v-no-auth:[moduleKey]="'btn.Edit'">{{scope.row.Order}}</span>
 								</template>
 							</el-table-column>
-
+							<el-table-column prop="Id" label="标识" :width="160" align="right">
+							</el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 								<template #default="scope">
 									<el-button text bg type="primary" plain @click="onOpenMainEditDlg(scope.row)" v-auth:[moduleKey]="'btn.CategoryEdit'">
@@ -52,7 +56,7 @@
 										</el-icon>
 										&#8197;{{ $t('message.action.edit') }}
 									</el-button>
-									<el-button text bg type="danger" plain @click="onMainRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryDel'">
+									<el-button text bg type="danger" plain @click="onMainRowDel(scope.row)" v-auth:[moduleKey]="'btn.CategoryDel'">
 										<el-icon>
 											<CloseBold />
 										</el-icon>
@@ -71,7 +75,7 @@
 									<el-input  placeholder="请输入关键字查询" v-model="childTableData.param.keyword"> </el-input>
 								</el-form-item>
 								<el-form-item>
-									<el-button type="info" @click="onChildResetSearch">
+									<el-button type="info" @click="onResetChildSearch">
 										<el-icon>
 											<RefreshLeft />
 										</el-icon>
@@ -83,7 +87,7 @@
 										</el-icon>
 										&#8197;{{ $t('message.action.search') }}
 									</el-button>
-									<el-button  type="primary" @click="onOpenChildEditDlg()"  v-no-auth:[moduleKey]="'btn.GoodsAdd'">
+									<el-button  type="primary" @click="onOpenChildEditDlg()"  v-auth:[moduleKey]="'btn.GoodsAdd'">
 										<el-icon>
 											<CirclePlusFilled />
 										</el-icon>
@@ -94,7 +98,7 @@
 								</el-form-item>
 							</el-form>
 						</div>
-						<el-table :data="childTableData.data" v-loading="childTableData.loading" style="width:100%"
+						<el-table :data="childTableData.data" v-loading="childTableData.loading"
 							:height="proxy.$calcMainHeight(-75)"
 							border stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70"/>
@@ -116,26 +120,40 @@
 									</el-image>
 								</template>
 							</el-table-column>
-							<el-table-column prop="Title" label="名称" width="200" >
+							<el-table-column prop="GoodsName" label="名称" width="200" >
 							</el-table-column>
-							<!-- <el-table-column prop="SpecialName" label="所属专题" width="180" ></el-table-column> -->
-							<el-table-column prop="PublishTime" label="发布时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-							<!-- <el-table-column prop="State" label="状态" width="80" align="center">
+							<el-table-column prop="IsOnSale" label="在售" width="80" align="center">
 								<template #default="scope">
-									<el-switch v-model="scope.row.State" inline-prompt width="50" v-auth:[moduleKey]="'btn.ArticleEdit'"
-									@change="proxy.$api.common.table.updateById('cms_article','State',scope.row.Id,scope.row.State)" 
-									:active-text="$t('message.action.publish')" :inactive-text="$t('message.action.draft')" :active-value="1" :inactive-value="0"/>
-									<el-tag type="success" effect="plain"  v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.publish') }}</el-tag>
-									<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.draft') }}</el-tag>
-								</template>
-							</el-table-column> -->
-							<el-table-column prop="IsTop" label="置顶" width="70" align="center">
-								<template #default="scope">
-									<el-switch v-model="scope.row.IsTop" inline-prompt v-auth:[moduleKey]="'btn.GoodsEdit'"
-									@change="proxy.$api.common.table.updateById('eshop_goods','IsTop',scope.row.Id,scope.row.IsTop)" 
+									<el-switch v-model="scope.row.IsOnSale" inline-prompt v-auth:[moduleKey]="'btn.GoodsEdit'"
+									@change="proxy.$api.common.table.updateById('eshop_goods','IsOnSale',scope.row.Id,scope.row.IsOnSale)" 
 									:active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
-									<el-tag type="success" effect="plain"  v-if="scope.row.IsTop" v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{ $t('message.action.yes') }}</el-tag>
-									<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{ $t('message.action.no') }}</el-tag>
+									<el-tag type="success" effect="plain"  v-if="scope.row.IsOnSale" v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{ $t('message.action.enable') }}</el-tag>
+									<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{ $t('message.action.disable') }}</el-tag>
+								</template>
+							</el-table-column>
+							<el-table-column prop="IsTop" label="推荐" width="80" align="center">
+								<template #default="scope">
+									<el-switch v-model="scope.row.IsTop" inline-prompt :width="42" v-auth:[moduleKey]="'btn.GoodsEdit'"
+									@change="proxy.$api.common.table.updateById('eshop_goods','IsTop',scope.row.Id,scope.row.IsTop)" 
+									:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
+									<el-tag type="success" effect="plain"  v-if="scope.row.IsTop" v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{ $t('message.action.enable') }}</el-tag>
+									<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{ $t('message.action.disable') }}</el-tag>
+								</template>
+							</el-table-column>
+							<el-table-column prop="Order" label="排序" width="100" align="center">
+								<template #header>
+									<el-button  type="text" v-if="childTableData.data" 
+										@click="proxy.$api.common.table.update('eshop_goods','Order', childTableData.data||[], 0)" v-auth:[moduleKey]="'btn.GoodsEdit'">
+										<el-icon>
+											<Edit />
+										</el-icon>
+										&#8197;排序{{ $t('message.action.update') }}
+									</el-button>
+									<span v-no-auth:[moduleKey]="'btn.GoodsEdit'">排序</span>
+								</template>
+								<template #default="scope">
+									<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.GoodsEdit'"> </el-input>
+									<span v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{scope.row.Order}}</span>
 								</template>
 							</el-table-column>
 
@@ -175,8 +193,6 @@
 				</pane>
 			</splitpanes>
 			
-			
-		
 		<dlgMainEdit ref="dlgMainEditRef" :allow-edit-category="false" :allow-edit-special="false" :step="25" />
 		<dlgChildEdit ref="dlgChildEditRef" :allow-edit-category="false" :allow-edit-special="false" :step="25" />
 	</div>
@@ -194,7 +210,7 @@ import other from '/@/utils/other';
 import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 export default {
-	name: 'cmsArticleCommon',
+	name: 'eshopGoodsVirtualList',
 	components: { dlgMainEdit,dlgChildEdit,Splitpanes, Pane },
 	setup() {
 		const route=useRoute();
@@ -211,7 +227,7 @@ export default {
 			scopeMode,
 			scopeValue,
 			mainTableData: {
-				data: [{Id:1,Title:"特斯拉",children:[{Id:2,Title:'特斯拉 modle3',children:[{Id:3,Title:'cmp'}]}]}],
+				data: [],
 				total: 0,
 				loading: false,
 				param: {
@@ -219,10 +235,11 @@ export default {
 				},
 			},
 			childTableData: {
-				data: [{Id:1,Title:"cmp 001"},{Id:2,Title:"cmp 002"},{Id:2,Title:"cmp 003"}],
+				data: [{Id:1,Title:"cmp 001",Order:100},{Id:2,Title:"cmp 002",Order:100},{Id:2,Title:"cmp 003",Order:100}],
 				total: 0,
 				loading: false,
 				param: {
+					categoryId:0,
 					searchPage:10, // 1：保司二级审核，2：保司三级审核，5：制作专家，6：审核专家，10：平台
 					searchMode:2, //0：所有，1：待审，2：已审，3：我审核的
 					loadRelatedSel:false, //不加载栏目关联数据
@@ -241,18 +258,21 @@ export default {
 		}
 
 		// 初始化表格数据
-		const onGetMainTableData = async () => {
+		const onGetMainTableData = async (loadFirstChildData:boolean=false) => {
 			
 			state.mainTableData.loading=true;
 			state.mainTableData.data =[];
-			try{
-				const res = await proxy.$api.common.category.getListByScope(state.kind,state.scopeMode, state.scopeValue, state.mainTableData.param);
+			try {
+				const res = await proxy.$api.common.category.getHierarchyDataList(state.kind,state.scopeMode, state.scopeValue, state.mainTableData.param);
 				if(res.errcode!=0){
 					return;
 				}
 				state.mainTableData.total=res.total;
 				state.mainTableData.data = res.data;
-			}finally{
+				// if(loadFirstChildData && state.mainTableData.data.length){
+				// 	onGetChildTableData(true)
+				// }
+			} finally {
 				state.mainTableData.loading=false;
 			}
 		};
@@ -260,13 +280,13 @@ export default {
 		// 打开修改弹窗
 		const onOpenMainEditDlg = async (row: Object) => {
 			if(!row){
-				row = { Kind:state.kind, Parentid:"0", Order:50 }
+				row = { Kind:state.kind, Order:50 }
 			}
-			dlgMainEditRef.value.openDialog(row);
+			dlgMainEditRef.value.openDialog(row,state.mainTableData.data);
 		};
 		// 删除记录
 		const onMainRowDel = (row: Object) => {
-			ElMessageBox.confirm(`确定要删除记录“${row.Title}”吗?`, '提示', {
+			ElMessageBox.confirm(`确定要删除记录“${row.Name}”吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
@@ -286,6 +306,8 @@ export default {
 		
 		const onMainCellClick= async (row:any, column:any, cell:any, event:any) => {
 			console.log(column)
+			state.childTableData.param.categoryId=row.Id||"0"
+			onGetChildTableData();
 			// if(row && column.property=="Title"){
 			// 	// const res=await proxy.$api.cms.article.getById(row.Id)
 			// 	// if(res.errcode==0){
@@ -301,7 +323,7 @@ export default {
 		})
 
 		//重置查询条件
-		const onChildResetSearch=()=>{
+		const onResetChildSearch=()=>{
 			state.childTableData.param.keyword="";
 			onGetChildTableData(true)
 		}
@@ -318,7 +340,7 @@ export default {
 			state.childTableData.loading=true;
 			state.childTableData.data =[];
 			try{
-				const res = await proxy.$api.cms.article.getListByScope(state.kind,state.scopeMode, state.scopeValue, state.childTableData.param);
+				const res = await proxy.$api.eshop.goods.getListByScope(state.kind,state.scopeMode, state.scopeValue, state.childTableData.param);
 				if(res.errcode!=0){
 					return;
 				}
@@ -332,9 +354,12 @@ export default {
 		// 打开修改弹窗
 		const onOpenChildEditDlg = async (row: Object) => {
 			if(!row){
-				row = { Kind:state.kind, CategoryId:"0", SpecialId:"0" }
+				row = { Kind: state.kind, SpecialId:"0" }
+				if(state.childTableData.param.categoryId!="0"){
+					row.CategoryId=state.childTableData.param.categoryId;
+				}
 			}
-			dlgChildEditRef.value.openDialog(row);
+			dlgChildEditRef.value.openDialog(row,state.mainTableData.data);
 		};
 		// 删除记录
 		const onChildRowDel = (row: Object) => {
@@ -345,7 +370,7 @@ export default {
 			}).then(async () => {
 				state.childTableData.loading=true;
 				try{
-					const res = await proxy.$api.cms.article.delete(row.Id);
+					const res = await proxy.$api.eshop.goods.delete(row.Id);
 					if(res.errcode == 0){
 						onGetChildTableData();
 					}
@@ -369,7 +394,8 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
-			//onGetTableData();
+			onGetMainTableData(true);
+			onGetChildTableData();
 		});
 
 		const { dateFormatYMDHM } = commonFunction();
@@ -384,7 +410,8 @@ export default {
 			onMainRowDel,
 			onMainCellClick,
 
-			onChildResetSearch,
+			onGetChildTableData,
+			onResetChildSearch,
 			onOpenChildEditDlg,
 			onChildRowDel,
 			onHandleChildSizeChange,

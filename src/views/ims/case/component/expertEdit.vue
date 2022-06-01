@@ -368,7 +368,7 @@
 								<!-- , 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css' -->
 								<vue-ueditor-wrap
 									:editor-id="`editor-content`"
-									:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js']"
+									:editor-dependencies="['ueditor.mini.config.js', 'ueditor.all.min.js']"
 									v-model="ruleForm.ExpertAuditEval"
 									:config="{
 										UEDITOR_HOME_URL: '/ueditor/',

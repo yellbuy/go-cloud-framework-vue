@@ -11,20 +11,20 @@ export default {
 	 * @param params 要传的参数值
 	 * @returns 返回接口数据
 	 */
-	 getList:async (kind:string,scopeMode:number=0,scopeValue:number=0,params: object={})=>{
-		const url=`/v1/admin/eshop/goods/${kind}/${scopeMode}/${scopeValue}`;
+	 getListByScope:async (kind:string,scopeMode:number=0,scopeValue:number=0,params: object={})=>{
+		const url=`/v2/admin/eshop/goods/${kind}/${scopeMode}/${scopeValue}`;
 		return await http.get(url, params);
 	},
 	
 	/**
-	 * 获取前台文章列表
+	 * 获取前台文章列表 
 	 * @param kind 文章分类
 	 * @param scopeLevel 数据权限层级过滤参数，0：默认层级，1：系统级，2：应用级，3：租户级，4：用户级
 	 * @param params 要传的参数值
 	 * @returns 返回接口数据
 	 */
     getById:async (id:number|string)=>{
-		const url=`/v1/admin/eshop/goods/${id}`;
+		const url=`/v2/admin/eshop/goods/${id}`;
 		return await http.get(url);
 	},
     
@@ -34,7 +34,7 @@ export default {
 	 * @returns 返回接口数据
 	 */
 	insert:async(data:object)=>{
-		const url=`/v1/admin/eshop/goods`;
+		const url=`/v2/admin/eshop/goods`;
 		return await http.post(url, data);
 	},
 	/**
@@ -43,7 +43,7 @@ export default {
 	 * @returns 返回接口数据
 	 */
 	update:async(data:object)=>{
-		const url=`/v1/admin/eshop/goods/${data.Id}`;
+		const url=`/v2/admin/eshop/goods/${data.Id}`;
 		return await http.post(url, data);
 	},
 	/**
@@ -53,10 +53,10 @@ export default {
 	 */
 	save:async(data:object)=>{
 		if(!data.Id||data.Id=="0"){
-			const url=`/v1/admin/eshop/goods`;
+			const url=`/v2/admin/eshop/goods`;
 			return await http.post(url, data);
 		}
-		const url=`/v1/admin/eshop/goods/${data.Id}`;
+		const url=`/v2/admin/eshop/goods/${data.Id}`;
 		return await http.post(url, data);
 	},
 	
@@ -67,10 +67,10 @@ export default {
 	 */
 	delete:async(ids:number|string|[])=>{
 		if(ids instanceof Array){
-			const url=`/v1/admin/eshop/goods/delete`;
+			const url=`/v2/admin/eshop/goods/delete`;
 			return await http.post(url,ids);
 		}
-		const url=`/v1/admin/eshop/goods/delete/${ids}`;
+		const url=`/v2/admin/eshop/goods/delete/${ids}`;
 			return await http.post(url);
 	},
 }
