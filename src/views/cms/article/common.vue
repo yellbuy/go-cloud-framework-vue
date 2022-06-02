@@ -64,7 +64,7 @@
 				<el-table-column prop="PublishTime" label="发布时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="State" label="状态" width="80" align="center">
 					<template #default="scope">
-						<el-switch v-model="scope.row.State" inline-prompt :width="42" v-auth:[moduleKey]="'btn.ArticleEdit'"
+						<el-switch v-model="scope.row.State" inline-prompt :width="46" v-auth:[moduleKey]="'btn.ArticleEdit'"
 						@change="proxy.$api.common.table.updateById('cms_article','State',scope.row.Id,scope.row.State)" 
 						:active-text="$t('message.action.publish')" :inactive-text="$t('message.action.draft')" :active-value="1" :inactive-value="0"/>
 						<el-tag type="success" effect="plain"  v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.publish') }}</el-tag>
@@ -73,7 +73,7 @@
 				</el-table-column>
 				<el-table-column prop="AuditState" label="审核" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-switch v-model="scope.row.AuditState" inline-prompt :width="42" v-auth:[moduleKey]="'btn.ArticleAudit'" v-if="scope.row.State==1"
+						<el-switch v-model="scope.row.AuditState" inline-prompt :width="46" v-auth:[moduleKey]="'btn.ArticleAudit'" v-if="scope.row.State==1"
 						@change="proxy.$api.common.table.updateById('cms_article','AuditState',scope.row.Id,scope.row.AuditState)" 
 						:active-text="$t('message.action.approval')" :inactive-text="scope.row.AuditState==0?$t('message.action.pending'):$t('message.action.disapproval')" :active-value="1" :inactive-value="scope.row.AuditState==0?0:-1"/>
 						
@@ -95,7 +95,7 @@
 
 				<el-table-column prop="IsSwiper" label="轮播" width="80" align="center">
 					<template #default="scope">
-						<el-switch v-model="scope.row.IsSwiper" inline-prompt :width="42" v-auth:[moduleKey]="'btn.ArticleEdit'"
+						<el-switch v-model="scope.row.IsSwiper" inline-prompt :width="46" v-auth:[moduleKey]="'btn.ArticleEdit'"
 						@change="proxy.$api.common.table.updateById('cms_article','IsSwiper',scope.row.Id,scope.row.IsSwiper)" 
 						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
 						<el-tag type="success" effect="plain"  v-if="scope.row.IsSwiper" v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.enable') }}</el-tag>
@@ -105,7 +105,7 @@
 
 				<el-table-column prop="IsPromote" label="推荐" width="80" align="center">
 					<template #default="scope">
-						<el-switch v-model="scope.row.IsPromote" inline-prompt :width="42" v-auth:[moduleKey]="'btn.ArticleEdit'"
+						<el-switch v-model="scope.row.IsPromote" inline-prompt :width="46" v-auth:[moduleKey]="'btn.ArticleEdit'"
 						@change="proxy.$api.common.table.updateById('cms_article','IsPromote',scope.row.Id,scope.row.IsPromote)" 
 						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
 						<el-tag type="success" effect="plain"  v-if="scope.row.IsPromote" v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{ $t('message.action.enable') }}</el-tag>

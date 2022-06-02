@@ -21,7 +21,7 @@
 				<el-table-column prop="Code" label="编码" show-overflow-tooltip />
 				<el-table-column prop="Status" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-switch v-model="scope.row.Status" inline-prompt :width="42" v-auth:[moduleKey]="'btn.Edit'"
+						<el-switch v-model="scope.row.Status" inline-prompt :width="46" v-auth:[moduleKey]="'btn.Edit'"
 						@change="proxy.$api.common.table.updateById('common_data','status',scope.row.Id,scope.row.Status)" 
 						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0" :disabled="scope.row.Predefined"/>
 						<el-tag type="success" effect="plain"  v-if="scope.row.Status" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>

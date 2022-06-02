@@ -132,7 +132,7 @@
 							</el-table-column>
 							<el-table-column prop="IsTop" label="推荐" width="80" align="center">
 								<template #default="scope">
-									<el-switch v-model="scope.row.IsTop" inline-prompt :width="42" v-auth:[moduleKey]="'btn.GoodsEdit'"
+									<el-switch v-model="scope.row.IsTop" inline-prompt :width="46" v-auth:[moduleKey]="'btn.GoodsEdit'"
 									@change="proxy.$api.common.table.updateById('eshop_goods','IsTop',scope.row.Id,scope.row.IsTop)" 
 									:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
 									<el-tag type="success" effect="plain"  v-if="scope.row.IsTop" v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{ $t('message.action.enable') }}</el-tag>

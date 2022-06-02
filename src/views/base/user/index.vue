@@ -44,7 +44,7 @@
 				<el-table-column prop="Email" label="邮箱" width="150" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Enable" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-switch v-model="scope.row.Enable" inline-prompt :width="42" v-auth:[moduleKey]="'btn.UserEdit'"
+						<el-switch v-model="scope.row.Enable" inline-prompt :width="46" v-auth:[moduleKey]="'btn.UserEdit'"
 						@change="proxy.$api.common.table.updateById('base_user','Enable',scope.row.Id,scope.row.Enable)" 
 						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
 						<el-tag type="success" effect="plain"  v-if="scope.row.Enable" v-no-auth:[moduleKey]="'btn.UserEdit'">{{ $t('message.action.enable') }}</el-tag>
