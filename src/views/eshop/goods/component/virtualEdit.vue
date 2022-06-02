@@ -81,7 +81,7 @@
 						</el-row>
 					</el-tab-pane>
 					<el-tab-pane :key="1" label="详情">
-						<vue-ueditor-wrap :editor-id="`editor-content`"  
+						<vue-ueditor-wrap :editor-id="`editor-goods-desc`"  
 							:editor-dependencies="['ueditor.config.js','ueditor.all.min.js','xiumi/xiumi-ue-dialog-v5.js','xiumi/xiumi-ue-v5.css']"
 							v-model="ruleForm.GoodsDesc" 
 							:config="{UEDITOR_HOME_URL:'/ueditor/',serverUrl:`${baseUrl}/v1/common/editor/${getUserInfos.appid}`,headers:{'Authorization':token,Appid:getUserInfos.appid}}" 

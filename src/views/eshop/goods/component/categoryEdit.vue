@@ -1,6 +1,6 @@
 <template>
 	<div class="cms-edit-article-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="90%">
+		<el-dialog :title="title" v-model="isShowDialog" width="80%">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
@@ -61,7 +61,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="12" :lg="16" :xl="16">
-						<vue-ueditor-wrap :editor-id="`editor-content`"  
+						<vue-ueditor-wrap :editor-id="`editor-category-content`"  
 						:editor-dependencies="['ueditor.config.js','ueditor.all.min.js','xiumi/xiumi-ue-dialog-v5.js','xiumi/xiumi-ue-v5.css']"
 						v-model="ruleForm.Content" 
 						:config="{UEDITOR_HOME_URL:'/ueditor/',serverUrl:`${baseUrl}/v1/common/editor/${getUserInfos.appid}`,headers:{'Authorization':token,Appid:getUserInfos.appid}}" 
