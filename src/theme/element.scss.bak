@@ -179,6 +179,9 @@
 
 /* Switch 开关
 ------------------------------- */
+.el-switch--small .el-switch__core {
+    width: 36px;
+}
 .el-switch.is-checked .el-switch__core {
 	border-color: set-color(primary);
 	background-color: set-color(primary);
