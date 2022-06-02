@@ -48,20 +48,19 @@
 							</el-table-column>
 							<el-table-column prop="Id" label="标识" :width="160" align="right">
 							</el-table-column>
-							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
+							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(138)" fixed="right">
 								<template #default="scope">
-									<el-button text bg type="primary" plain @click="onOpenMainEditDlg(scope.row)" v-auth:[moduleKey]="'btn.CategoryEdit'">
-										<el-icon>
-											<Edit />
-										</el-icon>
-										&#8197;{{ $t('message.action.edit') }}
-									</el-button>
-									<el-button text bg type="danger" plain @click="onMainRowDel(scope.row)" v-auth:[moduleKey]="'btn.CategoryDel'">
-										<el-icon>
-											<CloseBold />
-										</el-icon>
-										&#8197;{{ $t('message.action.delete') }}
-									</el-button>
+									<el-button-group>
+										<el-button text bg type="primary" @click="onOpenMainEditDlg(scope.row)" v-auth:[moduleKey]="'btn.CategoryEdit'">
+											<el-icon><Edit /></el-icon>
+											&#8197;{{ $t('message.action.edit') }}
+										</el-button>
+										<el-button text bg type="danger" @click="onMainRowDel(scope.row)" v-auth:[moduleKey]="'btn.CategoryDel'">
+											<el-icon><CloseBold /></el-icon>
+											&#8197;{{ $t('message.action.delete') }}
+										</el-button>
+									</el-button-group>
+									
 								</template>
 							</el-table-column>
 						</el-table>
@@ -159,20 +158,22 @@
 
 							<el-table-column prop="Id" label="标识" width="160" align="right" >
 							</el-table-column>
-							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
+							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 								<template #default="scope">
-									<el-button text bg type="primary" plain @click="onOpenChildEditDlg(scope.row)" v-auth:[moduleKey]="'btn.GoodsEdit'">
-										<el-icon>
-											<Edit />
-										</el-icon>
-										&#8197;{{ $t('message.action.edit') }}
-									</el-button>
-									<el-button text bg type="danger" plain @click="onRowChildDel(scope.row.Id)" v-auth:[moduleKey]="'btn.GoodsDel'">
-										<el-icon>
-											<CloseBold />
-										</el-icon>
-										&#8197;{{ $t('message.action.delete') }}
-									</el-button>
+									<el-button-group>
+										<el-button text bg type="info" @click="onCopyChildRow(scope.row)" v-auth:[moduleKey]="'btn.GoodsAdd'">
+											<el-icon><DocumentCopy /></el-icon>
+											&#8197;{{ $t('message.action.copy') }}
+										</el-button>
+										<el-button text bg type="primary" @click="onOpenChildEditDlg(scope.row)" v-auth:[moduleKey]="'btn.GoodsEdit'">
+											<el-icon><Edit /></el-icon>
+											&#8197;{{ $t('message.action.edit') }}
+										</el-button>
+										<el-button text bg type="danger" @click="onRowChildDel(scope.row.Id)" v-auth:[moduleKey]="'btn.GoodsDel'">
+											<el-icon><CloseBold /></el-icon>
+											&#8197;{{ $t('message.action.delete') }}
+										</el-button>
+									</el-button-group>
 								</template>
 							</el-table-column>
 						</el-table>
@@ -256,7 +257,8 @@ export default {
 		const onMainRefresh=()=>{
 			onGetMainTableData()
 		}
-
+		
+		
 		// 初始化表格数据
 		const onGetMainTableData = async (loadFirstChildData:boolean=false) => {
 			
@@ -350,6 +352,27 @@ export default {
 				state.childTableData.loading=false;
 			}
 		};
+
+		// 记录复制
+		const onCopyChildRow = (row: Object) => {
+			if(!row){
+				return
+			}
+			ElMessageBox.confirm(`确定要复制记录“${row.GoodsName}”吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				const model = JSON.parse(JSON.stringify(row))
+				model.Id="0";
+				model.Key="";
+				const res = await proxy.$api.eshop.goods.save(model)
+				if(res.errcode==0){
+					onGetChildTableData();
+				}
+				return false;
+			});
+		};
 		
 		// 打开修改弹窗
 		const onOpenChildEditDlg = async (row: Object) => {
@@ -411,6 +434,7 @@ export default {
 			onMainCellClick,
 
 			onGetChildTableData,
+			onCopyChildRow,
 			onResetChildSearch,
 			onOpenChildEditDlg,
 			onChildRowDel,

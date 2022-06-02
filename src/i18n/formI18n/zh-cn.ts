@@ -16,6 +16,8 @@ export default {
 		confirm: '确认',
 		reset: '重置',
 		clear: '清空',
+		copy:'复制',
+		clone:'克隆',
 		save: '保存',
 		saveAndAdd: '保存并新增',
 		upload: '上传',

@@ -19,6 +19,8 @@ export default {
 		see: "see",
 		distribute:'distribute',
 		takeOrders:'take orders',
+		copy:'copy',
+		clone:'clone',
 		save:'save',
 		saveAndAdd:'save and add',
 		upload:'upload',

@@ -17,6 +17,8 @@ export default {
 		see: "查看",
 		distribute:'分配',
 		takeOrders:'接单',
+		copy:'拷贝',
+		clone:'克隆',
 		save:'保存',
 		saveAndAdd:'保存并新增',
 		upload:'上传',
