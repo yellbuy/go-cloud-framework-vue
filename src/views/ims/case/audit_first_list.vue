@@ -27,6 +27,12 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
+						<el-button type="info" @click="exportExcel()">
+							<el-icon>
+								<Search />
+							</el-icon>
+							&#8197;{{ $t('message.action.export') }}
+						</el-button>
 					</el-form-item>
 					<el-form-item> </el-form-item>
 				</el-form>
@@ -59,8 +65,8 @@
 				<el-table-column prop="CaseType" label="分类" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="primary" effect="plain" v-if="scope.row.CaseType == 1">门诊就医</el-tag>
-						<el-tag type="success" effect="plain" v-else-if="scope.row.CaseType == 2">住院非手续</el-tag>
-						<el-tag type="warning" effect="plain" v-else-if="scope.row.CaseType == 3">住院手续</el-tag>
+						<el-tag type="success" effect="plain" v-else-if="scope.row.CaseType == 2">住院非手术</el-tag>
+						<el-tag type="warning" effect="plain" v-else-if="scope.row.CaseType == 3">住院手术</el-tag>
 						<el-tag type="danger" effect="plain" v-else-if="scope.row.CaseType == 10">死亡</el-tag>
 					</template>
 				</el-table-column>
@@ -92,7 +98,8 @@
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
 						<el-button
-							text bg
+							text
+							bg
 							type="primary"
 							v-if="scope.row.InsurerAuditState == 2"
 							@click="onOpenEditDlg(true, scope.row)"
@@ -104,7 +111,8 @@
 							&#8197;{{ $t('message.action.audit') }}
 						</el-button>
 						<el-button
-							text bg
+							text
+							bg
 							type="primary"
 							v-if="scope.row.ExpertReviewState == 10"
 							@click="onDownload(scope.row)"
@@ -187,7 +195,20 @@ export default {
 		// effect(()=>{
 		// 	state.tableData.param.pageIndex = state.tableData.param.pageNum+1;
 		// })
-
+		const exportExcel = async () => {
+			state.tableData.param.isExport = true;
+			const res = await proxy.$api.ims.casepersonline.export(state.tableData.param);
+			if (res.data.size == 0) {
+				return;
+			} else {
+				// 返回不为空
+				var url = window.URL.createObjectURL(res.data);
+				var a = document.createElement('a');
+				a.href = url;
+				a.download = '赋能终端理赔' + new Date() + '.xlsx'; // 下载后的文件名称
+				a.click();
+			}
+		};
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
@@ -315,6 +336,7 @@ export default {
 			onOpenEditDlg,
 			onDownload,
 			onRowDel,
+			exportExcel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,

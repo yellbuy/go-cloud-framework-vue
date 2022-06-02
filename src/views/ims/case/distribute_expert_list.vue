@@ -52,8 +52,8 @@
 				<el-table-column prop="CaseType" label="分类" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="primary" effect="plain"  v-if="scope.row.CaseType==1">门诊就医</el-tag>
-						<el-tag type="success" effect="plain"  v-else-if="scope.row.CaseType==2">住院非手续</el-tag>
-						<el-tag type="warning" effect="plain"  v-else-if="scope.row.CaseType==3">住院手续</el-tag>
+						<el-tag type="success" effect="plain"  v-else-if="scope.row.CaseType==2">住院非手术</el-tag>
+						<el-tag type="warning" effect="plain"  v-else-if="scope.row.CaseType==3">住院手术</el-tag>
 						<el-tag type="danger" effect="plain"  v-else-if="scope.row.CaseType==10">死亡</el-tag>
 					</template>
 				</el-table-column>
