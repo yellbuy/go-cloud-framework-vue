@@ -27,12 +27,12 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button type="info" @click="exportExcel()">
+						<!-- <el-button type="info" @click="exportExcel()">
 							<el-icon>
 								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.export') }}
-						</el-button>
+						</el-button> -->
 					</el-form-item>
 					<el-form-item> </el-form-item>
 				</el-form>
@@ -89,12 +89,10 @@
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(235)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(165)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="info" v-if="scope.row.InsurerAuditState > 0" @click="onOpenEditDlg(false, scope.row)">
-							<el-icon>
-								<Search />
-							</el-icon>
+							<el-icon><Search /></el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
 						<el-button
@@ -105,22 +103,18 @@
 							@click="onOpenEditDlg(true, scope.row)"
 							v-auth:[moduleKey]="'btn.AuditEdit'"
 						>
-							<el-icon>
-								<Edit />
-							</el-icon>
+							<el-icon><Edit /></el-icon>
 							&#8197;{{ $t('message.action.audit') }}
 						</el-button>
 						<el-button
 							text
 							bg
 							type="primary"
-							v-if="scope.row.ExpertReviewState == 10"
+							v-else-if="scope.row.ExpertReviewState == 10"
 							@click="onDownload(scope.row)"
 							v-auth:[moduleKey]="'btn.Download'"
 						>
-							<el-icon>
-								<Edit />
-							</el-icon>
+							<el-icon><Edit /></el-icon>
 							&#8197;{{ $t('message.action.download') }}
 						</el-button>
 					</template>

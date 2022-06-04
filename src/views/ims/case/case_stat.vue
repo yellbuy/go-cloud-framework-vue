@@ -2,7 +2,7 @@
 	<div class="ims-case-firstaudit-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="80px" :inline="true">
 					<el-form-item :label="'报案号：'">
 						<el-input placeholder="请输入报案号查询" v-model="tableData.param.no"> </el-input>
 					</el-form-item>
@@ -11,13 +11,13 @@
 							<el-option v-for="item in stateData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
 					</el-form-item>
-					<el-form-item :label="'委托单位：'">
-						<el-select v-model="tids" multiple placeholder="请选择" style="width: 240px">
+					<el-form-item :label="'委托单位：'" v-if="tid=='0'">
+						<el-select v-model="tableData.param.tids" multiple placeholder="请选择" style="width: 240px">
 							<el-option v-for="item in tidData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
 					</el-form-item>
-					<el-form-item :label="'专家姓名：'" v-if="tid==0">
-						<el-select v-model="expertAuditUids" multiple placeholder="请选择" style="width: 240px">
+					<el-form-item :label="'专家姓名：'" v-if="tid=='0'">
+						<el-select v-model="expertAuditUids" multiple placeholder="请选择" style="width: 80px">
 							<el-option v-for="item in userData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
 					</el-form-item>
@@ -61,7 +61,7 @@
 				v-loading="tableData.loading"
 				style="width: 100%"
 				size="small"
-				:height="proxy.$calcMainHeight(-75)"
+				:height="proxy.$calcMainHeight(-125)"
 				border
 				stripe
 				highlight-current-row
@@ -92,11 +92,15 @@
 				</el-table-column> -->
 				<el-table-column prop="ExpertAuditTime" label="审核时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertReviewTime" label="完成时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="State" label="状态" width="80" align="center" fixed="right">
+				<el-table-column prop="State" label="状态" width="90" align="center" fixed="right">
 					<template #default="scope">
-						<el-tag type="danger" effect="plain" v-if="scope.row.ExpertReviewState == 5 || scope.row.ExpertAuditState == 5">驳回</el-tag>
-						<el-tag type="success" effect="plain" v-else-if="scope.row.ExpertReviewState == 10">已完成</el-tag>
-						<el-tag type="primary" effect="plain" v-else>待审</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.ExpertReviewState == 10">已完成</el-tag>
+						<el-tag type="danger" effect="plain" v-else-if="scope.row.ExpertReviewState == 5">复审驳回</el-tag>
+						<el-tag type="primary" effect="plain" v-else-if="scope.row.ExpertAuditState == 10">复审待审</el-tag>
+						<el-tag type="danger" effect="plain" v-else-if="scope.row.ExpertAuditState == 5">专家驳回</el-tag>
+						<el-tag type="primary" effect="plain" v-else-if="scope.row.InsurerAuditState == 10">保司通过</el-tag>
+						<el-tag type="danger" effect="plain" v-else-if="scope.row.InsurerAuditState == 5">保司驳回</el-tag>
+						<el-tag type="primary" effect="plain" v-else>保司待审</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="ExpertReviewBy" label="审核专家" width="80" show-overflow-tooltip> </el-table-column>
@@ -147,7 +151,7 @@ export default {
 					searchPage: 0, // 1：保司二级审核，2：保司三级审核，5：制作专家，6：审核专家，10：平台
 					searchMode: 0, //0：所有，1：待审，2：已审，3：我审核的
 					no: '', //报案号
-					tid: '',
+					tids: [],
 					expertAuditUids: '',
 					state: -1,
 					pageNum: 1,
@@ -160,7 +164,6 @@ export default {
 			tidData: [], //委托单位
 			userData: [], //用户
 			expertAuditUids: [],
-			tids: [],
 			stateData: [
 				{ Id: -1, Name: '全部' },
 				{
@@ -184,10 +187,9 @@ export default {
 		//重置查询条件
 		const onResetSearch = () => {
 			state.tableData.param.no = '';
-			state.tids = [];
 			state.expertAuditUids = [];
 			state.tableData.param.state = -1;
-			state.tableData.param.tid = '';
+			state.tableData.param.tids = [];
 			state.tableData.param.expertAuditUids = '';
 			state.expertReviewStatTime = '';
 			state.expertReviewEndTime = '';
@@ -200,7 +202,6 @@ export default {
 
 		//导出
 		const exportExcel = async () => {
-			state.tableData.param.tid = state.tids.toString();
 			state.tableData.param.expertAuditUids = state.expertAuditUids.toString();
 
 			if (state.timeList && state.timeList.length == 2) {
@@ -219,7 +220,7 @@ export default {
 				var url = window.URL.createObjectURL(res.data);
 				var a = document.createElement('a');
 				a.href = url;
-				a.download = '赋能终端理赔' + new Date() + '.xlsx'; // 下载后的文件名称
+				a.download = '案件统计_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
 				a.click();
 			}
 
@@ -238,7 +239,6 @@ export default {
 			state.tableData.data = [];
 			try {
 				console.log(state.tableData.param);
-				state.tableData.param.tid = state.tids.toString();
 				state.tableData.param.expertAuditUids = state.expertAuditUids.toString();
 				if (state.timeList && state.timeList.length == 2) {
 					state.tableData.param.expertReviewStatTime = state.timeList[0];
@@ -296,11 +296,14 @@ export default {
 			}
 		};
 		const getLoadData = async () => {
-			const TidRes = await proxy.$api.base.tenant.getList({ pageNum: 1, pageSize: 10000 });
-			if (TidRes.errcode != 0) {
-				return;
+			if(state.tid == '0'){
+				const tidRes = await proxy.$api.base.tenant.getList({ pageNum: 1, pageSize: 10000 });
+				if (tidRes.errcode != 0) {
+					return;
+				}
+				state.tidData = tidRes.data;
 			}
-			state.tidData = TidRes.data;
+			
 			const res = await proxy.$api.base.user.getList({ pageNum: 1, pageSize: 10000 });
 			if (res.errcode != 0) {
 				return;
