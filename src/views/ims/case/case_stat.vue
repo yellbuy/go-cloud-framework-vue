@@ -16,7 +16,7 @@
 							<el-option v-for="item in tidData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
 					</el-form-item>
-					<el-form-item :label="'专家姓名：'">
+					<el-form-item :label="'专家姓名：'" v-if="tid==0">
 						<el-select v-model="expertAuditUids" multiple placeholder="请选择" style="width: 240px">
 							<el-option v-for="item in userData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
@@ -45,9 +45,9 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button type="info" @click="exportExcel()">
+						<el-button type="info" @click="exportExcel()" v-auth:[moduleKey]="'btn.Export'">
 							<el-icon>
-								<Search />
+								<Download />
 							</el-icon>
 							&#8197;{{ $t('message.action.export') }}
 						</el-button>
@@ -128,12 +128,15 @@ import { useStore } from '/@/store/index';
 export default {
 	name: 'baseUsers',
 	setup() {
+		const moduleKey = 'api_ims_case_stat';
 		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
 		const dlgEditRef = ref();
 		const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
 		const state: any = reactive({
+			moduleKey: moduleKey,
 			uid: store.state.userInfos.userInfos.uid,
+			tid: store.state.userInfos.userInfos.tid,
 			timeList: [],
 			tableData: {
 				data: [],
