@@ -16,7 +16,7 @@ import other from '/@/utils/other';
 // import '/@/views/meta/components/DynamicForm/styles/index.styl';
 
 import api from '/@/api';
-import '/@/theme/index.scss';
+
 import formControls from '/@/views/meta/components/FormControls/index.ts';
 
 
