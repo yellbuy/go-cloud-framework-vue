@@ -129,7 +129,6 @@ export default {
 			proxy.$refs.ruleFormRef.validate(async (valid:any) => {
 				if (valid) {
 					state.ruleForm.Id=state.ruleForm.Id.toString();
-					state.ruleForm.Order=Number.parseInt(state.ruleForm.Order||0);
 					state.loading=true;
 					try{
 						const res = await proxy.$api.eshop.prepay_activity.save(state.ruleForm)
