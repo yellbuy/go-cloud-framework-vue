@@ -4,7 +4,7 @@ export default {
 		virtualGoods: 'virtual goods',
 		prepay: 'prepay',
 	},
-	action:{
+	action: {
 	}
-	
+
 };
