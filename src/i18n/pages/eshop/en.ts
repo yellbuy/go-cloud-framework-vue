@@ -3,7 +3,7 @@ export default {
 	router: {
 		virtualGoods: 'virtual goods',
 	},
-	action:{
+	action: {
 	}
-	
+
 };
