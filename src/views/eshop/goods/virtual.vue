@@ -113,7 +113,9 @@
 										fit="cover" >
 											<template #error>
 												<div class="image-slot">
-													<SvgIcon name="elementPicture"/>
+													<el-icon>
+														<Picture />
+													</el-icon>
 												</div>
 											</template>
 									</el-image>
@@ -236,7 +238,7 @@ export default {
 				},
 			},
 			childTableData: {
-				data: [{Id:1,Title:"cmp 001",Order:100},{Id:2,Title:"cmp 002",Order:100},{Id:2,Title:"cmp 003",Order:100}],
+				data: [],
 				total: 0,
 				loading: false,
 				param: {
