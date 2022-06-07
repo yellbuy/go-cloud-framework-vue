@@ -2,40 +2,70 @@
 	<div class="cms-edit-article-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading">
-				<el-form-item label="活动名称" prop="ActName">
-						<el-input v-model.trim="ruleForm.ActName" autofocus placeholder="请输入活动名称" maxlength="100" clearable></el-input>
-					</el-form-item>
-					<el-form-item label="售价" prop="PayAmount">
-						<el-input-number v-model.number="ruleForm.PayAmount" :precision="2" :step="1" :min="0" />
-					</el-form-item>
-					<el-form-item :label="ruleForm.ActType==0?'面值':'上账'" prop="Amount" v-if="ruleForm.ActMode==0">
-						<el-input-number v-model.number="ruleForm.Amount" :precision="0" :step="1" :min="0" />
-					</el-form-item>
-					<el-form-item :label="ruleForm.ActType==1?'兑换积分':ruleForm.ActType==2?'兑换金币':''" prop="Point" v-else-if="ruleForm.ActMode==1">
-						<el-input-number v-model.number="ruleForm.Point" :precision="0" :step="1" :min="0" />
-					</el-form-item>
-					<el-form-item label="状态" prop="State">
-						<el-switch v-model.number="ruleForm.State" :width="50" inline-prompt :active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
-					</el-form-item>
-					<el-form-item label="排序" prop="State">
-						<el-input-number v-model.number="ruleForm.Order" :precision="0" :step="10" :min="0" />
-					</el-form-item>
-					<el-form-item label="活动图片" prop="ImgUrl">
-						<el-input v-model="ruleForm.ImgUrl" placeholder="上传或输入" maxlength="255" clearable ></el-input>
-						<div class="mt10" style="border:1px gray dashed">
-							<el-upload
-								class="avatar-uploader"
-								:action="`${baseUrl}/v1/file/upload`"
-								name="file"
-								:headers="{Appid:getUserInfos.appid,Authorization:token}"
-								:show-file-list="false"
-								:on-success="onImageUploadSuccess"
-								:before-upload="onBeforeImageUpload">
-								<img v-if="ruleForm.ImgUrl" :src="proxy.$utils.staticUrlParse(ruleForm.ImgUrl)" width="150" height="150" class="avatar" />
-								<SvgIcon v-else name="fa fa-plus" class="avatar-uploader-icon"/>
-							</el-upload>
-						</div>
-					</el-form-item>
+				<el-row>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="活动名称" prop="ActName">
+							<el-input v-model.trim="ruleForm.ActName" autofocus placeholder="请输入活动名称" maxlength="100" clearable></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item :label="'有效时间'">
+							<el-date-picker
+								v-model="timeList"
+								type="datetimerange"
+								:shortcuts="shortcuts"
+								range-separator="到"
+								start-placeholder="开始时间"
+								end-placeholder="结束时间"
+								format="YYYY-MM-DD HH:mm"
+								value-format="YYYY-MM-DD HH:mm:ss"
+							/>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row class="mt20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="3">
+						<el-form-item label="售价" prop="PayAmount">
+							<el-input-number v-model.number="ruleForm.PayAmount" :precision="2" :step="1" :min="0" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="3">
+						<el-form-item :label="ruleForm.ActType==0?'面值':'上账'" prop="Amount" v-if="ruleForm.ActMode==0">
+							<el-input-number v-model.number="ruleForm.Amount" :precision="0" :step="1" :min="0" />
+						</el-form-item>
+						<el-form-item :label="ruleForm.ActType==1?'兑换积分':ruleForm.ActType==2?'兑换金币':''" prop="Point" v-else-if="ruleForm.ActMode==1">
+							<el-input-number v-model.number="ruleForm.Point" :precision="0" :step="1" :min="0" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="3">
+						<el-form-item label="状态" prop="State">
+							<el-switch v-model.number="ruleForm.State" :width="50" inline-prompt :active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
+						</el-form-item>
+						
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="3">
+						<el-form-item label="排序" prop="State">
+							<el-input-number v-model.number="ruleForm.Order" :precision="0" :step="10" :min="0" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+				
+				<el-form-item label="活动图片" class="mt20" prop="ImgUrl">
+					<el-input v-model="ruleForm.ImgUrl" placeholder="上传或输入" maxlength="255" clearable ></el-input>
+					<div class="mt10" style="border:1px gray dashed">
+						<el-upload
+							class="avatar-uploader"
+							:action="`${baseUrl}/v1/file/upload`"
+							name="file"
+							:headers="{Appid:getUserInfos.appid,Authorization:token}"
+							:show-file-list="false"
+							:on-success="onImageUploadSuccess"
+							:before-upload="onBeforeImageUpload">
+							<img v-if="ruleForm.ImgUrl" :src="proxy.$utils.staticUrlParse(ruleForm.ImgUrl)" width="150" height="150" class="avatar" />
+							<SvgIcon v-else name="fa fa-plus" class="avatar-uploader-icon"/>
+						</el-upload>
+					</div>
+				</el-form-item>
 					
 			</el-form>
 			<template #footer>
@@ -53,6 +83,8 @@
 <script lang="ts">
 import { toRefs, reactive, onMounted, ref, getCurrentInstance,computed } from 'vue';
 import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
+import { formatDate } from '/@/utils/formatTime';
+import dayjs from "dayjs"
 import { useI18n } from 'vue-i18n';
 import { Session } from '/@/utils/storage';
 import { useStore } from '/@/store/index';
@@ -72,13 +104,14 @@ export default {
 			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
+		
 		const state = reactive({
 			isShowDialog: false,
 			title:t('message.action.add'),
 			loading:false,
 			token:token,
 			baseUrl:import.meta.env.VITE_API_URL,
-			cateList:[],
+			timeList:[dayjs(new Date()),dayjs(new Date()).add(1, 'year')],
 			ruleForm: {
 			},
 		});
@@ -112,7 +145,10 @@ export default {
 				state.ruleForm.Id="0";
 				state.ruleForm.State=1;
 				state.ruleForm.Order=100;
+				state.ruleForm.StartTime=dayjs(new Date());
+				state.ruleForm.EndTime=dayjs(new Date()).add(1, 'year');
 			}
+			state.timeList=[dayjs(state.ruleForm.StartTime),dayjs(state.ruleForm.EndTime)]
 			state.isShowDialog = true;
 
 		};
@@ -129,6 +165,8 @@ export default {
 			proxy.$refs.ruleFormRef.validate(async (valid:any) => {
 				if (valid) {
 					state.ruleForm.Id=state.ruleForm.Id.toString();
+					state.ruleForm.StartTime=state.timeList[0];
+					state.ruleForm.EndTime=state.timeList[1];
 					state.loading=true;
 					try{
 						const res = await proxy.$api.eshop.prepay_activity.save(state.ruleForm)
@@ -139,7 +177,7 @@ export default {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id=0;
 							}
-							proxy.$parent.onGetChildTableData();
+							proxy.$parent.onGetTableData();
 						}
 					} finally {
 						state.loading=false;
