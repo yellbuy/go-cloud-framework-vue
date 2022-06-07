@@ -3,35 +3,9 @@
 		<el-card shadow="hover">
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="80px" :inline="true">
-					<el-form-item :label="'支付时间：'">
-						<el-date-picker
-							v-model="timeList"
-							type="datetimerange"
-							:shortcuts="shortcuts"
-							range-separator="到"
-							start-placeholder="开始时间"
-							end-placeholder="结束时间"
-							value-format="YYYY-MM-DD HH:mm:ss"
-						/>
-					</el-form-item>
 					<el-form-item :label="'类型：'">
 						<el-select v-model="tableData.param.ExtTag" placeholder="请选择" style="width: 90px">
 							<el-option v-for="item in kindData" :key="item.Id" :label="item.Name" :value="item.Id" />
-						</el-select>
-					</el-form-item>
-					<el-form-item :label="'支付状态：'">
-						<el-select v-model="tableData.param.PayState" placeholder="请选择" style="width: 90px">
-							<el-option v-for="item in payData" :key="item.Id" :label="item.Name" :value="item.Id" />
-						</el-select>
-					</el-form-item>
-					<el-form-item :label="'销核状态：'">
-						<el-select v-model="tableData.param.ShippingState" placeholder="请选择" style="width: 90px">
-							<el-option v-for="item in shippingData" :key="item.Id" :label="item.Name" :value="item.Id" />
-						</el-select>
-					</el-form-item>
-					<el-form-item :label="'打印状态：'">
-						<el-select v-model="tableData.param.PrintState" placeholder="请选择" style="width: 90px">
-							<el-option v-for="item in printData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
 					</el-form-item>
 					<el-form-item :label="'关键字：'">
@@ -161,7 +135,6 @@
 			>
 			</el-pagination>
 		</el-card>
-		<dlgEdit ref="dlgEditRef" />
 	</div>
 </template>
 
@@ -171,13 +144,12 @@ import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import dlgEdit from './component/orderEdit.vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 import imageUrl from '/@/components/image/url.vue';
 export default {
-	name: 'orderlist',
-	components: { imageUrl, dlgEdit },
+	name: 'memberlist',
+	components: { imageUrl },
 	setup() {
 		const route = useRoute();
 		const kind = route.params.kind;
@@ -323,7 +295,7 @@ export default {
 					state.tableData.param.ServiceStartTime = '';
 					state.tableData.param.ServiceEndTime = '';
 				}
-				const res = await proxy.$api.eshop.order.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.eshop.member.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode !== 0) {
 					return;
 				}

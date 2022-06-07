@@ -16,8 +16,8 @@ export default {
 		confirm: '确认',
 		reset: '重置',
 		clear: '清空',
-		copy:'复制',
-		clone:'克隆',
+		copy: '复制',
+		clone: '克隆',
 		save: '保存',
 		saveAndAdd: '保存并新增',
 		upload: '上传',
@@ -45,6 +45,7 @@ export default {
 		action: '动作',
 		frontend: '前台',
 		backend: '后台',
+		print: '打印',
 	},
 	validRule: {
 		required: '必填项',

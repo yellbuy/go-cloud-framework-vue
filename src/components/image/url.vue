@@ -15,14 +15,15 @@
 </template>
 
 <script lang="ts">
+import { indexOf } from 'lodash';
 import { toRefs, reactive, watch, defineComponent, onUnmounted, onMounted, getCurrentInstance } from 'vue';
 export default defineComponent({
-	name: 'imageList',
+	name: 'imageUrl',
 	props: {
 		ids: String,
-		baseUrl: '',
+		baseUrl: String,
 		imgStyle: {
-			default: 'width: 100px; margin-right:5px;height: 100px; border-radius: 5px',
+			default: 'width: 50px; height: 40px; border-radius: 5px',
 		},
 		title: {
 			default: '点击查看大图预览',
@@ -39,16 +40,15 @@ export default defineComponent({
 		}
 		const loadPics = async (ids: String) => {
 			state.imgList = [];
+			console.log('字符串转数组', ids, typeof ids);
 			if (ids) {
-				const res = await proxy.$api.common.file.parse({ ids });
-				if (res.errcode == 0) {
-					if (res.data.length) {
-						res.data.forEach(function (val) {
-							if (val.Savepath) {
-								state.imgList.push(state.staticBaseUrl + val.Savepath);
-							}
-						});
-					}
+				if (ids.toString().indexOf(',') > -1) {
+					const list = ids.split(',');
+					list.forEach(function (val) {
+						state.imgList.push(state.staticBaseUrl + val + '.png');
+					});
+				} else {
+					state.imgList.push(state.staticBaseUrl + ids + '.png');
 				}
 			}
 		};
@@ -61,6 +61,7 @@ export default defineComponent({
 		);
 		// 页面加载时
 		onMounted(() => {
+			console.log('页面加载');
 			loadPics(props.ids);
 		});
 		return {
