@@ -50,8 +50,8 @@
 					</el-col>
 				</el-row>
 				
-				<el-form-item label="活动图片" class="mt20" prop="ImgUrl">
-					<el-input v-model="ruleForm.ImgUrl" placeholder="上传或输入" maxlength="255" clearable ></el-input>
+				<el-form-item label="活动图片" class="mt20" prop="ActImg">
+					<el-input v-model="ruleForm.ActImg" placeholder="上传或输入" maxlength="255" clearable ></el-input>
 					<div class="mt10" style="border:1px gray dashed">
 						<el-upload
 							class="avatar-uploader"
@@ -61,7 +61,7 @@
 							:show-file-list="false"
 							:on-success="onImageUploadSuccess"
 							:before-upload="onBeforeImageUpload">
-							<img v-if="ruleForm.ImgUrl" :src="proxy.$utils.staticUrlParse(ruleForm.ImgUrl)" width="150" height="150" class="avatar" />
+							<img v-if="ruleForm.ActImg" :src="proxy.$utils.staticUrlParse(ruleForm.ActImg)" width="150" height="150" class="avatar" />
 							<SvgIcon v-else name="fa fa-plus" class="avatar-uploader-icon"/>
 						</el-upload>
 					</div>
@@ -194,7 +194,7 @@ export default {
 				ElMessage.error(res.errmsg)
 				return;
 			}
-			state.ruleForm.ImgUrl=res.data.src;
+			state.ruleForm.ActImg=res.data.src;
 		}
 
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {

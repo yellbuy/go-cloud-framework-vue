@@ -35,13 +35,13 @@
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70"/>
 				
-				<el-table-column prop="ImgUrl" label="封面图" width="60" align="center">
+				<el-table-column prop="ActImg" label="封面图" width="60" align="center">
 					<template #default="scope">
-						<el-image v-if="scope.row.ImgUrl" lazy preview-teleported
+						<el-image v-if="scope.row.ActImg" lazy preview-teleported
 							style="width: 20px; height: 20px"
-							:src="proxy.$utils.staticUrlParse(scope.row.ImgUrl)"
+							:src="proxy.$utils.staticUrlParse(scope.row.ActImg)"
 							hide-on-click-modal
-							:preview-src-list="[proxy.$utils.staticUrlParse(scope.row.ImgUrl)]"
+							:preview-src-list="[proxy.$utils.staticUrlParse(scope.row.ActImg)]"
 							:initial-index="0"
 							fit="cover" >
 								<template #error>
@@ -54,7 +54,7 @@
 						</el-image>
 					</template>
 				</el-table-column>
-				<el-table-column prop="ActName" label="活动名称" width="200" >
+				<el-table-column prop="ActName" label="活动名称" >
 				</el-table-column>
 				<el-table-column prop="State" label="有效" width="80" align="center">
 					<template #default="scope">
@@ -67,7 +67,9 @@
 				</el-table-column>
 				<el-table-column prop="PayAmount" label="售价" width="80" align="right">
 				</el-table-column>
-				<el-table-column prop="Amount" label="面值" width="80" align="right">
+				<el-table-column prop="Amount" :label="actType==0?'面值':'上账'" width="80" align="right" v-if="actMode==0">
+				</el-table-column>
+				<el-table-column prop="Point" :label="actType==1?'兑换积分':actType==2?'兑换金币':''" width="90" align="right"  v-else-if="actMode==1">
 				</el-table-column>
 				<el-table-column prop="Order" label="排序" width="100" align="center">
 					<template #header>
@@ -154,6 +156,8 @@ export default {
 			kind,
 			scopeMode,
 			scopeValue,
+			actMode,
+			actType,
 			tableData: {
 				data: [],
 				total: 0,
@@ -213,7 +217,6 @@ export default {
 			}).then(async () => {
 				const model = JSON.parse(JSON.stringify(row))
 				model.Id="0";
-				model.Key="";
 				const res = await proxy.$api.eshop.prepay.save(model)
 				if(res.errcode==0){
 					onGetTableData();
