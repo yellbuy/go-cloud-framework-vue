@@ -1,6 +1,6 @@
 <template>
 	<i v-if="isShowIconSvg" class="el-icon" :style="setIconSvgStyle">
-		<component :is="getIconName" />
+		<component :is="getIconName.replace('el-','')" />
 	</i>
 	<div v-else-if="isShowIconImg" :style="setIconImgOutStyle">
 		<img :src="getIconName" :style="setIconSvgInsStyle" />

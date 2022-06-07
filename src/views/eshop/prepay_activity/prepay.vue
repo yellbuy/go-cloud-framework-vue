@@ -103,7 +103,7 @@
 								<el-icon><Edit /></el-icon>
 								&#8197;{{ $t('message.action.edit') }}
 							</el-button>
-							<el-button text bg type="danger" @click="onRowDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Delete'">
+							<el-button text bg type="danger" @click="onRowDel(scope.row)" v-auth:[moduleKey]="'btn.Delete'">
 								<el-icon><CloseBold /></el-icon>
 								&#8197;{{ $t('message.action.delete') }}
 							</el-button>

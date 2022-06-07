@@ -42,10 +42,10 @@ export default defineComponent({
 		const state = reactive({
 			isShow: false,
 			dropdownList: [
-				{ contextMenuClickId: 0, txt: 'message.tagsView.refresh', affix: false, icon: 'elementRefreshRight' },
-				{ contextMenuClickId: 1, txt: 'message.tagsView.close', affix: false, icon: 'elementClose' },
-				{ contextMenuClickId: 2, txt: 'message.tagsView.closeOther', affix: false, icon: 'elementCircleClose' },
-				{ contextMenuClickId: 3, txt: 'message.tagsView.closeAll', affix: false, icon: 'elementFolderDelete' },
+				{ contextMenuClickId: 0, txt: 'message.tagsView.refresh', affix: false, icon: 'el-RefreshRight' },
+				{ contextMenuClickId: 1, txt: 'message.tagsView.close', affix: false, icon: 'el-Close' },
+				{ contextMenuClickId: 2, txt: 'message.tagsView.closeOther', affix: false, icon: 'el-CircleClose' },
+				{ contextMenuClickId: 3, txt: 'message.tagsView.closeAll', affix: false, icon: 'el-FolderDelete' },
 				{
 					contextMenuClickId: 4,
 					txt: 'message.tagsView.fullscreen',

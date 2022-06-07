@@ -20,24 +20,22 @@
 					<SvgIcon :name="v.meta.icon" class="layout-navbars-tagsview-ul-li-iconfont" v-if="!isActive(v) && getThemeConfig.isTagsviewIcon" />
 					<span>{{ $t(v.meta.title) }}</span>
 					<template v-if="isActive(v)">
-						<SvgIcon
-							name="elementRefreshRight"
-							class="ml5 layout-navbars-tagsview-ul-li-refresh"
-							@click.stop="refreshCurrentTagsView($route.fullPath)"
-						/>
-						<SvgIcon
-							name="elementClose"
-							class="layout-navbars-tagsview-ul-li-icon layout-icon-active"
+						<el-icon class="ml5 layout-navbars-tagsview-ul-li-refresh"
+							@click.stop="refreshCurrentTagsView($route.fullPath)">
+							<RefreshRight />
+						</el-icon>
+						<el-icon class="layout-navbars-tagsview-ul-li-icon layout-icon-active"
 							v-if="!v.meta.isAffix"
-							@click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)"
-						/>
+							@click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)">
+							<Close />
+						</el-icon>
+						
 					</template>
-					<SvgIcon
-						name="elementClose"
-						class="layout-navbars-tagsview-ul-li-icon layout-icon-three"
-						v-if="!v.meta.isAffix"
-						@click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)"
-					/>
+					<el-icon class="layout-navbars-tagsview-ul-li-icon layout-icon-three"
+							v-if="!v.meta.isAffix"
+						@click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)">
+						<Close />
+					</el-icon>
 				</li>
 			</ul>
 		</el-scrollbar>
