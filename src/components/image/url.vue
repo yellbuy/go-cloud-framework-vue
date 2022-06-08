@@ -40,7 +40,6 @@ export default defineComponent({
 		}
 		const loadPics = async (ids: String) => {
 			state.imgList = [];
-			console.log('字符串转数组', ids, typeof ids);
 			if (ids) {
 				if (ids.toString().indexOf(',') > -1) {
 					const list = ids.split(',');
