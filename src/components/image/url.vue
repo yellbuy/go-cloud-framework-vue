@@ -10,6 +10,11 @@
 			:key="index"
 			fit="cover"
 		>
+			<template #error>
+				<div class="image-slot">
+					<el-icon><icon-picture /></el-icon>
+				</div>
+			</template>
 		</el-image>
 	</div>
 </template>
@@ -23,7 +28,7 @@ export default defineComponent({
 		ids: String,
 		baseUrl: String,
 		imgStyle: {
-			default: 'width: 50px; height: 40px; border-radius: 5px',
+			default: 'width: 40px; height: 25px; border-radius: 5px',
 		},
 		title: {
 			default: '点击查看大图预览',
@@ -69,3 +74,18 @@ export default defineComponent({
 	},
 });
 </script>
+<style lang="scss" scoped>
+.image-slot {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background: var(--el-fill-color-light);
+	color: var(--el-text-color-secondary);
+	font-size: 30px;
+}
+.image-slot .el-icon {
+	font-size: 30px;
+}
+</style>

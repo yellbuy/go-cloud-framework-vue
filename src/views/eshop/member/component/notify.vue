@@ -1,20 +1,20 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close :key="ruleForm.Id" width="80%">
+		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close :key="ruleForm.Id" width="50%">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="90px" v-loading="loading">
-				<el-row :gutter="35">
+				<el-row>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="用户名：" prop="Username">
 							<el-input v-model="ruleForm.Username" :autofocus="true" :readonly="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="姓名" prop="Name">
+						<el-form-item label="姓名：" prop="Name">
 							<el-input v-model="ruleForm.Name" :autofocus="true" :readonly="true"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="35">
+				<el-row>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="手机：" prop="Mobile">
 							<el-input v-model="ruleForm.Mobile" :autofocus="true" :readonly="true"></el-input>
@@ -26,14 +26,14 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="35">
+				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="标题" prop="Titel">
 							<el-input v-model="ruleForm.Titel" placeholder="请输入标题" maxlength="50" clearable></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="35">
+				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="提示" prop="Contont">
 							<el-input v-model="ruleForm.Contont" placeholder="请输入姓名" maxlength="50" clearable></el-input>

@@ -47,7 +47,7 @@ export default {
 		action: '动作',
 		frontend: '前台',
 		backend: '后台',
-		currency: '货币',
+		currency: '金币',
 		notice: '通知',
 	},
 	validRule: {

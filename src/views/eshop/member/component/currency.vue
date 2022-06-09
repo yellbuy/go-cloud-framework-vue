@@ -1,8 +1,8 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close :key="ruleForm.Id" width="80%">
+		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close :key="ruleForm.Id" width="50%">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="90px" v-loading="loading">
-				<el-row :gutter="35">
+				<el-row>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="用户名：" prop="Username">
 							<el-input v-model="ruleForm.Username" :autofocus="true" :readonly="true"></el-input>
@@ -14,7 +14,7 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="35">
+				<el-row>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="手机：" prop="Mobile">
 							<el-input v-model="ruleForm.Mobile" :autofocus="true" :readonly="true"></el-input>
@@ -26,14 +26,14 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="35">
+				<el-row>
 					<el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="当前积分" prop="Point">
-							<el-input v-model="ruleForm.Point" size="small" :autofocus="true" :readonly="true" maxlength="50"></el-input>
+						<el-form-item label="当前金币：" prop="Point">
+							<span>{{ ruleForm.Point }}</span>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="修改积分" prop="editPoint">
+						<el-form-item label="增减金币：" prop="editPoint">
 							<el-input-number v-model="ruleForm.editPoint" size="small" controls-position="right"></el-input-number>
 						</el-form-item>
 					</el-col>

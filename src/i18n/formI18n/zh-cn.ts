@@ -46,7 +46,7 @@ export default {
 		frontend: '前台',
 		backend: '后台',
 		print: '打印',
-		currency: '货币',
+		currency: '金币',
 		notice: '通知',
 	},
 	validRule: {

@@ -1,8 +1,8 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close :key="ruleForm.Id" width="80%">
+		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close :key="ruleForm.Id" width="50%">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="90px" v-loading="loading">
-				<el-row :gutter="35">
+				<el-row>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="用户名：" prop="Username">
 							<el-input v-model="ruleForm.Username" :autofocus="true" :readonly="true"></el-input>
@@ -14,7 +14,7 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="35">
+				<!-- <el-row>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="密码：" prop="Password">
 							<el-input v-model="ruleForm.Password"></el-input>
@@ -25,8 +25,8 @@
 							<el-input v-model="ruleForm.Repassword"></el-input>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row :gutter="35">
+				</el-row> -->
+				<el-row>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="手机：" prop="Mobile">
 							<el-input v-model="ruleForm.Mobile"></el-input>
@@ -38,15 +38,20 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="35">
+				<el-row>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="会员：" prop="Enable">
 							<el-radio v-model="ruleForm.Enable" :label="1">可用</el-radio>
 							<el-radio v-model="ruleForm.Enable" :label="0">停用</el-radio>
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="身份证号：" prop="Idno">
+							<el-input v-model="ruleForm.Idno"></el-input>
+						</el-form-item>
+					</el-col>
 				</el-row>
-				<el-row :gutter="35">
+				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注" prop="Remark">
 							<el-input v-model="ruleForm.Remark" type="textarea" placeholder="请输入备注"></el-input>
@@ -92,7 +97,15 @@ export default {
 				Id: 0,
 			},
 		});
-		const rules = reactive({});
+		const rules = reactive({
+			Name: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+		});
 
 		// 打开弹窗
 		const openDialog = (row: Object) => {
@@ -113,7 +126,7 @@ export default {
 				if (valid) {
 					state.loading = true;
 					try {
-						const res = await proxy.$api.eshop.member.edit(state.kind, state.scopeMode, state.scopeValue, state.ruleForm);
+						const res = await proxy.$api.eshop.member.edit(state.ruleForm);
 						if (res.errcode == 0) {
 							closeDialog();
 							proxy.$parent.onGetTableData();

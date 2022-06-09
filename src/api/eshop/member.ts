@@ -53,8 +53,8 @@ export default {
     * @param params 要传的参数值
     * @returns 返回接口数据
     */
-    edit: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
-        const url = `、v1/admin/eshop/memberedit/${kind}/${scopeMode}/${scopeValue}`;
+    edit: async (params: object = {}) => {
+        const url = `/v1/admin/eshop/memberedit`;
         return await http.post(url, params);
     },
     /**
