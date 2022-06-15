@@ -26,9 +26,9 @@
 			</template>
 		</el-dropdown>
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onSearchClick">
-			<el-icon :title="$t('message.user.title2')">
-				<Search />
-			</el-icon>
+			
+			<SvgIcon name="fa fa-search" :title="$t('message.user.title2')" color="#d5d5d5"></SvgIcon>
+			<!-- <el-icon :title="$t('message.user.title2')"><Search /></el-icon> -->
 		</div>
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSetingClick">
 			<i class="icon-skin iconfont" :title="$t('message.user.title3')"></i>

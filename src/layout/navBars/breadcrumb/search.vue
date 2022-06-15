@@ -1,18 +1,32 @@
 <template>
 	<div class="layout-search-dialog">
-		<el-dialog v-model="isShowSearch" width="300px" destroy-on-close :modal="false" fullscreen :show-close="false">
+		<el-dialog v-model="isShowSearch" width="300px" close-on-click-modal destroy-on-close :modal="false" fullscreen :show-close="false">
+			<!-- <el-tree-select v-model="value" :data="menuQuery" check-strictly 
+				ref="layoutMenuAutocompleteRef"
+				@change="onHandleSelect"
+				@blur="onSearchBlur">
+				<template #prefix>
+					<SvgIcon name="fa fa-search" :title="$t('message.user.title2')" color="#d5d5d5"></SvgIcon>
+				</template>
+				<template #default="{ item }">
+					<div>
+						<SvgIcon :name="item.meta.icon" class="mr5" />
+						{{ $t(item.meta.title) }}
+					</div>
+				</template>
+			</el-tree-select> -->
 			<el-autocomplete
 				v-model="menuQuery"
 				:fetch-suggestions="menuSearch"
 				:placeholder="$t('message.user.searchPlaceholder')"
 				ref="layoutMenuAutocompleteRef"
 				@select="onHandleSelect"
-				@blur="onSearchBlur"
-			>
+				@blur="onSearchBlur">
 				<template #prefix>
-					<el-icon class="el-input__icon">
+					<SvgIcon name="fa fa-search" :title="$t('message.user.title2')" color="#d5d5d5"></SvgIcon>
+					<!-- <el-icon class="el-input__icon">
 						<Search />
-					</el-icon>
+					</el-icon> -->
 				</template>
 				<template #default="{ item }">
 					<div>
@@ -40,6 +54,7 @@ export default defineComponent({
 		const state: any = reactive({
 			isShowSearch: false,
 			menuQuery: '',
+			isInited:false,
 			tagsViewList: [],
 		});
 		// 搜索弹窗打开
@@ -48,8 +63,11 @@ export default defineComponent({
 			state.isShowSearch = true;
 			initTageView();
 			nextTick(() => {
-				layoutMenuAutocompleteRef.value.focus();
+				setTimeout(()=>{
+					layoutMenuAutocompleteRef.value.focus();
+				},0)				
 			});
+			
 		};
 		// 搜索弹窗关闭
 		const closeSearch = () => {
@@ -79,10 +97,10 @@ export default defineComponent({
 		};
 		// 当前菜单选中时
 		const onHandleSelect = (item: any) => {
-			let { path, redirect } = item;
+			let { path,url, redirect } = item;
 			if (item.meta.isLink && !item.meta.isIframe) window.open(item.meta.isLink);
 			else if (redirect) router.push(redirect);
-			else router.push(path);
+			else router.push(url||path);
 			closeSearch();
 		};
 		// input 失去焦点时
