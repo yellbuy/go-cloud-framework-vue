@@ -35,7 +35,7 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item :label="'关键字：'">
-						<el-input placeholder="订单号、姓名" v-model="tableData.param.no"> </el-input>
+						<el-input placeholder="订单号、姓名" v-model="tableData.param.Keyword"> </el-input>
 					</el-form-item>
 
 					<el-form-item>
@@ -71,40 +71,81 @@
 				stripe
 				highlight-current-row
 			>
-				<el-table-column type="selection" width="55" fixed />
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="CaseNo" label="头像" width="100" fixed></el-table-column>
-				<el-table-column prop="TName" label="用户" width="110" fixed></el-table-column>
-				<el-table-column prop="UName" label="类型" width="70" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Sn" label="时间" width="130" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="PersonName" label="名称" width="80" align="center" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CaseMode" label="订单流水号" width="110" align="center" show-overflow-tooltip>
+				<el-table-column type="selection" width="40" fixed />
+				<el-table-column type="index" label="序号" width="70" fixed />
+				<el-table-column prop="Avatar" label="头像" align="center" width="70" fixed>
 					<template #default="scope">
-						<el-tag type="primary" effect="plain" v-if="scope.row.CaseMode == 1">估损</el-tag>
-						<el-tag type="success" effect="plain" v-else-if="scope.row.CaseMode == 2">核损</el-tag>
-						<el-tag type="warning" effect="plain" v-else-if="scope.row.CaseMode == 10">鉴定</el-tag>
+						<imageUrl :ids="scope.row.Uid" :baseUrl="baseUrl"></imageUrl>
+						<!-- <el-image style="width: 50px; height: 50px" :src="'/static/img/avatar/user/' + scope.row.Uid + '.png'" fit="cover" /> -->
 					</template>
 				</el-table-column>
-				<el-table-column prop="CaseType" label="打印状态" width="100" align="center" show-overflow-tooltip>
+				<el-table-column prop="CreateBy" label="用户" width="110" fixed></el-table-column>
+				<el-table-column prop="ExtTag" label="类型" width="70" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="ServiceTime" label="时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="GoodsName" label="名称" width="80" align="left" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="OrderSn" label="订单流水号" width="110" align="left" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="PrintState" label="打印状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="primary" effect="plain" v-if="scope.row.CaseType == 1">门诊就医</el-tag>
-						<el-tag type="success" effect="plain" v-else-if="scope.row.CaseType == 2">住院非手术</el-tag>
-						<el-tag type="warning" effect="plain" v-else-if="scope.row.CaseType == 3">住院手术</el-tag>
-						<el-tag type="danger" effect="plain" v-else-if="scope.row.CaseType == 10">死亡</el-tag>
+						<el-tag type="primary" effect="plain" v-if="scope.row.PrintState == 0">未打印</el-tag>
+						<el-tag type="success" effect="plain" v-else>已打印</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="ExpertAuditBy" label="订单状态" width="80" align="center" show-overflow-tooltip> </el-table-column>
-				<!-- <el-table-column prop="ExpertAuditReceiveTime" label="接单时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip>
-				</el-table-column> -->
-				<el-table-column prop="ExpertAuditBy" label="支付状态" width="80" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="ExpertAuditBy" label="退款" width="80" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="ExpertAuditBy" label="销核状态" width="80" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="ExpertAuditBy" label="销核人" width="80" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="ExpertAuditBy" label="支付方式" width="80" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="ExpertAuditBy" label="订单金额" width="80" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="ExpertAuditBy" label="下单时间" width="80" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="ExpertAuditBy" label="支付时间" width="80" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="ExpertAuditBy" label="外部交易号" width="80" align="center" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="OrderState" label="订单状态" width="80" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="danger" effect="plain" v-if="scope.row.OrderState == 100">已取消</el-tag>
+						<el-tag type="warning" effect="plain" v-if="scope.row.OrderState == 99">退款售后</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.OrderState >= 10">已评价</el-tag>
+						<el-tag type="primary" effect="plain" v-else>未评价</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="PayState" label="支付状态" width="80" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="danger" effect="plain" v-if="scope.row.PayState == 0">未支付</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.PayState == 1">已支付</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="IsAfterSale" label="退款" width="80" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="warning" effect="plain" v-if="scope.row.RefundAmount > 0">{{ scope.row.RefundAmount }}</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.IsAfterSale == 0">无</el-tag>
+						<el-tag type="danger" effect="plain" v-if="scope.row.IsAfterSale == 1">有</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="ShippingState" label="销核状态" width="80" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="success" effect="plain" v-if="scope.row.ShippingState == 1">已销核</el-tag>
+						<el-tag type="danger" effect="plain" v-if="scope.row.ShippingState == 0">未销核</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="ConfirmBy" label="销核人" width="80" align="left" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="ConfirmTime" label="销核时间" width="115" align="left" :formatter="dateFormatYMDHM" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column prop="PayName" label="支付方式" width="80" align="center" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="OrderAmount" label="订单金额" width="80" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<span>¥ {{ scale2Format(scope.row.OrderAmount) }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="CreateTime" label="下单时间" width="115" :formatter="dateFormatYMDHM" align="left" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column prop="PayTime" label="支付时间" width="115" align="left" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="TransactionId" label="外部交易号" width="80" align="left" show-overflow-tooltip> </el-table-column>
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(230)" fixed="right">
+					<template #default="scope">
+						<el-button text bg type="info" @click="onOpenEditDlg(false, scope.row)">
+							<el-icon><Search /></el-icon>
+							&#8197;{{ $t('message.action.see') }}
+						</el-button>
+						<el-button text bg type="primary" @click="onOpenEditDlg(true, scope.row)">
+							<el-icon><Edit /></el-icon>
+							&#8197;{{ $t('message.action.edit') }}
+						</el-button>
+						<el-button text bg type="info">
+							<el-icon><Search /></el-icon>
+							&#8197;{{ $t('message.action.print') }}
+						</el-button>
+					</template>
+				</el-table-column>
 			</el-table>
 			<el-pagination
 				small
@@ -120,6 +161,7 @@
 			>
 			</el-pagination>
 		</el-card>
+		<dlgEdit ref="dlgEditRef" />
 	</div>
 </template>
 
@@ -129,10 +171,13 @@ import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import dlgEdit from './component/orderEdit.vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
+import imageUrl from '/@/components/image/url.vue';
 export default {
-	name: 'baseUsers',
+	name: 'orderlist',
+	components: { imageUrl, dlgEdit },
 	setup() {
 		const route = useRoute();
 		const kind = route.params.kind;
@@ -148,6 +193,7 @@ export default {
 			kind,
 			scopeMode,
 			scopeValue,
+			baseUrl: '/static/img/avatar/user/',
 			timeList: [],
 			tableData: {
 				data: [],
@@ -219,13 +265,13 @@ export default {
 
 		//重置查询条件
 		const onResetSearch = () => {
-			state.tableData.param.no = '';
-			state.expertAuditUids = [];
-			state.tableData.param.state = -1;
-			state.tableData.param.tids = [];
-			state.tableData.param.expertAuditUids = '';
-			state.expertReviewStatTime = '';
-			state.expertReviewEndTime = '';
+			state.tableData.param.PayState = -1;
+			state.tableData.param.ShippingState = -1;
+			state.tableData.param.PrintState = -1;
+			state.tableData.param.Keyword = '';
+			state.tableData.param.ServiceStartTime = '';
+			state.tableData.param.ServiceEndTime = '';
+			state.tableData.param.ExtTag = '';
 			state.timeList = [];
 			onGetTableData(true);
 		};
@@ -238,11 +284,11 @@ export default {
 			state.tableData.param.expertAuditUids = state.expertAuditUids.toString();
 
 			if (state.timeList && state.timeList.length == 2) {
-				state.tableData.param.expertReviewStatTime = state.timeList[0];
-				state.tableData.param.expertReviewEndTime = state.timeList[1];
+				state.tableData.param.ServiceStartTime = state.timeList[0];
+				state.tableData.param.ServiceEndTime = state.timeList[1];
 			} else {
-				state.tableData.param.expertReviewStatTime = '';
-				state.tableData.param.expertReviewEndTime = '';
+				state.tableData.param.ServiceStartTime = '';
+				state.tableData.param.ServiceEndTime = '';
 			}
 			state.tableData.param.isExport = true;
 			const res = await proxy.$api.ims.casepersonline.export(state.tableData.param);
@@ -263,7 +309,6 @@ export default {
 		};
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			console.log('加载表格数据', state.timeList);
 			state.tableData.param.isExport = false;
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
@@ -271,16 +316,13 @@ export default {
 			state.tableData.loading = true;
 			state.tableData.data = [];
 			try {
-				console.log(state.tableData.param);
-				state.tableData.param.expertAuditUids = state.expertAuditUids.toString();
 				if (state.timeList && state.timeList.length == 2) {
-					state.tableData.param.expertReviewStatTime = state.timeList[0];
-					state.tableData.param.expertReviewEndTime = state.timeList[1];
+					state.tableData.param.ServiceStartTime = state.timeList[0];
+					state.tableData.param.ServiceEndTime = state.timeList[1];
 				} else {
-					state.tableData.param.expertReviewStatTime = '';
-					state.tableData.param.expertReviewEndTime = '';
+					state.tableData.param.ServiceStartTime = '';
+					state.tableData.param.ServiceEndTime = '';
 				}
-
 				const res = await proxy.$api.eshop.order.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode !== 0) {
 					return;
@@ -291,9 +333,17 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
-
+		// 打开修改弹窗
+		const onOpenEditDlg = async (editMode: boolean, row: Object) => {
+			// 获取表格信息
+			const res = await proxy.$api.eshop.order.getById(row.Id);
+			console.log('返回信息', res);
+			if (res.errcode == 0) {
+				dlgEditRef.value.openDialog(editMode, res.data);
+			}
+		};
 		const getLoadData = async () => {
-			//获取支付类型
+			//获取订单类型
 			// const tidRes = await proxy.$api.base.tenant.getList({ pageNum: 1, pageSize: 10000 });
 			// if (tidRes.errcode != 0) {
 			// 	return;
@@ -316,7 +366,7 @@ export default {
 			getLoadData();
 		});
 
-		const { dateFormatYMDHM } = commonFunction();
+		const { dateFormatYMDHM, scale2Format } = commonFunction();
 
 		return {
 			proxy,
@@ -326,6 +376,8 @@ export default {
 			onResetSearch,
 			onHandleSizeChange,
 			onHandleCurrentChange,
+			onOpenEditDlg,
+			scale2Format,
 			dateFormatYMDHM,
 			exportExcel,
 			...toRefs(state),
