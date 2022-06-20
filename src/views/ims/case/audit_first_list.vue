@@ -70,7 +70,11 @@
 						<el-tag type="danger" effect="plain" v-else-if="scope.row.CaseType == 10">死亡</el-tag>
 					</template>
 				</el-table-column>
-
+				<el-table-column prop="CaseType" label="审核人" width="100" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						{{ UParentidName(scope.row.UParentid) }}
+					</template>
+				</el-table-column>
 				<el-table-column prop="ExpertAuditBy" label="专家姓名" width="80" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="ExpertAuditReceiveTime" label="接单时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip>
 				</el-table-column>
@@ -99,7 +103,7 @@
 							text
 							bg
 							type="primary"
-							v-if="scope.row.InsurerAuditState == 2"
+							v-if="scope.row.InsurerAuditState == 2 && scope.row.UParentid == uid"
 							@click="onOpenEditDlg(true, scope.row)"
 							v-auth:[moduleKey]="'btn.AuditEdit'"
 						>
@@ -155,7 +159,9 @@ export default {
 		const store = useStore();
 		const dlgEditRef = ref();
 		const state: any = reactive({
+			uid: store.state.userInfos.userInfos.uid,
 			moduleKey: moduleKey,
+			userData: [],
 			tableData: {
 				data: [],
 				total: 0,
@@ -205,6 +211,11 @@ export default {
 		};
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
+			const res = await proxy.$api.base.user.getList({ pageNum: 1, pageSize: 10000 });
+			if (res.errcode != 0) {
+				return;
+			}
+			state.userData = res.data;
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
@@ -317,7 +328,17 @@ export default {
 		onMounted(() => {
 			onGetTableData();
 		});
-
+		const UParentidName = (id: string) => {
+			let name = '';
+			console.log(state.userData);
+			for (let item of state.userData) {
+				if (item.Id == id) {
+					name = item.Name;
+					break;
+				}
+			}
+			return name;
+		};
 		const { dateFormatYMDHM } = commonFunction();
 
 		return {
@@ -329,6 +350,7 @@ export default {
 			onResetSearch,
 			onOpenEditDlg,
 			onDownload,
+			UParentidName,
 			onRowDel,
 			exportExcel,
 			onHandleSizeChange,

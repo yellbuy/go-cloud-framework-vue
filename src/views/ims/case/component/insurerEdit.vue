@@ -170,12 +170,12 @@
 							<td class="bg-gray text-right" rowspan="2">审核</td>
 							<td colspan="9" v-if="editMode">
 								<el-radio-group v-model="ruleForm.InsurerAuditState" v-if="step == 2">
-									<el-radio :label="10">通过</el-radio>
-									<el-radio :label="5">驳回</el-radio>
+									<el-radio size="large" :label="10">通过</el-radio>
+									<el-radio size="large" :label="5">驳回</el-radio>
 								</el-radio-group>
 								<el-radio-group v-model="ruleForm.InsurerReviewState" v-else-if="step == 3">
-									<el-radio :label="10">通过</el-radio>
-									<el-radio :label="5">驳回</el-radio>
+									<el-radio size="large" :label="10">通过</el-radio>
+									<el-radio size="large" :label="5">驳回</el-radio>
 								</el-radio-group>
 							</td>
 							<td colspan="9" v-else-if="step == 2">
@@ -239,10 +239,16 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
-					<el-button v-if="editMode" :loading="loading" type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{
-						$t('message.action.submit')
-					}}</el-button>
+					<el-button size="large" @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
+					<el-button
+						size="large"
+						v-if="editMode"
+						:loading="loading"
+						type="primary"
+						@click="onSubmit(true)"
+						v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
+						>{{ $t('message.action.submit') }}</el-button
+					>
 				</span>
 			</template>
 		</el-dialog>

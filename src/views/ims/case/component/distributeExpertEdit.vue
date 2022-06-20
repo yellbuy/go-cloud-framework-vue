@@ -185,8 +185,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
-					<el-button v-if="editMode" :loading="loading" type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{
+					<el-button size="large" @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
+					<el-button size="large" v-if="editMode" :loading="loading" type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{
 						$t('message.action.submit')
 					}}</el-button>
 				</span>
