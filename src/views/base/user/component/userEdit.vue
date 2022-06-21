@@ -112,7 +112,7 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="35" v-if="IsState">
+				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="所属角色" prop="RoleIds">
 							<el-checkbox-group v-model="ruleForm.CheckedRoleList">
@@ -217,7 +217,6 @@ export default {
 			state.loading = false;
 			const model = JSON.parse(JSON.stringify(row));
 			state.IsState = IsState;
-			console.log('状态', IsState);
 			state.ruleForm = model;
 			if (row && row.Id > 0) {
 				state.title = t('message.action.edit');
@@ -232,9 +231,7 @@ export default {
 				state.UParentid = '';
 			}
 			state.isShowDialog = true;
-			if (IsState) {
-				getLoadData();
-			}
+			getLoadData();
 			//加载角色数据
 			onInitRoleData(row.RoleIds || '');
 		};
