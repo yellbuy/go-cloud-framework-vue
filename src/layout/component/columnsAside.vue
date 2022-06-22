@@ -90,11 +90,11 @@ export default {
 		};
 		// 鼠标移入时，显示当前的子级菜单
 		const onColumnsAsideMenuMouseenter = (v: Object, k: number) => {
-			let { path } = v;
+			let { path,meta } = v;
 			state.liOldPath = path;
 			state.liOldIndex = k;
 			state.liHoverIndex = k;
-			proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(path));
+			proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(meta.keyPath));
 			store.dispatch('routesList/setColumnsMenuHover', false);
 			store.dispatch('routesList/setColumnsNavHover', true);
 			state.isNavHover = true;
@@ -118,17 +118,18 @@ export default {
 		// 设置/过滤路由（非静态路由/是否显示在菜单中）
 		const setFilterRoutes = () => {
 			state.columnsAsideList = filterRoutesFun(store.state.routesList.routesList);
-			const resData: any = setSendChildren(route.path);
+			const resData: any = setSendChildren(route.meta.keyPath);
 			if (Object.keys(resData).length <= 0) return false;
 			onColumnsAsideDown(resData.item[0].k);
 			proxy.mittBus.emit('setSendColumnsChildren', resData);
 		};
 		// 传送当前子级数据到菜单中
-		const setSendChildren = (path: string) => {
-			const currentPathSplit = path.split('/');
+		const setSendChildren = (keyPath: string) => {
+			const currentPathSplit = keyPath.split('//');
+			debugger
 			let currentData: any = {};
 			state.columnsAsideList.map((v: any, k: number) => {
-				if (v.path === `/${currentPathSplit[1]}`) {
+				if (v.meta.Key === `${currentPathSplit[0]}`) {
 					v['k'] = k;
 					currentData['item'] = [{ ...v }];
 					currentData['children'] = [{ ...v }];
@@ -148,11 +149,11 @@ export default {
 				});
 		};
 		// tagsView 点击时，根据路由查找下标 columnsAsideList，实现左侧菜单高亮
-		const setColumnsMenuHighlight = (path: string) => {
-			state.routeSplit = path.split('/');
+		const setColumnsMenuHighlight = (keyPath: string) => {
+			state.routeSplit = keyPath.split('//');
 			state.routeSplit.shift();
-			const routeFirst = `/${state.routeSplit[0]}`;
-			const currentSplitRoute = state.columnsAsideList.find((v: any) => v.path === routeFirst);
+			const routeFirst = `${state.routeSplit[0]}`;
+			const currentSplitRoute = state.columnsAsideList.find((v: any) => v.meta.key === routeFirst);
 			if (!currentSplitRoute) return false;
 			// 延迟拿值，防止取不到
 			setTimeout(() => {
@@ -164,7 +165,7 @@ export default {
 			val.themeConfig.themeConfig.columnsAsideStyle === 'columnsRound' ? (state.difference = 3) : (state.difference = 0);
 			if (!val.routesList.isColumnsMenuHover && !val.routesList.isColumnsNavHover) {
 				state.liHoverIndex = null;
-				proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(route.path));
+				proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(route.meta.keyPath));
 			} else {
 				state.liHoverIndex = state.liOldIndex;
 				if (!state.liOldPath) return false;
@@ -186,8 +187,8 @@ export default {
 		});
 		// 路由更新时
 		onBeforeRouteUpdate((to) => {
-			setColumnsMenuHighlight(to.path);
-			proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(to.path));
+			setColumnsMenuHighlight(to.meta.keyPath);
+			proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(to.meta.keyPath));
 		});
 		return {
 			columnsAsideOffsetTopRefs,

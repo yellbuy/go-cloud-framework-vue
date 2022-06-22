@@ -82,7 +82,7 @@ export default defineComponent({
 		// 传送当前子级数据到菜单中
 		const setSendClassicChildren = (path: string) => {
 			//console.log("store.state.routesList.routesList:",path,store.state.routesList.routesList)
-			const currentPathSplit = path.split('/');
+			const currentPathSplit = path.split('//');
 			let currentData: any = {};
 			filterRoutesFun(store.state.routesList.routesList).map((v, k) => {
 				if (v.path === `/${currentPathSplit[1]}`) {
