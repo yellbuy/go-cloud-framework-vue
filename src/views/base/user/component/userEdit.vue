@@ -80,7 +80,7 @@
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="IsState">
 						<el-form-item :label="'上级：'">
 							<el-select v-model="UParentid" placeholder="请选择">
 								<el-option v-for="item in userData" :key="item.Id" :label="item.Name" :value="item.Id" />
@@ -143,12 +143,13 @@
 import request from '/@/utils/request';
 import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 export default {
 	name: 'baseUserEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
-
+		const route = useRoute();
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -179,7 +180,7 @@ export default {
 			UParentid: '',
 			deptData: [], // 部门数据
 			userData: [],
-			IsState: false,
+			IsState: route.query.hasParentid,
 		});
 
 		const rules = reactive({
@@ -213,10 +214,9 @@ export default {
 		});
 
 		// 打开弹窗
-		const openDialog = (row: Object, IsState: boolean) => {
+		const openDialog = (row: Object) => {
 			state.loading = false;
 			const model = JSON.parse(JSON.stringify(row));
-			state.IsState = IsState;
 			state.ruleForm = model;
 			if (row && row.Id > 0) {
 				state.title = t('message.action.edit');
@@ -231,7 +231,9 @@ export default {
 				state.UParentid = '';
 			}
 			state.isShowDialog = true;
-			getLoadData();
+			if (state.IsState) {
+				getLoadData();
+			}
 			//加载角色数据
 			onInitRoleData(row.RoleIds || '');
 		};
