@@ -59,7 +59,7 @@ export function formatTwoStageRoutes(arr: any) {
 		} else {
 			// 判断是否是动态路由（xx/:id/:name），用于 tagsView 等中使用
 			// 修复：https://gitee.com/lyt-top/vue-next-admin/issues/I3YX6G
-			if (v.path.indexOf('/:') > -1) {
+			if (v.path.indexOf('/:') > -1 || v.url.indexOf('?') > -1) {
 				v.meta['isDynamic'] = true;
 				v.meta['isDynamicPath'] = v.url || v.path;
 			}
