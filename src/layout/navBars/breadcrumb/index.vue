@@ -45,7 +45,7 @@ export default {
 			//console.log("setFilterRoutes:",layout, isClassicSplitMenu,route.path)
 			if (layout === 'classic' && isClassicSplitMenu) {
 				state.menuList = delClassicChildren(filterRoutesFun(store.state.routesList.routesList));
-				const resData = setSendClassicChildren(route.path);
+				const resData = setSendClassicChildren(route.meta.keyPath);
 				proxy.mittBus.emit('setSendClassicChildren', resData);
 			} else {
 				state.menuList = filterRoutesFun(store.state.routesList.routesList);
@@ -70,12 +70,12 @@ export default {
 				});
 		};
 		// 传送当前子级数据到菜单中
-		const setSendClassicChildren = (path: string) => {
-			const currentPathSplit = path.split('/');
+		const setSendClassicChildren = (keyPath: string) => {
+			const currentPathSplit = keyPath.split('//');
 			let currentData: any = {};
 			//console.log("store.state.routesList.routesList:",path,store.state.routesList.routesList)
 			filterRoutesFun(store.state.routesList.routesList).map((v, k) => {
-				if (v.path === `/${currentPathSplit[1]}`) {
+				if (v.meta.keyPath === `${currentPathSplit[0]}`) {
 					v['k'] = k;
 					currentData['item'] = [{ ...v }];
 					currentData['children'] = [{ ...v }];

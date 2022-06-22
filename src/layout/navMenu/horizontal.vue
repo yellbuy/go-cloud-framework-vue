@@ -4,7 +4,7 @@
 			<el-menu router :default-active="defaultActive" background-color="transparent" ref="elMenuHorizontalRef" mode="horizontal" >
 				<template v-for="val in menuLists">
 					<template v-if="!val.meta.isHide">
-						<el-sub-menu :index="val.meta.isDynamicPath || val.path" v-if="val.children && val.childlen.length > 0" :key="val.key">
+						<el-sub-menu :index="val.meta.isDynamicPath || val.path" v-if="val.children && val.children.length" :key="val.key">
 							<template #title>
 								<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
 								<span>{{ $t(val.meta.title) }}</span>
@@ -51,8 +51,10 @@ export default defineComponent({
 		const state = reactive({
 			defaultActive: null,
 		});
+		
 		// 获取父级菜单数据
 		const menuLists = computed(() => {
+			console.log("props.menuList：",props.menuList)
 			return props.menuList;
 		});
 		// 设置横向滚动条可以鼠标滚轮滚动
@@ -80,12 +82,12 @@ export default defineComponent({
 				});
 		};
 		// 传送当前子级数据到菜单中
-		const setSendClassicChildren = (path: string) => {
+		const setSendClassicChildren = (keyPath: string) => {
 			//console.log("store.state.routesList.routesList:",path,store.state.routesList.routesList)
-			const currentPathSplit = path.split('/');
+			const currentPathSplit = keyPath.split('//');
 			let currentData: any = {};
 			filterRoutesFun(store.state.routesList.routesList).map((v, k) => {
-				if (v.path === `/${currentPathSplit[1]}`) {
+				if (v.meta.key === `${currentPathSplit[0]}`) {
 					v['k'] = k;
 					currentData['item'] = [{ ...v }];
 					currentData['children'] = [{ ...v }];
@@ -123,7 +125,7 @@ export default defineComponent({
 			// 修复经典布局开启切割菜单时，点击tagsView后左侧导航菜单数据不变的问题
 			let { layout, isClassicSplitMenu } = store.state.themeConfig.themeConfig;
 			if (layout === 'classic' && isClassicSplitMenu) {
-				proxy.mittBus.emit('setSendClassicChildren', setSendClassicChildren(to.path));
+				proxy.mittBus.emit('setSendClassicChildren', setSendClassicChildren(to.meta.keyPath));
 			}
 		});
 		return {

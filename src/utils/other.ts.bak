@@ -1,4 +1,5 @@
-import * as svg from '@element-plus/icons-vue';
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
+
 import type { App } from 'vue';
 import { nextTick } from 'vue';
 import SvgIcon from '/@/components/svgIcon/index.vue';
@@ -6,18 +7,28 @@ import { i18n } from '/@/i18n/index';
 import router from '/@/router/index';
 import { store } from '/@/store/index';
 import { Local } from '/@/utils/storage';
+import MetaSvgIcon from '/@/views/meta/components/DynamicForm/components/SvgIcon/index.vue'; // svg component
 
 /**
  * 导出全局注册 element plus svg 图标
  * @param app vue 实例
  * @description 使用：https://element-plus.gitee.io/zh-CN/component/icon.html
  */
-export function elSvg(app: App) {
-	const icons = svg as any;
-	for (const i in icons) {
-		app.component(`element${icons[i].name}`, icons[i]);
+ export function elSvg(app: App) {
+	for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+		app.component(key, component)
 	}
 	app.component('SvgIcon', SvgIcon);
+}
+
+
+/**
+ * 导出全局注册 element plus svg 图标
+ * @param app vue 实例
+ * @description 使用：https://element-plus.gitee.io/zh-CN/component/icon.html
+ */
+ export function metaSvg(app: App) {
+	app.component('MetaSvgIcon', MetaSvgIcon);
 }
 
 /**
@@ -34,10 +45,14 @@ export function useTitle() {
 				|| (store.state.userInfos.userInfos.app && store.state.userInfos.userInfos.app.Name)
 				|| store.state.themeConfig.themeConfig.globalTitle;
 		} 
-		router.currentRoute.value.path === '/login'
-			? (webTitle = router.currentRoute.value.meta.title as any)
-			: (webTitle = i18n.global.t(router.currentRoute.value.meta.title as any));
-		document.title = `${webTitle} - ${globalTitle}`;
+		console.log("router.currentRoute.value:",router.currentRoute.value)
+		if(router.currentRoute.value.path === '/login'){
+			webTitle = router.currentRoute.value.meta.title as any
+		} else if(router.currentRoute.value.meta && router.currentRoute.value.meta.title){
+			
+			webTitle = i18n.global.t(router.currentRoute.value.meta.title as any)
+		}
+		document.title = webTitle?`${webTitle} - ${globalTitle}`:`${globalTitle}`;
 	});
 }
 
@@ -85,7 +100,7 @@ export function deepClone(obj: any) {
 		newObj = {};
 	}
 	for (let attr in obj) {
-		if (typeof obj[attr] === 'object') {
+		if (obj[attr] && typeof obj[attr] === 'object') {
 			newObj[attr] = deepClone(obj[attr]);
 		} else {
 			newObj[attr] = obj[attr];
@@ -134,6 +149,20 @@ export function calcMainHeight(offsetHeight:number,minHeight:number=600){
 	}
 	return `${height}px`
 }
+export function calcWidth(smallWidth:number){
+	let size=globalComponentSize
+	//默认为small
+	if(!size || size=="small"){
+		return smallWidth;
+	}
+	if(size=="medium"){
+		return smallWidth*1.3;
+	}
+	if(size=="large"){
+		return smallWidth*1.5;
+	}
+	return smallWidth;
+}
 /**
  * 统一批量导出
  * @method elSvg 导出全局注册 element plus svg 图标
@@ -146,6 +175,9 @@ export function calcMainHeight(offsetHeight:number,minHeight:number=600){
 const other = {
 	elSvg: (app: App) => {
 		elSvg(app);
+	},
+	metaSvg: (app: App) => {
+		metaSvg(app);
 	},
 	useTitle: () => {
 		useTitle();
@@ -162,6 +194,9 @@ const other = {
 	},
 	calcMainHeight: (offsetHeight:number,minHeight:number=500)=>{
 		return calcMainHeight(offsetHeight,minHeight);
+	},
+	calcWidth: (smallWidth:number)=>{
+		return calcWidth(smallWidth);
 	}
 };
 

@@ -43,7 +43,7 @@ export default {
 		});
 		// 动态设置经典、横向布局不显示
 		const isShowBreadcrumb = computed(() => {
-			initRouteSplit(route.path);
+			initRouteSplit(route.meta.keyPath);
 			const { layout, isBreadcrumb } = store.state.themeConfig.themeConfig;
 			if (layout === 'classic' || layout === 'transverse') {
 				return 'none';
@@ -65,33 +65,39 @@ export default {
 		// 处理面包屑数据
 		const getBreadcrumbList = (arr: Array<object>) => {
 			arr.map((item: any) => {
+				//console.log("state.routeSplit：",state.routeSplit)
 				state.routeSplit.map((v: any, k: number, arrs: any) => {
-					if (state.routeSplitFirst === item.path) {
-						state.routeSplitFirst += `/${arrs[state.routeSplitIndex]}`;
+					
+					if (state.routeSplitFirst === item.meta.keyPath) {
+						state.routeSplitFirst += `//${arrs[state.routeSplitIndex]}`;
 						state.breadcrumbList.push(item);
 						state.routeSplitIndex++;
 						if (item.children) getBreadcrumbList(item.children);
+						
 					}
 				});
 			});
+			
 		};
 		// 当前路由字符串切割成数组，并删除第一项空内容
-		const initRouteSplit = (path: string) => {
+		const initRouteSplit = (keyPath: string) => {
 			if (!store.state.themeConfig.themeConfig.isBreadcrumb) return false;
 			state.breadcrumbList = [store.state.routesList.routesList[0]];
-			state.routeSplit = path.split('/');
-			state.routeSplit.shift();
-			state.routeSplitFirst = `/${state.routeSplit[0]}`;
+			state.routeSplit = keyPath.split('//');
+			//state.routeSplit.shift();
+			state.routeSplitFirst = `${state.routeSplit[0]}`;
 			state.routeSplitIndex = 1;
 			getBreadcrumbList(store.state.routesList.routesList);
+			//移除第1个重复项
+			state.breadcrumbList.shift()
 		};
 		// 页面加载时
 		onMounted(() => {
-			initRouteSplit(route.path);
+			initRouteSplit(route.meta.keyPath);
 		});
 		// 路由更新时
 		onBeforeRouteUpdate((to) => {
-			initRouteSplit(to.path);
+			initRouteSplit(to.meta.keyPath);
 		});
 		return {
 			onThemeConfigChange,
