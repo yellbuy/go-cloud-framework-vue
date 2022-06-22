@@ -52,14 +52,13 @@
 							<td v-else-if="ruleForm.CaseMode == 2">核损</td>
 							<td v-else-if="ruleForm.CaseMode == 10">鉴定</td>
 							<td class="bg-gray text-right">出险时间</td>
-							<td >{{ proxy.$utils.dateFormat(ruleForm.CaseTime,"yyyy-mm-dd") }}</td>
-							
+							<td>{{ proxy.$utils.dateFormat(ruleForm.CaseTime, 'yyyy-mm-dd') }}</td>
+
 							<td class="bg-gray text-right" v-if="editMode">新委托人</td>
-							<td style="padding:0" v-if="editMode" >
-								<el-select v-model="ruleForm.CreateUid" size="default" clearable 
-								@change="onOwnerChange" placeholder="请选择分配的委托人">
-									<el-option label="无" :value="'0'" :key="index"/>
-									<el-option :label="opt.Name+'('+opt.Username+')'" :value="opt.Id" v-for="(opt,index) in userList " :key="index+1"/>
+							<td style="padding: 0" v-if="editMode">
+								<el-select v-model="ruleForm.CreateUid" size="default" clearable @change="onOwnerChange" placeholder="请选择分配的委托人">
+									<el-option label="无" :value="'0'" :key="index" />
+									<el-option :label="opt.Name + '(' + opt.Username + ')'" :value="opt.Id" v-for="(opt, index) in userList" :key="index + 1" />
 								</el-select>
 							</td>
 						</tr>
@@ -169,16 +168,21 @@
 								<imgList :ids="ruleForm.OtherPics"></imgList>
 							</td>
 						</tr>
-						
 					</tbody>
 				</table>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
-					<el-button v-if="editMode" :loading="loading" type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{
-						$t('message.action.submit')
-					}}</el-button>
+					<el-button size="large" @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
+					<el-button
+						size="large"
+						v-if="editMode"
+						:loading="loading"
+						type="primary"
+						@click="onSubmit(true)"
+						v-auths:[$parent.moduleKey]="['btn.AuditEdit']"
+						>{{ $t('message.action.submit') }}</el-button
+					>
 				</span>
 			</template>
 		</el-dialog>
@@ -257,42 +261,42 @@ export default {
 		// 新增
 		const onSubmit = (isCloseDlg: boolean) => {
 			if (props.step == 20) {
-				if (Number(state.ruleForm.CreateUid)==0 || state.ruleForm.CreateBy=="") {
+				if (Number(state.ruleForm.CreateUid) == 0 || state.ruleForm.CreateBy == '') {
 					ElMessageBox.alert('请选择新委托人', '温馨提示', {});
 					return;
 				}
 			}
-			
-			proxy.$refs.ruleFormRef.validate(async (valid:any) => {
+
+			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
-					try{
-						const res=await proxy.$api.ims.casepersonline.updateStep(props.step,state.ruleForm)
+					try {
+						const res = await proxy.$api.ims.casepersonline.updateStep(props.step, state.ruleForm);
 						if (res.errcode == 0) {
 							closeDialog();
 							proxy.$parent.onGetTableData();
 						}
-					} finally{
+					} finally {
 						state.loading = false;
 					}
 				}
 			});
 			return false;
 		};
-		const onOwnerChange=((uid:string)=>{
-			for(const user of state.userList){
-				if(user.Id==uid){
-					state.ruleForm.CreateBy=user?.Name||user?.Username||"";
+		const onOwnerChange = (uid: string) => {
+			for (const user of state.userList) {
+				if (user.Id == uid) {
+					state.ruleForm.CreateBy = user?.Name || user?.Username || '';
 					return;
 				}
 			}
-		});
+		};
 		// 页面加载时
 		onMounted(async () => {
 			//加载用户信息
-			const res=await proxy.$api.base.user.getList({pageSize:100000000})
-			if(res.errcode===0){
-				state.userList=res.data
+			const res = await proxy.$api.base.user.getList({ pageSize: 100000000 });
+			if (res.errcode === 0) {
+				state.userList = res.data;
 			}
 			//userList
 		});
@@ -304,7 +308,7 @@ export default {
 			onCancel,
 			rules,
 			onOwnerChange,
-			
+
 			onSubmit,
 			...toRefs(state),
 		};

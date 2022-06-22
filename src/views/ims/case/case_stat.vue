@@ -11,12 +11,12 @@
 							<el-option v-for="item in stateData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
 					</el-form-item>
-					<el-form-item :label="'委托单位：'" v-if="tid=='0'">
+					<el-form-item :label="'委托单位：'" v-if="tid == '0'">
 						<el-select v-model="tableData.param.tids" multiple placeholder="请选择" style="width: 240px">
 							<el-option v-for="item in tidData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
 					</el-form-item>
-					<el-form-item :label="'专家姓名：'" v-if="tid=='0'">
+					<el-form-item :label="'专家姓名：'" v-if="tid == '0'">
 						<el-select v-model="expertAuditUids" multiple placeholder="请选择" style="width: 80px">
 							<el-option v-for="item in userData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
@@ -296,20 +296,19 @@ export default {
 			}
 		};
 		const getLoadData = async () => {
-			if(state.tid == '0'){
+			if (state.tid == '0') {
 				const tidRes = await proxy.$api.base.tenant.getList({ pageNum: 1, pageSize: 10000 });
 				if (tidRes.errcode != 0) {
 					return;
 				}
 				state.tidData = tidRes.data;
 			}
-			
+
 			const res = await proxy.$api.base.user.getList({ pageNum: 1, pageSize: 10000 });
 			if (res.errcode != 0) {
 				return;
 			}
 			state.userData = res.data;
-			console.log('执行', res);
 			onGetTableData();
 		};
 

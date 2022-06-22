@@ -327,31 +327,31 @@
 							<td class="bg-gray text-right">审查内容</td>
 							<td colspan="9">
 								<el-form-item label="鉴定时机">
-									<el-radio-group v-model="ruleForm.ExpertReviewOpportunityState" :disabled="!editMode || step == 10">
+									<el-radio-group v-model="ruleForm.ExpertReviewOpportunityState" :disabled="!editMode">
 										<el-radio :label="1">符合</el-radio>
 										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="鉴定程序">
-									<el-radio-group v-model="ruleForm.ExpertReviewProgramState" :disabled="!editMode || step == 10">
+									<el-radio-group v-model="ruleForm.ExpertReviewProgramState" :disabled="!editMode">
 										<el-radio :label="1">符合</el-radio>
 										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="标准适用">
-									<el-radio-group v-model="ruleForm.ExpertReviewStandardState" :disabled="!editMode || step == 10">
+									<el-radio-group v-model="ruleForm.ExpertReviewStandardState" :disabled="!editMode">
 										<el-radio :label="1">符合</el-radio>
 										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="鉴定资质">
-									<el-radio-group v-model="ruleForm.ExpertReviewQualificationState" :disabled="!editMode || step == 10">
+									<el-radio-group v-model="ruleForm.ExpertReviewQualificationState" :disabled="!editMode">
 										<el-radio :label="1">符合</el-radio>
 										<el-radio :label="2">不符合</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="鉴定意见">
-									<el-radio-group v-model="ruleForm.ExpertReviewResultState" :disabled="!editMode || step == 10">
+									<el-radio-group v-model="ruleForm.ExpertReviewResultState" :disabled="!editMode">
 										<el-radio :label="1">符合</el-radio>
 										<el-radio :label="2">不符合</el-radio>
 										<el-radio :label="3">有缺陷</el-radio>
@@ -392,12 +392,12 @@
 							<td class="bg-gray text-right" rowspan="2">审核</td>
 							<td colspan="9" v-if="editMode">
 								<el-radio-group v-model="ruleForm.ExpertAuditState" v-if="step == 7">
-									<el-radio :label="10">通过</el-radio>
-									<el-radio :label="5">驳回</el-radio>
+									<el-radio size="large" :label="10">通过</el-radio>
+									<el-radio size="large" :label="5">驳回</el-radio>
 								</el-radio-group>
 								<el-radio-group v-model="ruleForm.ExpertReviewState" v-else-if="step == 10">
-									<el-radio :label="10">通过</el-radio>
-									<el-radio :label="5">驳回</el-radio>
+									<el-radio size="large" :label="10">通过</el-radio>
+									<el-radio size="large" :label="5">驳回</el-radio>
 								</el-radio-group>
 							</td>
 							<td colspan="9" v-else-if="step == 7">
@@ -456,8 +456,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
-					<el-button v-if="editMode" type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{
+					<el-button size="large" @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
+					<el-button size="large" v-if="editMode" type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.AuditEdit']">{{
 						$t('message.action.submit')
 					}}</el-button>
 				</span>
@@ -593,7 +593,7 @@ export default {
 			}
 		};
 		const allowEdit = () => {
-			if (state.editMode && props.step == 7) {
+			if (state.editMode) {
 				return true;
 			} else {
 				return false;
@@ -642,24 +642,6 @@ export default {
 					ElMessageBox.alert('请选择委托内容', '温馨提示', {});
 					return;
 				}
-				if (state.ruleForm.ExpertAuditState == 10) {
-					let obj = document.getElementsByTagName('iframe');
-					let findobj = null;
-					for (let nowobj of obj) {
-						if (nowobj.id.indexOf('ueditor') > -1) {
-							findobj = nowobj;
-							break;
-						}
-					}
-					if (findobj) {
-						await html2canvas(findobj.contentWindow.document.body, { useCORS: true, scrollY: 0, scrollX: 0, allowTaint: true }).then((canvas) => {
-							let url = canvas.toDataURL('image/png');
-							state.ruleForm.ExpertAuditEvalImage = url;
-						});
-					} else {
-						state.ruleForm.ExpertAuditEvalImage = '';
-					}
-				}
 			} else if (props.step == 10) {
 				state.ruleForm.ExpertReviewState = Number(state.ruleForm.ExpertReviewState);
 				if (state.ruleForm.ExpertReviewState != 5 && state.ruleForm.ExpertReviewState != 10) {
@@ -677,6 +659,24 @@ export default {
 				}
 				if (state.otherRemark != '其他') {
 					state.ruleForm.ExpertReviewRemark == '';
+				}
+			}
+			if (state.ruleForm.ExpertAuditState == 10 || state.ruleForm.ExpertReviewState == 10) {
+				let obj = document.getElementsByTagName('iframe');
+				let findobj = null;
+				for (let nowobj of obj) {
+					if (nowobj.id.indexOf('ueditor') > -1) {
+						findobj = nowobj;
+						break;
+					}
+				}
+				if (findobj) {
+					await html2canvas(findobj.contentWindow.document.body, { useCORS: true, scrollY: 0, scrollX: 0, allowTaint: true }).then((canvas) => {
+						let url = canvas.toDataURL('image/png');
+						state.ruleForm.ExpertAuditEvalImage = url;
+					});
+				} else {
+					state.ruleForm.ExpertAuditEvalImage = '';
 				}
 			}
 			if (props.step == 7) {
