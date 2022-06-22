@@ -4,7 +4,7 @@
 			<el-menu router :default-active="defaultActive" background-color="transparent" ref="elMenuHorizontalRef" mode="horizontal" >
 				<template v-for="val in menuLists">
 					<template v-if="!val.meta.isHide">
-						<el-sub-menu :index="val.meta.isDynamicPath || val.path" v-if="val.children && val.childlen.length > 0" :key="val.key">
+						<el-sub-menu :index="val.meta.isDynamicPath || val.path" v-if="val.children && val.children.length" :key="val.key">
 							<template #title>
 								<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
 								<span>{{ $t(val.meta.title) }}</span>
@@ -51,8 +51,10 @@ export default defineComponent({
 		const state = reactive({
 			defaultActive: null,
 		});
+		
 		// 获取父级菜单数据
 		const menuLists = computed(() => {
+			console.log("props.menuList：",props.menuList)
 			return props.menuList;
 		});
 		// 设置横向滚动条可以鼠标滚轮滚动

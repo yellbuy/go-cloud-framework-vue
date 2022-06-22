@@ -84,14 +84,14 @@ export default {
 		const onColumnsAsideMenuClick = (v: Object, k: number) => {
 			setColumnsAsideMove(k);
 			//console.log("onColumnsAsideMenuClick：",v,k)
-			let { path, redirect } = v as any;
+			let { path,url, redirect } = v as any;
 			if (redirect) router.push(redirect);
-			else router.push(path);
+			else router.push(url||path);
 		};
 		// 鼠标移入时，显示当前的子级菜单
 		const onColumnsAsideMenuMouseenter = (v: Object, k: number) => {
 			let { path,meta } = v;
-			state.liOldPath = path;
+			state.liOldPath = meta.keyPath;
 			state.liOldIndex = k;
 			state.liHoverIndex = k;
 			proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(meta.keyPath));
@@ -126,10 +126,9 @@ export default {
 		// 传送当前子级数据到菜单中
 		const setSendChildren = (keyPath: string) => {
 			const currentPathSplit = keyPath.split('//');
-			debugger
 			let currentData: any = {};
 			state.columnsAsideList.map((v: any, k: number) => {
-				if (v.meta.Key === `${currentPathSplit[0]}`) {
+				if (v.meta.key === `${currentPathSplit[0]}`) {
 					v['k'] = k;
 					currentData['item'] = [{ ...v }];
 					currentData['children'] = [{ ...v }];
