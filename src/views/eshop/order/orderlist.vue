@@ -81,7 +81,7 @@
 				</el-table-column>
 				<el-table-column prop="CreateBy" label="用户" width="110" fixed></el-table-column>
 				<el-table-column prop="ExtTag" label="类型" width="70" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="ServiceTime" label="时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip fixed></el-table-column>
+				<!-- <el-table-column prop="ServiceTime" label="时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip fixed></el-table-column> -->
 				<el-table-column prop="GoodsName" label="名称" width="80" align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="OrderSn" label="订单流水号" width="110" align="left" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="PrintState" label="打印状态" width="80" align="center" show-overflow-tooltip>
@@ -207,6 +207,8 @@ export default {
 					ServiceStartTime: '',
 					ServiceEndTime: '',
 					ExtTag: '',
+					pageNum: 1,
+					pageSize: 20,
 				},
 			},
 			expertAuditUids: [],

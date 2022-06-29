@@ -157,6 +157,8 @@ export default {
 					startTime: '',
 					endTime: '',
 					payment: '',
+					pageNum: 1,
+					pageSize: 20,
 				},
 			},
 		});
