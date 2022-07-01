@@ -75,13 +75,31 @@
 				<el-table-column type="index" label="序号" width="70" fixed />
 				<el-table-column prop="Avatar" label="头像" align="center" width="70" fixed>
 					<template #default="scope">
-						<imageUrl :ids="scope.row.Uid" :baseUrl="baseUrl"></imageUrl>
-						<!-- <el-image style="width: 50px; height: 50px" :src="'/static/img/avatar/user/' + scope.row.Uid + '.png'" fit="cover" /> -->
+						<el-image
+							v-if="scope.row.Uid"
+							lazy
+							preview-teleported
+							style="width: 20px; height: 20px"
+							:src="proxy.$utils.staticHeardUrl(scope.row.Uid)"
+							hide-on-click-modal
+							:preview-src-list="[proxy.$utils.staticHeardUrl(scope.row.Uid)]"
+							:initial-index="0"
+							fit="cover"
+						>
+							<template #error>
+								<div class="image-slot">
+									<el-icon>
+										<Picture />
+									</el-icon>
+								</div>
+							</template>
+						</el-image>
 					</template>
+					<!-- <el-image style="width: 50px; height: 50px" :src="'/static/img/avatar/user/' + scope.row.Uid + '.png'" fit="cover" /> -->
 				</el-table-column>
 				<el-table-column prop="CreateBy" label="用户" width="110" fixed></el-table-column>
 				<el-table-column prop="ExtTag" label="类型" width="70" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="ServiceTime" label="时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip fixed></el-table-column>
+				<!-- <el-table-column prop="ServiceTime" label="时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip fixed></el-table-column> -->
 				<el-table-column prop="GoodsName" label="名称" width="80" align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="OrderSn" label="订单流水号" width="110" align="left" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="PrintState" label="打印状态" width="80" align="center" show-overflow-tooltip>
@@ -207,6 +225,8 @@ export default {
 					ServiceStartTime: '',
 					ServiceEndTime: '',
 					ExtTag: '',
+					pageNum: 1,
+					pageSize: 20,
 				},
 			},
 			expertAuditUids: [],

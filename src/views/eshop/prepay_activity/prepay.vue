@@ -73,14 +73,14 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="PayAmount" label="售价" width="80" align="right"> </el-table-column>
+				<el-table-column prop="PayAmount" label="售价" width="80" align="right" v-if="actMode == 0"> </el-table-column>
 				<el-table-column prop="Amount" :label="actType == 0 ? '面值' : '上账'" width="80" align="right" v-if="actMode == 0"> </el-table-column>
 				<el-table-column
 					prop="Point"
-					:label="actType == 1 ? '兑换积分' : actType == 2 ? '兑换金币' : ''"
+					:label="actType == 1 ? '兑换积分' : actType == 2 || actMode == 10 ? '兑换金币' : ''"
 					width="90"
 					align="right"
-					v-else-if="actMode == 1"
+					v-else-if="actMode == 1 || actMode == 10"
 				>
 				</el-table-column>
 				<el-table-column

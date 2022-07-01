@@ -41,8 +41,25 @@
 				<el-table-column type="index" label="序号" width="50" fixed />
 				<el-table-column prop="Avatar" label="头像" align="center" width="70" fixed>
 					<template #default="scope">
-						<imageUrl :ids="scope.row.Id" :baseUrl="baseUrl"></imageUrl>
-						<!-- <el-image style="width: 50px; height: 50px" :src="'/static/img/avatar/user/' + scope.row.Uid + '.png'" fit="cover" /> -->
+						<el-image
+							v-if="scope.row.Id"
+							lazy
+							preview-teleported
+							style="width: 20px; height: 20px"
+							:src="proxy.$utils.staticHeardUrl(scope.row.Id)"
+							hide-on-click-modal
+							:preview-src-list="[proxy.$utils.staticHeardUrl(scope.row.Id)]"
+							:initial-index="0"
+							fit="cover"
+						>
+							<template #error>
+								<div class="image-slot">
+									<el-icon>
+										<Picture />
+									</el-icon>
+								</div>
+							</template>
+						</el-image>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Nickname" label="昵称" width="110" fixed></el-table-column>
