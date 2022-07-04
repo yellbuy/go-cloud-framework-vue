@@ -14,7 +14,7 @@
 							value-format="YYYY-MM-DD HH:mm:ss"
 						/>
 					</el-form-item>
-					<el-form-item :label="'类型：'">
+					<el-form-item v-if="kind != 'virtaul'" :label="'类型：'">
 						<el-select v-model="tableData.param.ExtTag" placeholder="请选择" style="width: 90px">
 							<el-option v-for="item in kindData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
@@ -24,7 +24,7 @@
 							<el-option v-for="item in payData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
 					</el-form-item>
-					<el-form-item :label="'销核状态：'">
+					<el-form-item v-if="kind != 'virtaul'" :label="'销核状态：'">
 						<el-select v-model="tableData.param.ShippingState" placeholder="请选择" style="width: 90px">
 							<el-option v-for="item in shippingData" :key="item.Id" :label="item.Name" :value="item.Id" />
 						</el-select>
@@ -98,7 +98,7 @@
 					<!-- <el-image style="width: 50px; height: 50px" :src="'/static/img/avatar/user/' + scope.row.Uid + '.png'" fit="cover" /> -->
 				</el-table-column>
 				<el-table-column prop="CreateBy" label="用户" width="110" fixed></el-table-column>
-				<el-table-column prop="ExtTag" label="类型" width="70" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column v-if="kind != 'virtaul'" prop="ExtTag" label="类型" width="70" show-overflow-tooltip fixed></el-table-column>
 				<!-- <el-table-column prop="ServiceTime" label="时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip fixed></el-table-column> -->
 				<el-table-column prop="GoodsName" label="名称" width="80" align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="OrderSn" label="订单流水号" width="110" align="left" show-overflow-tooltip> </el-table-column>
@@ -129,24 +129,34 @@
 						<el-tag type="danger" effect="plain" v-if="scope.row.IsAfterSale == 1">有</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="ShippingState" label="销核状态" width="80" align="center" show-overflow-tooltip>
+				<el-table-column v-if="kind != 'virtaul'" prop="ShippingState" label="销核状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" effect="plain" v-if="scope.row.ShippingState == 1">已销核</el-tag>
 						<el-tag type="danger" effect="plain" v-if="scope.row.ShippingState == 0">未销核</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="ConfirmBy" label="销核人" width="80" align="left" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="ConfirmTime" label="销核时间" width="115" align="left" :formatter="dateFormatYMDHM" show-overflow-tooltip>
+				<el-table-column v-if="kind != 'virtaul'" prop="ConfirmBy" label="销核人" width="80" align="left" show-overflow-tooltip> </el-table-column>
+				<el-table-column
+					v-if="kind != 'virtaul'"
+					prop="ConfirmTime"
+					label="销核时间"
+					width="115"
+					align="left"
+					:formatter="dateFormatYMDHM"
+					show-overflow-tooltip
+				>
 				</el-table-column>
 				<el-table-column prop="PayName" label="支付方式" width="80" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="OrderAmount" label="订单金额" width="80" align="center" show-overflow-tooltip>
+				<el-table-column v-if="kind != 'virtaul'" prop="OrderAmount" label="订单金额" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<span>¥ {{ scale2Format(scope.row.OrderAmount) }}</span>
 					</template>
 				</el-table-column>
+				<el-table-column prop="PayPoints" label="订单金币" width="80" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="CreateTime" label="下单时间" width="115" :formatter="dateFormatYMDHM" align="left" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="PayTime" label="支付时间" width="115" align="left" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="PayTime" label="支付时间" width="115" :formatter="dateFormatYMDHM" align="left" show-overflow-tooltip>
+				</el-table-column>
 				<el-table-column prop="TransactionId" label="外部交易号" width="80" align="left" show-overflow-tooltip> </el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(230)" fixed="right">
 					<template #default="scope">
