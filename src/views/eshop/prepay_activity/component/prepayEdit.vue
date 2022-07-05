@@ -185,6 +185,9 @@ export default {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.StartTime = state.timeList[0];
 					state.ruleForm.EndTime = state.timeList[1];
+					if (state.ruleForm.PayPoint <= 0) {
+						state.ruleForm.PayPoint = state.ruleForm.Point;
+					}
 					if (state.ruleForm.ActType >= 10) {
 						switch (state.ruleForm.ActType) {
 							case 10:
