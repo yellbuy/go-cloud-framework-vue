@@ -217,7 +217,7 @@
 										<el-icon><Edit /></el-icon>
 										&#8197;{{ $t('message.action.edit') }}
 									</el-button>
-									<el-button text bg type="danger" @click="onRowChildDel(scope.row.Id)" v-auth:[moduleKey]="'btn.GoodsDel'">
+									<el-button text bg type="danger" @click="onChildRowDel(scope.row)" v-auth:[moduleKey]="'btn.GoodsDel'">
 										<el-icon><CloseBold /></el-icon>
 										&#8197;{{ $t('message.action.delete') }}
 									</el-button>
@@ -418,7 +418,6 @@ export default {
 				return false;
 			});
 		};
-
 		// 打开修改弹窗
 		const onOpenChildEditDlg = async (row: Object) => {
 			if (!row) {
@@ -431,7 +430,7 @@ export default {
 		};
 		// 删除记录
 		const onChildRowDel = (row: Object) => {
-			ElMessageBox.confirm(`确定要删除记录“${row.Title}”吗?`, '提示', {
+			ElMessageBox.confirm(`确定要删除记录“${row.GoodsName}”吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
