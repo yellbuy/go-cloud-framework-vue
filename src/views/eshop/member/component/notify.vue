@@ -35,8 +35,8 @@
 				</el-row>
 				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="提示" prop="Contont">
-							<el-input v-model="ruleForm.Contont" placeholder="请输入姓名" maxlength="50" clearable></el-input>
+						<el-form-item label="提示" prop="Content">
+							<el-input v-model="ruleForm.Content" placeholder="请输入提示" maxlength="50" clearable></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -73,7 +73,7 @@ export default {
 			scopeMode,
 			scopeValue,
 			isShowDialog: false,
-			title: t('message.action.edit'),
+			title: t('message.action.notice'),
 			loading: false,
 			ruleForm: {
 				Id: 0,
@@ -82,7 +82,7 @@ export default {
 				Tel: '',
 				Mobile: '',
 				Titel: '',
-				Contont: '',
+				Content: '',
 			},
 		});
 		const rules = reactive({
@@ -93,7 +93,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			Contont: [
+			Content: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -112,7 +112,7 @@ export default {
 			state.ruleForm.Mobile = row.Mobile;
 			state.ruleForm.Tel = row.Tel;
 			state.ruleForm.Titel = '';
-			state.ruleForm.Contont = '';
+			state.ruleForm.Content = '';
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -123,6 +123,7 @@ export default {
 			closeDialog();
 		};
 		const onSubmit = () => {
+			console.log(state.ruleForm);
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
