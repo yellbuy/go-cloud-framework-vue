@@ -164,6 +164,7 @@ export default {
 					keyword: '',
 					pageNum: 1,
 					pageSize: 20,
+					pageIndex: 1,
 				},
 			},
 		});
@@ -192,6 +193,7 @@ export default {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
+			console.log(state.tableData.param.pageNum);
 			state.tableData.loading = true;
 			state.tableData.data = [];
 			state.tableData.loading = false;

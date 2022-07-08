@@ -24,9 +24,9 @@
 					<el-form-item :label="'支付模式：'">
 						<el-select v-model="tableData.param.mode" placeholder="请选择" style="width: 90px">
 							<el-option label="全部" :value="-1" />
-							<el-option label="充值" :value="0" />
+							<el-option label="充值" :value="1" />
 							<!-- <el-option label="购买金币" :value="1" /> -->
-							<el-option label="兑换" :value="2" />
+							<el-option label="兑换" :value="10" />
 						</el-select>
 					</el-form-item>
 					<el-form-item :label="'支付方式：'">
@@ -90,8 +90,8 @@
 				</el-table-column>
 				<el-table-column prop="Mode" label="支付模式" width="80" align="center" fixed>
 					<template #default="scope">
-						<el-tag type="warning" effect="plain" v-if="scope.row.Mode == 0">充值</el-tag>
-						<el-tag type="primary" effect="plain" v-else-if="scope.row.Mode == 2">兑换</el-tag>
+						<el-tag type="warning" effect="plain" v-if="scope.row.Mode == 1">充值</el-tag>
+						<el-tag type="primary" effect="plain" v-else-if="scope.row.Mode == 10">兑换</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Uname" label="用户" width="115" align="left" show-overflow-tooltip> </el-table-column>

@@ -17,14 +17,15 @@
 					<tr>
 						<td>流水号</td>
 						<td>{{ ruleForm.OrderSn }}</td>
-						<td>订单金额</td>
-						<td>¥ {{ scale2Format(ruleForm.OrderAmount) }}</td>
+						<td v-if="ruleForm.PayId == 2">订单金币</td>
+						<td v-if="ruleForm.PayId == 2">¥ {{ scale2Format(ruleForm.OrderAmount) }}</td>
 						<td>下单时间</td>
 						<td>{{ ruleForm.CreateTime }}</td>
 					</tr>
 					<tr>
-						<td>支付金额</td>
-						<td>¥ {{ scale2Format(ruleForm.PayFee) }}</td>
+						<td>{{ ruleForm.PayId == 2 ? '支付金币' : '支付金额' }}</td>
+						<td v-if="ruleForm.PayId != 2">¥ {{ scale2Format(ruleForm.PayFee) }}</td>
+						<td v-if="ruleForm.PayId == 2">{{ ruleForm.PayPoints }}币</td>
 						<td>支付状态</td>
 						<td>
 							<el-tag type="danger" effect="plain" v-if="ruleForm.PayState == 0">未支付</el-tag>
@@ -46,10 +47,11 @@
 							<el-tag type="primary" effect="plain" v-else>未评价</el-tag>
 						</td>
 					</tr>
-					<tr>
+
+					<tr v-if="ruleForm.PayId != 2">
 						<td colspan="6">顾客信息</td>
 					</tr>
-					<tr>
+					<tr v-if="ruleForm.PayId != 2">
 						<td>姓名</td>
 						<td>{{ ruleForm.ReceiveName }}</td>
 						<td>手机</td>
@@ -57,10 +59,10 @@
 						<td>电话</td>
 						<td>{{ ruleForm.ReceiveTel }}</td>
 					</tr>
-					<tr>
+					<tr v-if="ruleForm.PayId != 2">
 						<td colspan="6">明细信息（共 {{ ruleForm.GoodsNums }} 条）</td>
 					</tr>
-					<tr>
+					<tr v-if="ruleForm.PayId != 2">
 						<td colspan="6">
 							<el-table
 								:data="ruleForm.OrderGoods"

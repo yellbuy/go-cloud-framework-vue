@@ -201,7 +201,7 @@ export default {
 
 		//重置查询条件
 		const onResetSearch = () => {
-			state.tableData.param.keyword = '';
+			state.tableData.param.name = '';
 			onGetTableData(true);
 		};
 		// effect(()=>{
@@ -239,7 +239,7 @@ export default {
 			}).then(async () => {
 				const model = JSON.parse(JSON.stringify(row));
 				model.Id = '0';
-				const res = await proxy.$api.eshop.prepay.save(model);
+				const res = await proxy.$api.eshop.prepay_activity.save(model);
 				if (res.errcode == 0) {
 					onGetTableData();
 				}
