@@ -2,24 +2,25 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-divider content-position="left">类别信息</el-divider>
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules"  label-width="90px" v-loading="loading" :disabled="disable">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="90px" v-loading="loading" :disabled="disable">
 				<el-form-item label="类别" prop="CategoryId">
-					<el-select v-model="ruleForm.CategoryId"  class="m-2" placeholder="请选择类别" clearable>
+					<el-select v-model="ruleForm.CategoryId" class="m-2" placeholder="请选择类别" clearable>
 						<el-option v-for="item in supKindData" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="名称" prop="Name">
-					<el-input  placeholder="请输入名称" v-model="ruleForm.Name"> </el-input>
+					<el-input placeholder="请输入名称" v-model="ruleForm.Name"> </el-input>
 				</el-form-item>
 			</el-form>
+			<!-- <div v-if="disable"> -->
 			<el-divider content-position="left">详情信息</el-divider>
-			<el-button  type="primary" @click="onModelAdd" v-if="!disable">
+			<el-button type="primary" @click="onModelAdd">
 				<el-icon>
 					<CirclePlusFilled />
 				</el-icon>
 				&#8197;{{ $t('message.action.add') }}
 			</el-button>
-			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%"  border stripe highlight-current-row>
+			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
 				<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
@@ -50,7 +51,7 @@
 				</span>
 			</template>
 			<el-dialog v-model="dialogVisible" title="明细信息" width="50%">
-				<el-form ref="lineFormRef" :model="tableItem" :rules="lineRules"  label-width="130px" v-loading="loading">
+				<el-form ref="lineFormRef" :model="tableItem" :rules="lineRules" label-width="130px" v-loading="loading">
 					<el-form-item label="评审内容" prop="Content">
 						<el-input v-model="tableItem.Content"></el-input>
 					</el-form-item>
@@ -68,6 +69,7 @@
 					</span>
 				</template>
 			</el-dialog>
+			<!-- </div> -->
 		</el-dialog>
 	</div>
 </template>
@@ -166,6 +168,7 @@ export default {
 				state.ruleForm.Id = 0;
 				state.title = t('message.action.add');
 			}
+			console.log('状态', disable);
 			state.ruleForm.Kind = Type;
 			state.isShowDialog = true;
 			state.disable = disable;
@@ -323,6 +326,7 @@ export default {
 		// 页面加载时
 		onMounted(() => {});
 		return {
+			proxy,
 			t,
 			openDialog,
 			closeDialog,

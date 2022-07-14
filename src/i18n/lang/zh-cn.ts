@@ -14,7 +14,7 @@ export default {
 		systemBidProject: '招标项目',
 		systemSupplier: "供应商管理",
 		systemSupInformation: "供应商基本信息",
-		systemSupKind: "供应商类型",
+		supplierKind: "供应商类型",
 		limits: '权限管理',
 		limitsFrontEnd: '前端控制',
 		limitsFrontEndPage: '页面权限',

@@ -3,14 +3,14 @@
 		<el-card shadow="hover">
 			<el-tabs v-model="activeName" type="card" class="demo-tabs" @tab-click="tabsName">
 				<el-tab-pane label="资格评审" name="zgps">
-					<el-form  :model="jsTableData.param" label-width="90px" :inline="true">
+					<el-form :model="jsTableData.param" label-width="90px" :inline="true">
 						<el-form-item label="类别">
-							<el-select v-model="jsTableData.param.categoryId"  class="m-2" placeholder="请选择类别" clearable>
+							<el-select v-model="jsTableData.param.categoryId" class="m-2" placeholder="请选择类别" clearable>
 								<el-option v-for="item in supKindData" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="名称">
-							<el-input  placeholder="请输入名称" v-model="jsTableData.param.name"> </el-input>
+							<el-input placeholder="请输入名称" v-model="jsTableData.param.name"> </el-input>
 						</el-form-item>
 						<el-form-item>
 							<el-button type="info" @click="onResetSearch">
@@ -25,7 +25,7 @@
 								</el-icon>
 								&#8197;{{ $t('message.action.search') }}
 							</el-button>
-							<el-button  type="primary" @click="onOpenCommondata(0)">
+							<el-button type="primary" @click="onOpenCommondata(0)">
 								<el-icon>
 									<CirclePlusFilled />
 								</el-icon>
@@ -38,7 +38,6 @@
 						:data="zgTableData.data"
 						style="width: 100%"
 						v-loading="zgTableData.loading"
-						
 						:height="proxy.$calcMainHeight(-170)"
 						border
 						stripe
@@ -85,14 +84,14 @@
 					</el-pagination>
 				</el-tab-pane>
 				<el-tab-pane label="技术评审" name="jsps">
-					<el-form  :model="jsTableData.param" label-width="90px" :inline="true">
+					<el-form :model="jsTableData.param" label-width="90px" :inline="true">
 						<el-form-item label="类别">
-							<el-select v-model="zgTableData.param.categoryId"  class="m-2" placeholder="请选择类别" clearable>
+							<el-select v-model="zgTableData.param.categoryId" class="m-2" placeholder="请选择类别" clearable>
 								<el-option v-for="item in supKindData" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="名称">
-							<el-input  placeholder="请输入名称" v-model="zgTableData.param.name"> </el-input>
+							<el-input placeholder="请输入名称" v-model="zgTableData.param.name"> </el-input>
 						</el-form-item>
 						<el-form-item>
 							<el-button type="info" @click="onResetSearch">
@@ -107,7 +106,7 @@
 								</el-icon>
 								&#8197;{{ $t('message.action.search') }}
 							</el-button>
-							<el-button  type="primary" @click="onOpenCommondata(0)">
+							<el-button type="primary" @click="onOpenCommondata(0)">
 								<el-icon>
 									<Plus />
 								</el-icon>
@@ -120,7 +119,6 @@
 						:data="jsTableData.data"
 						style="width: 100%"
 						v-loading="jsTableData.loading"
-						
 						:height="proxy.$calcMainHeight(-170)"
 						border
 						stripe
@@ -178,6 +176,7 @@ import commondataEdit from './component/edit.vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import request from '/@/utils/request';
 import { getPageCategoryList } from '../../../api/common/category';
+import { Refresh } from '@element-plus/icons-vue';
 export default {
 	name: 'systemParameter',
 	components: { commondataEdit },

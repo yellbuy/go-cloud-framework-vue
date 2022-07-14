@@ -116,6 +116,7 @@ export default {
 		// 页面加载时
 		onMounted(() => {});
 		return {
+			proxy,
 			t,
 			openDialog,
 			closeDialog,

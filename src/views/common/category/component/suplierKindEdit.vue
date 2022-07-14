@@ -71,22 +71,19 @@ export default {
 				state.title = t('message.action.add');
 			}
 			state.ruleForm.Type = Type;
+			state.ruleForm.Kind = Type;
 			state.isShowDialog = true;
 		};
-		const GetByIdRow = (Id: string) => {
-			const url = `/v1/common/category/getbyid/${Id}`;
-			request({
-				url: url,
-				method: 'get',
-			})
-				.then((res) => {
-					if (res.errcode == 0) {
-						state.ruleForm = res.data;
-					} else {
-						ElMessage.warning(res.errmsg);
-					}
-				})
-				.catch((err) => {});
+		const GetByIdRow = async (Id: string) => {
+			try {
+				const res = await proxy.$api.common.category.getById(Id);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.ruleForm = res.data;
+			} finally {
+				state.isShowDialog = true;
+			}
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -97,37 +94,29 @@ export default {
 		};
 
 		const onLoadTable = () => {
-			console.log(state.ruleForm.Type);
-			proxy.$parent.onGetKindTableData();
+			proxy.$parent.onGetTableData();
 		};
 		// 新增
 		const onSubmit = (isCloseDlg: boolean) => {
-			proxy.$refs.ruleFormRef.validate((valid: any) => {
+			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
-					const url = state.ruleForm.Id > 0 ? `/v1/admin/common/category/${state.ruleForm.Id}` : `/v1/admin/common/category`;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.State = 1;
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					})
-						.then((res) => {
-							state.loading = false;
-							if (res.errcode == 0) {
-								onLoadTable();
-								if (isCloseDlg) {
-									closeDialog();
-								} else {
-									proxy.$refs.ruleFormRef.resetFields();
-									state.ruleForm.Id = 0;
-								}
+					try {
+						const res = await proxy.$api.common.category.save(state.ruleForm);
+						if (res.errcode == 0) {
+							if (isCloseDlg) {
+								closeDialog();
+							} else {
+								proxy.$refs.ruleFormRef.resetFields();
+								state.ruleForm.Id = 0;
 							}
-						})
-						.catch(() => {
-							state.loading = false;
-						});
+							proxy.$parent.onGetTableData();
+						}
+					} finally {
+						state.loading = false;
+					}
 					return false;
 				} else {
 					return false;
