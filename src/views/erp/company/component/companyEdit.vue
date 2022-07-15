@@ -65,13 +65,13 @@
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">资质信息*</el-divider>
-				<el-button size="mini" type="primary" @click="onModelAdd" v-if="!disable">
+				<el-button type="primary" @click="onModelAdd" v-if="!disable">
 					<el-icon>
 						<CirclePlusFilled />
 					</el-icon>
 					&#8197;{{ $t('message.action.add') }}
 				</el-button>
-				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="mini" border stripe highlight-current-row>
+				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
 					<el-table-column label="供应商类别" width="120" show-overflow-tooltip>
 						<template #default="scope">
@@ -127,7 +127,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="closeDialog" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.CompanyEdit', 'btn.CompanyAdd']">{{
+					<el-button type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
@@ -157,25 +157,28 @@
 					></el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"
 						><el-form-item label="上传附件：" prop="Files">
-							<el-upload
-								:action="uploadURL"
-								list-type="picture-card"
-								:headers="{ Appid: 158625451365892097, Authorization: token }"
-								:on-success="onSuccessFile"
-								:file-list="FilesList"
-								:on-remove="onRemove"
-							>
-								<template #default>
-									<el-icon><plus /></el-icon>
-								</template>
-							</el-upload> </el-form-item
+							<div class="mt10" style="border: 1px gray dashed">
+								<el-upload
+									:action="`${baseUrl}/v1/file/upload`"
+									list-type="picture-card"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onSuccessFile"
+									:file-list="FilesList"
+									:on-remove="onRemove"
+									:before-upload="onBeforeImageUpload"
+								>
+									<template #default>
+										<el-icon><plus /></el-icon>
+									</template>
+								</el-upload>
+							</div> </el-form-item
 					></el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="CompanyLineClose" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="CompanyLineSave" size="small">{{ $t('message.action.save') }}</el-button>
+					<el-button @click="CompanyLineClose">{{ $t('message.action.cancel') }}</el-button>
+					<el-button type="primary" @click="CompanyLineSave">{{ $t('message.action.save') }}</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -184,23 +187,25 @@
 
 <script lang="ts">
 import request from '/@/utils/request';
-import { reactive, toRefs, onMounted, getCurrentInstance, ref, toRaw, markRaw } from 'vue';
+import { reactive, toRefs, onMounted, getCurrentInstance, computed, ref, toRaw, markRaw } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
 import { Plus, ZoomIn, Download, Delete } from '@element-plus/icons-vue';
 import { getPageCategoryList } from '../../../../api/common/category';
-import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
+import { useStore } from '/@/store/index';
 export default {
 	name: 'companyEdit',
 	setup() {
 		//文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
+			console.log('触发图片上传');
 			state.Files.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			state.FilesList.push(image);
+			// state.FilesList.push(image);
+			console.log(state.FilesList);
 		};
 		const onRemove = (file: UploadFile) => {
 			console.log(file);
@@ -211,6 +216,11 @@ export default {
 				}
 			}
 		};
+		const store = useStore();
+		const getUserInfos = computed(() => {
+			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
+			return store.state.userInfos.userInfos;
+		});
 		//显示表格图片
 		const showImage = (Files: string) => {
 			let fileUrl = '';
@@ -235,6 +245,7 @@ export default {
 			title: t('message.action.add'),
 			loading: false,
 			disable: true, //是否禁用
+			baseUrl: import.meta.env.VITE_API_URL,
 			//表单
 			ruleForm: {
 				Id: 0,
@@ -374,43 +385,40 @@ export default {
 			],
 		});
 		// 打开弹窗
-		const openDialog = (id: string, disable: boolean) => {
+		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
-			getPageCategoryList({ kind: 'supplier', pageNum: 1, pageSize: 10000 }).then((res) => {
+			console.log('类型', kind);
+			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
+			try {
+				const res = await proxy.$api.common.category.getConcreteDataList(kind, 0, 2, { pageNum: 1, pageSize: 10000 });
 				if (res.errcode != 0) {
-					ElMessage.warning(res.errmsg);
 					return;
-				} else {
-					state.supKindData = res.data;
-					state.disable = disable;
-					console.log('打开窗口时间', state.ruleForm.BusinessEndTime, state.ruleForm.BusinessStartTime);
-					if (id != '0') {
-						GetByIdRow(id);
-						state.title = t('message.action.edit');
-					} else {
-						state.ruleForm.Id = 0;
-						state.title = t('message.action.add');
-					}
-					state.isShowDialog = true;
 				}
-			});
+				state.supKindData = res.data;
+				state.disable = disable;
+				if (id != '0') {
+					GetByIdRow(id);
+					state.title = t('message.action.edit');
+				} else {
+					state.ruleForm.Id = 0;
+					state.title = t('message.action.add');
+				}
+				state.isShowDialog = true;
+			} finally {
+				state.isShowDialog = true;
+			}
 		};
-		const GetByIdRow = (Id: string) => {
-			const url = `/v1/erp/company/${Id}`;
-			request({
-				url: url,
-				method: 'get',
-			})
-				.then((res) => {
-					if (res.errcode == 0) {
-						state.ruleForm = res.data;
-						tableData.data = res.data.CompanyCategoryList;
-					} else {
-						ElMessage.warning(res.errmsg);
-					}
-				})
-				.catch((err) => {});
+		const GetByIdRow = async (Id: string) => {
+			try {
+				const res = await proxy.$api.erp.company.getById(Id);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.ruleForm = res.data;
+				tableData.data = res.data.CompanyCategoryList;
+			} finally {
+				state.isShowDialog = true;
+			}
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -513,38 +521,71 @@ export default {
 		};
 		// 新增
 		const onSubmit = (isCloseDlg: boolean) => {
-			proxy.$refs.ruleFormRef.validate((valid: any) => {
+			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
-					const url = state.ruleForm.Id > 0 ? `/v1/erp/company/${state.ruleForm.Id}` : `/v1/erp/company`;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.CompanyCategoryList = tableData.data;
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					})
-						.then((res) => {
-							state.loading = false;
-							if (res.errcode == 0) {
-								if (isCloseDlg) {
-									closeDialog();
-								} else {
-									tableData.data = [];
-									proxy.$refs.ruleFormRef.resetFields();
-									(state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' }), (tableData.data = []);
-									state.ruleForm.Id = 0;
-								}
+					try {
+						const res = await proxy.$api.erp.company.save(state.ruleForm);
+						if (res.errcode == 0) {
+							if (isCloseDlg) {
+								closeDialog();
+							} else {
+								proxy.$refs.ruleFormRef.resetFields();
+								state.ruleForm.Id = 0;
 							}
-						})
-						.catch(() => {
-							state.loading = false;
-						});
+							proxy.$parent.onGetTableData();
+						}
+					} finally {
+						state.loading = false;
+					}
+					return false;
+					// state.ruleForm.CompanyCategoryList = tableData.data;
+					// request({
+					// 	url: url,
+					// 	method: 'post',
+					// 	data: state.ruleForm,
+					// })
+					// 	.then((res) => {
+					// 		state.loading = false;
+					// 		if (res.errcode == 0) {
+					// 			if (isCloseDlg) {
+					// 				closeDialog();
+					// 			} else {
+					// 				tableData.data = [];
+					// 				proxy.$refs.ruleFormRef.resetFields();
+					// 				(state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' }), (tableData.data = []);
+					// 				state.ruleForm.Id = 0;
+					// 			}
+					// 		}
+					// 	})
+					// 	.catch(() => {
+					// 		state.loading = false;
+					// 	});
 					return false;
 				} else {
 					return false;
 				}
 			});
+		};
+		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
+			if (
+				rawFile.type !== 'image/jpeg' &&
+				rawFile.type !== 'image/jpg' &&
+				rawFile.type !== 'image/png' &&
+				rawFile.type !== 'image/ico' &&
+				rawFile.type !== 'image/bmp' &&
+				rawFile.type !== 'image/gif' &&
+				rawFile.type !== 'image/svg'
+			) {
+				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
+				return false;
+			} else if (rawFile.size / 1024 / 1024 > 10) {
+				ElMessage.error('图片大小不能超过10MB!');
+				return false;
+			}
+			return true;
 		};
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
@@ -558,13 +599,15 @@ export default {
 			GetByIdRow,
 			onModelAdd,
 			onSuccessFile,
+			onRemove,
+			onBeforeImageUpload,
 			CompanyLineSave,
 			onModelEdit,
 			CompanyLineClose,
 			onModelDel,
-			onRemove,
 			showImage,
 			dateFormatYMD,
+			getUserInfos,
 			tableData,
 			categoryRules,
 			rules,
@@ -582,3 +625,29 @@ export default {
 	methods: {},
 };
 </script>
+<style scoped lang="scss">
+.el-select {
+	width: 100%;
+}
+.avatar-uploader .el-upload {
+	border: 1px dashed #d9d9d9;
+	border-radius: 6px;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+	border-color: var(--el-color-primary);
+}
+
+.avatar-uploader-icon {
+	font-size: 28px;
+	color: #8c939d;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	padding: 40px;
+}
+</style>

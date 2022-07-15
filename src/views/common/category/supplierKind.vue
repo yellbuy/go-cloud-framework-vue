@@ -2,9 +2,9 @@
 	<div class="base-user-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" :model="TableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item :label="'关键字：'">
-						<el-input placeholder="请输入关键字查询" v-model="TableData.param.name"> </el-input>
+						<el-input placeholder="请输入关键字查询" v-model="tableData.param.name"> </el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -30,9 +30,9 @@
 				</el-form>
 			</div>
 			<el-table
-				:data="TableData.data"
+				:data="tableData.data"
 				style="width: 100%"
-				v-loading="TableData.loading"
+				v-loading="tableData.loading"
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
@@ -64,11 +64,11 @@
 				@current-change="onHandleCurrentChange"
 				class="mt15"
 				:page-sizes="[10, 20, 30]"
-				v-model:current-page="TableData.param.pageNum"
+				v-model:current-page="tableData.param.pageNum"
 				background
-				v-model:page-size="TableData.param.pageSize"
+				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="TableData.total"
+				:total="tableData.total"
 			>
 			</el-pagination>
 		</el-card>
@@ -99,7 +99,7 @@ export default {
 			kind,
 			scopeMode,
 			scopeValue,
-			TableData: {
+			tableData: {
 				data: [],
 				total: 0,
 				loading: false,
@@ -121,33 +121,33 @@ export default {
 		//表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
-				state.TableData.param.pageNum = 1;
+				state.tableData.param.pageNum = 1;
 			}
-			state.TableData.loading = true;
+			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.common.category.getConcreteDataList(state.kind, state.scopeMode, state.scopeValue, state.TableData.param);
+				const res = await proxy.$api.common.category.getConcreteDataList(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
-				state.TableData.data = res.data;
-				state.TableData.total = res.total;
+				state.tableData.data = res.data;
+				state.tableData.total = res.total;
 			} finally {
-				state.TableData.loading = false;
+				state.tableData.loading = false;
 			}
 		};
 		//重置查询条件
 		const onResetSearch = () => {
-			state.TableData.param.name = '';
+			state.tableData.param.name = '';
 			onGetTableData(true);
 		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
-			state.TableData.param.pageSize = val;
+			state.tableData.param.pageSize = val;
 			onGetTableData();
 		};
 		// 分页改变
 		const onHandleCurrentChange = (val: number) => {
-			state.TableData.param.pageNum = val;
+			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
 		const onRowDel = (row: Object) => {
@@ -156,14 +156,14 @@ export default {
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
-				state.TableData.loading = true;
+				state.tableData.loading = true;
 				try {
 					const res = await proxy.$api.common.category.delete(row.Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
 				} finally {
-					state.TableData.loading = false;
+					state.tableData.loading = false;
 				}
 				return false;
 			});
