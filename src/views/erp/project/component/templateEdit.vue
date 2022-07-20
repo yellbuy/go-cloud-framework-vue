@@ -14,8 +14,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="closeDialog" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit()" size="small" v-auths:[$parent.moduleKey]="['btn.CategoryEdit', 'btn.CategoryAdd']">{{
+					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
+					<el-button text bg type="primary" @click="onSubmit()" v-auths:[$parent.moduleKey]="['btn.CategoryEdit', 'btn.CategoryAdd']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
@@ -71,17 +71,16 @@ export default {
 			],
 		});
 		// 打开弹窗
-		const openDialog = (kind: string, item: object) => {
+		const openDialog = (kind: string, isAdd: boolean, item: object) => {
 			state.ruleForm = { Id: '0', Kind: 'zgps', Content: '', Standard: '', TechnicalMaxScore: 0 };
-			if (item) {
-				state.editState = true;
+			if (isAdd) {
+				state.ruleForm.Id = 0;
+				state.title = t('message.action.add');
+			} else {
 				state.ruleForm = item;
 				state.title = t('message.action.edit');
-			} else {
-				state.ruleForm.Id = 0;
-				state.editState = false;
-				state.title = t('message.action.add');
 			}
+			state.editState = isAdd;
 			state.ruleForm.Kind = kind;
 			state.isShowDialog = true;
 		};
@@ -98,11 +97,12 @@ export default {
 					console.log(state.ruleForm);
 					console.log(proxy.$parent.zgTableData);
 					if (state.ruleForm.Kind == 'zgps') {
-						if (!state.editState) {
+						if (state.editState) {
+							console.log('执行', proxy.$parent.zgTableData.data);
 							proxy.$parent.zgTableData.data.push(state.ruleForm);
 						}
 					} else if (state.ruleForm.Kind == 'jsps') {
-						if (!state.editState) {
+						if (state.editState) {
 							proxy.$parent.jsTableData.data.push(state.ruleForm);
 						}
 					}

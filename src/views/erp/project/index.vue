@@ -2,12 +2,12 @@
 	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef"  :model="tableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="比选编号">
-						<el-input  placeholder="请输入比选编号查询" v-model="tableData.param.no"> </el-input>
+						<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no"> </el-input>
 					</el-form-item>
 					<el-form-item label="比选项目">
-						<el-input  placeholder="请输入比选项目查询" v-model="tableData.param.name"> </el-input>
+						<el-input placeholder="请输入比选项目查询" v-model="tableData.param.name"> </el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -22,7 +22,7 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button  type="primary" @click="onModelAdd" v-auth:[moduleKey]="'btn.BidProjectAdd'">
+						<el-button type="primary" @click="onModelEdit(0)" v-auth:[moduleKey]="'btn.BidProjectAdd'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -36,7 +36,6 @@
 				:data="tableData.data"
 				v-loading="tableData.loading"
 				style="width: 100%"
-				
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
@@ -142,10 +141,6 @@ export default {
 					state.tableData.loading = false;
 				});
 		};
-		// 打开新增用户弹窗
-		const onModelAdd = () => {
-			editDlgRef.value.openDialog(0);
-		};
 		// 打开修改用户弹窗
 		const onModelEdit = (Id: number) => {
 			editDlgRef.value.openDialog(Id);
@@ -197,7 +192,6 @@ export default {
 			editDlgRef,
 			onGetTableData,
 			onResetSearch,
-			onModelAdd,
 			onModelEdit,
 			onModelDel,
 			onHandleSizeChange,

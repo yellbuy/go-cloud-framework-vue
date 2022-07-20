@@ -87,18 +87,18 @@
 							<el-image style="width: 70px; height: 70px" :src="showImage(scope.row.Files)" alt=""></el-image>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 						<template #default="scope">
 							<el-button text bg type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.CompanyLineEdit'">
-								<el-icon>
+								<!-- <el-icon>
 									<Edit />
-								</el-icon>
+								</el-icon> -->
 								{{ $t('message.action.edit') }}
 							</el-button>
 							<el-button text bg type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.CompanyLineDel'">
-								<el-icon>
+								<!-- <el-icon>
 									<CloseBold />
-								</el-icon>
+								</el-icon> -->
 								{{ $t('message.action.delete') }}
 							</el-button>
 						</template>
@@ -126,8 +126,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="closeDialog" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" size="small" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
+					<el-button text bg type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>

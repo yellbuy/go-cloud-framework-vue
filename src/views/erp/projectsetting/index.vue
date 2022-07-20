@@ -286,7 +286,7 @@ export default {
 				state.zgTableData.param.pageNum = 1;
 			}
 			state.zgTableData.loading = true;
-			request({ url: '/v1/erp/projectsetting', method: 'get', params: state.zgTableData.param })
+			request({ url: '/v1/admin/erp/projectsetting', method: 'get', params: state.zgTableData.param })
 				.then((res) => {
 					state.zgTableData.loading = false;
 					if (res.errcode != 0) {
