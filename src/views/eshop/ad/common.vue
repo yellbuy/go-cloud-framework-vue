@@ -1,7 +1,7 @@
 <template>
-	<div class="eshop-goods-container">
+	<div class="eshop-ad-container">
 		<splitpanes class="default-theme" @resize="paneSize = $event[0].size">
-			<pane :size="30">
+			<pane :size="34">
 				<el-card shadow="hover">
 					<div class="">
 						<el-form label-width="90px" :inline="true">
@@ -12,7 +12,7 @@
 									</el-icon>
 									&#8197;{{ $t('message.action.refresh') }}
 								</el-button>
-								<el-button type="primary" @click="onOpenMainEditDlg()" v-auth:[moduleKey]="'btn.CategoryAdd'">
+								<el-button type="primary" @click="onOpenMainEditDlg()" v-auth:[moduleKey]="'btn.PositionAdd'">
 									<el-icon>
 										<CirclePlusFilled />
 									</el-icon>
@@ -35,38 +35,40 @@
 						highlight-current-row
 						:tree-props="{ children: 'Children' }"
 					>
-						<el-table-column prop="Name" label="类别" show-overflow-tooltip :width="200"> </el-table-column>
-
-						<el-table-column prop="Order" label="排序" :width="80" align="center">
+						<el-table-column prop="PositionName" label="广告位名称" show-overflow-tooltip :width="100"> </el-table-column>
+						<el-table-column prop="AdWidth" label="宽度" :width="50" align="right"> </el-table-column>
+						<el-table-column prop="AdHeight" label="高度" :width="50" align="right"> </el-table-column>
+						
+						<el-table-column prop="Order" label="排序" :width="85" align="center">
 							<template #header>
 								<el-button
 									type="text"
 									v-if="mainTableData.data"
-									@click="proxy.$api.common.table.update('common_category', 'Order', mainTableData.data || [], 0)"
-									v-auth:[moduleKey]="'btn.Edit'"
+									@click="proxy.$api.common.table.update('ad_position', 'Order', mainTableData.data || [], 0)"
+									v-auth:[moduleKey]="'btn.PositionEdit'"
 								>
 									<el-icon>
 										<Edit />
 									</el-icon>
 									&#8197;排序{{ $t('message.action.update') }}
 								</el-button>
-								<span v-no-auth:[moduleKey]="'btn.Edit'">排序</span>
+								<span v-no-auth:[moduleKey]="'btn.PositionEdit'">排序</span>
 							</template>
 							<template #default="scope">
-								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'">
+								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.PositionEdit'">
 								</el-input>
-								<span v-no-auth:[moduleKey]="'btn.Edit'">{{ scope.row.Order }}</span>
+								<span v-no-auth:[moduleKey]="'btn.PositionEdit'">{{ scope.row.Order }}</span>
 							</template>
 						</el-table-column>
 						<el-table-column prop="Id" label="标识" :width="160" align="right"> </el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(138)" fixed="right">
 							<template #default="scope">
 								<el-button-group>
-									<el-button text bg type="primary" @click="onOpenMainEditDlg(scope.row)" v-auth:[moduleKey]="'btn.CategoryEdit'">
+									<el-button text bg type="primary" @click="onOpenMainEditDlg(scope.row)" v-auth:[moduleKey]="'btn.PositionEdit'">
 										<el-icon><Edit /></el-icon>
 										&#8197;{{ $t('message.action.edit') }}
 									</el-button>
-									<el-button text bg type="danger" @click="onMainRowDel(scope.row)" v-auth:[moduleKey]="'btn.CategoryDel'">
+									<el-button text bg type="danger" @click="onMainRowDel(scope.row)" v-auth:[moduleKey]="'btn.PositionDel'">
 										<el-icon><CloseBold /></el-icon>
 										&#8197;{{ $t('message.action.delete') }}
 									</el-button>
@@ -76,27 +78,19 @@
 					</el-table>
 				</el-card>
 			</pane>
-			<pane :size="70">
+			<pane :size="66">
 				<el-card shadow="hover">
 					<div class="">
 						<el-form ref="searchFormRef" :model="childTableData.param" label-width="90px" :inline="true">
-							<el-form-item :label="'关键字：'">
-								<el-input placeholder="请输入关键字查询" v-model="childTableData.param.keyword"> </el-input>
-							</el-form-item>
+							
 							<el-form-item>
 								<el-button info @click="onResetChildSearch">
 									<el-icon>
 										<RefreshLeft />
 									</el-icon>
-									&#8197;{{ $t('message.action.reset') }}
+									&#8197;{{ $t('message.action.refresh') }}
 								</el-button>
-								<el-button info @click="onGetChildTableData(true)">
-									<el-icon>
-										<Search />
-									</el-icon>
-									&#8197;{{ $t('message.action.search') }}
-								</el-button>
-								<el-button type="primary" @click="onOpenChildEditDlg()" v-auth:[moduleKey]="'btn.GoodsAdd'">
+								<el-button type="primary" @click="onOpenChildEditDlg()" v-auth:[moduleKey]="'btn.AdAdd'">
 									<el-icon>
 										<CirclePlusFilled />
 									</el-icon>
@@ -140,41 +134,22 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="GoodsName" label="名称" width="200"> </el-table-column>
-						<el-table-column prop="IsOnSale" label="在售" width="80" align="center">
+						<el-table-column prop="Enabled" label="有效" width="80" align="center">
 							<template #default="scope">
 								<el-switch
 									v-model="scope.row.IsOnSale"
 									inline-prompt
-									v-auth:[moduleKey]="'btn.GoodsEdit'"
-									@change="proxy.$api.common.table.updateById('eshop_goods', 'IsOnSale', scope.row.Id, scope.row.IsOnSale)"
+									v-auth:[moduleKey]="'btn.AdEdit'"
+									@change="proxy.$api.common.table.updateById('eshop_ad', 'enabled', scope.row.Id, scope.row.Enabled)"
 									:active-text="$t('message.action.yes')"
 									:inactive-text="$t('message.action.no')"
 									:active-value="1"
 									:inactive-value="0"
 								/>
-								<el-tag type="success" effect="plain" v-if="scope.row.IsOnSale" v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{
+								<el-tag type="success" effect="plain" v-if="scope.row.Enabled" v-no-auth:[moduleKey]="'btn.AdEdit'">{{
 									$t('message.action.enable')
 								}}</el-tag>
-								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{ $t('message.action.disable') }}</el-tag>
-							</template>
-						</el-table-column>
-						<el-table-column prop="IsTop" label="推荐" width="80" align="center">
-							<template #default="scope">
-								<el-switch
-									v-model="scope.row.IsTop"
-									inline-prompt
-									:width="46"
-									v-auth:[moduleKey]="'btn.GoodsEdit'"
-									@change="proxy.$api.common.table.updateById('eshop_goods', 'IsTop', scope.row.Id, scope.row.IsTop)"
-									:active-text="$t('message.action.enable')"
-									:inactive-text="$t('message.action.disable')"
-									:active-value="1"
-									:inactive-value="0"
-								/>
-								<el-tag type="success" effect="plain" v-if="scope.row.IsTop" v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{
-									$t('message.action.enable')
-								}}</el-tag>
-								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{ $t('message.action.disable') }}</el-tag>
+								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.AdEdit'">{{ $t('message.action.disable') }}</el-tag>
 							</template>
 						</el-table-column>
 						<el-table-column prop="Order" label="排序" width="100" align="center">
@@ -182,15 +157,15 @@
 								<el-button
 									type="text"
 									v-if="childTableData.data"
-									@click="proxy.$api.common.table.update('eshop_goods', 'Order', childTableData.data || [], 0)"
-									v-auth:[moduleKey]="'btn.GoodsEdit'"
+									@click="proxy.$api.common.table.update('eshop_ad', 'Order', childTableData.data || [], 0)"
+									v-auth:[moduleKey]="'btn.AdEdit'"
 								>
 									<el-icon>
 										<Edit />
 									</el-icon>
 									&#8197;排序{{ $t('message.action.update') }}
 								</el-button>
-								<span v-no-auth:[moduleKey]="'btn.GoodsEdit'">排序</span>
+								<span v-no-auth:[moduleKey]="'btn.AdEdit'">排序</span>
 							</template>
 							<template #default="scope">
 								<el-input
@@ -198,10 +173,10 @@
 									placeholder="排序"
 									v-model="scope.row.Order"
 									input-style="text-align:right"
-									v-auth:[moduleKey]="'btn.GoodsEdit'"
+									v-auth:[moduleKey]="'btn.AdEdit'"
 								>
 								</el-input>
-								<span v-no-auth:[moduleKey]="'btn.GoodsEdit'">{{ scope.row.Order }}</span>
+								<span v-no-auth:[moduleKey]="'btn.AdEdit'">{{ scope.row.Order }}</span>
 							</template>
 						</el-table-column>
 
@@ -209,11 +184,11 @@
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 							<template #default="scope">
 								<el-button-group>
-									<el-button text bg info @click="onCopyChildRow(scope.row)" v-auth:[moduleKey]="'btn.GoodsAdd'">
+									<el-button text bg info @click="onCopyChildRow(scope.row)" v-auth:[moduleKey]="'btn.AdAdd'">
 										<el-icon><DocumentCopy /></el-icon>
 										&#8197;{{ $t('message.action.copy') }}
 									</el-button>
-									<el-button text bg type="primary" @click="onOpenChildEditDlg(scope.row)" v-auth:[moduleKey]="'btn.GoodsEdit'">
+									<el-button text bg type="primary" @click="onOpenChildEditDlg(scope.row)" v-auth:[moduleKey]="'btn.AdEdit'">
 										<el-icon><Edit /></el-icon>
 										&#8197;{{ $t('message.action.edit') }}
 									</el-button>
@@ -242,8 +217,8 @@
 			</pane>
 		</splitpanes>
 
-		<dlgMainEdit ref="dlgMainEditRef" :allow-edit-category="false" :allow-edit-special="false" :step="25" />
-		<dlgChildEdit ref="dlgChildEditRef" :allow-edit-category="false" :allow-edit-special="false" :step="25" />
+		<dlgMainEdit ref="dlgMainEditRef" :step="25" />
+		<dlgChildEdit ref="dlgChildEditRef" :step="25" />
 	</div>
 </template>
 
@@ -253,8 +228,8 @@ import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { useRoute } from 'vue-router';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import dlgMainEdit from './component/categoryEdit.vue';
-import dlgChildEdit from './component/virtualEdit.vue';
+import dlgMainEdit from './component/positionEdit.vue';
+import dlgChildEdit from './component/adEdit.vue';
 import other from '/@/utils/other';
 import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
@@ -263,10 +238,10 @@ export default {
 	components: { dlgMainEdit, dlgChildEdit, Splitpanes, Pane },
 	setup() {
 		const route = useRoute();
-		const kind = route.params.kind;
+		const kind = route.params.kind||0;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_eshop_goods_${kind}`;
+		const moduleKey = `api_eshop_ad_${kind}`;
 		const { proxy } = getCurrentInstance() as any;
 		const dlgMainEditRef = ref();
 		const dlgChildEditRef = ref();
@@ -288,7 +263,7 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
-					categoryId: 0,
+					positionId: 0,
 					searchPage: 10, // 1：保司二级审核，2：保司三级审核，5：制作专家，6：审核专家，10：平台
 					searchMode: 2, //0：所有，1：待审，2：已审，3：我审核的
 					loadRelatedSel: false, //不加载栏目关联数据
@@ -311,7 +286,7 @@ export default {
 			state.mainTableData.loading = true;
 			state.mainTableData.data = [];
 			try {
-				const res = await proxy.$api.common.category.getHierarchyDataList(state.kind, state.scopeMode, state.scopeValue, state.mainTableData.param);
+				const res = await proxy.$api.eshop.adPosition.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.mainTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -341,7 +316,7 @@ export default {
 			}).then(async () => {
 				state.mainTableData.loading = true;
 				try {
-					const res = await proxy.$api.common.category.delete(row.Id);
+					const res = await proxy.$api.eshop.adPosition.delete(row.Id);
 					if (res.errcode == 0) {
 						onGetMainTableData();
 					}
@@ -354,7 +329,7 @@ export default {
 
 		const onMainCellClick = async (row: any, column: any, cell: any, event: any) => {
 			console.log(column);
-			state.childTableData.param.categoryId = row.Id || '0';
+			state.childTableData.param.adPositionId = row.Id || '0';
 			onGetChildTableData();
 			// if(row && column.property=="Title"){
 			// 	// const res=await proxy.$api.cms.article.getById(row.Id)
@@ -387,7 +362,7 @@ export default {
 			state.childTableData.loading = true;
 			state.childTableData.data = [];
 			try {
-				const res = await proxy.$api.eshop.goods.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.childTableData.param);
+				const res = await proxy.$api.eshop.ad.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.childTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -403,7 +378,7 @@ export default {
 			if (!row) {
 				return;
 			}
-			ElMessageBox.confirm(`确定要复制记录“${row.GoodsName}”吗?`, '提示', {
+			ElMessageBox.confirm(`确定要复制记录“${row.AdName}”吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
@@ -422,8 +397,8 @@ export default {
 		const onOpenChildEditDlg = async (row: Object) => {
 			if (!row) {
 				row = { Kind: state.kind, SpecialId: '0' };
-				if (state.childTableData.param.categoryId != '0') {
-					row.CategoryId = state.childTableData.param.categoryId;
+				if (state.childTableData.param.adPositionId != '0') {
+					row.adPositionId = state.childTableData.param.adPositionId;
 				}
 			}
 			dlgChildEditRef.value.openDialog(row, state.mainTableData.data);
