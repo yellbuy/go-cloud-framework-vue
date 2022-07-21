@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="onCancel">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="120px" v-loading="loading">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-width="120px" v-loading="loading">
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="项目编号：" prop="No">
@@ -16,7 +16,7 @@
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="项目方式：" prop="ProjectType">
 							<el-select v-model="ruleForm.ProjectType" placeholder="请选择">
-								<el-option v-for="item in methodList" :key="item.Id" :label="item.Name" :value="item.Id" />
+								<el-option v-for="item in methodList" :key="item.Id" :label="item.Name" :value="item.Value" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -57,13 +57,13 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-button size="mini" type="primary" @click="onModelEdit">
+						<el-button size="small" type="primary" @click="onModelEdit(true)">
 							<el-icon>
 								<Plus />
 							</el-icon>
 							添加品目
 						</el-button>
-						<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="mini" border stripe highlight-current-row>
+						<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" fixed />
 							<el-table-column prop="Sn" label="包号" width="120" show-overflow-tooltip></el-table-column>
 							<el-table-column prop="No" label="品目号" show-overflow-tooltip></el-table-column>
@@ -72,13 +72,19 @@
 							<el-table-column prop="Qty" label="数量" show-overflow-tooltip></el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 								<template #default="scope">
-									<el-button text bg type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.BidProjectEdit'">
+									<el-button
+										text
+										bg
+										type="primary"
+										@click="onModelEdit(false, scope.row, scope.$index)"
+										v-auth:[$parent.moduleKey]="'btn.BidProjectEdit'"
+									>
 										<el-icon>
 											<Edit />
 										</el-icon>
 										{{ $t('message.action.edit') }}
 									</el-button>
-									<el-button text bg type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.BidProjectDel'">
+									<el-button text bg type="danger" @click="onModelDel(scope.$index, scope.row.Id)" v-auth:[$parent.moduleKey]="'btn.BidProjectDel'">
 										<el-icon>
 											<CloseBold />
 										</el-icon>
@@ -148,8 +154,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.BidProjectEdit', 'btn.BidProjectAdd']">{{
+					<el-button text bg @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
+					<el-button text bg type="primary" @click="onSubmit()" v-auths:[$parent.moduleKey]="['btn.BidProjectEdit', 'btn.BidProjectAdd']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
@@ -197,14 +203,6 @@ export default {
 			}
 		};
 
-		const tableData = reactive({
-			data: [],
-			loading: false,
-			param: {
-				pageNum: 1,
-				pageSize: 10000,
-			},
-		});
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -228,6 +226,14 @@ export default {
 				FinishTime: '', //投标结束时间
 				ReviewTime: '', //评选时间
 				ProjectLineList: [],
+			},
+			tableData: {
+				data: [],
+				loading: false,
+				param: {
+					pageNum: 1,
+					pageSize: 10000,
+				},
 			},
 			methodList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
@@ -280,8 +286,8 @@ export default {
 			}
 		};
 		//修改按钮
-		const onModelEdit = (item: object) => {
-			lineEditDlgRef.value.openDialog(item);
+		const onModelEdit = (isadd: boolean, item: object, index: object) => {
+			lineEditDlgRef.value.openDialog(item, isadd, index);
 		};
 		// 打开弹窗
 		const openDialog = (id: string) => {
@@ -295,92 +301,75 @@ export default {
 			}
 			state.isShowDialog = true;
 		};
-		const GetByIdRow = (Id: string) => {
-			const url = `/v1/erp/project/${Id}`;
-			request({
-				url: url,
-				method: 'get',
-			})
-				.then((res) => {
-					if (res.errcode == 0) {
-						state.ruleForm = res.data;
-						tableData.data = res.data.ProjectLineList;
-					} else {
-						ElMessage.warning(res.errmsg);
-					}
-				})
-				.catch((err) => {});
-		};
-		// 关闭弹窗
-		const closeDialog = () => {
-			proxy.$refs.ruleFormRef.resetFields();
-			state.ruleForm = {
-				Id: 0,
-				Kind: 'Bidding',
-				Name: '',
-				No: '',
-				Sn: '',
-				ProjectType: '',
-				RemoteState: 0,
-				BidFee: 0,
-				Location: '',
-				Content: '',
-				Files: '',
-				AutoSwitchState: 0,
-				StartTime: '', //报名开始时间
-				EndTime: '', //报名结束时间
-				BeginTime: '', //投标开始时间
-				FinishTime: '', //投标结束时间
-				ReviewTime: '', //评选时间
-				ProjectLineList: [],
-			};
-			tableData.data = [];
-			state.loading = false;
-			state.isShowDialog = false;
-			onLoadTable();
+		const GetByIdRow = async (Id: string) => {
+			try {
+				const res = await proxy.$api.erp.project.getById(Id);
+				if (res.errcode != 0) {
+					state.ruleForm = res.data;
+					state.tableData.data = res.data.ProjectLineList;
+					return;
+				}
+			} finally {
+				state.isShowDialog = true;
+			}
 		};
 		// 取消
 		const onCancel = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
+			state.tableData.data = [];
 			state.isShowDialog = false;
 		};
 		const onLoadTable = () => {
 			proxy.$parent.onGetTableData();
 		};
 		// 新增
-		const onSubmit = (isCloseDlg: boolean) => {
-			proxy.$refs.ruleFormRef.validate((valid: any) => {
+		const onSubmit = () => {
+			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
-					state.loading = true;
-					const url = state.ruleForm.Id > 0 ? `/v1/erp/project/${state.ruleForm.Id}` : `/v1/erp/project`;
-					state.ruleForm.Id = state.ruleForm.Id.toString();
-					state.ruleForm.ProjectLineList = tableData.data;
-					state.ruleForm.RemoteState = parseInt(state.ruleForm.RemoteState);
-					state.ruleForm.AutoSwitchState = parseInt(state.ruleForm.AutoSwitchState);
-					request({
-						url: url,
-						method: 'post',
-						data: state.ruleForm,
-					})
-						.then((res) => {
-							state.loading = false;
-							if (res.errcode == 0) {
-								if (isCloseDlg) {
-									closeDialog();
-								} else {
-									proxy.$refs.ruleFormRef.resetFields();
-									state.ruleForm.Id = 0;
-								}
-							}
-						})
-						.catch(() => {
-							state.loading = false;
-						});
+					try {
+						state.loading = true;
+						state.ruleForm.Id = state.ruleForm.Id.toString();
+						state.ruleForm.ProjectLineList = state.tableData.data;
+						state.ruleForm.RemoteState = parseInt(state.ruleForm.RemoteState);
+						state.ruleForm.AutoSwitchState = parseInt(state.ruleForm.AutoSwitchState);
+						state.ruleForm.ProjectType = parseInt(state.ruleForm.ProjectType);
+
+						const res = await proxy.$api.erp.project.save(state.ruleForm);
+						if (res.errcode == 0) {
+							onLoadTable();
+						}
+					} finally {
+						state.loading = false;
+						onCancel();
+					}
 					return false;
 				} else {
 					return false;
 				}
+			});
+		};
+		//删除
+		const onModelDel = (index: number, Id: number) => {
+			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				if (Id == 0) {
+					state.tableData.data.splice(index, 1);
+				} else {
+					try {
+						const res = await proxy.$api.erp.projectline.delete(Id);
+						if (res.errcode == 0) {
+							state.tableData.loading = false;
+						}
+					} finally {
+						state.tableData.loading = false;
+					}
+				}
+
+				return false;
 			});
 		};
 		// 页面加载时
@@ -389,16 +378,15 @@ export default {
 			proxy,
 			t,
 			openDialog,
-			closeDialog,
 			onCancel,
 			getBiddMethod,
 			onLoadTable,
 			GetByIdRow,
 			onSuccessFile,
 			onRemove,
+			onModelDel,
 			onModelEdit,
 			rules,
-			tableData,
 			lineEditDlgRef,
 			token,
 			getUserInfos,

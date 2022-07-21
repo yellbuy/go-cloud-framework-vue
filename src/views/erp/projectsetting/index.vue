@@ -1,14 +1,14 @@
 <template>
 	<div class="base-user-container">
 		<el-card shadow="hover">
-			<el-tabs v-model="activeName" type="card" class="demo-tabs" @tab-click="tabsName">
+			<el-tabs v-model="activeName" type="card" class="demo-tabs" @tab-change="tabsName">
 				<el-tab-pane label="资格评审" name="zgps">
 					<el-form :model="jsTableData.param" label-width="90px" :inline="true">
-						<el-form-item label="类别">
+						<!-- <el-form-item label="类别">
 							<el-select v-model="jsTableData.param.categoryId" class="m-2" placeholder="请选择类别" clearable>
 								<el-option v-for="item in supKindData" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
-						</el-form-item>
+						</el-form-item> -->
 						<el-form-item label="名称">
 							<el-input placeholder="请输入名称" v-model="jsTableData.param.name"> </el-input>
 						</el-form-item>
@@ -44,14 +44,15 @@
 						highlight-current-row
 					>
 						<el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip />
-						<el-table-column label="类别" show-overflow-tooltip>
+						<!-- <el-table-column label="类别" show-overflow-tooltip>
 							<template #default="scope">
 								<div v-for="(item, key) in supKindData" :key="key">
 									<span v-if="item.Id == scope.row.CategoryId">{{ item.Name }}</span>
 								</div>
 							</template>
-						</el-table-column>
-						<el-table-column prop="Name" label="名称" show-overflow-tooltip />
+						</el-table-column> -->
+						<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
+						<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
 						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button text bg type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
@@ -85,11 +86,11 @@
 				</el-tab-pane>
 				<el-tab-pane label="技术评审" name="jsps">
 					<el-form :model="jsTableData.param" label-width="90px" :inline="true">
-						<el-form-item label="类别">
+						<!-- <el-form-item label="类别">
 							<el-select v-model="zgTableData.param.categoryId" class="m-2" placeholder="请选择类别" clearable>
 								<el-option v-for="item in supKindData" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
-						</el-form-item>
+						</el-form-item> -->
 						<el-form-item label="名称">
 							<el-input placeholder="请输入名称" v-model="zgTableData.param.name"> </el-input>
 						</el-form-item>
@@ -125,14 +126,16 @@
 						highlight-current-row
 					>
 						<el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip />
-						<el-table-column label="类别" show-overflow-tooltip>
+						<!-- <el-table-column label="类别" show-overflow-tooltip>
 							<template #default="scope">
 								<div v-for="(item, key) in supKindData" :key="key">
 									<span v-if="item.Id == scope.row.CategoryId">{{ item.Name }}</span>
 								</div>
 							</template>
-						</el-table-column>
-						<el-table-column prop="Name" label="名称" show-overflow-tooltip />
+						</el-table-column> -->
+						<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
+						<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
+						<el-table-column prop="TechnicalMaxScore" label="最高评分" show-overflow-tooltip />
 						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button text bg type="primary" @click="onOpenCommondata(scope.row.Id)" v-auth:[moduleKey]="'btn.SettingEdit'">
@@ -187,14 +190,14 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 		const state = reactive({
 			moduleKey: moduleKey,
-			supKindData: [], //类型
+			// supKindData: [], //类型
 			activeName: 'zgps',
 			zgTableData: {
 				data: [],
 				total: 0,
 				loading: false,
 				param: {
-					kind: 'zgps',
+					mode: 1,
 					pageNum: 1,
 					pageSize: 20,
 					projectId: 0,
@@ -207,7 +210,7 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
-					kind: 'jsps',
+					mode: 2,
 					pageNum: 1,
 					pageSize: 20,
 					projectId: 0,
@@ -219,18 +222,17 @@ export default {
 		// 页面加载时
 		onMounted(() => {
 			onLoadTable(true);
-			getPageCategoryList({ kind: 'supplier', pageNum: 1, pageSize: 10000 }).then((res) => {
-				if (res.errcode != 0) {
-					ElMessage.warning(res.errmsg);
-					return;
-				} else {
-					state.supKindData = res.data;
-				}
-			});
+			// getPageCategoryList({ kind: 'supplier', pageNum: 1, pageSize: 10000 }).then((res) => {
+			// 	if (res.errcode != 0) {
+			// 		ElMessage.warning(res.errmsg);
+			// 		return;
+			// 	} else {
+			// 		state.supKindData = res.data;
+			// 	}
+			// });
 		});
 		//切换页面
 		const tabsName = () => {
-			console.log('点击事件');
 			onLoadTable(true);
 		};
 		//刷新表格
@@ -244,7 +246,7 @@ export default {
 		};
 		// 打开弹窗
 		const onOpenCommondata = (id: string) => {
-			commondataEditRef.value.openDialog(state.activeName, id, false);
+			commondataEditRef.value.openDialog(state.activeName, id);
 		};
 		const onResetSearch = () => {
 			if (state.activeName == 'zgps') {
@@ -258,49 +260,38 @@ export default {
 			}
 		};
 		//技术表格
-		const onGetJsTableData = (gotoFirstPage: boolean = false) => {
+		const onGetJsTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.jsTableData.param.pageNum = 1;
 			}
 			state.jsTableData.loading = true;
-			request({ url: '/v1/erp/projectsetting', method: 'get', params: state.jsTableData.param })
-				.then((res) => {
-					state.jsTableData.loading = false;
-					if (res.errcode != 0) {
-						if (res.errcode != 0) {
-							ElMessage.warning(res.errmsg);
-							return;
-						}
-					}
-					state.jsTableData.data = res.data;
-					state.jsTableData.total = res.total;
-				})
-				.catch(() => {
-					state.jsTableData.loading = false;
-				});
+			try {
+				const res = await proxy.$api.erp.projectsetting.getListByScope(state.jsTableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.jsTableData.total = res.total;
+				state.jsTableData.data = res.data;
+			} finally {
+				state.jsTableData.loading = false;
+			}
 		};
 		//查询表格数据
-		const onGetZgTableData = (gotoFirstPage: boolean = false) => {
-			console.log('执行', gotoFirstPage);
+		const onGetZgTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.zgTableData.param.pageNum = 1;
 			}
 			state.zgTableData.loading = true;
-			request({ url: '/v1/admin/erp/projectsetting', method: 'get', params: state.zgTableData.param })
-				.then((res) => {
-					state.zgTableData.loading = false;
-					if (res.errcode != 0) {
-						if (res.errcode != 0) {
-							ElMessage.warning(res.errmsg);
-							return;
-						}
-					}
-					state.zgTableData.data = res.data;
-					state.zgTableData.total = res.total;
-				})
-				.catch(() => {
-					state.zgTableData.loading = false;
-				});
+			try {
+				const res = await proxy.$api.erp.projectsetting.getListByScope(state.zgTableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.zgTableData.total = res.total;
+				state.zgTableData.data = res.data;
+			} finally {
+				state.zgTableData.loading = false;
+			}
 		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
@@ -327,34 +318,27 @@ export default {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
-			})
-				.then(() => {
-					state.zgTableData.loading = true;
-					state.jsTableData.loading = true;
-
-					const url = `/v1/common/commondata/delete/${Id}`;
-					request({
-						url: url,
-						method: 'post',
-					})
-						.then((res) => {
-							state.zgTableData.loading = false;
-							state.jsTableData.loading = false;
-							if (res.errcode == 0) {
-								if (state.activeName == 'zgps') {
-									onGetZgTableData();
-								} else if (state.activeName == 'jsps') {
-									onGetJsTableData();
-								}
+			}).then(async () => {
+				state.zgTableData.loading = true;
+				state.jsTableData.loading = true;
+				try {
+					const res = await proxy.$api.cms.article.delete(Id);
+					if (res.errcode == 0) {
+						if (res.errcode == 0) {
+							if (state.activeName == 'zgps') {
+								onGetZgTableData();
+							} else if (state.activeName == 'jsps') {
+								onGetJsTableData();
 							}
-						})
-						.catch((err) => {
-							state.zgTableData.loading = false;
-							state.jsTableData.loading = false;
-						});
-					return false;
-				})
-				.catch((err) => {});
+						}
+					}
+				} finally {
+					state.zgTableData.loading = false;
+					state.jsTableData.loading = false;
+				}
+
+				return false;
+			});
 		};
 		return {
 			commondataEditRef,

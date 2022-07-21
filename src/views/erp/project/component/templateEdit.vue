@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="130px" v-loading="loading">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-width="130px" v-loading="loading">
 				<el-form-item label="评审内容" prop="Content">
 					<el-input v-model="ruleForm.Content"></el-input>
 				</el-form-item>
