@@ -123,23 +123,21 @@ export default {
 		};
 
 		// 初始化表格数据
-		const onGetTableData = (gotoFirstPage: boolean = false) => {
+		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
 			state.tableData.loading = true;
-			request({ url: '/v1/erp/project', method: 'get', params: state.tableData.param })
-				.then((res) => {
-					state.tableData.loading = false;
-					if (res.errcode != 0) {
-						return;
-					}
-					state.tableData.data = res.data;
-					state.tableData.total = res.total;
-				})
-				.catch(() => {
-					state.tableData.loading = false;
-				});
+			try {
+				const res = await proxy.$api.erp.project.getListByScope(state.tableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.tableData.data = res.data;
+				state.tableData.total = res.total;
+			} finally {
+				state.tableData.loading = false;
+			}
 		};
 		// 打开修改用户弹窗
 		const onModelEdit = (Id: number) => {
@@ -151,26 +149,18 @@ export default {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
-			})
-				.then(() => {
-					state.tableData.loading = true;
-					const url = `/v1/erp/project/delete/${Id}`;
-					request({
-						url: url,
-						method: 'post',
-					})
-						.then((res) => {
-							state.tableData.loading = false;
-							if (res.errcode == 0) {
-								onGetTableData();
-							}
-						})
-						.catch((err) => {
-							state.tableData.loading = false;
-						});
-					return false;
-				})
-				.catch((err) => {});
+			}).then(async () => {
+				state.tableData.loading = true;
+				try {
+					const res = await proxy.$api.erp.project.delete(Id);
+					if (res.errcode == 0) {
+						onGetTableData();
+					}
+				} finally {
+					state.tableData.loading = false;
+				}
+				return false;
+			});
 		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
