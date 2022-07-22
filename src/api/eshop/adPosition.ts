@@ -33,7 +33,7 @@ export default {
 	 * @returns 返回接口数据
 	 */
 	insert:async(data:object)=>{
-		const url=`/v1/admin/eshop/ad`;
+		const url=`/v1/admin/eshop/adposition`;
 		return await http.post(url, data);
 	},
 	/**
@@ -52,7 +52,7 @@ export default {
 	 */
 	save:async(data:object)=>{
 		if(!data.Id||data.Id=="0"){
-			const url=`/v1/admin/eshop/ad`;
+			const url=`/v1/admin/eshop/adposition`;
 			return await http.post(url, data);
 		}
 		const url=`/v1/admin/eshop/adposition/${data.Id}`;

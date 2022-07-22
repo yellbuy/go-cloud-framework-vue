@@ -30,10 +30,9 @@
 						v-loading="mainTableData.loading"
 						:height="proxy.$calcMainHeight(-35)"
 						@cell-click="onMainCellClick"
-						default-expand-all
+						border
 						stripe
 						highlight-current-row
-						:tree-props="{ children: 'Children' }"
 					>
 						<el-table-column prop="PositionName" label="广告位名称" show-overflow-tooltip :width="100"> </el-table-column>
 						<el-table-column prop="AdWidth" label="宽度" :width="50" align="right"> </el-table-column>
@@ -44,7 +43,7 @@
 								<el-button
 									type="text"
 									v-if="mainTableData.data"
-									@click="proxy.$api.common.table.update('ad_position', 'Order', mainTableData.data || [], 0)"
+									@click="proxy.$api.common.table.update('eshop_ad_position', 'Order', mainTableData.data || [], 0)"
 									v-auth:[moduleKey]="'btn.PositionEdit'"
 								>
 									<el-icon>
@@ -110,16 +109,16 @@
 					>
 						<el-table-column type="index" label="序号" align="right" width="70" />
 
-						<el-table-column prop="GoodsImg" label="封面图" width="60" align="center">
+						<el-table-column prop="ImgUrl" label="封面图" width="70" align="center">
 							<template #default="scope">
 								<el-image
-									v-if="scope.row.GoodsImg"
+									v-if="scope.row.ImgUrl"
 									lazy
 									preview-teleported
-									style="width: 20px; height: 20px"
-									:src="proxy.$utils.staticUrlParse(scope.row.GoodsImg)"
+									style="width: 50px; height: 50px"
+									:src="proxy.$utils.staticUrlParse(scope.row.ImgUrl)"
 									hide-on-click-modal
-									:preview-src-list="[proxy.$utils.staticUrlParse(scope.row.GoodsImg)]"
+									:preview-src-list="[proxy.$utils.staticUrlParse(scope.row.ImgUrl)]"
 									:initial-index="0"
 									fit="cover"
 								>
@@ -133,14 +132,15 @@
 								</el-image>
 							</template>
 						</el-table-column>
-						<el-table-column prop="GoodsName" label="名称" width="200"> </el-table-column>
-						<el-table-column prop="Enabled" label="有效" width="80" align="center">
+						<el-table-column prop="AdName" label="广告名称" width="150"> </el-table-column>
+						<el-table-column prop="AdPosition.PositionName" label="广告位" width="120"> </el-table-column>
+						<el-table-column prop="Enabled" label="开启" width="80" align="center">
 							<template #default="scope">
 								<el-switch
-									v-model="scope.row.IsOnSale"
+									v-model="scope.row.Enabled"
 									inline-prompt
 									v-auth:[moduleKey]="'btn.AdEdit'"
-									@change="proxy.$api.common.table.updateById('eshop_ad', 'enabled', scope.row.Id, scope.row.Enabled)"
+									@change="proxy.$api.common.table.updateById('eshop_ad', 'Enabled', scope.row.Id, scope.row.Enabled)"
 									:active-text="$t('message.action.yes')"
 									:inactive-text="$t('message.action.no')"
 									:active-value="1"
@@ -179,7 +179,10 @@
 								<span v-no-auth:[moduleKey]="'btn.AdEdit'">{{ scope.row.Order }}</span>
 							</template>
 						</el-table-column>
-
+						<el-table-column prop="StartTime" label="开始时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="EndTime" label="结束时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="ExpireTime" label="过期时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="ClickCount" label="点击数" width="80" align="right"></el-table-column>
 						<el-table-column prop="Id" label="标识" width="160" align="right"> </el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 							<template #default="scope">
@@ -192,7 +195,7 @@
 										<el-icon><Edit /></el-icon>
 										&#8197;{{ $t('message.action.edit') }}
 									</el-button>
-									<el-button text bg type="danger" @click="onChildRowDel(scope.row)" v-auth:[moduleKey]="'btn.GoodsDel'">
+									<el-button text bg type="danger" @click="onChildRowDel(scope.row)" v-auth:[moduleKey]="'btn.AdDel'">
 										<el-icon><CloseBold /></el-icon>
 										&#8197;{{ $t('message.action.delete') }}
 									</el-button>
@@ -234,11 +237,11 @@ import other from '/@/utils/other';
 import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 export default {
-	name: 'eshopGoodsVirtualList',
+	name: 'eshopAdList',
 	components: { dlgMainEdit, dlgChildEdit, Splitpanes, Pane },
 	setup() {
 		const route = useRoute();
-		const kind = route.params.kind||0;
+		const kind = parseInt(route.params.kind)||0;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_eshop_ad_${kind}`;
@@ -309,7 +312,7 @@ export default {
 		};
 		// 删除记录
 		const onMainRowDel = (row: Object) => {
-			ElMessageBox.confirm(`确定要删除记录“${row.Name}”吗?`, '提示', {
+			ElMessageBox.confirm(`确定要删除记录“${row.PositionName}”吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
@@ -329,7 +332,7 @@ export default {
 
 		const onMainCellClick = async (row: any, column: any, cell: any, event: any) => {
 			console.log(column);
-			state.childTableData.param.adPositionId = row.Id || '0';
+			state.childTableData.param.positionId = row.Id || '0';
 			onGetChildTableData();
 			// if(row && column.property=="Title"){
 			// 	// const res=await proxy.$api.cms.article.getById(row.Id)
@@ -386,7 +389,7 @@ export default {
 				const model = JSON.parse(JSON.stringify(row));
 				model.Id = '0';
 				model.Key = '';
-				const res = await proxy.$api.eshop.goods.save(model);
+				const res = await proxy.$api.eshop.ad.save(model);
 				if (res.errcode == 0) {
 					onGetChildTableData();
 				}
@@ -396,23 +399,25 @@ export default {
 		// 打开修改弹窗
 		const onOpenChildEditDlg = async (row: Object) => {
 			if (!row) {
-				row = { Kind: state.kind, SpecialId: '0' };
-				if (state.childTableData.param.adPositionId != '0') {
-					row.adPositionId = state.childTableData.param.adPositionId;
+				row = { Kind: state.kind, Enabled: 1, Order: 50 };
+				if (state.childTableData.param.positionId != '0') {
+					row.PositionId = state.childTableData.param.positionId;
 				}
+			} else {
+				row.PositionId = row.AdPosition && row.AdPosition.Id || row.PositionId;
 			}
 			dlgChildEditRef.value.openDialog(row, state.mainTableData.data);
 		};
 		// 删除记录
 		const onChildRowDel = (row: Object) => {
-			ElMessageBox.confirm(`确定要删除记录“${row.GoodsName}”吗?`, '提示', {
+			ElMessageBox.confirm(`确定要删除记录“${row.AdName}”吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
 				state.childTableData.loading = true;
 				try {
-					const res = await proxy.$api.eshop.goods.delete(row.Id);
+					const res = await proxy.$api.eshop.ad.delete(row.Id);
 					if (res.errcode == 0) {
 						onGetChildTableData();
 					}
