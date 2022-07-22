@@ -30,7 +30,7 @@
 						</el-icon>
 						{{ $t('message.action.add') }}
 					</el-button>
-					<el-button size="small" @click="onOpenItemDialog()">
+					<el-button size="small" @click="onOpenListDialog('zgps')">
 						<el-icon><Edit /></el-icon>
 						获取
 					</el-button>
@@ -49,7 +49,13 @@
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button text bg type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
+						<el-button
+							text
+							bg
+							type="danger"
+							@click="onModelDel('zgps', scope.$index, scope.row.Id)"
+							v-auth:[$parent.moduleKey]="'btn.SettingLineDel'"
+						>
 							<el-icon>
 								<CloseBold />
 							</el-icon>
@@ -67,7 +73,7 @@
 						</el-icon>
 						{{ $t('message.action.add') }}
 					</el-button>
-					<el-button size="small" @click="onOpenItemDialog()">
+					<el-button size="small" @click="onOpenListDialog('jsps')">
 						<el-icon><Edit /></el-icon>
 						获取
 					</el-button>
@@ -81,13 +87,19 @@
 				<el-table-column prop="TechnicalMaxScore" label="最高分数" show-overflow-tooltip />
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="primary" @click="onOpenItemDialog('zgps', false, scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
+						<el-button text bg type="primary" @click="onOpenItemDialog('jsps', false, scope.row)" v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'">
 							<el-icon>
 								<Edit />
 							</el-icon>
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button text bg type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.SettingLineDel'">
+						<el-button
+							text
+							bg
+							type="danger"
+							@click="onModelDel('jsps', scope.$index, scope.row.Id)"
+							v-auth:[$parent.moduleKey]="'btn.SettingLineDel'"
+						>
 							<el-icon>
 								<CloseBold />
 							</el-icon>
@@ -97,15 +109,45 @@
 				</el-table-column>
 			</el-table>
 			<el-divider content-position="left">经济评审</el-divider>
-			<!-- <el-form ref="categoryFormRef" :model="ruleForm" :rules="categoryrules" size="small" label-width="130px" v-loading="loading">
-				<el-form-item label="Resources">
-					<el-radio-group v-model="form.resource">
-						<el-radio label="Sponsor"></el-radio>
-						<el-radio label="Venue"></el-radio>
-					</el-radio-group>
-				</el-form-item>
-				<el-form-item label="数量：" prop="Qty"><el-input-number v-model="ruleForm.Qty" :min="0" controls-position="right" /> </el-form-item>
-			</el-form> -->
+			<el-form ref="jjFormRef" :model="jjForm" size="small" label-width="130px" v-loading="loading">
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"
+						><el-form-item label="采购控制价：" prop="PurchasePrice"
+							><el-input-number v-model="jjForm.PurchasePrice" :min="0" controls-position="right" :precision="2" /> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"
+						><el-form-item label="价格评审得分策略：">
+							<el-radio-group v-model="jjForm.ScoreMode">
+								<el-radio :label="0">价格排名打分</el-radio>
+								<el-radio :label="1">基础价格打分</el-radio>
+							</el-radio-group>
+						</el-form-item></el-col
+					>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="jjForm.ScoreMode == 0">
+						<h3>评审价格从低至高排列（最低价为第一名），第一名供应商价格得分为满分；</h3>
+						<h3>
+							从第二名起，价格得分减少<span><el-input-number v-model="jjForm.PriceScore" :min="0" :max="100" controls-position="right" /> </span
+							>分。超出采购控制价的供应商得零分。
+						</h3>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="jjForm.ScoreMode == 1">
+						<h3>
+							价格评审最高分的<span><el-input-number v-model="jjForm.PricePercentage" :min="0" :max="100" controls-position="right" /> </span>
+							%为基础价格得分;
+						</h3>
+						<h3>
+							评审报价比招标控制价每下浮1个百分点，则得分增加<span
+								><el-input-number v-model="jjForm.QualificationScore" :min="0" :max="100" controls-position="right" />
+							</span>
+							分;
+						</h3>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<h3>本项目技术评审最高分：{{ jjForm.TechnicalScore }}分，最终评审价格最高分：{{ jjForm.TechnicalMaxScore }} 分。</h3>
+						<h3>如需修改请返回调整技术评审各得分项。</h3>
+					</el-col>
+				</el-row>
+			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
@@ -115,12 +157,14 @@
 		</el-dialog>
 	</div>
 	<editItemDlg ref="editItemDlgRef" />
+	<editLineListDlg ref="editLineListDlgRef" />
 </template>
 
 <script lang="ts">
 import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import editItemDlg from './templateEdit.vue';
+import editLineListDlg from './projectLineList.vue';
 
 import { ElMessageBox, ElMessage } from 'element-plus';
 export default {
@@ -129,6 +173,8 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		const editItemDlgRef = ref();
+		const editLineListDlgRef = ref();
+
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -143,6 +189,18 @@ export default {
 				Sn: '',
 				Remark: '',
 				Qty: 0,
+				ProjectSettingLineList: [],
+			},
+			jjForm: {
+				Id: '0',
+				Kind: 'jjps',
+				PurchasePrice: 0, //采购控制价
+				ScoreMode: 0, //价格得分模式
+				PriceScore: 0, //价格得分减少
+				PricePercentage: 50, //价格百分比
+				QualificationScore: 0, //价格分数
+				TechnicalScore: 0,
+				TechnicalMaxScore: 0,
 			},
 			zgTableData: {
 				data: [],
@@ -187,9 +245,23 @@ export default {
 		// 打开弹窗
 		const openDialog = (item: object, isAdd: boolean, index: number) => {
 			state.isadd = isAdd;
+			console.log('获取到的数据', item);
 			if (!state.isadd) {
 				state.index = index;
 				state.ruleForm = JSON.parse(JSON.stringify(item));
+				if (state.ruleForm.ProjectSettingLineList) {
+					for (let item of state.ruleForm.ProjectSettingLineList) {
+						if (item.Kind == 'zgps') {
+							state.zgTableData.data.push(item);
+						} else if (item.Kind == 'jsps') {
+							state.jsTableData.data.push(item);
+						} else if (item.Kind == 'jjps') {
+							state.jjForm = item;
+						}
+					}
+				}
+				//计算得分
+				getScore();
 				state.title = t('message.action.edit');
 			} else {
 				state.ruleForm.Id = '0';
@@ -202,15 +274,52 @@ export default {
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
+			proxy.$refs.jjFormRef.resetFields();
+			state.jjForm = {
+				Id: '0',
+				Kind: 'jjps',
+				PurchasePrice: 0, //采购控制价
+				ScoreMode: 0, //价格得分模式
+				PriceScore: 0, //价格得分减少
+				PricePercentage: 50, //价格百分比
+				QualificationScore: 0, //价格分数
+				TechnicalScore: 0,
+				TechnicalMaxScore: 0,
+			};
+			state.ruleForm = {
+				Id: '0',
+				Name: '',
+				Kind: 'project_category',
+				No: '',
+				Sn: '',
+				Remark: '',
+				Qty: 0,
+				ProjectSettingLineList: [],
+			};
+			console.log('清除');
 			state.zgTableData.data = [];
 			state.jsTableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
 		};
+		const getScore = () => {
+			if (state.jsTableData.data && state.jsTableData.data.length > 0) {
+				console.log(state.jjForm);
+				state.jjForm.TechnicalScore = 0;
+				for (let item of state.jsTableData.data) {
+					state.jjForm.TechnicalScore += item.TechnicalMaxScore;
+				}
+				state.jjForm.TechnicalMaxScore = state.jsTableData.data[0].TechnicalMaxScore * 2 - state.jjForm.TechnicalScore;
+			}
+		};
 		// 新增
 		const onSubmit = () => {
 			proxy.$refs.ruleFormRef.validate((valid: any) => {
 				if (valid) {
+					console.log('提交', proxy.$parent.tableData);
+					state.ruleForm.ProjectSettingLineList = [...state.zgTableData.data, ...state.jsTableData.data];
+					state.jjForm.Id = state.jjForm.Id.toString();
+					state.ruleForm.ProjectSettingLineList.push(state.jjForm);
 					let item = JSON.parse(JSON.stringify(state.ruleForm));
 					if (state.isadd) {
 						proxy.$parent.tableData.data.push(item);
@@ -224,12 +333,44 @@ export default {
 				}
 			});
 		};
+		//删除
+		const onModelDel = (kind: string, index: number, Id: number) => {
+			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				if (Id == 0) {
+					if (kind == 'jsps') {
+						state.jsTableData.data.splice(index, 1);
+					} else if (kind == 'zgps') {
+						state.zgTableData.data.splice(index, 1);
+					}
+				} else {
+					try {
+						const res = await proxy.$api.erp.projectsettingline.delete(Id);
+						if (res.errcode == 0) {
+							if (kind == 'jsps') {
+								state.jsTableData.data.splice(index, 1);
+							} else if (kind == 'zgps') {
+								state.zgTableData.data.splice(index, 1);
+							}
+						}
+					} finally {
+					}
+				}
+				return false;
+			});
+		};
 		const onOpenItemDialog = (kind: string, isAdd: boolean, item: object) => {
 			// let model = {};
 			// if (item) {
 			// 	model = JSON.parse(JSON.stringify(item));
 			// }
 			editItemDlgRef.value.openDialog(kind, isAdd, item);
+		};
+		const onOpenListDialog = (kind: string) => {
+			editLineListDlgRef.value.openDialog(kind);
 		};
 		// 页面加载时
 		onMounted(() => {});
@@ -238,15 +379,20 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
+			getScore,
+			onModelDel,
 			rules,
 			editItemDlgRef,
+			editLineListDlgRef,
 			onOpenItemDialog,
+			onOpenListDialog,
 			onSubmit,
 			...toRefs(state),
 		};
 	},
 	components: {
 		editItemDlg,
+		editLineListDlg,
 	},
 };
 </script>

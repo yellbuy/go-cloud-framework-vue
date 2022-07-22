@@ -40,20 +40,24 @@
 							<el-input v-model="ruleForm.Content"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="项目附件：" prop="Files">
-							<el-upload
-								class="upload-demo"
-								:action="uploadURL"
-								:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-								:on-success="onSuccessFile"
-								:file-list="FilesList"
-								:on-remove="onRemove"
-							>
-								<el-button
-									><el-icon class="el-icon--right"><Upload /></el-icon>上传</el-button
+							<div style="width: 50%">
+								<el-upload
+									class="upload-demo"
+									:action="uploadURL"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onSuccessFile"
+									:file-list="FilesList"
+									:on-remove="onRemove"
 								>
-							</el-upload>
+									<template #default>
+										<el-button
+											><el-icon class="el-icon--right"><Upload /></el-icon>上传</el-button
+										>
+									</template>
+								</el-upload>
+							</div>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -67,7 +71,7 @@
 							<el-table-column type="index" label="序号" align="right" width="70" fixed />
 							<el-table-column prop="Sn" label="包号" width="120" show-overflow-tooltip></el-table-column>
 							<el-table-column prop="No" label="品目号" show-overflow-tooltip></el-table-column>
-							<el-table-column prop="Name" label="设备名称" show-overflow-tooltip></el-table-column>
+							<el-table-column prop="Name" label="名称" show-overflow-tooltip></el-table-column>
 							<el-table-column prop="Remark" label="备注" show-overflow-tooltip></el-table-column>
 							<el-table-column prop="Qty" label="数量" show-overflow-tooltip></el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
@@ -77,14 +81,14 @@
 										bg
 										type="primary"
 										@click="onModelEdit(false, scope.row, scope.$index)"
-										v-auth:[$parent.moduleKey]="'btn.BidProjectEdit'"
+										v-auth:[$parent.moduleKey]="'btn.ProjectLineEdit'"
 									>
 										<el-icon>
 											<Edit />
 										</el-icon>
 										{{ $t('message.action.edit') }}
 									</el-button>
-									<el-button text bg type="danger" @click="onModelDel(scope.$index, scope.row.Id)" v-auth:[$parent.moduleKey]="'btn.BidProjectDel'">
+									<el-button text bg type="danger" @click="onModelDel(scope.$index, scope.row.Id)" v-auth:[$parent.moduleKey]="'btn.ProjectLineDel'">
 										<el-icon>
 											<CloseBold />
 										</el-icon>
@@ -155,7 +159,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit()" v-auths:[$parent.moduleKey]="['btn.BidProjectEdit', 'btn.BidProjectAdd']">{{
+					<el-button text bg type="primary" @click="onSubmit()" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
@@ -180,7 +184,7 @@ export default {
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
-
+		const moduleKey = proxy.$parent.moduleKey;
 		const lineEditDlgRef = ref();
 		const store = useStore();
 		const getUserInfos = computed(() => {
@@ -191,7 +195,7 @@ export default {
 			state.Files.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			state.FilesList.push(image);
+			// state.FilesList.push(image);
 		};
 		//删除上传文件
 		const onRemove = (file: UploadFile) => {
@@ -204,12 +208,13 @@ export default {
 		};
 
 		const state = reactive({
+			moduleKey,
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
 			ruleForm: {
 				Id: 0,
-				Kind: 'Bidding',
+				Kind: '',
 				Name: '',
 				No: '',
 				Sn: '',
@@ -225,6 +230,7 @@ export default {
 				BeginTime: '', //投标开始时间
 				FinishTime: '', //投标结束时间
 				ReviewTime: '', //评选时间
+				BidOpenTime: '',
 				ProjectLineList: [],
 			},
 			tableData: {
@@ -290,7 +296,7 @@ export default {
 			lineEditDlgRef.value.openDialog(item, isadd, index);
 		};
 		// 打开弹窗
-		const openDialog = (id: string) => {
+		const openDialog = (kind: string, id: string) => {
 			getBiddMethod();
 			if (id != '0') {
 				GetByIdRow(id);
@@ -299,15 +305,28 @@ export default {
 				state.ruleForm.Id = 0;
 				state.title = t('message.action.add');
 			}
+			state.ruleForm.Kind = kind;
 			state.isShowDialog = true;
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.project.getById(Id);
 				if (res.errcode != 0) {
-					state.ruleForm = res.data;
-					state.tableData.data = res.data.ProjectLineList;
 					return;
+				}
+				state.ruleForm = res.data;
+				res.data.ProjectType = res.data.ProjectType.toString();
+				if (res.data.ProjectLineList) {
+					state.tableData.data = res.data.ProjectLineList;
+				}
+				if (state.ruleForm.Files != '') {
+					state.Files = res.data.Files.split(',');
+					state.FilesList = [];
+					for (let i = 0; i < state.Files.length; i++) {
+						let image = { url: '' };
+						image.url = state.httpsText + state.Files[i];
+						state.FilesList.push(image);
+					}
 				}
 			} finally {
 				state.isShowDialog = true;
@@ -328,20 +347,24 @@ export default {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					try {
+						if (state.Files) {
+							state.ruleForm.Files = state.Files.join(',');
+						}
 						state.loading = true;
 						state.ruleForm.Id = state.ruleForm.Id.toString();
 						state.ruleForm.ProjectLineList = state.tableData.data;
 						state.ruleForm.RemoteState = parseInt(state.ruleForm.RemoteState);
 						state.ruleForm.AutoSwitchState = parseInt(state.ruleForm.AutoSwitchState);
 						state.ruleForm.ProjectType = parseInt(state.ruleForm.ProjectType);
-
+						state.ruleForm.BidOpenTime = state.ruleForm.BeginTime;
+						state.ruleForm.ProjectLineList = state.tableData.data;
 						const res = await proxy.$api.erp.project.save(state.ruleForm);
 						if (res.errcode == 0) {
 							onLoadTable();
+							onCancel();
 						}
 					} finally {
 						state.loading = false;
-						onCancel();
 					}
 					return false;
 				} else {

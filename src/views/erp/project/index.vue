@@ -22,7 +22,7 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button type="primary" @click="onModelEdit(0)" v-auth:[moduleKey]="'btn.BidProjectAdd'">
+						<el-button type="primary" @click="onModelEdit(0)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -43,20 +43,24 @@
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="No" label="比选编号" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="leix" label="比选类型" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="leix" label="比选类型" show-overflow-tooltip>
+					<template #default="scope">
+						{{ methodList[scope.row.ProjectType] }}
+					</template>
+				</el-table-column>
 				<el-table-column prop="Name" label="比选项目" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="fanwei" label="比选范围" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="EndTime" label="报名截止日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="ReviewTime" label="评选日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.BidProjectEdit'">
+						<el-button text bg type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<Edit />
 							</el-icon>
 							&#8197;{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.BidProjectDel'">
+						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<CloseBold />
 							</el-icon>
@@ -89,17 +93,24 @@ import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import editDlg from './component/projectEdit.vue';
-
+import { useRoute } from 'vue-router';
 export default {
 	name: 'baseRoles',
 	components: { editDlg },
 	setup() {
-		const moduleKey = 'api_pro_bidproject';
+		const route = useRoute();
+		const kind = route.params.kind;
+		const scopeMode = route.params.scopeMode || 0;
+		const scopeValue = route.params.scopeValue || 0;
+		const moduleKey = `api_pro_project_${kind}`;
 		const { proxy } = getCurrentInstance() as any;
 
 		const editDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
+			kind,
+			scopeMode,
+			scopeValue,
 			tableData: {
 				data: [],
 				total: 0,
@@ -111,6 +122,7 @@ export default {
 					pageSize: 20,
 				},
 			},
+			methodList: {},
 		});
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
@@ -121,7 +133,22 @@ export default {
 			state.tableData.param.no = '';
 			onGetTableData(true);
 		};
-
+		//招标方式
+		const getBiddMethod = async () => {
+			try {
+				const res = await proxy.$api.common.commondata.getList({ type: 'xmfs', pateSize: 100000 });
+				if (res.errcode == 0) {
+					if (res.data.length > 0) {
+						for (let item of res.data) {
+							state.methodList[parseInt(item.Value)] = item.Name;
+						}
+						console.log(state.methodList);
+					}
+				}
+			} finally {
+				// state.methodList = [];
+			}
+		};
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
@@ -129,7 +156,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.project.getListByScope(state.tableData.param);
+				const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -141,7 +168,7 @@ export default {
 		};
 		// 打开修改用户弹窗
 		const onModelEdit = (Id: number) => {
-			editDlgRef.value.openDialog(Id);
+			editDlgRef.value.openDialog(state.kind, Id);
 		};
 		// 删除用户
 		const onModelDel = (Id: number) => {
@@ -172,6 +199,7 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
+			getBiddMethod();
 			onGetTableData();
 		});
 
@@ -187,6 +215,7 @@ export default {
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
+			getBiddMethod,
 			...toRefs(state),
 		};
 	},

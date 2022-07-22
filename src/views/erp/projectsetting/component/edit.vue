@@ -86,9 +86,9 @@ export default {
 			try {
 				const res = await proxy.$api.erp.projectsetting.getById(Id);
 				if (res.errcode != 0) {
-					state.ruleForm = res.data;
 					return;
 				}
+				state.ruleForm = res.data;
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -96,6 +96,14 @@ export default {
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.clearValidate();
+			state.ruleForm = {
+				Id: '0',
+				Kind: 'zgps',
+				Content: '',
+				Standard: '',
+				TechnicalMaxScore: 0,
+				SettingType: 1,
+			};
 			state.loading = false;
 			state.isShowDialog = false;
 		};

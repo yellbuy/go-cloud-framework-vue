@@ -10,16 +10,17 @@ export default {
      * @param params 要传的参数值
      * @returns 返回接口数据
      */
-    getListByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
-        const url = `/v1/admin/erp/project/${kind}/${scopeMode}/${scopeValue}`;
+    getListByScope: async (params: object = {}) => {
+        const url = `/v1/admin/erp/projectsettingline`;
         return await http.get(url, params);
     },
+
     /**
      * 获取信息
      * @returns 返回接口数据
      */
     getById: async (id: number | string) => {
-        const url = `/v1/admin/erp/project/${id}`;
+        const url = `/v1/admin/erp/projectsettingline/${id}`;
         return await http.get(url);
     },
 
@@ -30,10 +31,10 @@ export default {
      */
     save: async (data: object) => {
         if (!data.Id || data.Id == "0") {
-            const url = `/v1/admin/erp/project`;
+            const url = `/v1/admin/erp/projectsettingline`;
             return await http.post(url, data);
         }
-        const url = `/v1/admin/erp/project/${data.Id}`;
+        const url = `/v1/admin/erp/projectsettingline/${data.Id}`;
         return await http.post(url, data);
     },
 
@@ -43,7 +44,7 @@ export default {
      * @returns 返回接口数据
      */
     delete: async (id: number | string) => {
-        const url = `/v1/admin/erp/project/delete/${id}`;
+        const url = `/v1/admin/erp/projectsettingline/delete/${id}`;
         return await http.post(url);
     },
     /**
@@ -52,7 +53,7 @@ export default {
    * @returns 返回接口数据
    */
     disable: async (data: object) => {
-        const url = `/v1/admin/erp/project/disable`;
+        const url = `/v1/admin/erp/projectsettingline/disable`;
         return await http.post(url, data);
     },
 }

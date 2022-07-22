@@ -94,8 +94,7 @@ export default {
 		const onSubmit = () => {
 			proxy.$refs.ruleFormRef.validate((valid: any) => {
 				if (valid) {
-					console.log(state.ruleForm);
-					console.log(proxy.$parent.zgTableData);
+					state.ruleForm.Id = state.ruleForm.Id.toString();
 					if (state.ruleForm.Kind == 'zgps') {
 						if (state.editState) {
 							console.log('执行', proxy.$parent.zgTableData.data);
@@ -105,6 +104,7 @@ export default {
 						if (state.editState) {
 							proxy.$parent.jsTableData.data.push(state.ruleForm);
 						}
+						proxy.$parent.getScore();
 					}
 					closeDialog();
 					return false;
