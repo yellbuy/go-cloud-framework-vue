@@ -1,200 +1,168 @@
 <template>
 	<div class="eshop-edit-ad-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="60%">
+		<el-dialog :title="title" v-model="isShowDialog" width="80%">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading">
-				<el-tabs type="border-card" ref="tabsRef">
-					<el-tab-pane :key="0" label="基本">
-						<el-row :gutter="10">
-							<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-								<el-form-item label="名称" prop="GoodsName">
-									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="请输入名称" maxlength="100" clearable></el-input>
-								</el-form-item>
-								<el-form-item label="所属类别" prop="CategoryId">
-									<el-tree-select
-										v-model="ruleForm.CategoryId"
-										placeholder="请选择父级"
-										default-expand-all
-										node-key="Id"
-										:value-key="Id"
-										:current-node-key="ruleForm.CategoryId"
-										:data="cateList"
-										:props="{ label: 'Name', value: 'Id', children: 'Children' }"
-										check-strictly
-									/>
-								</el-form-item>
-								<el-form-item label="货号/编码" prop="GoodsSn">
-									<el-input v-model="ruleForm.GoodsSn" autofocus placeholder="请输入货号代码" maxlength="50" clearable></el-input>
-								</el-form-item>
-								<el-form-item label="在售" prop="IsOnSale">
-									<el-col :span="2">
-										<el-switch
-											v-model="ruleForm.IsOnSale"
-											inline-prompt
-											:active-text="$t('message.action.yes')"
-											:inactive-text="$t('message.action.no')"
-											:active-value="1"
-											:inactive-value="0"
-										/>
-									</el-col>
-									<el-col :span="6" class="text-right"> 推荐： </el-col>
-									<el-col :span="2">
-										<el-switch
-											v-model="ruleForm.IsTop"
-											inline-prompt
-											:active-text="$t('message.action.yes')"
-											:inactive-text="$t('message.action.no')"
-											:active-value="1"
-											:inactive-value="0"
-										/>
-									</el-col>
-									<el-col :span="6" class="text-right"> 排序： </el-col>
-									<el-col :span="8">
-										<el-input-number v-model="ruleForm.Order" :precision="0" :step="10" :min="0" />
-									</el-col>
-								</el-form-item>
-								<el-form-item label="兑换商品" prop="IsExchange">
-									<el-col :span="8">
-										<el-switch
-											v-model="ruleForm.IsExchange"
-											inline-prompt
-											:active-text="$t('message.action.yes')"
-											:inactive-text="$t('message.action.no')"
-											:active-value="1"
-											:inactive-value="0"
-										/>
-									</el-col>
-									<el-col :span="8" class="text-right"> 消耗积分/金币： </el-col>
-									<el-col :span="8">
-										<el-input-number v-model="ruleForm.ExchangeIntegral" :precision="0" :step="1" :min="0" />
-									</el-col>
-								</el-form-item>
-								<el-form-item label="原价" prop="MarketPrice">
-									<el-col :span="8">
-										<el-input-number v-model="ruleForm.MarketPrice" :precision="2" :step="1" :min="0" />
-									</el-col>
-									<el-col :span="8" class="text-right"> 现价： </el-col>
-									<el-col :span="8">
-										<el-input-number v-model="ruleForm.ShopPrice" :precision="2" :step="1" :min="0" />
-									</el-col>
-								</el-form-item>
-							</el-col>
-							<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-								<el-form-item label="视频源" prop="GoodsVideo">
-									<el-input v-model="ruleForm.GoodsVideo" autofocus placeholder="请填写视频源地址" maxlength="255" clearable></el-input>
-								</el-form-item>
-								<el-form-item label="封面图" prop="GoodsImg">
-									<el-input v-model="ruleForm.GoodsImg" placeholder="上传或输入" maxlength="255" clearable></el-input>
-									<div class="mt10" style="border: 1px gray dashed">
-										<el-upload
-											class="avatar-uploader"
-											:action="`${baseUrl}/v1/file/upload`"
-											name="file"
-											:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-											:show-file-list="false"
-											:on-success="onImageUploadSuccess"
-											:before-upload="onBeforeImageUpload"
-										>
-											<img v-if="ruleForm.GoodsImg" :src="proxy.$utils.staticUrlParse(ruleForm.GoodsImg)" width="150" height="150" class="avatar" />
-											<SvgIcon v-else name="fa fa-plus" class="avatar-uploader-icon" />
-										</el-upload>
-									</div>
-								</el-form-item>
-							</el-col>
-						</el-row>
-					</el-tab-pane>
-					<el-tab-pane :key="1" label="详情">
-						<vue-ueditor-wrap
-							:editor-id="`editor-goods-desc`"
-							:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js', 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css']"
-							v-model="ruleForm.GoodsDesc"
-							:config="{
-								UEDITOR_HOME_URL: '/ueditor/',
-								serverUrl: `${baseUrl}/v1/common/editor/${getUserInfos.appid}`,
-								headers: { Authorization: token, Appid: getUserInfos.appid },
-							}"
-						></vue-ueditor-wrap>
-					</el-tab-pane>
-					<el-tab-pane :key="2" label="扩展">
-						<el-form-item label="精品" prop="IsBest">
-							<el-col :span="3">
-								<el-switch
-									v-model="ruleForm.IsBest"
-									inline-prompt
-									:active-text="$t('message.action.yes')"
-									:inactive-text="$t('message.action.no')"
-									:active-value="1"
-									:inactive-value="0"
-								/>
-							</el-col>
-							<el-col :span="3" class="text-right"> 新品： </el-col>
-							<el-col :span="3">
-								<el-switch
-									v-model="ruleForm.IsNew"
-									inline-prompt
-									:active-text="$t('message.action.yes')"
-									:inactive-text="$t('message.action.no')"
-									:active-value="1"
-									:inactive-value="0"
-								/>
-							</el-col>
+				<el-row :gutter="10">
+					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+						<el-form-item label="名称" prop="AdName">
+							<el-input v-model="ruleForm.AdName" autofocus placeholder="请输入名称" maxlength="100" clearable></el-input>
 						</el-form-item>
-						<el-form-item label="热门" prop="IsHot">
-							<el-col :span="3">
-								<el-switch
-									v-model="ruleForm.IsHot"
-									inline-prompt
-									:active-text="$t('message.action.yes')"
-									:inactive-text="$t('message.action.no')"
-									:active-value="1"
-									:inactive-value="0"
-								/>
-							</el-col>
-							<el-col :span="3" class="text-right"> 促销： </el-col>
-							<el-col :span="3">
-								<el-switch
-									v-model="ruleForm.IsPromote"
-									inline-prompt
-									:active-text="$t('message.action.yes')"
-									:inactive-text="$t('message.action.no')"
-									:active-value="1"
-									:inactive-value="0"
-								/>
-							</el-col>
+						<el-form-item label="广告位" prop="PositionId">
+							<el-select
+								v-model="ruleForm.PositionId"
+								placeholder="请选择广告位"
+								:props="{ label: 'PositionName', value: 'Id' }">
+								<el-option	el-option v-for="item in positionList" :key="item.Id" :label="item.PositionName+'['+item.AdWidth+'x' + item.AdHeight+']'" :value="item.Id"> </el-option>
+							</el-select>
 						</el-form-item>
-						<el-form-item label="虚拟销量" prop="GhostCount">
-							<el-col :span="3">
-								<el-input-number v-model="ruleForm.GhostCount" :precision="0" :step="10" :min="0" />
-							</el-col>
-							<el-col :span="3" class="text-right"> 点击量： </el-col>
-							<el-col :span="3">
-								<el-input-number v-model="ruleForm.ClickCount" :precision="0" :step="10" :min="0" />
-							</el-col>
+						<el-form-item prop="Enabled">
+							<el-checkbox v-model="ruleForm.Enabled" :true-label="1" :false-label="0">开启</el-checkbox>
 						</el-form-item>
-						<el-form-item label="关键字" prop="Keywords">
-							<el-input v-model="ruleForm.Keywords" autofocus placeholder="请输入关键字" maxlength="100" clearable></el-input>
+						<el-form-item label="排序" prop="Order">
+							<el-input-number v-model="ruleForm.Order" :min="0" />
 						</el-form-item>
-						<el-form-item label="简要描述" prop="GoodsBrief">
-							<el-input
-								v-model="ruleForm.GoodsBrief"
-								placeholder="简要描述"
-								maxlength="255"
-								clearable
-								type="textarea"
-								:autosize="{ minRows: 3, maxRows: 6 }"
-							></el-input>
+						<el-form-item label="跳转方式" prop="AdType">
+							<el-select
+								v-model="ruleForm.AdType"
+								placeholder="跳转方式">
+								<el-option value="" label="站内跳转"></el-option>
+								<el-option value="OuterURL" label="URL跳转"></el-option>
+								<el-option value="OuterMP" label="小程序跳转"></el-option>
+								<el-option value="OuterAPP" label="APP跳转"></el-option>
+							</el-select>
 						</el-form-item>
-					</el-tab-pane>
-				</el-tabs>
+						<el-form-item label="跳转参数" prop="AdLinkArgs">
+							<el-input v-model="ruleForm.AdLinkArgs" autofocus placeholder="如外链小程序的AppId等" maxlength="100" clearable></el-input>
+						</el-form-item>
+						<el-form-item label="广告链接" prop="AdLink">
+							<el-input v-model="ruleForm.AdLink" autofocus placeholder="请输入广告链接地址" maxlength="100" clearable></el-input>
+						</el-form-item>
+						<el-form-item label="广告描述" prop="AdDesc">
+							<el-input v-model="ruleForm.AdDesc" autofocus placeholder="广告简要描述" maxlength="100" clearable></el-input>
+						</el-form-item>
+						
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+						
+						<el-form-item label="开始时间" prop="StartTime">
+							<el-date-picker
+								v-model="ruleForm.StartTime"
+								type="datetime"
+								placeholder="开始时间"
+								format="YYYY-MM-DD HH:mm"
+								style="width: 100%"
+							></el-date-picker> 
+						</el-form-item>
+						<el-form-item label="结束时间" prop="EndTime">
+							<el-date-picker
+								v-model="ruleForm.EndTime"
+								type="datetime"
+								placeholder="结束时间"
+								format="YYYY-MM-DD HH:mm"
+								style="width: 100%"
+							></el-date-picker> 
+						</el-form-item>
+						<el-form-item label="广告标记" prop="AdTag">
+							<el-select
+								v-model="ruleForm.AdTag"
+								placeholder="广告标记">
+								<el-option :value="0" label="无"></el-option>
+								<el-option :value="1" label="推荐"></el-option>
+								<el-option :value="2" label="新品"></el-option>
+								<el-option :value="3" label="热门"></el-option>
+								<el-option :value="4" label="精品"></el-option>
+								<el-option :value="10" label="促销"></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="促销方式" prop="AdKind">
+							<el-select
+								v-model="ruleForm.AdKind"
+								placeholder="促销方式">
+								<el-option :value="0" label="无"></el-option>
+								<el-option :value="1" label="限时"></el-option>
+								<el-option :value="2" label="限量"></el-option>
+								<el-option :value="3" label="限时限量"></el-option>
+								<el-option :value="5" label="秒杀"></el-option>
+								<el-option :value="10" label="拼团"></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="限时时间" prop="ExpireTime">
+							<el-date-picker
+								v-model="ruleForm.ExpireTime"
+								type="datetime"
+								placeholder="限时到期时间，将显示倒计时"
+								format="YYYY-MM-DD HH:mm:ss"
+								style="width: 100%"
+							></el-date-picker> 
+						</el-form-item>
+						<el-form-item label="限购数量" prop="TotalNum">
+							<el-input-number v-model="ruleForm.TotalNum" :min="0" :step="10"/>
+						</el-form-item>
+						<el-form-item label="剩余数量" prop="RemainNum">
+							<el-input-number v-model="ruleForm.RemainNum" :min="0" :step="10"/>
+						</el-form-item>
+						<el-form-item label="关联模型" prop="AdModel">
+							<el-select
+								v-model="ruleForm.AdModel"
+								placeholder="关联模型">
+								<el-option value="" label="无"></el-option>
+								<el-option value="goods" label="商品"></el-option>
+								<el-option value="article" label="文章"></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="模型标识" prop="AdModelId">
+							<el-input-number v-model="ruleForm.AdModelId" :min="0" :step="10" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+						<el-form-item label="视频地址" prop="VideoUrl">
+							<el-input v-model="ruleForm.VideoUrl" placeholder="视频地址" maxlength="255" clearable></el-input>
+						</el-form-item>
+						<el-form-item label="音频地址" prop="AudioUrl">
+							<el-input v-model="ruleForm.VideoUrl" placeholder="音频地址" maxlength="255" clearable></el-input>
+						</el-form-item>
+						<el-form-item label="图片地址" prop="ImgUrl">
+							<el-input v-model="ruleForm.ImgUrl" placeholder="上传或输入" maxlength="255" clearable></el-input>
+							<div class="mt10" style="border: 1px gray dashed">
+								<el-upload
+									class="avatar-uploader"
+									:action="`${baseUrl}/v1/file/upload`"
+									name="file"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:show-file-list="false"
+									:on-success="onImageUploadSuccess"
+									:before-upload="onBeforeImageUpload"
+								>
+									<img v-if="ruleForm.ImgUrl" :src="proxy.$utils.staticUrlParse(ruleForm.ImgUrl)" width="150" height="150" class="avatar" />
+									<SvgIcon v-else name="fa fa-plus" class="avatar-uploader-icon" />
+								</el-upload>
+							</div>
+						</el-form-item>
+						<el-form-item label="联系人" prop="LinkMan">
+							<el-input v-model="ruleForm.LinkMan" placeholder="联系人" maxlength="50" clearable></el-input>
+						</el-form-item>
+						<el-form-item label="邮箱" prop="LinkEmail">
+							<el-input v-model="ruleForm.LinkEmail" placeholder="联系人邮箱" maxlength="50" clearable></el-input>
+						</el-form-item>
+						<el-form-item label="电话" prop="LinkPhone">
+							<el-input v-model="ruleForm.LinkPhone" placeholder="联系人电话" maxlength="50" clearable></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" :loading="loading" v-auth:[$parent.moduleKey]="'btn.GoodsAdd'">{{
+					<el-button type="primary" @click="onSubmit(false)" v-if="!ruleForm.Id" :loading="loading" v-auth:[$parent.moduleKey]="'btn.AdAdd'">{{
 						$t('message.action.saveAndAdd')
 					}}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" :loading="loading" v-auths:[$parent.moduleKey]="['btn.GoodsEdit', 'btn.GoodsAdd']">{{
-						$t('message.action.save')
-					}}</el-button>
+					<el-button
+						type="primary"
+						@click="onSubmit(true)"
+						:loading="loading"
+						v-auths:[$parent.moduleKey]="['btn.AdEdit', 'btn.AdAdd']"
+						>{{ $t('message.action.save') }}</el-button
+					>
 				</span>
 			</template>
 		</el-dialog>
@@ -207,6 +175,7 @@ import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 import { Session } from '/@/utils/storage';
 import { useStore } from '/@/store/index';
+import dayjs from 'dayjs';
 export default {
 	name: 'baseUserEdit',
 	props: {
@@ -229,12 +198,12 @@ export default {
 			loading: false,
 			token: token,
 			baseUrl: import.meta.env.VITE_API_URL,
-			cateList: [],
+			positionList: [],
 			ruleForm: {},
 		});
 
 		const rules = reactive({
-			GoodsName: [
+			AdName: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -247,36 +216,48 @@ export default {
 					trigger: 'change',
 				},
 			],
-			CategoryId: [
+			StartTime: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
+			EndTime: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			ExpireTime: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			PositionId: [{ required: true, message: t('message.validRule.required'), trigger: 'blur' }],
 		});
 
 		// 打开弹窗
-		const openDialog = (row: Object, cateList: any) => {
+		const openDialog = (row: Object, positionList: any) => {
 			state.loading = false;
 			const model = JSON.parse(JSON.stringify(row));
 			state.ruleForm = model;
-			state.cateList = cateList;
+			state.positionList = positionList||[];
 			if (row && row.Id > 0) {
 				state.title = t('message.action.edit');
 			} else {
 				state.title = t('message.action.add');
-				state.ruleForm.Id = '0';
-				state.ruleForm.IsOnSale = 1;
-				state.ruleForm.IsTop = 0;
-				state.ruleForm.Order = 100;
-				state.ruleForm.IsExchange = 1;
-				state.ruleForm.ExchangeIntegral = 0;
-
-				state.ruleForm.MarketPrice = 0;
-				state.ruleForm.ShopPrice = 0;
-				state.ruleForm.GhostCount = 0;
-				state.ruleForm.ClickCount = 0;
+				state.ruleForm.Id = 0;
+				state.ruleForm.Enabled = 1;
+				state.ruleForm.Order = 50;
+				state.ruleForm.TotalNum=0;
+				state.ruleForm.RemainNum=0;
+				state.ruleForm.AdModelId="0";
+				state.ruleForm.StartTime=new Date();
+				state.ruleForm.EndTime=dayjs(new Date()).add(1, 'month');
 			}
 			state.isShowDialog = true;
 		};
@@ -294,9 +275,18 @@ export default {
 				if (valid) {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.Order = Number.parseInt(state.ruleForm.Order || 0);
+					state.ruleForm.TotalNum = Number.parseInt(state.ruleForm.TotalNum || 0);
+					state.ruleForm.RemainNum = Number.parseInt(state.ruleForm.RemainNum || 0);
+					state.ruleForm.AdModelId = state.ruleForm.AdModelId+"";
+					state.ruleForm.AdPosition={Id:state.ruleForm.PositionId}
+					// if(!state.ruleForm.Description){
+					// 	//未填入主题，截取正文纯文本
+					// 	var ue = window.UE.getEditor('editor-content');
+					// 	state.ruleForm.Description=ue.getContentTxt().substr(0,255);
+					// }
 					state.loading = true;
 					try {
-						const res = await proxy.$api.eshop.goods.save(state.ruleForm);
+						const res = await proxy.$api.eshop.ad.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -321,7 +311,7 @@ export default {
 				ElMessage.error(res.errmsg);
 				return;
 			}
-			state.ruleForm.GoodsImg = res.data.src;
+			state.ruleForm.ImgUrl = res.data.src;
 		};
 
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
