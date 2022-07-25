@@ -133,6 +133,7 @@ export default {
 			t,
 			getNewList,
 			openDialog,
+			closeDialog,
 			onSubmit,
 			selectAll,
 			select,

@@ -52,8 +52,14 @@
 				<el-table-column prop="fanwei" label="比选范围" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="EndTime" label="报名截止日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="ReviewTime" label="评选日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
+						<el-button text bg type="info" @click="onModelSee(scope.row.Id, methodList[scope.row.ProjectType])">
+							<el-icon>
+								<Search />
+							</el-icon>
+							&#8197;{{ $t('message.action.see') }}
+						</el-button>
 						<el-button text bg type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<Edit />
@@ -84,6 +90,7 @@
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
+		<seeDlg ref="seeDlgRef" />
 	</div>
 </template>
 
@@ -93,10 +100,11 @@ import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import editDlg from './component/projectEdit.vue';
+import seeDlg from './component/projectSee.vue';
 import { useRoute } from 'vue-router';
 export default {
 	name: 'baseRoles',
-	components: { editDlg },
+	components: { editDlg, seeDlg },
 	setup() {
 		const route = useRoute();
 		const kind = route.params.kind;
@@ -106,6 +114,7 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const editDlgRef = ref();
+		const seeDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -170,6 +179,11 @@ export default {
 		const onModelEdit = (Id: number) => {
 			editDlgRef.value.openDialog(state.kind, Id);
 		};
+		//打开查看数据弹窗
+
+		const onModelSee = (Id: string, projectType: string) => {
+			seeDlgRef.value.openDialog(Id, projectType);
+		};
 		// 删除用户
 		const onModelDel = (Id: number) => {
 			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
@@ -208,9 +222,11 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
+			seeDlgRef,
 			onGetTableData,
 			onResetSearch,
 			onModelEdit,
+			onModelSee,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

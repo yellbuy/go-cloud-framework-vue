@@ -37,7 +37,16 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="项目内容：" prop="Content">
-							<el-input v-model="ruleForm.Content"></el-input>
+							<vue-ueditor-wrap
+								:editor-id="`editor-category-content`"
+								:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js', 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css']"
+								v-model="ruleForm.Content"
+								:config="{
+									UEDITOR_HOME_URL: '/ueditor/',
+									serverUrl: `${baseUrl}/v1/common/editor/${getUserInfos.appid}`,
+									headers: { Authorization: token, Appid: getUserInfos.appid },
+								}"
+							></vue-ueditor-wrap>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -100,41 +109,22 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
 						><el-form-item label="报名开始时间：" prop="StartTime">
-							<el-date-picker
-								v-model="ruleForm.StartTime"
-								type="date"
-								placeholder="有限期限"
-								format="YYYY-MM-DD"
-								style="width: 100%"
-							></el-date-picker> </el-form-item
+							<el-date-picker v-model="ruleForm.StartTime" type="datetime" placeholder="有限期限" style="width: 100%"></el-date-picker> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
 						><el-form-item label="报名结束时间：" prop="EndTime">
-							<el-date-picker
-								v-model="ruleForm.EndTime"
-								type="date"
-								placeholder="有限期限"
-								format="YYYY-MM-DD"
-								style="width: 100%"
-							></el-date-picker> </el-form-item
+							<el-date-picker v-model="ruleForm.EndTime" type="datetime" placeholder="有限期限" style="width: 100%"></el-date-picker> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
 						><el-form-item label="招标开始时间：" prop="BeginTime">
-							<el-date-picker
-								v-model="ruleForm.BeginTime"
-								type="date"
-								placeholder="有限期限"
-								format="YYYY-MM-DD"
-								style="width: 100%"
-							></el-date-picker> </el-form-item
+							<el-date-picker v-model="ruleForm.BeginTime" type="datetime" placeholder="有限期限" style="width: 100%"></el-date-picker> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
 						><el-form-item label="招标结束时间：" prop="FinishTime">
 							<el-date-picker
 								v-model="ruleForm.FinishTime"
-								type="date"
+								type="datetime"
 								placeholder="有限期限"
-								format="YYYY-MM-DD"
 								style="width: 100%"
 							></el-date-picker> </el-form-item
 					></el-col>
@@ -142,9 +132,8 @@
 						><el-form-item label="评选时间：" prop="ReviewTime">
 							<el-date-picker
 								v-model="ruleForm.ReviewTime"
-								type="date"
+								type="datetime"
 								placeholder="有限期限"
-								format="YYYY-MM-DD"
 								style="width: 100%"
 							></el-date-picker> </el-form-item
 					></el-col>
@@ -187,6 +176,7 @@ export default {
 		const moduleKey = proxy.$parent.moduleKey;
 		const lineEditDlgRef = ref();
 		const store = useStore();
+		const token = Session.get('token');
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
 		});
@@ -212,6 +202,8 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
+			token: token,
+			baseUrl: import.meta.env.VITE_API_URL,
 			ruleForm: {
 				Id: 0,
 				Kind: '',
@@ -247,7 +239,6 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
-		const token = Session.get('token');
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -273,6 +264,13 @@ export default {
 				},
 			],
 			ProjectType: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Content: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -336,6 +334,8 @@ export default {
 		const onCancel = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
+			state.FilesList = [];
+			state.Files = [];
 			state.tableData.data = [];
 			state.isShowDialog = false;
 		};
@@ -411,7 +411,6 @@ export default {
 			onModelEdit,
 			rules,
 			lineEditDlgRef,
-			token,
 			getUserInfos,
 			onSubmit,
 			...toRefs(state),
