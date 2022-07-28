@@ -12,7 +12,18 @@
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"> 评选日期：{{ dateFormat(ruleForm.ReviewTime) }} </el-col>
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"> 项目类型：{{ projectType }} </el-col>
 					</el-row>
-					<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
+					<el-table
+						:data="tableData.data"
+						v-loading="tableData.loading"
+						style="width: 100%"
+						size="small"
+						border
+						stripe
+						highlight-current-row
+						@select="select"
+						@select-all="selectAll"
+					>
+						<el-table-column v-if="isShow" type="selection" width="55" />
 						<el-table-column type="index" label="序号" align="right" width="70" fixed />
 						<el-table-column prop="Sn" label="包号" width="120" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="No" label="品目号" show-overflow-tooltip></el-table-column>
@@ -34,6 +45,9 @@
 			</el-tabs>
 			<template #footer>
 				<span class="dialog-footer">
+					<el-button text bg type="primary" v-if="isShow" @click="onSubmit" v-auth:[$parent.moduleKey]="'btn.signup'">{{
+						$t('message.action.signUp')
+					}}</el-button>
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
 				</span>
 			</template>
@@ -59,6 +73,12 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 			projectType: '',
+			signUp: {
+				ProjectId: 0,
+				LineIds: '',
+			},
+			isShow: false,
+			getList: [],
 			tableData: {
 				data: [],
 				loading: false,
@@ -73,7 +93,9 @@ export default {
 
 		const handleClick = (tab: TabsPaneContext, event: Event) => {};
 		// 打开弹窗
-		const openDialog = (id: string, projectType: string) => {
+		const openDialog = (id: string, projectType: string, isShow: boolean) => {
+			state.isShow = isShow;
+			state.signUp.ProjectId = id;
 			GetByIdRow(id);
 			state.projectType = projectType;
 			state.isShowDialog = true;
@@ -84,6 +106,11 @@ export default {
 			state.projectType = '';
 			state.tableData.data = [];
 			state.ruleForm = {};
+			state.signUp = {
+				ProjectId: 0,
+				LineIds: '',
+			};
+			state.getList = [];
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
@@ -109,6 +136,30 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+		const select = (selection: Array<object>) => {
+			state.getList = selection;
+		};
+		const selectAll = (selection: Array<object>) => {
+			state.getList = selection;
+		};
+		const onSubmit = async () => {
+			state.signUp.LineIds = '';
+			let idArry = [];
+			if (state.getList && state.getList.length > 0) {
+				for (let item of state.getList) {
+					idArry.push(item.Id);
+				}
+				state.signUp.LineIds = idArry.toString();
+			}
+			try {
+				const res = await proxy.$api.erp.projectcompany.signup(state.signUp);
+				if (res.errcode != 0) {
+					return;
+				}
+			} finally {
+				closeDialog();
+			}
+		};
 		// 页面加载时
 		onMounted(() => {});
 		return {
@@ -116,6 +167,9 @@ export default {
 			activeName,
 			handleClick,
 			dateFormat,
+			onSubmit,
+			select,
+			selectAll,
 			t,
 			GetByIdRow,
 			openDialog,

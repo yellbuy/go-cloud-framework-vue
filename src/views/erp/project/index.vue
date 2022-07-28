@@ -52,14 +52,22 @@
 				<el-table-column prop="fanwei" label="比选范围" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="EndTime" label="报名截止日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="ReviewTime" label="评选日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="info" @click="onModelSee(scope.row.Id, methodList[scope.row.ProjectType])">
+						<el-button text bg type="info" @click="onModelSee(scope.row.Id, methodList[scope.row.ProjectType], false)">
 							<el-icon>
 								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
+						<el-button
+							text
+							bg
+							type="primary"
+							@click="onModelSee(scope.row.Id, methodList[scope.row.ProjectType], true)"
+							v-auth:[moduleKey]="'btn.signup'"
+							>{{ $t('message.action.signUp') }}</el-button
+						>
 						<el-button text bg type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
 							<el-icon>
 								<Edit />
@@ -181,8 +189,8 @@ export default {
 		};
 		//打开查看数据弹窗
 
-		const onModelSee = (Id: string, projectType: string) => {
-			seeDlgRef.value.openDialog(Id, projectType);
+		const onModelSee = (Id: string, projectType: string, state: boolean) => {
+			seeDlgRef.value.openDialog(Id, projectType, state);
 		};
 		// 删除用户
 		const onModelDel = (Id: number) => {

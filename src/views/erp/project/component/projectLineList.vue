@@ -89,6 +89,7 @@ export default {
 					model.Kind = state.kind;
 					if (state.kind == 'jsps') {
 						proxy.$parent.jsTableData.data.push(model);
+						proxy.$parent.getScore();
 					} else {
 						proxy.$parent.zgTableData.data.push(model);
 					}
