@@ -76,6 +76,7 @@ export default {
 		visualizingLinkDemo1: '数据可视化演示1',
 		visualizingLinkDemo2: '数据可视化演示2',
 		profile: '个人中心',
+		projectChoice: '项目比选',
 		tools: '工具类集合',
 		layoutLinkView: '外链',
 		layoutIfameView: '内嵌 iframe',
