@@ -99,13 +99,21 @@ export default defineComponent({
 		// 设置页面当前路由高亮
 		const setCurrentRouterHighlight = (currentRoute) => {
 			const { path, meta } = currentRoute;
-			if (store.state.themeConfig.themeConfig.layout === 'classic') {
-				state.defaultActive = `/${path.split('/')[1]}`;
+			const key=meta.keyPath.split("//")[0];
+			const rootRoute=store.state.routesList.routesList.find(c=>c.meta.key==key);
+			if(rootRoute){
+				state.defaultActive=rootRoute.meta.isDynamicPath || rootRoute.path;
 			} else {
-				const pathSplit = meta.isDynamic ? meta.isDynamicPath.split('/') : path.split('/');
-				if (pathSplit.length >= 4 && meta.isHide) state.defaultActive = pathSplit.splice(0, 3).join('/');
-				else state.defaultActive = path;
+				state.defaultActive=meta.isDynamicPath || currentRoute.path;
 			}
+			// debugger
+			// if (store.state.themeConfig.themeConfig.layout === 'classic') {
+			// 	state.defaultActive = `/${path.split('/')[1]}`;
+			// } else {
+			// 	const pathSplit = meta.isDynamic ? meta.isDynamicPath.split('/') : path.split('/');
+			// 	if (pathSplit.length >= 4 && meta.isHide) state.defaultActive = pathSplit.splice(0, 3).join('/');
+			// 	else state.defaultActive = path;
+			// }
 		};
 		// 页面加载前
 		onBeforeMount(() => {

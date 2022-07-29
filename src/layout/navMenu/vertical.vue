@@ -64,6 +64,7 @@ export default defineComponent({
 		// 菜单高亮（详情时，父级高亮）
 		const setParentHighlight = (currentRoute) => {
 			const { path, meta } = currentRoute;
+			return meta.isDynamicPath || currentRoute.path
 			//console.log("setParentHighlight",path,meta)
 			const pathSplit = meta.keyPath.split('//');
 			//const pathSplit = meta.isDynamic ? meta.isDynamicPath.split('/') : path.split('/');
