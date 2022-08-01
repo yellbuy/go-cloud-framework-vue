@@ -16,7 +16,7 @@
 					</template>
 					<SubItem :chil="val.children" />
 				</el-sub-menu>
-				<el-menu-item :index="val.meta.isDynamicPath || val.path" :key="val.key" v-else>
+				<el-menu-item :index="val.meta.isDynamicPath || val.path" :key="val.key"  v-else>
 					<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
 					<template #title v-if="!val.meta.isLink || (val.meta.isLink && val.meta.isIframe)">
 						<span>{{ $t(val.meta.title) }}</span>
@@ -50,7 +50,7 @@ export default defineComponent({
 		const route = useRoute();
 		const state = reactive({
 			// 修复：https://gitee.com/lyt-top/vue-next-admin/issues/I3YX6G
-			defaultActive: route.meta.isDynamic ? route.meta.isDynamicPath : route.path,
+			defaultActive: route.meta.keyPath,
 			isCollapse: false,
 		});
 		// 获取父级菜单数据
@@ -64,9 +64,15 @@ export default defineComponent({
 		// 菜单高亮（详情时，父级高亮）
 		const setParentHighlight = (currentRoute) => {
 			const { path, meta } = currentRoute;
-			const pathSplit = meta.isDynamic ? meta.isDynamicPath.split('/') : path.split('/');
-			if (pathSplit.length >= 4 && meta.isHide) return pathSplit.splice(0, 3).join('/');
-			else return path;
+			return meta.isDynamicPath || currentRoute.path
+			//console.log("setParentHighlight",path,meta)
+			const pathSplit = meta.keyPath.split('//');
+			//const pathSplit = meta.isDynamic ? meta.isDynamicPath.split('/') : path.split('/');
+			if (pathSplit.length >= 4 && !meta.isHide){
+				return pathSplit.splice(0, 3).join('//');
+			} else {
+				return meta.keyPath;
+			}
 		};
 		// 设置菜单的收起/展开
 		watch(
