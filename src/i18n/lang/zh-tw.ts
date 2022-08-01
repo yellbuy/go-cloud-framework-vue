@@ -10,6 +10,7 @@ export default {
 		systemDept: '部門管理',
 		systemDic: '字典管理',
 		systemProject: '项目管理',
+		selection: '评选',
 		systemParameter: '参数模板',
 		systemBidProject: '招标项目',
 		systemSupplier: "供应商管理",

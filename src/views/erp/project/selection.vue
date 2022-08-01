@@ -1,0 +1,176 @@
+<template>
+	<div class="system-edit-user-container">
+		<el-row class="tac">
+			<el-col :span="6">
+				<el-menu
+					active-text-color="#ffd04b"
+					background-color="#545c64"
+					class="el-menu-vertical-demo"
+					default-active="1-1"
+					text-color="#fff"
+					@select="select"
+				>
+					<el-sub-menu index="1">
+						<template #title>
+							<el-icon><location /></el-icon>
+							<span>评选准备</span>
+						</template>
+						<el-menu-item index="1-1">比选文件</el-menu-item>
+						<el-menu-item index="1-2">选择评选专家</el-menu-item>
+						<el-menu-item index="1-3">复核评选参数</el-menu-item>
+					</el-sub-menu>
+					<el-sub-menu index="2">
+						<template #title>
+							<el-icon><location /></el-icon>
+							<span>项目评选</span>
+						</template>
+						<el-menu-item index="2-1">选择项目包号</el-menu-item>
+						<el-menu-item index="2-2">比选人名单</el-menu-item>
+						<el-menu-item index="2-3">评选一览表</el-menu-item>
+					</el-sub-menu>
+					<el-sub-menu index="3">
+						<template #title>
+							<el-icon><location /></el-icon>
+							<span>评标明细</span>
+						</template>
+						<el-menu-item index="3-1">资格评分汇总</el-menu-item>
+						<el-menu-item index="3-2">技术评分汇总</el-menu-item>
+						<el-menu-item index="3-3">价格评分汇总</el-menu-item>
+					</el-sub-menu>
+					<el-sub-menu index="4">
+						<template #title>
+							<el-icon><location /></el-icon>
+							<span>评选准备</span>
+						</template>
+						<el-menu-item index="4-1">评分汇总</el-menu-item>
+						<el-menu-item index="4-2">评选报告</el-menu-item>
+						<el-menu-item index="4-3">发布中选公告</el-menu-item>
+					</el-sub-menu>
+				</el-menu>
+			</el-col>
+			<el-col :span="18">
+				<el-card shadow="hover">
+					<div style="float: left">
+						<el-button type="info" @click="GetByIdRow">
+							<el-icon>
+								<Refresh />
+							</el-icon>
+							&#8197;{{ $t('message.action.refresh') }}
+						</el-button>
+					</div>
+					<h3 style="text-align: center">当前选择项目：{{ ruleForm.Name }}</h3>
+				</el-card>
+				<el-card style="margin-top: 20px">
+					<before ref="beforeRef" :indexLine="indexLine" v-if="menuIndex == 1" />
+				</el-card>
+			</el-col>
+		</el-row>
+	</div>
+</template>
+
+<script lang="ts">
+import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import commonFunction from '/@/utils/commonFunction';
+import { useRoute } from 'vue-router';
+import { ElMessageBox, ElMessage } from 'element-plus';
+import before from './component/selectionBefor.vue';
+
+export default {
+	name: 'selection',
+	components: { before },
+	setup() {
+		const { proxy } = getCurrentInstance() as any;
+		const { t } = useI18n();
+		const route = useRoute();
+		const beforeRef = ref();
+		const state = reactive({
+			isShowDialog: false,
+			title: t('message.action.see'),
+			ruleForm: {},
+			httpsText: import.meta.env.VITE_URL as any,
+			FilesList: [],
+			menuIndex: 1,
+			indexLine: '1-1',
+			tableData: {
+				data: [],
+				total: 0,
+				loading: false,
+				param: {
+					name: '',
+					no: '',
+					pageNum: 1,
+					pageSize: 20,
+				},
+			},
+		});
+
+		const { dateFormat } = commonFunction();
+		const GetByIdRow = async () => {
+			let Id = route.query.Id;
+			try {
+				const res = await proxy.$api.erp.project.getById(Id);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.ruleForm = res.data;
+				res.data.ProjectType = res.data.ProjectType.toString();
+				if (res.data.ProjectLineList) {
+					state.tableData.data = res.data.ProjectLineList;
+				}
+				if (state.ruleForm.Files != '') {
+					let Files = res.data.Files.split(',');
+					state.FilesList = [];
+					for (let i = 0; i < Files.length; i++) {
+						let image = { url: '' };
+						image.url = state.httpsText + Files[i];
+						state.FilesList.push(image);
+					}
+				}
+			} finally {
+				state.isShowDialog = true;
+			}
+		};
+
+		const onSubmit = async () => {
+			state.signUp.LineIds = '';
+			let idArry = [];
+			if (state.getList && state.getList.length > 0) {
+				for (let item of state.getList) {
+					idArry.push(item.Id);
+				}
+				state.signUp.LineIds = idArry.toString();
+			}
+			try {
+				const res = await proxy.$api.erp.projectcompany.signup(state.signUp);
+				if (res.errcode != 0) {
+					return;
+				}
+			} finally {
+				closeDialog();
+			}
+		};
+		const select = (key: string, keyPath: string[]) => {
+			state.indexLine = key;
+			state.menuIndex = keyPath[0];
+			console.log(state.menuIndex);
+		};
+		// 页面加载时
+		onMounted(() => {
+			GetByIdRow();
+		});
+		return {
+			proxy,
+			beforeRef,
+			dateFormat,
+			onSubmit,
+			select,
+			t,
+			GetByIdRow,
+			...toRefs(state),
+		};
+	},
+};
+</script>
+<style scoped lang="scss">
+</style>

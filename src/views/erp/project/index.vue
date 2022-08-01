@@ -80,6 +80,9 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.delete') }}
 						</el-button>
+						<el-button text bg type="primary" @click="onToRouter(scope.row.Id)" v-auth:[moduleKey]="'btn.Selection'">
+							{{ $t('message.action.selection') }}
+						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -109,7 +112,7 @@ import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance 
 import { ElMessageBox, ElMessage } from 'element-plus';
 import editDlg from './component/projectEdit.vue';
 import seeDlg from './component/projectSee.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 export default {
 	name: 'baseRoles',
 	components: { editDlg, seeDlg },
@@ -120,7 +123,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_pro_project_${kind}`;
 		const { proxy } = getCurrentInstance() as any;
-
+		const router = useRouter();
 		const editDlgRef = ref();
 		const seeDlgRef = ref();
 		const state: any = reactive({
@@ -192,6 +195,11 @@ export default {
 		const onModelSee = (Id: string, projectType: string, state: boolean) => {
 			seeDlgRef.value.openDialog(Id, projectType, state);
 		};
+		//跳转
+		const onToRouter = (Id: string) => {
+			console.log('跳转路由,');
+			router.push(`/admin/project/selection?Id=${Id}`);
+		};
 		// 删除用户
 		const onModelDel = (Id: number) => {
 			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
@@ -235,6 +243,7 @@ export default {
 			onResetSearch,
 			onModelEdit,
 			onModelSee,
+			onToRouter,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

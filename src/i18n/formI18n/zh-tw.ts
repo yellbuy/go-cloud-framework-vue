@@ -49,7 +49,8 @@ export default {
 		backend: '后台',
 		currency: '金币',
 		notice: '通知',
-		signUp: "报名"
+		signUp: "报名",
+		selection: "评选"
 	},
 	validRule: {
 		required: '必填项',
