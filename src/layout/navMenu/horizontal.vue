@@ -100,7 +100,7 @@ export default defineComponent({
 		const setCurrentRouterHighlight = (currentRoute) => {
 			const { path, meta } = currentRoute;
 			const key=meta.keyPath.split("//")[0];
-			const rootRoute=store.state.routesList.routesList.find(c=>c.meta.key==key);
+			const rootRoute=store.state.routesList.routesList.find(c=>c.meta.key == key);
 			if(rootRoute){
 				state.defaultActive=rootRoute.meta.isDynamicPath || rootRoute.path;
 			} else {
