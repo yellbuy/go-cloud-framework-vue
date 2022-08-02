@@ -114,7 +114,7 @@ import editDlg from './component/projectEdit.vue';
 import seeDlg from './component/projectSee.vue';
 import { useRoute, useRouter } from 'vue-router';
 export default {
-	name: 'baseRoles',
+	name: 'project',
 	components: { editDlg, seeDlg },
 	setup() {
 		const route = useRoute();

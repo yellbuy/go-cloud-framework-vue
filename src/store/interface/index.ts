@@ -76,6 +76,10 @@ export interface TagsViewRoutesState {
 export interface UserInfosState {
 	userInfos: object;
 }
+// 项目信息
+export interface ProjectState {
+	project: object;
+}
 
 // Action授权信息
 export interface AuthBtnListState {
@@ -94,6 +98,7 @@ export interface RootStateTypes {
 	keepAliveNames: KeepAliveNamesState;
 	tagsViewRoutes: TagsViewRoutesState;
 	userInfos: UserInfosState;
-	authBtnList:AuthBtnListState;
+	authBtnList: AuthBtnListState;
 	requestOldRoutes: RequestOldRoutesState;
+	project: ProjectState;
 }
