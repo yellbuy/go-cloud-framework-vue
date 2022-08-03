@@ -1,6 +1,7 @@
 <template>
 	<div class="layout-search-dialog">
-		<el-dialog v-model="isShowSearch" width="300px" close-on-click-modal destroy-on-close :modal="false" fullscreen :show-close="false">
+		<el-dialog v-model="isShowSearch" width="560px" close-on-click-modal  destroy-on-close 
+			:modal="true" :show-close="false">
 			<!-- <el-tree-select v-model="value" :data="menuQuery" check-strictly 
 				ref="layoutMenuAutocompleteRef"
 				@change="onHandleSelect"
@@ -123,14 +124,17 @@ export default defineComponent({
 <style scoped lang="scss">
 .layout-search-dialog {
 	::v-deep(.el-dialog) {
+		top:15vh !important;
 		box-shadow: unset !important;
 		border-radius: 0 !important;
 		background: rgba(0, 0, 0, 0.5);
+		.el-dialog__body, .el-dialog__header {
+			padding: 0px !important;
+		}
 	}
 	::v-deep(.el-autocomplete) {
 		width: 560px;
-		position: absolute;
-		top: 100px;
+		//position: absolute;
 		left: 50%;
 		transform: translateX(-50%);
 	}
