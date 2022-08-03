@@ -87,15 +87,15 @@
 						<span v-no-auth:[moduleKey]="'btn.UserEdit'">{{ scope.row.Order }}</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="IsAdmin" label="管理员" width="70" align="center">
+				<!-- <el-table-column prop="IsAdmin" label="管理员" width="70" align="center">
 					<template #default="scope">
 						<el-tag type="success" effect="plain" v-if="scope.row.IsAdmin">{{ $t('message.action.yes') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<!-- <el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip>
 				</el-table-column> -->
-				<el-table-column prop="RoleNames" label="所属角色" width="180" show-overflow-tooltip> </el-table-column>
+				<!-- <el-table-column prop="RoleNames" label="所属角色" width="180" show-overflow-tooltip> </el-table-column> -->
 				<el-table-column prop="LoginTime" label="最后登录时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="CreateTime" label="创建时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 
@@ -149,11 +149,19 @@ export default {
 		const moduleKey = 'api_base_org';
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
+		const vip = route.params.vip;
+		const kind = route.params.kind;
+		const scopeMode = route.params.scopeMode || 0;
+		const scopeValue = route.params.scopeValue || 0;
 		console.log('路由', route.query);
 		const IsState = route.query.hasParentid;
 		const userEditRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
+			vip,
+			kind,
+			scopeMode,
+			scopeValue,
 			tableData: {
 				data: [],
 				total: 0,
@@ -186,7 +194,8 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.base.user.getList(state.tableData.param);
+				const res = await proxy.$api.base.user.getVipList(state.vip, state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				// const res = await proxy.$api.base.user.getList(state.tableData.param);
 				if (res.errcode == 0) {
 					state.tableData.data = res.data;
 					state.tableData.total = res.total;
@@ -197,7 +206,7 @@ export default {
 		};
 		// 打开新增用户弹窗
 		const onOpenAddUser = () => {
-			userEditRef.value.openDialog({}, IsState, 0);
+			userEditRef.value.openDialog({}, IsState, parseInt(state.vip));
 		};
 		// 打开修改用户弹窗
 		const onOpenuserEdit = (row: Object) => {

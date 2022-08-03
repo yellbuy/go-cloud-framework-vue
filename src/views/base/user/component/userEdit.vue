@@ -87,32 +87,32 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
+					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20" v-if="ruleForm.Vip == 0">
 						<el-form-item prop="IsAdmin">
 							<el-checkbox v-model="ruleForm.IsAdmin" :true-label="1" :false-label="0">管理员</el-checkbox>
 							<p title="" class="color-info-light font10 ml5"><SvgIcon name="fa fa-info-circle" class="mr3" />管理员拥有所有权限</p>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
+					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20" v-if="ruleForm.Vip == 0">
 						<el-form-item label="" prop="IsExternal">
 							<el-checkbox v-model="ruleForm.IsExternal" :true-label="1" :false-label="0">外部用户</el-checkbox>
 							<p title="" class="color-info-light font10 ml5"><SvgIcon name="fa fa-info-circle" class="mr3" />外部用户不允许登录后台</p>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
+					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20" v-if="ruleForm.Vip == 0">
 						<el-form-item label="" prop="AllowBackendLogin">
 							<el-checkbox v-model="ruleForm.AllowBackendLogin" :true-label="1" :false-label="0">后台允许登录</el-checkbox>
 							<p title="" class="color-info-light font10 ml5"><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录系统后台</p>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20">
+					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20" v-if="ruleForm.Vip == 0">
 						<el-form-item label="" prop="AllowFrontendLogin">
 							<el-checkbox v-model="ruleForm.AllowFrontendLogin" :true-label="1" :false-label="0">前台允许登录</el-checkbox>
 							<p title="" class="color-info-light font10 ml5"><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录前台和客户端</p>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="35">
+				<el-row :gutter="35" v-if="ruleForm.Vip == 0">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="所属角色" prop="RoleIds">
 							<el-checkbox-group v-model="ruleForm.CheckedRoleList">
@@ -174,6 +174,7 @@ export default {
 				AllowFrontendLogin: 1,
 				IsExternal: 0,
 				Parentid: '',
+				Vip: 0,
 				department: [], // 部门
 				Gender: 0, // 性别
 			},
@@ -214,8 +215,9 @@ export default {
 		});
 
 		// 打开弹窗
-		const openDialog = (row: Object) => {
+		const openDialog = (row: Object, IsState: string, vip: number) => {
 			state.loading = false;
+			console.log('vip', vip);
 			const model = JSON.parse(JSON.stringify(row));
 			state.ruleForm = model;
 			if (row && row.Id > 0) {
@@ -229,6 +231,11 @@ export default {
 				state.ruleForm.AllowBackendLogin = 1;
 				state.ruleForm.AllowFrontendLogin = 1;
 				state.UParentid = '';
+				state.ruleForm.Vip = 0;
+			}
+			if (vip > 0) {
+				state.ruleForm.IsExternal = 1;
+				state.ruleForm.Vip = vip;
 			}
 			state.isShowDialog = true;
 			if (state.IsState) {
@@ -255,7 +262,12 @@ export default {
 					if (state.UParentid != '') {
 						state.ruleForm.Parentid = state.UParentid;
 					}
+					if (state.ruleForm.Vip > 0) {
+						state.ruleForm.RoleIds = '';
+						state.ruleForm.RoleList = [];
+					}
 					state.loading = true;
+					console.log(state.ruleForm);
 					try {
 						const res = await proxy.$api.base.user.save(state.ruleForm);
 						if (res.errcode == 0) {
