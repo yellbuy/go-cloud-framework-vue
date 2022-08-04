@@ -119,9 +119,10 @@ export default {
 	setup() {
 		const route = useRoute();
 		const kind = route.params.kind;
+		const mode = route.params.mode;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_pro_project_${kind}`;
+		const moduleKey = `api_pro_project_${kind}_${mode}`;
 		const { proxy } = getCurrentInstance() as any;
 		const router = useRouter();
 		const editDlgRef = ref();
