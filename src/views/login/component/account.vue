@@ -82,7 +82,6 @@ export default defineComponent({
 		const route = useRoute();
 		const router = useRouter();
 		const isDevEnv = process.env.NODE_ENV === 'development';
-		
 		const state = reactive({
 			isShowPassword: false,
 			captcha:"", //验证码
