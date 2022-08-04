@@ -180,18 +180,24 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import request from '/@/utils/request';
 import { getPageCategoryList } from '../../../api/common/category';
 import { Refresh } from '@element-plus/icons-vue';
+import { useRoute } from 'vue-router';
 export default {
 	name: 'systemParameter',
 	components: { commondataEdit },
 	setup() {
 		const commondataEditRef = ref();
+		const route = useRoute();
 		// const activeName = ref('zg');
+		const scopeMode = route.params.scopeMode || 0;
+		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = 'api_pro_parameter';
 		const { proxy } = getCurrentInstance() as any;
 		const state = reactive({
 			moduleKey: moduleKey,
 			// supKindData: [], //类型
 			activeName: 'zgps',
+			scopeMode,
+			scopeValue,
 			zgTableData: {
 				data: [],
 				total: 0,
@@ -266,7 +272,7 @@ export default {
 			}
 			state.jsTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectsetting.getListByScope(state.jsTableData.param);
+				const res = await proxy.$api.erp.projectsetting.getListByScope(state.scopeMode, state.scopeValue, state.jsTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -283,7 +289,7 @@ export default {
 			}
 			state.zgTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectsetting.getListByScope(state.zgTableData.param);
+				const res = await proxy.$api.erp.projectsetting.getListByScope(state.scopeMode, state.scopeValue, state.zgTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}

@@ -10,8 +10,8 @@ export default {
      * @param params 要传的参数值
      * @returns 返回接口数据
      */
-    getListByScope: async (params: object = {}) => {
-        const url = `/v1/admin/erp/projectsetting`;
+    getListByScope: async (scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+        const url = `/v1/admin/erp/projectsetting/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
 

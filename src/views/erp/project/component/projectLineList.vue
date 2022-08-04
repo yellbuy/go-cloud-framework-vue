@@ -44,14 +44,19 @@
 <script lang="ts">
 import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
-
+import { useRoute } from 'vue-router';
 import { ElMessageBox, ElMessage } from 'element-plus';
 export default {
 	name: 'projectLineListEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
+		const route = useRoute();
+		const scopeMode = route.params.scopeMode || 0;
+		const scopeValue = route.params.scopeValue || 0;
 		const state = reactive({
+			scopeMode,
+			scopeValue,
 			getList: [],
 			kind: '',
 			isShowDialog: false,
@@ -117,7 +122,7 @@ export default {
 				} else {
 					state.tableData.param.mode = 1;
 				}
-				const res = await proxy.$api.erp.projectsetting.getListByScope(state.tableData.param);
+				const res = await proxy.$api.erp.projectsetting.getListByScope(state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
