@@ -36,7 +36,15 @@
 					<div v-html="ruleForm.Content"></div>
 					<h4 v-if="ruleForm.AutoSwitchState == 1">原公开比选项目如不足三家供应商参与，则该项目自动转为院内谈判项目。详见平台采购须知说明。</h4>
 				</el-tab-pane>
-				<el-tab-pane label="比选名单" name="third">Role</el-tab-pane>
+				<el-tab-pane label="比选名单" name="third">
+					<el-table :data="signUpData" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
+						<el-table-column type="index" label="序号" align="right" width="70" fixed />
+						<el-table-column prop="CompanyName" label="公司名称" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="LineName" label="包号名称" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="BiddingTime" label="比选时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="SignUpTime" label="报名时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+					</el-table>
+				</el-tab-pane>
 				<el-tab-pane label="比选文件" name="fourth">
 					<div v-for="(val, index) in FilesList" :key="index">
 						<a :href="val.url" target="_blank">点击下载</a>
@@ -73,6 +81,7 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 			projectType: '',
+			signUpData: [],
 			signUp: {
 				ProjectId: 0,
 				LineIds: '',
@@ -88,17 +97,27 @@ export default {
 				},
 			},
 		});
-		const { dateFormat } = commonFunction();
+		const { dateFormat, dateFormatYMDHM } = commonFunction();
 		const activeName = ref('first');
-
 		const handleClick = (tab: TabsPaneContext, event: Event) => {};
 		// 打开弹窗
 		const openDialog = (id: string, projectType: string, isShow: boolean) => {
 			state.isShow = isShow;
 			state.signUp.ProjectId = id;
 			GetByIdRow(id);
+			GetSignUpList(id);
 			state.projectType = projectType;
 			state.isShowDialog = true;
+		};
+		const GetSignUpList = async (id: string) => {
+			try {
+				const res = await proxy.$api.erp.projectcompany.SignUpList({ id: id });
+				if (res.errcode != 0) {
+					return;
+				}
+				state.signUpData = res.data;
+			} finally {
+			}
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -106,6 +125,7 @@ export default {
 			state.projectType = '';
 			state.tableData.data = [];
 			state.ruleForm = {};
+			state.signUpData = [];
 			state.signUp = {
 				ProjectId: 0,
 				LineIds: '',
@@ -160,6 +180,7 @@ export default {
 				closeDialog();
 			}
 		};
+
 		// 页面加载时
 		onMounted(() => {});
 		return {
@@ -174,6 +195,7 @@ export default {
 			GetByIdRow,
 			openDialog,
 			closeDialog,
+			dateFormatYMDHM,
 			...toRefs(state),
 		};
 	},

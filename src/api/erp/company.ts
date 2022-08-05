@@ -23,6 +23,14 @@ export default {
         const url = `/v1/admin/erp/company/${id}`;
         return await http.get(url);
     },
+    /**
+     * 获取当前账户的信息
+     * @returns 返回接口数据
+     */
+    getByTid: async () => {
+        const url = `/v1/admin/erp/company/bytid`;
+        return await http.get(url);
+    },
 
     /**
      * 新增或更新

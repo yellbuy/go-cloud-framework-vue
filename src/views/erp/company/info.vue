@@ -1,16 +1,18 @@
 <template>
-	<div style="float: right; margin-right: 20px">
-		<el-button type="primary" @click="onOpenCommondata(0)">
-			<el-icon>
-				<CirclePlusFilled />
-			</el-icon>
-			&#8197;{{ $t('message.action.add') }}
-		</el-button>
-	</div>
 	<div class="system-edit-user-container">
-		<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="130px" v-loading="loading" :disabled="disable">
+		<el-row :gutter="20">
+			<el-col :offset="21">
+				<el-button text bg type="primary" @click="onSubmit" v-if="!disable" v-auths:[moduleKey]="['btn.Edit', 'btn.Add']">
+					{{ $t('message.action.save') }}
+				</el-button>
+				<el-button text bg type="primary" @click="disable = !disable" v-auth:[moduleKey]="'btn.Edit'">
+					{{ $t('message.action.edit') }}
+				</el-button></el-col
+			>
+		</el-row>
+		<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-width="130px" v-loading="loading" :disabled="disable">
 			<el-divider content-position="left">工商信息*</el-divider>
-			<el-row :gutter="20">
+			<el-row>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
 					><el-form-item label="供应商全名：" prop="CompanyName">
 						<el-input v-model="ruleForm.CompanyName" placeholder="全名"></el-input> </el-form-item
@@ -62,7 +64,7 @@
 								<el-date-picker
 									v-model="ruleForm.BusinessEndTime"
 									type="date"
-									placeholder="结束日期"
+									placeholder="- 结束日期"
 									format="YYYY-MM-DD"
 									style="width: 100%"
 								></el-date-picker>
@@ -194,6 +196,7 @@ import { getPageCategoryList } from '../../../../api/common/category';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 import { useStore } from '/@/store/index';
+import { useRoute } from 'vue-router';
 export default {
 	name: 'companyEdit',
 	setup() {
@@ -238,8 +241,11 @@ export default {
 				pageSize: 10000,
 			},
 		});
-
+		const route = useRoute();
+		const kind = route.params.kind;
+		const moduleKey = `api_company_info_${kind}`;
 		const state = reactive({
+			moduleKey: moduleKey,
 			title: t('message.action.add'),
 			loading: false,
 			disable: true, //是否禁用
@@ -381,36 +387,18 @@ export default {
 				},
 			],
 		});
-		// 打开弹窗
-		const openDialog = async (kind: string, id: string, disable: boolean) => {
-			state.Files = [];
-			console.log('类型', kind);
-			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
+
+		const GetByTidRow = async () => {
 			try {
-				const res = await proxy.$api.common.category.getConcreteDataList(kind, 0, 2, { pageNum: 1, pageSize: 10000 });
-				if (res.errcode != 0) {
-					return;
-				}
-				state.supKindData = res.data;
-				state.disable = disable;
-				if (id != '0') {
-					GetByIdRow(id);
-					state.title = t('message.action.edit');
-				} else {
-					state.ruleForm.Id = 0;
-					state.title = t('message.action.add');
-				}
-			} finally {
-			}
-		};
-		const GetByIdRow = async (Id: string) => {
-			try {
-				const res = await proxy.$api.erp.company.getById(Id);
+				const res = await proxy.$api.erp.company.getByTid();
 				if (res.errcode != 0) {
 					return;
 				}
 				state.ruleForm = res.data;
+				state.disable = false;
+				if (state.ruleForm.Id > 0) {
+					state.disable = true;
+				}
 				tableData.data = res.data.CompanyCategoryList;
 			} finally {
 			}
@@ -508,11 +496,7 @@ export default {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.CompanyCategoryList = tableData.data;
 					try {
-						const res = await proxy.$api.erp.company.save(state.ruleForm);
-						if (res.errcode == 0) {
-							proxy.$refs.ruleFormRef.resetFields();
-							state.ruleForm.Id = 0;
-						}
+						await proxy.$api.erp.company.save(state.ruleForm);
 					} finally {
 						state.loading = false;
 					}
@@ -542,12 +526,13 @@ export default {
 		};
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
-		onMounted(() => {});
+		onMounted(() => {
+			GetByTidRow();
+		});
 		return {
 			proxy,
 			t,
-			openDialog,
-			GetByIdRow,
+			GetByTidRow,
 			onModelAdd,
 			onSuccessFile,
 			onRemove,
