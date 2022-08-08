@@ -84,7 +84,8 @@ export default {
 		tools: '工具類集合',
 		layoutLinkView: '外鏈',
 		layoutIfameView: '内嵌 iframe',
-		expert: '专家'
+		expert: '专家',
+		stationMessage: "站内消息",
 	},
 	staticRoutes: {
 		signIn: '登入',
