@@ -14,7 +14,7 @@ const projectModule: Module<ProjectState, RootStateTypes> = {
         },
     },
     actions: {
-        // 设置用户信息
+        // 设置项目信息
         async setProject({ commit }, data: object) {
             if (data) {
                 commit('getProject', data);

@@ -198,8 +198,12 @@ export default {
 		};
 		//跳转
 		const onToRouter = (Id: string) => {
-			console.log('跳转路由,');
-			router.push(`/admin/project/selection?Id=${Id}`);
+			router.push({
+				path: '/admin/project/selection',
+				query: {
+					id: Id,
+				},
+			});
 		};
 		// 删除用户
 		const onModelDel = (Id: number) => {

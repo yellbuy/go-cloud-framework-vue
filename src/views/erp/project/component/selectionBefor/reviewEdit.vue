@@ -40,25 +40,13 @@
 						<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 							<template #default="scope">
-								<el-button
-									text
-									bg
-									type="primary"
-									@click="onOpenItemDialog('zgps', false, scope.row)"
-									v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'"
-								>
+								<el-button text bg type="primary" @click="onOpenItemDialog('zgps', false, scope.row)">
 									<el-icon>
 										<Edit />
 									</el-icon>
 									{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button
-									text
-									bg
-									type="danger"
-									@click="onModelDel('zgps', scope.$index, scope.row.Id)"
-									v-auth:[$parent.moduleKey]="'btn.SettingLineDel'"
-								>
+								<el-button text bg type="danger" @click="onModelDel('zgps', scope.$index, scope.row.Id)">
 									<el-icon>
 										<CloseBold />
 									</el-icon>
@@ -90,25 +78,13 @@
 						<el-table-column prop="TechnicalMaxScore" label="最高分数" show-overflow-tooltip />
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 							<template #default="scope">
-								<el-button
-									text
-									bg
-									type="primary"
-									@click="onOpenItemDialog('jsps', false, scope.row)"
-									v-auth:[$parent.moduleKey]="'btn.SettingLineEdit'"
-								>
+								<el-button text bg type="primary" @click="onOpenItemDialog('jsps', false, scope.row)">
 									<el-icon>
 										<Edit />
 									</el-icon>
 									{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button
-									text
-									bg
-									type="danger"
-									@click="onModelDel('jsps', scope.$index, scope.row.Id)"
-									v-auth:[$parent.moduleKey]="'btn.SettingLineDel'"
-								>
+								<el-button text bg type="danger" @click="onModelDel('jsps', scope.$index, scope.row.Id)">
 									<el-icon>
 										<CloseBold />
 									</el-icon>
@@ -118,7 +94,7 @@
 						</el-table-column>
 					</el-table>
 					<el-divider content-position="left">经济评审</el-divider>
-					<el-form ref="jjFormRef" :model="jjForm" size="small" v-loading="loading">
+					<el-form ref="jjFormRef" :model="jjForm" size="small">
 						<el-row :gutter="20">
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1"
 								><el-form-item label="采购控制价：" prop="PurchasePrice"
@@ -160,9 +136,6 @@
 				</el-col>
 			</div>
 		</div>
-		<span class="dialog-footer">
-			<el-button text bg type="primary" @click="onSubmit">{{ $t('message.action.save') }}</el-button>
-		</span>
 		<editItemDlg ref="editItemDlgRef" />
 		<editLineListDlg ref="editLineListDlgRef" />
 	</div>
@@ -210,8 +183,6 @@ export default {
 		});
 		const store = useStore();
 		const getProject = () => {
-			console.log('子组件执行');
-			console.log(store.state.project.project);
 			state.project = store.state.project.project;
 		};
 
@@ -221,11 +192,8 @@ export default {
 			state.jjForm = {};
 
 			if (state.projectLineIndex != '') {
-				console.log(state.project);
 				for (let item of state.project.ProjectLineList) {
-					console.log(item.Id, state.projectLineIndex);
 					if (item.Id == state.projectLineIndex) {
-						console.log(item.ProjectSettingLineList);
 						if (item.ProjectSettingLineList) {
 							for (let model of item.ProjectSettingLineList) {
 								if (model.Kind == 'zgps') {

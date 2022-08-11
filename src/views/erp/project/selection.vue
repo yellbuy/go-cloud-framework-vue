@@ -1,67 +1,54 @@
 <template>
 	<div class="system-edit-user-container">
-		<div style="display: flex">
-			<el-menu
-				active-text-color="#ffd04b"
-				background-color="#545c64"
-				class="el-menu-vertical-demo"
-				default-active="1-1"
-				text-color="#fff"
-				@select="select"
-			>
-				<el-sub-menu index="1">
-					<template #title>
-						<el-icon><location /></el-icon>
-						<span>评选准备</span>
-					</template>
-					<el-menu-item index="1-1">比选文件</el-menu-item>
-					<el-menu-item index="1-2">选择评选专家</el-menu-item>
-					<el-menu-item index="1-3">复核评选参数</el-menu-item>
-				</el-sub-menu>
-				<el-sub-menu index="2">
-					<template #title>
-						<el-icon><location /></el-icon>
-						<span>项目评选</span>
-					</template>
-					<el-menu-item index="2-1">选择项目包号</el-menu-item>
-					<el-menu-item index="2-2">比选人名单</el-menu-item>
-					<el-menu-item index="2-3">评选一览表</el-menu-item>
-				</el-sub-menu>
-				<el-sub-menu index="3">
-					<template #title>
-						<el-icon><location /></el-icon>
-						<span>评标明细</span>
-					</template>
-					<el-menu-item index="3-1">资格评分汇总</el-menu-item>
-					<el-menu-item index="3-2">技术评分汇总</el-menu-item>
-					<el-menu-item index="3-3">价格评分汇总</el-menu-item>
-				</el-sub-menu>
-				<el-sub-menu index="4">
-					<template #title>
-						<el-icon><location /></el-icon>
-						<span>评选准备</span>
-					</template>
-					<el-menu-item index="4-1">评分汇总</el-menu-item>
-					<el-menu-item index="4-2">评选报告</el-menu-item>
-					<el-menu-item index="4-3">发布中选公告</el-menu-item>
-				</el-sub-menu>
-			</el-menu>
-			<div class="flex-center layout-backtop" style="margin-left: 20px">
-				<el-card shadow="hover">
-					<div style="float: left">
-						<el-button type="info" @click="GetByIdRow">
-							<el-icon>
-								<Refresh />
-							</el-icon>
-							&#8197;{{ $t('message.action.refresh') }}
-						</el-button>
-					</div>
-					<h3 style="text-align: center">当前选择项目：{{ ruleForm.Name }}</h3>
-				</el-card>
-				<el-card style="margin-top: 20px">
-					<before ref="beforeRef" :indexLine="indexLine" v-show="menuIndex == 1" />
-				</el-card>
-			</div>
+		<el-menu
+			active-text-color="#ffd04b"
+			class="el-menu-demo"
+			background-color="#545c64"
+			mode="horizontal"
+			default-active="1-1"
+			text-color="#fff"
+			@select="select"
+		>
+			<el-sub-menu index="1">
+				<template #title>评选准备</template>
+				<el-menu-item index="1-1">比选文件</el-menu-item>
+				<el-menu-item index="1-2">选择评选专家</el-menu-item>
+				<el-menu-item index="1-3">复核评选参数</el-menu-item>
+			</el-sub-menu>
+			<el-sub-menu index="2">
+				<template #title>项目评选</template>
+				<el-menu-item index="2-1">选择项目包号</el-menu-item>
+				<el-menu-item index="2-2">比选人名单</el-menu-item>
+				<el-menu-item index="2-3">评选一览表</el-menu-item>
+			</el-sub-menu>
+			<el-sub-menu index="3">
+				<template #title>评标明细</template>
+				<el-menu-item index="3-1">资格评分汇总</el-menu-item>
+				<el-menu-item index="3-2">技术评分汇总</el-menu-item>
+				<el-menu-item index="3-3">价格评分汇总</el-menu-item>
+			</el-sub-menu>
+			<el-sub-menu index="4">
+				<template #title>评选准备</template>
+				<el-menu-item index="4-1">评分汇总</el-menu-item>
+				<el-menu-item index="4-2">评选报告</el-menu-item>
+				<el-menu-item index="4-3">发布中选公告</el-menu-item>
+			</el-sub-menu>
+		</el-menu>
+		<div class="flex-center layout-backtop">
+			<el-card shadow="hover">
+				<div style="float: left">
+					<el-button type="info" @click="GetByIdRow">
+						<el-icon>
+							<Refresh />
+						</el-icon>
+						&#8197;{{ $t('message.action.refresh') }}
+					</el-button>
+				</div>
+				<h3 style="text-align: center">当前选择项目：{{ ruleForm.Name }}</h3>
+			</el-card>
+			<el-card style="margin-top: 20px">
+				<before ref="beforeRef" :indexLine="indexLine" v-show="menuIndex == 1" />
+			</el-card>
 		</div>
 	</div>
 </template>
@@ -76,7 +63,7 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import before from './component/selectionBefor/reviewEdit.vue';
 
 export default {
-	name: 'selection',
+	name: 'api_sys_project_selection',
 	components: { before },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -107,7 +94,8 @@ export default {
 
 		const { dateFormat } = commonFunction();
 		const GetByIdRow = async () => {
-			let Id = route.query.Id;
+			console.log('route', route);
+			let Id = route.query.id;
 			try {
 				const res = await proxy.$api.erp.project.getById(Id);
 				if (res.errcode != 0) {
