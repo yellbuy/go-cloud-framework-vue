@@ -102,6 +102,7 @@
 		</el-card>
 		<editDlg ref="editDlgRef" />
 		<seeDlg ref="seeDlgRef" />
+		<selectionDlg ref="selectionDlgRef" />
 	</div>
 </template>
 
@@ -112,10 +113,11 @@ import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance 
 import { ElMessageBox, ElMessage } from 'element-plus';
 import editDlg from './component/projectEdit.vue';
 import seeDlg from './component/projectSee.vue';
+import selectionDlg from './component/selection.vue';
 import { useRoute, useRouter } from 'vue-router';
 export default {
 	name: 'project',
-	components: { editDlg, seeDlg },
+	components: { editDlg, seeDlg, selectionDlg },
 	setup() {
 		const route = useRoute();
 		const kind = route.params.kind;
@@ -127,6 +129,7 @@ export default {
 		const router = useRouter();
 		const editDlgRef = ref();
 		const seeDlgRef = ref();
+		const selectionDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -198,12 +201,7 @@ export default {
 		};
 		//跳转
 		const onToRouter = (Id: string) => {
-			router.push({
-				path: '/admin/project/selection',
-				query: {
-					id: Id,
-				},
-			});
+			selectionDlgRef.value.openDialog(Id);
 		};
 		// 删除用户
 		const onModelDel = (Id: number) => {
@@ -244,6 +242,7 @@ export default {
 			proxy,
 			editDlgRef,
 			seeDlgRef,
+			selectionDlgRef,
 			onGetTableData,
 			onResetSearch,
 			onModelEdit,
