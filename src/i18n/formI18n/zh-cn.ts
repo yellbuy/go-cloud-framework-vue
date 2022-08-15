@@ -49,7 +49,8 @@ export default {
 		currency: '金币',
 		notice: '通知',
 		signUp: "报名",
-		selection: "评选"
+		selection: "评选",
+		return: "返回"
 	},
 	validRule: {
 		required: '必填项',

@@ -44,6 +44,7 @@ export default {
 				Standard: '',
 				TechnicalMaxScore: 0,
 			},
+			isAjax: false,
 			editState: false,
 		});
 
@@ -71,7 +72,10 @@ export default {
 			],
 		});
 		// 打开弹窗
-		const openDialog = (kind: string, isAdd: boolean, item: object) => {
+		const openDialog = (kind: string, isAdd: boolean, item: object, isAjax: boolean) => {
+			if (isAjax) {
+				state.isAjax = isAjax;
+			}
 			state.ruleForm = { Id: '0', Kind: 'zgps', Content: '', Standard: '', TechnicalMaxScore: 0 };
 			if (isAdd) {
 				state.ruleForm.Id = 0;
@@ -92,20 +96,39 @@ export default {
 		};
 		// 新增
 		const onSubmit = () => {
-			proxy.$refs.ruleFormRef.validate((valid: any) => {
+			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
-					if (state.ruleForm.Kind == 'zgps') {
-						if (state.editState) {
-							console.log('执行', proxy.$parent.zgTableData.data);
-							proxy.$parent.zgTableData.data.push(state.ruleForm);
+					if (!state.isAjax) {
+						try {
+							const res = await proxy.$api.cms.article.save(state.ruleForm);
+							if (res.errcode == 0) {
+								if (isCloseDlg) {
+									closeDialog();
+								} else {
+									proxy.$refs.ruleFormRef.resetFields();
+									state.ruleForm.Id = 0;
+									state.ruleForm.PasswordConfirm = '';
+								}
+								proxy.$parent.onGetChildTableData();
+							}
+						} finally {
+							state.loading = false;
 						}
-					} else if (state.ruleForm.Kind == 'jsps') {
-						if (state.editState) {
-							proxy.$parent.jsTableData.data.push(state.ruleForm);
+					} else {
+						if (state.ruleForm.Kind == 'zgps') {
+							if (state.editState) {
+								console.log('执行', proxy.$parent.zgTableData.data);
+								proxy.$parent.zgTableData.data.push(state.ruleForm);
+							}
+						} else if (state.ruleForm.Kind == 'jsps') {
+							if (state.editState) {
+								proxy.$parent.jsTableData.data.push(state.ruleForm);
+							}
+							proxy.$parent.getScore();
 						}
-						proxy.$parent.getScore();
 					}
+
 					closeDialog();
 					return false;
 				} else {

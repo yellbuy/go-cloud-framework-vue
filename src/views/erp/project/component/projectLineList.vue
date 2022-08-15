@@ -73,9 +73,13 @@ export default {
 					name: '',
 				},
 			},
+			isAjax: false,
 		});
 		// 打开弹窗
-		const openDialog = (kind: string) => {
+		const openDialog = (kind: string, isAjax: boolean) => {
+			if (isAjax) {
+				state.isAjax = isAjax;
+			}
 			state.kind = kind;
 			getNewList();
 			state.isShowDialog = true;
