@@ -79,6 +79,8 @@ export interface UserInfosState {
 // 项目信息
 export interface ProjectState {
 	project: object;
+	projectId: string;
+	projectLineId: string
 }
 
 // Action授权信息

@@ -117,10 +117,12 @@ import editDlg from './component/projectEdit.vue';
 import seeDlg from './component/projectSee.vue';
 import selectionDlg from './component/selection.vue';
 import { useRoute } from 'vue-router';
+import { useStore } from '/@/store/index';
 export default {
 	name: 'project',
 	components: { editDlg, seeDlg, selectionDlg },
 	setup() {
+		const store = useStore();
 		const route = useRoute();
 		const kind = route.params.kind;
 		const mode = route.params.mode;
@@ -202,9 +204,9 @@ export default {
 		};
 		//跳转
 		const onToRouter = (Id: string) => {
-			console.log('数据id', Id);
+			store.commit('project/getProjectId', Id);
 			state.isSelection = false;
-			selectionDlgRef.value.GetByIdRow(Id);
+			selectionDlgRef.value.GetByIdRow();
 		};
 		// 删除用户
 		const onModelDel = (Id: number) => {

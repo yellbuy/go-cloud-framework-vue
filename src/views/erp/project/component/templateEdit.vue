@@ -28,11 +28,13 @@
 import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import { useStore } from '/@/store/index';
 export default {
 	name: 'categoryEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
+		const store = useStore();
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -101,24 +103,17 @@ export default {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					if (!state.isAjax) {
 						try {
-							const res = await proxy.$api.cms.article.save(state.ruleForm);
+							state.ruleForm.Parentid = store.state.project.projectLineId;
+							const res = await proxy.$api.erp.projectsettingline.save(state.ruleForm);
 							if (res.errcode == 0) {
-								if (isCloseDlg) {
-									closeDialog();
-								} else {
-									proxy.$refs.ruleFormRef.resetFields();
-									state.ruleForm.Id = 0;
-									state.ruleForm.PasswordConfirm = '';
-								}
-								proxy.$parent.onGetChildTableData();
+								proxy.$parent.changeLine(); //刷新
+								closeDialog();
 							}
 						} finally {
-							state.loading = false;
 						}
 					} else {
 						if (state.ruleForm.Kind == 'zgps') {
 							if (state.editState) {
-								console.log('执行', proxy.$parent.zgTableData.data);
 								proxy.$parent.zgTableData.data.push(state.ruleForm);
 							}
 						} else if (state.ruleForm.Kind == 'jsps') {
@@ -127,9 +122,8 @@ export default {
 							}
 							proxy.$parent.getScore();
 						}
+						closeDialog();
 					}
-
-					closeDialog();
 					return false;
 				} else {
 					return false;

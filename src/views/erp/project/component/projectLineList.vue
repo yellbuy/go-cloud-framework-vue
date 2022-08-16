@@ -46,12 +46,14 @@ import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import { useStore } from '/@/store/index';
 export default {
 	name: 'projectLineListEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		const route = useRoute();
+		const store = useStore();
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
 		const state = reactive({
@@ -85,8 +87,9 @@ export default {
 			state.isShowDialog = true;
 		};
 		// 新增
-		const onSubmit = () => {
+		const onSubmit = async () => {
 			let list = JSON.parse(JSON.stringify(state.getList));
+			let ajaxList = [];
 			if (list.length > 0) {
 				for (let item of list) {
 					console.log(item);
@@ -96,15 +99,31 @@ export default {
 					model.Standard = item.Standard;
 					model.TechnicalMaxScore = item.TechnicalMaxScore;
 					model.Kind = state.kind;
-					if (state.kind == 'jsps') {
-						proxy.$parent.jsTableData.data.push(model);
-						proxy.$parent.getScore();
+					if (!state.isAjax) {
+						model.Parentid = store.state.project.projectLineId;
+						ajaxList.push(model);
 					} else {
-						proxy.$parent.zgTableData.data.push(model);
+						if (state.kind == 'jsps') {
+							proxy.$parent.jsTableData.data.push(model);
+							proxy.$parent.getScore();
+						} else {
+							proxy.$parent.zgTableData.data.push(model);
+						}
 					}
 				}
 			}
-			closeDialog();
+			if (!state.isAjax && ajaxList.length > 0) {
+				try {
+					const res = await proxy.$api.erp.projectsettingline.saveIds(ajaxList);
+					if (res.errcode == 0) {
+						proxy.$parent.changeLine(); //刷新
+						closeDialog();
+					}
+				} finally {
+				}
+			} else {
+				closeDialog();
+			}
 			return false;
 		};
 		const closeDialog = () => {

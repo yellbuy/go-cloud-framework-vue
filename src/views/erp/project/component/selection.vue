@@ -89,22 +89,12 @@ export default {
 			menuIndex: 1,
 			isSelection: false,
 			indexLine: 'file',
-			tableData: {
-				data: [],
-				total: 0,
-				loading: false,
-				param: {
-					name: '',
-					no: '',
-					pageNum: 1,
-					pageSize: 20,
-				},
-			},
 		});
 		const reviewEditRef = ref();
 		const expertEditRef = ref();
 		const { dateFormat } = commonFunction();
-		const GetByIdRow = async (Id: string) => {
+		const GetByIdRow = async () => {
+			let Id = store.state.project.projectId;
 			state.isSelection = true;
 			try {
 				const res = await proxy.$api.erp.project.getById(Id);
@@ -114,9 +104,6 @@ export default {
 				store.commit('project/getProject', res.data);
 				state.ruleForm = res.data;
 				res.data.ProjectType = res.data.ProjectType.toString();
-				if (res.data.ProjectLineList) {
-					state.tableData.data = res.data.ProjectLineList;
-				}
 				if (state.ruleForm.Files != '') {
 					let Files = res.data.Files.split(',');
 					state.FilesList = [];
@@ -144,6 +131,7 @@ export default {
 		};
 		const changeSelection = () => {
 			state.isSelection = false;
+			state.indexLine = 'file';
 			proxy.$parent.isSelection = true;
 		};
 		// 页面加载时

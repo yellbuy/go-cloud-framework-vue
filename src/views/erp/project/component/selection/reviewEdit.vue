@@ -94,11 +94,11 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1"
 						><el-form-item label="采购控制价：" prop="PurchasePrice"
-							><el-input-number v-model="jjForm.PurchasePrice" :min="0" controls-position="right" :precision="2" /> </el-form-item
+							><el-input-number v-model="jjForm.PurchasePrice" :min="0" controls-position="right" :precision="2" @change="saveJjps" /> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1"
 						><el-form-item label="价格评审得分策略：">
-							<el-radio-group v-model="jjForm.ScoreMode">
+							<el-radio-group v-model="jjForm.ScoreMode" @change="saveJjps">
 								<el-radio :label="0">价格排名打分</el-radio>
 								<el-radio :label="1">基础价格打分</el-radio>
 							</el-radio-group>
@@ -107,18 +107,21 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1" v-if="jjForm.ScoreMode == 0">
 						<div class="mb20">评审价格从低至高排列（最低价为第一名），第一名供应商价格得分为满分；</div>
 						<div class="mb20">
-							从第二名起，价格得分减少<span><el-input-number v-model="jjForm.PriceScore" :min="0" :max="100" controls-position="right" /> </span
+							从第二名起，价格得分减少<span
+								><el-input-number v-model="jjForm.PriceScore" :min="0" :max="100" controls-position="right" @change="saveJjps" /> </span
 							>分。超出采购控制价的供应商得零分。
 						</div>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1" v-if="jjForm.ScoreMode == 1">
 						<div class="mb20">
-							价格评审最高分的<span><el-input-number v-model="jjForm.PricePercentage" :min="0" :max="100" controls-position="right" /> </span>
+							价格评审最高分的<span
+								><el-input-number v-model="jjForm.PricePercentage" :min="0" :max="100" controls-position="right" @change="saveJjps" />
+							</span>
 							%为基础价格得分;
 						</div>
 						<div class="mb20">
 							评审报价比招标控制价每下浮1个百分点，则得分增加<span
-								><el-input-number v-model="jjForm.QualificationScore" :min="0" :max="100" controls-position="right" />
+								><el-input-number v-model="jjForm.QualificationScore" :min="0" :max="100" controls-position="right" @change="saveJjps" />
 							</span>
 							分;
 						</div>
@@ -177,28 +180,32 @@ export default {
 			state.project = store.state.project.project;
 		};
 
-		const changeLine = () => {
+		const changeLine = async () => {
 			state.zgTableData.data = [];
 			state.jsTableData.data = [];
 			state.jjForm = {};
+			//请求获取数据
 			if (state.projectLineIndex != '') {
-				console.log('循环', project);
-				for (let item of state.project.ProjectLineList) {
-					if (item.Id == state.projectLineIndex) {
-						if (item.ProjectSettingLineList) {
-							for (let model of item.ProjectSettingLineList) {
-								if (model.Kind == 'zgps') {
-									state.zgTableData.data.push(model);
-								} else if (model.Kind == 'jsps') {
-									state.jsTableData.data.push(model);
-								} else if (model.Kind == 'jjps') {
-									state.jjForm = model;
-								}
+				store.commit('project/getProjectLineId', state.projectLineIndex);
+				try {
+					const res = await proxy.$api.erp.projectline.getById(state.projectLineIndex);
+					if (res.errcode != 0) {
+						return;
+					}
+					if (res.data.ProjectSettingLineList && res.data.ProjectSettingLineList.length > 0) {
+						for (let model of res.data.ProjectSettingLineList) {
+							if (model.Kind == 'zgps') {
+								state.zgTableData.data.push(model);
+							} else if (model.Kind == 'jsps') {
+								state.jsTableData.data.push(model);
+							} else if (model.Kind == 'jjps') {
+								state.jjForm = model;
 							}
 						}
-						//计算得分
-						getScore();
 					}
+					//计算得分
+					getScore();
+				} finally {
 				}
 			}
 		};
@@ -222,6 +229,18 @@ export default {
 		const onOpenListDialog = (kind: string, isAjax: boolean) => {
 			editLineListDlgRef.value.openDialog(kind, isAjax);
 		};
+		const saveJjps = async () => {
+			console.log('触发change事件');
+			if (state.projectLineIndex != '' && state.projectLineIndex != 0) {
+				try {
+					const res = await proxy.$api.erp.projectsettingline.save(state.jjForm);
+					if (res.errcode != 0) {
+						return;
+					}
+				} finally {
+				}
+			}
+		};
 		// 页面加载时
 		onMounted(() => {});
 
@@ -232,6 +251,7 @@ export default {
 			editItemDlgRef,
 			editLineListDlgRef,
 			getProject,
+			saveJjps,
 			onOpenItemDialog,
 			onOpenListDialog,
 			...toRefs(state),
