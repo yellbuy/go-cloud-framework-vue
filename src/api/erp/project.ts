@@ -55,4 +55,12 @@ export default {
         const url = `/v1/admin/erp/project/disable`;
         return await http.post(url, data);
     },
+    /**
+    * 获取项目专家信息
+    * @returns 返回接口数据
+    */
+    expertList: async (id: number | string) => {
+        const url = `/v1/admin/erp/project/expertlist/${id}`;
+        return await http.get(url);
+    },
 }

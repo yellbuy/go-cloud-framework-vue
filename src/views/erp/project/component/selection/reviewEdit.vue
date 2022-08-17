@@ -147,7 +147,7 @@ import project from '/@/api/erp/project';
 import editItemDlg from '../templateEdit.vue';
 import editLineListDlg from '../projectLineList.vue';
 export default {
-	name: 'expertEdit',
+	name: 'reviewEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const editItemDlgRef = ref();
@@ -241,6 +241,22 @@ export default {
 				}
 			}
 		};
+		const onModelDel = (kind: string, index: number, Id: number) => {
+			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					const res = await proxy.$api.erp.projectsettingline.delete(Id);
+					if (res.errcode == 0) {
+						changeLine();
+					}
+				} finally {
+				}
+				return false;
+			});
+		};
 		// 页面加载时
 		onMounted(() => {});
 
@@ -251,6 +267,7 @@ export default {
 			editItemDlgRef,
 			editLineListDlgRef,
 			getProject,
+			onModelDel,
 			saveJjps,
 			onOpenItemDialog,
 			onOpenListDialog,
