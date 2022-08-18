@@ -75,9 +75,7 @@ export default {
 		});
 		// 打开弹窗
 		const openDialog = (kind: string, isAdd: boolean, item: object, isAjax: boolean) => {
-			if (isAjax) {
-				state.isAjax = isAjax;
-			}
+			state.isAjax = isAjax;
 			state.ruleForm = { Id: '0', Kind: 'zgps', Content: '', Standard: '', TechnicalMaxScore: 0 };
 			if (isAdd) {
 				state.ruleForm.Id = 0;
@@ -101,7 +99,7 @@ export default {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
-					if (!state.isAjax) {
+					if (state.isAjax) {
 						try {
 							state.ruleForm.Parentid = store.state.project.projectLineId;
 							const res = await proxy.$api.erp.projectsettingline.save(state.ruleForm);

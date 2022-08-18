@@ -44,7 +44,7 @@
 				>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
 					<el-table-column prop="No" label="比选编号" show-overflow-tooltip fixed></el-table-column>
-					<el-table-column prop="leix" label="比选类型" show-overflow-tooltip>
+					<el-table-column prop="Kind" label="比选类型" show-overflow-tooltip>
 						<template #default="scope">
 							{{ methodList[scope.row.ProjectType] }}
 						</template>

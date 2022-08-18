@@ -367,10 +367,10 @@ export default {
 			// if (item) {
 			// 	model = JSON.parse(JSON.stringify(item));
 			// }
-			editItemDlgRef.value.openDialog(kind, isAdd, item);
+			editItemDlgRef.value.openDialog(kind, isAdd, item, false);
 		};
 		const onOpenListDialog = (kind: string) => {
-			editLineListDlgRef.value.openDialog(kind);
+			editLineListDlgRef.value.openDialog(kind, false);
 		};
 		// 页面加载时
 		onMounted(() => {});

@@ -121,9 +121,9 @@ export default {
 		const select = (key: string) => {
 			state.indexLine = key;
 			switch (state.indexLine) {
-				// case 'expert':
-				// 	reviewEditRef.value.getProject();
-				// 	break;
+				case 'expert':
+					expertEditRef.value.getExpertList();
+					break;
 				case 'review':
 					reviewEditRef.value.getProject();
 					break;

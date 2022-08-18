@@ -79,9 +79,7 @@ export default {
 		});
 		// 打开弹窗
 		const openDialog = (kind: string, isAjax: boolean) => {
-			if (isAjax) {
-				state.isAjax = isAjax;
-			}
+			state.isAjax = isAjax;
 			state.kind = kind;
 			getNewList();
 			state.isShowDialog = true;
@@ -99,7 +97,7 @@ export default {
 					model.Standard = item.Standard;
 					model.TechnicalMaxScore = item.TechnicalMaxScore;
 					model.Kind = state.kind;
-					if (!state.isAjax) {
+					if (state.isAjax) {
 						model.Parentid = store.state.project.projectLineId;
 						ajaxList.push(model);
 					} else {
@@ -112,7 +110,7 @@ export default {
 					}
 				}
 			}
-			if (!state.isAjax && ajaxList.length > 0) {
+			if (state.isAjax && ajaxList.length > 0) {
 				try {
 					const res = await proxy.$api.erp.projectsettingline.saveIds(ajaxList);
 					if (res.errcode == 0) {

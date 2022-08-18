@@ -219,15 +219,15 @@ export default {
 				state.jjForm.TechnicalMaxScore = 100 - state.jjForm.TechnicalScore;
 			}
 		};
-		const onOpenItemDialog = (kind: string, isAdd: boolean, item: object, isAjax: boolean) => {
+		const onOpenItemDialog = (kind: string, isAdd: boolean, item: object) => {
 			// let model = {};
 			// if (item) {
 			// 	model = JSON.parse(JSON.stringify(item));
 			// }
-			editItemDlgRef.value.openDialog(kind, isAdd, item, isAjax);
+			editItemDlgRef.value.openDialog(kind, isAdd, item, true);
 		};
-		const onOpenListDialog = (kind: string, isAjax: boolean) => {
-			editLineListDlgRef.value.openDialog(kind, isAjax);
+		const onOpenListDialog = (kind: string) => {
+			editLineListDlgRef.value.openDialog(kind, true);
 		};
 		const saveJjps = async () => {
 			console.log('触发change事件');
