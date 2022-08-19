@@ -103,7 +103,7 @@
 							text
 							bg
 							type="primary"
-							v-if="scope.row.InsurerAuditState == 2 && scope.row.UParentid == uid"
+							v-if="scope.row.InsurerAuditState == 2 && (scope.row.UParentid == uid || isAdmin == 1) && scope.row.Uid != uid"
 							@click="onOpenEditDlg(true, scope.row)"
 							v-auth:[moduleKey]="'btn.AuditEdit'"
 						>
@@ -160,6 +160,7 @@ export default {
 		const dlgEditRef = ref();
 		const state: any = reactive({
 			uid: store.state.userInfos.userInfos.uid,
+			isAdmin: store.state.userInfos.userInfos.isAdmin,
 			moduleKey: moduleKey,
 			userData: [],
 			tableData: {
@@ -176,6 +177,7 @@ export default {
 				},
 			},
 		});
+		console.log('uid', store.state.userInfos.userInfos.uid);
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});

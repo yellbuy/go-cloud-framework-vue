@@ -29,7 +29,7 @@
 			</el-table-column>
 			<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 				<template #default="scope">
-					<el-button text bg type="danger" @click="onModelDel(scope.row.Id)">
+					<el-button text bg type="danger" @click="onModelDel(scope.$index)">
 						<el-icon>
 							<CloseBold />
 						</el-icon>
@@ -119,6 +119,7 @@ export default {
 		};
 		const getExpertList = async () => {
 			state.tableData.loading = true;
+			console.log();
 			try {
 				const res = await proxy.$api.erp.project.expertList(store.state.project.projectId);
 				if (res.errcode == 0) {
@@ -131,37 +132,90 @@ export default {
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
+			state.isShowDialog = false;
 			state.ruleForm = {
 				Roles: 0,
 				NameId: '',
 			};
 		};
+		const getAjaxData = () => {
+			let model = {
+				list: [],
+				SupervisionId: '',
+			};
+			for (let item of state.tableData.data) {
+				if (item.State == 0) {
+					model.list.push(item.User.Id);
+				} else {
+					model.SupervisionId = item.User.Id;
+				}
+			}
+			return model;
+		};
 		const onSubmit = async () => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
-					console.log(state.ruleForm);
-					let model = {};
-					model.ProjectId = store.state.project.projectId;
-					let list = [];
-					for (let item of state.tableData.data) {
-						if (state.ruleForm.Roles == '0') {
-							//添加专家
-							if (item.State == 1) {
-								// if()
-								model.SupervisionId = item.Id;
-							} else {
-								if (item.User.Id != state.ruleForm.NameId) {
-									list.push(item.Id);
-								} else {
-									// ElMessage.
-									return false;
-								}
+					let newModel = getAjaxData();
+					//判断当前角色是什么
+					if (state.ruleForm.Roles == 0) {
+						//添加为评审
+						if (state.ruleForm.NameId == newModel.SupervisionId) {
+							//当前专家是监审
+							newModel.SupervisionId = '';
+							newModel.list.push(state.ruleForm.NameId);
+						} else {
+							newModel.list.push(state.ruleForm.NameId);
+						}
+					} else {
+						//添加为监审
+						for (let i = 0; i <= newModel.list.length; i++) {
+							if (newModel.list[i] == state.ruleForm.NameId) {
+								newModel.list.splice(i, 1);
 							}
 						}
+						newModel.SupervisionId = state.ruleForm.NameId;
+					}
+					let model = {
+						projectId: store.state.project.projectId,
+						SupervisionId: newModel.SupervisionId,
+						ExpertIds: newModel.list.toString(),
+					};
+					try {
+						const res = await proxy.$api.erp.project.expertSave(model);
+						if (res.errcode != 0) {
+							return;
+						}
+						closeDialog();
+						getExpertList();
+					} finally {
 					}
 				} else {
 					return false;
 				}
+			});
+		};
+		const onModelDel = (index: number) => {
+			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				state.tableData.data.splice(index, 1);
+				let newModel = getAjaxData();
+				let model = {
+					projectId: store.state.project.projectId,
+					SupervisionId: newModel.SupervisionId,
+					ExpertIds: newModel.list.toString(),
+				};
+				try {
+					const res = await proxy.$api.erp.project.expertSave(model);
+					if (res.errcode != 0) {
+						return;
+					}
+					getExpertList();
+				} finally {
+				}
+				return false;
 			});
 		};
 		// 页面加载时
@@ -175,12 +229,13 @@ export default {
 			rules,
 			onSubmit,
 			closeDialog,
+			getAjaxData,
 			getVipList,
 			getExpertList,
+			onModelDel,
 			...toRefs(state),
 		};
 	},
-	components: {},
 };
 </script>
 
