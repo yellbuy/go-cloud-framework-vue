@@ -50,7 +50,9 @@ export default {
 		currency: '金币',
 		notice: '通知',
 		signUp: "报名",
-		selection: "评选"
+		selection: "评选",
+		setBidOpeningPackage: "设为开标包",
+		wastePackage: "废包"
 	},
 	validRule: {
 		required: '必填项',

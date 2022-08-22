@@ -50,7 +50,9 @@ export default {
 		notice: '通知',
 		signUp: "报名",
 		selection: "评选",
-		return: "返回"
+		return: "返回",
+		setBidOpeningPackage: "设为开标包",
+		wastePackage: "废包"
 	},
 	validRule: {
 		required: '必填项',

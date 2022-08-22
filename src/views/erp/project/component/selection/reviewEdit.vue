@@ -211,7 +211,6 @@ export default {
 		};
 		const getScore = () => {
 			if (state.jsTableData.data && state.jsTableData.data.length > 0) {
-				console.log(state.jjForm);
 				state.jjForm.TechnicalScore = 0;
 				for (let item of state.jsTableData.data) {
 					state.jjForm.TechnicalScore += item.TechnicalMaxScore;
@@ -230,7 +229,6 @@ export default {
 			editLineListDlgRef.value.openDialog(kind, true);
 		};
 		const saveJjps = async () => {
-			console.log('触发change事件');
 			if (state.projectLineIndex != '' && state.projectLineIndex != 0) {
 				try {
 					const res = await proxy.$api.erp.projectsettingline.save(state.jjForm);

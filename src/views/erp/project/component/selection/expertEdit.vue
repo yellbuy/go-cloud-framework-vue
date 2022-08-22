@@ -118,8 +118,8 @@ export default {
 			}
 		};
 		const getExpertList = async () => {
+			console.log('父类数据', proxy.$parent);
 			state.tableData.loading = true;
-			console.log();
 			try {
 				const res = await proxy.$api.erp.project.expertList(store.state.project.projectId);
 				if (res.errcode == 0) {
