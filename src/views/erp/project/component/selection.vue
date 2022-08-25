@@ -19,7 +19,7 @@
 					<el-sub-menu index="2">
 						<template #title>项目评选</template>
 						<el-menu-item index="bid">选择项目包号</el-menu-item>
-						<el-menu-item index="2-2">比选人名单</el-menu-item>
+						<el-menu-item index="companyBid">比选人名单</el-menu-item>
 						<el-menu-item index="2-3">评选一览表</el-menu-item>
 					</el-sub-menu>
 					<el-sub-menu index="3">
@@ -59,6 +59,7 @@
 						<expertEdit ref="expertEditRef" v-show="indexLine == 'expert'" />
 						<reviewEdit ref="reviewEditRef" v-show="indexLine == 'review'" />
 						<bidEdit ref="bidEditRef" v-show="indexLine == 'bid'" />
+						<companyBid ref="companyBidRef" v-show="indexLine == 'companyBid'" />
 					</el-card>
 				</div>
 			</el-col>
@@ -75,9 +76,10 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import reviewEdit from './selection/reviewEdit.vue';
 import expertEdit from './selection/expertEdit.vue';
 import bidEdit from './selection/projectBid.vue';
+import companyBid from './selection/companyBid.vue';
 export default {
 	name: 'api_sys_project_selection',
-	components: { reviewEdit, expertEdit, bidEdit },
+	components: { reviewEdit, expertEdit, bidEdit, companyBid },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -95,6 +97,7 @@ export default {
 		const reviewEditRef = ref();
 		const expertEditRef = ref();
 		const bidEditRef = ref();
+		const companyBidRef = ref();
 		const { dateFormat } = commonFunction();
 		const GetByIdRow = async () => {
 			let Id = store.state.project.projectId;
@@ -116,6 +119,7 @@ export default {
 						state.FilesList.push(image);
 					}
 				}
+				select(state.indexLine);
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -133,6 +137,9 @@ export default {
 				case 'bid':
 					bidEditRef.value.getBidList();
 					break;
+				case 'companyBid':
+					companyBidRef.value.getCompanyList();
+					break;
 			}
 		};
 		const changeSelection = () => {
@@ -147,6 +154,7 @@ export default {
 			expertEditRef,
 			reviewEditRef,
 			bidEditRef,
+			companyBidRef,
 			dateFormat,
 			changeSelection,
 			select,
