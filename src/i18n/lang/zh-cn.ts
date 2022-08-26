@@ -16,6 +16,7 @@ export default {
 		systemParameter: '参数模板',
 		systemBidProject: '招标项目',
 		systemMyBidProject: '我要投标',
+		systemSignUp: "报名项目",
 		systemBaseInfo: "基本信息",
 		systemSupplier: "供应商管理",
 		systemSupInformation: "供应商基本信息",
