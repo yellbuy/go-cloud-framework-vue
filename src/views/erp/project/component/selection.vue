@@ -46,7 +46,7 @@
 								</el-icon>
 								&#8197;{{ $t('message.action.return') }}
 							</el-button>
-							<el-button type="info" @click="GetByIdRow">
+							<el-button type="info" @click="GetByIdRow(true)">
 								<el-icon>
 									<Refresh />
 								</el-icon>
@@ -99,7 +99,7 @@ export default {
 		const bidEditRef = ref();
 		const companyBidRef = ref();
 		const { dateFormat } = commonFunction();
-		const GetByIdRow = async () => {
+		const GetByIdRow = async (isState: boolean) => {
 			let Id = store.state.project.projectId;
 			state.isSelection = true;
 			try {
@@ -119,7 +119,9 @@ export default {
 						state.FilesList.push(image);
 					}
 				}
-				select(state.indexLine);
+				if (isState) {
+					select(state.indexLine);
+				}
 			} finally {
 				state.isShowDialog = true;
 			}

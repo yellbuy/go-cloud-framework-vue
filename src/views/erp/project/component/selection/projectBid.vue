@@ -63,7 +63,7 @@ export default {
 		//获取项目品目信息
 		const getBidList = async () => {
 			//重新请求数据
-			await proxy.$parent.$parent.$parent.$parent.GetByIdRow();
+			await proxy.$parent.$parent.$parent.$parent.GetByIdRow(false);
 			//获取存储的项目数据
 			state.project = store.state.project.project;
 			if (state.project.ProjectLineList) {
