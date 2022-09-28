@@ -102,7 +102,38 @@
 									</el-icon>
 									&#8197;{{ $t('message.action.add') }}
 								</el-button>
+								<el-button type="primary" @click="download()" v-auth:[moduleKey]="'btn.CategoryAdd'">
+									<el-icon>
+										<Bottom />
+									</el-icon>
+									&#8197;{{ $t('message.action.download') }}
+								</el-button>
+								<el-upload
+									class="upload-demo"
+									:action="`${baseUrl}/v1/eshop/goods/virtual/import/` + CategoryId"
+									name="file"
+									:limit="1"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onImageUploadSuccess"
+									:show-file-list="false"
+									style="margin-left: 15px"
+								>
+									<el-button type="primary">&#8197;{{ $t('message.action.import') }}</el-button>
+								</el-upload>
 							</el-form-item>
+							<!-- <el-form-item label="所属类别" prop="CategoryId">
+								<el-tree-select
+									v-model="CategoryId"
+									placeholder="请选择父级"
+									default-expand-all
+									node-key="Id"
+									:value-key="Id"
+									:current-node-key="CategoryId"
+									:data="mainTableData.data"
+									:props="{ label: 'Name', value: 'Id', children: 'Children' }"
+									check-strictly
+								/>
+							</el-form-item> -->
 							<el-form-item> </el-form-item>
 						</el-form>
 					</div>
@@ -252,9 +283,11 @@ import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { useRoute } from 'vue-router';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
 import dlgMainEdit from './component/categoryEdit.vue';
 import dlgChildEdit from './component/virtualEdit.vue';
+import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 import other from '/@/utils/other';
 import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
@@ -270,11 +303,21 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 		const dlgMainEditRef = ref();
 		const dlgChildEditRef = ref();
+		const store = useStore();
+		const token = Session.get('token');
+		// 获取用户信息 vuex
+		const getUserInfos = computed(() => {
+			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
+			return store.state.userInfos.userInfos;
+		});
 		const state: any = reactive({
+			baseUrl: import.meta.env.VITE_API_URL,
 			moduleKey: moduleKey,
+			token: token,
 			kind,
 			scopeMode,
 			scopeValue,
+			CategoryId: null,
 			mainTableData: {
 				data: [],
 				total: 0,
@@ -355,6 +398,7 @@ export default {
 		const onMainCellClick = async (row: any, column: any, cell: any, event: any) => {
 			console.log(column);
 			state.childTableData.param.categoryId = row.Id || '0';
+			state.CategoryId = state.childTableData.param.categoryId;
 			onGetChildTableData();
 			// if(row && column.property=="Title"){
 			// 	// const res=await proxy.$api.cms.article.getById(row.Id)
@@ -365,6 +409,20 @@ export default {
 			// }
 		};
 
+		const download = () => {
+			console.log('下载模板');
+			// var ishttps = 'https:' == document.location.protocol ? true : false;
+			//window.location.host
+			var url = import.meta.env.VITE_URL + '/static/download/eshop/eshop_goods.xlsx';
+			console.log(url);
+			// if (ishttps) {
+			// 	url = 'https://' + url;
+			// } else {
+			// 	url = 'http://' + url;
+			// }
+
+			window.open(url);
+		};
 		/* 子表相关 */
 		state.childTableData.param.pageIndex = computed(() => {
 			return state.childTableData.param.pageNum - 1;
@@ -457,6 +515,14 @@ export default {
 			state.childTableData.param.pageNum = val;
 			onGetChildTableData();
 		};
+		const onImageUploadSuccess: UploadProps['onSuccess'] = (res, uploadFile) => {
+			console.log('onSuccess:', res);
+			if (res.errcode != 0) {
+				ElMessage.error(res.errmsg);
+				return;
+			}
+			onGetChildTableData(true);
+		};
 
 		// 页面加载时
 		onMounted(() => {
@@ -468,14 +534,16 @@ export default {
 
 		return {
 			proxy,
+			getUserInfos,
 			dlgMainEditRef,
 			dlgChildEditRef,
+			onImageUploadSuccess,
 			onMainRefresh,
 			onGetMainTableData,
 			onOpenMainEditDlg,
 			onMainRowDel,
 			onMainCellClick,
-
+			download,
 			onGetChildTableData,
 			onCopyChildRow,
 			onResetChildSearch,
