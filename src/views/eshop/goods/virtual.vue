@@ -110,7 +110,7 @@
 								</el-button>
 								<el-upload
 									class="upload-demo"
-									:action="`${baseUrl}/v1/eshop/goods/virtual/import/` + CategoryId"
+									:action="`${baseUrl}/v2/admin/eshop/goods/virtual/import`"
 									name="file"
 									:limit="1"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
