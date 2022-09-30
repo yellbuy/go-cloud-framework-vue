@@ -110,7 +110,7 @@
 								</el-button>
 								<el-upload
 									class="upload-demo"
-									:action="`${baseUrl}/v2/admin/eshop/goods/virtual/import`"
+									:action="`${baseUrl}/v2/admin/eshop/goods/virtual/import/` + CategoryId"
 									name="file"
 									:limit="1"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
@@ -171,6 +171,8 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="GoodsName" label="名称" width="200"> </el-table-column>
+						<el-table-column prop="GoodsNameStyle" label="文章号" width="200"> </el-table-column>
+						<el-table-column prop="ExtensionCode" label="英文简称" width="200"> </el-table-column>
 						<el-table-column prop="IsOnSale" label="在售" width="80" align="center">
 							<template #default="scope">
 								<el-switch
@@ -413,7 +415,7 @@ export default {
 			console.log('下载模板');
 			// var ishttps = 'https:' == document.location.protocol ? true : false;
 			//window.location.host
-			var url = import.meta.env.VITE_URL + '/static/download/eshop/eshop_goods.xlsx';
+			var url = import.meta.env.VITE_URL + '/static/download/eshop/eshop_goods.xlsx?var=' + (Math.random() * 10000).toString();
 			console.log(url);
 			// if (ishttps) {
 			// 	url = 'https://' + url;

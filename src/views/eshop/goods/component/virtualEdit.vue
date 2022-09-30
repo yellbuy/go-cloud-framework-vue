@@ -1,6 +1,6 @@
 <template>
 	<div class="cms-edit-article-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="60%">
+		<el-dialog :title="title" v-model="isShowDialog" width="60%" :destroy-on-close="true">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading">
 				<el-tabs type="border-card" ref="tabsRef">
 					<el-tab-pane :key="0" label="基本">
@@ -8,6 +8,12 @@
 							<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
 								<el-form-item label="名称" prop="GoodsName">
 									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="请输入名称" maxlength="100" clearable></el-input>
+								</el-form-item>
+								<el-form-item label="文章号" prop="GoodsNameStyle">
+									<el-input v-model="ruleForm.GoodsNameStyle" placeholder="请输入文章号" clearable></el-input>
+								</el-form-item>
+								<el-form-item label="英文简述" prop="ExtensionCode">
+									<el-input v-model="ruleForm.ExtensionCode" placeholder="请输入英文简述" clearable></el-input>
 								</el-form-item>
 								<el-form-item label="所属类别" prop="CategoryId">
 									<el-tree-select
@@ -22,9 +28,11 @@
 										check-strictly
 									/>
 								</el-form-item>
+
 								<el-form-item label="货号/编码" prop="GoodsSn">
 									<el-input v-model="ruleForm.GoodsSn" autofocus placeholder="请输入货号代码" maxlength="50" clearable></el-input>
 								</el-form-item>
+
 								<el-form-item label="在售" prop="IsOnSale">
 									<el-col :span="2">
 										<el-switch
@@ -104,9 +112,12 @@
 					</el-tab-pane>
 					<el-tab-pane :key="1" label="详情">
 						<vue-ueditor-wrap
+							@ready="ready"
+							@before-init="before"
 							:editor-id="`editor-goods-desc`"
 							:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js', 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css']"
 							v-model="ruleForm.GoodsDesc"
+							:forceInit="true"
 							:config="{
 								UEDITOR_HOME_URL: '/ueditor/',
 								serverUrl: `${baseUrl}/v1/common/editor/${getUserInfos.appid}`,
@@ -284,6 +295,13 @@ export default {
 		const closeDialog = () => {
 			state.isShowDialog = false;
 		};
+		const ready = (res) => {
+			console.log('初始化完成', res);
+		};
+		const before = (res) => {
+			console.log('初始化前');
+		};
+
 		// 取消
 		const onCancel = () => {
 			closeDialog();
@@ -357,6 +375,8 @@ export default {
 			onImageUploadSuccess,
 			onBeforeImageUpload,
 			onSubmit,
+			ready,
+			before,
 			...toRefs(state),
 		};
 	},
