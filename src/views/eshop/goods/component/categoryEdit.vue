@@ -1,6 +1,6 @@
 <template>
 	<div class="cms-edit-article-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%">
+		<el-dialog :title="title" v-model="isShowDialog" width="80%" :destroy-on-close="true">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
@@ -10,6 +10,7 @@
 						<el-form-item label="标识" prop="Key">
 							<el-input v-model="ruleForm.Key" placeholder="可为空，如填写标识则必须唯一" maxlength="100" clearable></el-input>
 						</el-form-item>
+
 						<el-form-item label="父级" prop="Parentid">
 							<el-tree-select
 								v-model="ruleForm.Parentid"
