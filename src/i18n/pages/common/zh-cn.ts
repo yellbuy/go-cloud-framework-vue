@@ -6,6 +6,7 @@ export default {
 		commonData: '基础代码',
 		concreteData:'基础代码',
 		hierarchyData:'层级代码',
+		industry:'行业类型',
 	},
 	action:{
 	}

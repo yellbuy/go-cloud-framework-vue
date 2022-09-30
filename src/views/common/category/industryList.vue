@@ -39,7 +39,33 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip />
-				<el-table-column prop="Name" label="类别名称" show-overflow-tooltip />
+				<el-table-column prop="Key" width="100" label="类别标识" show-overflow-tooltip />
+				<el-table-column prop="Name" width="200" label="类别名称" show-overflow-tooltip />
+				<el-table-column prop="State" label="状态" width="80" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-switch v-model="scope.row.State" inline-prompt :width="46" v-auth:[moduleKey]="'btn.CategoryEdit'"
+						@change="proxy.$api.common.table.updateById('common_category','state',scope.row.Id,scope.row.State)" 
+						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
+						<el-tag type="success" effect="plain"  v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{ $t('message.action.disable') }}</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Order" label="排序" width="100" align="center">
+					<template #header>
+						<el-button  type="text" v-if="tableData.data" 
+							@click="proxy.$api.common.table.update('common_data','Order', tableData.data||[], 0)" v-auth:[moduleKey]="'btn.CategoryEdit'">
+							<el-icon>
+								<Edit />
+							</el-icon>
+							&#8197;排序{{ $t('message.action.update') }}
+						</el-button>
+						<span v-no-auth:[moduleKey]="'btn.CategoryEdit'">排序</span>
+					</template>
+					<template #default="scope">
+						<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.CategoryEdit'"> </el-input>
+						<span v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{scope.row.Order}}</span>
+					</template>
+				</el-table-column>
 				<el-table-column prop="Description" label="类别描述" show-overflow-tooltip />
 				<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
 					<template #default="scope">
@@ -72,23 +98,21 @@
 			>
 			</el-pagination>
 		</el-card>
-		<suplierKindEdit ref="suplierKindEditRef" />
+		<industryEdit ref="industryEditRef" />
 	</div>
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, getCurrentInstance } from 'vue';
-import { getPageCategoryList } from '../../../api/common/category';
-import suplierKindEdit from './component/suplierKindEdit.vue';
+import { ElMessageBox } from 'element-plus';
+import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import request from '/@/utils/request';
+import industryEdit from './component/industryEdit.vue';
 export default {
-	name: 'supplierKind',
-	components: { suplierKindEdit },
+	name: 'industryList',
+	components: { industryEdit },
 	setup() {
 		const route = useRoute();
-		const suplierKindEditRef = ref();
+		const industryEditRef = ref();
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
@@ -116,7 +140,7 @@ export default {
 		});
 		// 打开弹窗
 		const onOpenEditDlg = (id: string) => {
-			suplierKindEditRef.value.openDialog(state.kind, id);
+			industryEditRef.value.openDialog(state.kind, id);
 		};
 		//表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
@@ -169,7 +193,7 @@ export default {
 			});
 		};
 		return {
-			suplierKindEditRef,
+			industryEditRef,
 			onResetSearch,
 			onOpenEditDlg,
 			onGetTableData,

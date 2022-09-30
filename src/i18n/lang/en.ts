@@ -12,7 +12,6 @@ export default {
 		systemBidProject: "systemBidProject",
 		systemSupplier: 'systemSupplier',
 		systemSupInformation: "systemSupInformation",
-		supplierKind: "supplierKind",
 		systemDept: 'systemDept',
 		systemDic: 'systemDic',
 		limits: 'limits',

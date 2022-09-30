@@ -2,9 +2,22 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
+				<el-form-item label="类别标识" prop="Key">
+					<el-input v-model="ruleForm.Key"></el-input>
+				</el-form-item>
 				<el-form-item label="类别名称" prop="Name">
 					<el-input v-model="ruleForm.Name"></el-input>
 				</el-form-item>
+				<el-form-item prop="State" label="状态">
+					<el-checkbox v-model="ruleForm.State" :true-label="1" :false-label="0">有效</el-checkbox>
+				</el-form-item>
+				<el-form-item label="排序" prop="Order">
+					<el-col :span="12">
+						<el-input type="number" placeholder="排序" v-model="ruleForm.Order"> </el-input>
+						<p title="" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>值小的靠前显示</span></p>
+					</el-col>
+				</el-form-item>
+				
 				<el-form-item label="类别描述" prop="Description">
 					<el-input v-model="ruleForm.Description" type="textarea"></el-input>
 				</el-form-item>
@@ -25,10 +38,8 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElMessageBox, ElMessage } from 'element-plus';
 export default {
 	name: 'categoryEdit',
 	setup() {
@@ -52,6 +63,13 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
+			Key: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
 			Name: [
 				{
 					required: true,
@@ -63,11 +81,13 @@ export default {
 
 		// 打开弹窗
 		const openDialog = (Type: string, id: string) => {
-			if (id != '0') {
+			if (id && id != '0') {
 				GetByIdRow(id);
 				state.title = t('message.action.edit');
 			} else {
 				state.ruleForm.Id = 0;
+				state.ruleForm.State = 1;
+				state.ruleForm.Order=100;
 				state.title = t('message.action.add');
 			}
 			state.ruleForm.Type = Type;
@@ -102,7 +122,8 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
-					state.ruleForm.State = 1;
+					state.ruleForm.Order = parseInt(state.ruleForm.Order);
+					state.ruleForm.State = parseInt(state.ruleForm.State);
 					try {
 						const res = await proxy.$api.common.category.save(state.ruleForm);
 						if (res.errcode == 0) {

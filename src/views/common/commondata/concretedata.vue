@@ -98,9 +98,9 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, getCurrentInstance } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import concreteDataEdit from './component/concreteDataEdit.vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
 export default {
 	name: 'commonConcreteData',
 	components: { concreteDataEdit },

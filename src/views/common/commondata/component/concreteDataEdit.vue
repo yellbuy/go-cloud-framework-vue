@@ -53,9 +53,8 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElMessageBox, ElMessage } from 'element-plus';
 import account from '/@/views/login/component/account.vue';
 export default {
   components: { account },
