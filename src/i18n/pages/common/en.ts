@@ -6,6 +6,7 @@ export default {
 		commonData: 'common data',
 		concreteData:'concrete data',
 		hierarchyData:'hierarchy data',
+		industry:'industry type',
 	},
 	action:{
 	}
