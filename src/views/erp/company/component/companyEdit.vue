@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="130px" v-loading="loading" :disabled="disable">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">工商信息*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
@@ -34,48 +34,42 @@
 						<el-form-item label="纳税人类型：" prop="TaxpayerKind">
 							<el-input v-model="ruleForm.TaxpayerKind" placeholder="纳税人类型"></el-input> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="经营期限：" required>
-							<el-col :span="11">
-								<el-form-item prop="BusinessStartTime">
-									<el-date-picker
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="经营期限：" prop="BusinessStartTime" required>
+							<el-date-picker
+								v-model="ruleForm.BusinessStartTime"
+								type="date"
+								placeholder="开始日期"
+								format="YYYY-MM-DD"
+							></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="至：" prop="BusinessStartTime"  required>
+							<el-date-picker
 										v-model="ruleForm.BusinessStartTime"
 										type="date"
 										placeholder="开始日期"
 										format="YYYY-MM-DD"
-										style="width: 100%"
 									></el-date-picker>
-								</el-form-item>
-							</el-col>
-							<el-col class="text-center" :span="2">
-								<span class="text-gray-500">-</span>
-							</el-col>
-							<el-col :span="11">
-								<el-form-item prop="BusinessEndTime">
-									<el-date-picker
-										v-model="ruleForm.BusinessEndTime"
-										type="date"
-										placeholder="结束日期"
-										format="YYYY-MM-DD"
-										style="width: 100%"
-									></el-date-picker>
-								</el-form-item>
-							</el-col>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-divider content-position="left">资质信息*</el-divider>
-				<el-button type="primary" @click="onModelAdd" v-if="!disable">
-					<el-icon>
-						<CirclePlusFilled />
-					</el-icon>
-					&#8197;{{ $t('message.action.add') }}
-				</el-button>
-				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" border stripe highlight-current-row>
+				<el-divider content-position="left">*资质信息 
+					<el-button type="primary" @click="onModelAdd" v-if="!disable" >
+						<el-icon>
+							<CirclePlusFilled />
+						</el-icon>
+						&#8197;{{ $t('message.action.add') }}
+					</el-button>
+				</el-divider>
+				
+				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" 
+				border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column label="供应商类别" width="120" show-overflow-tooltip>
+					<el-table-column label="行业类别" width="120" show-overflow-tooltip>
 						<template #default="scope">
-							<div v-for="(item, key) in supKindData" :key="key">
+							<div v-for="(item, key) in industryList" :key="key">
 								<span v-if="item.Id == scope.row.CategoryId">{{ item.Name }}</span>
 							</div>
 						</template>
@@ -134,21 +128,21 @@
 			</template>
 		</el-dialog>
 		<el-dialog v-model="dialogVisible" title="证件信息" width="50%">
-			<el-form ref="categoryFormRef" :model="tableItem" :rules="categoryRules" size="mini" label-width="130px" v-loading="loading">
+			<el-form ref="categoryFormRef" :model="tableItem" :rules="categoryRules" label-width="130px" v-loading="loading">
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="供应商类别：" prop="CategoryId">
+						<el-form-item label="行业类别" prop="CategoryId">
 							<el-select v-model="tableItem.CategoryId" class="m-2" placeholder="请选择公司类别" clearable>
-								<el-option v-for="item in supKindData" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="item in industryList" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
-						><el-form-item label="证件名称：" prop="Name"> <el-input v-model="tableItem.Name" placeholder="证件名称"></el-input> </el-form-item
+						><el-form-item label="证件名称" prop="Name"> <el-input v-model="tableItem.Name" placeholder="证件名称"></el-input> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
-						><el-form-item label="有效期限：" prop="StartTime">
+						><el-form-item label="有效期限" prop="EndTime">
 							<el-date-picker
-								v-model="tableItem.StartTime"
+								v-model="tableItem.EndTime"
 								type="date"
 								placeholder="有限期限"
 								format="YYYY-MM-DD"
@@ -156,7 +150,7 @@
 							></el-date-picker> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"
-						><el-form-item label="上传附件：" prop="Files">
+						><el-form-item label="上传附件" prop="Files">
 							<div class="mt10" style="border: 1px gray dashed">
 								<el-upload
 									:action="`${baseUrl}/v1/file/upload`"
@@ -186,15 +180,14 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import { reactive, toRefs, onMounted, getCurrentInstance, computed, ref, toRaw, markRaw } from 'vue';
+import { Plus } from '@element-plus/icons-vue';
+import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
-import { Plus, ZoomIn, Download, Delete } from '@element-plus/icons-vue';
-import { getPageCategoryList } from '../../../../api/common/category';
-import commonFunction from '/@/utils/commonFunction';
-import { Session } from '/@/utils/storage';
 import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
+import request from '/@/utils/request';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'companyEdit',
 	setup() {
@@ -275,11 +268,12 @@ export default {
 				Name: '',
 				Files: '',
 				StartTime: '',
-				Kind: 'supplier',
+				EndTime:'',
+				Kind: 'bpp',
 			},
 			dialogVisible: false,
 			//供应商类型
-			supKindData: [],
+			industryList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -383,6 +377,13 @@ export default {
 					trigger: 'blur',
 				},
 			],
+			EndTime: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
 		});
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
@@ -391,11 +392,11 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
-				const res = await proxy.$api.common.category.getConcreteDataList(kind, 0, 2, { pageNum: 1, pageSize: 10000 });
+				const res = await proxy.$api.common.category.getConcreteDataList('industry', 0, 2, { pageNum: 1, pageSize: 10000 });
 				if (res.errcode != 0) {
 					return;
 				}
-				state.supKindData = res.data;
+				state.industryList = res.data;
 				state.disable = disable;
 				if (id != '0') {
 					GetByIdRow(id);

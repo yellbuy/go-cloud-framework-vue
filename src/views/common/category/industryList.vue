@@ -40,11 +40,11 @@
 			>
 				<el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip />
 				<el-table-column prop="Key" width="100" label="类别标识" show-overflow-tooltip />
-				<el-table-column prop="Name" width="200" label="类别名称" show-overflow-tooltip />
+				<el-table-column prop="Name" width="240" label="类别名称" show-overflow-tooltip />
 				<el-table-column prop="State" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch v-model="scope.row.State" inline-prompt :width="46" v-auth:[moduleKey]="'btn.CategoryEdit'"
-						@change="proxy.$api.common.table.updateById('common_category','state',scope.row.Id,scope.row.State)" 
+						@change="proxy.$api.common.table.updateById('common_category','State',scope.row.Id,scope.row.State)" 
 						:active-text="$t('message.action.enable')" :inactive-text="$t('message.action.disable')" :active-value="1" :inactive-value="0"/>
 						<el-tag type="success" effect="plain"  v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain"  v-else v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{ $t('message.action.disable') }}</el-tag>
@@ -53,7 +53,7 @@
 				<el-table-column prop="Order" label="排序" width="100" align="center">
 					<template #header>
 						<el-button  type="text" v-if="tableData.data" 
-							@click="proxy.$api.common.table.update('common_data','Order', tableData.data||[], 0)" v-auth:[moduleKey]="'btn.CategoryEdit'">
+							@click="proxy.$api.common.table.update('common_category','Order', tableData.data||[], 0)" v-auth:[moduleKey]="'btn.CategoryEdit'">
 							<el-icon>
 								<Edit />
 							</el-icon>
