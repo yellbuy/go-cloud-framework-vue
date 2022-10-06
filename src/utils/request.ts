@@ -3,8 +3,15 @@ import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import { v4 } from 'uuid';
 import { Session } from '/@/utils/storage';
 // let appid = "158625451365892097" //赋能终端
-let appid = "177152369044226049" //特查查
-// let appid = "168763157232222209"//招采系统
+// let appid = "177152369044226049" //特查查
+
+let appid = "168763157232222209"//招采系统
+let appPermissionKey="ybcloudapi"
+if(appid=="168763157232222209"){
+	appPermissionKey="bpp"
+} else if(appid=="158625451365892097"){
+	appPermissionKey="ims"
+}
 // 配置新建一个 axios 实例
 const service = axios.create({
 	baseURL: import.meta.env.VITE_API_URL as any,
@@ -230,7 +237,7 @@ const http = {
 	}
 }
 
-export { service as request, http, appid };
+export { service as request, http, appid, appPermissionKey };
 
 // 导出 axios 实例
 export default service;

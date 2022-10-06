@@ -10,7 +10,7 @@
 		<el-form-item class="login-animation-two">
 			<el-row :gutter="15">
 				<el-col :span="16">
-					<el-input type="text" maxlength="4" :placeholder="$t('message.mobile.placeholder2')" v-model="ruleForm.code" clearable autocomplete="off">
+					<el-input type="text" maxlength="6" :placeholder="$t('message.mobile.placeholder2')" v-model="ruleForm.code" clearable autocomplete="off">
 						<template #prefix>
 							<el-icon class="el-input__icon"><Position /></el-icon>
 						</template>
@@ -34,8 +34,8 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, defineComponent } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { defineComponent, reactive, toRefs } from 'vue';
+import { useRoute } from 'vue-router';
 export default defineComponent({
 	name: 'loginMobile',
 	setup() {

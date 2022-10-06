@@ -1,7 +1,8 @@
 <template>
 	<el-form class="login-content-form" size="large" @keyup.enter="onSignIn">
 		<el-form-item class="login-animation-one">
-			<el-input type="text" :placeholder="$t('pages.login.account.accountPlaceholder1')" v-model="ruleForm.username" clearable autocomplete="off">
+			<el-input type="text" :placeholder="$t('pages.login.account.accountPlaceholder1')" v-model="ruleForm.username" 
+			clearable autocomplete="new-Password">
 				<template #prefix>
 					<el-icon class="el-input__icon"><User /></el-icon>
 				</template>
@@ -12,7 +13,7 @@
 				:type="isShowPassword ? 'text' : 'password'"
 				:placeholder="$t('pages.login.account.accountPlaceholder2')"
 				v-model="ruleForm.password"
-				autocomplete="off"
+				autocomplete="new-Password"
 			>
 				<template #prefix>
 					<el-icon class="el-input__icon"><Unlock /></el-icon>
@@ -32,11 +33,11 @@
 				<el-col :span="16">
 					<el-input
 						type="text"
-						maxlength="4"
+						maxlength="6"
 						:placeholder="$t('pages.login.account.accountPlaceholder3')"
 						v-model="ruleForm.code"
 						clearable
-						autocomplete="off"
+						autocomplete="new-Password"
 					>
 						<template #prefix>
 							<el-icon class="el-input__icon"><Position /></el-icon>
@@ -63,15 +64,15 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, defineComponent, computed,onMounted, getCurrentInstance } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
+import { computed, defineComponent, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { initFrontEndControlRoutes } from '/@/router/frontEnd';
+import { useRoute, useRouter } from 'vue-router';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
+import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { useStore } from '/@/store/index';
-import { Session,Local } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
+import { Local, Session } from '/@/utils/storage';
 
 export default defineComponent({
 	name: 'loginAccount',

@@ -17,6 +17,7 @@ export default {
 		accountPlaceholder2: 'Password',
 		accountPlaceholder3: 'Please enter the verification code',
 		accountBtnText: 'Sign in',
+		returnLoginBtnText: 'return sign in',
 	},
 	mobile: {
 		placeholder1: 'Please input mobile phone number',

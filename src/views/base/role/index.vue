@@ -74,10 +74,10 @@
 </template>
 
 <script lang="ts">
-import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import editDlg from './component/roleEdit.vue';
+import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'baseRoles',

@@ -1155,6 +1155,14 @@ export const staticRoutes: Array<RouteRecordRaw> = [
 		},
 	},
 	{
+		path: '/register',
+		name: 'register',
+		component: () => import('../views/base/register/index.vue'),
+		meta: {
+			title: '注册',
+		},
+	},
+	{
 		path: '/404',
 		name: 'notFound',
 		component: () => import('/@/views/error/404.vue'),

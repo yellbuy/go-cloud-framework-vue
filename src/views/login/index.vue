@@ -11,6 +11,15 @@
 					<el-tabs v-model="tabsActiveName">
 						<el-tab-pane :label="$t('pages.login.label.one1')" name="account">
 							<Account />
+							<Register :app="app"/>
+							<!-- <el-row class="mt5" v-if="app.PermissionKey=='bpp'">
+								<el-col :span="12" class="text-center font10">
+									<el-link type="primary" :href="'/register/tenant?appid='+app.Id+'&appPermissionKindKey='+app.PermissionKey">{{ $t('pages.bpp.router.registerTenant') }}</el-link>
+								</el-col>
+								<el-col :span="12" class="text-center font10">
+									<el-link type="primary" :href="'/register/user?appid='+app.Id+'&appPermissionKindKey='+app.PermissionKey">{{ $t('pages.bpp.router.registerUser') }}</el-link>
+								</el-col>
+							</el-row> -->
 						</el-tab-pane>
 						<!-- <el-tab-pane :label="$t('pages.login.label.two2')" name="mobile">
 							<Mobile />
@@ -24,6 +33,7 @@
 				</div> -->
 			</div>
 		</div>
+		
 		<div class="login-copyright" v-if="app.Copyright">
 			<div class="mb5 login-copyright-company" v-html="app.Copyright"></div>
 		</div>
@@ -35,20 +45,23 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, computed, onMounted, getCurrentInstance } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { useStore } from '/@/store/index';
+import { appid } from '/@/utils/request';
+import { Local } from '/@/utils/storage';
 import Account from '/@/views/login/component/account.vue';
 import Mobile from '/@/views/login/component/mobile.vue';
+import Register from '/@/views/login/component/register.vue';
 import Scan from '/@/views/login/component/scan.vue';
-import { useRoute, useRouter } from 'vue-router';
-import { Session,Local } from '/@/utils/storage';
-import { useStore } from '/@/store/index';
-import {request,appid} from '/@/utils/request';
 export default {
 	name: 'loginIndex',
-	components: { Account, Mobile, Scan },
+	components: { Account, Mobile, Scan, Register },
 	setup() {
 		const route = useRoute();
 		const store = useStore();
+		const { t } = useI18n();
 		const { proxy } = getCurrentInstance() as any;
 
 		const state = reactive({

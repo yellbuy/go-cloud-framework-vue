@@ -45,7 +45,6 @@ const localeMessages = Object.keys(files).reduce(
 		//进行语言包合并
 		localeMessages[localName]=Object.assign(localeMessages[localName],func);
 	}
-    
     return localeMessages
   },
   {}

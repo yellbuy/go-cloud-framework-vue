@@ -13,10 +13,11 @@ export default {
 		two6: 'Copyright: 四川业贝信息技术有限公司 川ICP备16026413号',
 	},
 	account: {
-		accountPlaceholder1: '用户登录名',
+		accountPlaceholder1: '登录用户名',
 		accountPlaceholder2: '请输入密码',
 		accountPlaceholder3: '请输入验证码',
 		accountBtnText: '登 录',
+		returnLoginBtnText: '返回登录页面',
 	},
 	mobile: {
 		placeholder1: '请输入手机号',
