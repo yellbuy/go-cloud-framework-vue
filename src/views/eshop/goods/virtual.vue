@@ -102,6 +102,10 @@
 									</el-icon>
 									&#8197;{{ $t('message.action.add') }}
 								</el-button>
+								<el-button type="danger" @click="onChildIdsDel()" v-auth:[moduleKey]="'btn.GoodsDel'">
+									<el-icon><CloseBold /></el-icon>
+									&#8197;{{ $t('message.action.batchdeletion') }}
+								</el-button>
 								<el-button type="primary" @click="download()" v-auth:[moduleKey]="'btn.CategoryAdd'">
 									<el-icon>
 										<Bottom />
@@ -144,7 +148,9 @@
 						border
 						stripe
 						highlight-current-row
+						@selection-change="handleSelectionChange"
 					>
+						<el-table-column type="selection" width="55" />
 						<el-table-column type="index" label="序号" align="right" width="70" />
 
 						<el-table-column prop="GoodsImg" label="封面图" width="60" align="center">
@@ -285,7 +291,7 @@ import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { useRoute } from 'vue-router';
-import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
+import { ElMessageBox, ElMessage, UploadProps, ElNotification } from 'element-plus';
 import dlgMainEdit from './component/categoryEdit.vue';
 import dlgChildEdit from './component/virtualEdit.vue';
 import { useStore } from '/@/store/index';
@@ -320,6 +326,7 @@ export default {
 			scopeMode,
 			scopeValue,
 			CategoryId: null,
+			selectData: [],
 			mainTableData: {
 				data: [],
 				total: 0,
@@ -507,6 +514,36 @@ export default {
 				return false;
 			});
 		};
+		// 删除记录
+		const onChildIdsDel = () => {
+			if (state.selectData.length <= 0) {
+				ElNotification.error({
+					title: '温馨提示',
+					message: '请勾选要删除的数据',
+				});
+				return;
+			}
+			ElMessageBox.confirm(`确定要删除选中记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				state.childTableData.loading = true;
+				let ids = [];
+				for (let model of state.selectData) {
+					ids.push(model.Id);
+				}
+				try {
+					const res = await proxy.$api.eshop.goods.delete(ids);
+					if (res.errcode == 0) {
+						onGetChildTableData();
+					}
+				} finally {
+					state.childTableData.loading = false;
+				}
+				return false;
+			});
+		};
 		// 分页改变
 		const onHandleChildSizeChange = (val: number) => {
 			state.childTableData.param.pageSize = val;
@@ -516,6 +553,9 @@ export default {
 		const onHandleChildCurrentChange = (val: number) => {
 			state.childTableData.param.pageNum = val;
 			onGetChildTableData();
+		};
+		const handleSelectionChange = (val: []) => {
+			state.selectData = val;
 		};
 		const onImageUploadSuccess: UploadProps['onSuccess'] = (res, uploadFile) => {
 			console.log('onSuccess:', res);
@@ -551,6 +591,8 @@ export default {
 			onResetChildSearch,
 			onOpenChildEditDlg,
 			onChildRowDel,
+			onChildIdsDel,
+			handleSelectionChange,
 			onHandleChildSizeChange,
 			onHandleChildCurrentChange,
 			dateFormatYMDHM,
