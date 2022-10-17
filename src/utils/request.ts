@@ -20,6 +20,11 @@ const service = axios.create({
 	responseType: '',
 });
 
+const setAppid = (newAppid:string="0") => {
+	appid=newAppid;
+	service.defaults.headers["Appid"]=appid;
+}
+
 
 axios.defaults.retry = 3;
 axios.defaults.retryDelay = 10000;
@@ -30,7 +35,7 @@ service.interceptors.request.use(
 		// 在发送请求之前做些什么 token
 		const token = Session.get('token');
 		if (token) {
-			config.headers.common['Authorization'] = token;
+			config.headers.set('Authorization',token);
 
 			// const tokenExpiresAt=new Date(Session.get('expiresAt'));
 			// 	const refreshTokenAt=new Date(Session.get('refreshTokenAt'));
@@ -46,7 +51,7 @@ service.interceptors.request.use(
 
 		//时间戳
 		const curTime = new Date().getTime();
-		config.headers.common['Timestamp'] = curTime;
+		config.headers.set('Timestamp',curTime);
 		return config;
 	},
 	(error) => {
@@ -237,7 +242,7 @@ const http = {
 	}
 }
 
-export { service as request, http, appid, appPermissionKey };
+export { service as request, http, appid, appPermissionKey, setAppid };
 
 // 导出 axios 实例
 export default service;

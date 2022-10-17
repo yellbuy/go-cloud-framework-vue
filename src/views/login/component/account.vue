@@ -72,6 +72,7 @@ import { initBackEndControlRoutes } from '/@/router/backEnd';
 import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
+
 import { Local, Session } from '/@/utils/storage';
 
 export default defineComponent({
@@ -248,7 +249,7 @@ export default defineComponent({
 			
 		}
 		// 页面加载时
-		onMounted(() => {
+		onMounted(() => {			
 			onRefreshCaptcha();
 		});
 		return {

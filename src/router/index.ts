@@ -6,8 +6,8 @@ import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { dynamicRoutes, staticRoutes } from '/@/router/route';
 import { store } from '/@/store/index.ts';
 import { NextLoading } from '/@/utils/loading';
-import { Session } from '/@/utils/storage';
-
+import { appid, setAppid } from '/@/utils/request';
+import { Local, Session } from '/@/utils/storage';
 /**
  * 创建一个可以被 Vue 应用程序使用的路由实例
  * @method createRouter(options: RouterOptions): Router
@@ -212,6 +212,16 @@ router.beforeEach(async (to, from, next) => {
 	if (to.meta.title) NProgress.start();
 	const token = Session.get('token');
 	if ((to.path === '/login' || to.path === '/register') && !token) {
+		//获取APPID
+		let curAppid=to.query.appid;
+		if(curAppid=="-1"){
+			curAppid=appid
+		}
+		const localAppid=Local.get('appid');
+		curAppid=curAppid||localAppid||appid;
+		console.log("curAppid:",curAppid)
+		setAppid(curAppid);
+
 		next();
 		NProgress.done();
 	} else {

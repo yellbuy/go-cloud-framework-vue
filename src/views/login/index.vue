@@ -1,7 +1,7 @@
 <template>
 	<div class="login-container">
 		<div class="login-logo">
-			<img :src="app.LogoUrl" v-if="app.Id" width="100" height="100"/>
+			<img :src="app.LogoUrl" v-if="app.Id && app.LogoUrl" width="100" height="100"/>
 			<span v-else>{{ app.Name||getThemeConfig.globalViceTitle }}</span>
 		</div>
 		<div class="login-content">
@@ -50,7 +50,6 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { appid } from '/@/utils/request';
-import { Local } from '/@/utils/storage';
 import Account from '/@/views/login/component/account.vue';
 import Mobile from '/@/views/login/component/mobile.vue';
 import Register from '/@/views/login/component/register.vue';
@@ -76,16 +75,10 @@ export default {
 		});
 		// 页面加载时
 		onMounted(async () => {
-			let curAppid=route.query.appid;
-			if(curAppid=="-1"){
-				curAppid=appid
-			}
-			const localAppid=Local.get('appid');
-			curAppid=curAppid||localAppid||appid;
-			const res = await proxy.$api.base.app.getCacheById(curAppid)
+			const res = await proxy.$api.base.app.getCacheById(appid)
 			if(res.errcode==0){
 				state.app=res.data||{}
-				state.app.LogoUrl=import.meta.env.VITE_API_URL+"/v1/avatar/app/"+curAppid+".png"
+				state.app.LogoUrl=import.meta.env.VITE_API_URL+"/v1/avatar/app/"+state.app.Id+".png"
 			}
 		});
 		return {
