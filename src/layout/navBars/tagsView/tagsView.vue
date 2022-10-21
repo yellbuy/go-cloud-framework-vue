@@ -159,14 +159,15 @@ export default {
 				let item = '';
 				if (to) {
 					// 动态路由（xxx/:id/:name"）：参数不同，开启多个 tagsview
-					!getThemeConfig.value.isShareTagsView 
-						? await solveAddTagsView(path, to) 
-						: await singleAddTagsView(path, to);
-						
+					
+					if(!to.meta.isHide){
+						!getThemeConfig.value.isShareTagsView  ? await solveAddTagsView(path, to)  : await singleAddTagsView(path, to);
+					}
+					
 					if (state.tagsViewList.some((v: any) => v.name==to.name)) return false;
 					item = state.tagsViewRoutesList.find((v: any) => v.name==to.name);
 				}
-				if(!item) {
+				if(!item || to.meta.isHide) {
 					return false
 				}
 				if (item.meta.isLink && !item.meta.isIframe) return false;
