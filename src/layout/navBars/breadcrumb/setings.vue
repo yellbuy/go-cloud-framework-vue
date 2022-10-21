@@ -382,14 +382,14 @@
 </template>
 
 <script lang="ts">
-import { nextTick, onUnmounted, onMounted, getCurrentInstance, defineComponent, computed, reactive, toRefs } from 'vue';
+import { computed, defineComponent, getCurrentInstance, nextTick, onMounted, onUnmounted, reactive, toRefs } from 'vue';
 import { useStore } from '/@/store/index';
-import { getLightColor } from '/@/utils/theme';
-import { verifyAndSpace } from '/@/utils/toolsValidate';
-import { Local } from '/@/utils/storage';
-import Watermark from '/@/utils/wartermark';
 import commonFunction from '/@/utils/commonFunction';
 import other from '/@/utils/other';
+import { Local } from '/@/utils/storage';
+import { getLightColor } from '/@/utils/theme';
+import { verifyAndSpace } from '/@/utils/toolsValidate';
+import Watermark from '/@/utils/wartermark';
 export default defineComponent({
 	name: 'layoutBreadcrumbSeting',
 	setup() {

@@ -44,15 +44,15 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, computed, ref, nextTick, onBeforeUpdate, onBeforeMount, onUnmounted, getCurrentInstance, watch } from 'vue';
-import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
-import Sortable from 'sortablejs';
 import { ElMessage } from 'element-plus';
+import Sortable from 'sortablejs';
+import { computed, getCurrentInstance, nextTick, onBeforeMount, onBeforeUpdate, onMounted, onUnmounted, reactive, ref, toRefs, watch } from 'vue';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
+import Contextmenu from '/@/layout/navBars/tagsView/contextmenu.vue';
 import { useStore } from '/@/store/index';
-import { Session } from '/@/utils/storage';
 import { isObjectValueEqual } from '/@/utils/arrayOperation';
 import other from '/@/utils/other';
-import Contextmenu from '/@/layout/navBars/tagsView/contextmenu.vue';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'layoutTagsView',
 	components: { Contextmenu },

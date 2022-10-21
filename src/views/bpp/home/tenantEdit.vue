@@ -21,9 +21,9 @@
 						<el-alert title="实名认证未通过" type="danger" v-else-if="tenant.State==-1" :closable="false"></el-alert>
 					</div>
 					<div class="ml10 mt50" v-auth:[moduleKey]="'btn.Update'">
-						<el-button type="warning" @click="onGotoEdit" size="default"  v-if="tenant.State==0">待实名认证！点击立即去进行实名认证</el-button>
-						<el-button type="success" @click="onGotoEdit" size="default" v-else-if="tenant.State==1" plain>已实名认证！点击去更新实名认证信息</el-button>
-						<el-button type="danger" @click="onGotoEdit" size="default" v-else-if="tenant.State==2">实名认证未通过！点击立即重新进行实名认证</el-button>
+						<el-button type="warning" size="default"  v-if="tenant.State==0">待实名认证！点击立即去进行实名认证</el-button>
+						<el-button type="success" size="default" v-else-if="tenant.State==1" plain>已实名认证！点击去更新实名认证信息</el-button>
+						<el-button type="danger" size="default" v-else-if="tenant.State==2">实名认证未通过！点击立即重新进行实名认证</el-button>
 					</div>
 				</div>
 				
@@ -209,9 +209,6 @@ export default {
 			},
 			myCharts: [],
 		});
-		const onGotoEdit =()=>{
-			router.push(`/bpp/home/tenantEdit`)
-		}
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
@@ -258,7 +255,6 @@ export default {
 		);
 		
 		return {
-			onGotoEdit,
 			getUserInfos,
 			currentTime,
 			...toRefs(state),
