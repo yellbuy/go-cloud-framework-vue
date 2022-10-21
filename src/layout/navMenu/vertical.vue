@@ -4,6 +4,7 @@
 		:default-active="defaultActive"
 		background-color="transparent"
 		:collapse="isCollapse"
+		:default-openeds="openLists"
 		:unique-opened="getThemeConfig.isUniqueOpened"
 		:collapse-transition="false"
 	>
@@ -31,10 +32,10 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, computed, defineComponent, getCurrentInstance, onMounted, watch } from 'vue';
-import { useRoute, onBeforeRouteUpdate } from 'vue-router';
-import { useStore } from '/@/store/index';
+import { computed, defineComponent, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import SubItem from '/@/layout/navMenu/subItem.vue';
+import { useStore } from '/@/store/index';
 export default defineComponent({
 	name: 'navMenuVertical',
 	components: { SubItem },
@@ -57,6 +58,23 @@ export default defineComponent({
 		const menuLists = computed(() => {
 			return props.menuList;
 		});
+		// 获取展开的菜单列表
+		const openLists = computed(() => {
+			const keys=getOpenListKeys(props.menuList,[])
+			console.log("keys:",keys)
+			return keys
+		});
+		const getOpenListKeys=(menuList:any[],keys:string[])=>{
+			menuList.forEach((val:any)=>{
+				if(val.meta.isSpread){
+					keys.push(val.meta.isDynamicPath || val.path)
+				}
+				if(val.children && val.children.length>0){
+					keys=getOpenListKeys(val.children,keys)
+				}
+			});
+			return keys;
+		}
 		// 获取布局配置信息
 		const getThemeConfig = computed(() => {
 			return store.state.themeConfig.themeConfig;
@@ -65,25 +83,7 @@ export default defineComponent({
 		const setParentHighlight = (currentRoute) => {
 			const { path, meta } = currentRoute;
 			return meta.isDynamicPath || currentRoute.path
-			//console.log("setParentHighlight",path,meta)
-			const pathSplit = meta.keyPath.split('//');
-			//const pathSplit = meta.isDynamic ? meta.isDynamicPath.split('/') : path.split('/');
-			if (pathSplit.length >= 4 && !meta.isHide){
-				return pathSplit.splice(0, 3).join('//');
-			} else {
-				return meta.keyPath;
-			}
 		};
-		// 设置菜单的收起/展开
-		watch(
-			store.state.themeConfig.themeConfig,
-			() => {
-				document.body.clientWidth <= 1000 ? (state.isCollapse = false) : (state.isCollapse = getThemeConfig.value.isCollapse);
-			},
-			{
-				immediate: true,
-			}
-		);
 		// 页面加载时
 		onMounted(() => {
 			state.defaultActive = setParentHighlight(route);
@@ -98,6 +98,7 @@ export default defineComponent({
 		});
 		return {
 			menuLists,
+			openLists,
 			getThemeConfig,
 			...toRefs(state),
 		};
