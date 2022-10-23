@@ -2,6 +2,7 @@
 export default {
 	router: {
 		admin: '首页',
+		certificate: '资质管理',
 		system: '系统设置',
 		systemMenu: '菜单管理',
 		systemRole: '角色管理',

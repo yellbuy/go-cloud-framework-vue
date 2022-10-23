@@ -1,17 +1,17 @@
 <template>
 	<div class="login-container">
 		<div class="login-logo">
-			<img :src="app.LogoUrl" v-if="app.Id && app.LogoUrl" width="100" height="100"/>
-			<span v-else>{{ app.Name||getThemeConfig.globalViceTitle }}</span>
+			<img :src="app.LogoUrl" v-if="app.Id && app.LogoUrl" width="100" height="100" />
+			<span v-else>{{ app.Name || getThemeConfig.globalViceTitle }}</span>
 		</div>
 		<div class="login-content">
 			<div class="login-content-main">
-				<h4 class="login-content-title" v-if="app.Id>0">{{ app.Name|| getThemeConfig.globalTitle }}</h4>
+				<h4 class="login-content-title" v-if="app.Id > 0">{{ app.Name || getThemeConfig.globalTitle }}</h4>
 				<div v-if="!isScan">
 					<el-tabs v-model="tabsActiveName">
 						<el-tab-pane :label="$t('pages.login.label.one1')" name="account">
 							<Account />
-							<Register :app="app"/>
+							<Register :app="app" />
 							<!-- <el-row class="mt5" v-if="app.PermissionKey=='bpp'">
 								<el-col :span="12" class="text-center font10">
 									<el-link type="primary" :href="'/register/tenant?appid='+app.Id+'&appPermissionKindKey='+app.PermissionKey">{{ $t('pages.bpp.router.registerTenant') }}</el-link>
@@ -33,9 +33,9 @@
 				</div> -->
 			</div>
 		</div>
-		
+
 		<div class="login-copyright" v-if="app.Copyright">
-			<div class="mb5 login-copyright-company" v-html="app.Copyright"></div>
+			<a href="https://beian.miit.gov.cn/" target="_blank" class="mb5 login-copyright-company" v-html="app.Copyright"></a>
 		</div>
 		<div class="login-copyright" v-else>
 			<!-- <div class="mb5 login-copyright-company" >{{ $t('pages.login.copyright.one5') }}</div>
@@ -67,7 +67,7 @@ export default {
 			tabsActiveName: 'account',
 			isTabPaneShow: true,
 			isScan: false,
-			app:{}
+			app: {},
 		});
 		// 获取布局配置信息
 		const getThemeConfig = computed(() => {
@@ -75,10 +75,10 @@ export default {
 		});
 		// 页面加载时
 		onMounted(async () => {
-			const res = await proxy.$api.base.app.getCacheById(appid)
-			if(res.errcode==0){
-				state.app=res.data||{}
-				state.app.LogoUrl=import.meta.env.VITE_API_URL+"/v1/avatar/app/"+state.app.Id+".png"
+			const res = await proxy.$api.base.app.getCacheById(appid);
+			if (res.errcode == 0) {
+				state.app = res.data || {};
+				state.app.LogoUrl = import.meta.env.VITE_API_URL + '/v1/avatar/app/' + state.app.Id + '.png';
 			}
 		});
 		return {
