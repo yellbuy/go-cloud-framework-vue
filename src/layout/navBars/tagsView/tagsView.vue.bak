@@ -20,24 +20,22 @@
 					<SvgIcon :name="v.meta.icon" class="layout-navbars-tagsview-ul-li-iconfont" v-if="!isActive(v) && getThemeConfig.isTagsviewIcon" />
 					<span>{{ $t(v.meta.title) }}</span>
 					<template v-if="isActive(v)">
-						<SvgIcon
-							name="elementRefreshRight"
-							class="ml5 layout-navbars-tagsview-ul-li-refresh"
-							@click.stop="refreshCurrentTagsView($route.fullPath)"
-						/>
-						<SvgIcon
-							name="elementClose"
-							class="layout-navbars-tagsview-ul-li-icon layout-icon-active"
+						<el-icon class="ml5 layout-navbars-tagsview-ul-li-refresh"
+							@click.stop="refreshCurrentTagsView($route.fullPath)">
+							<RefreshRight />
+						</el-icon>
+						<el-icon class="layout-navbars-tagsview-ul-li-icon layout-icon-active"
 							v-if="!v.meta.isAffix"
-							@click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)"
-						/>
+							@click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)">
+							<Close />
+						</el-icon>
+						
 					</template>
-					<SvgIcon
-						name="elementClose"
-						class="layout-navbars-tagsview-ul-li-icon layout-icon-three"
-						v-if="!v.meta.isAffix"
-						@click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)"
-					/>
+					<el-icon class="layout-navbars-tagsview-ul-li-icon layout-icon-three"
+							v-if="!v.meta.isAffix"
+						@click.stop="closeCurrentTagsView(getThemeConfig.isShareTagsView ? v.path : v.url)">
+						<Close />
+					</el-icon>
 				</li>
 			</ul>
 		</el-scrollbar>
@@ -46,15 +44,15 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, computed, ref, nextTick, onBeforeUpdate, onBeforeMount, onUnmounted, getCurrentInstance, watch } from 'vue';
-import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
-import Sortable from 'sortablejs';
 import { ElMessage } from 'element-plus';
+import Sortable from 'sortablejs';
+import { computed, getCurrentInstance, nextTick, onBeforeMount, onBeforeUpdate, onMounted, onUnmounted, reactive, ref, toRefs, watch } from 'vue';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
+import Contextmenu from '/@/layout/navBars/tagsView/contextmenu.vue';
 import { useStore } from '/@/store/index';
-import { Session } from '/@/utils/storage';
 import { isObjectValueEqual } from '/@/utils/arrayOperation';
 import other from '/@/utils/other';
-import Contextmenu from '/@/layout/navBars/tagsView/contextmenu.vue';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'layoutTagsView',
 	components: { Contextmenu },
@@ -134,7 +132,8 @@ export default {
 				let findItem = state.tagsViewRoutesList.find((v: any) => (v.name==to.name));
 				if (!findItem || findItem.meta.isAffix) return false;
 				if (findItem.meta.isLink && !findItem.meta.isIframe) return false;
-				to.meta.isDynamic ? (findItem.params = to.params) : (findItem.query = to.query);
+				to.meta.isDynamic ? (findItem.params = to.params, findItem.query = to.query) : (findItem.query = to.query);
+				
 				findItem.url = setTagsViewHighlight(findItem);
 				state.tagsViewList.push({ ...findItem });
 				addBrowserSetSession(state.tagsViewList);
@@ -144,13 +143,8 @@ export default {
 		const singleAddTagsView = (path: string, to?: any) => {
 			let isDynamicPath = to.meta.isDynamic ? to.meta.isDynamicPath : path;
 			state.tagsViewList.forEach((v) => {
-				if (
-					v.path === isDynamicPath &&
-					!isObjectValueEqual(
-						to.meta.isDynamic ? (v.params ? v.params : null) : v.query ? v.query : null,
-						to.meta.isDynamic ? (to?.params ? to?.params : null) : to?.query ? to?.query : null
-					)
-				) {
+				// 修改
+				if (v.name==to.name) {
 					to.meta.isDynamic ? (v.params = to.params) : (v.query = to.query);
 					v.url = setTagsViewHighlight(v);
 					addBrowserSetSession(state.tagsViewList);
@@ -164,17 +158,18 @@ export default {
 				// 修复：https://gitee.com/lyt-top/vue-next-admin/issues/I3YX6G
 				let item = '';
 				if (to) {
-					// 动态路由（xxx/:id/:name"）：参数不同，开启多个 tagsview
-					!getThemeConfig.value.isShareTagsView 
-						? await solveAddTagsView(path, to) 
-						: await singleAddTagsView(path, to);
-						
 					if (state.tagsViewList.some((v: any) => v.name==to.name)) return false;
 					item = state.tagsViewRoutesList.find((v: any) => v.name==to.name);
 				}
-				if(!item) {
+				if(!item || item.meta.isHide) {
 					return false
 				}
+				if(!getThemeConfig.value.isShareTagsView ){
+					await solveAddTagsView(path, to) 
+				} else {
+					await singleAddTagsView(path, to);
+				}
+						
 				if (item.meta.isLink && !item.meta.isIframe) return false;
 				if (to && to.meta.isDynamic) item.params = to?.params ? to?.params : route.params;
 				else item.query = to?.query ? to?.query : route.query;
@@ -254,6 +249,7 @@ export default {
 		const getCurrentRouteItem = (path: string, cParams: { [key: string]: any }) => {
 			const itemRoute = Session.get('tagsViewList') ? Session.get('tagsViewList') : state.tagsViewList;
 			return itemRoute.find((v: any) => {
+				
 				if (
 					v.path === path &&
 					isObjectValueEqual(
@@ -275,7 +271,7 @@ export default {
 			switch (item.contextMenuClickId) {
 				case 0:
 					// 刷新当前
-					if (meta.isDynamic) await router.push({ name, params });
+					if (meta.isDynamic) await router.push({ name, params, query });
 					else await router.push({ path, query });
 					refreshCurrentTagsView(route.fullPath);
 					break;
@@ -285,7 +281,7 @@ export default {
 					break;
 				case 2:
 					// 关闭其它
-					if (meta.isDynamic) await router.push({ name, params });
+					if (meta.isDynamic) await router.push({ name, params, query });
 					else await router.push({ path, query });
 					closeOtherTagsView(path);
 					break;
@@ -474,10 +470,24 @@ export default {
 		});
 		// 路由更新时
 		onBeforeRouteUpdate(async (to) => {
+			console.log("router:",router,router.options)
+			console.log("router:",router.getRoutes())
+			const routers=router.getRoutes()
+			const curRouter=routers.find((val)=>{
+				return (val.meta.isDynamic && val.meta.isDynamicPath==to.fullPath)||(!val.meta.isDynamic && val.path==to.fullPath)
+			})
+			//修正引用同一个组件的BUG
+			if(curRouter){
+				to.meta.title=curRouter.meta.title
+				to.name=curRouter.name
+				to.meta.isDynamic=curRouter.meta.isDynamic
+				to.meta.isDynamicPath=curRouter.meta.isDynamicPath
+			}
 			state.routeActive = setTagsViewHighlight(to);
 			state.routePath = to.meta.isDynamic ? to.meta.isDynamicPath : to.path;
 			//修改
 			await addTagsView(state.routePath, to);
+			
 			getTagsRefsIndex(getThemeConfig.value.isShareTagsView ? state.routePath : state.routeActive);
 		});
 		// 监听路由的变化，动态赋值给 tagsView

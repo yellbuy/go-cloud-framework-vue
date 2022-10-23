@@ -67,7 +67,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="Description" label="类别描述" show-overflow-tooltip />
-				<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
+				<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(170)" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryEdit'">
 							<el-icon>

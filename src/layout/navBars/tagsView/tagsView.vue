@@ -44,15 +44,15 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, computed, ref, nextTick, onBeforeUpdate, onBeforeMount, onUnmounted, getCurrentInstance, watch } from 'vue';
-import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
-import Sortable from 'sortablejs';
 import { ElMessage } from 'element-plus';
+import Sortable from 'sortablejs';
+import { computed, getCurrentInstance, nextTick, onBeforeMount, onBeforeUpdate, onMounted, onUnmounted, reactive, ref, toRefs, watch } from 'vue';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
+import Contextmenu from '/@/layout/navBars/tagsView/contextmenu.vue';
 import { useStore } from '/@/store/index';
-import { Session } from '/@/utils/storage';
 import { isObjectValueEqual } from '/@/utils/arrayOperation';
 import other from '/@/utils/other';
-import Contextmenu from '/@/layout/navBars/tagsView/contextmenu.vue';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'layoutTagsView',
 	components: { Contextmenu },
@@ -159,14 +159,15 @@ export default {
 				let item = '';
 				if (to) {
 					// 动态路由（xxx/:id/:name"）：参数不同，开启多个 tagsview
-					!getThemeConfig.value.isShareTagsView 
-						? await solveAddTagsView(path, to) 
-						: await singleAddTagsView(path, to);
-						
+					
+					if(!to.meta.isHide){
+						!getThemeConfig.value.isShareTagsView  ? await solveAddTagsView(path, to)  : await singleAddTagsView(path, to);
+					}
+					
 					if (state.tagsViewList.some((v: any) => v.name==to.name)) return false;
 					item = state.tagsViewRoutesList.find((v: any) => v.name==to.name);
 				}
-				if(!item) {
+				if(!item || to.meta.isHide) {
 					return false
 				}
 				if (item.meta.isLink && !item.meta.isIframe) return false;

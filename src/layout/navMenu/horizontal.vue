@@ -31,10 +31,10 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, computed, defineComponent, getCurrentInstance, onMounted, nextTick, onBeforeMount } from 'vue';
-import { useRoute, onBeforeRouteUpdate } from 'vue-router';
-import { useStore } from '/@/store/index';
+import { computed, defineComponent, getCurrentInstance, nextTick, onBeforeMount, onMounted, reactive, toRefs } from 'vue';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import SubItem from '/@/layout/navMenu/subItem.vue';
+import { useStore } from '/@/store/index';
 export default defineComponent({
 	name: 'navMenuHorizontal',
 	components: { SubItem },

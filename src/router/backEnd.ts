@@ -40,7 +40,6 @@ export async function initBackEndControlRoutes() {
 		// 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
 		//console.log("initBackEndControlRoutes res.ModuleList:",res.ModuleList)
 		dynamicRoutes[0].children = await backEndComponent(res.ModuleList||[]);
-		
 		setAddRoute(); 
 		
 		// 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
