@@ -21,6 +21,11 @@
 			<el-row>
 				<el-col :span="24" style="line-height: 25px">请将资质文件图片限制在5M之内。</el-col>
 			</el-row>
+			<view style="float: right">
+				<el-button bg type="primary" @click="onModelSave">{{ $t('message.action.save') }} </el-button>
+				<el-button text bg type="primary" @click="tableDataAdd">{{ $t('message.action.certificatAdd') }} </el-button>
+			</view>
+
 			<el-table
 				:data="tableData.data"
 				v-loading="tableData.loading"
@@ -33,48 +38,69 @@
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="CertificateType" label="资质类型" show-overflow-tooltip fixed>
 					<template #default="scope">
-						<el-select v-model="scope.row.CertificateType" placeholder="Select" size="large">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-						</el-select>
+						<span v-if="scope.row.CertificateType == 1">营业执照（三证合一证件）</span>
+						<span v-else-if="scope.row.CertificateType == 2">法定代表人（负责人）身份证明</span>
+						<span v-else-if="scope.row.CertificateType == 4">资信承诺</span>
+						<span v-else-if="scope.row.CertificateType == 100">其他类相关资质</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="IssuingAgency " label="颁发机构" show-overflow-tooltip>
+				<el-table-column prop="IssuingAgency" label="颁发机构" show-overflow-tooltip>
 					<template #default="scope">
-						<el-input v-model="scope.row.IssuingAgency" placeholder="Please input" />
+						<el-input v-model="scope.row.IssuingAgency" placeholder="请输入颁发机构" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="Name" label="颁发日期" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Name" label="有效日期" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
+				<el-table-column prop="Name" label="颁发日期" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button text bg type="info" @click="onModelSee(scope.row.Id, methodList[scope.row.ProjectType], false)">
+						<el-date-picker
+							v-model="scope.row.BusinessStartTime"
+							type="date"
+							placeholder="有效期限"
+							format="YYYY-MM-DD"
+							style="width: 100%"
+						></el-date-picker>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Name" label="有效日期" show-overflow-tooltip>
+					<template #default="scope">
+						<el-date-picker
+							v-model="scope.row.BusinessEndTime"
+							type="date"
+							placeholder="有效期限"
+							format="YYYY-MM-DD"
+							style="width: 100%"
+						></el-date-picker>
+					</template>
+				</el-table-column>
+				<el-table-column prop="IssuingAgency" label="影印件" show-overflow-tooltip>
+					<template>
+						<span>查看</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
+					<template #default="scope">
+						<el-input v-model="scope.row.Remark" />
+					</template>
+				</el-table-column>
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+					<template #default="scope">
+						<el-button text bg type="primary" @click="onModelDel(scope.row.Id, scope.$index)">
 							<el-icon>
-								<Search />
+								<Upload />
 							</el-icon>
-							&#8197;{{ $t('message.action.see') }}
+							&#8197;{{ $t('message.action.uploadPhotocopy') }}
 						</el-button>
 						<el-button
 							text
 							bg
-							type="primary"
-							@click="onModelSee(scope.row.Id, methodList[scope.row.ProjectType], true)"
-							v-auth:[moduleKey]="'btn.signup'"
-							>{{ $t('message.action.signUp') }}</el-button
+							type="danger"
+							@click="onModelDel(scope.row.Id, scope.$index)"
+							v-if="scope.row.CertificateType != 1 && scope.row.CertificateType != 2 && scope.row.CertificateType != 4"
+							v-auth:[moduleKey]="'btn.Del'"
 						>
-						<el-button text bg type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
-							<el-icon>
-								<Edit />
-							</el-icon>
-							&#8197;{{ $t('message.action.edit') }}
-						</el-button>
-						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
 							<el-icon>
 								<CloseBold />
 							</el-icon>
 							&#8197;{{ $t('message.action.delete') }}
-						</el-button>
-						<el-button text bg type="primary" @click="onToRouter(scope.row.Id)" v-auth:[moduleKey]="'btn.Selection'">
-							{{ $t('message.action.selection') }}
 						</el-button>
 					</template>
 				</el-table-column>
@@ -97,16 +123,9 @@
 </template>
 
 <script lang="ts">
-import commonFunction from '/@/utils/commonFunction';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { useRoute } from 'vue-router';
-import { ElMessageBox, ElMessage, UploadProps, ElNotification } from 'element-plus';
-import { useStore } from '/@/store/index';
-import { Session } from '/@/utils/storage';
-import other from '/@/utils/other';
-import { Splitpanes, Pane } from 'splitpanes';
-import 'splitpanes/dist/splitpanes.css';
 export default {
 	name: 'certificateList',
 	setup() {
@@ -115,6 +134,20 @@ export default {
 		const state: any = reactive({
 			baseUrl: import.meta.env.VITE_API_URL,
 			moduleKey: moduleKey,
+			modelData: [
+				{
+					Id: '0',
+					CertificateType: 1, //三证合一
+				},
+				{
+					Id: '0',
+					CertificateType: 2, //法人身份证明
+				},
+				{
+					Id: '0',
+					CertificateType: 4, //承诺书
+				},
+			], //如果没有添加过，显示3个必要数据 1：统一信用代码证，2：法人身份证明，3：联系人身份证明，4：承诺书，100：其他
 			tableData: {
 				data: [],
 				total: 0,
@@ -125,30 +158,70 @@ export default {
 				},
 			},
 		});
-		const options = [
-			{
-				value: '1',
-				label: '营业执照（三证合一）',
-			},
-			{
-				value: '2',
-				label: '法定代表人（负责人）身份证明',
-			},
-			{
-				value: '3',
-				label: '资信承诺',
-			},
-			{
-				value: '100',
-				label: '其他类相关资质',
-			},
-		];
+		state.tableData.data = state.modelData;
+		const onGetMainTableData = async (gotoFirstPage: boolean) => {
+			if (gotoFirstPage) {
+				state.tableData.param.pageNum = 1;
+			}
+			state.tableData.loading = true;
+			state.tableData.data = [];
+			try {
+				const res = await proxy.$api.common.certificate.getList(state.tableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				if (res.data.length > 0) {
+					state.tableData.total = res.total;
+					state.tableData.data = res.data;
+				} else {
+					state.tableData.total = 3;
+					state.tableData.data = state.modelData;
+				}
+			} finally {
+				state.tableData.loading = false;
+			}
+		};
+		const tableDataAdd = () => {
+			state.tableData.data.push({
+				Id: '0',
+				CertificateType: 100,
+			});
+		};
+		const onModelSave = async () => {
+			state.tableData.loading = true;
+			try {
+				const res = await proxy.$api.common.certificate.save(JSON.parse(JSON.stringify(state.tableData.data)));
+				if (res.errcode != 0) {
+					return;
+				}
+				onGetMainTableData(true);
+			} finally {
+				state.tableData.loading = false;
+			}
+		};
+		const onModelDel = async (id: number, index: number) => {
+			if (id != 0) {
+				try {
+					const res = await proxy.$api.common.certificate.delete(id);
+					if (res.errcode != 0) {
+						return;
+					}
+				} finally {
+				}
+			}
+			state.tableData.data.splice(index, 1);
+		};
 		// 页面加载时
-		onMounted(() => {});
+		onMounted(() => {
+			onGetMainTableData(true);
+		});
 
 		return {
 			proxy,
-			options,
+			// options,
+			tableDataAdd,
+			onModelDel,
+			onModelSave,
 			...toRefs(state),
 		};
 	},

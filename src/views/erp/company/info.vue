@@ -151,7 +151,7 @@
 							<el-date-picker
 								v-model="tableItem.StartTime"
 								type="date"
-								placeholder="有限期限"
+								placeholder="有效期限"
 								format="YYYY-MM-DD"
 								style="width: 100%"
 							></el-date-picker> </el-form-item
