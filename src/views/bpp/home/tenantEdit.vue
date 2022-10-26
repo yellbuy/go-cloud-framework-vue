@@ -2,202 +2,161 @@
 	<div class="home-container">
 		<el-card shadow="hover">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
-					<el-divider content-position="left"><span class="text-red mr3">*</span>基本信息</el-divider>
-					<el-row :gutter="20">
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10"
-							><el-form-item label="单位名称" prop="Name">
-								<el-input v-model="ruleForm.Name" placeholder="单位名称"></el-input> </el-form-item
-						></el-col>
-						
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位曾用名称" prop="Alias">
-								<el-input v-model="ruleForm.Alias" placeholder="单位曾用名称"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位简称" prop="ShortName">
-								<el-input v-model="ruleForm.ShortName" placeholder="单位简称"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="统一信用代码" prop="Idno">
-								<el-input v-model="ruleForm.Idno" placeholder="单位统一信用代码证号"></el-input>
-							</el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="法人姓名" prop="CorporationName">
-								<el-input v-model="ruleForm.CorporationName" placeholder="法人姓名或名称"></el-input>
-							</el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="法人身份证号" prop="CorporationIdno">
-								<el-input v-model="ruleForm.CorporationIdno" placeholder="法人身份证号或统一信用代码"></el-input>
-							</el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="法人手机号" prop="CorporationMobile">
-								<el-input v-model="ruleForm.CorporationMobile" placeholder="法人手机号"></el-input>
-							</el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="开户银行" prop="BankName">
-								<el-input v-model="ruleForm.BankName" placeholder="开户银行"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="银行账户" prop="BankNo">
-								<el-input v-model="ruleForm.BankNo" placeholder="银行账户"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位电话" prop="Tel">
-								<el-input v-model="ruleForm.Tel" placeholder="单位电话"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位邮箱" prop="Email">
-								<el-input v-model="ruleForm.Email" placeholder="单位邮箱"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位邮编" prop="Zip">
-								<el-input v-model="ruleForm.BankNo" placeholder="单位邮编"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位传真" prop="Fax">
-								<el-input v-model="ruleForm.Fax" placeholder="单位传真"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位网址" prop="WebSite">
-								<el-input v-model="ruleForm.WebSite" placeholder="单位网址"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="注册资金" prop="RegisteredCapital">
-								<el-input v-model="ruleForm.RegisteredCapital" placeholder="注册资金"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位规模" prop="MemberNumber">
-								<el-input v-model="ruleForm.MemberNumber" placeholder="单位规模"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位类型" prop="TaxpayerType">
-								<el-input v-model="ruleForm.TaxpayerType" placeholder="单位类型"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="所属行业" prop="Industry">
-								<el-input v-model="ruleForm.Industry" placeholder="所属行业"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位性质" prop="EnterpriseType">
-								<el-input v-model="ruleForm.Industry" placeholder="单位性质"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位简介" prop="EnterpriseProfile">
-								<el-input v-model="ruleForm.EnterpriseProfile" placeholder="单位简介"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="注册地址" prop="Address"> <el-input v-model="ruleForm.Address" placeholder="注册地址"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="经营范围" prop="BusinessScope">
-								<el-input v-model="ruleForm.BusinessScope" placeholder="经营范围"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="纳税人类型" prop="TaxpayerKind">
-								<el-input v-model="ruleForm.TaxpayerKind" placeholder="纳税人类型"></el-input> </el-form-item
-						></el-col>
-					</el-row>
-					<el-row :gutter="20">
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="经营期限" prop="BusinessStartTime" required>
-								<el-date-picker
-									v-model="ruleForm.BusinessStartTime"
-									type="date"
-									placeholder="开始日期"
-									format="YYYY-MM-DD"
-								></el-date-picker>
-							</el-form-item>
-						</el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="至" prop="BusinessStartTime"  required>
-								<el-date-picker
-											v-model="ruleForm.BusinessStartTime"
-											type="date"
-											placeholder="开始日期"
-											format="YYYY-MM-DD"
-										></el-date-picker>
-							</el-form-item>
-						</el-col>
-					</el-row>
-					<el-divider content-position="left"><span class="text-red mr3">*</span>联系人</el-divider>
-					<el-row :gutter="20">
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10"
-							><el-form-item label="姓名" prop="Linkman">
-								<el-input v-model="ruleForm.Linkman" placeholder="姓名"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="手机号码" prop="LinkmanMobile">
-								<el-input v-model="ruleForm.LinkmanMobile" placeholder="手机号码"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="电子邮箱" prop="LinkmanEmail">
-								<el-input v-model="ruleForm.LinkmanEmail" placeholder="电子邮箱"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="职务" prop="LinkmanPosition">
-								<el-input v-model="ruleForm.LinkmanPosition" placeholder="职务"></el-input>
-							</el-form-item
-						></el-col>
-					</el-row>
-					<el-divider content-position="left"><span class="text-red mr3">*</span>资质文件</el-divider>
-					<el-row :gutter="20">
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10"
-							><el-form-item label="单位名称" prop="Name">
-								<el-input v-model="ruleForm.Name" placeholder="单位名称"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位简称" prop="ShortName">
-								<el-input v-model="ruleForm.ShortName" placeholder="单位简称"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="单位曾用名" prop="Alias">
-								<el-input v-model="ruleForm.Alias" placeholder="单位曾用名"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="统一信用代码" prop="Idno">
-								<el-input v-model="ruleForm.Idno" placeholder="单位统一信用代码证号"></el-input>
-							</el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="货币类型" prop="CurrencyType">
-								<el-input v-model="ruleForm.CurrencyType" placeholder="货币类型"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="开户人" prop="BankAccountName">
-								<el-input v-model="ruleForm.BankAccountName" placeholder="开户人"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="注册地址" prop="Address"> <el-input v-model="ruleForm.Address" placeholder="注册地址"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="经营范围" prop="BusinessScope">
-								<el-input v-model="ruleForm.BusinessScope" placeholder="经营范围"></el-input> </el-form-item
-						></el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="经营期限" prop="BusinessStartTime" required>
-								<el-date-picker
-									v-model="ruleForm.BusinessStartTime"
-									type="date"
-									placeholder="开始日期"
-									format="YYYY-MM-DD"
-								></el-date-picker>
-							</el-form-item>
-						</el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-							<el-form-item label="至" prop="BusinessStartTime"  required>
-								<el-date-picker
-											v-model="ruleForm.BusinessStartTime"
-											type="date"
-											placeholder="开始日期"
-											format="YYYY-MM-DD"
-										></el-date-picker>
-							</el-form-item>
-						</el-col>
-					</el-row>
+				<el-divider content-position="left"><span class="text-red mr3">*</span>基本信息</el-divider>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10"
+						><el-form-item label="单位名称" prop="Name"> <el-input v-model="ruleForm.Name" placeholder="单位名称"></el-input> </el-form-item
+					></el-col>
+
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位曾用名称" prop="Alias"> <el-input v-model="ruleForm.Alias" placeholder="单位曾用名称"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位简称" prop="ShortName"> <el-input v-model="ruleForm.ShortName" placeholder="单位简称"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="统一信用代码" prop="Idno">
+							<el-input v-model="ruleForm.Idno" placeholder="单位统一信用代码证号"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="法人姓名" prop="CorporationName">
+							<el-input v-model="ruleForm.CorporationName" placeholder="法人姓名或名称"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="法人身份证号" prop="CorporationIdno">
+							<el-input v-model="ruleForm.CorporationIdno" placeholder="法人身份证号或统一信用代码"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="法人手机号" prop="CorporationMobile">
+							<el-input v-model="ruleForm.CorporationMobile" placeholder="法人手机号"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="开户银行" prop="BankName"> <el-input v-model="ruleForm.BankName" placeholder="开户银行"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="银行账户" prop="BankNo"> <el-input v-model="ruleForm.BankNo" placeholder="银行账户"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位电话" prop="Tel"> <el-input v-model="ruleForm.Tel" placeholder="单位电话"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位邮箱" prop="Email"> <el-input v-model="ruleForm.Email" placeholder="单位邮箱"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位邮编" prop="Zip"> <el-input v-model="ruleForm.BankNo" placeholder="单位邮编"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位传真" prop="Fax"> <el-input v-model="ruleForm.Fax" placeholder="单位传真"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位网址" prop="WebSite"> <el-input v-model="ruleForm.WebSite" placeholder="单位网址"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="注册资金" prop="RegisteredCapital">
+							<el-input v-model="ruleForm.RegisteredCapital" placeholder="注册资金"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位规模" prop="MemberNumber">
+							<el-input v-model="ruleForm.MemberNumber" placeholder="单位规模"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位类型" prop="TaxpayerType">
+							<el-input v-model="ruleForm.TaxpayerType" placeholder="单位类型"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="所属行业" prop="Industry"> <el-input v-model="ruleForm.Industry" placeholder="所属行业"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位性质" prop="EnterpriseType">
+							<el-input v-model="ruleForm.Industry" placeholder="单位性质"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位简介" prop="EnterpriseProfile">
+							<el-input v-model="ruleForm.EnterpriseProfile" placeholder="单位简介"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="注册地址" prop="Address"> <el-input v-model="ruleForm.Address" placeholder="注册地址"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="经营范围" prop="BusinessScope">
+							<el-input v-model="ruleForm.BusinessScope" placeholder="经营范围"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="纳税人类型" prop="TaxpayerKind">
+							<el-input v-model="ruleForm.TaxpayerKind" placeholder="纳税人类型"></el-input> </el-form-item
+					></el-col>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="经营期限" prop="BusinessStartTime" required>
+							<el-date-picker v-model="ruleForm.BusinessStartTime" type="date" placeholder="开始日期" format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="至" prop="BusinessStartTime" required>
+							<el-date-picker v-model="ruleForm.BusinessStartTime" type="date" placeholder="开始日期" format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-divider content-position="left"><span class="text-red mr3">*</span>联系人</el-divider>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10"
+						><el-form-item label="姓名" prop="Linkman"> <el-input v-model="ruleForm.Linkman" placeholder="姓名"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="手机号码" prop="LinkmanMobile">
+							<el-input v-model="ruleForm.LinkmanMobile" placeholder="手机号码"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="电子邮箱" prop="LinkmanEmail">
+							<el-input v-model="ruleForm.LinkmanEmail" placeholder="电子邮箱"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="职务" prop="LinkmanPosition">
+							<el-input v-model="ruleForm.LinkmanPosition" placeholder="职务"></el-input> </el-form-item
+					></el-col>
+				</el-row>
+				<el-divider content-position="left"><span class="text-red mr3">*</span>资质文件</el-divider>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10"
+						><el-form-item label="单位名称" prop="Name"> <el-input v-model="ruleForm.Name" placeholder="单位名称"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位简称" prop="ShortName"> <el-input v-model="ruleForm.ShortName" placeholder="单位简称"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="单位曾用名" prop="Alias"> <el-input v-model="ruleForm.Alias" placeholder="单位曾用名"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="统一信用代码" prop="Idno">
+							<el-input v-model="ruleForm.Idno" placeholder="单位统一信用代码证号"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="货币类型" prop="CurrencyType">
+							<el-input v-model="ruleForm.CurrencyType" placeholder="货币类型"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="开户人" prop="BankAccountName">
+							<el-input v-model="ruleForm.BankAccountName" placeholder="开户人"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="注册地址" prop="Address"> <el-input v-model="ruleForm.Address" placeholder="注册地址"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="经营范围" prop="BusinessScope">
+							<el-input v-model="ruleForm.BusinessScope" placeholder="经营范围"></el-input> </el-form-item
+					></el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="经营期限" prop="BusinessStartTime" required>
+							<el-date-picker v-model="ruleForm.BusinessStartTime" type="date" placeholder="开始日期" format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+						<el-form-item label="至" prop="BusinessStartTime" required>
+							<el-date-picker v-model="ruleForm.BusinessStartTime" type="date" placeholder="开始日期" format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 		</el-card>
 	</div>
@@ -213,7 +172,7 @@ export default {
 	setup() {
 		const moduleKey = 'api_sys_home_alias';
 		const router = useRouter();
-		console.debug("router",router.currentRoute.value)
+		console.debug('router', router.currentRoute.value);
 		//console.debug("route:",$route)
 		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
@@ -242,7 +201,6 @@ export default {
 				Im: '',
 				CompanyCategoryList: [],
 			},
-			
 		});
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
@@ -253,21 +211,20 @@ export default {
 			return formatAxis(new Date());
 		});
 
-		const loadTenant=async ()=>{
+		const loadTenant = async () => {
 			const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
-			if(res.errcode==0){
-				state.ruleForm=res.data
+			if (res.errcode == 0) {
+				state.ruleForm = res.data;
 			}
-		}
-		
+		};
+
 		// 页面加载时
 		onMounted(() => {
 			loadTenant();
 		});
 		// 由于页面缓存原因，keep-alive
-		onActivated(() => {
-		});
-		
+		onActivated(() => {});
+
 		return {
 			...toRefs(state),
 		};
@@ -276,7 +233,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	@import '../../chart/chart.scss';
+@import '../../chart/chart.scss';
 .home-container {
 	overflow-x: hidden;
 	.home-card-item {

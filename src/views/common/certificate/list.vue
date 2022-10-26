@@ -30,7 +30,7 @@
 				:data="tableData.data"
 				v-loading="tableData.loading"
 				style="width: 100%"
-				:height="proxy.$calcMainHeight(-75)"
+				:height="proxy.$calcMainHeight(-275)"
 				border
 				stripe
 				highlight-current-row
@@ -51,29 +51,17 @@
 				</el-table-column>
 				<el-table-column prop="Name" label="颁发日期" show-overflow-tooltip>
 					<template #default="scope">
-						<el-date-picker
-							v-model="scope.row.BusinessStartTime"
-							type="date"
-							placeholder="有效期限"
-							format="YYYY-MM-DD"
-							style="width: 100%"
-						></el-date-picker>
+						<el-date-picker v-model="scope.row.StartTime" type="date" placeholder="颁发日期" format="YYYY-MM-DD" style="width: 100%"></el-date-picker>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Name" label="有效日期" show-overflow-tooltip>
 					<template #default="scope">
-						<el-date-picker
-							v-model="scope.row.BusinessEndTime"
-							type="date"
-							placeholder="有效期限"
-							format="YYYY-MM-DD"
-							style="width: 100%"
-						></el-date-picker>
+						<el-date-picker v-model="scope.row.EndTime" type="date" placeholder="有效日期" format="YYYY-MM-DD" style="width: 100%"></el-date-picker>
 					</template>
 				</el-table-column>
-				<el-table-column prop="IssuingAgency" label="影印件" show-overflow-tooltip>
-					<template>
-						<span>查看</span>
+				<el-table-column prop="ImgUrl" label="影印件" show-overflow-tooltip align="center">
+					<template #default="scope">
+						<el-button text type="primary" @click="showImage(scope.row.ImgUrl)">查看</el-button>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
@@ -83,25 +71,37 @@
 				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="primary" @click="onModelDel(scope.row.Id, scope.$index)">
-							<el-icon>
-								<Upload />
-							</el-icon>
-							&#8197;{{ $t('message.action.uploadPhotocopy') }}
-						</el-button>
-						<el-button
-							text
-							bg
-							type="danger"
-							@click="onModelDel(scope.row.Id, scope.$index)"
-							v-if="scope.row.CertificateType != 1 && scope.row.CertificateType != 2 && scope.row.CertificateType != 4"
-							v-auth:[moduleKey]="'btn.Del'"
+						<el-upload
+							:action="`${baseUrl}/v1/file/upload`"
+							name="file"
+							:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+							:show-file-list="false"
+							:on-success="onLogoUploadSuccess"
+							:before-upload="onBeforeImageUpload"
 						>
-							<el-icon>
-								<CloseBold />
-							</el-icon>
-							&#8197;{{ $t('message.action.delete') }}
-						</el-button>
+							<!-- @click="Upload(scope.row.Id, scope.$index)" -->
+							<template #trigger>
+								<el-button text bg type="primary" @click="Upload(scope.$index)">
+									<el-icon>
+										<Upload />
+									</el-icon>
+									&#8197;{{ $t('message.action.uploadPhotocopy') }}
+								</el-button>
+							</template>
+							<el-button
+								text
+								bg
+								type="danger"
+								@click="onModelDel(scope.row.Id, scope.$index)"
+								v-if="scope.row.CertificateType != 1 && scope.row.CertificateType != 2 && scope.row.CertificateType != 4"
+								v-auth:[moduleKey]="'btn.Del'"
+							>
+								<el-icon>
+									<CloseBold />
+								</el-icon>
+								&#8197;{{ $t('message.action.delete') }}
+							</el-button>
+						</el-upload>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -119,21 +119,32 @@
 			>
 			</el-pagination>
 		</el-card>
+		<el-image-viewer v-if="imgViewerVisible" @close="closeImgViewer" hide-on-click-modal :url-list="imgList" />
 	</div>
 </template>
 
 <script lang="ts">
+import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { useRoute } from 'vue-router';
+import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'certificateList',
 	setup() {
 		const moduleKey = `api_common_certificate_supplier`;
+		const token = Session.get('token');
 		const { proxy } = getCurrentInstance() as any;
+		const store = useStore();
+		const getUserInfos = computed(() => {
+			return store.state.userInfos.userInfos;
+		});
 		const state: any = reactive({
+			token: token,
 			baseUrl: import.meta.env.VITE_API_URL,
+			imgUrl: import.meta.env.VITE_URL,
 			moduleKey: moduleKey,
+			tableDataIndex: 0,
 			modelData: [
 				{
 					Id: '0',
@@ -153,12 +164,14 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
+					order: 'id',
 					pageNum: 1,
 					pageSize: 20,
 				},
 			},
+			imgList: [],
+			imgViewerVisible: false,
 		});
-		state.tableData.data = state.modelData;
 		const onGetMainTableData = async (gotoFirstPage: boolean) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
@@ -188,6 +201,25 @@ export default {
 			});
 		};
 		const onModelSave = async () => {
+			for (let i = 0; i < state.tableData.data.length; i++) {
+				let item = state.tableData.data[i];
+				if (item.ImgUrl == '') {
+					ElMessage.error('第' + (i + 1) + '行没有上传影印件，请上传影印件！');
+					return;
+				} else if (item.IssuingAgency == '') {
+					ElMessage.error('第' + (i + 1) + '行没有填写颁发机构，请输入颁发机构！');
+					return;
+				} else if (item.StartTime == '') {
+					ElMessage.error('第' + (i + 1) + '行没有选择颁发日期，请填写颁发日期！');
+					return;
+				} else if (item.EndTime == '') {
+					ElMessage.error('第' + (i + 1) + '行没有选择有效日期，请填写有效日期！');
+					return;
+				} else if (item.EndTime <= item.StartTime) {
+					ElMessage.error('第' + (i + 1) + '行颁发日期应该小于有效日期！');
+					return;
+				}
+			}
 			state.tableData.loading = true;
 			try {
 				const res = await proxy.$api.common.certificate.save(JSON.parse(JSON.stringify(state.tableData.data)));
@@ -200,16 +232,51 @@ export default {
 			}
 		};
 		const onModelDel = async (id: number, index: number) => {
-			if (id != 0) {
-				try {
-					const res = await proxy.$api.common.certificate.delete(id);
-					if (res.errcode != 0) {
-						return;
+			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				if (id != 0) {
+					try {
+						const res = await proxy.$api.common.certificate.delete(id);
+						if (res.errcode != 0) {
+							return;
+						}
+					} finally {
 					}
-				} finally {
 				}
+				state.tableData.data.splice(index, 1);
+				return false;
+			});
+		};
+		const onLogoUploadSuccess: UploadProps['onSuccess'] = (res) => {
+			if (res.errcode != 0) {
+				state.tableData.loading = false;
+				ElMessage.error(res.errmsg);
+				return;
 			}
-			state.tableData.data.splice(index, 1);
+			state.tableData.data[state.tableDataIndex].ImgUrl = res.data.src;
+			state.tableData.loading = false;
+		};
+		const onBeforeImageUpload: UploadProps['beforeUpload'] = () => {
+			state.tableData.loading = true;
+			return true;
+		};
+		const Upload = (index: number) => {
+			state.tableDataIndex = index;
+		};
+		const showImage = (imgUrl: string) => {
+			state.imgList = [];
+			if (imgUrl != '' && imgUrl) {
+				state.imgViewerVisible = true;
+				state.imgList.push(state.imgUrl + imgUrl);
+			} else {
+				ElMessage.error('暂无影印件');
+			}
+		};
+		const closeImgViewer = () => {
+			state.imgViewerVisible = false;
 		};
 		// 页面加载时
 		onMounted(() => {
@@ -218,10 +285,15 @@ export default {
 
 		return {
 			proxy,
-			// options,
+			Upload,
+			getUserInfos,
+			onBeforeImageUpload,
 			tableDataAdd,
 			onModelDel,
 			onModelSave,
+			showImage,
+			closeImgViewer,
+			onLogoUploadSuccess,
 			...toRefs(state),
 		};
 	},
