@@ -52,11 +52,13 @@ export default {
 		signUp: "报名",
 		selection: "评选",
 		setBidOpeningPackage: "设为开标包",
-		wastePackage: "废包"
+		wastePackage: "废包",
+		certificatAdd: "添加资质文件",
+		uploadPhotocopy: "上传影印件"
 	},
 	validRule: {
 		required: '必填项',
-		mobile:'手机号码格式不正确',
+		mobile: '手机号码格式不正确',
 		lengthRange: '长度必须在{min}和{max}之间',
 		minLength: '必须最少输入{value}个字符.',
 		maxLength: '最多只能输入{value}个字符.',

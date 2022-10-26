@@ -53,7 +53,9 @@ export default {
 		selection: "评选",
 		return: "返回",
 		setBidOpeningPackage: "设为开标包",
-		wastePackage: "废包"
+		wastePackage: "废包",
+		certificatAdd: "添加资质文件",
+		uploadPhotocopy: "上传影印件"
 	},
 	validRule: {
 		required: '必填项',

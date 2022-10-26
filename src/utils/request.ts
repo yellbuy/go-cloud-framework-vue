@@ -3,9 +3,9 @@ import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import { v4 } from 'uuid';
 import { Session } from '/@/utils/storage';
 // let appid = "158625451365892097" //赋能终端
-let appid = "177152369044226049" //特查查
+// let appid = "177152369044226049" //特查查
 
-// let appid = "168763157232222209"//招采系统
+let appid = "168763157232222209"//招采系统
 let appPermissionKey = "ybcloudapi"
 if (appid == "168763157232222209") {
 	appPermissionKey = "bpp"
@@ -20,9 +20,9 @@ const service = axios.create({
 	responseType: '',
 });
 
-const setAppid = (newAppid:string="0") => {
-	appid=newAppid;
-	service.defaults.headers["Appid"]=appid;
+const setAppid = (newAppid: string = "0") => {
+	appid = newAppid;
+	service.defaults.headers["Appid"] = appid;
 }
 
 
@@ -35,7 +35,7 @@ service.interceptors.request.use(
 		// 在发送请求之前做些什么 token
 		const token = Session.get('token');
 		if (token) {
-			config.headers.set('Authorization',token);
+			config.headers.set('Authorization', token);
 
 			// const tokenExpiresAt=new Date(Session.get('expiresAt'));
 			// 	const refreshTokenAt=new Date(Session.get('refreshTokenAt'));
@@ -51,7 +51,7 @@ service.interceptors.request.use(
 
 		//时间戳
 		const curTime = new Date().getTime();
-		config.headers.set('Timestamp',curTime);
+		config.headers.set('Timestamp', curTime);
 		return config;
 	},
 	(error) => {
