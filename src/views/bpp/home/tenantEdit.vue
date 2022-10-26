@@ -1,178 +1,210 @@
 <template>
 	<div class="home-container">
-		<el-row :gutter="15">
-			<el-col :sm="16" class="mb15">
-				<div class="home-card-item home-card-first">
-					<div class="ml24 flex quote-block tip pt12">
-						<img :src="getUserInfos.avatar" />
-						<div class="ml20 p5">
-							<div class="mt12">
-								<div class="font18">
-									{{ currentTime }}，{{ tenant.Name || getUserInfos.realname || getUserInfos.username }}！
-								</div>
-								<div class="home-card-first-right-msg mt6">招采方</div>
-							</div>
-						</div>
+		<el-card shadow="hover">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
+					<el-divider content-position="left"><span class="text-red mr3">*</span>基本信息</el-divider>
+					<el-row :gutter="20">
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10"
+							><el-form-item label="单位名称" prop="Name">
+								<el-input v-model="ruleForm.Name" placeholder="单位名称"></el-input> </el-form-item
+						></el-col>
 						
-					</div>
-					<div class="ml10 mt50" v-no-auth:[moduleKey]="'btn.Update'">
-						<el-alert title="待实名认证！请进行实名认证" type="warning" v-if="tenant.State==0" :closable="false"></el-alert>
-						<el-alert title="实名认证已成功" type="success" v-else-if="tenant.State==1" :closable="false"></el-alert>
-						<el-alert title="实名认证未通过" type="danger" v-else-if="tenant.State==-1" :closable="false"></el-alert>
-					</div>
-					<div class="ml10 mt50" v-auth:[moduleKey]="'btn.Update'">
-						<el-button type="warning" size="default"  v-if="tenant.State==0">待实名认证！点击立即去进行实名认证</el-button>
-						<el-button type="success" size="default" v-else-if="tenant.State==1" plain>已实名认证！点击去更新实名认证信息</el-button>
-						<el-button type="danger" size="default" v-else-if="tenant.State==2">实名认证未通过！点击立即重新进行实名认证</el-button>
-					</div>
-				</div>
-				
-			</el-col>
-			<el-col :sm="8" class="mb15">
-				<div class="yb-big-data home-card-item">
-					<div class="flex-warp-item-box">
-						<div class="flex-title">近三年项目统计</div>
-						<div class="task">
-							<div class="task-item task-first-item">
-								<div class="task-item-value task-first">25</div>
-								<div class="task-item-label">参与项目</div>
-							</div>
-							<div class="task-item">
-								<div class="task-item-box task-warning">
-									<div class="task-item-value">12</div>
-									<div class="task-item-label">将开始</div>
-								</div>
-							</div>
-							<div class="task-item">
-								<div class="task-item-box task-success">
-									<div class="task-item-value">3</div>
-									<div class="task-item-label">已中选</div>
-								</div>
-							</div>
-							<div class="task-item">
-								<div class="task-item-box task-primary">
-									<div class="task-item-value">5</div>
-									<div class="task-item-label">已公示</div>
-								</div>
-							</div>
-						</div>
-						<div class="progress">
-							<div class="progress-item mt5">
-								<span>中选率</span>
-								<div class="progress-box">
-									<el-progress :percentage="70" color="#67C23A"></el-progress>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</el-col>
-		</el-row>
-		
-		<el-row :gutter="15" class="mb15">
-			<el-col :xs="24" :sm="14" :md="14" :lg="16" :xl="16" class="home-warning-media">
-				<el-card shadow="hover" header="进行中的项目" class="home-warning-card">
-					<el-table :data="tableData.data" style="width: 100%" stripe>
-						<el-table-column prop="date" :label="$t('message.table.th1')"></el-table-column>
-						<el-table-column prop="name" :label="$t('message.table.th2')"></el-table-column>
-						<el-table-column prop="address" :label="$t('message.table.th3')"></el-table-column>
-					</el-table>
-				</el-card>
-			</el-col>
-			<el-col :xs="24" :sm="10" :md="10" :lg="8" :xl="8" class="home-dynamic-media">
-				<el-card shadow="hover" :header="$t('message.card.title4')">
-					<div class="home-dynamic">
-						<el-scrollbar>
-							<div class="home-dynamic-item" v-for="(v, k) in activitiesList" :key="k">
-								<div class="home-dynamic-item-left">
-									<div class="home-dynamic-item-left-time1 mb5">{{ v.time1 }}</div>
-									<div class="home-dynamic-item-left-time2">{{ v.time2 }}</div>
-								</div>
-								<div class="home-dynamic-item-line">
-									<i class="iconfont icon-fangkuang"></i>
-								</div>
-								<div class="home-dynamic-item-right">
-									<div class="home-dynamic-item-right-title mb5">
-										<SvgIcon name="elementComment" />
-										<span>{{ v.title }}</span>
-									</div>
-									<div class="home-dynamic-item-right-label">{{ v.label }}</div>
-								</div>
-							</div>
-						</el-scrollbar>
-					</div>
-				</el-card>
-			</el-col>
-		</el-row>
-		<el-row :gutter="15" class="mb15">
-			<el-col :xs="24" :sm="14" :md="14" :lg="16" :xl="16" class="home-warning-media">
-				<el-card shadow="hover" header="已参与项目" class="home-warning-card">
-					<el-table :data="tableData.data" style="width: 100%" stripe>
-						<el-table-column prop="date" :label="$t('message.table.th1')"></el-table-column>
-						<el-table-column prop="name" :label="$t('message.table.th2')"></el-table-column>
-						<el-table-column prop="address" :label="$t('message.table.th3')"></el-table-column>
-					</el-table>
-				</el-card>
-			</el-col>
-			<el-col :xs="24" :sm="10" :md="10" :lg="8" :xl="8" class="home-dynamic-media">
-				<el-card shadow="hover" :header="$t('message.card.title4')">
-					<div class="home-dynamic">
-						<el-scrollbar>
-							<div class="home-dynamic-item" v-for="(v, k) in activitiesList" :key="k">
-								<div class="home-dynamic-item-left">
-									<div class="home-dynamic-item-left-time1 mb5">{{ v.time1 }}</div>
-									<div class="home-dynamic-item-left-time2">{{ v.time2 }}</div>
-								</div>
-								<div class="home-dynamic-item-line">
-									<i class="iconfont icon-fangkuang"></i>
-								</div>
-								<div class="home-dynamic-item-right">
-									<div class="home-dynamic-item-right-title mb5">
-										<SvgIcon name="elementComment" />
-										<span>{{ v.title }}</span>
-									</div>
-									<div class="home-dynamic-item-right-label">{{ v.label }}</div>
-								</div>
-							</div>
-						</el-scrollbar>
-					</div>
-				</el-card>
-			</el-col>
-		</el-row>
-		<el-row :gutter="15" class="mb15">
-			<el-col :xs="24" :sm="14" :md="14" :lg="16" :xl="16">
-				<el-card shadow="hover" :header="$t('message.card.title1')">
-					<div style="height: 200px" ref="homeLaboratoryRef"></div>
-				</el-card>
-			</el-col>
-			<el-col :xs="24" :sm="10" :md="10" :lg="8" :xl="8">
-				<el-card shadow="hover" :header="$t('message.card.title2')">
-					<div class="home-monitor">
-						<div class="flex-warp">
-							<div class="flex-warp-item" v-for="(v, k) in environmentList" :key="k">
-								<div class="flex-warp-item-box">
-									<i :class="v.icon" :style="{ color: v.iconColor }"></i>
-									<span class="pl5">{{ v.label }}</span>
-									<div class="mt10">{{ v.value }}</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</el-card>
-			</el-col>
-		</el-row>
-		<el-row class="mb15">
-			<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-				<el-card shadow="hover" :header="$t('message.card.title5')">
-					<div style="height: 200px" ref="homeOvertimeRef"></div>
-				</el-card>
-			</el-col>
-		</el-row>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位曾用名称" prop="Alias">
+								<el-input v-model="ruleForm.Alias" placeholder="单位曾用名称"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位简称" prop="ShortName">
+								<el-input v-model="ruleForm.ShortName" placeholder="单位简称"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="统一信用代码" prop="Idno">
+								<el-input v-model="ruleForm.Idno" placeholder="单位统一信用代码证号"></el-input>
+							</el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="法人姓名" prop="CorporationName">
+								<el-input v-model="ruleForm.CorporationName" placeholder="法人姓名或名称"></el-input>
+							</el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="法人身份证号" prop="CorporationIdno">
+								<el-input v-model="ruleForm.CorporationIdno" placeholder="法人身份证号或统一信用代码"></el-input>
+							</el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="法人手机号" prop="CorporationMobile">
+								<el-input v-model="ruleForm.CorporationMobile" placeholder="法人手机号"></el-input>
+							</el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="开户银行" prop="BankName">
+								<el-input v-model="ruleForm.BankName" placeholder="开户银行"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="银行账户" prop="BankNo">
+								<el-input v-model="ruleForm.BankNo" placeholder="银行账户"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位电话" prop="Tel">
+								<el-input v-model="ruleForm.Tel" placeholder="单位电话"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位邮箱" prop="Email">
+								<el-input v-model="ruleForm.Email" placeholder="单位邮箱"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位邮编" prop="Zip">
+								<el-input v-model="ruleForm.BankNo" placeholder="单位邮编"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位传真" prop="Fax">
+								<el-input v-model="ruleForm.Fax" placeholder="单位传真"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位网址" prop="WebSite">
+								<el-input v-model="ruleForm.WebSite" placeholder="单位网址"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="注册资金" prop="RegisteredCapital">
+								<el-input v-model="ruleForm.RegisteredCapital" placeholder="注册资金"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位规模" prop="MemberNumber">
+								<el-input v-model="ruleForm.MemberNumber" placeholder="单位规模"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位类型" prop="TaxpayerType">
+								<el-input v-model="ruleForm.TaxpayerType" placeholder="单位类型"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="所属行业" prop="Industry">
+								<el-input v-model="ruleForm.Industry" placeholder="所属行业"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位性质" prop="EnterpriseType">
+								<el-input v-model="ruleForm.Industry" placeholder="单位性质"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位简介" prop="EnterpriseProfile">
+								<el-input v-model="ruleForm.EnterpriseProfile" placeholder="单位简介"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="注册地址" prop="Address"> <el-input v-model="ruleForm.Address" placeholder="注册地址"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="经营范围" prop="BusinessScope">
+								<el-input v-model="ruleForm.BusinessScope" placeholder="经营范围"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="纳税人类型" prop="TaxpayerKind">
+								<el-input v-model="ruleForm.TaxpayerKind" placeholder="纳税人类型"></el-input> </el-form-item
+						></el-col>
+					</el-row>
+					<el-row :gutter="20">
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="经营期限" prop="BusinessStartTime" required>
+								<el-date-picker
+									v-model="ruleForm.BusinessStartTime"
+									type="date"
+									placeholder="开始日期"
+									format="YYYY-MM-DD"
+								></el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="至" prop="BusinessStartTime"  required>
+								<el-date-picker
+											v-model="ruleForm.BusinessStartTime"
+											type="date"
+											placeholder="开始日期"
+											format="YYYY-MM-DD"
+										></el-date-picker>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-divider content-position="left"><span class="text-red mr3">*</span>联系人</el-divider>
+					<el-row :gutter="20">
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10"
+							><el-form-item label="姓名" prop="Linkman">
+								<el-input v-model="ruleForm.Linkman" placeholder="姓名"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="手机号码" prop="LinkmanMobile">
+								<el-input v-model="ruleForm.LinkmanMobile" placeholder="手机号码"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="电子邮箱" prop="LinkmanEmail">
+								<el-input v-model="ruleForm.LinkmanEmail" placeholder="电子邮箱"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="职务" prop="LinkmanPosition">
+								<el-input v-model="ruleForm.LinkmanPosition" placeholder="职务"></el-input>
+							</el-form-item
+						></el-col>
+					</el-row>
+					<el-divider content-position="left"><span class="text-red mr3">*</span>资质文件</el-divider>
+					<el-row :gutter="20">
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10"
+							><el-form-item label="单位名称" prop="Name">
+								<el-input v-model="ruleForm.Name" placeholder="单位名称"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位简称" prop="ShortName">
+								<el-input v-model="ruleForm.ShortName" placeholder="单位简称"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="单位曾用名" prop="Alias">
+								<el-input v-model="ruleForm.Alias" placeholder="单位曾用名"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="统一信用代码" prop="Idno">
+								<el-input v-model="ruleForm.Idno" placeholder="单位统一信用代码证号"></el-input>
+							</el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="货币类型" prop="CurrencyType">
+								<el-input v-model="ruleForm.CurrencyType" placeholder="货币类型"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="开户人" prop="BankAccountName">
+								<el-input v-model="ruleForm.BankAccountName" placeholder="开户人"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="注册地址" prop="Address"> <el-input v-model="ruleForm.Address" placeholder="注册地址"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="经营范围" prop="BusinessScope">
+								<el-input v-model="ruleForm.BusinessScope" placeholder="经营范围"></el-input> </el-form-item
+						></el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="经营期限" prop="BusinessStartTime" required>
+								<el-date-picker
+									v-model="ruleForm.BusinessStartTime"
+									type="date"
+									placeholder="开始日期"
+									format="YYYY-MM-DD"
+								></el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+							<el-form-item label="至" prop="BusinessStartTime"  required>
+								<el-date-picker
+											v-model="ruleForm.BusinessStartTime"
+											type="date"
+											placeholder="开始日期"
+											format="YYYY-MM-DD"
+										></el-date-picker>
+							</el-form-item>
+						</el-col>
+					</el-row>
+			</el-form>
+		</el-card>
 	</div>
 </template>
 
 <script lang="ts">
-import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
+import { computed, getCurrentInstance, onActivated, onMounted, reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
@@ -181,33 +213,36 @@ export default {
 	setup() {
 		const moduleKey = 'api_sys_home_alias';
 		const router = useRouter();
-		console.debug("router：",router.currentRoute.value)
+		console.debug("router",router.currentRoute.value)
 		//console.debug("route:",$route)
 		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
 		const state = reactive({
 			moduleKey: moduleKey,
-			tenant:{},
-			tableData: {
-				data: [
-					{
-						date: '2016-05-02',
-						name: '1号实验室',
-						address: '烟感2.1%OBS/M',
-					},
-					{
-						date: '2016-05-04',
-						name: '2号实验室',
-						address: '温度30℃',
-					},
-					{
-						date: '2016-05-01',
-						name: '3号实验室',
-						address: '湿度57%RH',
-					},
-				],
+			//表单
+			ruleForm: {
+				Id: 0,
+				Name: '',
+				Kind: 'supplier',
+				CompanyName: '',
+				CompanyAlias: '',
+				CurrencyType: '人民币',
+				BankAccountName: '',
+				EsNo: '',
+				Address: '',
+				BusinessEndTime: new Date(),
+				BusinessStartTime: new Date(),
+				Linkman: '',
+				BusinessScope: '',
+				State: 1,
+				AuditState: 1,
+				TaxpayerKind: '',
+				WebSite: '',
+				Fax: '',
+				Im: '',
+				CompanyCategoryList: [],
 			},
-			myCharts: [],
+			
 		});
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
@@ -221,42 +256,19 @@ export default {
 		const loadTenant=async ()=>{
 			const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
 			if(res.errcode==0){
-				state.tenant=res.data
+				state.ruleForm=res.data
 			}
 		}
 		
-		// 批量设置 echarts resize
-		const initEchartsResizeFun = () => {
-			nextTick(() => {
-				for (let i = 0; i < state.myCharts.length; i++) {
-					state.myCharts[i].resize();
-				}
-			});
-		};
-		// 批量设置 echarts resize
-		const initEchartsResize = () => {
-			window.addEventListener('resize', initEchartsResizeFun);
-		};
 		// 页面加载时
 		onMounted(() => {
-			initEchartsResize();
 			loadTenant();
 		});
 		// 由于页面缓存原因，keep-alive
 		onActivated(() => {
-			initEchartsResizeFun();
 		});
-		// 监听 vuex 中的 tagsview 开启全屏变化，重新 resize 图表，防止不出现/大小不变等
-		watch(
-			() => store.state.tagsViewRoutes.isTagsViewCurrenFull,
-			() => {
-				initEchartsResizeFun();
-			}
-		);
 		
 		return {
-			getUserInfos,
-			currentTime,
 			...toRefs(state),
 		};
 	},
