@@ -3,39 +3,40 @@
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="onCancel">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-width="120px" v-loading="loading">
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" class="mb10">
 						<el-form-item label="项目编号：" prop="No">
 							<el-input v-model="ruleForm.No"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" class="mb10">
 						<el-form-item label="项目名称：" prop="Name">
 							<el-input v-model="ruleForm.Name"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb10">
 						<el-form-item label="项目方式：" prop="ProjectType">
 							<el-select v-model="ruleForm.ProjectType" placeholder="请选择">
 								<el-option v-for="item in methodList" :key="item.Id" :label="item.Name" :value="item.Value" />
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item prop="RemoteState">
-							<el-checkbox v-model="ruleForm.RemoteState" :true-label="1" :false-label="0">视频会议</el-checkbox>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb10">
 						<el-form-item label="标书费用：" prop="BidFee">
 							<el-input-number v-model="ruleForm.BidFee" :min="0" controls-position="right" :precision="2" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb10">
+						<el-form-item prop="RemoteState">
+							<el-checkbox v-model="ruleForm.RemoteState" :true-label="1" :false-label="0">视频会议</el-checkbox>
+						</el-form-item>
+					</el-col>
+					
+					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" class="mb10">
 						<el-form-item label="评选地点：" prop="Location">
 							<el-input v-model="ruleForm.Location"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
 						<el-form-item label="项目内容：" prop="Content">
 							<vue-ueditor-wrap
 								:editor-id="`editor-category-content`"
@@ -49,7 +50,7 @@
 							></vue-ueditor-wrap>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
 						<el-form-item label="项目附件：" prop="Files">
 							<div style="width: 50%">
 								<el-upload
@@ -69,17 +70,18 @@
 							</div>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-button size="small" type="primary" @click="onModelEdit(true)">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+						<el-button size="small" type="primary" @click="onModelEdit(true)" class="mb10">
 							<el-icon>
 								<Plus />
 							</el-icon>
-							添加品目
-						</el-button>
+							添加标的物
+						</el-button >
 						<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" fixed />
-							<el-table-column prop="Sn" label="包号" width="120" show-overflow-tooltip></el-table-column>
-							<el-table-column prop="No" label="品目号" show-overflow-tooltip></el-table-column>
+							<el-table-column prop="No" label="品目号" width="70"></el-table-column>
+							<el-table-column prop="Sn" label="物资编码" width="120" show-overflow-tooltip></el-table-column>
+							
 							<el-table-column prop="Name" label="名称" show-overflow-tooltip></el-table-column>
 							<el-table-column prop="Remark" label="备注" show-overflow-tooltip></el-table-column>
 							<el-table-column prop="Qty" label="数量" show-overflow-tooltip></el-table-column>
@@ -107,41 +109,47 @@
 							</el-table-column>
 						</el-table>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="mb10"
 						><el-form-item label="报名开始时间：" prop="StartTime">
-							<el-date-picker v-model="ruleForm.StartTime" type="datetime" placeholder="有限期限" style="width: 100%"></el-date-picker> </el-form-item
+							<el-date-picker v-model="ruleForm.StartTime" type="datetime" placeholder="报名开始时间" style="width: 100%"></el-date-picker> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+					<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="mb10"
 						><el-form-item label="报名结束时间：" prop="EndTime">
-							<el-date-picker v-model="ruleForm.EndTime" type="datetime" placeholder="有限期限" style="width: 100%"></el-date-picker> </el-form-item
+							<el-date-picker v-model="ruleForm.EndTime" type="datetime" placeholder="报名结束时间" style="width: 100%"></el-date-picker> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="mb10"
 						><el-form-item label="招标开始时间：" prop="BeginTime">
-							<el-date-picker v-model="ruleForm.BeginTime" type="datetime" placeholder="有限期限" style="width: 100%"></el-date-picker> </el-form-item
+							<el-date-picker v-model="ruleForm.BeginTime" type="datetime" placeholder="招标开始时间" style="width: 100%"></el-date-picker> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+					<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="mb10"
 						><el-form-item label="招标结束时间：" prop="FinishTime">
 							<el-date-picker
 								v-model="ruleForm.FinishTime"
 								type="datetime"
-								placeholder="有限期限"
+								placeholder="招标结束时间"
 								style="width: 100%"
 							></el-date-picker> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+					<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="mb10"
 						><el-form-item label="评选时间：" prop="ReviewTime">
 							<el-date-picker
 								v-model="ruleForm.ReviewTime"
 								type="datetime"
-								placeholder="有限期限"
+								placeholder="评选时间"
 								style="width: 100%"
 							></el-date-picker> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<h3>注意：如果此公开比选项目不足三家供应商参与，是否自动转为院内谈判项目？</h3>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10 ml30">
+						<h3>注意：如果此公开比选项目不足三家供应商参与，是否自动转为竞争性谈判项目？</h3>
 					</el-col>
 					<el-form-item prop="AutoSwitchState">
-						<el-checkbox v-model="ruleForm.AutoSwitchState" :true-label="1" :false-label="0">不足三家供应商，转院内谈判</el-checkbox>
+						<el-checkbox v-model="ruleForm.AutoSwitchState" :true-label="1" :false-label="0">不足三家供应商，转竞争性谈判</el-checkbox>
 					</el-form-item>
 				</el-row>
 			</el-form>
@@ -159,15 +167,14 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import lineEditDlg from './projectLineEdit.vue';
-import { reactive, toRefs, onMounted, getCurrentInstance, ref, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { Upload } from '@element-plus/icons-vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type';
-import { Session } from '/@/utils/storage';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { useI18n } from 'vue-i18n';
+import lineEditDlg from './projectLineEdit.vue';
 import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'projectEdit',
 	setup() {

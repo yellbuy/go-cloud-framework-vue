@@ -4,19 +4,20 @@
 			<el-divider content-position="left">品目信息</el-divider>
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-width="130px" v-loading="loading">
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
-						><el-form-item label="包号：" prop="Sn"> <el-input v-model="ruleForm.Sn" placeholder="包号"></el-input> </el-form-item
-					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
 						><el-form-item label="品目号：" prop="No"> <el-input v-model="ruleForm.No" placeholder="品目号"></el-input> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
+						><el-form-item label="物资编码：" prop="Sn"> <el-input v-model="ruleForm.Sn" placeholder="包号"></el-input> </el-form-item
+					></el-col>
+					
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
 						><el-form-item label="名称：" prop="Name"> <el-input v-model="ruleForm.Name" placeholder="名称"></el-input> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
 						><el-form-item label="备注：" prop="Remark"> <el-input v-model="ruleForm.Remark" placeholder="备注"></el-input> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
 						><el-form-item label="数量：" prop="Qty"><el-input-number v-model="ruleForm.Qty" :min="0" controls-position="right" /> </el-form-item
 					></el-col>
 				</el-row>
@@ -111,11 +112,11 @@
 			<el-divider content-position="left">经济评审</el-divider>
 			<el-form ref="jjFormRef" :model="jjForm" size="small" v-loading="loading">
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1"
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10" :offset="1"
 						><el-form-item label="采购控制价：" prop="PurchasePrice"
 							><el-input-number v-model="jjForm.PurchasePrice" :min="0" controls-position="right" :precision="2" /> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1"
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10" :offset="1"
 						><el-form-item label="价格评审得分策略：">
 							<el-radio-group v-model="jjForm.ScoreMode">
 								<el-radio :label="0">价格排名打分</el-radio>
@@ -123,28 +124,28 @@
 							</el-radio-group>
 						</el-form-item></el-col
 					>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1" v-if="jjForm.ScoreMode == 0">
-						<div class="mb20">评审价格从低至高排列（最低价为第一名），第一名供应商价格得分为满分；</div>
-						<div class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10" :offset="1" v-if="jjForm.ScoreMode == 0">
+						<div class="mb10">评审价格从低至高排列（最低价为第一名），第一名供应商价格得分为满分；</div>
+						<div class="mb10">
 							从第二名起，价格得分减少<span><el-input-number v-model="jjForm.PriceScore" :min="0" :max="100" controls-position="right" /> </span
 							>分。超出采购控制价的供应商得零分。
 						</div>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1" v-if="jjForm.ScoreMode == 1">
-						<div class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10" :offset="1" v-if="jjForm.ScoreMode == 1">
+						<div class="mb10">
 							价格评审最高分的<span><el-input-number v-model="jjForm.PricePercentage" :min="0" :max="100" controls-position="right" /> </span>
 							%为基础价格得分;
 						</div>
-						<div class="mb20">
+						<div class="mb10">
 							评审报价比招标控制价每下浮1个百分点，则得分增加<span
 								><el-input-number v-model="jjForm.QualificationScore" :min="0" :max="100" controls-position="right" />
 							</span>
 							分;
 						</div>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" :offset="1" class="mb20">
-						<div class="mb20">本项目技术评审最高分：{{ jjForm.TechnicalScore }}分，最终评审价格最高分：{{ jjForm.TechnicalMaxScore }} 分。</div>
-						<div class="mb20">如需修改请返回调整技术评审各得分项。</div>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" :offset="1" class="mb10">
+						<div class="mb10">本项目技术评审最高分：{{ jjForm.TechnicalScore }}分，最终评审价格最高分：{{ jjForm.TechnicalMaxScore }} 分。</div>
+						<div class="mb10">如需修改请返回调整技术评审各得分项。</div>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -161,12 +162,12 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
+import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import editItemDlg from './templateEdit.vue';
 import editLineListDlg from './projectLineList.vue';
+import editItemDlg from './templateEdit.vue';
 
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
 export default {
 	name: 'projectLineEdit',
 	setup() {
