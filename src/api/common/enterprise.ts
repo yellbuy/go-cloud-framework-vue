@@ -6,8 +6,8 @@ export default {
      * @param params 要传的参数值
      * @returns 返回接口数据
      */
-    getList: async (params: object = {}) => {
-        const url = `/v1/admin/common/enterprise`;
+    getList: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+        const url = `/v1/admin/common/enterprise/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
     /**
@@ -25,12 +25,12 @@ export default {
      * @returns 返回接口数据
      */
     save: async (data: object) => {
-        if (!data.Id || data.Id == "0") {
-            const url = `/v1/admin/common/enterprise`;
-            return await http.post(url, data);
-        }
-        const url = `/v1/admin/common/enterprise/${data.Id}`;
+        // if (!data.Id || data.Id == "0") {
+        const url = `/v1/admin/common/enterprise`;
         return await http.post(url, data);
+        // }
+        // const url = `/v1/admin/common/enterprise/${data.Id}`;
+        // return await http.post(url, data);
     },
     /**
      * 删除基础代码

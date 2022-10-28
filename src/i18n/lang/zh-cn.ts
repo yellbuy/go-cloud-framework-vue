@@ -89,6 +89,7 @@ export default {
 		layoutIfameView: '内嵌 iframe',
 		expert: '专家',
 		stationMessage: "站内消息",
+		baseinfo: "基本信息管理"
 
 	},
 	staticRoutes: {

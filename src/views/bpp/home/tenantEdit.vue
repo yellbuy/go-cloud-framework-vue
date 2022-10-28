@@ -2,6 +2,9 @@
 	<div class="home-container">
 		<el-card shadow="hover">
 			<view style="float: right">
+				<el-tag type="info" style="margin-right: 10px" effect="plain" v-if="ruleForm.Id == 0">未认证</el-tag>
+				<el-tag type="success" style="margin-right: 10px" effect="plain" v-else-if="ruleForm.AuditState == 0">已审核</el-tag>
+				<el-tag type="danger" style="margin-right: 10px" effect="plain" v-else>未审核</el-tag>
 				<el-button bg type="primary" @click="onModelSave">{{ $t('message.action.submit') }} </el-button>
 			</view>
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
@@ -48,7 +51,7 @@
 						<el-form-item label="单位邮箱" prop="Email" required> <el-input v-model="ruleForm.Email" placeholder="单位邮箱"></el-input> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-						<el-form-item label="单位邮编" prop="Zip"> <el-input v-model="ruleForm.BankNo" placeholder="单位邮编"></el-input> </el-form-item
+						<el-form-item label="单位邮编" prop="Zip"> <el-input v-model="ruleForm.Zip" placeholder="单位邮编"></el-input> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
 						<el-form-item label="单位传真" prop="Fax"> <el-input v-model="ruleForm.Fax" placeholder="单位传真"></el-input> </el-form-item
@@ -69,18 +72,20 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
 						<el-form-item label="单位规模" prop="MemberNumber" required>
 							<el-select v-model="ruleForm.MemberNumber" placeholder="单位规模" style="width: 100%">
-								<el-option label="1-9人" value="1"></el-option>
-								<el-option label="10-99人" value="10"></el-option>
-								<el-option label="100-999人" value="100"></el-option>
-								<el-option label="1000人以上" value="1000"></el-option>
+								<el-option label="请选择" :value="0"></el-option>
+								<el-option label="1-9人" :value="1"></el-option>
+								<el-option label="10-99人" :value="10"></el-option>
+								<el-option label="100-999人" :value="100"></el-option>
+								<el-option label="1000人以上" :value="1000"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
 						<el-form-item label="单位类型" prop="TaxpayerType" required>
 							<el-select v-model="ruleForm.TaxpayerType" placeholder="单位类型" style="width: 100%">
-								<el-option label="小规模纳税人" value="1"></el-option>
-								<el-option label="一般纳税人" value="2"></el-option>
+								<el-option label="请选择" :value="0"></el-option>
+								<el-option label="小规模纳税人" :value="1"></el-option>
+								<el-option label="一般纳税人" :value="2"></el-option>
 							</el-select> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
@@ -90,10 +95,10 @@
 						<el-form-item label="单位性质" prop="EnterpriseType">
 							<el-input v-model="ruleForm.Industry" placeholder="单位性质"></el-input> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
+					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
 						<el-form-item label="单位简介" prop="EnterpriseProfile">
 							<el-input v-model="ruleForm.EnterpriseProfile" placeholder="单位简介"></el-input> </el-form-item
-					></el-col>
+					></el-col> -->
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
 						<el-form-item label="注册地址" prop="Address"> <el-input v-model="ruleForm.Address" placeholder="注册地址"></el-input> </el-form-item
 					></el-col>
@@ -119,12 +124,12 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
-						<el-form-item label="至" prop="BusinessStartTime" required>
+						<el-form-item label="至" prop="BusinessEndTime" required>
 							<el-date-picker
 								style="width: 100%"
-								v-model="ruleForm.BusinessStartTime"
+								v-model="ruleForm.BusinessEndTime"
 								type="date"
-								placeholder="开始日期"
+								placeholder="结束日期"
 								format="YYYY-MM-DD"
 							></el-date-picker>
 						</el-form-item>
@@ -307,18 +312,20 @@ import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
 import { useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
+import { useRoute } from 'vue-router';
 export default {
 	name: 'admin',
 	setup() {
 		const moduleKey = 'api_sys_home_identify';
-		const router = useRouter();
 		const { t } = useI18n();
-		console.debug('router', router.currentRoute.value);
+		const route = useRoute();
+		const kind = route.params.kind;
 		//console.debug("route:",$route)
 		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
 		const state = reactive({
 			moduleKey: moduleKey,
+			kind,
 			//表单
 			ruleForm: {
 				Id: 0,
@@ -373,8 +380,144 @@ export default {
 			imgList: [],
 			imgViewerVisible: false,
 		});
+		const rulesSelect = (rule: any, value: any, callback: any) => {
+			if (value == 0) {
+				callback(new Error('请选择'));
+			}
+			callback();
+		};
+		const rulesTime = (rule: any, value: any, callback: any) => {
+			if (state.ruleForm.BusinessStartTime <= state.ruleForm.BusinessEndTime) {
+				callback(new Error('日期不对，开始日期应小于结束日期'));
+			}
+			callback();
+		};
 		const rules = reactive({
 			Name: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Idno: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			CorporationName: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			CorporationIdno: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			CorporationMobile: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			BankName: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			BankNo: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Tel: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Email: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			RegisteredCapital: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+
+			MemberNumber: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+				{ validator: rulesSelect, trigger: 'change' },
+			],
+			TaxpayerType: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+				{ validator: rulesSelect, trigger: 'change' },
+			],
+			BusinessStartTime: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+				{ validator: rulesTime, trigger: 'change' },
+			],
+			BusinessEndTime: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+				{ validator: rulesTime, trigger: 'change' },
+			],
+			EnterpriseProfile: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Linkman: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			LinkmanMobile: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			LinkmanEmail: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -393,12 +536,12 @@ export default {
 		});
 
 		const loadTenant = async () => {
-			console.log(getUserInfos);
 			const res = await proxy.$api.common.enterprise.getById(getUserInfos.value.tid);
 			if (res.errcode == 0) {
 				state.ruleForm = res.data;
 			}
 		};
+
 		const onGetMainTableData = async (gotoFirstPage: boolean) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
@@ -428,35 +571,43 @@ export default {
 			});
 		};
 		const onModelSave = async () => {
-			for (let i = 0; i < state.tableData.data.length; i++) {
-				let item = state.tableData.data[i];
-				if (item.ImgUrl == '') {
-					ElMessage.error('第' + (i + 1) + '行没有上传影印件，请上传影印件！');
-					return;
-				} else if (item.IssuingAgency == '') {
-					ElMessage.error('第' + (i + 1) + '行没有填写颁发机构，请输入颁发机构！');
-					return;
-				} else if (item.StartTime == '') {
-					ElMessage.error('第' + (i + 1) + '行没有选择颁发日期，请填写颁发日期！');
-					return;
-				} else if (item.EndTime == '') {
-					ElMessage.error('第' + (i + 1) + '行没有选择有效日期，请填写有效日期！');
-					return;
-				} else if (item.EndTime <= item.StartTime) {
-					ElMessage.error('第' + (i + 1) + '行颁发日期应该小于有效日期！');
-					return;
+			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
+				if (valid) {
+					for (let i = 0; i < state.tableData.data.length; i++) {
+						let item = state.tableData.data[i];
+						if (item.ImgUrl == '') {
+							ElMessage.error('第' + (i + 1) + '行没有上传影印件，请上传影印件！');
+							return;
+						} else if (item.IssuingAgency == '') {
+							ElMessage.error('第' + (i + 1) + '行没有填写颁发机构，请输入颁发机构！');
+							return;
+						} else if (item.StartTime == '') {
+							ElMessage.error('第' + (i + 1) + '行没有选择颁发日期，请填写颁发日期！');
+							return;
+						} else if (item.EndTime == '') {
+							ElMessage.error('第' + (i + 1) + '行没有选择有效日期，请填写有效日期！');
+							return;
+						} else if (item.EndTime <= item.StartTime) {
+							ElMessage.error('第' + (i + 1) + '行颁发日期应该小于有效日期！');
+							return;
+						}
+					}
+					state.tableData.loading = true;
+					state.ruleForm.Kind = state.kind;
+					state.ruleForm.CertificateList = state.tableData.data;
+					try {
+						const res = await proxy.$api.common.enterprise.save(JSON.parse(JSON.stringify(state.ruleForm)));
+						if (res.errcode != 0) {
+							return;
+						}
+						ElMessage.success('提交成功，请联系平台方审核');
+						loadTenant();
+						onGetMainTableData(true);
+					} finally {
+						state.tableData.loading = false;
+					}
 				}
-			}
-			state.tableData.loading = true;
-			try {
-				const res = await proxy.$api.common.certificate.save(JSON.parse(JSON.stringify(state.tableData.data)));
-				if (res.errcode != 0) {
-					return;
-				}
-				onGetMainTableData(true);
-			} finally {
-				state.tableData.loading = false;
-			}
+			});
 		};
 		const onModelDel = async (id: number, index: number) => {
 			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
@@ -517,6 +668,8 @@ export default {
 			proxy,
 			rules,
 			getUserInfos,
+			rulesSelect,
+			rulesTime,
 			Upload,
 			onBeforeImageUpload,
 			tableDataAdd,
