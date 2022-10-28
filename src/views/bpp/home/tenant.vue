@@ -7,26 +7,26 @@
 						<img :src="getUserInfos.avatar" />
 						<div class="ml20 p5">
 							<div class="mt12">
-								<div class="font18">
-									{{ currentTime }}，{{ tenant.Name || getUserInfos.realname || getUserInfos.username }}！
-								</div>
+								<div class="font18">{{ currentTime }}，{{ tenant.Name || getUserInfos.realname || getUserInfos.username }}！</div>
 								<div class="home-card-first-right-msg mt6">招采方</div>
 							</div>
 						</div>
-						
 					</div>
 					<div class="ml10 mt50" v-no-auth:[moduleKey]="'btn.Update'">
-						<el-alert title="待实名认证！请进行实名认证" type="warning" v-if="tenant.State==0" :closable="false"></el-alert>
-						<el-alert title="实名认证已成功" type="success" v-else-if="tenant.State==1" :closable="false"></el-alert>
-						<el-alert title="实名认证未通过" type="danger" v-else-if="tenant.State==-1" :closable="false"></el-alert>
+						<el-alert title="待实名认证！请进行实名认证" type="warning" v-if="tenant.State == 0" :closable="false"></el-alert>
+						<el-alert title="实名认证已成功" type="success" v-else-if="tenant.State == 1" :closable="false"></el-alert>
+						<el-alert title="实名认证未通过" type="danger" v-else-if="tenant.State == -1" :closable="false"></el-alert>
 					</div>
 					<div class="ml10 mt50" v-auth:[moduleKey]="'btn.Update'">
-						<el-button type="warning" @click="onGotoEdit" size="default"  v-if="tenant.State==0">待实名认证！点击立即去进行实名认证</el-button>
-						<el-button type="success" @click="onGotoEdit" size="default" v-else-if="tenant.State==1" plain>已实名认证！点击去更新实名认证信息</el-button>
-						<el-button type="danger" @click="onGotoEdit" size="default" v-else-if="tenant.State==2">实名认证未通过！点击立即重新进行实名认证</el-button>
+						<el-button type="warning" @click="onGotoEdit" size="default" v-if="tenant.State == 0">待实名认证！点击立即去进行实名认证</el-button>
+						<el-button type="success" @click="onGotoEdit" size="default" v-else-if="tenant.State == 1" plain
+							>已实名认证！点击去更新实名认证信息</el-button
+						>
+						<el-button type="danger" @click="onGotoEdit" size="default" v-else-if="tenant.State == 2"
+							>实名认证未通过！点击立即重新进行实名认证</el-button
+						>
 					</div>
 				</div>
-				
 			</el-col>
 			<el-col :sm="8" class="mb15">
 				<div class="yb-big-data home-card-item">
@@ -68,7 +68,7 @@
 				</div>
 			</el-col>
 		</el-row>
-		
+
 		<el-row :gutter="15" class="mb15">
 			<el-col :xs="24" :sm="14" :md="14" :lg="16" :xl="16" class="home-warning-media">
 				<el-card shadow="hover" header="进行中的项目" class="home-warning-card">
@@ -181,13 +181,13 @@ export default {
 	setup() {
 		const moduleKey = 'api_sys_home_alias';
 		const router = useRouter();
-		console.debug("router：",router.currentRoute.value)
+		console.debug('router：', router.currentRoute.value);
 		//console.debug("route:",$route)
 		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
 		const state = reactive({
 			moduleKey: moduleKey,
-			tenant:{},
+			tenant: {},
 			tableData: {
 				data: [
 					{
@@ -209,9 +209,9 @@ export default {
 			},
 			myCharts: [],
 		});
-		const onGotoEdit =()=>{
-			router.push(`/bpp/home/tenantEdit`)
-		}
+		const onGotoEdit = () => {
+			router.push(`/bpp/home/tenantEdit/bpp`);
+		};
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
@@ -221,13 +221,13 @@ export default {
 			return formatAxis(new Date());
 		});
 
-		const loadTenant=async ()=>{
+		const loadTenant = async () => {
 			const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
-			if(res.errcode==0){
-				state.tenant=res.data
+			if (res.errcode == 0) {
+				state.tenant = res.data;
 			}
-		}
-		
+		};
+
 		// 批量设置 echarts resize
 		const initEchartsResizeFun = () => {
 			nextTick(() => {
@@ -256,7 +256,7 @@ export default {
 				initEchartsResizeFun();
 			}
 		);
-		
+
 		return {
 			onGotoEdit,
 			getUserInfos,
@@ -268,7 +268,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	@import '../../chart/chart.scss';
+@import '../../chart/chart.scss';
 .home-container {
 	overflow-x: hidden;
 	.home-card-item {
