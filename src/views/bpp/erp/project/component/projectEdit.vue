@@ -38,16 +38,11 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
 						<el-form-item label="项目内容：" prop="Content">
-							<vue-ueditor-wrap
-								:editor-id="`editor-category-content`"
-								:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js', 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css']"
-								v-model="ruleForm.Content"
-								:config="{
-									UEDITOR_HOME_URL: '/ueditor/',
-									serverUrl: `${baseUrl}/v1/common/editor/${getUserInfos.appid}`,
-									headers: { Authorization: token, Appid: getUserInfos.appid },
-								}"
-							></vue-ueditor-wrap>
+							<vue-ueditor-wrap :editor-id="`editor-content`"  
+								:editor-dependencies="['ueditor.config.js','ueditor.all.min.js','xiumi/xiumi-ue-dialog-v5.js','xiumi/xiumi-ue-v5.css']"
+								v-model="ruleForm.Content" 
+								:config="{UEDITOR_HOME_URL:'/ueditor/',serverUrl:`${baseUrl}/v1/common/editor/${getUserInfos.appid}`,headers:{'Authorization':token,Appid:getUserInfos.appid}}" 
+								></vue-ueditor-wrap>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
@@ -58,13 +53,13 @@
 									:action="uploadURL"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="onSuccessFile"
-									:file-list="FilesList"
+									:on-preview="onPreview"
 									:on-remove="onRemove"
-								>
+									:file-list="FilesList"
+									:accept:="`image/png, image/jpeg,image/bmp,image/jpg,application/pdf,application/docx,application/doc,application/xls,application/xlsx`"
+									multiple show-file-list>
 									<template #default>
-										<el-button
-											><el-icon class="el-icon--right"><Upload /></el-icon>上传</el-button
-										>
+										<el-button><el-icon class="el-icon--right"><Upload /></el-icon>上传</el-button>
 									</template>
 								</el-upload>
 							</div>
@@ -92,8 +87,7 @@
 										bg
 										type="primary"
 										@click="onModelEdit(false, scope.row, scope.$index)"
-										v-auth:[$parent.moduleKey]="'btn.ProjectLineEdit'"
-									>
+										v-auth:[$parent.moduleKey]="'btn.ProjectLineEdit'">
 										<el-icon>
 											<Edit />
 										</el-icon>
@@ -187,22 +181,6 @@ export default {
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
 		});
-		//上传成功
-		const onSuccessFile = (file: UploadFile) => {
-			state.Files.push(file.data.src);
-			let image = { url: '' };
-			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
-		};
-		//删除上传文件
-		const onRemove = (file: UploadFile) => {
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
-			for (let i = 0; i < state.Files.length; i++) {
-				if (state.Files[i] == removeUrl) {
-					state.Files.splice(i, 1);
-				}
-			}
-		};
 
 		const state = reactive({
 			moduleKey,
@@ -243,9 +221,10 @@ export default {
 			methodList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			Files: [],
-			httpsText: import.meta.env.VITE_URL as any,
+			homeBaseUrl: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -285,6 +264,57 @@ export default {
 				},
 			],
 		});
+		
+		//上传成功
+		const onSuccessFile = (file: UploadFile) => {
+			debugger
+			state.Files.push(file.data.src);
+			const imgPath = { url: state.homeBaseUrl + file.data.src };
+			state.FilesList.push(imgPath);
+		};
+		//删除上传文件
+		const onRemove = (file: UploadFile) => {
+			console.log(file)
+			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
+			for (let i = 0; i < state.FilesList.length; i++) {
+				if (state.FilesList[i] == removeUrl) {
+					state.FilesList.splice(i, 1);
+					break
+				}
+			}
+		};
+
+		//预览文件
+		const onPreview =(uploadFile:any) => {
+			// console.log(uploadFile);
+			// 当格式为图片就预览图片，否则下载文件
+			let filename = uploadFile.name;
+			let fileurl = uploadFile.url;
+			let fileExtension = "";
+
+			// 校检文件类型
+			var imageTypes = ["png", "jpg", "jpeg", "gif"];
+			if (filename.lastIndexOf(".") > -1) {
+				fileExtension = filename.slice(filename.lastIndexOf(".") + 1);
+			}
+			const isTypeOk = imageTypes.some(type => {
+				if (fileExtension && fileExtension.indexOf(type) > -1) return true;
+				return false;
+			});
+
+			if (isTypeOk) {
+				//预览图片
+				dialogImageUrl.value = fileurl;
+				dialogTitle.value = filename;
+				dialogVisible.value = true;
+			} else {
+				//下载文件
+				dialogVisible.value = false;
+				// openWindow(fileurl, { target: "_self" });
+				window.open(fileurl, "_self");
+			}
+		};
+		
 		//招标方式
 		const getBiddMethod = async () => {
 			try {
@@ -313,9 +343,9 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.isShowDialog = true;
 		};
-		const GetByIdRow = async (Id: string) => {
+		const GetByIdRow = async (id: string) => {
 			try {
-				const res = await proxy.$api.erp.project.getById(Id);
+				const res = await proxy.$api.erp.project.getById(id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -329,7 +359,7 @@ export default {
 					state.FilesList = [];
 					for (let i = 0; i < state.Files.length; i++) {
 						let image = { url: '' };
-						image.url = state.httpsText + state.Files[i];
+						image.url = state.homeBaseUrl + state.Files[i];
 						state.FilesList.push(image);
 					}
 				}
@@ -412,6 +442,7 @@ export default {
 			getBiddMethod,
 			onLoadTable,
 			GetByIdRow,
+			onPreview,
 			onSuccessFile,
 			onRemove,
 			onModelDel,
