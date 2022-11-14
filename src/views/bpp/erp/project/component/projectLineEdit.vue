@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog v-model="isShowDialog" title="品目信息" width="80%">
+		<el-dialog v-model="isShowDialog" title="品目信息" :destroy-on-close="true" :key="ruleForm.Id" width="80%">
 			<el-divider content-position="left">品目信息</el-divider>
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-width="130px" v-loading="loading">
 				<el-row :gutter="20">
@@ -10,7 +10,7 @@
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
 						><el-form-item label="物资编码：" prop="Sn"> <el-input v-model="ruleForm.Sn" placeholder="包号"></el-input> </el-form-item
 					></el-col>
-					
+
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
 						><el-form-item label="名称：" prop="Name"> <el-input v-model="ruleForm.Name" placeholder="名称"></el-input> </el-form-item
 					></el-col>
@@ -22,7 +22,7 @@
 					></el-col>
 				</el-row>
 			</el-form>
-			<el-divider content-position="left">资格评审</el-divider>
+			<!-- <el-divider content-position="left">资格评审</el-divider>
 			<el-form size="small" label-width="90px" :inline="true">
 				<el-form-item>
 					<el-button size="small" type="primary" @click="onOpenItemDialog('zgps', true)">
@@ -148,7 +148,7 @@
 						<div class="mb10">如需修改请返回调整技术评审各得分项。</div>
 					</el-col>
 				</el-row>
-			</el-form>
+			</el-form>-->
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
@@ -157,15 +157,15 @@
 			</template>
 		</el-dialog>
 	</div>
-	<editItemDlg ref="editItemDlgRef" />
-	<editLineListDlg ref="editLineListDlgRef" />
+	<!-- <editItemDlg ref="editItemDlgRef" />
+	<editLineListDlg ref="editLineListDlgRef" /> -->
 </template>
 
 <script lang="ts">
 import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import editLineListDlg from './projectLineList.vue';
-import editItemDlg from './templateEdit.vue';
+// import editLineListDlg from './projectLineList.vue';
+// import editItemDlg from './templateEdit.vue';
 
 import { ElMessageBox } from 'element-plus';
 export default {
@@ -173,8 +173,8 @@ export default {
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
-		const editItemDlgRef = ref();
-		const editLineListDlgRef = ref();
+		// const editItemDlgRef = ref();
+		// const editLineListDlgRef = ref();
 
 		const state = reactive({
 			isShowDialog: false,
@@ -192,25 +192,25 @@ export default {
 				Qty: 0,
 				ProjectSettingLineList: [],
 			},
-			jjForm: {
-				Id: '0',
-				Kind: 'jjps',
-				PurchasePrice: 0, //采购控制价
-				ScoreMode: 0, //价格得分模式
-				PriceScore: 0, //价格得分减少
-				PricePercentage: 50, //价格百分比
-				QualificationScore: 0, //价格分数
-				TechnicalScore: 0,
-				TechnicalMaxScore: 0,
-			},
-			zgTableData: {
-				data: [],
-				loading: false,
-			},
-			jsTableData: {
-				data: [],
-				loading: false,
-			},
+			// jjForm: {
+			// 	Id: '0',
+			// 	Kind: 'jjps',
+			// 	PurchasePrice: 0, //采购控制价
+			// 	ScoreMode: 0, //价格得分模式
+			// 	PriceScore: 0, //价格得分减少
+			// 	PricePercentage: 50, //价格百分比
+			// 	QualificationScore: 0, //价格分数
+			// 	TechnicalScore: 0,
+			// 	TechnicalMaxScore: 0,
+			// },
+			// zgTableData: {
+			// 	data: [],
+			// 	loading: false,
+			// },
+			// jsTableData: {
+			// 	data: [],
+			// 	loading: false,
+			// },
 		});
 		const rules = reactive({
 			Sn: [
@@ -250,43 +250,43 @@ export default {
 			if (!state.isadd) {
 				state.index = index;
 				state.ruleForm = JSON.parse(JSON.stringify(item));
-				if (state.ruleForm.ProjectSettingLineList) {
-					for (let item of state.ruleForm.ProjectSettingLineList) {
-						if (item.Kind == 'zgps') {
-							state.zgTableData.data.push(item);
-						} else if (item.Kind == 'jsps') {
-							state.jsTableData.data.push(item);
-						} else if (item.Kind == 'jjps') {
-							state.jjForm = item;
-						}
-					}
-				}
+				// if (state.ruleForm.ProjectSettingLineList) {
+				// 	for (let item of state.ruleForm.ProjectSettingLineList) {
+				// 		if (item.Kind == 'zgps') {
+				// 			state.zgTableData.data.push(item);
+				// 		} else if (item.Kind == 'jsps') {
+				// 			state.jsTableData.data.push(item);
+				// 		} else if (item.Kind == 'jjps') {
+				// 			state.jjForm = item;
+				// 		}
+				// 	}
+				// }
 				//计算得分
-				getScore();
+				// getScore();
 				state.title = t('message.action.edit');
 			} else {
 				state.ruleForm.Id = '0';
-				state.zgTableData.data = [];
-				state.jsTableData.data = [];
+				// state.zgTableData.data = [];
+				// state.jsTableData.data = [];
 				state.title = t('message.action.add');
 			}
 			state.isShowDialog = true;
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.$refs.ruleFormRef.resetFields();
-			proxy.$refs.jjFormRef.resetFields();
-			state.jjForm = {
-				Id: '0',
-				Kind: 'jjps',
-				PurchasePrice: 0, //采购控制价
-				ScoreMode: 0, //价格得分模式
-				PriceScore: 0, //价格得分减少
-				PricePercentage: 50, //价格百分比
-				QualificationScore: 0, //价格分数
-				TechnicalScore: 0,
-				TechnicalMaxScore: 0,
-			};
+			// proxy.$refs.ruleFormRef.resetFields();
+			// proxy.$refs.jjFormRef.resetFields();
+			// state.jjForm = {
+			// 	Id: '0',
+			// 	Kind: 'jjps',
+			// 	PurchasePrice: 0, //采购控制价
+			// 	ScoreMode: 0, //价格得分模式
+			// 	PriceScore: 0, //价格得分减少
+			// 	PricePercentage: 50, //价格百分比
+			// 	QualificationScore: 0, //价格分数
+			// 	TechnicalScore: 0,
+			// 	TechnicalMaxScore: 0,
+			// };
 			state.ruleForm = {
 				Id: '0',
 				Name: '',
@@ -295,32 +295,32 @@ export default {
 				Sn: '',
 				Remark: '',
 				Qty: 0,
-				ProjectSettingLineList: [],
+				// ProjectSettingLineList: [],
 			};
 			console.log('清除');
-			state.zgTableData.data = [];
-			state.jsTableData.data = [];
+			// state.zgTableData.data = [];
+			// state.jsTableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
 		};
-		const getScore = () => {
-			if (state.jsTableData.data && state.jsTableData.data.length > 0) {
-				console.log(state.jjForm);
-				state.jjForm.TechnicalScore = 0;
-				for (let item of state.jsTableData.data) {
-					state.jjForm.TechnicalScore += item.TechnicalMaxScore;
-				}
-				state.jjForm.TechnicalMaxScore = 100 - state.jjForm.TechnicalScore;
-			}
-		};
+		// const getScore = () => {
+		// 	if (state.jsTableData.data && state.jsTableData.data.length > 0) {
+		// 		console.log(state.jjForm);
+		// 		state.jjForm.TechnicalScore = 0;
+		// 		for (let item of state.jsTableData.data) {
+		// 			state.jjForm.TechnicalScore += item.TechnicalMaxScore;
+		// 		}
+		// 		state.jjForm.TechnicalMaxScore = 100 - state.jjForm.TechnicalScore;
+		// 	}
+		// };
 		// 新增
 		const onSubmit = () => {
 			proxy.$refs.ruleFormRef.validate((valid: any) => {
 				if (valid) {
 					console.log('提交', proxy.$parent.tableData);
-					state.ruleForm.ProjectSettingLineList = [...state.zgTableData.data, ...state.jsTableData.data];
-					state.jjForm.Id = state.jjForm.Id.toString();
-					state.ruleForm.ProjectSettingLineList.push(state.jjForm);
+					// state.ruleForm.ProjectSettingLineList = [...state.zgTableData.data, ...state.jsTableData.data];
+					// state.jjForm.Id = state.jjForm.Id.toString();
+					// state.ruleForm.ProjectSettingLineList.push(state.jjForm);
 					let item = JSON.parse(JSON.stringify(state.ruleForm));
 					if (state.isadd) {
 						proxy.$parent.tableData.data.push(item);
@@ -335,44 +335,44 @@ export default {
 			});
 		};
 		//删除
-		const onModelDel = (kind: string, index: number, Id: number) => {
-			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(async () => {
-				if (Id == 0) {
-					if (kind == 'jsps') {
-						state.jsTableData.data.splice(index, 1);
-					} else if (kind == 'zgps') {
-						state.zgTableData.data.splice(index, 1);
-					}
-				} else {
-					try {
-						const res = await proxy.$api.erp.projectsettingline.delete(Id);
-						if (res.errcode == 0) {
-							if (kind == 'jsps') {
-								state.jsTableData.data.splice(index, 1);
-							} else if (kind == 'zgps') {
-								state.zgTableData.data.splice(index, 1);
-							}
-						}
-					} finally {
-					}
-				}
-				return false;
-			});
-		};
-		const onOpenItemDialog = (kind: string, isAdd: boolean, item: object) => {
-			// let model = {};
-			// if (item) {
-			// 	model = JSON.parse(JSON.stringify(item));
-			// }
-			editItemDlgRef.value.openDialog(kind, isAdd, item, false);
-		};
-		const onOpenListDialog = (kind: string) => {
-			editLineListDlgRef.value.openDialog(kind, false);
-		};
+		// const onModelDel = (kind: string, index: number, Id: number) => {
+		// 	ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
+		// 		confirmButtonText: '确认',
+		// 		cancelButtonText: '取消',
+		// 		type: 'warning',
+		// 	}).then(async () => {
+		// 		if (Id == 0) {
+		// 			if (kind == 'jsps') {
+		// 				state.jsTableData.data.splice(index, 1);
+		// 			} else if (kind == 'zgps') {
+		// 				state.zgTableData.data.splice(index, 1);
+		// 			}
+		// 		} else {
+		// 			try {
+		// 				const res = await proxy.$api.erp.projectsettingline.delete(Id);
+		// 				if (res.errcode == 0) {
+		// 					if (kind == 'jsps') {
+		// 						state.jsTableData.data.splice(index, 1);
+		// 					} else if (kind == 'zgps') {
+		// 						state.zgTableData.data.splice(index, 1);
+		// 					}
+		// 				}
+		// 			} finally {
+		// 			}
+		// 		}
+		// 		return false;
+		// 	});
+		// };
+		// const onOpenItemDialog = (kind: string, isAdd: boolean, item: object) => {
+		// 	// let model = {};
+		// 	// if (item) {
+		// 	// 	model = JSON.parse(JSON.stringify(item));
+		// 	// }
+		// 	editItemDlgRef.value.openDialog(kind, isAdd, item, false);
+		// };
+		// const onOpenListDialog = (kind: string) => {
+		// 	editLineListDlgRef.value.openDialog(kind, false);
+		// };
 		// 页面加载时
 		onMounted(() => {});
 		return {
@@ -380,20 +380,20 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
-			getScore,
-			onModelDel,
+			// getScore,
+			// onModelDel,
 			rules,
-			editItemDlgRef,
-			editLineListDlgRef,
-			onOpenItemDialog,
-			onOpenListDialog,
+			// editItemDlgRef,
+			// editLineListDlgRef,
+			// onOpenItemDialog,
+			// onOpenListDialog,
 			onSubmit,
 			...toRefs(state),
 		};
 	},
 	components: {
-		editItemDlg,
-		editLineListDlg,
+		// editItemDlg,
+		// editLineListDlg,
 	},
 };
 </script>

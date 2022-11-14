@@ -38,35 +38,44 @@
 				<el-table-column prop="ShortName" width="120" label="公司简称" show-overflow-tooltip />
 				<el-table-column prop="Linkman" width="80" label="联系人名称" show-overflow-tooltip />
 				<el-table-column prop="LinkmanMobile" width="120" label="联系人手机号" show-overflow-tooltip />
-				<el-table-column prop="AuditTime" width="120" :formatter="dateFormatYMDHM" label="审核时间" show-overflow-tooltip />
-				<el-table-column prop="AuditBy" width="120" label="审核人" show-overflow-tooltip />
+				<el-table-column prop="AuditState" width="120" label="审核状态" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="success" style="margin-right: 10px" effect="plain" v-if="scope.row.AuditState == 0">已审核</el-tag>
+						<el-tag type="danger" style="margin-right: 10px" effect="plain" v-else>未审核</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column prop="State" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
 							inline-prompt
 							:width="46"
-							v-auth:[moduleKey]="'btn.CategoryEdit'"
-							@change="proxy.$api.common.table.updateById('common_category', 'State', scope.row.Id, scope.row.State)"
+							v-auth:[moduleKey]="'btn.TableEdit'"
+							@change="proxy.$api.common.table.updateById('common_enterprise', 'State', scope.row.Id, scope.row.State)"
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
 							:inactive-value="0"
 						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{
+						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.EnterpriseEdit'">{{
 							$t('message.action.enable')
 						}}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{ $t('message.action.disable') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.EnterpriseEdit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-
+				<el-table-column prop="AuditTime" width="120" :formatter="dateFormatYMDHM" label="审核时间" show-overflow-tooltip />
+				<el-table-column prop="AuditBy" width="120" label="审核人" show-overflow-tooltip />
 				<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(170)" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryEdit'">
+						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id)" v-auth:[moduleKey]="'btn.EnterpriseEdit'">
 							<el-icon>
 								<Edit />
 							</el-icon>
-							&#8197;{{ $t('message.action.edit') }}
+							&#8197;{{ $t('message.action.audit') }}
+						</el-button>
+						<el-button text bg type="info" @click="onOpenEditDlg(false, scope.row)">
+							<el-icon><Search /></el-icon>
+							&#8197;{{ $t('message.action.see') }}
 						</el-button>
 					</template>
 				</el-table-column>
@@ -101,7 +110,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_common_enterprise`;
+		const moduleKey = `api_sys_common_enterprise`;
 		const { proxy } = getCurrentInstance() as any;
 		const state = reactive({
 			moduleKey: moduleKey,
