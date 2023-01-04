@@ -2,7 +2,7 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-				<el-tab-pane label="项目详情" name="first">
+				<el-tab-pane label="项目详情" name="first" style="height: 400px">
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"> 比选编号：{{ ruleForm.No }} </el-col>
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"> 比选项目：{{ ruleForm.Name }} </el-col>
@@ -10,7 +10,13 @@
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"> 报名截止时间：{{ dateFormat(ruleForm.EndTime) }} </el-col>
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"> 投标截止时间：{{ dateFormat(ruleForm.BeginTime) }} </el-col>
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"> 评选日期：{{ dateFormat(ruleForm.ReviewTime) }} </el-col>
-						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"> 项目类型：{{ projectType }} </el-col>
+						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+							项目类型： <span v-if="ruleForm.ProjectType == 1">公开招标</span>
+							<span v-else-if="ruleForm.ProjectType == 2">邀请招标</span>
+							<span v-else-if="ruleForm.ProjectType == 3">竞争性谈判</span>
+							<span v-else-if="ruleForm.ProjectType == 4">单一来源采购</span>
+							<span v-else-if="ruleForm.ProjectType == 5">询价采购</span></el-col
+						>
 					</el-row>
 					<el-table
 						:data="tableData.data"
@@ -32,11 +38,11 @@
 						<el-table-column prop="Qty" label="数量" show-overflow-tooltip></el-table-column>
 					</el-table>
 				</el-tab-pane>
-				<el-tab-pane label="比选公告" name="second">
+				<el-tab-pane label="比选公告" name="second" style="height: 400px">
 					<div v-html="ruleForm.Content"></div>
 					<h4 v-if="ruleForm.AutoSwitchState == 1">原公开比选项目如不足三家供应商参与，则该项目自动转为院内谈判项目。详见平台采购须知说明。</h4>
 				</el-tab-pane>
-				<el-tab-pane label="比选名单" name="third">
+				<el-tab-pane label="比选名单" name="third" style="height: 400px">
 					<el-table :data="signUpData" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" fixed />
 						<el-table-column prop="CompanyName" label="公司名称" width="120" show-overflow-tooltip></el-table-column>
@@ -45,7 +51,7 @@
 						<el-table-column prop="SignUpTime" label="报名时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 					</el-table>
 				</el-tab-pane>
-				<el-tab-pane label="比选文件" name="fourth">
+				<el-tab-pane label="比选文件" name="fourth" style="height: 400px">
 					<div v-for="(val, index) in FilesList" :key="index">
 						<a :href="val.url" target="_blank">点击下载</a>
 					</div>
@@ -101,12 +107,11 @@ export default {
 		const activeName = ref('first');
 		const handleClick = (tab: TabsPaneContext, event: Event) => {};
 		// 打开弹窗
-		const openDialog = (id: string, projectType: string, isShow: boolean) => {
+		const openDialog = (id: string, isShow: boolean) => {
 			state.isShow = isShow;
 			state.signUp.ProjectId = id;
 			GetByIdRow(id);
 			GetSignUpList(id);
-			state.projectType = projectType;
 			state.isShowDialog = true;
 		};
 		const GetSignUpList = async (id: string) => {

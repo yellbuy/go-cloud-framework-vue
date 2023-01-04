@@ -46,29 +46,28 @@
 					<el-table-column prop="No" label="比选编号" show-overflow-tooltip fixed></el-table-column>
 					<el-table-column prop="Kind" label="比选类型" show-overflow-tooltip>
 						<template #default="scope">
-							{{ methodList[scope.row.ProjectType] }}
+							<span v-if="scope.row.ProjectType == 1">公开招标</span>
+							<span v-else-if="scope.row.ProjectType == 2">邀请招标</span>
+							<span v-else-if="scope.row.ProjectType == 3">竞争性谈判</span>
+							<span v-else-if="scope.row.ProjectType == 4">单一来源采购</span>
+							<span v-else-if="scope.row.ProjectType == 5">询价采购</span>
 						</template>
 					</el-table-column>
 					<el-table-column prop="Name" label="比选项目" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="fanwei" label="比选范围" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="EndTime" label="报名截止日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="ReviewTime" label="评选日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
+					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(360)" fixed="right">
 						<template #default="scope">
-							<el-button text bg type="info" @click="onModelSee(scope.row.Id, methodList[scope.row.ProjectType], false)">
+							<el-button text bg type="info" @click="onModelSee(scope.row.Id, false)">
 								<el-icon>
 									<Search />
 								</el-icon>
 								&#8197;{{ $t('message.action.see') }}
 							</el-button>
-							<el-button
-								text
-								bg
-								type="primary"
-								@click="onModelSee(scope.row.Id, methodList[scope.row.ProjectType], true)"
-								v-auth:[moduleKey]="'btn.signup'"
-								>{{ $t('message.action.signUp') }}</el-button
-							>
+							<el-button text bg type="primary" @click="onModelSee(scope.row.Id, true)" v-auth:[moduleKey]="'btn.signup'">{{
+								$t('message.action.signUp')
+							}}</el-button>
 							<el-button text bg type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
 								<el-icon>
 									<Edit />
@@ -150,7 +149,6 @@ export default {
 				},
 			},
 			isSelection: true,
-			methodList: {},
 		});
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
@@ -161,21 +159,7 @@ export default {
 			state.tableData.param.no = '';
 			onGetTableData(true);
 		};
-		//招标方式
-		const getBiddMethod = async () => {
-			try {
-				const res = await proxy.$api.common.commondata.getList({ type: 'xmfs', pateSize: 100000 });
-				if (res.errcode == 0) {
-					if (res.data.length > 0) {
-						for (let item of res.data) {
-							state.methodList[parseInt(item.Value)] = item.Name;
-						}
-					}
-				}
-			} finally {
-				// state.methodList = [];
-			}
-		};
+
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
@@ -199,8 +183,8 @@ export default {
 		};
 		//打开查看数据弹窗
 
-		const onModelSee = (Id: string, projectType: string, state: boolean) => {
-			seeDlgRef.value.openDialog(Id, projectType, state);
+		const onModelSee = (Id: string, state: boolean) => {
+			seeDlgRef.value.openDialog(Id, state);
 		};
 		//跳转
 		const onToRouter = (Id: string) => {
@@ -237,7 +221,6 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
-			getBiddMethod();
 			onGetTableData();
 		});
 
@@ -257,7 +240,6 @@ export default {
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
-			getBiddMethod,
 			...toRefs(state),
 		};
 	},

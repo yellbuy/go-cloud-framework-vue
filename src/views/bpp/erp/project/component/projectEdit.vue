@@ -16,7 +16,11 @@
 					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb10">
 						<el-form-item label="项目方式：" prop="ProjectType">
 							<el-select v-model="ruleForm.ProjectType" placeholder="请选择">
-								<el-option v-for="item in methodList" :key="item.Id" :label="item.Name" :value="item.Value" />
+								<el-option label="公开招标" :value="1" />
+								<el-option label="邀请招标" :value="2" />
+								<el-option label="竞争性谈判" :value="3" />
+								<el-option label="单一来源采购" :value="4" />
+								<el-option label="询价采购" :value="5" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -72,6 +76,7 @@
 									</template>
 								</el-upload>
 							</div>
+							<el-image-viewer v-if="dialogVisible" :on-close="(dialogVisible = false)" :url-list="dialogImageUrl" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
@@ -290,7 +295,7 @@
 						</el-col>
 					</el-row>
 				</el-form>
-				<el-row :gutter="20">
+				<el-row :gutter="20" v-if="ruleForm.ProjectType == 1">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10 ml30">
 						<h3>注意：如果此公开比选项目不足三家供应商参与，是否自动转为竞争性谈判项目？</h3>
 					</el-col>
@@ -346,13 +351,16 @@ export default {
 			loading: false,
 			token: token,
 			baseUrl: import.meta.env.VITE_API_URL,
+			dialogImageUrl: [],
+			dialogTitle: '',
+			dialogVisible: false,
 			ruleForm: {
 				Id: 0,
 				Kind: '',
 				Name: '',
 				No: '',
 				Sn: '',
-				ProjectType: '',
+				ProjectType: 0,
 				RemoteState: 0,
 				BidFee: 0,
 				Location: '',
@@ -489,35 +497,23 @@ export default {
 
 			if (isTypeOk) {
 				//预览图片
-				dialogImageUrl.value = fileurl;
-				dialogTitle.value = filename;
-				dialogVisible.value = true;
+				state.dialogImageUrl[0] = fileurl;
+				state.dialogTitle = filename;
+				state.dialogVisible = true;
 			} else {
 				//下载文件
-				dialogVisible.value = false;
+				state.dialogVisible = false;
 				// openWindow(fileurl, { target: "_self" });
 				window.open(fileurl, '_self');
 			}
 		};
 
-		//招标方式
-		const getBiddMethod = async () => {
-			try {
-				const res = await proxy.$api.common.commondata.getList({ type: 'xmfs', pateSize: 100000 });
-				if (res.errcode == 0) {
-					state.methodList = res.data;
-				}
-			} finally {
-				// state.methodList = [];
-			}
-		};
 		//修改按钮
 		const onModelEdit = (isadd: boolean, item: object, index: object) => {
 			lineEditDlgRef.value.openDialog(item, isadd, index);
 		};
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string) => {
-			getBiddMethod();
 			if (id != '0') {
 				GetByIdRow(id);
 				state.title = t('message.action.edit');
@@ -534,7 +530,6 @@ export default {
 				if (res.errcode != 0) {
 					return;
 				}
-				res.data.ProjectType = res.data.ProjectType.toString();
 				if (res.data.ProjectLineList) {
 					state.tableData.data = res.data.ProjectLineList;
 				}
@@ -594,6 +589,9 @@ export default {
 						state.ruleForm.RemoteState = parseInt(state.ruleForm.RemoteState);
 						state.ruleForm.AutoSwitchState = parseInt(state.ruleForm.AutoSwitchState);
 						state.ruleForm.ProjectType = parseInt(state.ruleForm.ProjectType);
+						if (state.ruleForm.ProjectType != 1) {
+							state.ruleForm.AutoSwitchState = 0;
+						}
 						state.ruleForm.BidOpenTime = state.ruleForm.BeginTime;
 						state.ruleForm.ProjectLineList = state.tableData.data;
 						state.ruleForm.ProjectSettingLineList = [...state.zgTableData.data, ...state.jsTableData.data];
@@ -681,7 +679,6 @@ export default {
 			t,
 			openDialog,
 			onCancel,
-			getBiddMethod,
 			onLoadTable,
 			GetByIdRow,
 			onPreview,
