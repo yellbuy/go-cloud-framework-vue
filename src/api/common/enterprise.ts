@@ -41,4 +41,17 @@ export default {
         const url = `/v1/admin/common/enterprise/delete/${id}`;
         return await http.post(url);
     },
+    /**
+   * 审核基本信息
+   * @param data 审核基本信息
+   * @returns 返回接口数据
+   */
+    audit: async (data: object) => {
+        // if (!data.Id || data.Id == "0") {
+        const url = `/v1/admin/common/enterprise/audit`;
+        return await http.post(url, data);
+        // }
+        // const url = `/v1/admin/common/enterprise/${data.Id}`;
+        // return await http.post(url, data);
+    },
 }

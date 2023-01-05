@@ -90,7 +90,7 @@
 						<el-tag type="info" style="margin-right: 10px" effect="plain" v-if="ruleForm.Id == 0">未认证</el-tag>
 						<el-tag type="success" style="margin-right: 10px" effect="plain" v-else-if="ruleForm.AuditState == 0">已审核</el-tag>
 						<el-tag type="danger" style="margin-right: 10px" effect="plain" v-else>未审核</el-tag>
-						<el-button bg type="primary" @click="onModelSave">{{ $t('message.action.submit') }} </el-button>
+						<el-button bg type="primary" @click="onModelSave">{{ $t('message.action.audit') }} </el-button>
 					</view>
 					<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
 						<el-divider content-position="left"><span class="text-red mr3">*</span>基本信息</el-divider>
@@ -324,6 +324,7 @@
 
 <script lang="ts">
 import commonFunction from '/@/utils/commonFunction';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
@@ -422,6 +423,28 @@ export default {
 			state.lineTableData.param.id = model.Tid;
 			onGetMainTableData(true);
 		};
+		const onModelSave = async () => {
+			if (!state.ruleForm.Id) {
+				ElMessage.error('请选择要审核的记录！');
+				return;
+			}
+			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					const res = await proxy.$api.common.enterprise.audit(state.ruleForm);
+					if (res.errcode != 0) {
+						return;
+					}
+				} finally {
+				}
+				onGetTableData();
+				onGetMainTableData(true);
+				return false;
+			});
+		};
 		const onGetMainTableData = async (gotoFirstPage: boolean) => {
 			if (gotoFirstPage) {
 				state.lineTableData.param.pageNum = 1;
@@ -464,6 +487,7 @@ export default {
 			closeImgViewer,
 			rowclick,
 			onGetMainTableData,
+			onModelSave,
 			proxy,
 			dateFormatYMDHM,
 			...toRefs(state),

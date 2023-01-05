@@ -594,6 +594,7 @@ export default {
 					}
 					state.tableData.loading = true;
 					state.ruleForm.Kind = state.kind;
+					state.ruleForm.AuditState = 1;
 					state.ruleForm.CertificateList = state.tableData.data;
 					try {
 						const res = await proxy.$api.common.enterprise.save(JSON.parse(JSON.stringify(state.ruleForm)));
