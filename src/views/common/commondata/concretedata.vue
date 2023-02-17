@@ -112,7 +112,7 @@ export default {
 		const state = reactive({
 			moduleKey: moduleKey,
 			commonTypeCode,
-			activeName: commonTypeCode,
+			activeName: '',
 			tableData: {
 				data: [],
 				total: 0,
@@ -141,6 +141,7 @@ export default {
 		});
 		//切换页面
 		const tabsName = () => {
+			console.log("切换数据",state.activeName)
 			state.tableData.param.type = state.activeName;
 			state.tableData.param.name = '';
 			onLoadTable(true);

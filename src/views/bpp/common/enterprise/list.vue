@@ -396,7 +396,7 @@ export default {
 		};
 		//重置查询条件
 		const onResetSearch = () => {
-			state.tableData.param.name = '';
+			state.tableData.param.keyword = '';
 			onGetTableData(true);
 		};
 		// 分页改变
@@ -438,10 +438,11 @@ export default {
 					if (res.errcode != 0) {
 						return;
 					}
+					state.ruleForm.AuditState = 0;
 				} finally {
+					onGetTableData();
+					onGetMainTableData(true);
 				}
-				onGetTableData();
-				onGetMainTableData(true);
 				return false;
 			});
 		};

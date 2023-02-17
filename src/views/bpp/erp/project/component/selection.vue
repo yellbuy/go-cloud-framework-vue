@@ -18,7 +18,7 @@
 					</el-sub-menu>
 					<el-sub-menu index="2">
 						<template #title>项目评选</template>
-						<el-menu-item index="bid">选择项目包号</el-menu-item>
+						<!-- <el-menu-item index="bid">选择项目包号</el-menu-item> -->
 						<el-menu-item index="companyBid">比选人名单</el-menu-item>
 						<el-menu-item index="2-3">评选一览表</el-menu-item>
 					</el-sub-menu>
@@ -29,7 +29,7 @@
 						<el-menu-item index="3-3">价格评分汇总</el-menu-item>
 					</el-sub-menu>
 					<el-sub-menu index="4">
-						<template #title>评选准备</template>
+						<template #title>评选完成</template>
 						<el-menu-item index="4-1">评分汇总</el-menu-item>
 						<el-menu-item index="4-2">评选报告</el-menu-item>
 						<el-menu-item index="4-3">发布中选公告</el-menu-item>

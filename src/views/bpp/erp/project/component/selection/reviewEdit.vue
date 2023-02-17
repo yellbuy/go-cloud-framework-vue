@@ -1,6 +1,6 @@
 <template>
 	<div class="base-role-container">
-		<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+		<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 			<el-form-item label="当前项目包号：">
 				<el-select v-model="projectLineIndex" placeholder="请选择" @change="changeLine">
 					<el-option
@@ -12,7 +12,7 @@
 					/>
 				</el-select>
 			</el-form-item>
-		</el-col>
+		</el-col> -->
 		<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 			<el-divider content-position="left">资格评审</el-divider>
 			<el-form size="small" label-width="90px" :inline="true">
@@ -139,6 +139,9 @@
 </template>
 
 <script lang="ts">
+
+
+
 import request from '/@/utils/request';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
@@ -178,22 +181,52 @@ export default {
 		const store = useStore();
 		const getProject = () => {
 			state.project = store.state.project.project;
+			changeLine()
 		};
 
+		// const changeLine = async () => {
+		// 	state.zgTableData.data = [];
+		// 	state.jsTableData.data = [];
+		// 	state.jjForm = {};
+		// 	//请求获取数据
+		// 	if (state.projectLineIndex != '') {
+		// 		store.commit('project/getProjectLineId', state.projectLineIndex);
+		// 		try {
+		// 			const res = await proxy.$api.erp.projectline.getById(state.projectLineIndex);
+		// 			if (res.errcode != 0) {
+		// 				return;
+		// 			}
+		// 			if (res.data.ProjectSettingLineList && res.data.ProjectSettingLineList.length > 0) {
+		// 				for (let model of res.data.ProjectSettingLineList) {
+		// 					if (model.Kind == 'zgps') {
+		// 						state.zgTableData.data.push(model);
+		// 					} else if (model.Kind == 'jsps') {
+		// 						state.jsTableData.data.push(model);
+		// 					} else if (model.Kind == 'jjps') {
+		// 						state.jjForm = model;
+		// 					}
+		// 				}
+		// 			}
+		// 			//计算得分
+		// 			getScore();
+		// 		} finally {
+		// 		}
+		// 	}
+		// };
 		const changeLine = async () => {
 			state.zgTableData.data = [];
 			state.jsTableData.data = [];
 			state.jjForm = {};
 			//请求获取数据
-			if (state.projectLineIndex != '') {
-				store.commit('project/getProjectLineId', state.projectLineIndex);
 				try {
-					const res = await proxy.$api.erp.projectline.getById(state.projectLineIndex);
+					const res = await proxy.$api.erp.projectsettingline.getListByScope({
+						projectid: state.project.Id
+					});
 					if (res.errcode != 0) {
 						return;
 					}
-					if (res.data.ProjectSettingLineList && res.data.ProjectSettingLineList.length > 0) {
-						for (let model of res.data.ProjectSettingLineList) {
+					if (res.data && res.data.length > 0) {
+						for (let model of res.data) {
 							if (model.Kind == 'zgps') {
 								state.zgTableData.data.push(model);
 							} else if (model.Kind == 'jsps') {
@@ -206,8 +239,7 @@ export default {
 					//计算得分
 					getScore();
 				} finally {
-				}
-			}
+				}			
 		};
 		const getScore = () => {
 			if (state.jsTableData.data && state.jsTableData.data.length > 0) {

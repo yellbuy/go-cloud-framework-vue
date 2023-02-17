@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close width="60%" :before-close="closeDialog">
 			<el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
 				<el-tab-pane label="项目详情" name="first" style="height: 400px">
 					<el-row :gutter="20">
@@ -18,7 +18,7 @@
 							<span v-else-if="ruleForm.ProjectType == 5">询价采购</span></el-col
 						>
 					</el-row>
-					<el-table
+					<!-- <el-table
 						:data="tableData.data"
 						v-loading="tableData.loading"
 						style="width: 100%"
@@ -36,7 +36,7 @@
 						<el-table-column prop="Name" label="名称" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="Remark" label="备注" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="Qty" label="数量" show-overflow-tooltip></el-table-column>
-					</el-table>
+					</el-table> -->
 				</el-tab-pane>
 				<el-tab-pane label="比选公告" name="second" style="height: 400px">
 					<div v-html="ruleForm.Content"></div>
@@ -46,7 +46,7 @@
 					<el-table :data="signUpData" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" fixed />
 						<el-table-column prop="CompanyName" label="公司名称" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="LineName" label="包号名称" show-overflow-tooltip></el-table-column>
+						<!-- <el-table-column prop="LineName" label="包号名称" show-overflow-tooltip></el-table-column> -->
 						<el-table-column prop="BiddingTime" label="比选时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="SignUpTime" label="报名时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 					</el-table>
@@ -70,6 +70,7 @@
 </template>
 
 <script lang="ts">
+
 import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { TabsPaneContext } from 'element-plus';

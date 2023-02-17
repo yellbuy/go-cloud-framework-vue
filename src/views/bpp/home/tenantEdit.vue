@@ -311,6 +311,7 @@ import { useI18n } from 'vue-i18n';
 import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
 import { useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { useRoute } from 'vue-router';
 export default {
@@ -320,6 +321,7 @@ export default {
 		const { t } = useI18n();
 		const route = useRoute();
 		const kind = route.params.kind;
+		const token = Session.get('token');
 		//console.debug("route:",$route)
 		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
@@ -387,8 +389,8 @@ export default {
 			callback();
 		};
 		const rulesTime = (rule: any, value: any, callback: any) => {
-			if (state.ruleForm.BusinessStartTime <= state.ruleForm.BusinessEndTime) {
-				callback(new Error('日期不对，开始日期应小于结束日期'));
+			if (state.ruleForm.BusinessStartTime >= state.ruleForm.BusinessEndTime) {
+				callback(new Error('经营日期不对，开始日期应小于结束日期'));
 			}
 			callback();
 		};
@@ -534,7 +536,14 @@ export default {
 		const currentTime = computed(() => {
 			return formatAxis(new Date());
 		});
-
+		// 分页改变
+		const onHandleSizeChange = (val: number) => {
+			state.tableData.param.pageSize = val;
+		};
+		// 分页改变
+		const onHandleCurrentChange = (val: number) => {
+			state.tableData.param.pageNum = val;
+		};
 		const loadTenant = async () => {
 			const res = await proxy.$api.common.enterprise.getById(getUserInfos.value.tid);
 			if (res.errcode == 0) {
@@ -669,6 +678,7 @@ export default {
 			proxy,
 			rules,
 			getUserInfos,
+			token,
 			rulesSelect,
 			rulesTime,
 			Upload,
@@ -679,6 +689,8 @@ export default {
 			showImage,
 			closeImgViewer,
 			onLogoUploadSuccess,
+			onHandleSizeChange,
+			onHandleCurrentChange,
 			...toRefs(state),
 		};
 	},

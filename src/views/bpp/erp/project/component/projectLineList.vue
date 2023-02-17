@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog v-model="isShowDialog" title="获取信息" width="80%">
+		<el-dialog v-model="isShowDialog" destroy-on-close title="获取信息" width="80%">
 			<el-table
 				:data="tableData.data"
 				style="width: 100%"

@@ -9,7 +9,7 @@
 		<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 			<el-table-column type="index" label="序号" align="right" width="70" fixed />
 			<el-table-column prop="CompanyName" label="公司名称" width="120" show-overflow-tooltip></el-table-column>
-			<el-table-column prop="LineName" label="品目号" show-overflow-tooltip></el-table-column>
+			<!-- <el-table-column prop="LineName" label="品目号" show-overflow-tooltip></el-table-column> -->
 			<el-table-column prop="SignUpTime" label="报名时间" show-overflow-tooltip></el-table-column>
 			<el-table-column prop="LineState" label="付款状态" show-overflow-tooltip>
 				<template #default="scope">

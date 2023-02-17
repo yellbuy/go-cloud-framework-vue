@@ -22,12 +22,6 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button type="primary" @click="onModelEdit(0)" v-auth:[moduleKey]="'btn.Add'">
-							<el-icon>
-								<CirclePlusFilled />
-							</el-icon>
-							&#8197;{{ $t('message.action.add') }}
-						</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
 				</el-form>
@@ -43,7 +37,7 @@
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="LineName" label="包名" show-overflow-tooltip></el-table-column>
+				<!-- <el-table-column prop="LineName" label="包名" show-overflow-tooltip></el-table-column> -->
 				<el-table-column prop="BiddingTime" label="开标时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="SignUpTime" label="报名时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="LineState" label="状态" show-overflow-tooltip>
@@ -52,39 +46,16 @@
 						<span v-else-if="scope.row.LineState == 1">已付款</span>
 					</template>
 				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
+				<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="info" @click="onModelSee(scope.row.Id, methodList[scope.row.ProjectType], false)">
+						<el-button text bg type="info" @click="onModelSee(scope.row.Id, false)">
 							<el-icon>
 								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
-						<el-button
-							text
-							bg
-							type="primary"
-							@click="onModelSee(scope.row.Id, methodList[scope.row.ProjectType], true)"
-							v-auth:[moduleKey]="'btn.signup'"
-							>{{ $t('message.action.signUp') }}</el-button
-						>
-						<el-button text bg type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
-							<el-icon>
-								<Edit />
-							</el-icon>
-							&#8197;{{ $t('message.action.edit') }}
-						</el-button>
-						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
-							<el-icon>
-								<CloseBold />
-							</el-icon>
-							&#8197;{{ $t('message.action.delete') }}
-						</el-button>
-						<el-button text bg type="primary" @click="onToRouter(scope.row.Id)" v-auth:[moduleKey]="'btn.Selection'">
-							{{ $t('message.action.selection') }}
-						</el-button>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 			</el-table>
 			<el-pagination
 				small
@@ -100,6 +71,7 @@
 			>
 			</el-pagination>
 		</el-card>
+		<seeDlg ref="seeDlgRef" />
 	</div>
 </template>
 
@@ -108,18 +80,19 @@ import request from '/@/utils/request';
 import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-
+import seeDlg from './component/projectSee.vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 export default {
 	name: 'signup',
-	components: {},
+	components: { seeDlg },
 	setup() {
 		const store = useStore();
 		const route = useRoute();
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
+		const seeDlgRef = ref();
 		const moduleKey = `api_pro_project_signup`;
 		const { proxy } = getCurrentInstance() as any;
 		const state: any = reactive({
@@ -136,11 +109,10 @@ export default {
 					no: '',
 					pageNum: 1,
 					pageSize: 20,
-					companyId: store.state.userInfos.userInfos.tid,
+					companyId:  store.state.userInfos.userInfos.tid,
 				},
 			},
 		});
-		console.log(store.state.userInfos.userInfos);
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});
@@ -149,6 +121,9 @@ export default {
 			state.tableData.param.name = '';
 			state.tableData.param.no = '';
 			onGetTableData(true);
+		};
+			const onModelSee = (Id: string, state: boolean) => {
+			seeDlgRef.value.openDialog(Id, state);
 		};
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
@@ -170,25 +145,7 @@ export default {
 			}
 		};
 
-		// 删除用户
-		const onModelDel = (Id: number) => {
-			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(async () => {
-				state.tableData.loading = true;
-				try {
-					const res = await proxy.$api.erp.project.delete(Id);
-					if (res.errcode == 0) {
-						onGetTableData();
-					}
-				} finally {
-					state.tableData.loading = false;
-				}
-				return false;
-			});
-		};
+		
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
@@ -206,9 +163,10 @@ export default {
 
 		return {
 			proxy,
+			seeDlgRef,
 			onGetTableData,
 			onResetSearch,
-			onModelDel,
+			onModelSee,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
