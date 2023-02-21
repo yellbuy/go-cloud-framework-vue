@@ -21,6 +21,8 @@ export default {
 		systemBaseInfo: "基本信息",
 		systemSupplier: "供应商管理",
 		systemSupInformation: "供应商基本信息",
+		expertSelection: '项目评标',
+		expertSupervise:'项目监审',
 		supplierKind: "供应商类型",
 		limits: '权限管理',
 		limitsFrontEnd: '前端控制',
