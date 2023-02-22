@@ -76,6 +76,14 @@ export default {
         return await http.get(url);
     },
     /**
+    * 推荐专家接口
+    * @returns 返回接口数据
+    */
+    expertLeader: async (data: object) => {
+        const url = `v1/admin/erp/projectreview/leader`;
+        return await http.post(url, data);
+    },
+    /**
     * 获取项目专家信息
     * @returns 返回接口数据
     */
