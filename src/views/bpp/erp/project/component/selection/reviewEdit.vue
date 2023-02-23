@@ -139,9 +139,6 @@
 </template>
 
 <script lang="ts">
-
-
-
 import request from '/@/utils/request';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
@@ -181,7 +178,7 @@ export default {
 		const store = useStore();
 		const getProject = () => {
 			state.project = store.state.project.project;
-			changeLine()
+			changeLine();
 		};
 
 		// const changeLine = async () => {
@@ -218,28 +215,28 @@ export default {
 			state.jsTableData.data = [];
 			state.jjForm = {};
 			//请求获取数据
-				try {
-					const res = await proxy.$api.erp.projectsettingline.getListByScope({
-						projectid: state.project.Id
-					});
-					if (res.errcode != 0) {
-						return;
-					}
-					if (res.data && res.data.length > 0) {
-						for (let model of res.data) {
-							if (model.Kind == 'zgps') {
-								state.zgTableData.data.push(model);
-							} else if (model.Kind == 'jsps') {
-								state.jsTableData.data.push(model);
-							} else if (model.Kind == 'jjps') {
-								state.jjForm = model;
-							}
+			try {
+				const res = await proxy.$api.erp.projectsettingline.getListByScope({
+					projectid: state.project.Id,
+				});
+				if (res.errcode != 0) {
+					return;
+				}
+				if (res.data && res.data.length > 0) {
+					for (let model of res.data) {
+						if (model.Kind == 'zgps') {
+							state.zgTableData.data.push(model);
+						} else if (model.Kind == 'jsps') {
+							state.jsTableData.data.push(model);
+						} else if (model.Kind == 'jjps') {
+							state.jjForm = model;
 						}
 					}
-					//计算得分
-					getScore();
-				} finally {
-				}			
+				}
+				//计算得分
+				getScore();
+			} finally {
+			}
 		};
 		const getScore = () => {
 			if (state.jsTableData.data && state.jsTableData.data.length > 0) {

@@ -13,14 +13,11 @@
 					<el-sub-menu index="before">
 						<template #title>评选管理</template>
 						<el-menu-item index="leader">评选组长管理</el-menu-item>
-						<el-menu-item index="expert">选择评选专家</el-menu-item>
-						<el-menu-item index="review">复核评选参数</el-menu-item>
+						<el-menu-item index="seeSetting">查看评审参数</el-menu-item>
 					</el-sub-menu>
 					<el-sub-menu index="2">
 						<template #title>评选汇总</template>
 						<!-- <el-menu-item index="bid">选择项目包号</el-menu-item> -->
-						<el-menu-item index="companyBid">比选人名单</el-menu-item>
-						<el-menu-item index="2-3">评选一览表</el-menu-item>
 					</el-sub-menu>
 				</el-menu>
 			</el-col>
@@ -42,9 +39,16 @@
 							</el-button>
 						</div>
 						<h3 style="text-align: center">当前选择项目：{{ ruleForm.Name }}</h3>
+						<el-descriptions style="margin-top: 20px" :column="2">
+							<el-descriptions-item label="项目名称：">{{ ruleForm.Name }}</el-descriptions-item>
+							<el-descriptions-item label="项目编号：">{{ ruleForm.No }}</el-descriptions-item>
+							<el-descriptions-item label="评选时间：">{{ ruleForm.ReviewTime }}</el-descriptions-item>
+							<el-descriptions-item label="评选地点：">{{ ruleForm.Location }} </el-descriptions-item>
+						</el-descriptions>
 					</el-card>
-					<el-card style="margin-top: 20px">
-					 <expertLeader ref="expertLeaderRef" v-show="indexLine == 'leader'" />
+					<el-card>
+						<expertLeader ref="expertLeaderRef" v-show="indexLine == 'leader'" />
+						<expertSeeSetting ref="expertSeeSettingRef" v-show="indexLine == 'seeSetting'" />
 						<!-- <reviewEdit ref="reviewEditRef" v-show="indexLine == 'review'" />
 						<bidEdit ref="bidEditRef" v-show="indexLine == 'bid'" />
 						<companyBid ref="companyBidRef" v-show="indexLine == 'companyBid'" /> -->
@@ -66,9 +70,10 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 // import bidEdit from './selection/projectBid.vue';
 // import companyBid from './selection/companyBid.vue';
 import expertLeader from './leader.vue';
+import expertSeeSetting from './seeSetting.vue';
 export default {
 	name: 'api_sys_project_selection',
-	components: { expertLeader },
+	components: { expertLeader, expertSeeSetting },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -84,7 +89,7 @@ export default {
 			indexLine: 'leader',
 		});
 		const expertLeaderRef = ref();
-
+		const expertSeeSettingRef = ref();
 		const { dateFormat } = commonFunction();
 		const GetByIdRow = async (isState: boolean) => {
 			let Id = store.state.project.projectId;
@@ -120,6 +125,9 @@ export default {
 				case 'leader':
 					expertLeaderRef.value.getExpertList();
 					break;
+				case 'seeSetting':
+					expertSeeSettingRef.value.onLoadTable();
+					break;
 			}
 		};
 		const changeSelection = () => {
@@ -132,6 +140,7 @@ export default {
 		return {
 			proxy,
 			expertLeaderRef,
+			expertSeeSettingRef,
 			dateFormat,
 			changeSelection,
 			select,

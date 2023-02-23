@@ -1,11 +1,5 @@
 <template>
 	<div class="base-role-container">
-		<el-descriptions class="margin-top" :column="2">
-			<el-descriptions-item label="项目名称：">{{ project.Name }}</el-descriptions-item>
-			<el-descriptions-item label="项目编号：">{{ project.No }}</el-descriptions-item>
-			<el-descriptions-item label="评选时间：">{{ project.ReviewTime }}</el-descriptions-item>
-			<el-descriptions-item label="评选地点：">{{ project.Location }} </el-descriptions-item>
-		</el-descriptions>
 		<el-table
 			:data="tableData.data"
 			v-loading="tableData.loading"
@@ -24,7 +18,13 @@
 					<span v-else>已投票</span>
 				</template>
 			</el-table-column>
-			<el-table-column prop="TicketNum" label="得票数" show-overflow-tooltip fixed />
+			<el-table-column prop="PollNum" label="得票数" show-overflow-tooltip fixed />
+			<el-table-column prop="IsLeader" label="是否是组长" show-overflow-tooltip fixed>
+				<template #default="scope">
+					<span v-if="scope.row.IsLeader == 0">组员</span>
+					<span v-else>组长</span>
+				</template>
+			</el-table-column>
 			<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" fixed="right">
 				<template #default="scope">
 					<el-button text bg type="primary" @click="onLeader(scope.row)"> 推荐组长 </el-button>
@@ -48,7 +48,7 @@ export default {
 		const { t } = useI18n();
 		const store = useStore();
 		const state: any = reactive({
-			project: {},
+			project: store.state.project.project,
 			tableData: {
 				data: [],
 				total: 0,
@@ -82,7 +82,6 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
-			state.project = store.state.project.project;
 			getExpertList();
 		});
 
