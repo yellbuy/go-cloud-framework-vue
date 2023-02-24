@@ -54,6 +54,7 @@ export default {
 				total: 0,
 				loading: false,
 			},
+			companyId: 0,
 			ruleForm: {
 				Roles: 0,
 				NameId: '',
@@ -62,7 +63,7 @@ export default {
 		const getExpertList = async () => {
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectreview.expertList(store.state.project.projectId,{mode:1});
+				const res = await proxy.$api.erp.projectreview.expertList(store.state.project.projectId, { mode: 2, companyId: state.CompanyId });
 				if (res.errcode == 0) {
 					state.tableData.data = res.data;
 				}
@@ -80,9 +81,25 @@ export default {
 			}
 		};
 
+		const GetSignUpList = async (isState: boolean) => {
+			try {
+				const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: store.state.project.projectId });
+				if (res.errcode != 0) {
+					return;
+				}
+				state.companyId = res.data[0].CompanyId;
+				if (isState) {
+					getExpertList();
+				}
+				state.signUpData = res.data;
+			} finally {
+			}
+		};
+
 		// 页面加载时
 		onMounted(() => {
-			getExpertList();
+			console.log('页面渲染');
+			GetSignUpList(false);
 		});
 
 		return {
@@ -90,6 +107,7 @@ export default {
 			onLeader,
 			project,
 			getExpertList,
+			GetSignUpList,
 			...toRefs(state),
 		};
 	},

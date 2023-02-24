@@ -14,6 +14,7 @@
 						<template #title>评选管理</template>
 						<el-menu-item index="leader">评选组长管理</el-menu-item>
 						<el-menu-item index="seeSetting">查看评审参数</el-menu-item>
+						<el-menu-item index="zgps">资格评审</el-menu-item>
 					</el-sub-menu>
 					<el-sub-menu index="2">
 						<template #title>评选汇总</template>
@@ -49,9 +50,7 @@
 					<el-card>
 						<expertLeader ref="expertLeaderRef" v-show="indexLine == 'leader'" />
 						<expertSeeSetting ref="expertSeeSettingRef" v-show="indexLine == 'seeSetting'" />
-						<!-- <reviewEdit ref="reviewEditRef" v-show="indexLine == 'review'" />
-						<bidEdit ref="bidEditRef" v-show="indexLine == 'bid'" />
-						<companyBid ref="companyBidRef" v-show="indexLine == 'companyBid'" /> -->
+						<expertZgps ref="expertZgpsRef" v-show="indexLine == 'zgps'" />
 					</el-card>
 				</div>
 			</el-col>
@@ -71,9 +70,10 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 // import companyBid from './selection/companyBid.vue';
 import expertLeader from './leader.vue';
 import expertSeeSetting from './seeSetting.vue';
+import expertZgps from './zgps.vue';
 export default {
 	name: 'api_sys_project_selection',
-	components: { expertLeader, expertSeeSetting },
+	components: { expertLeader, expertSeeSetting, expertZgps },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -90,6 +90,7 @@ export default {
 		});
 		const expertLeaderRef = ref();
 		const expertSeeSettingRef = ref();
+		const expertZgpsRef = ref();
 		const { dateFormat } = commonFunction();
 		const GetByIdRow = async (isState: boolean) => {
 			let Id = store.state.project.projectId;
@@ -128,6 +129,9 @@ export default {
 				case 'seeSetting':
 					expertSeeSettingRef.value.onLoadTable();
 					break;
+				case 'zgps':
+					expertZgpsRef.value.GetSignUpList(true);
+					break;
 			}
 		};
 		const changeSelection = () => {
@@ -141,6 +145,7 @@ export default {
 			proxy,
 			expertLeaderRef,
 			expertSeeSettingRef,
+			expertZgpsRef,
 			dateFormat,
 			changeSelection,
 			select,
