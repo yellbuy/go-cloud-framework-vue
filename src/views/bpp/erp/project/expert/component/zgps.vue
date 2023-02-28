@@ -1,5 +1,10 @@
 <template>
 	<div class="base-role-container">
+		<el-form-item :label="'投标方名称：'">
+			<el-select v-model="companyId" placeholder="请选择">
+				<el-option v-for="item in signUpList" :key="item.CompanyId" :label="item.CompanyName" :value="item.CompanyId" />
+			</el-select>
+		</el-form-item>
 		<el-table
 			:data="tableData.data"
 			v-loading="tableData.loading"
@@ -10,24 +15,24 @@
 			highlight-current-row
 		>
 			<el-table-column type="index" label="序号" align="right" width="70" fixed />
-			<el-table-column prop="ExpertAccount" label="专家账号" show-overflow-tooltip fixed />
-			<el-table-column prop="ExpertName" label="专家姓名" show-overflow-tooltip fixed />
-			<el-table-column prop="ReviewState" label="是否投票" show-overflow-tooltip fixed>
+			<el-table-column prop="SetLineContent" label="参数内容" show-overflow-tooltip fixed>
 				<template #default="scope">
-					<span v-if="scope.row.ReviewState == 0">未投票</span>
-					<span v-else>已投票</span>
+					<span v-if="scope.row.SetLineContent == ''">【结论】评审汇总</span>
+					<span v-else>{{ scope.row.SetLineContent }}</span>
 				</template>
 			</el-table-column>
-			<el-table-column prop="PollNum" label="得票数" show-overflow-tooltip fixed />
-			<el-table-column prop="IsLeader" label="是否是组长" show-overflow-tooltip fixed>
+			<el-table-column prop="SetLineStandard" label="通过内容" show-overflow-tooltip fixed>
 				<template #default="scope">
-					<span v-if="scope.row.IsLeader == 0">组员</span>
-					<span v-else>组长</span>
+					<span v-if="scope.row.SetLineStandard == ''">符合通过，不符合则不通过</span>
+					<span v-else>{{ scope.row.SetLineStandard }}</span>
 				</template>
 			</el-table-column>
-			<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" fixed="right">
+			<el-table-column prop="ReviewState" label="是否通过" show-overflow-tooltip fixed>
 				<template #default="scope">
-					<el-button text bg type="primary" @click="onLeader(scope.row)"> 推荐组长 </el-button>
+					<el-radio-group v-model="scope.row.ReviewState" class="ml-4" @change="changeRadio" :disabled="scope.row.IsGather == 1 ? true : false">
+						<el-radio :label="1">通过</el-radio>
+						<el-radio :label="0">不通过</el-radio>
+					</el-radio-group>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -41,6 +46,7 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
 import project from '/@/api/erp/project';
 import { useI18n } from 'vue-i18n';
+import { Item } from 'ant-design-vue/lib/menu';
 export default {
 	name: 'expertEdit',
 	setup() {
@@ -54,6 +60,7 @@ export default {
 				total: 0,
 				loading: false,
 			},
+			signUpList: [],
 			companyId: 0,
 			ruleForm: {
 				Roles: 0,
@@ -87,12 +94,30 @@ export default {
 				if (res.errcode != 0) {
 					return;
 				}
+				state.signUpList = res.data;
 				state.companyId = res.data[0].CompanyId;
 				if (isState) {
 					getExpertList();
 				}
 				state.signUpData = res.data;
 			} finally {
+			}
+		};
+		const changeRadio = () => {
+			let reviewState = true;
+			for (let item of state.tableData.data) {
+				console.log('是否通过', item);
+				if (item.IsGather != 1) {
+					if (item.ReviewState == 0) {
+						reviewState = false;
+					}
+				} else {
+					if (reviewState) {
+						item.ReviewState = 1;
+					} else {
+						item.ReviewState = 0;
+					}
+				}
 			}
 		};
 
@@ -106,6 +131,7 @@ export default {
 			proxy,
 			onLeader,
 			project,
+			changeRadio,
 			getExpertList,
 			GetSignUpList,
 			...toRefs(state),
