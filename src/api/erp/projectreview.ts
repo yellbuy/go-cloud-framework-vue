@@ -95,8 +95,8 @@ export default {
     * 获取项目专家信息
     * @returns 返回接口数据
     */
-    expertSave: async (data: object) => {
-        const url = `/v1/admin/erp/project/expert`;
+    expertSave: async (mode: number,data: object) => {
+        const url = `v1/admin/erp/projectreview/review/${mode}`;
         return await http.post(url, data);
     },
 }
