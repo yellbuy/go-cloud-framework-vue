@@ -58,11 +58,12 @@ export default {
 				Roles: 0,
 				NameId: '',
 			},
+			kind: 'leader',
 		});
 		const getExpertList = async () => {
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectreview.expertList(store.state.project.projectId,{mode:1});
+				const res = await proxy.$api.erp.projectreview.expertList(store.state.project.projectId, { kind: state.kind });
 				if (res.errcode == 0) {
 					state.tableData.data = res.data;
 				}
@@ -71,13 +72,19 @@ export default {
 			}
 		};
 		const onLeader = async (row) => {
-			try {
-				const res = await proxy.$api.erp.projectreview.expertLeader(row);
-				if (res.errcode == 0) {
-					getExpertList();
+			ElMessageBox.confirm(`确定要推荐吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					const res = await proxy.$api.erp.projectreview.expertLeader(store.state.project.projectId, row);
+					if (res.errcode == 0) {
+						getExpertList();
+					}
+				} finally {
 				}
-			} finally {
-			}
+			});
 		};
 
 		// 页面加载时

@@ -20,6 +20,7 @@
 					<el-sub-menu index="2">
 						<template #title>评选汇总</template>
 						<!-- <el-menu-item index="bid">选择项目包号</el-menu-item> -->
+						<el-menu-item index="zgpsGather">资格评审汇总</el-menu-item>
 					</el-sub-menu>
 				</el-menu>
 			</el-col>
@@ -52,7 +53,8 @@
 						<expertLeader ref="expertLeaderRef" v-show="indexLine == 'leader'" />
 						<expertSeeSetting ref="expertSeeSettingRef" v-show="indexLine == 'seeSetting'" />
 						<expertZgps ref="expertZgpsRef" v-show="indexLine == 'zgps'" />
-						<expertZgps ref="expertJspsRef" v-show="indexLine == 'jsps'" />
+						<expertJsps ref="expertJspsRef" v-show="indexLine == 'jsps'" />
+						<zgpsGather ref="zgpsGatherRef" v-show="indexLine == 'zgpsGather'" />
 					</el-card>
 				</div>
 			</el-col>
@@ -74,9 +76,10 @@ import expertLeader from './leader.vue';
 import expertSeeSetting from './seeSetting.vue';
 import expertZgps from './zgps.vue';
 import expertJsps from './jsps.vue';
+import zgpsGather from './jsps.vue';
 export default {
 	name: 'api_sys_project_selection',
-	components: { expertLeader, expertSeeSetting, expertZgps, expertJsps },
+	components: { expertLeader, expertSeeSetting, expertZgps, expertJsps, zgpsGather },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -94,6 +97,7 @@ export default {
 		const expertLeaderRef = ref();
 		const expertSeeSettingRef = ref();
 		const expertZgpsRef = ref();
+		const zgpsGatherRef = ref();
 		const expertJspsRef = ref();
 		const { dateFormat } = commonFunction();
 		const GetByIdRow = async (isState: boolean) => {
@@ -139,6 +143,9 @@ export default {
 				case 'jsps':
 					expertJspsRef.value.GetSignUpList(true);
 					break;
+				case 'zgpsGather':
+					zgpsGatherRef.value.GetSignUpList(true);
+					break;
 			}
 		};
 		const changeSelection = () => {
@@ -154,6 +161,7 @@ export default {
 			expertSeeSettingRef,
 			expertZgpsRef,
 			expertJspsRef,
+			zgpsGatherRef,
 			dateFormat,
 			changeSelection,
 			select,

@@ -79,8 +79,8 @@ export default {
     * 推荐专家接口
     * @returns 返回接口数据
     */
-    expertLeader: async (data: object) => {
-        const url = `v1/admin/erp/projectreview/leader`;
+    expertLeader: async (id: number | string,data: object) => {
+        const url = `v1/admin/erp/projectreview/leader/${id}`;
         return await http.post(url, data);
     },
         /**
@@ -95,8 +95,8 @@ export default {
     * 获取项目专家信息
     * @returns 返回接口数据
     */
-    expertSave: async (mode: number,data: object) => {
-        const url = `v1/admin/erp/projectreview/review/${mode}`;
+    expertSave: async (kind: string,data: object) => {
+        const url = `v1/admin/erp/projectreview/review/${kind}`;
         return await http.post(url, data);
     },
 }

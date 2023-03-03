@@ -68,26 +68,18 @@ export default {
 				Roles: 0,
 				NameId: '',
 			},
-			mode: 1,
+			kind: 'zgps',
 		});
 		const getExpertList = async () => {
+			console.log('获取的数据', state.companyId);
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectreview.expertList(store.state.project.projectId, { mode: 2, companyId: state.CompanyId });
+				const res = await proxy.$api.erp.projectreview.expertList(store.state.project.projectId, { kind: state.kind, companyId: state.companyId });
 				if (res.errcode == 0) {
 					state.tableData.data = res.data;
 				}
 			} finally {
 				state.tableData.loading = false;
-			}
-		};
-		const onLeader = async (row) => {
-			try {
-				const res = await proxy.$api.erp.projectreview.expertLeader(row);
-				if (res.errcode == 0) {
-					getExpertList();
-				}
-			} finally {
 			}
 		};
 
@@ -135,14 +127,14 @@ export default {
 						type: 'warning',
 					}).then(async () => {
 						let data = JSON.stringify(state.tableData.data);
-						const res = await proxy.$api.erp.projectreview.expertSave(state.mode, data);
+						const res = await proxy.$api.erp.projectreview.expertSave(state.kind, data);
 						if (res.errcode == 0) {
 							getExpertList();
 						}
 					});
 				} else {
 					let data = JSON.stringify(state.tableData.data);
-					const res = await proxy.$api.erp.projectreview.expertSave(state.mode, data);
+					const res = await proxy.$api.erp.projectreview.expertSave(state.kind, data);
 					if (res.errcode == 0) {
 						getExpertList();
 					}
@@ -159,7 +151,6 @@ export default {
 
 		return {
 			proxy,
-			onLeader,
 			onSubmit,
 			project,
 			changeRadio,
