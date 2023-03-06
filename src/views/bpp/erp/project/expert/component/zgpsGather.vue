@@ -1,11 +1,15 @@
 <template>
 	<div class="base-role-container">
-		<el-form-item :label="'投标方名称：'">
-			<el-select v-model="companyId" placeholder="请选择" @change="getExpertList()">
+		<el-form-item :label="'参数：'">
+			<el-select v-model="uid" placeholder="请选择" @change="getExpertList()">
+				<el-option v-for="item in expertList" :key="item.Id" :label="item.Name" :value="item.Id" />
+			</el-select>
+			<el-select style="margin-left: 10px" v-model="companyId" placeholder="请选择" @change="getExpertList()">
 				<el-option v-for="item in signUpList" :key="item.CompanyId" :label="item.CompanyName" :value="item.CompanyId" />
 			</el-select>
-			<el-button style="margin-left: 10px" type="primary" @click="onSubmit(false)">{{ $t('message.action.save') }}</el-button>
-			<el-button type="primary" @click="onSubmit(true)">{{ $t('message.action.submit') }}</el-button>
+
+			<el-button style="margin-left: 10px" type="primary" @click="onSubmit()">{{ $t('message.action.gather') }}</el-button>
+			<el-button type="primary" @click="onReturn()">{{ $t('message.action.returnForReappraisal') }}</el-button>
 		</el-form-item>
 		<el-table
 			:data="tableData.data"
@@ -31,10 +35,8 @@
 			</el-table-column>
 			<el-table-column prop="ReviewState" label="是否通过" show-overflow-tooltip fixed>
 				<template #default="scope">
-					<el-radio-group v-model="scope.row.ReviewState" class="ml-4" @change="changeRadio" :disabled="scope.row.IsGather == 1 ? true : false">
-						<el-radio :label="1">通过</el-radio>
-						<el-radio :label="0">不通过</el-radio>
-					</el-radio-group>
+					<span v-if="scope.row.ReviewState == 1">通过</span>
+					<span v-else>不通过</span>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -63,18 +65,36 @@ export default {
 				loading: false,
 			},
 			signUpList: [],
+			expertList: [],
+			uid: 0,
 			companyId: 0,
 			ruleForm: {
 				Roles: 0,
 				NameId: '',
 			},
 			kind: 'zgps',
+			gatherKind: 'zgpsGather',
+			isGather: 0,
+			nextKind: 'jsps',
 		});
 		const getExpertList = async () => {
 			console.log('获取的数据', state.companyId);
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectreview.expertList(store.state.project.projectId, { kind: state.kind, companyId: state.companyId });
+				let kind = state.kind;
+				if (state.uid == 'gather') {
+					state.isGather = 1;
+					kind = state.gatherKind;
+				} else {
+					state.isGather = 0;
+				}
+				const res = await proxy.$api.erp.projectreview.expertGather(store.state.project.projectId, {
+					kind: kind,
+					companyId: state.companyId,
+					uid: state.uid,
+					isGather: state.isGather,
+					settingKind: state.kind,
+				});
 				if (res.errcode == 0) {
 					state.tableData.data = res.data;
 				}
@@ -91,8 +111,26 @@ export default {
 				}
 				state.signUpList = res.data;
 				state.companyId = res.data[0].CompanyId;
-				if (isState) {
-					getExpertList();
+				try {
+					const expertRes = await proxy.$api.erp.project.expertList(store.state.project.projectId);
+					if (expertRes.errcode == 0) {
+						state.expertList = [];
+						expertRes.data.forEach((item) => {
+							if (item.State <= 0) {
+								state.expertList.push(item.User);
+							}
+						});
+						state.expertList.push({
+							Id: 'gather',
+							Name: '汇总',
+						});
+						state.uid = state.expertList[0].Id;
+					}
+					if (isState) {
+						getExpertList();
+					}
+				} finally {
+					state.tableData.loading = false;
 				}
 				state.signUpData = res.data;
 			} finally {
@@ -115,30 +153,37 @@ export default {
 				}
 			}
 		};
-		const onSubmit = async (isSubmit: boolean) => {
+		const onSubmit = async () => {
 			try {
-				if (isSubmit) {
-					state.tableData.data.forEach((item) => {
-						item.State = 1;
+				ElMessageBox.confirm(`确定要汇总吗?`, '提示', {
+					confirmButtonText: '确认',
+					cancelButtonText: '取消',
+					type: 'warning',
+				}).then(async () => {
+					const res = await proxy.$api.erp.projectreview.expertGatherSave(store.state.project.projectId, {
+						Kind: state.kind,
+						NextKind: state.nextKind,
+						GatherKind: state.gatherKind,
 					});
-					ElMessageBox.confirm(`确定要提交吗?`, '提示', {
-						confirmButtonText: '确认',
-						cancelButtonText: '取消',
-						type: 'warning',
-					}).then(async () => {
-						let data = JSON.stringify(state.tableData.data);
-						const res = await proxy.$api.erp.projectreview.expertSave(state.kind, data);
-						if (res.errcode == 0) {
-							getExpertList();
-						}
-					});
-				} else {
-					let data = JSON.stringify(state.tableData.data);
-					const res = await proxy.$api.erp.projectreview.expertSave(state.kind, data);
 					if (res.errcode == 0) {
 						getExpertList();
 					}
-				}
+				});
+			} finally {
+			}
+		};
+		const onReturn = async () => {
+			try {
+				ElMessageBox.confirm(`确定要退回重评吗?`, '提示', {
+					confirmButtonText: '确认',
+					cancelButtonText: '取消',
+					type: 'warning',
+				}).then(async () => {
+					const res = await proxy.$api.erp.projectreview.expertGatherReturn(store.state.project.projectId);
+					if (res.errcode == 0) {
+						getExpertList();
+					}
+				});
 			} finally {
 			}
 		};
@@ -152,6 +197,7 @@ export default {
 		return {
 			proxy,
 			onSubmit,
+			onReturn,
 			project,
 			changeRadio,
 			getExpertList,

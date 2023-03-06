@@ -76,7 +76,7 @@ import expertLeader from './leader.vue';
 import expertSeeSetting from './seeSetting.vue';
 import expertZgps from './zgps.vue';
 import expertJsps from './jsps.vue';
-import zgpsGather from './jsps.vue';
+import zgpsGather from './zgpsGather.vue';
 export default {
 	name: 'api_sys_project_selection',
 	components: { expertLeader, expertSeeSetting, expertZgps, expertJsps, zgpsGather },

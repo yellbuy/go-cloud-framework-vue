@@ -20,6 +20,8 @@ export default {
 		copy: '复制',
 		clone: '克隆',
 		save: '保存',
+		gather: '汇总',
+			returnForReappraisal:'退回重评',
 		saveAndAdd: '保存并新增',
 		upload: '上传',
 		download: '下载',

@@ -1,7 +1,7 @@
 <template>
 	<div class="base-role-container">
 		<el-form-item :label="'投标方名称：'">
-			<el-select v-model="companyId" placeholder="请选择">
+			<el-select v-model="companyId" placeholder="请选择" @change="getExpertList()">
 				<el-option v-for="item in signUpList" :key="item.CompanyId" :label="item.CompanyName" :value="item.CompanyId" />
 			</el-select>
 			<el-button style="margin-left: 10px" type="primary" @click="onSubmit(false)">{{ $t('message.action.save') }}</el-button>

@@ -99,4 +99,28 @@ export default {
         const url = `v1/admin/erp/projectreview/review/${kind}`;
         return await http.post(url, data);
     },
+    /**
+    * 获取专家汇总信息
+    * @returns 返回接口数据
+    */
+    expertGather: async (id: number | string,params: object = {}) => {
+        const url = `v1/admin/erp/projectreview/gather/${id}`;
+        return await http.get(url, params);
+    },
+    /**
+    * 专家提交汇总信息
+    * @returns 返回接口数据
+    */
+    expertGatherSave: async (id: number | string,data: object) => {
+        const url = `v1/admin/erp/projectreview/gather/${id}`;
+        return await http.post(url, data);
+    },
+    /**
+    * 专家退回
+    * @returns 返回接口数据
+    */
+    expertGatherReturn: async (id: number | string,data: object) => {
+        const url = `v1/admin/erp/projectreview/return/${id}`;
+        return await http.post(url, data);
+    },
 }
