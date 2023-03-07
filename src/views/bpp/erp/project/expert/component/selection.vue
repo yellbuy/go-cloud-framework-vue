@@ -16,11 +16,14 @@
 						<el-menu-item index="seeSetting">查看评审参数</el-menu-item>
 						<el-menu-item index="zgps">资格评审</el-menu-item>
 						<el-menu-item index="jsps">技术评审</el-menu-item>
+						<el-menu-item index="jjps">报价得分</el-menu-item>
 					</el-sub-menu>
 					<el-sub-menu index="2">
 						<template #title>评选汇总</template>
 						<!-- <el-menu-item index="bid">选择项目包号</el-menu-item> -->
 						<el-menu-item index="zgpsGather">资格评审汇总</el-menu-item>
+						<el-menu-item index="jspsGather">技术评审汇总</el-menu-item>
+						<el-menu-item index="jjpsGather">报价评审汇总</el-menu-item>
 					</el-sub-menu>
 				</el-menu>
 			</el-col>
@@ -54,7 +57,10 @@
 						<expertSeeSetting ref="expertSeeSettingRef" v-show="indexLine == 'seeSetting'" />
 						<expertZgps ref="expertZgpsRef" v-show="indexLine == 'zgps'" />
 						<expertJsps ref="expertJspsRef" v-show="indexLine == 'jsps'" />
+						<expertJjps ref="expertJjpsRef" v-show="indexLine == 'jjps'" />
 						<zgpsGather ref="zgpsGatherRef" v-show="indexLine == 'zgpsGather'" />
+						<jspsGather ref="jspsGatherRef" v-show="indexLine == 'jspsGather'" />
+						<jjpsGather ref="jjpsGatherRef" v-show="indexLine == 'jjpsGather'" />
 					</el-card>
 				</div>
 			</el-col>
@@ -76,10 +82,13 @@ import expertLeader from './leader.vue';
 import expertSeeSetting from './seeSetting.vue';
 import expertZgps from './zgps.vue';
 import expertJsps from './jsps.vue';
+import expertJjps from './jjps.vue';
 import zgpsGather from './zgpsGather.vue';
+import jspsGather from './jspsGather.vue';
+import jjpsGather from './jjpsGather.vue';
 export default {
 	name: 'api_sys_project_selection',
-	components: { expertLeader, expertSeeSetting, expertZgps, expertJsps, zgpsGather },
+	components: { expertLeader, expertSeeSetting, expertZgps, expertJsps, expertJjps, zgpsGather, jspsGather, jjpsGather },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -97,8 +106,11 @@ export default {
 		const expertLeaderRef = ref();
 		const expertSeeSettingRef = ref();
 		const expertZgpsRef = ref();
-		const zgpsGatherRef = ref();
+		const expertJjpsRef = ref();
 		const expertJspsRef = ref();
+		const zgpsGatherRef = ref();
+		const jspsGatherRef = ref();
+		const jjpsGatherRef = ref();
 		const { dateFormat } = commonFunction();
 		const GetByIdRow = async (isState: boolean) => {
 			let Id = store.state.project.projectId;
@@ -143,8 +155,17 @@ export default {
 				case 'jsps':
 					expertJspsRef.value.GetSignUpList(true);
 					break;
+				case 'jjps':
+					expertJjpsRef.value.GetSignUpList(true);
+					break;
 				case 'zgpsGather':
 					zgpsGatherRef.value.GetSignUpList(true);
+					break;
+				case 'jspsGather':
+					jspsGatherRef.value.GetSignUpList(true);
+					break;
+				case 'jjpsGather':
+					jjpsGatherRef.value.GetSignUpList(true);
 					break;
 			}
 		};
@@ -161,7 +182,10 @@ export default {
 			expertSeeSettingRef,
 			expertZgpsRef,
 			expertJspsRef,
+			expertJjpsRef,
 			zgpsGatherRef,
+			jspsGatherRef,
+			jjpsGatherRef,
 			dateFormat,
 			changeSelection,
 			select,
