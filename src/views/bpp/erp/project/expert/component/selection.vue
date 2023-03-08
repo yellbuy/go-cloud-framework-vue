@@ -24,6 +24,8 @@
 						<el-menu-item index="zgpsGather">资格评审汇总</el-menu-item>
 						<el-menu-item index="jspsGather">技术评审汇总</el-menu-item>
 						<el-menu-item index="jjpsGather">报价评审汇总</el-menu-item>
+						<el-menu-item index="gather">评分汇总</el-menu-item>
+						<el-menu-item index="signature">专家签章</el-menu-item>
 					</el-sub-menu>
 				</el-menu>
 			</el-col>
@@ -61,6 +63,8 @@
 						<zgpsGather ref="zgpsGatherRef" v-show="indexLine == 'zgpsGather'" />
 						<jspsGather ref="jspsGatherRef" v-show="indexLine == 'jspsGather'" />
 						<jjpsGather ref="jjpsGatherRef" v-show="indexLine == 'jjpsGather'" />
+						<gather ref="gatherRef" v-show="indexLine == 'gather'" />
+						<signature ref="signatureRef" v-show="indexLine == 'signature'" />
 					</el-card>
 				</div>
 			</el-col>
@@ -74,10 +78,6 @@ import { useI18n } from 'vue-i18n';
 import commonFunction from '/@/utils/commonFunction';
 import { useStore } from '/@/store/index';
 import { ElMessageBox, ElMessage } from 'element-plus';
-// import reviewEdit from './selection/reviewEdit.vue';
-// import expertEdit from './selection/expertEdit.vue';
-// import bidEdit from './selection/projectBid.vue';
-// import companyBid from './selection/companyBid.vue';
 import expertLeader from './leader.vue';
 import expertSeeSetting from './seeSetting.vue';
 import expertZgps from './zgps.vue';
@@ -86,9 +86,11 @@ import expertJjps from './jjps.vue';
 import zgpsGather from './zgpsGather.vue';
 import jspsGather from './jspsGather.vue';
 import jjpsGather from './jjpsGather.vue';
+import gather from './gather.vue';
+import signature from './signature.vue';
 export default {
 	name: 'api_sys_project_selection',
-	components: { expertLeader, expertSeeSetting, expertZgps, expertJsps, expertJjps, zgpsGather, jspsGather, jjpsGather },
+	components: { expertLeader, expertSeeSetting, expertZgps, expertJsps, expertJjps, zgpsGather, jspsGather, jjpsGather, gather, signature },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -111,6 +113,8 @@ export default {
 		const zgpsGatherRef = ref();
 		const jspsGatherRef = ref();
 		const jjpsGatherRef = ref();
+		const gatherRef = ref();
+		const signatureRef = ref();
 		const { dateFormat } = commonFunction();
 		const GetByIdRow = async (isState: boolean) => {
 			let Id = store.state.project.projectId;
@@ -167,6 +171,12 @@ export default {
 				case 'jjpsGather':
 					jjpsGatherRef.value.GetSignUpList(true);
 					break;
+				case 'gather':
+					gatherRef.value.GetSignUpList(true);
+					break;
+				case 'signature':
+					signatureRef.value.GetSignUpList(true);
+					break;
 			}
 		};
 		const changeSelection = () => {
@@ -186,6 +196,8 @@ export default {
 			zgpsGatherRef,
 			jspsGatherRef,
 			jjpsGatherRef,
+			gatherRef,
+			signatureRef,
 			dateFormat,
 			changeSelection,
 			select,

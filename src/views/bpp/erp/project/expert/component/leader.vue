@@ -18,7 +18,7 @@
 					<span v-else>已投票</span>
 				</template>
 			</el-table-column>
-			<el-table-column prop="PollNum" label="得票数" show-overflow-tooltip fixed />
+			<el-table-column prop="PollNum" label="得票数" show-overflow-tooltip align="right" />
 			<el-table-column prop="IsLeader" label="是否是组长" show-overflow-tooltip fixed>
 				<template #default="scope">
 					<span v-if="scope.row.IsLeader == 0">组员</span>
@@ -42,7 +42,7 @@ import { useStore } from '/@/store/index';
 import project from '/@/api/erp/project';
 import { useI18n } from 'vue-i18n';
 export default {
-	name: 'expertEdit',
+	name: 'leader',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();

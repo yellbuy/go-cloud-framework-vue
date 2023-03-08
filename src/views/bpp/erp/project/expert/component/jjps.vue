@@ -15,8 +15,8 @@
 		>
 			<el-table-column type="index" label="序号" align="right" width="70" fixed />
 			<el-table-column prop="CompanyName" label="投标方" show-overflow-tooltip fixed />
-			<el-table-column prop="TechnicalScore" label="总报价" show-overflow-tooltip fixed />
-			<el-table-column prop="ReviewPrice" label="最终评审报价" show-overflow-tooltip fixed>
+			<el-table-column prop="TechnicalScore" label="总报价" show-overflow-tooltip align="right" />
+			<el-table-column prop="ReviewPrice" label="最终评审报价" show-overflow-tooltip>
 				<template #default="scope">
 					<el-input-number
 						v-model="scope.row.ReviewPrice"
@@ -29,7 +29,7 @@
 					</el-input-number>
 				</template>
 			</el-table-column>
-			<el-table-column prop="PriceScore" label="价格得分" show-overflow-tooltip fixed>
+			<el-table-column prop="PriceScore" label="价格得分" show-overflow-tooltip>
 				<template #default="scope">
 					<el-input-number v-model="scope.row.PriceScore" controls-position="right" :min="0" size="small" style="width: 90px"> </el-input-number>
 				</template>
@@ -47,7 +47,7 @@ import project from '/@/api/erp/project';
 import { useI18n } from 'vue-i18n';
 import { Item } from 'ant-design-vue/lib/menu';
 export default {
-	name: 'expertEdit',
+	name: 'jjps',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -109,7 +109,6 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
-			console.log('页面渲染');
 			GetSignUpList(false);
 		});
 

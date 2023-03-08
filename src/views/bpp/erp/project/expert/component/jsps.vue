@@ -29,7 +29,7 @@
 					<span v-else>{{ scope.row.SetLineStandard }}</span>
 				</template>
 			</el-table-column>
-			<el-table-column prop="SetLineTechnicalMaxScore" label="最高分" show-overflow-tooltip fixed />
+			<el-table-column prop="SetLineTechnicalMaxScore" label="最高分" show-overflow-tooltip align="right" />
 			<el-table-column prop="ReviewState" label="评审" show-overflow-tooltip fixed>
 				<template #default="scope">
 					<el-input-number
@@ -58,7 +58,7 @@ import project from '/@/api/erp/project';
 import { useI18n } from 'vue-i18n';
 import { Item } from 'ant-design-vue/lib/menu';
 export default {
-	name: 'expertEdit',
+	name: 'jsps',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -157,7 +157,6 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
-			console.log('页面渲染');
 			GetSignUpList(false);
 		});
 

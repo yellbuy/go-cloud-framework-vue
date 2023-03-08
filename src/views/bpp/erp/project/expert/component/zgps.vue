@@ -50,7 +50,7 @@ import project from '/@/api/erp/project';
 import { useI18n } from 'vue-i18n';
 import { Item } from 'ant-design-vue/lib/menu';
 export default {
-	name: 'expertEdit',
+	name: 'zgps',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -145,7 +145,6 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
-			console.log('页面渲染');
 			GetSignUpList(false);
 		});
 
