@@ -38,24 +38,34 @@
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip fixed></el-table-column>
 				<!-- <el-table-column prop="LineName" label="包名" show-overflow-tooltip></el-table-column> -->
-				<el-table-column prop="BiddingTime" label="开标时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="SignUpTime" label="报名时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="BeginTime" label="开标开始时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="FinishTime" label="开标截止时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="LineState" label="状态" show-overflow-tooltip>
 					<template #default="scope">
 						<span v-if="scope.row.LineState == 0">已投标</span>
 						<span v-else-if="scope.row.LineState == 1">已付款</span>
+						<span v-else-if="scope.row.LineState == 2">已报价</span>
 					</template>
 				</el-table-column>
-				<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="info" @click="onModelSee(scope.row.Id, false)">
+						<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, false)">
 							<el-icon>
 								<Search />
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
+						<el-button
+							text
+							bg
+							type="primary"
+							v-if="isSeletionTime(scope.row)"
+							@click="onModelSee(scope.row.ProjectId, true)"
+							v-auth:[moduleKey]="'btn.quoted'"
+							>{{ $t('message.action.quotedPrice') }}</el-button
+						>
 					</template>
-				</el-table-column> -->
+				</el-table-column>
 			</el-table>
 			<el-pagination
 				small
@@ -109,7 +119,8 @@ export default {
 					no: '',
 					pageNum: 1,
 					pageSize: 20,
-					companyId:  store.state.userInfos.userInfos.tid,
+					onSelf: 1,
+					companyId: store.state.userInfos.userInfos.tenant.Id,
 				},
 			},
 		});
@@ -122,7 +133,7 @@ export default {
 			state.tableData.param.no = '';
 			onGetTableData(true);
 		};
-			const onModelSee = (Id: string, state: boolean) => {
+		const onModelSee = (Id: string, state: boolean) => {
 			seeDlgRef.value.openDialog(Id, state);
 		};
 		// 初始化表格数据
@@ -145,7 +156,6 @@ export default {
 			}
 		};
 
-		
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
@@ -154,12 +164,20 @@ export default {
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
 		};
+		const isSeletionTime = (model) => {
+			let isTime = false;
+			if (model.BeginTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.FinishTime) {
+				isTime = true;
+			}
+			return isTime;
+		};
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
+			console.log(store.state.userInfos.userInfos.tenant.Id);
 		});
 
-		const { dateFormatYMDHM } = commonFunction();
+		const { dateFormatYMDHM, dateFormat } = commonFunction();
 
 		return {
 			proxy,
@@ -170,6 +188,7 @@ export default {
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
+			isSeletionTime,
 			...toRefs(state),
 		};
 	},

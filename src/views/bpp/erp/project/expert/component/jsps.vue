@@ -113,7 +113,7 @@ export default {
 
 		const GetSignUpList = async (isState: boolean) => {
 			try {
-				const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: store.state.project.projectId, state: 1 });
+				const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: store.state.project.projectId, auditState: 1 });
 				if (res.errcode != 0) {
 					return;
 				}

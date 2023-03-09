@@ -612,6 +612,7 @@ export default {
 		// 新增
 		const onSubmit = () => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
+				console.log('保存');
 				if (valid) {
 					try {
 						if (state.Files) {

@@ -25,6 +25,7 @@ export default {
 		returnForReappraisal: 'Return for reappraisal',
 		batchSignature:'Batch signature',
 		gather:'gather',
+		quotedPrice:"quoted price",
 		saveAndAdd:'save and add',
 		upload:'upload',
 		download:'download',

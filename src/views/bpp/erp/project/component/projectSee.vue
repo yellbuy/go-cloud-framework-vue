@@ -57,10 +57,26 @@
 					</div>
 				</el-tab-pane>
 			</el-tabs>
+			<el-dialog v-model="dialogFormVisible" title="报价" destroy-on-close :before-close="onCancel">
+				<el-form :model="priceRuleForm" ref="priceRuleFormRef">
+					<el-form-item label="报价：" prop="QuotedPrice">
+						<el-input-number v-model="priceRuleForm.QuotedPrice" :min="0" controls-position="right" :precision="2" />
+					</el-form-item>
+				</el-form>
+				<template #footer>
+					<span class="dialog-footer">
+						<el-button @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
+						<el-button type="primary" @click="onQuoted"> {{ $t('message.action.save') }}</el-button>
+					</span>
+				</template>
+			</el-dialog>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg type="primary" v-if="isShow" @click="onSubmit" v-auth:[$parent.moduleKey]="'btn.signup'">{{
 						$t('message.action.signUp')
+					}}</el-button>
+					<el-button text bg type="primary" @click="dialogFormVisible = true" v-auth:[$parent.moduleKey]="'btn.quoted'">{{
+						$t('message.action.quotedPrice')
 					}}</el-button>
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
 				</span>
@@ -70,7 +86,6 @@
 </template>
 
 <script lang="ts">
-
 import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { TabsPaneContext } from 'element-plus';
@@ -92,6 +107,7 @@ export default {
 			signUp: {
 				ProjectId: 0,
 				LineIds: '',
+				QuotedPrice: 0,
 			},
 			isShow: false,
 			getList: [],
@@ -103,6 +119,10 @@ export default {
 					pageSize: 10000,
 				},
 			},
+			priceRuleForm: {
+				QuotedPrice: 0,
+			},
+			dialogFormVisible: false,
 		});
 		const { dateFormat, dateFormatYMDHM } = commonFunction();
 		const activeName = ref('first');
@@ -111,6 +131,8 @@ export default {
 		const openDialog = (id: string, isShow: boolean) => {
 			state.isShow = isShow;
 			state.signUp.ProjectId = id;
+			state.signUp.QuotedPrice = 0;
+			state.priceRuleForm.QuotedPrice = 0;
 			GetByIdRow(id);
 			GetSignUpList(id);
 			state.isShowDialog = true;
@@ -135,8 +157,14 @@ export default {
 			state.signUp = {
 				ProjectId: 0,
 				LineIds: '',
+				QuotedPrice: 0,
 			};
 			state.getList = [];
+		};
+		const onCancel = () => {
+			proxy.$refs.priceRuleFormRef.resetFields();
+			state.priceRuleForm = {};
+			state.dialogFormVisible = false;
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
@@ -186,7 +214,17 @@ export default {
 				closeDialog();
 			}
 		};
-
+		const onQuoted = async () => {
+			try {
+				state.signUp.QuotedPrice = state.priceRuleForm.QuotedPrice;
+				const res = await proxy.$api.erp.projectcompany.quoted(state.signUp);
+				if (res.errcode != 0) {
+					return;
+				}
+			} finally {
+				onCancel();
+			}
+		};
 		// 页面加载时
 		onMounted(() => {});
 		return {
@@ -197,7 +235,9 @@ export default {
 			onSubmit,
 			select,
 			selectAll,
+			onCancel,
 			t,
+			onQuoted,
 			GetByIdRow,
 			openDialog,
 			closeDialog,

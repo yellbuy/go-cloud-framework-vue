@@ -1,8 +1,8 @@
 <template>
 	<div class="base-role-container">
 		<el-form-item>
-			<el-button style="margin-left: 10px" type="primary" @click="onSubmit()">{{ $t('message.action.gather') }}</el-button>
-			<el-button type="primary" @click="onReturn()">{{ $t('message.action.returnForReappraisal') }}</el-button>
+			<el-button style="margin-left: 10px" type="primary" v-if="!state" @click="onSubmit()">{{ $t('message.action.gather') }}</el-button>
+			<el-button type="primary" v-if="!state" @click="onReturn()">{{ $t('message.action.returnForReappraisal') }}</el-button>
 		</el-form-item>
 		<el-table
 			:data="tableData.data"
@@ -25,7 +25,7 @@
 					<span v-else>第一中标供应商</span>
 				</template>
 			</el-table-column>
-			<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" fixed="right">
+			<el-table-column v-if="!state" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" fixed="right">
 				<template #default="scope">
 					<el-button text bg type="primary" @click="onLeader(scope.row)"> 推荐 </el-button>
 				</template>
@@ -62,9 +62,11 @@ export default {
 			kind: 'gather',
 			nextKind: 'recommend',
 			nextKind2: 'signature',
+			state: false,
 		});
 
-		const GetSignUpList = async (isState: boolean) => {
+		const GetSignUpList = async (isState: boolean, isShow: boolean) => {
+			state.state = isShow;
 			if (isState) {
 				state.tableData.loading = true;
 				try {
@@ -89,7 +91,7 @@ export default {
 						NextKind: state.nextKind,
 					});
 					if (res.errcode == 0) {
-						GetSignUpList(true);
+						GetSignUpList(true, state.state);
 					}
 				});
 			} finally {
@@ -111,7 +113,7 @@ export default {
 						ProjectReview: data,
 					});
 					if (res.errcode == 0) {
-						GetSignUpList(true);
+						GetSignUpList(true, state.state);
 					}
 				});
 			} finally {
@@ -126,7 +128,7 @@ export default {
 				}).then(async () => {
 					const res = await proxy.$api.erp.projectreview.expertGatherReturn(store.state.project.projectId);
 					if (res.errcode == 0) {
-						GetSignUpList(true);
+						GetSignUpList(true, state.state);
 					}
 				});
 			} finally {
@@ -134,7 +136,7 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
-			GetSignUpList(false);
+			GetSignUpList(false, false);
 		});
 
 		return {

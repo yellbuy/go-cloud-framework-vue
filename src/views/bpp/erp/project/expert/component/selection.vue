@@ -163,16 +163,16 @@ export default {
 					expertJjpsRef.value.GetSignUpList(true);
 					break;
 				case 'zgpsGather':
-					zgpsGatherRef.value.GetSignUpList(true);
+					zgpsGatherRef.value.GetSignUpList(true, false);
 					break;
 				case 'jspsGather':
-					jspsGatherRef.value.GetSignUpList(true);
+					jspsGatherRef.value.GetSignUpList(true, false);
 					break;
 				case 'jjpsGather':
-					jjpsGatherRef.value.GetSignUpList(true);
+					jjpsGatherRef.value.GetSignUpList(true, false);
 					break;
 				case 'gather':
-					gatherRef.value.GetSignUpList(true);
+					gatherRef.value.GetSignUpList(true,false);
 					break;
 				case 'signature':
 					signatureRef.value.GetSignUpList(true);

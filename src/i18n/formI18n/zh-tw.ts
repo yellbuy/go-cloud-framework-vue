@@ -53,6 +53,7 @@ export default {
 		currency: '金币',
 		notice: '通知',
 		signUp: "报名",
+		quotedPrice:"报价",
 		selection: "评选",
 		setBidOpeningPackage: "设为开标包",
 		wastePackage: "废包",

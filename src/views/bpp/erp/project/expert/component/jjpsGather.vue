@@ -4,8 +4,8 @@
 			<el-select v-model="uid" placeholder="请选择" @change="getExpertList()">
 				<el-option v-for="item in expertList" :key="item.Id" :label="item.Name" :value="item.Id" />
 			</el-select>
-			<el-button style="margin-left: 10px" type="primary" @click="onSubmit()">{{ $t('message.action.gather') }}</el-button>
-			<el-button type="primary" @click="onReturn()">{{ $t('message.action.returnForReappraisal') }}</el-button>
+			<el-button style="margin-left: 10px" v-if="!state" type="primary" @click="onSubmit()">{{ $t('message.action.gather') }}</el-button>
+			<el-button type="primary" v-if="!state" @click="onReturn()">{{ $t('message.action.returnForReappraisal') }}</el-button>
 		</el-form-item>
 		<el-table
 			:data="tableData.data"
@@ -81,7 +81,8 @@ export default {
 			}
 		};
 
-		const GetSignUpList = async (isState: boolean) => {
+		const GetSignUpList = async (isState: boolean, isShow: boolean) => {
+			state.state = isShow;
 			state.tableData.loading = true;
 			try {
 				const expertRes = await proxy.$api.erp.project.expertList(store.state.project.projectId);
@@ -142,7 +143,7 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
-			GetSignUpList(false);
+			GetSignUpList(false, false);
 		});
 
 		return {

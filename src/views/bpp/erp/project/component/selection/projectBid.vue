@@ -1,11 +1,5 @@
 <template>
 	<div class="base-role-container">
-		<el-descriptions class="margin-top" :column="2">
-			<el-descriptions-item label="项目名称：">{{ project.Name }}</el-descriptions-item>
-			<el-descriptions-item label="项目编号：">{{ project.No }}</el-descriptions-item>
-			<el-descriptions-item label="评选时间：">{{ project.ReviewTime }}</el-descriptions-item>
-			<el-descriptions-item label="评选地点：">{{ project.Location }} </el-descriptions-item>
-		</el-descriptions>
 		<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 			<el-table-column type="index" label="序号" align="right" width="70" fixed />
 			<el-table-column prop="Sn" label="包号" width="120" show-overflow-tooltip></el-table-column>

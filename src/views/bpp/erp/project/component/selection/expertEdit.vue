@@ -117,12 +117,14 @@ export default {
 			} finally {
 			}
 		};
-		const getExpertList = async () => {
+		const getExpertList = async (isState: boolean) => {
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.project.expertList(store.state.project.projectId);
-				if (res.errcode == 0) {
-					state.tableData.data = res.data;
+				if (isState) {
+					const res = await proxy.$api.erp.project.expertList(store.state.project.projectId);
+					if (res.errcode == 0) {
+						state.tableData.data = res.data;
+					}
 				}
 			} finally {
 				state.tableData.loading = false;
@@ -185,7 +187,7 @@ export default {
 							return;
 						}
 						closeDialog();
-						getExpertList();
+						getExpertList(true);
 					} finally {
 					}
 				} else {
@@ -211,7 +213,7 @@ export default {
 					if (res.errcode != 0) {
 						return;
 					}
-					getExpertList();
+					getExpertList(true);
 				} finally {
 				}
 				return false;

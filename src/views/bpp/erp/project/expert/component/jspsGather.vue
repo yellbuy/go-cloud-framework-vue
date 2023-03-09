@@ -8,8 +8,8 @@
 				<el-option v-for="item in signUpList" :key="item.CompanyId" :label="item.CompanyName" :value="item.CompanyId" />
 			</el-select>
 
-			<el-button style="margin-left: 10px" type="primary" @click="onSubmit()">{{ $t('message.action.gather') }}</el-button>
-			<el-button type="primary" @click="onReturn()">{{ $t('message.action.returnForReappraisal') }}</el-button>
+			<el-button style="margin-left: 10px" v-if="!state" type="primary" @click="onSubmit()">{{ $t('message.action.gather') }}</el-button>
+			<el-button type="primary" v-if="!state" @click="onReturn()">{{ $t('message.action.returnForReappraisal') }}</el-button>
 		</el-form-item>
 		<el-table
 			:data="tableData.data"
@@ -114,9 +114,10 @@ export default {
 			}
 		};
 
-		const GetSignUpList = async (isState: boolean) => {
+		const GetSignUpList = async (isState: boolean, isShow: boolean) => {
+			state.state = isShow;
 			try {
-				const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: store.state.project.projectId, state: 1 });
+				const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: store.state.project.projectId, state: 2, auditState: 1 });
 				if (res.errcode != 0) {
 					return;
 				}
@@ -184,7 +185,7 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
-			GetSignUpList(false);
+			GetSignUpList(false, false);
 		});
 
 		return {

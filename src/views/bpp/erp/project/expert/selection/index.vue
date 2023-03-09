@@ -27,7 +27,15 @@
 						<el-form-item></el-form-item>
 					</el-form>
 				</div>
-				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
+				<el-table
+					:data="tableData.data"
+					v-loading="tableData.loading"
+					style="width: 100%"
+					:height="proxy.$calcMainHeight(-75)"
+					border
+					stripe
+					highlight-current-row
+				>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
 					<el-table-column prop="No" label="比选编号" show-overflow-tooltip fixed></el-table-column>
 					<el-table-column prop="Kind" label="比选类型" show-overflow-tooltip>
@@ -51,18 +59,29 @@
 								</el-icon>
 								&#8197;{{ $t('message.action.see') }}
 							</el-button>
-							<el-button text bg type="primary" @click="onToRouter(scope.row.Id)" v-auth:[moduleKey]="'btn.Selection'">
+							<el-button text bg type="primary" v-if="isTime(scope.row)" @click="onToRouter(scope.row.Id)" v-auth:[moduleKey]="'btn.Selection'">
 								{{ $t('message.action.selection') }}
 							</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination small @size-change="onHandleSizeChange" @current-change="onHandleCurrentChange" class="mt15" :page-sizes="[10, 20, 30, 50, 100]" v-model:current-page="tableData.param.pageNum" background v-model:page-size="tableData.param.pageSize" layout="->, total, sizes, prev, pager, next, jumper" :total="tableData.total">
+				<el-pagination
+					small
+					@size-change="onHandleSizeChange"
+					@current-change="onHandleCurrentChange"
+					class="mt15"
+					:page-sizes="[10, 20, 30, 50, 100]"
+					v-model:current-page="tableData.param.pageNum"
+					background
+					v-model:page-size="tableData.param.pageSize"
+					layout="->, total, sizes, prev, pager, next, jumper"
+					:total="tableData.total"
+				>
 				</el-pagination>
 			</el-card>
 			<seeDlg ref="seeDlgRef" />
 		</div>
-		<selectionDlg ref="selectionDlgRef"/>
+		<selectionDlg ref="selectionDlgRef" />
 	</div>
 </template>
 
@@ -93,7 +112,7 @@ export default {
 					no: '',
 					pageNum: 1,
 					pageSize: 20,
-					mode:2
+					mode: 2,
 				},
 			},
 			isSelection: true,
@@ -133,10 +152,10 @@ export default {
 		const onToRouter = (Id: string) => {
 			store.commit('project/getProjectId', Id);
 			state.isSelection = false;
-			console.log("专家进行测评",selectionDlgRef)
+			console.log('专家进行测评', selectionDlgRef);
 			selectionDlgRef.value.GetByIdRow();
 		};
-	
+
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
@@ -145,12 +164,20 @@ export default {
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
 		};
+		const isTime = (model) => {
+			console.log(model.ReviewTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS'));
+			let isTime = false;
+			if (model.ReviewTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && model.State == 0) {
+				isTime = true;
+			}
+			return isTime;
+		};
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
 		});
 
-		const { dateFormatYMDHM } = commonFunction();
+		const { dateFormatYMDHM, dateFormat } = commonFunction();
 
 		return {
 			proxy,
@@ -159,10 +186,12 @@ export default {
 			onGetTableData,
 			onResetSearch,
 			onModelSee,
+			isTime,
 			onToRouter,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
+			dateFormat,
 			...toRefs(state),
 		};
 	},

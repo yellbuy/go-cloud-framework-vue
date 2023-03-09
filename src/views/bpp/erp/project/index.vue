@@ -65,22 +65,36 @@
 								</el-icon>
 								&#8197;{{ $t('message.action.see') }}
 							</el-button>
-							<el-button text bg type="primary" @click="onModelSee(scope.row.Id, true)" v-auth:[moduleKey]="'btn.signup'">{{
-								$t('message.action.signUp')
-							}}</el-button>
-							<el-button text bg type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
+							<el-button
+								text
+								bg
+								type="primary"
+								v-if="isSignUpTime(scope.row)"
+								@click="onModelSee(scope.row.Id, true)"
+								v-auth:[moduleKey]="'btn.signup'"
+								>{{ $t('message.action.signUp') }}</el-button
+							>
+
+							<el-button text bg type="primary" v-if="isEditTime(scope.row)" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
 								<el-icon>
 									<Edit />
 								</el-icon>
 								&#8197;{{ $t('message.action.edit') }}
 							</el-button>
-							<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+							<el-button text bg type="danger" v-if="scope.row.State != 1" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
 								<el-icon>
 									<CloseBold />
 								</el-icon>
 								&#8197;{{ $t('message.action.delete') }}
 							</el-button>
-							<el-button text bg type="primary" @click="onToRouter(scope.row.Id)" v-auth:[moduleKey]="'btn.Selection'">
+							<el-button
+								text
+								bg
+								type="primary"
+								v-if="isSeletionTime(scope.row)"
+								@click="onToRouter(scope.row.Id)"
+								v-auth:[moduleKey]="'btn.Selection'"
+							>
 								{{ $t('message.action.selection') }}
 							</el-button>
 						</template>
@@ -219,12 +233,41 @@ export default {
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
 		};
+		const isSeletionTime = (model) => {
+			let isTime = false;
+			if (
+				model.BeginTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') &&
+				dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.FinishTime &&
+				model.State == 0
+			) {
+				isTime = true;
+			}
+			return isTime;
+		};
+		const isEditTime = (model) => {
+			let isTime = false;
+			if (model.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && model.State == 0) {
+				isTime = true;
+			}
+			return isTime;
+		};
+		const isSignUpTime = (model) => {
+			let isTime = false;
+			if (
+				model.StartTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') &&
+				dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.EndTime &&
+				model.State == 0
+			) {
+				isTime = true;
+			}
+			return isTime;
+		};
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
 		});
 
-		const { dateFormatYMDHM } = commonFunction();
+		const { dateFormatYMDHM, dateFormat } = commonFunction();
 
 		return {
 			proxy,
@@ -236,6 +279,9 @@ export default {
 			onModelEdit,
 			onModelSee,
 			onToRouter,
+			isSeletionTime,
+			isEditTime,
+			isSignUpTime,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
