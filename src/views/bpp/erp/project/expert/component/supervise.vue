@@ -8,25 +8,16 @@
 					background-color="#545c64"
 					default-active="leader"
 					text-color="#fff"
-					:default-openeds="openeds"
 					@select="select"
+					:default-openeds="openeds"
 				>
 					<el-sub-menu index="before">
 						<template #title>评选管理</template>
-						<el-menu-item index="leader">评选组长管理</el-menu-item>
 						<el-menu-item index="seeSetting">查看评审参数</el-menu-item>
-						<el-menu-item index="zgps">资格评审</el-menu-item>
-						<el-menu-item index="jsps">技术评审</el-menu-item>
-						<el-menu-item index="jjps">报价得分</el-menu-item>
 					</el-sub-menu>
-					<el-sub-menu index="gather">
-						<template #title>评选汇总</template>
-						<!-- <el-menu-item index="bid">选择项目包号</el-menu-item> -->
-						<el-menu-item index="zgpsGather">资格评审汇总</el-menu-item>
-						<el-menu-item index="jspsGather">技术评审汇总</el-menu-item>
-						<el-menu-item index="jjpsGather">报价评审汇总</el-menu-item>
-						<el-menu-item index="gather">评分汇总</el-menu-item>
-						<el-menu-item index="signature">专家签章</el-menu-item>
+					<el-sub-menu index="empower">
+						<template #title>监审授权</template>
+						<el-menu-item index="supEmpower">监审授权</el-menu-item>
 					</el-sub-menu>
 				</el-menu>
 			</el-col>
@@ -56,16 +47,8 @@
 						</el-descriptions>
 					</el-card>
 					<el-card>
-						<expertLeader ref="expertLeaderRef" v-show="indexLine == 'leader'" />
 						<expertSeeSetting ref="expertSeeSettingRef" v-show="indexLine == 'seeSetting'" />
-						<expertZgps ref="expertZgpsRef" v-show="indexLine == 'zgps'" />
-						<expertJsps ref="expertJspsRef" v-show="indexLine == 'jsps'" />
-						<expertJjps ref="expertJjpsRef" v-show="indexLine == 'jjps'" />
-						<zgpsGather ref="zgpsGatherRef" v-show="indexLine == 'zgpsGather'" />
-						<jspsGather ref="jspsGatherRef" v-show="indexLine == 'jspsGather'" />
-						<jjpsGather ref="jjpsGatherRef" v-show="indexLine == 'jjpsGather'" />
-						<gather ref="gatherRef" v-show="indexLine == 'gather'" />
-						<signature ref="signatureRef" v-show="indexLine == 'signature'" />
+						<supEmpower ref="supEmpowerRef" v-show="indexLine == 'supEmpower'" />
 					</el-card>
 				</div>
 			</el-col>
@@ -79,19 +62,12 @@ import { useI18n } from 'vue-i18n';
 import commonFunction from '/@/utils/commonFunction';
 import { useStore } from '/@/store/index';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import expertLeader from './leader.vue';
 import expertSeeSetting from './seeSetting.vue';
-import expertZgps from './zgps.vue';
-import expertJsps from './jsps.vue';
-import expertJjps from './jjps.vue';
-import zgpsGather from './zgpsGather.vue';
-import jspsGather from './jspsGather.vue';
-import jjpsGather from './jjpsGather.vue';
-import gather from './gather.vue';
-import signature from './signature.vue';
+import supEmpower from './supEmpower.vue';
+
 export default {
 	name: 'api_sys_project_selection',
-	components: { expertLeader, expertSeeSetting, expertZgps, expertJsps, expertJjps, zgpsGather, jspsGather, jjpsGather, gather, signature },
+	components: { expertSeeSetting, supEmpower },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -104,19 +80,11 @@ export default {
 			FilesList: [],
 			menuIndex: 1,
 			isSelection: false,
-			indexLine: 'leader',
-			openeds: ['before', 'gather'],
+			indexLine: 'seeSetting',
+			openeds: ['before', 'empower'],
 		});
-		const expertLeaderRef = ref();
 		const expertSeeSettingRef = ref();
-		const expertZgpsRef = ref();
-		const expertJjpsRef = ref();
-		const expertJspsRef = ref();
-		const zgpsGatherRef = ref();
-		const jspsGatherRef = ref();
-		const jjpsGatherRef = ref();
-		const gatherRef = ref();
-		const signatureRef = ref();
+		const supEmpowerRef = ref();
 		const { dateFormat } = commonFunction();
 		const GetByIdRow = async (isState: boolean) => {
 			let Id = store.state.project.projectId;
@@ -149,35 +117,11 @@ export default {
 		const select = (key: string) => {
 			state.indexLine = key;
 			switch (state.indexLine) {
-				case 'leader':
-					expertLeaderRef.value.getExpertList();
-					break;
 				case 'seeSetting':
 					expertSeeSettingRef.value.onLoadTable();
 					break;
-				case 'zgps':
-					expertZgpsRef.value.GetSignUpList(true);
-					break;
-				case 'jsps':
-					expertJspsRef.value.GetSignUpList(true);
-					break;
-				case 'jjps':
-					expertJjpsRef.value.GetSignUpList(true);
-					break;
-				case 'zgpsGather':
-					zgpsGatherRef.value.GetSignUpList(true, false);
-					break;
-				case 'jspsGather':
-					jspsGatherRef.value.GetSignUpList(true, false);
-					break;
-				case 'jjpsGather':
-					jjpsGatherRef.value.GetSignUpList(true, false);
-					break;
-				case 'gather':
-					gatherRef.value.GetSignUpList(true, false);
-					break;
-				case 'signature':
-					signatureRef.value.GetSignUpList(true);
+				case 'supEmpower':
+					supEmpowerRef.value.getExpertList();
 					break;
 			}
 		};
@@ -190,16 +134,8 @@ export default {
 		onMounted(() => {});
 		return {
 			proxy,
-			expertLeaderRef,
 			expertSeeSettingRef,
-			expertZgpsRef,
-			expertJspsRef,
-			expertJjpsRef,
-			zgpsGatherRef,
-			jspsGatherRef,
-			jjpsGatherRef,
-			gatherRef,
-			signatureRef,
+			supEmpowerRef,
 			dateFormat,
 			changeSelection,
 			select,

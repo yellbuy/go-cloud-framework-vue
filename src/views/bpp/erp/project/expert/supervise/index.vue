@@ -33,7 +33,15 @@
 						<el-form-item></el-form-item>
 					</el-form>
 				</div>
-				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
+				<el-table
+					:data="tableData.data"
+					v-loading="tableData.loading"
+					style="width: 100%"
+					:height="proxy.$calcMainHeight(-75)"
+					border
+					stripe
+					highlight-current-row
+				>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
 					<el-table-column prop="No" label="比选编号" show-overflow-tooltip fixed></el-table-column>
 					<el-table-column prop="Kind" label="比选类型" show-overflow-tooltip>
@@ -49,7 +57,7 @@
 					<el-table-column prop="fanwei" label="比选范围" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="EndTime" label="报名截止日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="ReviewTime" label="评选日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(360)" fixed="right">
+					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 						<template #default="scope">
 							<el-button text bg type="info" @click="onModelSee(scope.row.Id, false)">
 								<el-icon>
@@ -57,31 +65,30 @@
 								</el-icon>
 								&#8197;{{ $t('message.action.see') }}
 							</el-button>
-							<el-button text bg type="primary" @click="onModelSee(scope.row.Id, true)" v-auth:[moduleKey]="'btn.signup'">{{
-								$t('message.action.signUp')
-							}}</el-button>
-							<el-button text bg type="primary" @click="onModelEdit(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
-								<el-icon>
-									<Edit />
-								</el-icon>
-								&#8197;{{ $t('message.action.edit') }}
-							</el-button>
-							<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
-								<el-icon>
-									<CloseBold />
-								</el-icon>
-								&#8197;{{ $t('message.action.delete') }}
-							</el-button>
-							<el-button text bg type="primary" @click="onToRouter(scope.row.Id)" v-auth:[moduleKey]="'btn.Selection'">
-								{{ $t('message.action.selection') }}
+							<!-- v-if="isTime(scope.row)" -->
+							<el-button text bg type="primary" @click="onToRouter(scope.row.Id)" v-auth:[moduleKey]="'btn.Supervise'">
+								{{ $t('message.action.supervise') }}
 							</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination small @size-change="onHandleSizeChange" @current-change="onHandleCurrentChange" class="mt15" :page-sizes="[10, 20, 30, 50, 100]" v-model:current-page="tableData.param.pageNum" background v-model:page-size="tableData.param.pageSize" layout="->, total, sizes, prev, pager, next, jumper" :total="tableData.total">
+				<el-pagination
+					small
+					@size-change="onHandleSizeChange"
+					@current-change="onHandleCurrentChange"
+					class="mt15"
+					:page-sizes="[10, 20, 30, 50, 100]"
+					v-model:current-page="tableData.param.pageNum"
+					background
+					v-model:page-size="tableData.param.pageSize"
+					layout="->, total, sizes, prev, pager, next, jumper"
+					:total="tableData.total"
+				>
 				</el-pagination>
 			</el-card>
+			<seeDlg ref="seeDlgRef" />
 		</div>
+		<superviseDlg ref="superviseDlgRef" />
 	</div>
 </template>
 
@@ -90,15 +97,18 @@ import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
+import seeDlg from '../../component/projectSee.vue';
+import superviseDlg from '../component/supervise.vue';
 export default {
-	name: 'project',
+	name: 'projectsupervise',
+	components: { seeDlg, superviseDlg },
 	setup() {
 		const store = useStore();
-		const moduleKey = `api_pro_project`;
+		const moduleKey = `api_exp_supervise_list`;
 		const { proxy } = getCurrentInstance() as any;
 		const editDlgRef = ref();
 		const seeDlgRef = ref();
-		const selectionDlgRef = ref();
+		const superviseDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 
@@ -111,7 +121,7 @@ export default {
 					no: '',
 					pageNum: 1,
 					pageSize: 20,
-					mode:1
+					mode: 1,
 				},
 			},
 			isSelection: true,
@@ -156,7 +166,7 @@ export default {
 		const onToRouter = (Id: string) => {
 			store.commit('project/getProjectId', Id);
 			state.isSelection = false;
-			selectionDlgRef.value.GetByIdRow();
+			superviseDlgRef.value.GetByIdRow();
 		};
 		// 删除用户
 		const onModelDel = (Id: number) => {
@@ -185,21 +195,31 @@ export default {
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
 		};
+		const isTime = (model) => {
+			let isTime = false;
+			if (model.BeginTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && model.State == 0) {
+				isTime = true;
+			}
+			return isTime;
+		};
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
 		});
 
-		const { dateFormatYMDHM } = commonFunction();
+		const { dateFormatYMDHM, dateFormat } = commonFunction();
 
 		return {
 			proxy,
+			seeDlgRef,
+			superviseDlgRef,
 			onGetTableData,
 			onResetSearch,
 			onModelEdit,
 			onModelSee,
 			onToRouter,
 			onModelDel,
+			isTime,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,

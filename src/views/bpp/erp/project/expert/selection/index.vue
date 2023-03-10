@@ -51,7 +51,7 @@
 					<el-table-column prop="fanwei" label="比选范围" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="EndTime" label="报名截止日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="ReviewTime" label="评选日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(360)" fixed="right">
+					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 						<template #default="scope">
 							<el-button text bg type="info" @click="onModelSee(scope.row.Id, false)">
 								<el-icon>
@@ -97,7 +97,7 @@ export default {
 	components: { seeDlg, selectionDlg },
 	setup() {
 		const store = useStore();
-		const moduleKey = `api_exp`;
+		const moduleKey = `api_exp_selection_list`;
 		const { proxy } = getCurrentInstance() as any;
 		const seeDlgRef = ref();
 		const selectionDlgRef = ref();

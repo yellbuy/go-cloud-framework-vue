@@ -72,11 +72,19 @@ export default {
         return await http.get(url);
     },
     /**
-    * 获取项目专家信息
+    * 项目专家信息
     * @returns 返回接口数据
     */
     expertSave: async (data: object) => {
         const url = `/v1/admin/erp/project/expert`;
+        return await http.post(url, data);
+    },
+     /**
+    * 监审专家授权
+    * @returns 返回接口数据
+    */
+    empowerSave: async (data: object) => {
+        const url = `/v1/admin/erp/project/empower`;
         return await http.post(url, data);
     },
 }

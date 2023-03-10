@@ -26,6 +26,7 @@ export default {
 		batchSignature:'Batch signature',
 		gather:'gather',
 		quotedPrice:"quoted price",
+		supervise:"supervise",
 		saveAndAdd:'save and add',
 		upload:'upload',
 		download:'download',
