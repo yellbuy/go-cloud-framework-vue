@@ -17,7 +17,7 @@
 						<p title="" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>值小的靠前显示</span></p>
 					</el-col>
 				</el-form-item>
-				
+
 				<el-form-item label="类别描述" prop="Description">
 					<el-input v-model="ruleForm.Description" type="textarea"></el-input>
 				</el-form-item>
@@ -80,14 +80,15 @@ export default {
 		});
 
 		// 打开弹窗
-		const openDialog = (Type: string, id: string) => {
+		const openDialog = (Type: string, id: string, parentid: number) => {
 			if (id && id != '0') {
 				GetByIdRow(id);
 				state.title = t('message.action.edit');
 			} else {
 				state.ruleForm.Id = 0;
 				state.ruleForm.State = 1;
-				state.ruleForm.Order=100;
+				state.ruleForm.Order = 100;
+				state.ruleForm.Parentid = parentid;
 				state.title = t('message.action.add');
 			}
 			state.ruleForm.Type = Type;
@@ -122,6 +123,7 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					state.ruleForm.Parentid = state.ruleForm.Parentid.toString();
 					state.ruleForm.Order = parseInt(state.ruleForm.Order);
 					state.ruleForm.State = parseInt(state.ruleForm.State);
 					try {
@@ -134,6 +136,7 @@ export default {
 								state.ruleForm.Id = 0;
 							}
 							proxy.$parent.onGetTableData();
+							proxy.$parent.tableOnReset(state.ruleForm.Parentid);
 						}
 					} finally {
 						state.loading = false;
