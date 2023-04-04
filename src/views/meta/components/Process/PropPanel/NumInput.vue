@@ -120,18 +120,18 @@ ellipsis(n) {
   line-height: 30px;
   padding: 10px;
 
-  >>> .el-input--small .el-input__inner {
+  :deep(.el-input--small .el-input__inner) {
     padding-left: 10px;
     padding-right: 15px;
   }
 
-  >>> .el-input-number.is-controls-right .el-input__inner {
+  :deep(.el-input-number.is-controls-right .el-input__inner) {
     padding-left: 15px;
     padding-right: 0;
     text-align: left;
   }
 
-  >>> .el-input:hover .el-input__inner {
+  :deep(.el-input:hover .el-input__inner) {
     border-color: #529eff;
   }
 }

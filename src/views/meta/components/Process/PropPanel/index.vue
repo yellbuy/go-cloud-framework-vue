@@ -603,13 +603,13 @@ export default {
 </style>
 <style lang="stylus" scoped>
 .drawer {
-  >>> .el-drawer__header {
+  :deep(.el-drawer__header) {
     margin-bottom: 0;
     border-bottom: 1px solid #c5c5c5;
     padding-bottom: 8px;
   }
 
-  >>> .el-drawer__body {
+  :deep(.el-drawer__body) {
     padding-bottom: 44px;
     overflow: hidden;
   }
@@ -618,15 +618,15 @@ export default {
     height: 100%;
   }
 
-  .pane-tab >>>  .el-tabs__item.is-top:nth-child(2) {
+  .pane-tab :deep(.el-tabs__item.is-top:nth-child(2)) {
     padding-left: 20px;
   }
 
-  >>> .el-tabs__item:focus{
+  :deep(.el-tabs__item:focus){
     box-shadow: none !important;
   }
 
-  >>> .el-tabs__header {
+  :deep(.el-tabs__header) {
     margin-bottom: 0;
   }
 }

@@ -70,7 +70,7 @@ export default {
   background: white;
   padding: 16px;
 
-  >>>.el-form--label-top .el-form-item__label{
+  :deep(.el-form--label-top .el-form-item__label){
     padding-bottom: 0;
   }
 }

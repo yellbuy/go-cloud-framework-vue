@@ -1240,7 +1240,7 @@ export default {
   font-size: 12px;
 }
 .calc-dialog{
-  >>> .el-dialog__body{
+  :deep(.el-dialog__body){
     padding-top: 0;
   }
   .calc-box{

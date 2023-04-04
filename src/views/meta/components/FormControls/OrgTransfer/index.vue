@@ -579,7 +579,7 @@ export default {
   overflow hidden
   font-size: 14px;
 
-  >>> .el-scrollbar__view{
+  :deep(.el-scrollbar__view){
     height: 100%;
   }
 

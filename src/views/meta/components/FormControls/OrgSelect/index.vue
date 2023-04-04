@@ -186,7 +186,7 @@ export default {
     padding-right 1rem
     vertical-align middle
 
-    >>> .el-tag__close{
+    :deep(.el-tag__close){
       position: absolute;
       right: 2px;
       top: 50%;

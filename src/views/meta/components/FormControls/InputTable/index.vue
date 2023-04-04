@@ -402,8 +402,8 @@ export default {
           .error-tip
             top 74%
             z-index 1
-          >>> .el-input__inner
-            border-color #F56C6C
+            :deep(.el-input__inner)
+              border-color #F56C6C
         > div 
           &:first-child
             text-align right
@@ -426,7 +426,7 @@ export default {
       min-height auto
         
   
-.fc-table-box.table >>> 
+.fc-table-box.table :v-deep
 
   // 索引和删除按钮切换
   .el-table__row:hover

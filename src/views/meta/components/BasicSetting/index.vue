@@ -48,8 +48,8 @@
   </div>
 </template>
 <script lang="ts">
+import { getCurrentInstance, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { toRefs, reactive, onMounted, ref, getCurrentInstance,computed } from 'vue';
 export default {
   components: {},
   props: ['tabName', 'initiator', 'conf'],
@@ -177,7 +177,7 @@ export default {
   background: white;
   padding: 16px;
 
-  >>>.el-form--label-top .el-form-item__label{
+  :deep(.el-form--label-top .el-form-item__label){
     padding-bottom: 0;
   }
 }

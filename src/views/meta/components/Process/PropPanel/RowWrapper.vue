@@ -38,7 +38,7 @@ ellipsis(n) {
 
 .icon-wrapper {
   text-align center
-  >>> i {
+  :deep(i) {
     cursor: pointer;
     color: #c5c5c5;
 
