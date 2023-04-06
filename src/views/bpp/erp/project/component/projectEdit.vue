@@ -40,6 +40,13 @@
 							<el-input v-model="ruleForm.Location"></el-input>
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10" v-if="ruleForm.ProjectType == 2">
+						<el-form-item label="邀请招标：" prop="SupplierIds">
+							<el-select multiple v-model="SupplierIds" placeholder="请选择">
+								<el-option v-for="item in companyOption" :key="item.Id" :label="item.Name" :value="item.Id" />
+							</el-select>
+						</el-form-item>
+					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
 						<el-form-item label="项目内容：" prop="Content">
 							<vue-ueditor-wrap
@@ -120,7 +127,7 @@
 					</el-col> -->
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" class="mb10"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
 						><el-form-item label="报名开始时间：" prop="StartTime" required>
 							<el-date-picker
 								v-model="ruleForm.StartTime"
@@ -129,7 +136,7 @@
 								style="width: 100%"
 							></el-date-picker> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" class="mb10"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
 						><el-form-item label="报名结束时间：" prop="EndTime" required>
 							<el-date-picker
 								v-model="ruleForm.EndTime"
@@ -138,7 +145,9 @@
 								style="width: 100%"
 							></el-date-picker> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" class="mb10"
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
 						><el-form-item label="招标开始时间：" prop="BeginTime" required>
 							<el-date-picker
 								v-model="ruleForm.BeginTime"
@@ -147,7 +156,7 @@
 								style="width: 100%"
 							></el-date-picker> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" class="mb10"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
 						><el-form-item label="招标结束时间：" prop="FinishTime" required>
 							<el-date-picker
 								v-model="ruleForm.FinishTime"
@@ -156,7 +165,9 @@
 								style="width: 100%"
 							></el-date-picker> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" class="mb10"
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
 						><el-form-item label="评选时间：" prop="ReviewTime" required>
 							<el-date-picker
 								v-model="ruleForm.ReviewTime"
@@ -401,13 +412,23 @@ export default {
 			// 		pageSize: 10000,
 			// 	},
 			// },
+			SupplierIds: [],
+			companyOption: [],
 			methodList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			Files: [],
 			homeBaseUrl: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
-
+		const startTimeRule = (rule: any, value: any, callback: any) => {
+			console.log(rule);
+			console.log(value);
+			console.log(callback);
+			// switch (rule.field) {
+				
+			// }
+				
+		};
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -446,13 +467,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			StartTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
+			StartTime: [{ validator: startTimeRule, required: true, message: t('message.validRule.required'), trigger: 'blur' }],
 			EndTime: [
 				{
 					required: true,
@@ -482,7 +497,6 @@ export default {
 				},
 			],
 		});
-
 		//上传成功
 		const onSuccessFile = (file: UploadFile) => {
 			state.Files.push(file.data.src);
@@ -612,7 +626,6 @@ export default {
 		// 新增
 		const onSubmit = () => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
-				console.log('保存');
 				if (valid) {
 					try {
 						if (state.Files) {
@@ -626,6 +639,9 @@ export default {
 						state.ruleForm.ProjectType = parseInt(state.ruleForm.ProjectType);
 						if (state.ruleForm.ProjectType != 1) {
 							state.ruleForm.AutoSwitchState = 0;
+						}
+						if (state.SupplierIds.length > 0) {
+							state.ruleForm.SupplierIds = state.SupplierIds.toString();
 						}
 						state.ruleForm.BidOpenTime = state.ruleForm.BeginTime;
 						// state.ruleForm.ProjectLineList = state.tableData.data;
@@ -707,8 +723,24 @@ export default {
 		const onOpenListDialog = (kind: string) => {
 			editLineListDlgRef.value.openDialog(kind, false);
 		};
+		const onGetCompanyData = async () => {
+			let param = {
+				pageNum: 1,
+				pageSize: 10000,
+			};
+			try {
+				const res = await proxy.$api.base.tenant.getList(param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.companyOption = res.data;
+			} finally {
+			}
+		};
 		// 页面加载时
-		onMounted(() => {});
+		onMounted(() => {
+			onGetCompanyData();
+		});
 		return {
 			proxy,
 			t,
@@ -719,6 +751,7 @@ export default {
 			onPreview,
 			onSuccessFile,
 			onRemove,
+			onGetCompanyData,
 			// onModelDel,
 			// onModelEdit,
 			rules,
@@ -731,6 +764,7 @@ export default {
 			onOpenItemDialog,
 			onModelLineDel,
 			getScore,
+			startTimeRule,
 			...toRefs(state),
 		};
 	},

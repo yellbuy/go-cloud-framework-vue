@@ -93,7 +93,7 @@
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
 						<el-form-item label="单位性质" prop="EnterpriseType">
-							<el-input v-model="ruleForm.Industry" placeholder="单位性质"></el-input> </el-form-item
+							<el-input v-model="ruleForm.EnterpriseType" placeholder="单位性质"></el-input> </el-form-item
 					></el-col>
 					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="mb10">
 						<el-form-item label="单位简介" prop="EnterpriseProfile">
@@ -352,6 +352,7 @@ export default {
 				Im: '',
 				CertificateList: [],
 			},
+			tradeData: [],
 			baseUrl: import.meta.env.VITE_API_URL,
 			imgUrl: import.meta.env.VITE_URL,
 			tableDataIndex: 0,
@@ -382,6 +383,22 @@ export default {
 			imgList: [],
 			imgViewerVisible: false,
 		});
+		const onGetTradeData = async () => {
+			let param = {
+				name: '',
+				pageNum: 1,
+				pageSize: 20,
+				fetchChild: false,
+			};
+			try {
+				const res = await proxy.$api.common.category.getConcreteDataList('industry', 0, 2, param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.tradeData = res.data;
+			} finally {
+			}
+		};
 		const rulesSelect = (rule: any, value: any, callback: any) => {
 			if (value == 0) {
 				callback(new Error('请选择'));
@@ -670,6 +687,7 @@ export default {
 		onMounted(() => {
 			loadTenant();
 			onGetMainTableData(true);
+			onGetTradeData();
 		});
 		// 由于页面缓存原因，keep-alive
 		onActivated(() => {});
@@ -679,6 +697,7 @@ export default {
 			rules,
 			getUserInfos,
 			token,
+			onGetTradeData,
 			rulesSelect,
 			rulesTime,
 			Upload,

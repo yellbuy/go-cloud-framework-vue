@@ -428,7 +428,7 @@ export default {
 				ElMessage.error('请选择要审核的记录！');
 				return;
 			}
-			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
+			ElMessageBox.confirm(`确定要审核这条数据吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',

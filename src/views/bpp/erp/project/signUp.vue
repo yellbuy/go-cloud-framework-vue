@@ -55,15 +55,9 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.see') }}
 						</el-button>
-						<el-button
-							text
-							bg
-							type="primary"
-							v-if="isSeletionTime(scope.row)"
-							@click="onModelSee(scope.row.ProjectId, true)"
-							v-auth:[moduleKey]="'btn.quoted'"
-							>{{ $t('message.action.quotedPrice') }}</el-button
-						>
+						<el-button text bg type="primary" @click="onModelSee(scope.row.ProjectId, true)" v-auth:[moduleKey]="'btn.quoted'">{{
+							$t('message.action.quotedPrice')
+						}}</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -134,6 +128,7 @@ export default {
 			onGetTableData(true);
 		};
 		const onModelSee = (Id: string, state: boolean) => {
+			console.log('是否显示', state);
 			seeDlgRef.value.openDialog(Id, state);
 		};
 		// 初始化表格数据
@@ -166,7 +161,7 @@ export default {
 		};
 		const isSeletionTime = (model) => {
 			let isTime = false;
-			if (model.BeginTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.FinishTime) {
+			if (model.StartTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.EndTime) {
 				isTime = true;
 			}
 			return isTime;

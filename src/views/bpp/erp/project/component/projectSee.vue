@@ -75,7 +75,7 @@
 					<el-button text bg type="primary" v-if="isShow" @click="onSubmit" v-auth:[$parent.moduleKey]="'btn.signup'">{{
 						$t('message.action.signUp')
 					}}</el-button>
-					<el-button text bg type="primary" @click="dialogFormVisible = true" v-auth:[$parent.moduleKey]="'btn.quoted'">{{
+					<el-button text bg type="primary" v-if="isShow" @click="dialogFormVisible = true" v-auth:[$parent.moduleKey]="'btn.quoted'">{{
 						$t('message.action.quotedPrice')
 					}}</el-button>
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
@@ -129,6 +129,7 @@ export default {
 		const handleClick = (tab: TabsPaneContext, event: Event) => {};
 		// 打开弹窗
 		const openDialog = (id: string, isShow: boolean) => {
+			console.log('是否显示', isShow);
 			state.isShow = isShow;
 			state.signUp.ProjectId = id;
 			state.signUp.QuotedPrice = 0;
