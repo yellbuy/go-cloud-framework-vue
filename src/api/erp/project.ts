@@ -87,4 +87,12 @@ export default {
         const url = `/v1/admin/erp/project/empower`;
         return await http.post(url, data);
     },
+      /**
+    * 获取公司报名信息
+    * @returns 返回接口数据
+    */
+    signUpDetail: async (id: number | string) => {
+        const url = `/v1/admin/erp/project/signup/${id}`;
+        return await http.get(url);
+    },
 }

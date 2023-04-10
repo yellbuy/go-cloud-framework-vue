@@ -81,7 +81,7 @@ export default {
 				state.ruleForm.Id = 0;
 				state.title = t('message.action.add');
 			} else {
-				state.ruleForm = item;
+				state.ruleForm = JSON.parse(JSON.stringify(item));
 				state.title = t('message.action.edit');
 			}
 			state.editState = isAdd;

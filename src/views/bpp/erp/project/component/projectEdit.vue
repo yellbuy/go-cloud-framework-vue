@@ -3,17 +3,17 @@
 		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close width="80%" :before-close="onCancel">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-width="120px" v-loading="loading">
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" class="mb10">
+					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" class="mb12">
 						<el-form-item label="项目编号：" prop="No">
 							<el-input v-model="ruleForm.No"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" class="mb10">
+					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" class="mb12">
 						<el-form-item label="项目名称：" prop="Name">
 							<el-input v-model="ruleForm.Name"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb10">
+					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb12">
 						<el-form-item label="项目方式：" prop="ProjectType">
 							<el-select v-model="ruleForm.ProjectType" placeholder="请选择">
 								<el-option label="公开招标" :value="1" />
@@ -24,30 +24,30 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb10">
+					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb12">
 						<el-form-item label="标书费用：" prop="BidFee">
 							<el-input-number v-model="ruleForm.BidFee" :min="0" controls-position="right" :precision="2" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb10">
+					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb12">
 						<el-form-item prop="RemoteState">
 							<el-checkbox v-model="ruleForm.RemoteState" :true-label="1" :false-label="0">视频会议</el-checkbox>
 						</el-form-item>
 					</el-col>
 
-					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" class="mb10">
+					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" class="mb12">
 						<el-form-item label="评选地点：" prop="Location">
 							<el-input v-model="ruleForm.Location"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10" v-if="ruleForm.ProjectType == 2">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12" v-if="ruleForm.ProjectType == 2">
 						<el-form-item label="邀请招标：" prop="SupplierIds">
 							<el-select multiple v-model="SupplierIds" placeholder="请选择">
 								<el-option v-for="item in companyOption" :key="item.Id" :label="item.Name" :value="item.Id" />
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
 						<el-form-item label="项目内容：" prop="Content">
 							<vue-ueditor-wrap
 								:editor-id="`editor-content`"
@@ -61,7 +61,7 @@
 							></vue-ueditor-wrap>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
 						<el-form-item label="项目附件：" prop="Files">
 							<div style="width: 50%">
 								<el-upload
@@ -86,8 +86,8 @@
 							<el-image-viewer v-if="dialogVisible" :on-close="(dialogVisible = false)" :url-list="dialogImageUrl" />
 						</el-form-item>
 					</el-col>
-					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
-						<el-button size="small" type="primary" @click="onModelEdit(true)" class="mb10">
+					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
+						<el-button size="small" type="primary" @click="onModelEdit(true)" class="mb12">
 							<el-icon>
 								<Plus />
 							</el-icon>
@@ -127,7 +127,7 @@
 					</el-col> -->
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12"
 						><el-form-item label="报名开始时间：" prop="StartTime" required>
 							<el-date-picker
 								v-model="ruleForm.StartTime"
@@ -136,7 +136,7 @@
 								style="width: 100%"
 							></el-date-picker> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12"
 						><el-form-item label="报名结束时间：" prop="EndTime" required>
 							<el-date-picker
 								v-model="ruleForm.EndTime"
@@ -147,7 +147,7 @@
 					></el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12"
 						><el-form-item label="招标开始时间：" prop="BeginTime" required>
 							<el-date-picker
 								v-model="ruleForm.BeginTime"
@@ -156,7 +156,7 @@
 								style="width: 100%"
 							></el-date-picker> </el-form-item
 					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12"
 						><el-form-item label="招标结束时间：" prop="FinishTime" required>
 							<el-date-picker
 								v-model="ruleForm.FinishTime"
@@ -167,7 +167,7 @@
 					></el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10"
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12"
 						><el-form-item label="评选时间：" prop="ReviewTime" required>
 							<el-date-picker
 								v-model="ruleForm.ReviewTime"
@@ -267,11 +267,11 @@
 				<el-divider content-position="left">经济评审</el-divider>
 				<el-form ref="jjFormRef" :model="jjForm" size="small" v-loading="loading">
 					<el-row :gutter="20">
-						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10" :offset="1"
+						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12" :offset="1"
 							><el-form-item label="采购控制价：" prop="PurchasePrice"
 								><el-input-number v-model="jjForm.PurchasePrice" :min="0" controls-position="right" :precision="2" /> </el-form-item
 						></el-col>
-						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10" :offset="1"
+						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12" :offset="1"
 							><el-form-item label="价格评审得分策略：">
 								<el-radio-group v-model="jjForm.ScoreMode">
 									<el-radio :label="0">价格排名打分</el-radio>
@@ -279,14 +279,14 @@
 								</el-radio-group>
 							</el-form-item></el-col
 						>
-						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10" :offset="1" v-if="jjForm.ScoreMode == 0">
+						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12" :offset="1" v-if="jjForm.ScoreMode == 0">
 							<div class="mb10">评审价格从低至高排列（最低价为第一名），第一名供应商价格得分为满分；</div>
 							<div class="mb10">
 								从第二名起，价格得分减少<span><el-input-number v-model="jjForm.PriceScore" :min="0" :max="100" controls-position="right" /> </span
 								>分。超出采购控制价的供应商得零分。
 							</div>
 						</el-col>
-						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10" :offset="1" v-if="jjForm.ScoreMode == 1">
+						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12" :offset="1" v-if="jjForm.ScoreMode == 1">
 							<div class="mb10">
 								价格评审最高分的<span><el-input-number v-model="jjForm.PricePercentage" :min="0" :max="100" controls-position="right" /> </span>
 								%为基础价格得分;
@@ -298,7 +298,7 @@
 								分;
 							</div>
 						</el-col>
-						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" :offset="1" class="mb10">
+						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" :offset="1" class="mb12">
 							<div class="mb10">本项目技术评审最高分：{{ jjForm.TechnicalScore }}分，最终评审价格最高分：{{ jjForm.TechnicalMaxScore }} 分。</div>
 							<div class="mb10">如需修改请返回调整技术评审各得分项。</div>
 						</el-col>
@@ -330,7 +330,7 @@
 
 <script lang="ts">
 import { Upload } from '@element-plus/icons-vue';
-import { ElMessageBox } from 'element-plus';
+import { ElMessageBox, ElMessage } from 'element-plus';
 import type { UploadFile } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -421,13 +421,55 @@ export default {
 			FilesList: [],
 		});
 		const startTimeRule = (rule: any, value: any, callback: any) => {
-			console.log(rule);
-			console.log(value);
-			console.log(callback);
-			// switch (rule.field) {
-				
-			// }
-				
+			switch (rule.field) {
+				case 'StartTime':
+					if (value == '') {
+						callback(new Error('请选择时间'));
+					} else if (value >= state.ruleForm.EndTime) {
+						callback(new Error('报名开始时间应小于报名结束时间'));
+					} else {
+						callback();
+					}
+					break;
+				case 'EndTime':
+					if (value == '') {
+						callback(new Error('请选择时间'));
+					} else if (value <= state.ruleForm.StartTime) {
+						callback(new Error('报名结束时间应大于于报名开始时间'));
+					} else {
+						callback();
+					}
+					break;
+				case 'BeginTime':
+					if (value == '') {
+						callback(new Error('请选择时间'));
+					} else if (value <= state.ruleForm.EndTime) {
+						callback(new Error('招标开始时间应大于报名结束时间'));
+					} else if (value >= state.ruleForm.FinishTime) {
+						callback(new Error('招标开始时间应小于招标结束时间'));
+					} else {
+						callback();
+					}
+					break;
+				case 'FinishTime':
+					if (value == '') {
+						callback(new Error('请选择时间'));
+					} else if (value <= state.ruleForm.BeginTime) {
+						callback(new Error('招标结束时间应大于招标开始时间'));
+					} else {
+						callback();
+					}
+					break;
+				case 'ReviewTime':
+					if (value == '') {
+						callback(new Error('请选择时间'));
+					} else if (value <= state.ruleForm.FinishTime) {
+						callback(new Error('评选时间应大于招标结束时间'));
+					} else {
+						callback();
+					}
+					break;
+			}
 		};
 		const rules = reactive({
 			isShowDialog: false,
@@ -467,35 +509,11 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			StartTime: [{ validator: startTimeRule, required: true, message: t('message.validRule.required'), trigger: 'blur' }],
-			EndTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			BeginTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			FinishTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			ReviewTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
+			StartTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
+			EndTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
+			BeginTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
+			FinishTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
+			ReviewTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
 		});
 		//上传成功
 		const onSuccessFile = (file: UploadFile) => {
@@ -625,6 +643,10 @@ export default {
 		};
 		// 新增
 		const onSubmit = () => {
+			if (state.ruleForm.Content == '') {
+				ElMessage.error('操作失败！请填写项目内容！');
+				return;
+			}
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					try {
@@ -650,6 +672,7 @@ export default {
 						state.ruleForm.ProjectSettingLineList.push(state.jjForm);
 						const res = await proxy.$api.erp.project.save(state.ruleForm);
 						if (res.errcode == 0) {
+							ElMessage.success('操作成功！');
 							onLoadTable();
 							onCancel();
 						}
@@ -694,6 +717,7 @@ export default {
 				if (Id == 0) {
 					if (kind == 'jsps') {
 						state.jsTableData.data.splice(index, 1);
+						getScore();
 					} else if (kind == 'zgps') {
 						state.zgTableData.data.splice(index, 1);
 					}
@@ -703,6 +727,7 @@ export default {
 						if (res.errcode == 0) {
 							if (kind == 'jsps') {
 								state.jsTableData.data.splice(index, 1);
+								getScore();
 							} else if (kind == 'zgps') {
 								state.zgTableData.data.splice(index, 1);
 							}
