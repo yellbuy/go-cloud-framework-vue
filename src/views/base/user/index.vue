@@ -135,18 +135,16 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import userEdit from './component/userEdit.vue';
+import { ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import other from '/@/utils/other';
+import userEdit from './component/userEdit.vue';
+import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'baseUsers',
 	components: { userEdit },
 	setup() {
-		const moduleKey = 'api_base_org';
+		const moduleKey = 'api_base_user';
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
 		console.log('路由', route.query);

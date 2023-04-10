@@ -6,6 +6,7 @@ export default {
 		menu: '菜单管理',
 		role: '角色管理',
 		user: '用户管理',
+		org: '组织管理',
 		tenant: '公司管理',
 		registerUser:'用户注册',
 		registerTenant:'租户注册',

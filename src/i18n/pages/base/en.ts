@@ -6,6 +6,7 @@ export default {
 		menu: 'systemMenu',
 		role: 'systemRole',
 		user: 'systemUser',
+		org: 'systemOrg',
 		tenant: 'systemTenant',
 		registerUser:'register user',
 		registerTenant:'register tenant',
