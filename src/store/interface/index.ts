@@ -80,7 +80,8 @@ export interface UserInfosState {
 export interface ProjectState {
 	project: object;
 	projectId: string;
-	projectLineId: string
+	projectLineId: string;
+	projectCompanyId: string;
 }
 
 // Action授权信息

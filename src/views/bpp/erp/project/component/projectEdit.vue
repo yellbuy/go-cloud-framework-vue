@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close width="80%" :before-close="onCancel">
+		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close :key="ruleForm.Id" width="80%" :before-close="onCancel">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-width="120px" v-loading="loading">
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8" class="mb12">

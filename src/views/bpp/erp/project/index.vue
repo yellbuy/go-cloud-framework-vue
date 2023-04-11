@@ -59,7 +59,7 @@
 					<el-table-column prop="ReviewTime" label="评选日期" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(360)" fixed="right">
 						<template #default="scope">
-							<el-button text bg type="info" @click="onModelSee(scope.row.Id, false)">
+							<el-button text bg type="info" v-auth:[moduleKey]="'btn.See'" @click="onModelSee(scope.row.Id, false)">
 								<el-icon>
 									<Search />
 								</el-icon>
@@ -70,7 +70,7 @@
 								bg
 								type="primary"
 								v-if="isSignUpTime(scope.row)"
-								@click="onToSignUp(scope.row.Id, true)"
+								@click="onModelSee(scope.row.Id, true)"
 								v-auth:[moduleKey]="'btn.signup'"
 								>{{ $t('message.action.signUp') }}</el-button
 							>
@@ -118,7 +118,6 @@
 			<seeDlg ref="seeDlgRef" />
 		</div>
 		<selectionDlg ref="selectionDlgRef" />
-		<signUpDlg ref="signUpDlgRef" />
 	</div>
 </template>
 
@@ -130,12 +129,11 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import editDlg from './component/projectEdit.vue';
 import seeDlg from './component/projectSee.vue';
 import selectionDlg from './component/selection.vue';
-import signUpDlg from './component/signUpEdit.vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 export default {
 	name: 'project',
-	components: { editDlg, seeDlg, selectionDlg, signUpDlg },
+	components: { editDlg, seeDlg, selectionDlg },
 	setup() {
 		const store = useStore();
 		const route = useRoute();
@@ -149,7 +147,6 @@ export default {
 		const editDlgRef = ref();
 		const seeDlgRef = ref();
 		const selectionDlgRef = ref();
-		const signUpDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -210,11 +207,6 @@ export default {
 			store.commit('project/getProjectId', Id);
 			state.isSelection = false;
 			selectionDlgRef.value.GetByIdRow();
-		};
-		const onToSignUp = (Id: string) => {
-			store.commit('project/getProjectId', Id);
-			state.isSelection = false;
-			signUpDlgRef.value.GetByIdRow();
 		};
 		// 删除用户
 		const onModelDel = (Id: number) => {
@@ -284,13 +276,11 @@ export default {
 			editDlgRef,
 			seeDlgRef,
 			selectionDlgRef,
-			signUpDlgRef,
 			onGetTableData,
 			onResetSearch,
 			onModelEdit,
 			onModelSee,
 			onToRouter,
-			onToSignUp,
 			isSeletionTime,
 			isEditTime,
 			isSignUpTime,
