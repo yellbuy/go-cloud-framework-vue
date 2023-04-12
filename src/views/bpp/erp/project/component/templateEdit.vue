@@ -48,6 +48,7 @@ export default {
 			},
 			isAjax: false,
 			editState: false,
+			index: 0,
 		});
 
 		const rules = reactive({
@@ -74,13 +75,14 @@ export default {
 			],
 		});
 		// 打开弹窗
-		const openDialog = (kind: string, isAdd: boolean, item: object, isAjax: boolean) => {
+		const openDialog = (kind: string, isAdd: boolean, item: object, isAjax: boolean, index: number) => {
 			state.isAjax = isAjax;
 			state.ruleForm = { Id: '0', Kind: 'zgps', Content: '', Standard: '', TechnicalMaxScore: 0 };
 			if (isAdd) {
 				state.ruleForm.Id = 0;
 				state.title = t('message.action.add');
 			} else {
+				state.index = index;
 				state.ruleForm = JSON.parse(JSON.stringify(item));
 				state.title = t('message.action.edit');
 			}
@@ -113,10 +115,14 @@ export default {
 						if (state.ruleForm.Kind == 'zgps') {
 							if (state.editState) {
 								proxy.$parent.zgTableData.data.push(state.ruleForm);
+							} else {
+								proxy.$parent.zgTableData.data[state.index] = state.ruleForm;
 							}
 						} else if (state.ruleForm.Kind == 'jsps') {
 							if (state.editState) {
 								proxy.$parent.jsTableData.data.push(state.ruleForm);
+							} else {
+								proxy.$parent.jsTableData.data[state.index] = state.ruleForm;
 							}
 							proxy.$parent.getScore();
 						}

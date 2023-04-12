@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close :key="ruleForm.Id" width="60%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close width="60%" :before-close="closeDialog">
 			<el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
 				<el-tab-pane label="项目详情" name="first" style="height: 400px">
 					<el-row :gutter="20">

@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog v-model="isShowDialog" title="品目信息" :destroy-on-close="true" :key="ruleForm.Id" width="80%">
+		<el-dialog v-model="isShowDialog" title="品目信息" :destroy-on-close="true"  width="80%">
 			<el-divider content-position="left">品目信息</el-divider>
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-width="130px" v-loading="loading">
 				<el-row :gutter="20">
@@ -315,6 +315,7 @@ export default {
 		// };
 		// 新增
 		const onSubmit = () => {
+			console.log('触发');
 			proxy.$refs.ruleFormRef.validate((valid: any) => {
 				if (valid) {
 					console.log('提交', proxy.$parent.tableData);
