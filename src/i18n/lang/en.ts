@@ -14,6 +14,7 @@ export default {
 		systemSupInformation: "systemSupInformation",
 		systemDept: 'systemDept',
 		systemDic: 'systemDic',
+		documentReview:'document Review',
 		limits: 'limits',
 		limitsFrontEnd: 'FrontEnd',
 		limitsFrontEndPage: 'FrontEndPage',

@@ -16,6 +16,7 @@ export default {
 		selection: '评选',
 		systemParameter: '参数模板',
 		systemBidProject: '招标项目',
+		documentReview:'文件审核',
 		systemMyBidProject: '项目报名',
 		systemSignUp: "我的项目",
 		systemBaseInfo: "基本信息",

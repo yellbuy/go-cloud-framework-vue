@@ -183,40 +183,44 @@ export default {
 		const getTimeList = (data: Array) => {
 			console.log('执行');
 			//处理2个 ， 一个是标书费用 一个是招标保证金
-			if (data.length != 0) {
+			if (data) {
 				for (let item of data) {
 					if (item.Kind == state.tender) {
 						//标书费用
 						state.tenderCertificate = item;
-						if (item.ImgUrl != '') {
-							state.tenderFile = state.homeBaseUrl + item.ImgUrl;
+						if (item.Files != '') {
+							state.tenderFile = state.homeBaseUrl + item.Files;
 							console.log(state.tenderFile);
 						}
 					} else if (item.Kind == state.bond) {
 						//招标保证金
 						state.bondCertificate = item;
-						if (item.ImgUrl != '') {
-							state.tenderFile = state.homeBaseUrl + item.ImgUrl;
+						if (item.Files != '') {
+							state.tenderFile = state.homeBaseUrl + item.Files;
 						}
 					}
 				}
 			}
 			//标书费用
 			if (JSON.stringify(state.tenderCertificate) == '{}') {
+				console.log('触发');
 				state.tenderCertificate = {
 					Id: '0',
 					Kind: state.tender,
 					Name: state.ruleForm.Name + '标书费',
-					Parentid: state.ruleForm.Id,
+					ProjectId: state.ruleForm.Id,
+					ProjectCompanyId: state.projectCompany.Id,
 				};
 			}
 			//招标保证金
 			if (JSON.stringify(state.bondCertificate) == '{}') {
+				console.log('触发');
 				state.bondCertificate = {
 					Id: '0',
 					Kind: state.bond,
 					Name: state.ruleForm.Name + '招标保证金',
-					Parentid: state.ruleForm.Id,
+					ProjectId: state.ruleForm.Id,
+					ProjectCompanyId: state.projectCompany.Id,
 				};
 			}
 		};
@@ -253,18 +257,18 @@ export default {
 					}).then(async () => {
 						let data = [];
 						if (mode == state.tender) {
-							state.tenderCertificate.ImgUrl = state.tenderImgurl;
+							state.tenderCertificate.Files = state.tenderImgurl;
 							state.tenderCertificate.State = 1;
 							state.tenderCertificate.AuditState = 0;
 							data.push(state.tenderCertificate);
 						} else if (mode == state.bond) {
-							state.bondCertificate.ImgUrl = state.tenderImgurl;
+							state.bondCertificate.Files = state.tenderImgurl;
 							state.bondCertificate.State = 1;
 							state.bondCertificate.AuditState = 0;
 							data.push(state.tenderCertificate);
 						}
 						console.log(data);
-						const res = await proxy.$api.common.certificate.save(JSON.parse(JSON.stringify(data)));
+						const res = await proxy.$api.erp.projectcompanylog.addMuit(JSON.parse(JSON.stringify(data)),state.ruleForm.Tid, 0, 2);
 						if (res.errcode == 0) {
 							GetByIdRow();
 						}
@@ -272,17 +276,18 @@ export default {
 				} else {
 					let data = [];
 					if (mode == state.tender) {
-						state.tenderCertificate.ImgUrl = state.tenderImgurl;
+						console.log(state.tenderCertificate);
+						state.tenderCertificate.Files = state.tenderImgurl;
 						state.tenderCertificate.State = 0;
 						state.tenderCertificate.AuditState = 0;
 						data.push(state.tenderCertificate);
 					} else if (mode == state.bond) {
-						state.bondCertificate.ImgUrl = state.tenderImgurl;
+						state.bondCertificate.Files = state.tenderImgurl;
 						state.bondCertificate.State = 0;
 						state.bondCertificate.AuditState = 0;
 						data.push(state.tenderCertificate);
 					}
-					const res = await proxy.$api.common.certificate.save(JSON.parse(JSON.stringify(data)));
+					const res = await proxy.$api.erp.projectcompanylog.addMuit(JSON.parse(JSON.stringify(data)),state.ruleForm.Tid, 0, 2);
 					if (res.errcode == 0) {
 						GetByIdRow();
 					}
