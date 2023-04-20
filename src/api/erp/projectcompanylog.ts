@@ -19,4 +19,8 @@ export default {
         const url = `/v1/admin/erp/projectcompanylog/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
+    AuditState: async (data: object) => {
+        const url = `/v1/admin/erp/projectcompanylog`;
+        return await http.post(url,data)
+    }
 }
