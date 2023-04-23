@@ -7,6 +7,7 @@ const projectModule: Module<ProjectState, RootStateTypes> = {
     state: {
         project: {},
         projectId: "0",
+        projectCompanyId:"0",
         projectLineId: "0"
     },
     mutations: {
@@ -16,6 +17,9 @@ const projectModule: Module<ProjectState, RootStateTypes> = {
         },
         getProjectId(state: any, Id: string) {
             state.projectId = Id;
+        },
+          getProjectCompanyId(state: any, Id: string) {
+            state.projectCompanyId = Id;
         },
         getProjectLineId(state: any, Id: string) {
             state.projectLineId = Id;
@@ -35,6 +39,13 @@ const projectModule: Module<ProjectState, RootStateTypes> = {
                 commit('getProjectId', Id);
             } else {
                 commit('getProjectId', "0")
+            }
+        },
+          async setProjectCompanyId({ commit }, Id: object) {
+            if (Id) {
+                commit('getProjectCompanyId', Id);
+            } else {
+                commit('getProjectCompanyId', "0")
             }
         },
         async setProjectLineId({ commit }, Id: object) {

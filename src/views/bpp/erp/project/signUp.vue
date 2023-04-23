@@ -1,81 +1,90 @@
 <template>
 	<div class="base-role-container">
-		<el-card shadow="hover">
-			<div class="">
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
-					<el-form-item label="比选编号">
-						<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no"> </el-input>
-					</el-form-item>
-					<el-form-item label="比选项目">
-						<el-input placeholder="请输入比选项目查询" v-model="tableData.param.name"> </el-input>
-					</el-form-item>
-					<el-form-item>
-						<el-button type="info" @click="onResetSearch">
-							<el-icon>
-								<RefreshLeft />
-							</el-icon>
-							{{ $t('message.action.reset') }}
-						</el-button>
-						<el-button type="info" @click="onGetTableData(true)">
-							<el-icon>
-								<Search />
-							</el-icon>
-							&#8197;{{ $t('message.action.search') }}
-						</el-button>
-					</el-form-item>
-					<el-form-item></el-form-item>
-				</el-form>
-			</div>
-			<el-table
-				:data="tableData.data"
-				v-loading="tableData.loading"
-				style="width: 100%"
-				:height="proxy.$calcMainHeight(-75)"
-				border
-				stripe
-				highlight-current-row
-			>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip fixed></el-table-column>
-				<!-- <el-table-column prop="LineName" label="包名" show-overflow-tooltip></el-table-column> -->
-				<el-table-column prop="BeginTime" label="开标开始时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="FinishTime" label="开标截止时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="LineState" label="状态" show-overflow-tooltip>
-					<template #default="scope">
-						<span v-if="scope.row.LineState == 0">已投标</span>
-						<span v-else-if="scope.row.LineState == 1">已付款</span>
-						<span v-else-if="scope.row.LineState == 2">已报价</span>
-					</template>
-				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
-					<template #default="scope">
-						<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, false)">
-							<el-icon>
-								<Search />
-							</el-icon>
-							&#8197;{{ $t('message.action.see') }}
-						</el-button>
-						<el-button text bg type="primary" @click="onModelSee(scope.row.ProjectId, true)" v-auth:[moduleKey]="'btn.quoted'">{{
-							$t('message.action.quotedPrice')
-						}}</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-			<el-pagination
-				small
-				@size-change="onHandleSizeChange"
-				@current-change="onHandleCurrentChange"
-				class="mt15"
-				:page-sizes="[10, 20, 30, 50, 100]"
-				v-model:current-page="tableData.param.pageNum"
-				background
-				v-model:page-size="tableData.param.pageSize"
-				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
-			</el-pagination>
-		</el-card>
+		<div v-if="isSelection">
+			<el-card shadow="hover">
+				<div class="">
+					<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
+						<el-form-item label="比选编号">
+							<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no"> </el-input>
+						</el-form-item>
+						<el-form-item label="比选项目">
+							<el-input placeholder="请输入比选项目查询" v-model="tableData.param.name"> </el-input>
+						</el-form-item>
+						<el-form-item>
+							<el-button type="info" @click="onResetSearch">
+								<el-icon>
+									<RefreshLeft />
+								</el-icon>
+								{{ $t('message.action.reset') }}
+							</el-button>
+							<el-button type="info" @click="onGetTableData(true)">
+								<el-icon>
+									<Search />
+								</el-icon>
+								&#8197;{{ $t('message.action.search') }}
+							</el-button>
+						</el-form-item>
+						<el-form-item></el-form-item>
+					</el-form>
+				</div>
+				<el-table
+					:data="tableData.data"
+					v-loading="tableData.loading"
+					style="width: 100%"
+					:height="proxy.$calcMainHeight(-75)"
+					border
+					stripe
+					highlight-current-row
+				>
+					<el-table-column type="index" label="序号" align="right" width="70" fixed />
+					<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip fixed></el-table-column>
+					<!-- <el-table-column prop="LineName" label="包名" show-overflow-tooltip></el-table-column> -->
+					<el-table-column prop="BeginTime" label="开标开始时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="FinishTime" label="开标截止时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="LineState" label="状态" show-overflow-tooltip>
+						<template #default="scope">
+							<span v-if="scope.row.LineState == 0">已报名</span>
+							<span v-else-if="scope.row.LineState == 1">已付款</span>
+							<span v-else-if="scope.row.LineState == 2">已报价</span>
+						</template>
+					</el-table-column>
+					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+						<template #default="scope">
+							<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, true)">
+								<el-icon>
+									<Search />
+								</el-icon>
+								&#8197;{{ $t('message.action.see') }}
+							</el-button>
+							<el-button
+								text
+								bg
+								type="primary"
+								v-if="isSignUpTime(scope.row)"
+								@click="onToSignUp(scope.row.ProjectId, scope.row.CompanyId)"
+								v-auth:[moduleKey]="'btn.quoted'"
+								>{{ $t('message.action.quotedPrice') }}</el-button
+							>
+						</template>
+					</el-table-column>
+				</el-table>
+				<el-pagination
+					small
+					@size-change="onHandleSizeChange"
+					@current-change="onHandleCurrentChange"
+					class="mt15"
+					:page-sizes="[10, 20, 30, 50, 100]"
+					v-model:current-page="tableData.param.pageNum"
+					background
+					v-model:page-size="tableData.param.pageSize"
+					layout="->, total, sizes, prev, pager, next, jumper"
+					:total="tableData.total"
+				>
+				</el-pagination>
+			</el-card>
+		</div>
 		<seeDlg ref="seeDlgRef" />
+		<signUpDlg ref="signUpDlgRef" />
 	</div>
 </template>
 
@@ -85,11 +94,12 @@ import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import seeDlg from './component/projectSee.vue';
+import signUpDlg from './component/signUpEdit.vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 export default {
 	name: 'signup',
-	components: { seeDlg },
+	components: { seeDlg, signUpDlg },
 	setup() {
 		const store = useStore();
 		const route = useRoute();
@@ -97,6 +107,7 @@ export default {
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
 		const seeDlgRef = ref();
+		const signUpDlgRef = ref();
 		const moduleKey = `api_pro_project_signup`;
 		const { proxy } = getCurrentInstance() as any;
 		const state: any = reactive({
@@ -117,6 +128,7 @@ export default {
 					companyId: store.state.userInfos.userInfos.tenant.Id,
 				},
 			},
+			isSelection: true,
 		});
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
@@ -130,6 +142,12 @@ export default {
 		const onModelSee = (Id: string, state: boolean) => {
 			console.log('是否显示', state);
 			seeDlgRef.value.openDialog(Id, state);
+		};
+		const onToSignUp = (Id: string, companyId: string) => {
+			store.commit('project/getProjectId', Id);
+			store.commit('project/getProjectCompanyId', companyId);
+			state.isSelection = false;
+			signUpDlgRef.value.GetByIdRow();
 		};
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
@@ -159,31 +177,31 @@ export default {
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
 		};
-		const isSeletionTime = (model) => {
+		// 页面加载时
+		onMounted(() => {
+			onGetTableData();
+		});
+		const isSignUpTime = (model) => {
 			let isTime = false;
-			if (model.StartTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.EndTime) {
+			if (dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.FinishTime) {
 				isTime = true;
 			}
 			return isTime;
 		};
-		// 页面加载时
-		onMounted(() => {
-			onGetTableData();
-			console.log(store.state.userInfos.userInfos.tenant.Id);
-		});
-
 		const { dateFormatYMDHM, dateFormat } = commonFunction();
 
 		return {
 			proxy,
 			seeDlgRef,
+			signUpDlgRef,
+			onToSignUp,
 			onGetTableData,
 			onResetSearch,
 			onModelSee,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
-			isSeletionTime,
+			isSignUpTime,
 			...toRefs(state),
 		};
 	},

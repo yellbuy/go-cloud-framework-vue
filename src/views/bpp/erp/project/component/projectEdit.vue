@@ -83,7 +83,9 @@
 									</template>
 								</el-upload>
 							</div>
-							<el-image-viewer v-if="dialogVisible" :on-close="(dialogVisible = false)" :url-list="dialogImageUrl" />
+							<div>
+								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
+							</div>
 						</el-form-item>
 					</el-col>
 					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
@@ -199,7 +201,13 @@
 					<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 						<template #default="scope">
-							<el-button text bg type="primary" @click="onOpenItemDialog('zgps', false, scope.row)" v-auth:[$parent.moduleKey]="'btn.CategoryEdit'">
+							<el-button
+								text
+								bg
+								type="primary"
+								@click="onOpenItemDialog('zgps', false, scope.row, scope.$index)"
+								v-auth:[$parent.moduleKey]="'btn.CategoryEdit'"
+							>
 								<el-icon>
 									<Edit />
 								</el-icon>
@@ -243,7 +251,13 @@
 					<el-table-column prop="TechnicalMaxScore" label="最高分数" show-overflow-tooltip />
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 						<template #default="scope">
-							<el-button text bg type="primary" @click="onOpenItemDialog('jsps', false, scope.row)" v-auth:[$parent.moduleKey]="'btn.CategoryEdit'">
+							<el-button
+								text
+								bg
+								type="primary"
+								@click="onOpenItemDialog('jsps', false, scope.row, scope.$index)"
+								v-auth:[$parent.moduleKey]="'btn.CategoryEdit'"
+							>
 								<el-icon>
 									<Edit />
 								</el-icon>
@@ -523,7 +537,6 @@ export default {
 		};
 		//删除上传文件
 		const onRemove = (file: UploadFile) => {
-			console.log(file);
 			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
 			for (let i = 0; i < state.FilesList.length; i++) {
 				if (state.FilesList[i] == removeUrl) {
@@ -531,6 +544,9 @@ export default {
 					break;
 				}
 			}
+		};
+		const imgOnClose = () => {
+			state.dialogVisible = false;
 		};
 		const getScore = () => {
 			if (state.jsTableData.data && state.jsTableData.data.length > 0) {
@@ -543,22 +559,23 @@ export default {
 		};
 		//预览文件
 		const onPreview = (uploadFile: any) => {
-			// console.log(uploadFile);
 			// 当格式为图片就预览图片，否则下载文件
 			let filename = uploadFile.name;
+			if (!uploadFile.name || uploadFile.name == '') {
+				filename = uploadFile.url;
+			}
 			let fileurl = uploadFile.url;
 			let fileExtension = '';
-
 			// 校检文件类型
 			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
 			if (filename.lastIndexOf('.') > -1) {
 				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
 			}
 			const isTypeOk = imageTypes.some((type) => {
-				if (fileExtension && fileExtension.indexOf(type) > -1) return true;
-				return false;
+				if (fileExtension && fileExtension.indexOf(type) > -1) {
+					return true;
+				}
 			});
-
 			if (isTypeOk) {
 				//预览图片
 				state.dialogImageUrl[0] = fileurl;
@@ -603,12 +620,12 @@ export default {
 					state.Files = res.data.Files.split(',');
 					state.FilesList = [];
 					for (let i = 0; i < state.Files.length; i++) {
-						let image = { url: '' };
+						let image = { url: '', name: '' };
 						image.url = state.homeBaseUrl + state.Files[i];
+						image.name = state.homeBaseUrl + state.Files[i];
 						state.FilesList.push(image);
 					}
 				}
-				console.log(state.ruleForm.ProjectSettingLineList);
 				if (state.ruleForm.ProjectSettingLineList) {
 					for (let item of state.ruleForm.ProjectSettingLineList) {
 						if (item.Kind == 'zgps') {
@@ -738,12 +755,12 @@ export default {
 				}
 			});
 		};
-		const onOpenItemDialog = (kind: string, isAdd: boolean, item: object) => {
+		const onOpenItemDialog = (kind: string, isAdd: boolean, item: object, index: number) => {
 			// let model = {};
 			// if (item) {
 			// 	model = JSON.parse(JSON.stringify(item));
 			// }
-			editItemDlgRef.value.openDialog(kind, isAdd, item, false);
+			editItemDlgRef.value.openDialog(kind, isAdd, item, false, index);
 		};
 		const onOpenListDialog = (kind: string) => {
 			editLineListDlgRef.value.openDialog(kind, false);
@@ -776,6 +793,7 @@ export default {
 			onPreview,
 			onSuccessFile,
 			onRemove,
+			imgOnClose,
 			onGetCompanyData,
 			// onModelDel,
 			// onModelEdit,

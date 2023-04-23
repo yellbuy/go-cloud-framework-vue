@@ -18,31 +18,12 @@
 							<span v-else-if="ruleForm.ProjectType == 5">询价采购</span></el-col
 						>
 					</el-row>
-					<!-- <el-table
-						:data="tableData.data"
-						v-loading="tableData.loading"
-						style="width: 100%"
-						size="small"
-						border
-						stripe
-						highlight-current-row
-						@select="select"
-						@select-all="selectAll"
-					>
-						<el-table-column v-if="isShow" type="selection" width="55" />
-						<el-table-column type="index" label="序号" align="right" width="70" fixed />
-						<el-table-column prop="Sn" label="包号" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="No" label="品目号" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="Name" label="名称" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="Remark" label="备注" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="Qty" label="数量" show-overflow-tooltip></el-table-column>
-					</el-table> -->
 				</el-tab-pane>
 				<el-tab-pane label="比选公告" name="second" style="height: 400px">
 					<div v-html="ruleForm.Content"></div>
 					<h4 v-if="ruleForm.AutoSwitchState == 1">原公开比选项目如不足三家供应商参与，则该项目自动转为院内谈判项目。详见平台采购须知说明。</h4>
 				</el-tab-pane>
-				<el-tab-pane label="比选名单" name="third" style="height: 400px">
+				<el-tab-pane label="比选名单" v-if="!isShow" name="third" style="height: 400px">
 					<el-table :data="signUpData" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" fixed />
 						<el-table-column prop="CompanyName" label="公司名称" width="120" show-overflow-tooltip></el-table-column>
@@ -51,32 +32,16 @@
 						<el-table-column prop="SignUpTime" label="报名时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 					</el-table>
 				</el-tab-pane>
-				<el-tab-pane label="比选文件" name="fourth" style="height: 400px">
+				<el-tab-pane label="比选文件" v-if="!isShow" name="fourth" style="height: 400px">
 					<div v-for="(val, index) in FilesList" :key="index">
 						<a :href="val.url" target="_blank">点击下载</a>
 					</div>
 				</el-tab-pane>
 			</el-tabs>
-			<el-dialog v-model="dialogFormVisible" title="报价" destroy-on-close :before-close="onCancel">
-				<el-form :model="priceRuleForm" ref="priceRuleFormRef">
-					<el-form-item label="报价：" prop="QuotedPrice">
-						<el-input-number v-model="priceRuleForm.QuotedPrice" :min="0" controls-position="right" :precision="2" />
-					</el-form-item>
-				</el-form>
-				<template #footer>
-					<span class="dialog-footer">
-						<el-button @click="onCancel">{{ $t('message.action.cancel') }}</el-button>
-						<el-button type="primary" @click="onQuoted"> {{ $t('message.action.save') }}</el-button>
-					</span>
-				</template>
-			</el-dialog>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg type="primary" v-if="isShow" @click="onSubmit" v-auth:[$parent.moduleKey]="'btn.signup'">{{
 						$t('message.action.signUp')
-					}}</el-button>
-					<el-button text bg type="primary" v-if="isShow" @click="dialogFormVisible = true" v-auth:[$parent.moduleKey]="'btn.quoted'">{{
-						$t('message.action.quotedPrice')
 					}}</el-button>
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
 				</span>
@@ -106,8 +71,6 @@ export default {
 			signUpData: [],
 			signUp: {
 				ProjectId: 0,
-				LineIds: '',
-				QuotedPrice: 0,
 			},
 			isShow: false,
 			getList: [],
@@ -119,23 +82,18 @@ export default {
 					pageSize: 10000,
 				},
 			},
-			priceRuleForm: {
-				QuotedPrice: 0,
-			},
-			dialogFormVisible: false,
 		});
 		const { dateFormat, dateFormatYMDHM } = commonFunction();
 		const activeName = ref('first');
 		const handleClick = (tab: TabsPaneContext, event: Event) => {};
 		// 打开弹窗
 		const openDialog = (id: string, isShow: boolean) => {
-			console.log('是否显示', isShow);
 			state.isShow = isShow;
 			state.signUp.ProjectId = id;
-			state.signUp.QuotedPrice = 0;
-			state.priceRuleForm.QuotedPrice = 0;
 			GetByIdRow(id);
-			GetSignUpList(id);
+			if (!isShow) {
+				GetSignUpList(id);
+			}
 			state.isShowDialog = true;
 		};
 		const GetSignUpList = async (id: string) => {
@@ -155,18 +113,8 @@ export default {
 			state.tableData.data = [];
 			state.ruleForm = {};
 			state.signUpData = [];
-			state.signUp = {
-				ProjectId: 0,
-				LineIds: '',
-				QuotedPrice: 0,
-			};
-			state.getList = [];
 		};
-		const onCancel = () => {
-			proxy.$refs.priceRuleFormRef.resetFields();
-			state.priceRuleForm = {};
-			state.dialogFormVisible = false;
-		};
+
 		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.project.getById(Id);
@@ -191,41 +139,25 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		const select = (selection: Array<object>) => {
-			state.getList = selection;
-		};
-		const selectAll = (selection: Array<object>) => {
-			state.getList = selection;
-		};
 		const onSubmit = async () => {
-			state.signUp.LineIds = '';
-			let idArry = [];
-			if (state.getList && state.getList.length > 0) {
-				for (let item of state.getList) {
-					idArry.push(item.Id);
+			console.log('是否报名');
+			ElMessageBox.confirm(`确定要报名该项目吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					const res = await proxy.$api.erp.projectcompany.signup(state.signUp);
+					if (res.errcode != 0) {
+						return;
+					}
+					ElMessage.success('报名成功！');
+				} finally {
+					closeDialog();
 				}
-				state.signUp.LineIds = idArry.toString();
-			}
-			try {
-				const res = await proxy.$api.erp.projectcompany.signup(state.signUp);
-				if (res.errcode != 0) {
-					return;
-				}
-			} finally {
-				closeDialog();
-			}
+			});
 		};
-		const onQuoted = async () => {
-			try {
-				state.signUp.QuotedPrice = state.priceRuleForm.QuotedPrice;
-				const res = await proxy.$api.erp.projectcompany.quoted(state.signUp);
-				if (res.errcode != 0) {
-					return;
-				}
-			} finally {
-				onCancel();
-			}
-		};
+
 		// 页面加载时
 		onMounted(() => {});
 		return {
@@ -234,11 +166,7 @@ export default {
 			handleClick,
 			dateFormat,
 			onSubmit,
-			select,
-			selectAll,
-			onCancel,
 			t,
-			onQuoted,
 			GetByIdRow,
 			openDialog,
 			closeDialog,
