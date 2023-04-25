@@ -12,7 +12,8 @@
 						icon="MoreFilled"
 						:timestamp="tenderCertificate.AuditState > 0 ? tenderCertificate.AuditTime : ''"
 					>
-						<div v-if="ruleForm.BidFee != 0">
+						<div v-if="isTimeShow(new Date(), ruleForm.EndTime) && tenderCertificate.AuditState != 1">已过报名结束时间</div>
+						<div v-else-if="ruleForm.BidFee != 0">
 							<div v-if="tenderCertificate.State == 0 || tenderCertificate.AuditState == 2">
 								<span
 									>请上传标书费凭证 ({{ ruleForm.BidFee }}元)<el-tag class="ml-2" type="danger" v-if="tenderCertificate.AuditState == 2"
@@ -62,8 +63,8 @@
 						icon="MoreFilled"
 						:timestamp="bondCertificate.AuditState > 0 ? bondCertificate.AuditTime : ''"
 					>
-						<div v-if="isTimeShow(ruleForm.BeginTime, new Date())">暂未到招标开始时间</div>
-						<div v-else-if="isTimeShow(new Date(), ruleForm.FinishTime)">已过招标结束时间</div>
+						<div v-if="isTimeShow(ruleForm.BeginTime, new Date()) && bondCertificate.AuditState != 1">暂未到招标开始时间</div>
+						<div v-else-if="isTimeShow(new Date(), ruleForm.FinishTime) && bondCertificate.AuditState != 1">已过招标结束时间</div>
 						<div v-else-if="ruleForm.EnsureFee != 0">
 							<div v-if="bondCertificate.State == 0 || bondCertificate.AuditState == 2">
 								<span
@@ -106,19 +107,32 @@
 					<el-timeline-item placement="top" v-if="projectCompany.Setp == qualifications">
 						<el-form-item label="公司报价(万元)：" prop="QuotedPrice"
 							><el-input-number
-								v-model="projectCompany.QuotedPrice"
+								v-model="quotationCertificate.PurchasePrice"
 								:min="0"
 								:max="ruleForm.PurchasePrice"
 								controls-position="right"
 								:precision="2"
 							/>
+							<el-button
+								style="margin-left: 10px"
+								v-if="isTimeShow(ruleForm.FinishTime, new Date())"
+								type="primary"
+								@click="onSubmit(false, quotation)"
+								>{{ $t('message.action.save') }}</el-button
+							>
+							<el-button type="primary" v-if="isTimeShow(ruleForm.FinishTime, new Date())" @click="onSubmit(true, quotation)">{{
+								$t('message.action.submit')
+							}}</el-button>
 						</el-form-item>
 						<p title="" class="color-info-light font10">
 							<SvgIcon name="fa fa-info-circle" class="mr3" />
-							采购控制价<span style="color: red">{{ ruleForm.PurchasePrice }}</span
+							采购控制价<span style="color: #ff0000">{{ ruleForm.PurchasePrice }}</span
+							>万元,当前公司报价<span style="color: #19d319">{{ projectCompany.QuotedPrice }}</span
 							>万元
 						</p>
 						<view style="float: right">
+							<el-button style="margin-left: 10px" type="primary" @click="onSubmit(false, qualifications)">{{ $t('message.action.save') }}</el-button>
+							<el-button type="primary" @click="onSubmit(true, qualifications)">{{ $t('message.action.submit') }}</el-button>
 							<el-button text bg type="primary" @click="tableDataAdd">{{ $t('message.action.add') }} </el-button>
 						</view>
 
@@ -133,7 +147,9 @@
 						>
 							<el-table-column prop="Name" label="文件名称" show-overflow-tooltip>
 								<template #default="scope">
-									<el-input v-model="scope.row.Name" placeholder="请输入文件名称" />
+									<el-input v-if="isTimeShow(ruleForm.FinishTime, new Date())" v-model="scope.row.Name" placeholder="请输入文件名称" />
+
+									<span v-if="isTimeShow(new Date(), ruleForm.FinishTime)">{{ scope.row.Name }}</span>
 								</template>
 							</el-table-column>
 							<el-table-column prop="Files" label="文件" show-overflow-tooltip align="center">
@@ -141,37 +157,47 @@
 									<el-button text type="primary" @click="showImage(scope.row.Files)">查看</el-button>
 								</template>
 							</el-table-column>
-							<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
+							<el-table-column prop="State" label="状态" show-overflow-tooltip align="center">
 								<template #default="scope">
-									<el-input v-model="scope.row.Remark" />
+									<el-tag class="ml-2" type="danger" v-if="scope.row.State == 0">未提交</el-tag
+									><el-tag class="ml-2" type="success" v-else-if="scope.row.State == 1">已提交</el-tag>
 								</template>
 							</el-table-column>
-							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+							<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
 								<template #default="scope">
-									<el-upload
-										:action="uploadURL"
-										name="file"
-										:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-										:show-file-list="false"
-										:on-success="onLogoUploadSuccess"
-										:before-upload="onBeforeImageUpload"
-									>
-										<!-- @click="Upload(scope.row.Id, scope.$index)" -->
-										<template #trigger>
-											<el-button text bg type="primary" @click="Upload(scope.$index)">
-												<el-icon>
-													<Upload />
-												</el-icon>
-												&#8197;{{ $t('message.action.uploadPhotocopy') }}
-											</el-button>
-										</template>
+									<el-input v-if="isTimeShow(ruleForm.FinishTime, new Date())" v-model="scope.row.Remark" />
+									<span v-if="isTimeShow(new Date(), ruleForm.FinishTime)">{{ scope.row.Remark }}</span>
+								</template>
+							</el-table-column>
+							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(190)" fixed="right">
+								<template #default="scope">
+									<div style="display: flex">
+										<el-upload
+											:action="uploadURL"
+											name="file"
+											:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+											:show-file-list="false"
+											:on-success="onLogoUploadSuccess"
+											:before-upload="onBeforeImageUpload"
+											style="padding-right: 12px"
+										>
+											<!-- @click="Upload(scope.row.Id, scope.$index)" -->
+											<template #trigger>
+												<el-button class="pr-8" text bg type="primary" @click="Upload(scope.$index)">
+													<el-icon>
+														<Upload />
+													</el-icon>
+													&#8197;{{ $t('message.action.uploadPhotocopy') }}
+												</el-button>
+											</template>
+										</el-upload>
 										<el-button text bg type="danger" @click="onModelDel(scope.row.Id, scope.$index)">
 											<el-icon>
 												<CloseBold />
 											</el-icon>
 											&#8197;{{ $t('message.action.delete') }}
 										</el-button>
-									</el-upload>
+									</div>
 								</template>
 							</el-table-column>
 						</el-table>
@@ -226,6 +252,16 @@
 									<span v-else>请先缴纳标书费！</span>
 								</el-form-item>
 							</el-col>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
+								<el-form-item label="标书：" prop="Content">
+									<div v-if="projectCompany.Setp == bond || projectCompany.Setp == qualifications">
+										<div v-for="(val, index) in FilesList" :key="index">
+											<a :href="val.url" target="_blank">点击下载</a>
+										</div>
+									</div>
+									<span v-else>请先缴纳标书费！</span>
+								</el-form-item>
+							</el-col>
 						</el-row>
 					</el-card>
 				</div>
@@ -265,9 +301,11 @@ export default {
 			homeBaseUrl: import.meta.env.VITE_URL as any,
 			tenderCertificate: {}, //标书
 			bondCertificate: {}, //保证金
+			quotationCertificate: {}, //报价
 			tender: 'tender',
 			bond: 'bond',
 			qualifications: 'qualifications',
+			quotation: 'quotation',
 			imgList: [],
 			imgViewerVisible: false,
 			tableData: {
@@ -275,6 +313,7 @@ export default {
 				loading: false,
 			},
 			tableDataIndex: 0,
+			FilesList: [],
 		});
 		const token = Session.get('token');
 		const getUserInfos = computed(() => {
@@ -291,6 +330,15 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data.Project;
+				if (state.ruleForm.Files != '') {
+					let Files = state.ruleForm.Files.split(',');
+					state.FilesList = [];
+					for (let i = 0; i < Files.length; i++) {
+						let image = { url: '' };
+						image.url = state.homeBaseUrl + Files[i];
+						state.FilesList.push(image);
+					}
+				}
 				state.projectCompany = res.data.ProjectCompany;
 				//处理时间线数据
 				getTimeList(res.data.TimeLine);
@@ -315,6 +363,8 @@ export default {
 						if (item.Files != '') {
 							state.bondFile = state.homeBaseUrl + item.Files;
 						}
+					} else if (item.Kind == state.quotation) {
+						state.quotationCertificate = item;
 					} else if (item.Kind == state.qualifications) {
 						state.tableData.data.push(item);
 					}
@@ -342,6 +392,18 @@ export default {
 					ProjectCompanyId: state.projectCompany.Id,
 					State: 0,
 					AuditState: 0,
+				};
+			}
+			//采购价
+			if (JSON.stringify(state.quotationCertificate) == '{}') {
+				state.quotationCertificate = {
+					Id: '0',
+					Kind: state.quotation,
+					ProjectId: state.ruleForm.Id,
+					ProjectCompanyId: state.projectCompany.Id,
+					State: 0,
+					AuditState: 0,
+					PurchasePrice: 0,
 				};
 			}
 		};
@@ -395,6 +457,16 @@ export default {
 					ElMessage.error('请上传招标保证金凭证');
 					return;
 				}
+			} else if (mode == state.qualifications) {
+				if (state.tableData.data.length == 0) {
+					ElMessage.error('请上传投标文件');
+					return;
+				}
+			} else if (mode == state.quotation) {
+				if (state.quotationCertificate.PurchasePrice == '' || state.quotationCertificate.PurchasePrice < 0) {
+					ElMessage.error('请输入正确的金额');
+					return;
+				}
 			}
 			try {
 				if (isSubmit) {
@@ -414,9 +486,30 @@ export default {
 							state.bondCertificate.State = 1;
 							state.bondCertificate.AuditState = 0;
 							data.push(state.bondCertificate);
+						} else if (mode == state.quotation) {
+							state.quotationCertificate.State = 1;
+							state.quotationCertificate.AuditState = 0;
+							data.push(state.quotationCertificate);
+						} else if (mode == state.qualifications) {
+							for (let item of state.tableData.data) {
+								item.State = 1;
+								if (item.Name == '') {
+									ElMessage.error('请输入文件名称');
+									return;
+								}
+								if (item.Files == '') {
+									ElMessage.error('请上传文件');
+									return;
+								}
+								item.Kind = state.qualifications;
+								item.ProjectId = state.ruleForm.Id;
+								item.ProjectCompanyId = state.projectCompany.Id;
+								data.push(item);
+							}
 						}
 						const res = await proxy.$api.erp.projectcompanylog.addMuit(JSON.parse(JSON.stringify(data)), state.ruleForm.Tid, 0, 2);
 						if (res.errcode == 0) {
+							ElMessage.success('操作成功');
 							GetByIdRow();
 						}
 					});
@@ -432,9 +525,30 @@ export default {
 						state.bondCertificate.State = 0;
 						state.bondCertificate.AuditState = 0;
 						data.push(state.bondCertificate);
+					} else if (mode == state.quotation) {
+						state.quotationCertificate.State = 0;
+						state.quotationCertificate.AuditState = 0;
+						data.push(state.quotationCertificate);
+					} else if (mode == state.qualifications) {
+						for (let item of state.tableData.data) {
+							item.State = 0;
+							if (item.Name == '') {
+								ElMessage.error('请输入文件名称');
+								return;
+							}
+							if (item.Files == '') {
+								ElMessage.error('请上传文件');
+								return;
+							}
+							item.Kind = state.qualifications;
+							item.ProjectId = state.ruleForm.Id;
+							item.ProjectCompanyId = state.projectCompany.Id;
+							data.push(item);
+						}
 					}
 					const res = await proxy.$api.erp.projectcompanylog.addMuit(JSON.parse(JSON.stringify(data)), state.ruleForm.Tid, 0, 2);
 					if (res.errcode == 0) {
+						ElMessage.success('操作成功');
 						GetByIdRow();
 					}
 				}
@@ -464,7 +578,7 @@ export default {
 			state.imgList = [];
 			if (imgUrl != '' && imgUrl) {
 				state.imgViewerVisible = true;
-				state.imgList.push(state.imgUrl + imgUrl);
+				state.imgList.push(state.homeBaseUrl + imgUrl);
 			} else {
 				ElMessage.error('暂无影印件');
 			}
