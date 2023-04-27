@@ -444,6 +444,8 @@ export default {
 		const tableDataAdd = () => {
 			state.tableData.data.push({
 				Id: '0',
+				State: 0,
+				Files: '',
 			});
 		};
 		const onSubmit = async (isSubmit: boolean, mode: string) => {
@@ -476,35 +478,40 @@ export default {
 						type: 'warning',
 					}).then(async () => {
 						let data = [];
+						let model = {};
 						if (mode == state.tender) {
-							state.tenderCertificate.Files = state.tenderImgurl;
-							state.tenderCertificate.State = 1;
-							state.tenderCertificate.AuditState = 0;
-							data.push(state.tenderCertificate);
+							model = JSON.parse(JSON.stringify(state.tenderCertificate));
+							model.Files = state.tenderImgurl;
+							model.State = 1;
+							model.AuditState = 0;
+							data.push(model);
 						} else if (mode == state.bond) {
-							state.bondCertificate.Files = state.bondImgurl;
-							state.bondCertificate.State = 1;
-							state.bondCertificate.AuditState = 0;
-							data.push(state.bondCertificate);
+							model = JSON.parse(JSON.stringify(state.bondCertificate));
+							model.Files = state.tenderImgurl;
+							model.State = 1;
+							model.AuditState = 0;
+							data.push(model);
 						} else if (mode == state.quotation) {
-							state.quotationCertificate.State = 1;
-							state.quotationCertificate.AuditState = 0;
-							data.push(state.quotationCertificate);
+							model = JSON.parse(JSON.stringify(state.quotationCertificate));
+							model.State = 1;
+							model.AuditState = 0;
+							data.push(model);
 						} else if (mode == state.qualifications) {
 							for (let item of state.tableData.data) {
-								item.State = 1;
-								if (item.Name == '') {
+								let newitem = JSON.parse(JSON.stringify(item));
+								newitem.State = 1;
+								if (newitem.Name == '') {
 									ElMessage.error('请输入文件名称');
 									return;
 								}
-								if (item.Files == '') {
+								if (newitem.Files == '') {
 									ElMessage.error('请上传文件');
 									return;
 								}
-								item.Kind = state.qualifications;
-								item.ProjectId = state.ruleForm.Id;
-								item.ProjectCompanyId = state.projectCompany.Id;
-								data.push(item);
+								newitem.Kind = state.qualifications;
+								newitem.ProjectId = state.ruleForm.Id;
+								newitem.ProjectCompanyId = state.projectCompany.Id;
+								data.push(newitem);
 							}
 						}
 						const res = await proxy.$api.erp.projectcompanylog.addMuit(JSON.parse(JSON.stringify(data)), state.ruleForm.Tid, 0, 2);
@@ -515,35 +522,40 @@ export default {
 					});
 				} else {
 					let data = [];
+					let model = {};
 					if (mode == state.tender) {
-						state.tenderCertificate.Files = state.tenderImgurl;
-						state.tenderCertificate.State = 0;
-						state.tenderCertificate.AuditState = 0;
-						data.push(state.tenderCertificate);
+						model = JSON.parse(JSON.stringify(state.tenderCertificate));
+						model.Files = state.tenderImgurl;
+						model.State = 0;
+						model.AuditState = 0;
+						data.push(model);
 					} else if (mode == state.bond) {
-						state.bondCertificate.Files = state.tenderImgurl;
-						state.bondCertificate.State = 0;
-						state.bondCertificate.AuditState = 0;
-						data.push(state.bondCertificate);
+						model = JSON.parse(JSON.stringify(state.bondCertificate));
+						model.Files = state.tenderImgurl;
+						model.State = 0;
+						model.AuditState = 0;
+						data.push(model);
 					} else if (mode == state.quotation) {
-						state.quotationCertificate.State = 0;
-						state.quotationCertificate.AuditState = 0;
-						data.push(state.quotationCertificate);
+						model = JSON.parse(JSON.stringify(state.quotationCertificate));
+						model.State = 0;
+						model.AuditState = 0;
+						data.push(model);
 					} else if (mode == state.qualifications) {
 						for (let item of state.tableData.data) {
-							item.State = 0;
-							if (item.Name == '') {
+							let newitem = JSON.parse(JSON.stringify(item));
+							newitem.State = 0;
+							if (newitem.Name == '') {
 								ElMessage.error('请输入文件名称');
 								return;
 							}
-							if (item.Files == '') {
+							if (newitem.Files == '') {
 								ElMessage.error('请上传文件');
 								return;
 							}
-							item.Kind = state.qualifications;
-							item.ProjectId = state.ruleForm.Id;
-							item.ProjectCompanyId = state.projectCompany.Id;
-							data.push(item);
+							newitem.Kind = state.qualifications;
+							newitem.ProjectId = state.ruleForm.Id;
+							newitem.ProjectCompanyId = state.projectCompany.Id;
+							data.push(newitem);
 						}
 					}
 					const res = await proxy.$api.erp.projectcompanylog.addMuit(JSON.parse(JSON.stringify(data)), state.ruleForm.Tid, 0, 2);

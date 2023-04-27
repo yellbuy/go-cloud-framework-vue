@@ -15,8 +15,8 @@ export default {
    * @param data 标识，字符串或数组
    * @returns 返回接口数据
    */
-    getListByScope: async ( scopeMode: number = 0, scopeValue: number = 0,params: object = {}) => {
-        const url = `/v1/admin/erp/projectcompanylog/${scopeMode}/${scopeValue}`;
+    getListByScope: async (kind:string,scopeMode: number = 0, scopeValue: number = 0,params: object = {}) => {
+        const url = `/v1/admin/erp/projectcompanylog/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
     AuditState: async (data: object) => {

@@ -169,7 +169,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectcompanylog.getListByScope(state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.projectcompanylog.getListByScope('tender', state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}

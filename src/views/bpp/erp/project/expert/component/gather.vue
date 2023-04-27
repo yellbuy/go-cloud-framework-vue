@@ -8,7 +8,7 @@
 			:data="tableData.data"
 			v-loading="tableData.loading"
 			style="width: 100%"
-			:height="proxy.$calcMainHeight(-75)"
+			:height="proxy.$calcMainHeight(-175)"
 			border
 			stripe
 			highlight-current-row
@@ -91,6 +91,7 @@ export default {
 						NextKind: state.nextKind,
 					});
 					if (res.errcode == 0) {
+						ElMessage.success('操作成功');
 						GetSignUpList(true, state.state);
 					}
 				});
@@ -104,7 +105,6 @@ export default {
 					cancelButtonText: '取消',
 					type: 'warning',
 				}).then(async () => {
-					console.log(JSON.stringify(row));
 					let data = JSON.parse(JSON.stringify(row));
 					data.IsLeader = 1;
 					const res = await proxy.$api.erp.projectreview.expertGatherSave(store.state.project.projectId, {
@@ -113,6 +113,7 @@ export default {
 						ProjectReview: data,
 					});
 					if (res.errcode == 0) {
+						ElMessage.success('操作成功');
 						GetSignUpList(true, state.state);
 					}
 				});
@@ -128,6 +129,7 @@ export default {
 				}).then(async () => {
 					const res = await proxy.$api.erp.projectreview.expertGatherReturn(store.state.project.projectId);
 					if (res.errcode == 0) {
+						ElMessage.success('操作成功');
 						GetSignUpList(true, state.state);
 					}
 				});

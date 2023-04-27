@@ -15,7 +15,7 @@
 			:data="tableData.data"
 			v-loading="tableData.loading"
 			style="width: 100%"
-			:height="proxy.$calcMainHeight(-75)"
+			:height="proxy.$calcMainHeight(-175)"
 			border
 			stripe
 			highlight-current-row
@@ -111,6 +111,7 @@ export default {
 				if (res.errcode != 0) {
 					return;
 				}
+
 				state.signUpList = res.data;
 				state.companyId = res.data[0].CompanyId;
 				try {
@@ -168,6 +169,7 @@ export default {
 						GatherKind: state.gatherKind,
 					});
 					if (res.errcode == 0) {
+						ElMessage.success('操作成功');
 						getExpertList();
 					}
 				});
@@ -183,6 +185,7 @@ export default {
 				}).then(async () => {
 					const res = await proxy.$api.erp.projectreview.expertGatherReturn(store.state.project.projectId);
 					if (res.errcode == 0) {
+						ElMessage.success('操作成功');
 						getExpertList();
 					}
 				});

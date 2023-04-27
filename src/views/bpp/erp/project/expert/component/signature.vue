@@ -123,6 +123,7 @@ export default {
 				}
 				const res = await proxy.$api.erp.projectreview.expertSave(state.kind, newList);
 				if (res.errcode == 0) {
+					ElMessage.success('操作成功');
 					GetSignUpList(true);
 				}
 			} finally {

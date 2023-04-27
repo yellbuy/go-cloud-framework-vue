@@ -15,7 +15,7 @@
 			:data="tableData.data"
 			v-loading="tableData.loading"
 			style="width: 100%"
-			:height="proxy.$calcMainHeight(-75)"
+			:height="proxy.$calcMainHeight(-175)"
 			border
 			stripe
 			highlight-current-row
@@ -117,7 +117,7 @@ export default {
 		const GetSignUpList = async (isState: boolean, isShow: boolean) => {
 			state.state = isShow;
 			try {
-				const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: store.state.project.projectId, state: 2, auditState: 1 });
+				const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: store.state.project.projectId, state: 1, auditState: 1 });
 				if (res.errcode != 0) {
 					return;
 				}
@@ -161,6 +161,7 @@ export default {
 						GatherKind: state.gatherKind,
 					});
 					if (res.errcode == 0) {
+						ElMessage.success('操作成功');
 						getExpertList();
 					}
 				});
