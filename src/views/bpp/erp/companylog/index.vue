@@ -125,11 +125,13 @@ import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useRoute } from 'vue-router';
+import { useStore } from '/@/store/index';
 export default {
 	name: 'project',
 	components: {},
 	setup() {
 		const route = useRoute();
+		const store = useStore();
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_pro_com_log`;
@@ -146,6 +148,7 @@ export default {
 					kinds: 'tender,bond',
 					pageNum: 1,
 					pageSize: 20,
+					companyId: 0,
 				},
 			},
 			httpsText: import.meta.env.VITE_URL as any,
@@ -167,6 +170,7 @@ export default {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
+			state.tableData.param.companyId = store.state.userInfos.userInfos.tenant.Id;
 			state.tableData.loading = true;
 			try {
 				const res = await proxy.$api.erp.projectcompanylog.getListByScope('tender', state.scopeMode, state.scopeValue, state.tableData.param);
