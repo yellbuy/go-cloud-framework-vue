@@ -4,7 +4,7 @@
 			:data="tableData.data"
 			v-loading="tableData.loading"
 			style="width: 100%"
-			:height="proxy.$calcMainHeight(-75)"
+			:height="proxy.$calcMainHeight(-175)"
 			border
 			stripe
 			highlight-current-row
@@ -80,6 +80,7 @@ export default {
 				try {
 					const res = await proxy.$api.erp.projectreview.expertLeader(store.state.project.projectId, row);
 					if (res.errcode == 0) {
+						ElMessage.success('操作成功');
 						getExpertList();
 					}
 				} finally {

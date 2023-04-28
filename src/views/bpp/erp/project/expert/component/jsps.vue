@@ -11,7 +11,7 @@
 			:data="tableData.data"
 			v-loading="tableData.loading"
 			style="width: 100%"
-			:height="proxy.$calcMainHeight(-75)"
+			:height="proxy.$calcMainHeight(-175)"
 			border
 			stripe
 			highlight-current-row
@@ -141,6 +141,7 @@ export default {
 						let data = JSON.stringify(state.tableData.data);
 						const res = await proxy.$api.erp.projectreview.expertSave(state.kind, data);
 						if (res.errcode == 0) {
+							ElMessage.success('操作成功');
 							getExpertList();
 						}
 					});
@@ -148,6 +149,7 @@ export default {
 					let data = JSON.stringify(state.tableData.data);
 					const res = await proxy.$api.erp.projectreview.expertSave(state.kind, data);
 					if (res.errcode == 0) {
+						ElMessage.success('操作成功');
 						getExpertList();
 					}
 				}

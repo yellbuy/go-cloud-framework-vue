@@ -39,8 +39,8 @@
 				<el-table-column prop="No" label="比选编号" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Kind" label="文件类型" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag class="ml-2" type="primary" v-if="scope.row.Kind == 'tender'">标书费({{ scope.row.BidFee }})</el-tag>
-						<el-tag class="ml-2" type="primary" v-else-if="scope.row.Kind == 'bond'">招标保证金</el-tag>
+						<el-tag class="ml-2" type="primary" v-if="scope.row.Kind == 'tender'">标书费({{ scope.row.BidFee }}元)</el-tag>
+						<el-tag class="ml-2" type="primary" v-else-if="scope.row.Kind == 'bond'">招标保证金({{ scope.row.EnsureFee }}万元)</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Files" label="审核文件" align="center" show-overflow-tooltip>
@@ -169,7 +169,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectcompanylog.getListByScope(state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.projectcompanylog.getListByScope('tender', state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}

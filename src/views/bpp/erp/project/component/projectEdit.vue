@@ -25,8 +25,13 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb12">
-						<el-form-item label="标书费用：" prop="BidFee">
+						<el-form-item label="标书费用(元)：" prop="BidFee">
 							<el-input-number v-model="ruleForm.BidFee" :min="0" controls-position="right" :precision="2" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb12">
+						<el-form-item label="招标保证金(万元)：" prop="EnsureFee">
+							<el-input-number v-model="ruleForm.EnsureFee" :min="0" controls-position="right" :precision="2" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb12">
@@ -282,7 +287,7 @@
 				<el-form ref="jjFormRef" :model="jjForm" size="small" v-loading="loading">
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12" :offset="1"
-							><el-form-item label="采购控制价：" prop="PurchasePrice"
+							><el-form-item label="采购控制价(万元)：" prop="PurchasePrice"
 								><el-input-number v-model="jjForm.PurchasePrice" :min="0" controls-position="right" :precision="2" /> </el-form-item
 						></el-col>
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12" :offset="1"
@@ -386,6 +391,7 @@ export default {
 				ProjectType: 1,
 				RemoteState: 0,
 				BidFee: 0,
+				EnsureFee: 0,
 				Location: '',
 				Content: '',
 				Files: '',

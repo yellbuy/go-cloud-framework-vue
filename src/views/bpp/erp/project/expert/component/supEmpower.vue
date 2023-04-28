@@ -51,6 +51,7 @@ export default {
 						Uid: state.uid,
 					});
 					if (res.errcode == 0) {
+						ElMessage.success('操作成功');
 						getExpertList();
 					}
 				} finally {
