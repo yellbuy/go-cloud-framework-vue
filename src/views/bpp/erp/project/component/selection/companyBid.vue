@@ -9,7 +9,6 @@
 				<template #default="scope">
 					<span v-if="scope.row.LineState == 0">已投标</span>
 					<span v-else-if="scope.row.LineState == 1">已付款</span>
-					<span v-else-if="scope.row.LineState == 2">已报价</span>
 				</template>
 			</el-table-column>
 			<el-table-column prop="BiddingTime" label="投标文件送达时间" show-overflow-tooltip>

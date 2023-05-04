@@ -619,11 +619,12 @@ export default {
 						}
 					}
 					state.tableData.loading = true;
-					state.ruleForm.Kind = state.kind;
-					state.ruleForm.AuditState = 1;
-					state.ruleForm.CertificateList = state.tableData.data;
+					const data = JSON.parse(JSON.stringify(state.ruleForm));
+					data.Kind = state.kind;
+					data.AuditState = 1;
+					data.CertificateList = state.tableData.data;
 					try {
-						const res = await proxy.$api.common.enterprise.save(JSON.parse(JSON.stringify(state.ruleForm)));
+						const res = await proxy.$api.common.enterprise.save(data);
 						if (res.errcode != 0) {
 							return;
 						}

@@ -72,6 +72,7 @@ export default {
 				try {
 					const res = await proxy.$api.erp.projectreview.expertList(store.state.project.projectId, { kind: state.kind });
 					if (res.errcode == 0) {
+						console.log('获取的数据', res.data);
 						state.tableData.data = res.data;
 					}
 				} finally {
