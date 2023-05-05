@@ -204,7 +204,7 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
-			onGetTableData();
+			onGetTableData(true);
 		});
 
 		const { dateFormatYMDHM, dateFormat } = commonFunction();

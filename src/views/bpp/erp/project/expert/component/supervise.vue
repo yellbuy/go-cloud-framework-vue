@@ -6,7 +6,7 @@
 					active-text-color="#ffd04b"
 					class="el-menu-vertical-demo"
 					background-color="#545c64"
-					default-active="leader"
+					default-active="seeSetting"
 					text-color="#fff"
 					@select="select"
 					:default-openeds="openeds"
@@ -14,6 +14,7 @@
 					<el-sub-menu index="before">
 						<template #title>评选管理</template>
 						<el-menu-item index="seeSetting">查看评审参数</el-menu-item>
+						<el-menu-item index="leader">专家信息</el-menu-item>
 					</el-sub-menu>
 					<el-sub-menu index="empower">
 						<template #title>监审授权</template>
@@ -48,7 +49,8 @@
 					</el-card>
 					<el-card>
 						<expertSeeSetting ref="expertSeeSettingRef" v-show="indexLine == 'seeSetting'" />
-						<supEmpower ref="supEmpowerRef" v-show="indexLine == 'supEmpower'" />
+						<supEmpower ref="supEmpowerRef" @changeSupervise="changeSelection()" v-show="indexLine == 'supEmpower'" />
+						<expertLeader ref="expertLeaderRef" v-show="indexLine == 'leader'" />
 					</el-card>
 				</div>
 			</el-col>
@@ -64,10 +66,10 @@ import { useStore } from '/@/store/index';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import expertSeeSetting from './seeSetting.vue';
 import supEmpower from './supEmpower.vue';
-
+import expertLeader from './leader.vue';
 export default {
 	name: 'api_sys_project_selection',
-	components: { expertSeeSetting, supEmpower },
+	components: { expertSeeSetting, supEmpower, expertLeader },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -85,6 +87,7 @@ export default {
 		});
 		const expertSeeSettingRef = ref();
 		const supEmpowerRef = ref();
+		const expertLeaderRef = ref();
 		const { dateFormat } = commonFunction();
 		const GetByIdRow = async (isState: boolean) => {
 			let Id = store.state.project.projectId;
@@ -123,11 +126,15 @@ export default {
 				case 'supEmpower':
 					supEmpowerRef.value.getExpertList();
 					break;
+				case 'leader':
+					expertLeaderRef.value.getExpertList(false);
+					break;
 			}
 		};
 		const changeSelection = () => {
+			console.log('执行返回');
 			state.isSelection = false;
-			state.indexLine = 'leader';
+			state.indexLine = 'seeSetting';
 			proxy.$parent.isSelection = true;
 		};
 		// 页面加载时
@@ -136,6 +143,7 @@ export default {
 			proxy,
 			expertSeeSettingRef,
 			supEmpowerRef,
+			expertLeaderRef,
 			dateFormat,
 			changeSelection,
 			select,

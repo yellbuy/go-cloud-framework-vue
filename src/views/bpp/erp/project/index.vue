@@ -87,14 +87,7 @@
 								</el-icon>
 								&#8197;{{ $t('message.action.delete') }}
 							</el-button>
-							<el-button
-								text
-								bg
-								type="primary"
-								v-if="isSeletionTime(scope.row)"
-								@click="onToRouter(scope.row.Id)"
-								v-auth:[moduleKey]="'btn.Selection'"
-							>
+							<el-button text bg type="primary" @click="onToRouter(scope.row.Id)" v-auth:[moduleKey]="'btn.Selection'">
 								{{ $t('message.action.selection') }}
 							</el-button>
 						</template>
