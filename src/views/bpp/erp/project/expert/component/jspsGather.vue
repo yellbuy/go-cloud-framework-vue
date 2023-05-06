@@ -67,6 +67,7 @@ export default {
 			gatherKind: 'jspsGather',
 			isGather: 0,
 			nextKind: 'jjps',
+			state: false,
 		});
 		const getNumber = async (numState: boolean) => {
 			if (state.tableData.data.length > 0) {
@@ -115,6 +116,7 @@ export default {
 		};
 
 		const GetSignUpList = async (isState: boolean, isShow: boolean) => {
+			console.log('是否显示按钮', isShow);
 			state.state = isShow;
 			try {
 				const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: store.state.project.projectId, state: 1, auditState: 1 });

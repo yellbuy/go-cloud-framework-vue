@@ -56,6 +56,7 @@ export default {
 			gatherKind: 'jjpsGather',
 			isGather: 0,
 			nextKind: 'gather',
+			state: false,
 		});
 		const getExpertList = async () => {
 			state.tableData.loading = true;

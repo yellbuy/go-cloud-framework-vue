@@ -79,14 +79,14 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					// const res = await proxy.$api.erp.project.empowerSave({
-					// 	Id: store.state.project.projectId,
-					// 	Uid: state.Uid,
-					// });
-					// if (res.errcode == 0) {
-					ElMessage.success('操作成功');
-					emit('changeSupervise');
-					// }
+					const res = await proxy.$api.erp.project.empowerSave({
+						Id: store.state.project.projectId,
+						Uid: state.Uid,
+					});
+					if (res.errcode == 0) {
+						ElMessage.success('操作成功');
+						emit('changeSupervise');
+					}
 				} finally {
 				}
 			});

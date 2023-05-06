@@ -70,7 +70,7 @@ import expertLeader from './leader.vue';
 export default {
 	name: 'api_sys_project_selection',
 	components: { expertSeeSetting, supEmpower, expertLeader },
-	setup() {
+	setup(props, { emit }) {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		const store = useStore();
@@ -136,6 +136,7 @@ export default {
 			state.isSelection = false;
 			state.indexLine = 'seeSetting';
 			proxy.$parent.isSelection = true;
+			emit('getTableData');
 		};
 		// 页面加载时
 		onMounted(() => {});

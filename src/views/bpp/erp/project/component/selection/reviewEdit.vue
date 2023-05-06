@@ -15,7 +15,7 @@
 		</el-col> -->
 		<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 			<el-divider content-position="left">资格评审</el-divider>
-			<el-form size="small" label-width="90px" :inline="true">
+			<el-form size="small" label-width="90px" :inline="true" v-if="state">
 				<el-form-item>
 					<el-button size="small" type="primary" @click="onOpenItemDialog('zgps', true)">
 						<el-icon>
@@ -34,7 +34,7 @@
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
 				<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
+				<el-table-column v-if="state" :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenItemDialog('zgps', false, scope.row)">
 							<el-icon>
@@ -52,7 +52,7 @@
 				</el-table-column>
 			</el-table>
 			<el-divider content-position="left">技术评审</el-divider>
-			<el-form size="small" label-width="90px" :inline="true">
+			<el-form size="small" label-width="90px" :inline="true" v-if="state">
 				<el-form-item>
 					<el-button size="small" type="primary" @click="onOpenItemDialog('jsps', true)">
 						<el-icon>
@@ -72,7 +72,7 @@
 				<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
 				<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
 				<el-table-column prop="TechnicalMaxScore" label="最高分数" show-overflow-tooltip />
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
+				<el-table-column v-if="state" :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenItemDialog('jsps', false, scope.row)">
 							<el-icon>
@@ -94,11 +94,18 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1"
 						><el-form-item label="采购控制价：" prop="PurchasePrice"
-							><el-input-number v-model="jjForm.PurchasePrice" :min="0" controls-position="right" :precision="2" @change="saveJjps" /> </el-form-item
+							><el-input-number
+								v-model="jjForm.PurchasePrice"
+								:min="0"
+								controls-position="right"
+								:precision="2"
+								@change="saveJjps"
+								:disabled="state ? false : true"
+							/> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1"
 						><el-form-item label="价格评审得分策略：">
-							<el-radio-group v-model="jjForm.ScoreMode" @change="saveJjps">
+							<el-radio-group v-model="jjForm.ScoreMode" @change="saveJjps" :disabled="state ? false : true">
 								<el-radio :label="0">价格排名打分</el-radio>
 								<el-radio :label="1">基础价格打分</el-radio>
 							</el-radio-group>
@@ -108,20 +115,41 @@
 						<div class="mb20">评审价格从低至高排列（最低价为第一名），第一名供应商价格得分为满分；</div>
 						<div class="mb20">
 							从第二名起，价格得分减少<span
-								><el-input-number v-model="jjForm.PriceScore" :min="0" :max="100" controls-position="right" @change="saveJjps" /> </span
+								><el-input-number
+									v-model="jjForm.PriceScore"
+									:min="0"
+									:max="100"
+									controls-position="right"
+									@change="saveJjps"
+									:disabled="state ? false : true"
+								/> </span
 							>分。超出采购控制价的供应商得零分。
 						</div>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1" v-if="jjForm.ScoreMode == 1">
 						<div class="mb20">
 							价格评审最高分的<span
-								><el-input-number v-model="jjForm.PricePercentage" :min="0" :max="100" controls-position="right" @change="saveJjps" />
+								><el-input-number
+									v-model="jjForm.PricePercentage"
+									:min="0"
+									:max="100"
+									controls-position="right"
+									@change="saveJjps"
+									:disabled="state ? false : true"
+								/>
 							</span>
 							%为基础价格得分;
 						</div>
 						<div class="mb20">
 							评审报价比招标控制价每下浮1个百分点，则得分增加<span
-								><el-input-number v-model="jjForm.QualificationScore" :min="0" :max="100" controls-position="right" @change="saveJjps" />
+								><el-input-number
+									v-model="jjForm.QualificationScore"
+									:min="0"
+									:max="100"
+									controls-position="right"
+									@change="saveJjps"
+									:disabled="state ? false : true"
+								/>
 							</span>
 							分;
 						</div>
@@ -140,6 +168,7 @@
 
 <script lang="ts">
 import request from '/@/utils/request';
+import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
@@ -174,13 +203,18 @@ export default {
 				data: [],
 				loading: false,
 			},
+			state: true,
 		});
 		const store = useStore();
 		const getProject = () => {
 			state.project = store.state.project.project;
+			state.state = false;
+			if (store.state.project.project.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && store.state.project.project.State == 0) {
+				state.state = true;
+			}
+			console.log('state', state.state);
 			changeLine();
 		};
-
 		// const changeLine = async () => {
 		// 	state.zgTableData.data = [];
 		// 	state.jsTableData.data = [];
@@ -284,6 +318,8 @@ export default {
 				return false;
 			});
 		};
+		const { dateFormat } = commonFunction();
+
 		// 页面加载时
 		onMounted(() => {});
 
@@ -291,6 +327,7 @@ export default {
 			proxy,
 			project,
 			changeLine,
+			dateFormat,
 			editItemDlgRef,
 			editLineListDlgRef,
 			getProject,
