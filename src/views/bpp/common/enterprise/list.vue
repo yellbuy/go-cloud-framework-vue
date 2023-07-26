@@ -2,8 +2,8 @@
 	<div class="base-user-container">
 		<el-card shadow="hover">
 			<el-row :gutter="10">
-				<el-col :span="10"
-					><div class="grid-content ep-bg-purple" />
+				<el-col :xs="24" :sm="12" :md="8">
+					<div class="grid-content ep-bg-purple" />
 					<div class="">
 						<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 							<el-form-item :label="'关键字：'">
@@ -84,7 +84,7 @@
 					>
 					</el-pagination
 				></el-col>
-				<el-col :span="14"
+				<el-col  :xs="24" :sm="12" :md="16"
 					><div class="grid-content ep-bg-purple-light" />
 					<view style="float: right">
 						<el-tag type="info" style="margin-right: 10px" effect="plain" v-if="ruleForm.Id == 0">未认证</el-tag>
@@ -323,11 +323,11 @@
 </template>
 
 <script lang="ts">
-import commonFunction from '/@/utils/commonFunction';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'enterpriseList',
 	setup() {

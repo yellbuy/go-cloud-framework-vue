@@ -96,12 +96,11 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import editDlg from './component/companyEdit.vue';
+import { ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
+import editDlg from './component/companyEdit.vue';
+import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'companyInfo',
