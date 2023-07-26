@@ -132,7 +132,7 @@
 								>
 									<template #error>
 										<div class="image-slot">
-											<SvgIcon name="elementPicture" />
+											<SvgIcon name="el-Picture" />
 										</div>
 									</template>
 								</el-image>
@@ -359,17 +359,15 @@
 </template>
 
 <script lang="ts">
-import commonFunction from '/@/utils/commonFunction';
-import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { Pane, Splitpanes } from 'splitpanes';
+import 'splitpanes/dist/splitpanes.css';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import dlgDetail from './component/articleDetail.vue';
 import dlgMainEdit from './component/categoryEdit.vue';
 import dlgChildEdit from './component/forumEdit.vue';
-import other from '/@/utils/other';
-import { Splitpanes, Pane } from 'splitpanes';
-import 'splitpanes/dist/splitpanes.css';
-import dlgDetail from './component/articleDetail.vue';
+import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'CmsForumList',
 	components: { dlgMainEdit, dlgChildEdit, dlgDetail, Splitpanes, Pane },

@@ -41,13 +41,13 @@ export const NextLoading = {
 		window.nextLoading = true;
 	},
 	// 移除 loading
-	done: () => {
+	done: (time: number = 1000) => {
 		nextTick(() => {
 			setTimeout(() => {
 				window.nextLoading = false;
 				const el = document.querySelector('.loading-next');
 				el && el.parentNode?.removeChild(el);
-			}, 1000);
+			}, time);
 		});
 	},
 };

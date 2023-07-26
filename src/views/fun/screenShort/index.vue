@@ -9,7 +9,7 @@
 			></el-alert>
 			<ScreenShort ref="screenShortRef" @getBase64="onGetBase64" />
 			<el-button type="primary" size="small" @click="onScreenShortClick">
-				<SvgIcon name="elementCrop" />
+				<SvgIcon name="ele-Crop" />
 				点击截屏
 			</el-button>
 		</el-card>
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, ref } from 'vue';
+import { reactive, ref, toRefs } from 'vue';
 import ScreenShort from '/@/components/screenShort/index.vue';
 export default {
 	name: 'screenShort',

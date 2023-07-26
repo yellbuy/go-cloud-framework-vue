@@ -1,6 +1,6 @@
-import enLocale from 'element-plus/lib/locale/lang/en';
-import zhcnLocale from 'element-plus/lib/locale/lang/zh-cn';
-import zhtwLocale from 'element-plus/lib/locale/lang/zh-tw';
+import enLocale from 'element-plus/es/locale/lang/en';
+import zhcnLocale from 'element-plus/es/locale/lang/zh-cn';
+import zhtwLocale from 'element-plus/es/locale/lang/zh-tw';
 import { createI18n } from 'vue-i18n';
 import pagesFormI18nEn from './formI18n/en';
 import pagesFormI18nZhcn from './formI18n/zh-cn';

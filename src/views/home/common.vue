@@ -74,7 +74,7 @@
 								</div>
 								<div class="home-dynamic-item-right">
 									<div class="home-dynamic-item-right-title mb5">
-										<SvgIcon name="elementComment" />
+										<SvgIcon name="ele-Comment" />
 										<span>{{ v.title }}</span>
 									</div>
 									<div class="home-dynamic-item-right-label">{{ v.label }}</div>
@@ -96,13 +96,13 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, nextTick, computed, getCurrentInstance, watch, onActivated } from 'vue';
-import * as echarts from 'echarts';
 import { CountUp } from 'countup.js';
-import { formatAxis } from '/@/utils/formatTime';
+import * as echarts from 'echarts';
+import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { activitiesList, environmentList, topCardItemList } from './mock';
 import { useStore } from '/@/store/index';
-import {useRouter } from 'vue-router'
-import { topCardItemList, environmentList, activitiesList } from './mock';
+import { formatAxis } from '/@/utils/formatTime';
 export default {
 	name: 'admin',
 	setup() {

@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted, nextTick, computed, watch } from 'vue';
+import { computed, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue';
 import initIconfont from '/@/utils/getStyleSheets';
 export default {
 	name: 'iconSelector',
@@ -183,7 +183,7 @@ export default {
 			// 初始化双向绑定回显
 			initModeValueEcho();
 			// 切换时，滚动条置顶。感兴趣可以使用 keep-alive <component :is="xxx"/> 进行缓存
-			selectorScrollbarRef.value.wrap$.scrollTop = 0;
+			selectorScrollbarRef!.value!.wrap$!.scrollTop = 0;
 		};
 		// 图标点击切换
 		const onIconChange = (type: string) => {

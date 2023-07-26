@@ -12,7 +12,7 @@
 							<div class="flex-title">天气预报</div>
 							<div class="flex-content">
 								<div class="sky">
-									<SvgIcon name="elementSunny" class="sky-left" />
+									<SvgIcon name="ele-Sunny" class="sky-left" />
 									<div class="sky-center">
 										<div class="mb2">
 											<span>多云转晴</span>
@@ -46,21 +46,21 @@
 							<div class="flex-content flex-content-overflow">
 								<div class="d-states">
 									<div class="d-states-item">
-										<SvgIcon name="elementOdometer" class="i-bg1" />
+										<SvgIcon name="ele-Odometer" class="i-bg1" />
 										<div class="d-states-flex">
 											<div class="d-states-item-label">园区设备数</div>
 											<div class="d-states-item-value">99</div>
 										</div>
 									</div>
 									<div class="d-states-item">
-										<SvgIcon name="elementFirstAidKit" class="i-bg2" />
+										<SvgIcon name="ele-FirstAidKit" class="i-bg2" />
 										<div class="d-states-flex">
 											<div class="d-states-item-label">预警设备数</div>
 											<div class="d-states-item-value">10</div>
 										</div>
 									</div>
 									<div class="d-states-item">
-										<SvgIcon name="elementVideoPlay" class="i-bg3" />
+										<SvgIcon name="ele-VideoPlay" class="i-bg3" />
 										<div class="d-states-flex">
 											<div class="d-states-item-label">运行设备数</div>
 											<div class="d-states-item-value">20</div>
@@ -202,12 +202,12 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, computed, onMounted, getCurrentInstance, watch, nextTick, onActivated } from 'vue';
-import { useStore } from '/@/store/index';
-import ChartHead from '/@/views/chart/head.vue';
 import * as echarts from 'echarts';
 import 'echarts-wordcloud';
-import { skyList, dBtnList, chartData4List } from '/@/views/chart/chart';
+import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
+import { useStore } from '/@/store/index';
+import { chartData4List, dBtnList, skyList } from '/@/views/chart/chart';
+import ChartHead from '/@/views/chart/head.vue';
 export default {
 	name: 'chartIndex',
 	components: { ChartHead },

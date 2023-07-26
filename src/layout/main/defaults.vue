@@ -15,10 +15,10 @@
 <script lang="ts">
 import { computed, getCurrentInstance, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from '/@/store/index';
 import Aside from '/@/layout/component/aside.vue';
 import Header from '/@/layout/component/header.vue';
 import Main from '/@/layout/component/main.vue';
+import { useStore } from '/@/store/index';
 export default {
 	name: 'layoutDefaults',
 	components: { Aside, Header, Main },
@@ -33,7 +33,7 @@ export default {
 		watch(
 			() => route.path,
 			() => {
-				proxy.$refs.layoutDefaultsScrollbarRef.wrap$.scrollTop = 0;
+				proxy.$refs.layoutDefaultsScrollbarRef!.wrap$!.scrollTop = 0;
 			}
 		);
 		return {

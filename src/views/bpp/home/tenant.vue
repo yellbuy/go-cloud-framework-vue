@@ -93,7 +93,7 @@
 								</div>
 								<div class="home-dynamic-item-right">
 									<div class="home-dynamic-item-right-title mb5">
-										<SvgIcon name="elementComment" />
+										<SvgIcon name="ele-Comment" />
 										<span>{{ v.title }}</span>
 									</div>
 									<div class="home-dynamic-item-right-label">{{ v.label }}</div>
@@ -128,7 +128,7 @@
 								</div>
 								<div class="home-dynamic-item-right">
 									<div class="home-dynamic-item-right-title mb5">
-										<SvgIcon name="elementComment" />
+										<SvgIcon name="ele-Comment" />
 										<span>{{ v.title }}</span>
 									</div>
 									<div class="home-dynamic-item-right-label">{{ v.label }}</div>

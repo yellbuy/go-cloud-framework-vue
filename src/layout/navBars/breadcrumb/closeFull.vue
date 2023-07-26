@@ -1,13 +1,13 @@
 <template>
 	<div class="layout-navbars-close-full" v-if="isTagsViewCurrenFull">
 		<div class="layout-navbars-close-full-box" :title="$t('message.tagsView.closeFullscreen')" @click="onCloseFullscreen">
-			<SvgIcon name="elementClose" />
+			<SvgIcon name="ele-Close" />
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, computed } from 'vue';
+import { computed, reactive, toRefs } from 'vue';
 import { useStore } from '/@/store/index';
 export default {
 	name: 'layoutCloseFull',

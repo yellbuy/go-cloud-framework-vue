@@ -4,6 +4,7 @@
 			<pane :size="30">
 				<el-card shadow="hover">
 					<div class="">
+						
 						<el-form label-width="90px" :inline="true">
 							<el-form-item>
 								<el-button type="info" @click="onGetMainTableData(true)">
@@ -132,7 +133,7 @@
 								>
 									<template #error>
 										<div class="image-slot">
-											<SvgIcon name="elementPicture" />
+											<SvgIcon name="ele-Picture" />
 										</div>
 									</template>
 								</el-image>
@@ -364,8 +365,7 @@ import { Pane, Splitpanes } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import dlgMainEdit from './component/orgEdit.vue';
-import { default as dlgChildEdit, default as dlgDetail } from './component/orgEdit.vue';
+import dlgMainEdit, { default as dlgChildEdit, default as dlgDetail } from './component/orgEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'BaseOrgList',

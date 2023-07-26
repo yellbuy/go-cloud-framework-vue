@@ -47,7 +47,7 @@
 							fit="cover" >
 								<template #error>
 									<div class="image-slot">
-										<SvgIcon name="elementPicture"/>
+										<SvgIcon name="el-Picture"/>
 									</div>
 								</template>
 						</el-image>
@@ -170,14 +170,12 @@
 </template>
 
 <script lang="ts">
-import commonFunction from '/@/utils/commonFunction';
-import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
-import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from "vue-router";
-import { ElMessageBox, ElMessage } from 'element-plus';
-import dlgEdit from './component/articleEdit.vue';
 import dlgDetail from './component/articleDetail.vue';
-import other from '/@/utils/other';
+import dlgEdit from './component/articleEdit.vue';
+import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'cmsArticleCommon',
 	components: { dlgEdit,dlgDetail },

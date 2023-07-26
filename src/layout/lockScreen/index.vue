@@ -20,7 +20,7 @@
 					<div class="layout-lock-screen-date-box-info">{{ time.mdq }}</div>
 				</div>
 				<div class="layout-lock-screen-date-top">
-					<SvgIcon name="elementTop" />
+					<SvgIcon name="ele-Top" />
 					<div class="layout-lock-screen-date-top-text">上滑解锁</div>
 				</div>
 			</div>
@@ -49,9 +49,9 @@
 						</div>
 					</div>
 					<div class="layout-lock-screen-login-icon">
-						<SvgIcon name="elementMicrophone" />
-						<SvgIcon name="elementAlarmClock" />
-						<SvgIcon name="elementSwitchButton" />
+						<SvgIcon name="ele-Microphone" />
+						<SvgIcon name="ele-AlarmClock" />
+						<SvgIcon name="ele-SwitchButton" />
 					</div>
 				</div>
 			</transition>
@@ -60,11 +60,10 @@
 </template>
 
 <script lang="ts">
-import { nextTick, onMounted, reactive, toRefs, ref, computed,onUnmounted, getCurrentInstance, defineComponent } from 'vue';
+import { computed, defineComponent, getCurrentInstance, nextTick, onMounted, onUnmounted, reactive, ref, toRefs } from 'vue';
 import { useStore } from '/@/store/index';
 import { formatDate } from '/@/utils/formatTime';
-import { Session,Local } from '/@/utils/storage';
-import { ElMessageBox } from 'element-plus';
+import { Local } from '/@/utils/storage';
 export default defineComponent({
 	name: 'layoutLockScreen',
 	setup() {

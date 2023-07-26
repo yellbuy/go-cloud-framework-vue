@@ -16,20 +16,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs, reactive, getCurrentInstance, watch, onBeforeMount } from 'vue';
-import { useStore } from '/@/store/index';
+import { computed, defineComponent, getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import LayoutParentView from '/@/layout/routerView/parent.vue';
 import Footer from '/@/layout/footer/index.vue';
+import LayoutParentView from '/@/layout/routerView/parent.vue';
+import { useStore } from '/@/store/index';
+import { NextLoading } from '/@/utils/loading';
 export default defineComponent({
 	name: 'layoutMain',
 	components: { LayoutParentView, Footer },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+		const layoutMainScrollbarRef = ref();
 		const route = useRoute();
 		const store = useStore();
 		const state = reactive({
 			headerHeight: '',
+			layoutMainScrollbarRef,
 			currentRouteMeta: {},
 		});
 		// 获取布局配置信息
@@ -51,6 +54,11 @@ export default defineComponent({
 			initHeaderHeight();
 			initGetMeta();
 		});
+		// 页面加载前
+		onMounted(() => {
+			NextLoading.done(600);
+		});
+
 		// 监听 themeConfig 配置文件的变化，更新菜单 el-scrollbar 的高度
 		watch(store.state.themeConfig.themeConfig, (val) => {
 			state.headerHeight = val.isTagsview ? '84px' : '50px';

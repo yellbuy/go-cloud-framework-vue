@@ -27,11 +27,11 @@
 		</el-dropdown>
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onSearchClick">
 			
-			<SvgIcon name="fa fa-search" :title="$t('message.user.title2')" color="#d5d5d5"></SvgIcon>
+			<SvgIcon name="ele-Search" :title="$t('message.user.title2')" color="#d5d5d5"></SvgIcon>
 			<!-- <el-icon :title="$t('message.user.title2')"><Search /></el-icon> -->
 		</div>
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSetingClick">
-			<i class="icon-skin iconfont" :title="$t('message.user.title3')"></i>
+			<i class="iconfont icon-skin" :title="$t('message.user.title3')"></i>
 		</div>
 		<div class="layout-navbars-breadcrumb-user-icon">
 			<el-popover placement="bottom" trigger="click" v-model:visible="isShowUserNewsPopover" :width="300" popper-class="el-popover-pupop-user-news">
@@ -82,19 +82,17 @@
 </template>
 
 <script lang="ts">
-import { ref, getCurrentInstance, computed, reactive, toRefs, onMounted,nextTick } from 'vue';
-import { useRouter } from 'vue-router';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import screenfull from 'screenfull';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import Search from '/@/layout/navBars/breadcrumb/search.vue';
+import UserNews from '/@/layout/navBars/breadcrumb/userNews.vue';
 import { resetRoute } from '/@/router/index';
 import { useStore } from '/@/store/index';
 import other from '/@/utils/other';
-import { Session, Local } from '/@/utils/storage';
-import UserNews from '/@/layout/navBars/breadcrumb/userNews.vue';
-import Search from '/@/layout/navBars/breadcrumb/search.vue';
-import { initFrontEndControlRoutes } from '/@/router/frontEnd';
-import { initBackEndControlRoutes } from '/@/router/backEnd';
+import { Local, Session } from '/@/utils/storage';
 
 export default {
 	name: 'layoutBreadcrumbUser',

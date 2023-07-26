@@ -39,7 +39,7 @@
 							fit="cover" >
 								<template #error>
 									<div class="image-slot">
-										<SvgIcon name="elementPicture"/>
+										<SvgIcon name="ele-Picture"/>
 									</div>
 								</template>
 						</el-image>
@@ -91,12 +91,9 @@
 </template>
 
 <script lang="ts">
-import commonFunction from '/@/utils/commonFunction';
-import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
-import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useRoute } from "vue-router";
-import { ElMessageBox, ElMessage } from 'element-plus';
-import other from '/@/utils/other';
+import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'cmsArticleList',
 	setup() {

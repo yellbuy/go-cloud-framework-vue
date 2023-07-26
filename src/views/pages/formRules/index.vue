@@ -6,7 +6,7 @@
 		<el-row class="flex mt15">
 			<div class="flex-margin">
 				<el-button size="small" @click="onResetForm">
-					<SvgIcon name="elementRefreshRight" />
+					<SvgIcon name="ele-RefreshRight" />
 					重置表单
 				</el-button>
 				<el-button size="small" type="primary" @click="onSubmitForm">
@@ -19,11 +19,11 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, defineComponent, getCurrentInstance } from 'vue';
 import { ElMessage } from 'element-plus';
+import { defineComponent, getCurrentInstance, reactive, toRefs } from 'vue';
 import FormRulesOne from '/@/views/pages/formRules/component/formRulesOne.vue';
-import FormRulesTwo from '/@/views/pages/formRules/component/formRulesTwo.vue';
 import FormRulesThree from '/@/views/pages/formRules/component/formRulesThree.vue';
+import FormRulesTwo from '/@/views/pages/formRules/component/formRulesTwo.vue';
 export default defineComponent({
 	name: 'pagesFormRules',
 	components: {

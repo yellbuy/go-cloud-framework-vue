@@ -18,8 +18,8 @@ const components = {
       <span class="drawing-item-delete" style={visibility} title="删除" onClick={event => {
         onDeleteItem(index, parent); event.stopPropagation()
       }}>
-      <SvgIcon name="elementClose" size={8}/>
-        // <i class="el-icon-close" />
+      <SvgIcon name="ele-Close" size={8}/>
+        // <i class="ele-icon-close" />
       </span>
     ]
   }

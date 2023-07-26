@@ -3,12 +3,12 @@
 		<el-main>
 			<div class="scale-slider">
 				<i class="btn">
-					<SvgIcon name="elementMinus" @click="changeScale(-step)"></SvgIcon>
+					<SvgIcon name="ele-Minus" @click="changeScale(-step)"></SvgIcon>
 				</i>
 				
 				<span style="font-size:14px;">{{scaleVal}}%</span>
 				<i class="btn">
-					<SvgIcon name="elementPlus" @click="changeScale(step)"></SvgIcon>
+					<SvgIcon name="ele-Plus" @click="changeScale(step)"></SvgIcon>
 				</i>
 				
 			</div>

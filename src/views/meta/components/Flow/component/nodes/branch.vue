@@ -8,7 +8,7 @@
 						<div class="condition-node-box">
 							<div class="auto-judge" @click="show(index)">
 								<div class="sort-left" v-if="index!=0" @click.stop="arrTransfer(index,-1)">
-									<!-- <SvgIcon name="elementPlus" /> -->
+									<!-- <SvgIcon name="ele-Plus" /> -->
 									<el-icon>
 										<ArrowLeft />
 									</el-icon>
@@ -49,7 +49,7 @@
 			<template #title>
 				<div class="node-wrap-drawer__title">
 					<label @click="editTitle" v-if="!isEditTitle">{{form.nodeName}}
-						<SvgIcon class="node-wrap-drawer__title-edit" name="elementEdit">
+						<SvgIcon class="node-wrap-drawer__title-edit" name="ele-Edit">
 						</SvgIcon>
 					</label>
 					<el-input v-if="isEditTitle" ref="nodeTitle" v-model="form.nodeName" clearable @blur="saveTitle" @keyup.enter="saveTitle"></el-input>

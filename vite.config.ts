@@ -26,7 +26,7 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 		resolve: { alias },
 		base: mode.command === 'serve' ? './' : env.VITE_PUBLIC_PATH,
 		optimizeDeps: {
-			include: ['vue','@element-plus/icons-vue','element-plus/lib/locale/lang/zh-cn', 'element-plus/lib/locale/lang/en', 'element-plus/lib/locale/lang/zh-tw','vuex','axios','vue-router'],
+			include: ['vue','@element-plus/icons-vue','element-plus/es/locale/lang/zh-cn', 'element-plus/es/locale/lang/en', 'element-plus/es/locale/lang/zh-tw','vuex','axios','vue-router'],
 			exclude: ['vue-demi'],
 		},
 		server: {

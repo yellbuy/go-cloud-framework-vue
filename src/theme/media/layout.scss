@@ -30,7 +30,14 @@
 		}
 	}
 }
-
+/* 页面宽度大于768px
+------------------------------- */
+@media screen and (min-width: $sm) {
+	// Breadcrumb 面包屑
+	.layout-navbars-breadcrumb-icon {
+		display: none;
+	}
+}
 /* 页面宽度小于1000px
 ------------------------------- */
 @media screen and (max-width: 1000px) {

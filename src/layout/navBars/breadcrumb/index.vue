@@ -8,13 +8,13 @@
 </template>
 
 <script lang="ts">
-import { computed, reactive, toRefs, onMounted, onUnmounted, getCurrentInstance } from 'vue';
+import { computed, getCurrentInstance, onMounted, onUnmounted, reactive, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from '/@/store/index';
+import Logo from '/@/layout/logo/index.vue';
 import Breadcrumb from '/@/layout/navBars/breadcrumb/breadcrumb.vue';
 import User from '/@/layout/navBars/breadcrumb/user.vue';
-import Logo from '/@/layout/logo/index.vue';
 import Horizontal from '/@/layout/navMenu/horizontal.vue';
+import { useStore } from '/@/store/index';
 export default {
 	name: 'layoutBreadcrumbIndex',
 	components: { Breadcrumb, User, Logo, Horizontal },
