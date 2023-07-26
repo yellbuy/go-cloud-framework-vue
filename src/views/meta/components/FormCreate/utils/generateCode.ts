@@ -55,7 +55,7 @@ export default defineComponent({
     ${
       platformType === PlatformType.Antd
         ? '<link rel="stylesheet" href="https://unpkg.com/ant-design-vue@next/dist/antd.min.css" />'
-        : '<link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css" />'
+        : '<link rel="stylesheet" href="https://unpkg.com/element-plus/es/theme-chalk/index.css" />'
     }
   </head>
   <body>
@@ -77,7 +77,7 @@ export default defineComponent({
       platformType === PlatformType.Antd
         ? `<script src="https://unpkg.com/moment/moment.js"></script>
     <script src="https://unpkg.com/ant-design-vue@next/dist/antd.min.js"></script>`
-        : '<script src="https://unpkg.com/element-plus/lib/index.full.js"></script>'
+        : '<script src="https://unpkg.com/element-plus/es/index.full.js"></script>'
     }
     <script>
       const { createApp, reactive, toRefs } = Vue

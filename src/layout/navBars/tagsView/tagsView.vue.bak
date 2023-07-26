@@ -324,7 +324,7 @@ export default {
 		};
 		// 鼠标滚轮滚动
 		const onHandleScroll = (e: any) => {
-			proxy.$refs.scrollbarRef.$refs.wrap$.scrollLeft += e.wheelDelta / 4;
+			proxy.$refs.scrollbarRef.$refs.wrapRef.scrollLeft += e.wheelDelta / 4;
 		};
 		// tagsView 横向滚动
 		const tagsViewmoveToCurrentTag = () => {
@@ -341,7 +341,7 @@ export default {
 				// 最后 li
 				let liLast: any = tagsRefs.value[tagsRefs.value.length - 1];
 				// 当前滚动条的值
-				let scrollRefs = proxy.$refs.scrollbarRef.$refs.wrap$;
+				let scrollRefs = proxy.$refs.scrollbarRef.$refs.wrapRef;
 				// 当前滚动条滚动宽度
 				let scrollS = scrollRefs.scrollWidth;
 				// 当前滚动条偏移宽度

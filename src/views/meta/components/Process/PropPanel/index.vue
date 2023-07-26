@@ -215,7 +215,7 @@
 </template>
 <script>
 import { useStore } from '/@/store/index';
-import {ClickOutside} from "element-plus/lib"
+import {ClickOutside} from "element-plus/es"
 import { NodeUtils } from "../FlowCard/util.js"
 import RowWrapper from './RowWrapper.vue'
 import NumInput from "./NumInput.vue"
