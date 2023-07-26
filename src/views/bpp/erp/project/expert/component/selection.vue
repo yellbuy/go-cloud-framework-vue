@@ -150,7 +150,7 @@ export default {
 			state.indexLine = key;
 			switch (state.indexLine) {
 				case 'leader':
-					expertLeaderRef.value.getExpertList();
+					expertLeaderRef.value.getExpertList(true);
 					break;
 				case 'seeSetting':
 					expertSeeSettingRef.value.onLoadTable();

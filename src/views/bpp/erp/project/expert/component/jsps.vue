@@ -7,45 +7,80 @@
 			<el-button style="margin-left: 10px" type="primary" @click="onSubmit(false)">{{ $t('message.action.save') }}</el-button>
 			<el-button type="primary" @click="onSubmit(true)">{{ $t('message.action.submit') }}</el-button>
 		</el-form-item>
-		<el-table
-			:data="tableData.data"
-			v-loading="tableData.loading"
-			style="width: 100%"
-			:height="proxy.$calcMainHeight(-175)"
-			border
-			stripe
-			highlight-current-row
-		>
-			<el-table-column type="index" label="序号" align="right" width="70" fixed />
-			<el-table-column prop="SetLineContent" label="评分点" show-overflow-tooltip fixed>
-				<template #default="scope">
-					<span v-if="scope.row.SetLineContent == ''">【结论】评审汇总</span>
-					<span v-else>{{ scope.row.SetLineContent }}</span>
-				</template>
-			</el-table-column>
-			<el-table-column prop="SetLineStandard" label="评分标准" show-overflow-tooltip fixed>
-				<template #default="scope">
-					<span v-if="scope.row.SetLineStandard == ''">【结论】评审汇总</span>
-					<span v-else>{{ scope.row.SetLineStandard }}</span>
-				</template>
-			</el-table-column>
-			<el-table-column prop="SetLineTechnicalMaxScore" label="最高分" show-overflow-tooltip align="right" />
-			<el-table-column prop="ReviewState" label="评审" show-overflow-tooltip fixed>
-				<template #default="scope">
-					<el-input-number
-						v-model="scope.row.TechnicalScore"
-						controls-position="right"
-						:min="0"
-						:max="scope.row.SetLineTechnicalMaxScore"
-						@change="getNumber(false)"
-						size="small"
-						style="width: 90px"
-						:disabled="scope.row.SetLineStandard == '' ? true : false"
-					>
-					</el-input-number>
-				</template>
-			</el-table-column>
-		</el-table>
+		<el-row :gutter="10">
+			<el-col :span="12">
+				<el-table
+					:data="tableData.data"
+					v-loading="tableData.loading"
+					style="width: 100%"
+					:height="proxy.$calcMainHeight(-175)"
+					border
+					stripe
+					highlight-current-row
+				>
+					<el-table-column type="index" label="序号" align="right" width="70" fixed />
+					<el-table-column prop="SetLineContent" label="评分点" show-overflow-tooltip fixed>
+						<template #default="scope">
+							<span v-if="scope.row.SetLineContent == ''">【结论】评审汇总</span>
+							<span v-else>{{ scope.row.SetLineContent }}</span>
+						</template>
+					</el-table-column>
+					<el-table-column prop="SetLineStandard" label="评分标准" show-overflow-tooltip fixed>
+						<template #default="scope">
+							<span v-if="scope.row.SetLineStandard == ''">【结论】评审汇总</span>
+							<span v-else>{{ scope.row.SetLineStandard }}</span>
+						</template>
+					</el-table-column>
+					<el-table-column prop="SetLineTechnicalMaxScore" label="最高分" show-overflow-tooltip align="right" />
+					<el-table-column prop="ReviewState" label="评审" show-overflow-tooltip fixed>
+						<template #default="scope">
+							<el-input-number
+								v-model="scope.row.TechnicalScore"
+								controls-position="right"
+								:min="0"
+								:max="scope.row.SetLineTechnicalMaxScore"
+								@change="getNumber(false)"
+								size="small"
+								style="width: 90px"
+								:disabled="scope.row.SetLineStandard == '' ? true : false"
+							>
+							</el-input-number>
+						</template>
+					</el-table-column>
+				</el-table>
+			</el-col>
+			<el-col :span="12">
+				<el-table
+					:data="fileTableData.data"
+					v-loading="fileTableData.loading"
+					style="width: 100%"
+					:height="proxy.$calcMainHeight(-175)"
+					border
+					stripe
+					highlight-current-row
+				>
+					<el-table-column type="index" label="序号" align="right" width="70" fixed />
+					<el-table-column prop="Files" label="审核文件" align="center" show-overflow-tooltip>
+						<template #default="scope">
+							<div class="demo-image__preview">
+								<el-image
+									style="width: 70px; height: 50px"
+									:src="getRowFiles(scope.row.Files)"
+									@click="getRowFilesList(scope.row.Files)"
+									afit="cover"
+								/>
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column prop="Name" label="文件名称" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="Remark" label="备注" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="CompanyName" label="投标公司" show-overflow-tooltip></el-table-column>
+				</el-table>
+			</el-col>
+		</el-row>
+		<div class="img-viewer-box">
+			<el-image-viewer v-if="showFiles" :url-list="showFilList" @close="showFiles = false" />
+		</div>
 	</div>
 </template>
 
@@ -77,6 +112,20 @@ export default {
 				NameId: '',
 			},
 			kind: 'jsps',
+			fileTableData: {
+				data: [],
+				total: 0,
+				loading: false,
+				param: {
+					pageNum: 1,
+					pageSize: 10000,
+					projectId: 0,
+					projectCompanyId: 0,
+				},
+			},
+			httpsText: import.meta.env.VITE_URL as any,
+			showFiles: false,
+			showFilList: [],
 		});
 		const getNumber = async (numState: boolean) => {
 			if (state.tableData.data.length > 0) {
@@ -104,13 +153,31 @@ export default {
 				const res = await proxy.$api.erp.projectreview.expertList(store.state.project.projectId, { kind: state.kind, companyId: state.companyId });
 				if (res.errcode == 0) {
 					state.tableData.data = res.data;
+					state.fileTableData.param.projectId = store.state.project.projectId;
+					state.fileTableData.param.projectCompanyId = state.companyId;
 					getNumber(true);
+					onGetTableData(true);
 				}
 			} finally {
 				state.tableData.loading = false;
 			}
 		};
-
+		const onGetTableData = async (gotoFirstPage: boolean = false) => {
+			if (gotoFirstPage) {
+				state.fileTableData.param.pageNum = 1;
+			}
+			state.fileTableData.loading = true;
+			try {
+				const res = await proxy.$api.erp.projectcompanylog.getListByScope('qualifications', 0, 1, state.fileTableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.fileTableData.data = res.data;
+				state.fileTableData.total = res.total;
+			} finally {
+				state.fileTableData.loading = false;
+			}
+		};
 		const GetSignUpList = async (isState: boolean) => {
 			try {
 				const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: store.state.project.projectId, auditState: 1 });
@@ -156,7 +223,22 @@ export default {
 			} finally {
 			}
 		};
-
+		const getRowFiles = (Files: string) => {
+			let fileUrl = '';
+			let filList = Files.split(',');
+			fileUrl = state.httpsText + filList[0];
+			return fileUrl;
+		};
+		const getRowFilesList = (Files: string) => {
+			state.showFilList = [];
+			if (Files != '') {
+				state.showFilList = Files.split(',');
+				state.showFilList.forEach((item: any, i: number) => {
+					state.showFilList[i] = state.httpsText + item;
+				});
+				state.showFiles = true;
+			}
+		};
 		// 页面加载时
 		onMounted(() => {
 			GetSignUpList(false);
@@ -166,6 +248,9 @@ export default {
 			proxy,
 			onSubmit,
 			project,
+			getRowFiles,
+			onGetTableData,
+			getRowFilesList,
 			getExpertList,
 			getNumber,
 			GetSignUpList,

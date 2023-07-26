@@ -288,7 +288,7 @@
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12" :offset="1"
 							><el-form-item label="采购控制价(万元)：" prop="PurchasePrice"
-								><el-input-number v-model="jjForm.PurchasePrice" :min="0" controls-position="right" :precision="2" /> </el-form-item
+								><el-input-number v-model="ruleForm.PurchasePrice" :min="0" controls-position="right" :precision="2" /> </el-form-item
 						></el-col>
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12" :offset="1"
 							><el-form-item label="价格评审得分策略：">

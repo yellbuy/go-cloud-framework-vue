@@ -45,7 +45,6 @@
 						<template #default="scope">
 							<span v-if="scope.row.LineState == 0">已报名</span>
 							<span v-else-if="scope.row.LineState == 1">已付款</span>
-							<span v-else-if="scope.row.LineState == 2">已报价</span>
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
@@ -56,15 +55,9 @@
 								</el-icon>
 								&#8197;{{ $t('message.action.see') }}
 							</el-button>
-							<el-button
-								text
-								bg
-								type="primary"
-								v-if="isSignUpTime(scope.row)"
-								@click="onToSignUp(scope.row.ProjectId, scope.row.CompanyId)"
-								v-auth:[moduleKey]="'btn.quoted'"
-								>{{ $t('message.action.quotedPrice') }}</el-button
-							>
+							<el-button text bg type="primary" @click="onToSignUp(scope.row.ProjectId, scope.row.CompanyId)" v-auth:[moduleKey]="'btn.quoted'">{{
+								$t('message.action.quotedPrice')
+							}}</el-button>
 						</template>
 					</el-table-column>
 				</el-table>

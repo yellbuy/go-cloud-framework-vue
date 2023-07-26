@@ -1,6 +1,6 @@
 <template>
 	<div class="base-role-container">
-		<el-button type="primary" @click="isShowDialog = true">
+		<el-button type="primary" @click="isShowDialog = true" v-if="state">
 			<el-icon>
 				<CirclePlusFilled />
 			</el-icon>
@@ -10,7 +10,7 @@
 			:data="tableData.data"
 			v-loading="tableData.loading"
 			style="width: 100%"
-			:height="proxy.$calcMainHeight(-75)"
+			:height="proxy.$calcMainHeight(-275)"
 			border
 			stripe
 			highlight-current-row
@@ -27,7 +27,7 @@
 					{{ scope.row.User.Name }}
 				</template>
 			</el-table-column>
-			<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
+			<el-table-column v-if="state" :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 				<template #default="scope">
 					<el-button text bg type="danger" @click="onModelDel(scope.$index)">
 						<el-icon>
@@ -69,6 +69,7 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
 import project from '/@/api/erp/project';
 import { useI18n } from 'vue-i18n';
+import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'expertEdit',
 	setup() {
@@ -88,6 +89,7 @@ export default {
 				Roles: 0,
 				NameId: '',
 			},
+			state: true,
 		});
 		const rules = reactive({
 			isShowDialog: false,
@@ -118,6 +120,10 @@ export default {
 			}
 		};
 		const getExpertList = async (isState: boolean) => {
+			state.state = false;
+			if (store.state.project.project.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && store.state.project.project.State == 0) {
+				state.state = true;
+			}
 			state.tableData.loading = true;
 			try {
 				if (isState) {
@@ -219,6 +225,7 @@ export default {
 				return false;
 			});
 		};
+		const { dateFormat } = commonFunction();
 		// 页面加载时
 		onMounted(() => {
 			getVipList();
@@ -232,6 +239,7 @@ export default {
 			closeDialog,
 			getAjaxData,
 			getVipList,
+			dateFormat,
 			getExpertList,
 			onModelDel,
 			...toRefs(state),

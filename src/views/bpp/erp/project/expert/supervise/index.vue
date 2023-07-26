@@ -65,8 +65,7 @@
 								</el-icon>
 								&#8197;{{ $t('message.action.see') }}
 							</el-button>
-							<!-- v-if="isTime(scope.row)" -->
-							<el-button text bg type="primary" @click="onToRouter(scope.row.Id)" v-auth:[moduleKey]="'btn.Supervise'">
+							<el-button text bg type="primary" v-if="isTime(scope.row)" @click="onToRouter(scope.row.Id)" v-auth:[moduleKey]="'btn.Supervise'">
 								{{ $t('message.action.supervise') }}
 							</el-button>
 						</template>
@@ -88,7 +87,7 @@
 			</el-card>
 			<seeDlg ref="seeDlgRef" />
 		</div>
-		<superviseDlg ref="superviseDlgRef" />
+		<superviseDlg ref="superviseDlgRef" @getTableData="onGetTableData()" />
 	</div>
 </template>
 
@@ -204,7 +203,7 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
-			onGetTableData();
+			onGetTableData(true);
 		});
 
 		const { dateFormatYMDHM, dateFormat } = commonFunction();

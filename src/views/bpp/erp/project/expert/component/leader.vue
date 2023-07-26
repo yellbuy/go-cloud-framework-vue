@@ -25,7 +25,7 @@
 					<span v-else>组长</span>
 				</template>
 			</el-table-column>
-			<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" fixed="right">
+			<el-table-column v-if="isState" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" fixed="right">
 				<template #default="scope">
 					<el-button text bg type="primary" @click="onLeader(scope.row)"> 推荐组长 </el-button>
 				</template>
@@ -54,13 +54,15 @@ export default {
 				total: 0,
 				loading: false,
 			},
+			isState: false,
 			ruleForm: {
 				Roles: 0,
 				NameId: '',
 			},
 			kind: 'leader',
 		});
-		const getExpertList = async () => {
+		const getExpertList = async (isState: boolean) => {
+			state.isState = isState;
 			state.tableData.loading = true;
 			try {
 				const res = await proxy.$api.erp.projectreview.expertList(store.state.project.projectId, { kind: state.kind });
@@ -81,7 +83,7 @@ export default {
 					const res = await proxy.$api.erp.projectreview.expertLeader(store.state.project.projectId, row);
 					if (res.errcode == 0) {
 						ElMessage.success('操作成功');
-						getExpertList();
+						getExpertList(state.isState);
 					}
 				} finally {
 				}
@@ -90,7 +92,7 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
-			getExpertList();
+			getExpertList(state.isState);
 		});
 
 		return {

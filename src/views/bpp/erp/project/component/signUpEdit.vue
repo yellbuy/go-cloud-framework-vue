@@ -112,6 +112,7 @@
 								:max="ruleForm.PurchasePrice"
 								controls-position="right"
 								:precision="2"
+								:disabled="isTimeShow(ruleForm.FinishTime, new Date()) ? false : true"
 							/>
 							<el-button
 								style="margin-left: 10px"
@@ -130,7 +131,7 @@
 							>万元,当前公司报价<span style="color: #19d319">{{ projectCompany.QuotedPrice }}</span
 							>万元
 						</p>
-						<view style="float: right">
+						<view style="float: right" v-if="isTimeShow(ruleForm.FinishTime, new Date())">
 							<el-button style="margin-left: 10px" type="primary" @click="onSubmit(false, qualifications)">{{ $t('message.action.save') }}</el-button>
 							<el-button type="primary" @click="onSubmit(true, qualifications)">{{ $t('message.action.submit') }}</el-button>
 							<el-button text bg type="primary" @click="tableDataAdd">{{ $t('message.action.add') }} </el-button>
@@ -169,7 +170,12 @@
 									<span v-if="isTimeShow(new Date(), ruleForm.FinishTime)">{{ scope.row.Remark }}</span>
 								</template>
 							</el-table-column>
-							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(190)" fixed="right">
+							<el-table-column
+								v-if="isTimeShow(ruleForm.FinishTime, new Date())"
+								:label="$t('message.action.operate')"
+								:width="proxy.$calcWidth(190)"
+								fixed="right"
+							>
 								<template #default="scope">
 									<div style="display: flex">
 										<el-upload
@@ -187,7 +193,7 @@
 													<el-icon>
 														<Upload />
 													</el-icon>
-													&#8197;{{ $t('message.action.uploadPhotocopy') }}
+													&#8197;{{ $t('message.action.upload') }}
 												</el-button>
 											</template>
 										</el-upload>
@@ -321,6 +327,12 @@ export default {
 		});
 		const { dateFormat } = commonFunction();
 		const GetByIdRow = async () => {
+			state.tenderCertificate = {}; //标书
+			state.bondCertificate = {}; //保证金
+			state.quotationCertificate = {}; //报价
+			state.FilesList = [];
+			state.tableData.data = [];
+			state.imgList = [];
 			let Id = store.state.project.projectId;
 			let companyId = store.state.project.projectCompanyId;
 			state.isSelection = true;
@@ -349,6 +361,7 @@ export default {
 		const getTimeList = (data: Array) => {
 			//处理2个 ， 一个是标书费用 一个是招标保证金
 			state.tableData.data = [];
+			console.log(data);
 			if (data) {
 				for (let item of data) {
 					if (item.Kind == state.tender) {
@@ -406,6 +419,7 @@ export default {
 					PurchasePrice: 0,
 				};
 			}
+			console.log('保证金', state.bondCertificate);
 		};
 		const isTimeShow = (firstTime: any, lastTime: any) => {
 			let isTime = false;
@@ -487,7 +501,7 @@ export default {
 							data.push(model);
 						} else if (mode == state.bond) {
 							model = JSON.parse(JSON.stringify(state.bondCertificate));
-							model.Files = state.tenderImgurl;
+							model.Files = state.bondImgurl;
 							model.State = 1;
 							model.AuditState = 0;
 							data.push(model);
@@ -531,7 +545,7 @@ export default {
 						data.push(model);
 					} else if (mode == state.bond) {
 						model = JSON.parse(JSON.stringify(state.bondCertificate));
-						model.Files = state.tenderImgurl;
+						model.Files = state.bondImgurl;
 						model.State = 0;
 						model.AuditState = 0;
 						data.push(model);
