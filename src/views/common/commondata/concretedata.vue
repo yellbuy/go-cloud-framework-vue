@@ -107,10 +107,10 @@
 </template>
 
 <script lang="ts">
+import type { TabsPaneContext } from 'element-plus';
 import { ElMessageBox } from 'element-plus';
 import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import concreteDataEdit from './component/concreteDataEdit.vue';
-import type { TabsPaneContext } from 'element-plus';
 export default {
 	name: 'commonConcreteData',
 	components: { concreteDataEdit },
@@ -165,7 +165,7 @@ export default {
 		const onOpenCommonDataDlg = (row?: object) => {
 			let data = row;
 			if (!data) {
-				data = { Type: state.activeName, Status: 1, Order: 100 };
+				data = { Type: state.activeName||state.commonTypeCode, Status: 1, Order: 100 };
 			} else {
 				data = proxy.$utils.copyObj(row);
 			}
