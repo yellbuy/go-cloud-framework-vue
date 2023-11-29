@@ -7,7 +7,9 @@ let appid = "158625451365892097" //赋能终端
 
 // let appid = "168763157232222209"//招采系统
 let appPermissionKey = "ybcloudapi"
-if (appid == "168763157232222209") {
+if (appid == "30") {
+	appPermissionKey = "mcs"
+} else if (appid == "168763157232222209") {
 	appPermissionKey = "bpp"
 } else if (appid == "158625451365892097") {
 	appPermissionKey = "ims"
@@ -242,7 +244,7 @@ const http = {
 	}
 }
 
-export { service as request, http, appid, appPermissionKey, setAppid };
+export { appPermissionKey, appid, http, service as request, setAppid };
 
 // 导出 axios 实例
 export default service;
