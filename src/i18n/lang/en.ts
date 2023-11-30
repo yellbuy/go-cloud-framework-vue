@@ -79,7 +79,7 @@ export default {
 		tools: 'tools',
 		layoutLinkView: 'LinkView',
 		layoutIfameView: 'IfameView',
-		profile: 'Personal Center'
+		profile: 'Personal Center',
 	},
 	staticRoutes: {
 		signIn: 'signIn',
