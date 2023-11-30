@@ -50,7 +50,7 @@
 							v-auth:[moduleKey]="'btn.Edit'"
 							@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
 							:active-text="$t('message.action.yes')"
-							:inactive-text="$t('message.action.not')"
+							:inactive-text="$t('message.action.no')"
 							:active-value="1"
 							:inactive-value="0"
 						/>
@@ -58,9 +58,9 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>
-				<el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
 				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
 				
 				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column>

@@ -4,3 +4,6 @@ declare module '*.jpg';
 declare module '*.scss';
 declare module '*.ts';
 declare module '*.js';
+declare module '@vitejs/plugin-vue'
+declare module '@vitejs/plugin-vue-jsx'
+declare module 'nprogress'

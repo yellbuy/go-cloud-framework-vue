@@ -13,7 +13,7 @@ import nextZhtw from '/@/i18n/lang/zh-tw';
 import { store } from '/@/store/index';
 
 //自动导入pages文件夹下的本地化文件
-const files = import.meta.globEager('./pages/**/*.ts')
+const files = import.meta.glob('./pages/**/*.ts',{ eager: true })
 
 const localeMessages = Object.keys(files).reduce(
   (localeMessages: { [key: string]: any }, path: string) => {
@@ -45,6 +45,7 @@ const localeMessages = Object.keys(files).reduce(
 		//进行语言包合并
 		localeMessages[localName]=Object.assign(localeMessages[localName],func);
 	}
+	//console.log("localeMessages:",localeMessages)
     return localeMessages
   },
   {}

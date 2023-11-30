@@ -1,4 +1,4 @@
-const files = import.meta.globEager('./**/*.ts')
+const files = import.meta.glob('./**/*.ts',{ eager: true })
  
 const api = Object.keys(files).reduce(
   (api: { [key: string]: any }, path: string) => {
