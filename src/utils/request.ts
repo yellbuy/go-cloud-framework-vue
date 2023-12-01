@@ -31,13 +31,15 @@ const setAppid = (newAppid: string = "0") => {
 axios.defaults.retry = 3;
 axios.defaults.retryDelay = 10000;
 
+const authorizationKey="Authorization" //header头Token的键名
+
 // 添加请求拦截器
 service.interceptors.request.use(
 	(config) => {
 		// 在发送请求之前做些什么 token
 		const token = Session.get('token');
 		if (token) {
-			config.headers.set('Authorization', token);
+			config.headers.set(authorizationKey, token);
 
 			// const tokenExpiresAt=new Date(Session.get('expiresAt'));
 			// 	const refreshTokenAt=new Date(Session.get('refreshTokenAt'));
@@ -68,9 +70,11 @@ service.interceptors.response.use(
 		if (response.config.responseType == "blob") {
 			return Promise.resolve({ errcode: 0, errmsg: "", data: response.data })
 		}
+		
 		// 对响应数据做点什么
 		const res = response.data;
-		//console.debug("response:",res);
+		
+		//console.debug("response:",response);
 		if (res.errcode && res.errcode !== 0) {
 
 			// `token` 过期或者账号已在别处登录
@@ -94,6 +98,12 @@ service.interceptors.response.use(
 			}
 			//return Promise.reject(service.interceptors.response);
 		} else {
+			if(response.headers){
+				const token=response.headers[authorizationKey.toLocaleLowerCase()];
+				if(token){
+					Session.set('token', token);
+				}				
+			}
 			//return Promise.resolve(res)
 		}
 		return Promise.resolve(res)
@@ -163,6 +173,7 @@ const _request = (config: RequestConfig) => {
 		service({
 			...config
 		}).then((response) => {
+			console.debug("response:",response);
 			const res: RequestResponse = { errcode: response.errcode, errmsg: response.errmsg, data: response.data, total: response.total }
 
 			if (res.errcode != 0 && res.errcode != 100001 && res.errcode != 100002 && config.notifyError) {
