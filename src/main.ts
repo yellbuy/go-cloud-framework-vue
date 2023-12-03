@@ -37,7 +37,7 @@ formControls.install(app);
 app
 	.use(router)
 	.use(store, key)
-	.use(ElementPlus, { i18n: i18n.global.t, size: other.globalComponentSize })
+	.use(ElementPlus)
 	.use(i18n)
 	.use(VueUeditorWrap)
 	.use(screenShort, { enableWebRtc: false })

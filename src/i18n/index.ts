@@ -93,6 +93,7 @@ const messages = {
 
 // 导出语言国际化
 export const i18n = createI18n({
+	legacy:false,
 	locale: store.state.themeConfig.themeConfig.globalI18n,
 	fallbackLocale: zhcnLocale.name,
 	allowComposition:true,

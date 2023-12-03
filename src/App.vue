@@ -8,15 +8,18 @@
 </template>
 
 <script lang="ts">
-import { computed, ref, getCurrentInstance, onBeforeMount, onMounted, onUnmounted, nextTick, defineComponent, watch, reactive, toRefs } from 'vue';
+import en from 'element-plus/dist/locale/en.mjs';
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
+import zhTw from 'element-plus/dist/locale/zh-tw.mjs';
+import { computed, defineComponent, getCurrentInstance, nextTick, onBeforeMount, onMounted, onUnmounted, reactive, ref, toRefs, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import LockScreen from '/@/layout/lockScreen/index.vue';
+import CloseFull from '/@/layout/navBars/breadcrumb/closeFull.vue';
+import Setings from '/@/layout/navBars/breadcrumb/setings.vue';
 import { useStore } from '/@/store/index';
 import other from '/@/utils/other';
-import { Local, Session } from '/@/utils/storage';
 import setIntroduction from '/@/utils/setIconfont';
-import LockScreen from '/@/layout/lockScreen/index.vue';
-import Setings from '/@/layout/navBars/breadcrumb/setings.vue';
-import CloseFull from '/@/layout/navBars/breadcrumb/closeFull.vue';
+import { Local, Session } from '/@/utils/storage';
 export default defineComponent({
 	name: 'app',
 	components: { LockScreen, Setings, CloseFull },
@@ -26,7 +29,7 @@ export default defineComponent({
 		const route = useRoute();
 		const store = useStore();
 		const state = reactive({
-			i18nLocale: null,
+			i18nLocale: zhCn,
 		});
 		const messageConfig = reactive({
 			max: 6,
@@ -55,7 +58,16 @@ export default defineComponent({
 				});
 				// 设置 i18n，App.vue 中的 el-config-provider
 				proxy.mittBus.on('getI18nConfig', (locale: string) => {
-					state.i18nLocale = locale;
+					console.log("locale:",locale)
+					//state.i18nLocale=locale
+					if(locale=="en"){
+						state.i18nLocale=en;
+					}else if (locale=="zh-tw"){
+						state.i18nLocale=zhTw;
+					}else{
+						state.i18nLocale=zhCn;
+					}
+					
 				});
 				// 获取缓存中的布局配置
 				if (Local.get('themeConfig')) {
