@@ -242,7 +242,7 @@ export default {
 			VehicleNumber: [
 				{
 					required: true,
-					message: t('message.validRule.required'),
+					message: computed(()=>t('message.validRule.required')),
 					trigger: 'blur',
 				},
 			],
