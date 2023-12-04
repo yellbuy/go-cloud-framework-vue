@@ -2,6 +2,7 @@
 export default {
 	router: {
 		vehicle: 'vehicle',
+		driver: 'driver',
 		customer: 'customer',
 		project: 'project',
 	},
