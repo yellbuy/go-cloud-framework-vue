@@ -5,6 +5,9 @@ export default {
 		driver: 'driver',
 		customer: 'customer',
 		project: 'project',
+		repair:'vehicle repair',
+		repair_reception:'repair reception',
+		repair_sheet:'repair sheet',
 	},
 	field:{
 		
