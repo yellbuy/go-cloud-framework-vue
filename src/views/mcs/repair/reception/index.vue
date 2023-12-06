@@ -39,10 +39,14 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="BillNo" label="流水号" width="90" fixed></el-table-column>
+				<el-table-column prop="BillNo" label="流水号" width="110" fixed></el-table-column>
 				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
-				<el-table-column prop="StartTime" label="进厂时间" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="EndTime" label="完成时间" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="EndTime" label="完成时间" :formatter="dateFormatYMDHM" width="120" show-overflow-tooltip>
+					<!-- <template #default="scope">
+						<span v-if="scope.row.EndTime > '1990-01-01'">{{ scope.row.EndTime }}</span>
+					</template> -->
+				</el-table-column>
 				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Brand" label="车辆品牌" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="TruckType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
