@@ -118,11 +118,11 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from './component/vehicleEdit.vue';
+import editDlg from './component/sheetEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'vehicleInfo',
+	name: 'repairSheetList',
 	components: { editDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -145,7 +145,7 @@ export default {
 					keyword: '',
 					pageNum: 1,
 					pageSize: 20,
-					state: -1,
+					state: 1, //已维修
 				},
 			},
 		});

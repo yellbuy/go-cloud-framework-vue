@@ -11,6 +11,10 @@ export default {
 	},
 	field:{
 		
+	},
+	action: {
+		not_billing:"not billing",
+		has_billed:"has billed",
 	}
 	
 	

@@ -11,6 +11,10 @@ export default {
 	},
 	field: {
 
+	},
+	action: {
+		not_billing:"未开单",
+		has_billed:"已开单",
 	}
 
 

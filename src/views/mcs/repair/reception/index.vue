@@ -39,9 +39,15 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
+				<el-table-column prop="BillNo" label="流水号" width="90" fixed></el-table-column>
 				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
-				<el-table-column prop="VehicleType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column label="外部车" width="70" show-overflow-tooltip>
+				<el-table-column prop="StartTime" label="进厂时间" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="EndTime" label="完成时间" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Brand" label="车辆品牌" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="TruckType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
+				<!-- <el-table-column label="外部车" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.IsExternal"
@@ -57,14 +63,11 @@
 						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
 				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
 				
-				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column label="状态" width="70" show-overflow-tooltip>
+				<el-table-column label="是否开单" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
@@ -72,8 +75,8 @@
 							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"
 							@change="proxy.$api.common.table.updateById('erp_vehicle', 'state', scope.row.Id, scope.row.State)"
-							:active-text="$t('message.action.enable')"
-							:inactive-text="$t('message.action.disable')"
+							:active-text="$t('pages.mcs.action.has_billed')"
+							:inactive-text="$t('pages.mcs.action.not_billing')"
 							:active-value="1"
 							:inactive-value="0"
 						/>
@@ -118,11 +121,11 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from './component/vehicleEdit.vue';
+import editDlg from './component/receptionEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'vehicleInfo',
+	name: 'repairReceptionList',
 	components: { editDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -145,7 +148,7 @@ export default {
 					keyword: '',
 					pageNum: 1,
 					pageSize: 20,
-					state: -1,
+					state: -1, //所有数据，未维修和已维修
 				},
 			},
 		});
