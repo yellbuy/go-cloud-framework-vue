@@ -10,117 +10,87 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						
-						<el-form-item label="车辆类别" prop="IsExternal">
-							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.IsExternal">
-								<el-radio :label="0">内部车</el-radio>
-								<el-radio :label="1">外部车</el-radio>
-							</el-radio-group>
-							</div>
-							
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="车辆类型" prop="VehicleType">
 							<el-select v-model="ruleForm.VehicleType" placeholder="请选择">
-								<el-option v-for="item in truckTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+								<el-option v-for="item in vehicleTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="动力类型" prop="VehicleType">
-							<el-select v-model="ruleForm.EnergyType" placeholder="请选择">
-								<el-option v-for="item in energyTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+						<el-form-item label="品牌" prop="Brand">
+							<el-select v-model="ruleForm.Brand" filterable placeholder="请选择">
+								<el-option v-for="item in brandList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆识别号" prop="Vin">
-							<el-input v-model="ruleForm.Vin" placeholder="车牌号码"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发动机号" prop="EngineNumber">
-							<el-input v-model="ruleForm.EngineNumber" placeholder="车牌号码"></el-input> 
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-divider content-position="left">行驶证信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="行驶证" prop="DrivingLicense">
-							<el-input v-model="ruleForm.DrivingLicense" placeholder="行驶证号"></el-input> 
-						</el-form-item>
-					</el-col>
-					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="生效日期" prop="DrivingLicenseStartDate" required>
-							<el-date-picker
-								v-model="ruleForm.DrivingLicenseStartDate"
-								type="date"
-								placeholder="生效日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="至" prop="DrivingLicenseEndDate"  required>
-							<el-date-picker
-										v-model="ruleForm.DrivingLicenseEndDate"
-										type="date"
-										placeholder="到期日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="登记日期" prop="RegistrationDate" required>
-							<el-date-picker
-								v-model="ruleForm.RegistrationDate"
-								type="date"
-								placeholder="登记日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					
-				</el-row>
-				<el-divider content-position="left">道路运输证信息*</el-divider>
-				<el-row :gutter="20">	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="道路运输证" prop="TransportLicense">
-							<el-input v-model="ruleForm.TransportLicense" placeholder="道路运输许可证号"></el-input> 
-						</el-form-item>
-					</el-col>				
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="生效日期" prop="TransportLicenseStartDate" required>
-							<el-date-picker
-								v-model="ruleForm.TransportLicenseStartDate"
-								type="date"
-								placeholder="生效日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="至" prop="TransportLicenseEndDate"  required>
-							<el-date-picker
-										v-model="ruleForm.TransportLicenseEndDate"
-										type="date"
-										placeholder="到期日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-divider content-position="left">联系人信息*</el-divider>
-				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="联系人" prop="Linkman"> <el-input v-model="ruleForm.Linkman" placeholder="联系人"></el-input> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="电话" prop="Phone"> <el-input v-model="ruleForm.Phone" placeholder="电话"></el-input> </el-form-item></el-col>
+						<el-form-item label="电话" prop="Phone"> <el-input v-model="ruleForm.Phone" placeholder="电话"></el-input> </el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="公里数" prop="Mileage">
+							<el-input-number :min="0" v-model="ruleForm.Mileage" placeholder="公里数"></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="客户名称" prop="CompanyName">
+							<el-input v-model="ruleForm.CompanyName" placeholder="客户名称"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="到厂时间" prop="StartTime" required>
+							<el-date-picker
+								v-model="ruleForm.StartTime"
+								type="datetime"
+								placeholder="到厂时间"
+								format="YYYY-MM-DD HH:mm"
+							></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="出厂时间" prop="EndTime">
+							<el-date-picker
+								v-model="ruleForm.EndTime"
+								type="datetime"
+								placeholder="出厂时间"
+								format="YYYY-MM-DD HH:mm"
+							></el-date-picker>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="外观缺陷" prop="SurfaceFault" >
+							<el-input
+								v-model="ruleForm.SurfaceFault"
+								:rows="2"
+								type="textarea"
+								placeholder="请输入"
+							/>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">		
+						<el-form-item label="故障描述" prop="FaultRemark" >
+							<el-input
+							v-model="ruleForm.FaultRemark"
+							:rows="2"
+							type="textarea"
+							placeholder="请输入"
+						/>
+					</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="备注" prop="Remark" >
+							<el-input
+							v-model="ruleForm.Remark"
+							:rows="2"
+							type="textarea"
+							placeholder="请输入"
+						/>
+						</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -207,7 +177,7 @@ export default {
 				IsExternal:0,
 				VehicleType: '',
 				EnergyType: '',
-				Vin: '',
+				Mileage: 0,
 				EngineNumber: '',
 				Linkman: '',
 				BusinessScope: '',
@@ -227,8 +197,8 @@ export default {
 				Kind: 'info',
 			},
 			dialogVisible: false,
-			truckTypeList: [],
-			energyTypeList:[],
+			vehicleTypeList: [],
+			brandList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -246,28 +216,28 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			RegistrationDate: [
+			Linkman: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			DrivingLicenseStartDate: [
+			Phone: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			DrivingLicenseEndDate: [
+			Mileage: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			TransportLicenseStartDate: [
+			StartTime: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -292,19 +262,19 @@ export default {
 			try {
 				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
 				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
+					state.vehicleTypeList = resTruckTypes.data;
 				}else{
 					console.log("error:",resTruckTypes.errmsg)
 				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
+				const resBrands = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_brand', 0, 2);
+				if (resBrands.errcode == 0) {
+					state.brandList = resBrands.data;
 				}else{
-					console.log("error:",resEnergyTypes.errmsg)
+					console.log("error:",resBrands.errmsg)
 				}
 				state.disable = disable;
 				if (id && id != '0') {
-					GetByIdRow(id);
+					getByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
@@ -316,11 +286,14 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		const GetByIdRow = async (Id: string) => {
+		const getByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.vehicle.getById(Id);
 				if (res.errcode != 0) {
 					return;
+				}
+				if(res.data.EndTime < '2000-01-01'){
+					res.data.EndTime='';
 				}
 				state.ruleForm = res.data;
 			} finally {
@@ -410,7 +383,7 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
-			GetByIdRow,
+			getByIdRow,
 			onSuccessFile,
 			onRemove,
 			onBeforeImageUpload,
