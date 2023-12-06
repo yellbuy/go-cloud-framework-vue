@@ -6,6 +6,9 @@ import mitt from 'mitt';
 import VueGridLayout from 'vue-grid-layout';
 import VueUeditorWrap from 'vue-ueditor-wrap';
 import screenShort from 'vue-web-screen-shot';
+// import VXETablePluginElement from 'vxe-table-plugin-element';
+// import 'vxe-table-plugin-element/dist/style.css';
+// import 'vxe-table/lib/style.css';
 import App from './App.vue';
 import router from './router';
 import { key, store } from './store';
@@ -13,6 +16,14 @@ import { i18n } from '/@/i18n/index';
 import '/@/theme/index.scss';
 import { directive } from '/@/utils/directive';
 import other from '/@/utils/other';
+//VXETable.use(VXETablePluginElement)
+
+// VXETable.config({
+// 	// 对组件内置的提示语进行国际化翻译
+// 	i18n: (key, args) => i18n.global.t(key, args)
+//   })
+
+  //Vue.use(VXETable)
 // import '/@/views/meta/components/DynamicForm/styles/index.styl';
 
 import api from '/@/api';
@@ -26,6 +37,7 @@ import { NextLoading } from '/@/utils/loading';
 import { http } from '/@/utils/request';
 
 const app = createApp(App);
+
 //全局代码错误捕捉
 app.config.errorHandler = errorHandler
 
@@ -33,6 +45,7 @@ directive(app);
 other.elSvg(app);
 other.metaSvg(app);
 formControls.install(app);
+
 
 app
 	.use(router)
@@ -42,6 +55,7 @@ app
 	.use(VueUeditorWrap)
 	.use(screenShort, { enableWebRtc: false })
 	.use(VueGridLayout)
+	//.use(VXETable)
 	.mount('#app');
 	
 app.config.globalProperties.mittBus = mitt();

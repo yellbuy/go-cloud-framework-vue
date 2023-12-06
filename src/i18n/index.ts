@@ -2,6 +2,9 @@ import enLocale from 'element-plus/es/locale/lang/en';
 import zhcnLocale from 'element-plus/es/locale/lang/zh-cn';
 import zhtwLocale from 'element-plus/es/locale/lang/zh-tw';
 import { createI18n } from 'vue-i18n';
+// import enUSTableLocale from 'vxe-table/lib/locale/lang/en-US';
+// import zhCNTableLocale from 'vxe-table/lib/locale/lang/zh-CN';
+// import zhTWTableLocale from 'vxe-table/lib/locale/lang/zh-TW';
 import pagesFormI18nEn from './formI18n/en';
 import pagesFormI18nZhcn from './formI18n/zh-cn';
 import pagesFormI18nZhtw from './formI18n/zh-tw';
@@ -59,6 +62,7 @@ const localeMessages = Object.keys(files).reduce(
 const messages = {
 	[zhcnLocale.name]: {
 		...zhcnLocale,
+		//...zhCNTableLocale,
 		message: {
 			...nextZhcn,
 			...pagesFormI18nZhcn,
@@ -69,6 +73,7 @@ const messages = {
 	},
 	[enLocale.name]: {
 		...enLocale,
+		//...enUSTableLocale,
 		message: {
 			...nextEn,
 			...pagesFormI18nEn,
@@ -80,6 +85,7 @@ const messages = {
 	},
 	[zhtwLocale.name]: {
 		...zhtwLocale,
+		//...zhTWTableLocale,
 		message: {
 			...nextZhtw,
 			...pagesFormI18nZhtw,
