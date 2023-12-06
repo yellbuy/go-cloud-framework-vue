@@ -29,7 +29,14 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="动力类型" prop="VehicleType">
+						<el-form-item label="车牌颜色" prop="PlateColor">
+							<el-select v-model="ruleForm.PlateColor" placeholder="请选择">
+								<el-option v-for="item in plateColorList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="动力类型" prop="EnergyType">
 							<el-select v-model="ruleForm.EnergyType" placeholder="请选择">
 								<el-option v-for="item in energyTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
 							</el-select>
@@ -132,7 +139,6 @@
 				</span>
 			</template>
 		</el-dialog>
-		
 	</div>
 </template>
 
@@ -228,6 +234,7 @@ export default {
 			},
 			dialogVisible: false,
 			truckTypeList: [],
+			plateColorList:[],
 			energyTypeList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
@@ -295,6 +302,12 @@ export default {
 					state.truckTypeList = resTruckTypes.data;
 				}else{
 					console.log("error:",resTruckTypes.errmsg)
+				}
+				const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
+				if (resPlateColors.errcode == 0) {
+					state.plateColorList = resPlateColors.data;
+				}else{
+					console.log("error:",resPlateColors.errmsg)
 				}
 				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
 				if (resEnergyTypes.errcode == 0) {
