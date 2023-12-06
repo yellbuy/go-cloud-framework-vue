@@ -2,10 +2,13 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import { v4 } from 'uuid';
 import { Session } from '/@/utils/storage';
-let appid = "158625451365892097" //赋能终端
+// let appid = "158625451365892097" //赋能终端
 // let appid = "177152369044226049" //特查查
 
 // let appid = "168763157232222209"//招采系统
+
+let appid = "30"//汉风物流
+
 let appPermissionKey = "ybcloudapi"
 if (appid == "30") {
 	appPermissionKey = "mcs"
