@@ -15,29 +15,6 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="标记" prop="Tag">
-							<el-input v-model="ruleForm.Tag" placeholder="标记"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="身份证照片" prop="Idno">
-							<el-input v-model="ruleForm.IdnoPics" placeholder="身份证照片"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="拼音" prop="Pinyin">
-							<el-input v-model="ruleForm.Pinyin" placeholder="拼音"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="昵称" prop="Nickname">
-							<el-input v-model="ruleForm.Nickname" placeholder="昵称"></el-input> 
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-divider content-position="left">行驶证信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="民族" prop="Nation">
 							<el-input v-model="ruleForm.Nation" placeholder="民族"></el-input> 
 						</el-form-item>
@@ -57,6 +34,38 @@
 							></el-date-picker>
 						</el-form-item>
 					</el-col>
+					
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="身份证" prop="Idno">
+							<el-input v-model="ruleForm.Idno" placeholder="身份证号"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="至" prop="IdnoEndDate"  required>
+							<el-date-picker
+										v-model="ruleForm.IdnoEndDate"
+										type="date"
+										placeholder="身份证有效截止日期"
+										format="YYYY-MM-DD"
+									></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						
+						<el-form-item label="性别" prop="Gender">
+							<div mb-2 flex items-center>
+								<el-radio-group v-model="ruleForm.Gender">
+								<el-radio :label="1">男</el-radio>
+								<el-radio :label="2">女</el-radio>
+							</el-radio-group>
+							</div>
+							
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-divider content-position="left">行驶证信息*</el-divider>
+				<el-row :gutter="20">
+					
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="驾照登记日期" prop="RegistrationDate"  required>
 							<el-date-picker
@@ -68,26 +77,8 @@
 						</el-form-item>
 					</el-col>
 					
-				</el-row>
-				<el-divider content-position="left">道路运输证信息*</el-divider>
-				<el-row :gutter="20">	
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="电话" prop="Tel">
-							<el-input v-model="ruleForm.Tel" placeholder="座机号码"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="手机" prop="Mobile">
-							<el-input v-model="ruleForm.Mobile" placeholder="手机号码"></el-input> 
-						</el-form-item>
-					</el-col>	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="邮箱" prop="Email">
-							<el-input v-model="ruleForm.Email" placeholder="电子邮箱"></el-input> 
-						</el-form-item>
-					</el-col>			
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="驾照有效开始日期" prop="DriverLicenseStartDate" required>
+						<el-form-item label="驾照有效期" prop="DriverLicenseStartDate" required>
 							<el-date-picker
 								v-model="ruleForm.DriverLicenseStartDate"
 								type="date"
@@ -97,7 +88,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="驾照有效截止日期" prop="DriverLicenseEndDate"  required>
+						<el-form-item label="至" prop="DriverLicenseEndDate"  required>
 							<el-date-picker
 										v-model="ruleForm.DriverLicenseEndDate"
 										type="date"
@@ -105,7 +96,37 @@
 										format="YYYY-MM-DD"
 									></el-date-picker>
 						</el-form-item>
+					</el-col>				
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="驾照" prop="DriverLicense">
+							<el-input v-model="ruleForm.DriverLicense" placeholder="驾照号码"></el-input> 
+						</el-form-item>
+					</el-col>	
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="准驾车型" prop="DriverLicenseType">
+							<el-input v-model="ruleForm.DriverLicenseType" placeholder="准驾车型"></el-input> 
+						</el-form-item>
+					</el-col>	
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="发证机关" prop="DriverLicenseBy">
+							<el-input v-model="ruleForm.DriverLicenseBy" placeholder="发证机关"></el-input> 
+						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="驾照图片" prop="DriverLicensePics">
+							<el-input v-model="ruleForm.DriverLicensePics" placeholder="驾照图片"></el-input> 
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-divider content-position="left">联系人信息*</el-divider>
+				<el-row :gutter="20">	
+				
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="手机" prop="Mobile">
+							<el-input v-model="ruleForm.Mobile" placeholder="手机号码"></el-input> 
+						</el-form-item>
+					</el-col>	
+					
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -190,21 +211,23 @@ export default {
 				Kind: 'info',
 				Code: '',
 				IsExternal:0,
-				Tag: '',
 				Idno: '',
 				IdnoPics: '',
-				Pinyin: '',
-				Nickname: '',
-				Nation: '',
+				IdnoEndDate : '',			
+				Gender: '',
 				State: 1,
 				NativePlace: '',
 				Birthdate:'',
-				RegistrationDate:'',
-				Tel: '',
+				RegistrationDate:'',				
 				Mobile: '',
-				Email: '',
+				Nation: '',
 				DriverLicenseStartDate: '',
 				DriverLicenseEndDate: '',
+				DriverLicense: '',
+				DriverLicenseType: '',
+				DriverLicenseBy: '',
+				DriverLicensePics: '',
+				Remark: '',
 			},
 			tableItem: {
 				Id: '0',
