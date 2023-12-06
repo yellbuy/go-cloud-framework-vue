@@ -36,6 +36,13 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="车牌颜色" prop="PlateColor">
+							<el-select v-model="ruleForm.PlateColor" placeholder="请选择">
+								<el-option v-for="item in plateColorList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="车辆识别号" prop="Vin">
 							<el-input v-model="ruleForm.Vin" placeholder="车牌号码"></el-input> 
 						</el-form-item>
@@ -207,6 +214,7 @@ export default {
 				IsExternal:0,
 				VehicleType: '',
 				EnergyType: '',
+				PlateColor:'',
 				Vin: '',
 				EngineNumber: '',
 				Linkman: '',
@@ -229,6 +237,7 @@ export default {
 			dialogVisible: false,
 			truckTypeList: [],
 			energyTypeList:[],
+			plateColorList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -301,6 +310,12 @@ export default {
 					state.energyTypeList = resEnergyTypes.data;
 				}else{
 					console.log("error:",resEnergyTypes.errmsg)
+				}
+				const resPlateColorTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
+				if (resPlateColorTypes.errcode == 0) {
+					state.plateColorList = resPlateColorTypes.data;
+				}else{
+					console.log("error:",resPlateColorTypes.errmsg)
 				}
 				state.disable = disable;
 				if (id && id != '0') {
