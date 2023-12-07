@@ -9,31 +9,6 @@
 							<el-input v-model="ruleForm.Name" placeholder="姓名"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">			
-						<el-form-item label="工号" prop="Code">
-							<el-input v-model="ruleForm.Code" placeholder="工号"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="民族" prop="Nation">
-							<el-input v-model="ruleForm.Nation" placeholder="民族"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="籍贯" prop="NativePlace">
-							<el-input v-model="ruleForm.NativePlace" placeholder="籍贯"></el-input> 
-						</el-form-item>
-					</el-col>					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="出生日期" prop="Birthdate" required>
-							<el-date-picker
-								v-model="ruleForm.Birthdate"
-								type="date"
-								placeholder="出生日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
 					
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="身份证" prop="Idno">
@@ -60,6 +35,31 @@
 							</el-radio-group>
 							</div>
 							
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="民族" prop="Nation">
+							<el-input v-model="ruleForm.Nation" placeholder="民族"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="籍贯" prop="NativePlace">
+							<el-input v-model="ruleForm.NativePlace" placeholder="籍贯"></el-input> 
+						</el-form-item>
+					</el-col>					
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="出生日期" prop="Birthdate" required>
+							<el-date-picker
+								v-model="ruleForm.Birthdate"
+								type="date"
+								placeholder="出生日期"
+								format="YYYY-MM-DD"
+							></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="所属公司" prop="Tname">
+							<el-input v-model="ruleForm.Tname" placeholder="所属公司"></el-input> 
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -98,26 +98,11 @@
 						</el-form-item>
 					</el-col>				
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="驾照" prop="DriverLicense">
-							<el-input v-model="ruleForm.DriverLicense" placeholder="驾照号码"></el-input> 
-						</el-form-item>
-					</el-col>	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="准驾车型" prop="DriverLicenseType">
-							<el-input v-model="ruleForm.DriverLicenseType" placeholder="准驾车型"></el-input> 
-						</el-form-item>
-					</el-col>	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发证机关" prop="DriverLicenseBy">
-							<el-input v-model="ruleForm.DriverLicenseBy" placeholder="发证机关"></el-input> 
+						<el-form-item label="驾驶证类型" prop="DriverLicenseType">
+							<el-input v-model="ruleForm.DriverLicenseType" placeholder="驾驶证类型"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="驾照图片" prop="DriverLicensePics">
-							<el-input v-model="ruleForm.DriverLicensePics" placeholder="驾照图片"></el-input> 
-						</el-form-item>
-					</el-col>
-				</el-row>
+				</el-row>	
 				<el-divider content-position="left">联系人信息*</el-divider>
 				<el-row :gutter="20">	
 				
@@ -126,7 +111,11 @@
 							<el-input v-model="ruleForm.Mobile" placeholder="手机号码"></el-input> 
 						</el-form-item>
 					</el-col>	
-					
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="家庭地址" prop="Address">
+							<el-input v-model="ruleForm.Address" placeholder="住址"></el-input> 
+						</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -209,10 +198,8 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'info',
-				Code: '',
 				IsExternal:0,
 				Idno: '',
-				IdnoPics: '',
 				IdnoEndDate : '',			
 				Gender: '',
 				State: 1,
@@ -223,11 +210,9 @@ export default {
 				Nation: '',
 				DriverLicenseStartDate: '',
 				DriverLicenseEndDate: '',
-				DriverLicense: '',
-				DriverLicenseType: '',
-				DriverLicenseBy: '',
-				DriverLicensePics: '',
-				Remark: '',
+				Address: '',
+				Tname:'',
+				DriverLicenseType:'',
 			},
 			tableItem: {
 				Id: '0',
@@ -330,7 +315,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle.getById(Id);
+				const res = await proxy.$api.erp.driver.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -375,6 +360,7 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					//console.log("提交参数",state.ruleForm)
 					try {
 						const res = await proxy.$api.erp.driver.save(state.ruleForm);
 						if (res.errcode == 0) {

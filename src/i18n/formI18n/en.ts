@@ -44,6 +44,8 @@ export default {
 		tempSave:'temp save',
 		operate:'operate',
 		yes:'yes',
+		male:'male',
+		female:'female',
 		no:'no',
 		non:'non',
 		ok:'ok',

@@ -44,6 +44,8 @@ export default {
 		tempSave: '暂存',
 		yes: '是',
 		no: '否',
+		male:'男',
+		female:'女',
 		non: '非',
 		ok: '确定',
 		operate: '操作',
