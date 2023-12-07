@@ -8,6 +8,8 @@ export default {
 		repair:'维修管理',
 		repair_reception:'接车管理',
 		repair_sheet:'维修单管理',
+		repair_project:'项目管理',
+		repair_goods:'配件管理',
 	},
 	field: {
 
