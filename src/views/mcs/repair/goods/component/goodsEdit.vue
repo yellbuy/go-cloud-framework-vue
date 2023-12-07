@@ -2,94 +2,43 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-divider content-position="left">基本信息*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车牌号" prop="VehicleNumber">
-							<el-input v-model="ruleForm.VehicleNumber" placeholder="车牌号码"></el-input> 
+						<el-form-item label="项目名称" prop="Name">
+							<el-input v-model="ruleForm.Name" placeholder="请输入项目名称"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆类型" prop="VehicleType">
-							<el-select v-model="ruleForm.VehicleType" placeholder="请选择">
-								<el-option v-for="item in vehicleTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
+						<el-form-item label="项目编号" prop="No">
+							<el-input v-model="ruleForm.No" placeholder="请输入项目编号"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="品牌" prop="Brand">
-							<el-select v-model="ruleForm.Brand" filterable placeholder="请选择">
-								<el-option v-for="item in brandList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
+						<el-form-item label="参考工时" prop="Qty">
+							<el-input-number v-model="ruleForm.Qty" min="0" max="10000"></el-input-number> 
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="联系人" prop="Linkman"> <el-input v-model="ruleForm.Linkman" placeholder="联系人"></el-input> </el-form-item
-					></el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="电话" prop="Phone"> <el-input v-model="ruleForm.Phone" placeholder="电话"></el-input> </el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="公里数" prop="Mileage">
-							<el-input-number :min="0" v-model="ruleForm.Mileage" placeholder="公里数"></el-input-number> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="客户名称" prop="CompanyName">
-							<el-input v-model="ruleForm.CompanyName" placeholder="客户名称"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="到厂时间" prop="StartTime" required>
-							<el-date-picker
-								v-model="ruleForm.StartTime"
-								type="datetime"
-								placeholder="到厂时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="出厂时间" prop="EndTime">
-							<el-date-picker
-								v-model="ruleForm.EndTime"
-								type="datetime"
-								placeholder="出厂时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
+					</el-col>					
 				</el-row>
 				<el-row>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="外观缺陷" prop="SurfaceRemark" >
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="服务内容" prop="Content" >
 							<el-input
-								v-model="ruleForm.SurfaceRemark"
-								:rows="2"
+								v-model="ruleForm.Content"
+								:rows="3"
 								type="textarea"
-								placeholder="请输入"
+								placeholder="请输入服务内容"
 							/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">		
-						<el-form-item label="故障描述" prop="FaultRemark" >
-							<el-input
-							v-model="ruleForm.FaultRemark"
-							:rows="2"
-							type="textarea"
-							placeholder="请输入"
-						/>
-					</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
 						<el-form-item label="备注" prop="Remark" >
 							<el-input
 							v-model="ruleForm.Remark"
-							:rows="2"
+							:rows="3"
 							type="textarea"
-							placeholder="请输入"
+							placeholder="请输入备注"
 						/>
-						</el-form-item>
+					</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -101,8 +50,7 @@
 					}}</el-button>
 				</span>
 			</template>
-		</el-dialog>
-		
+		</el-dialog>		
 	</div>
 </template>
 
@@ -116,7 +64,7 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
-	name: 'vehicleEdit',
+	name: 'projectEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -170,31 +118,22 @@ export default {
 			baseUrl: import.meta.env.VITE_API_URL,
 			//表单
 			ruleForm: {
-				Id: 0,
+				Id: '0',				
+				Kind: 'repair',
 				Name: '',
-				Kind: 'info',
-				VehicleNumber: '',
-				IsExternal:0,
-				VehicleType: '',
-				EnergyType: '',
-				Mileage: 0,
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
-				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
+				No: '',
+				Qty: 0,
+				Content:"",
+				Remark: '',
 			},
 			tableItem: {
-				Id: '0',
-				CategoryId: '',
+				Id: '0',				
+				Kind: 'repair',
 				Name: '',
-				Files: '',
-				StartTime: '',
-				EndTime:'',
-				Kind: 'info',
+				No: '',
+				Qty: 0,
+				Content:"",
+				Remark: '',
 			},
 			dialogVisible: false,
 			vehicleTypeList: [],
@@ -209,48 +148,20 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			VehicleNumber: [
+			Name: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
 					trigger: 'blur',
 				},
 			],
-			Linkman: [
+			No: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
-			],
-			Phone: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Mileage: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			StartTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			TransportLicenseEndDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
+			]
 		});
 		
 		// 打开弹窗
@@ -258,7 +169,7 @@ export default {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
+			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
 				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
 				if (resTruckTypes.errcode == 0) {
@@ -288,7 +199,7 @@ export default {
 		};
 		const getByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle.getById(Id);
+				const res = await proxy.$api.wms.goods.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -337,7 +248,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
+						const res = await proxy.$api.wms.goods.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();

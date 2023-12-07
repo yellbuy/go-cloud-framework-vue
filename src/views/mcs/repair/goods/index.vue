@@ -39,48 +39,21 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="BillNo" label="流水号" width="110" fixed></el-table-column>
-				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
-				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="EndTime" label="完成时间" :formatter="dateFormatYMDHM" width="120" show-overflow-tooltip>
-					<!-- <template #default="scope">
-						<span v-if="scope.row.EndTime > '1990-01-01'">{{ scope.row.EndTime }}</span>
-					</template> -->
-				</el-table-column>
-				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Brand" label="车辆品牌" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="TruckType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<!-- <el-table-column label="外部车" width="70" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.IsExternal"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
-							:active-text="$t('message.action.yes')"
-							:inactive-text="$t('message.action.no')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
-					</template>
-				</el-table-column> -->
-				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
-				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="No" label="项目编号" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Qty" label="预估工时" width="70" align="right"></el-table-column>
+				<el-table-column prop="Content" label="服务内容" show-overflow-tooltip></el-table-column>
 				
-				<el-table-column label="是否开单" width="80" align="center" show-overflow-tooltip>
+				<el-table-column label="状态" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
 							inline-prompt
-							:width="60"
+							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'state', scope.row.Id, scope.row.State)"
-							:active-text="$t('pages.mcs.action.has_billed')"
-							:inactive-text="$t('pages.mcs.action.not_billing')"
+							@change="proxy.$api.common.table.updateById('erp_project', 'state', scope.row.Id, scope.row.State)"
+							:active-text="$t('message.action.enable')"
+							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
 							:inactive-value="0"
 						/>
@@ -88,8 +61,7 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
@@ -125,11 +97,11 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from './component/receptionEdit.vue';
+import editDlg from './component/goodsEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'repairReceptionList',
+	name: 'projectList',
 	components: { editDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -137,7 +109,7 @@ export default {
 		const kind = "repair";
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_repair_reception`;
+		const moduleKey = `api_${kind}_goods`;
 		const editDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
@@ -152,7 +124,7 @@ export default {
 					keyword: '',
 					pageNum: 1,
 					pageSize: 20,
-					state: -1, //所有数据，未维修和已维修
+					state: -1,
 				},
 			},
 		});
@@ -172,7 +144,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.vehicle.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.wms.goods.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -194,7 +166,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.vehicle.delete(Id);
+					const res = await proxy.$api.erp.company.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}

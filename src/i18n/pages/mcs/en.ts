@@ -8,6 +8,8 @@ export default {
 		repair:'vehicle repair',
 		repair_reception:'repair reception',
 		repair_sheet:'repair sheet',
+		repair_project:'repair project',
+		repair_goods:'repair goods',
 	},
 	field:{
 		
