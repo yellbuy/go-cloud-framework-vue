@@ -15,9 +15,20 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="参考工时" prop="Qty">
-							<el-input-number v-model="ruleForm.Qty" min="0" max="10000"></el-input-number> 
+							<el-input v-model="ruleForm.Qty" min="0" max="10000"></el-input> 
 						</el-form-item>
-					</el-col>					
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="是否启用" prop="No">
+							<el-switch
+						v-model="ruleForm.State"
+    					active-text="开启"
+    					inactive-text="关闭"
+						:active-value="1"
+						:inactive-value="0"
+						/>				
+						</el-form-item>
+					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -125,6 +136,7 @@ export default {
 				Qty: 0,
 				Content:"",
 				Remark: '',
+				State:1,
 			},
 			tableItem: {
 				Id: '0',				
@@ -156,6 +168,13 @@ export default {
 				},
 			],
 			No: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Qty: [
 				{
 					required: true,
 					message: t('message.validRule.required'),

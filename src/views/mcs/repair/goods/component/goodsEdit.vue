@@ -4,43 +4,75 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="项目名称" prop="Name">
-							<el-input v-model="ruleForm.Name" placeholder="请输入项目名称"></el-input> 
+						<el-form-item label="商品名称" prop="GoodsName">
+							<el-input v-model="ruleForm.GoodsName" placeholder="请输入商品名称"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="项目编号" prop="No">
-							<el-input v-model="ruleForm.No" placeholder="请输入项目编号"></el-input> 
+						<el-form-item label="商品编号" prop="GoodsSn">
+							<el-input v-model="ruleForm.GoodsSn" placeholder="请输入商品编号"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="参考工时" prop="Qty">
-							<el-input-number v-model="ruleForm.Qty" min="0" max="10000"></el-input-number> 
+						<el-form-item label="货品单位" prop="GoodsUnit">
+							<el-select v-model="ruleForm.GoodsUnit" class="m-2" placeholder="请输入货品单位" size="small">
+    							<el-option
+      							v-for="item in GoodsSn"
+      							:key="item.value"
+      							:label="item.label"
+      							:value="item.value"
+    							/>
+  							</el-select>
 						</el-form-item>
 					</el-col>					
 				</el-row>
 				<el-row>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="服务内容" prop="Content" >
-							<el-input
-								v-model="ruleForm.Content"
-								:rows="3"
-								type="textarea"
-								placeholder="请输入服务内容"
-							/>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="会员价比率" prop="NumberRate">
+							<el-input v-model="ruleForm.NumberRate" placeholder="请输入会员价比率"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
-						<el-form-item label="备注" prop="Remark" >
-							<el-input
-							v-model="ruleForm.Remark"
-							:rows="3"
-							type="textarea"
-							placeholder="请输入备注"
-						/>
-					</el-form-item>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="是否开启" prop="No">
+							<el-switch
+						v-model="ruleForm.PeriodValidityManage"
+    					active-text="开启"
+    					inactive-text="关闭"
+						:active-value="1"
+						:inactive-value="0"
+						/>				
+						</el-form-item>
 					</el-col>
 				</el-row>
+				<el-row>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
+						<el-form-item label="商品图片" prop="GoodsImg">
+							<div style="width: 50%">
+								<el-upload
+									class="upload-demo"
+									:action="uploadURL"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onSuccessFile"
+									:on-preview="onPreview"
+									:on-remove="onRemove"
+									:file-list="FilesList"
+									:accept:="`image/png, image/jpeg,image/bmp,image/jpg,application/pdf,application/docx,application/doc,application/xls,application/xlsx`"
+									multiple
+									show-file-list
+								>
+									<template #default>
+										<el-button
+											><el-icon class="el-icon--right"><Upload /></el-icon>上传</el-button
+										>
+									</template>
+								</el-upload>
+							</div>
+							<div>
+								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
+							</div>
+						</el-form-item>
+					</el-col>
+				</el-row> 
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -120,11 +152,12 @@ export default {
 			ruleForm: {
 				Id: '0',				
 				Kind: 'repair',
-				Name: '',
-				No: '',
-				Qty: 0,
-				Content:"",
-				Remark: '',
+				GoodsName: '',
+				GoodsSn: '',
+				GoodsUnit:'吨',
+				NumberRate:'',
+				PeriodValidityManage:'0',
+				GoodsImg:'',
 			},
 			tableItem: {
 				Id: '0',				
@@ -148,14 +181,21 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			Name: [
+			GoodsName: [
 				{
 					required: true,
-					message: computed(()=>t('message.validRule.required')),
+					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			No: [
+			GoodsSn: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			GoodsUnit: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -209,6 +249,37 @@ export default {
 				state.ruleForm = res.data;
 			} finally {
 				state.isShowDialog = true;
+			}
+		};
+		//预览文件
+		const onPreview = (uploadFile: any) => {
+			// 当格式为图片就预览图片，否则下载文件
+			let filename = uploadFile.name;
+			if (!uploadFile.name || uploadFile.name == '') {
+				filename = uploadFile.url;
+			}
+			let fileurl = uploadFile.url;
+			let fileExtension = '';
+			// 校检文件类型
+			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
+			if (filename.lastIndexOf('.') > -1) {
+				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
+			}
+			const isTypeOk = imageTypes.some((type) => {
+				if (fileExtension && fileExtension.indexOf(type) > -1) {
+					return true;
+				}
+			});
+			if (isTypeOk) {
+				//预览图片
+				state.dialogImageUrl[0] = fileurl;
+				state.dialogTitle = filename;
+				state.dialogVisible = true;
+			} else {
+				//下载文件
+				state.dialogVisible = false;
+				// openWindow(fileurl, { target: "_self" });
+				window.open(fileurl, '_self');
 			}
 		};
 		// 关闭弹窗
@@ -296,6 +367,7 @@ export default {
 			onLoadTable,
 			getByIdRow,
 			onSuccessFile,
+			onPreview,
 			onRemove,
 			onBeforeImageUpload,
 			onModelEdit,

@@ -201,7 +201,7 @@ export default {
 				IsExternal:0,
 				Idno: '',
 				IdnoEndDate : '',			
-				Gender: '',
+				Gender: 1,
 				State: 1,
 				NativePlace: '',
 				Birthdate:'',
@@ -236,42 +236,35 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			VehicleNumber: [
-				{
-					required: true,
-					message: computed(()=>t('message.validRule.required')),
-					trigger: 'blur',
-				},
-			],
-			RegistrationDate: [
+			Name: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			DrivingLicenseStartDate: [
+			Idno: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			DrivingLicenseEndDate: [
+			Tname: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			TransportLicenseStartDate: [
+			DriverLicenseType: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			TransportLicenseEndDate: [
+			Mobile: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
