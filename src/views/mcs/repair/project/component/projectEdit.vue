@@ -15,7 +15,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="参考工时" prop="Qty">
-							<el-input v-model="ruleForm.Qty" min="0" max="10000"></el-input> 
+							<el-input v-model.number="ruleForm.Qty" min="0" max="10000"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">

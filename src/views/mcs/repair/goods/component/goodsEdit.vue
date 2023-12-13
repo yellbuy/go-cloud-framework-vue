@@ -17,10 +17,10 @@
 						<el-form-item label="货品单位" prop="GoodsUnit">
 							<el-select v-model="ruleForm.GoodsUnit" class="m-2" placeholder="请输入货品单位" size="small">
     							<el-option
-      							v-for="item in GoodsSn"
-      							:key="item.value"
-      							:label="item.label"
-      							:value="item.value"
+      							v-for="item in goodsUnitList"
+      							:key="item.Id"
+      							:label="item.Name"
+      							:value="item.Name"
     							/>
   							</el-select>
 						</el-form-item>
@@ -29,13 +29,13 @@
 				<el-row>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="会员价比率" prop="NumberRate">
-							<el-input v-model="ruleForm.NumberRate" placeholder="请输入会员价比率"></el-input> 
+							<el-input v-model.number="ruleForm.NumberRate" placeholder="请输入会员价比率"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="是否开启" prop="No">
+						<el-form-item label="是否开启" prop="SupplierState">
 							<el-switch
-						v-model="ruleForm.PeriodValidityManage"
+						v-model="ruleForm.SupplierState"
     					active-text="开启"
     					inactive-text="关闭"
 						:active-value="1"
@@ -46,7 +46,7 @@
 				</el-row>
 				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
-						<el-form-item label="商品图片" prop="GoodsImg">
+						<el-form-item label="商品图片" prop="GoodsPics">
 							<div style="width: 50%">
 								<el-upload
 									class="upload-demo"
@@ -153,10 +153,10 @@ export default {
 				Id: '0',				
 				Kind: 'repair',
 				GoodsName: '',
-				GoodsSn: '',
-				GoodsUnit:'吨',
-				NumberRate:'',
-				PeriodValidityManage:'0',
+				GoodsUnit:'',
+				GoodsSn:'',
+				NumberRate:0,
+				SupplierState:1,
 				GoodsImg:'',
 			},
 			tableItem: {
@@ -169,7 +169,7 @@ export default {
 				Remark: '',
 			},
 			dialogVisible: false,
-			vehicleTypeList: [],
+			goodsUnitList: [],
 			brandList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
@@ -211,11 +211,11 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.vehicleTypeList = resTruckTypes.data;
+				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('repair_unit', 0, 2);
+				if (goodsUnits.errcode == 0) {
+					state.goodsUnitList = goodsUnits.data;
 				}else{
-					console.log("error:",resTruckTypes.errmsg)
+					console.log("error:",goodsUnits.errmsg)
 				}
 				const resBrands = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_brand', 0, 2);
 				if (resBrands.errcode == 0) {
