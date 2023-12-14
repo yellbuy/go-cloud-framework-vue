@@ -58,7 +58,7 @@
 					</el-timeline-item>
 					<el-timeline-item
 						placement="top"
-						v-if="projectCompany.Setp == bond || projectCompany.Setp == qualifications"
+						v-if="projectCompany.Step == bond || projectCompany.Step == qualifications"
 						type="primary"
 						icon="MoreFilled"
 						:timestamp="bondCertificate.AuditState > 0 ? bondCertificate.AuditTime : ''"
@@ -104,7 +104,7 @@
 							<el-tag class="ml-2" type="info">无需缴纳保证金</el-tag>
 						</div>
 					</el-timeline-item>
-					<el-timeline-item placement="top" v-if="projectCompany.Setp == qualifications">
+					<el-timeline-item placement="top" v-if="projectCompany.Step == qualifications">
 						<el-form-item label="公司报价(万元)：" prop="QuotedPrice"
 							><el-input-number
 								v-model="quotationCertificate.PurchasePrice"
@@ -254,13 +254,13 @@
 						<el-row>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
 								<el-form-item label="项目内容：" prop="Content">
-									<div v-html="ruleForm.Content" v-if="projectCompany.Setp == bond || projectCompany.Setp == qualifications"></div>
+									<div v-html="ruleForm.Content" v-if="projectCompany.Step == bond || projectCompany.Step == qualifications"></div>
 									<span v-else>请先缴纳标书费！</span>
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
 								<el-form-item label="标书：" prop="Content">
-									<div v-if="projectCompany.Setp == bond || projectCompany.Setp == qualifications">
+									<div v-if="projectCompany.Step == bond || projectCompany.Step == qualifications">
 										<div v-for="(val, index) in FilesList" :key="index">
 											<a :href="val.url" target="_blank">点击下载</a>
 										</div>
