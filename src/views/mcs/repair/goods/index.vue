@@ -39,28 +39,29 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="No" label="项目编号" width="90" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Qty" label="预估工时" width="70" align="right"></el-table-column>
-				<el-table-column prop="Content" label="服务内容" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsUnit" label="货品单位" width="70" align="right"></el-table-column>
+				<el-table-column prop="NumberRate" label="会员价比率" show-overflow-tooltip></el-table-column>
 				
-				<el-table-column label="状态" show-overflow-tooltip>
+				<el-table-column label="供货状态" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
-							v-model="scope.row.State"
+							v-model="scope.row.SupplierState"
 							inline-prompt
 							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_project', 'state', scope.row.Id, scope.row.State)"
+							@change="proxy.$api.common.table.updateById('wms_goods', 'supplier_state', scope.row.Id, scope.row.SupplierState)"
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
 							:inactive-value="0"
 						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.SupplierState" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
+				<el-table-column prop="GoodsPics" label="商品图片" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -166,7 +167,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.company.delete(Id);
+					const res = await proxy.$api.wms.goods.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
