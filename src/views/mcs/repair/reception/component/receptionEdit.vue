@@ -6,7 +6,7 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="车牌号" prop="VehicleNumber">
-							<el-input v-model="ruleForm.VehicleNumber" placeholder="车牌号码"></el-input> 
+							<el-input v-model="ruleForm.VehicleNumber" placeholder="请输入车牌号码"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -17,26 +17,26 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="品牌" prop="Brand">
+						<el-form-item label="车辆品牌" prop="Brand">
 							<el-select v-model="ruleForm.Brand" filterable placeholder="请选择">
 								<el-option v-for="item in brandList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="联系人" prop="Linkman"> <el-input v-model="ruleForm.Linkman" placeholder="联系人"></el-input> </el-form-item
+						<el-form-item label="联系人" prop="Linkman"> <el-input v-model="ruleForm.Linkman" placeholder="请输入联系人"></el-input> </el-form-item
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="电话" prop="Phone"> <el-input v-model="ruleForm.Phone" placeholder="电话"></el-input> </el-form-item>
+						<el-form-item label="电话" prop="Phone"> <el-input v-model="ruleForm.Phone" placeholder="请输入电话号码"></el-input> </el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="公里数" prop="Mileage">
-							<el-input-number :min="0" v-model="ruleForm.Mileage" placeholder="公里数"></el-input-number> 
+							<el-input-number :min="0" v-model="ruleForm.Mileage" placeholder="请输入公里数"></el-input-number> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="客户名称" prop="CompanyName">
-							<el-input v-model="ruleForm.CompanyName" placeholder="客户名称"></el-input> 
+							<el-input v-model="ruleForm.CompanyName" placeholder="请输入客户名称"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -186,6 +186,7 @@ export default {
 				WebSite: '',
 				Fax: '',
 				Im: '',
+				Brand: '',
 			},
 			tableItem: {
 				Id: '0',
@@ -245,6 +246,27 @@ export default {
 				},
 			],
 			TransportLicenseEndDate: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			VehicleType: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Brand: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			CompanyName: [
 				{
 					required: true,
 					message: t('message.validRule.required'),

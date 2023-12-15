@@ -52,6 +52,7 @@ export default {
 		action:'action',
 		frontend:'front end',
 		backend:'back end',
+		billing: "billing",
 	},
 	validRule:{
 		required:'Required.',

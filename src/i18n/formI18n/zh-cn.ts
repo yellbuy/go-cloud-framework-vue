@@ -62,7 +62,8 @@ export default {
 		setBidOpeningPackage: "设为开标包",
 		wastePackage: "废包",
 		certificatAdd: "添加资质文件",
-		uploadPhotocopy: "上传影印件"
+		uploadPhotocopy: "上传影印件",
+		billing: "开单"
 	},
 	validRule: {
 		required: '必填项',

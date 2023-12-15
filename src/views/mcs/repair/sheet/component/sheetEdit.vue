@@ -2,125 +2,77 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-divider content-position="left">基本信息*</el-divider>
+				<el-divider content-position="left">项目列表*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车牌号" prop="VehicleNumber">
-							<el-input v-model="ruleForm.VehicleNumber" placeholder="车牌号码"></el-input> 
+						<el-form-item label="项目名称" prop="Name">
+							<el-input v-model="ruleForm.Name" placeholder="请输入项目名称"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						
-						<el-form-item label="车辆类别" prop="IsExternal">
-							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.IsExternal">
-								<el-radio :label="0">内部车</el-radio>
-								<el-radio :label="1">外部车</el-radio>
-							</el-radio-group>
-							</div>
-							
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆类型" prop="VehicleType">
-							<el-select v-model="ruleForm.VehicleType" placeholder="请选择">
-								<el-option v-for="item in truckTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="动力类型" prop="VehicleType">
-							<el-select v-model="ruleForm.EnergyType" placeholder="请选择">
-								<el-option v-for="item in energyTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆识别号" prop="Vin">
-							<el-input v-model="ruleForm.Vin" placeholder="车牌号码"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发动机号" prop="EngineNumber">
-							<el-input v-model="ruleForm.EngineNumber" placeholder="车牌号码"></el-input> 
+						<el-form-item label="预估工时" prop="Qty">
+							<el-input v-model.number="ruleForm.Qty" min="0" max="10000"></el-input> 
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-divider content-position="left">行驶证信息*</el-divider>
+				<el-row>
+					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="服务内容" prop="Content" >
+							<el-input
+								v-model="ruleForm.Content"
+								:rows="3"
+								type="textarea"
+								placeholder="请输入服务内容"
+							/>
+						</el-form-item>
+					</el-col> -->
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
+						<el-form-item label="备注" prop="Remark" >
+							<el-input
+							v-model="ruleForm.Remark"
+							:rows="3"
+							type="textarea"
+							placeholder="请输入备注"
+						/>
+					</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
+				<el-divider content-position="left">配件列表*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="行驶证" prop="DrivingLicense">
-							<el-input v-model="ruleForm.DrivingLicense" placeholder="行驶证号"></el-input> 
-						</el-form-item>
-					</el-col>
-					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="生效日期" prop="DrivingLicenseStartDate" required>
-							<el-date-picker
-								v-model="ruleForm.DrivingLicenseStartDate"
-								type="date"
-								placeholder="生效日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
+						<el-form-item label="配件名称" prop="GoodsName">
+							<el-input v-model="ruleForm.GoodsName" placeholder="请输入配件名称"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="至" prop="DrivingLicenseEndDate"  required>
-							<el-date-picker
-										v-model="ruleForm.DrivingLicenseEndDate"
-										type="date"
-										placeholder="到期日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="登记日期" prop="RegistrationDate" required>
-							<el-date-picker
-								v-model="ruleForm.RegistrationDate"
-								type="date"
-								placeholder="登记日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					
-				</el-row>
-				<el-divider content-position="left">道路运输证信息*</el-divider>
-				<el-row :gutter="20">	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="道路运输证" prop="TransportLicense">
-							<el-input v-model="ruleForm.TransportLicense" placeholder="道路运输许可证号"></el-input> 
-						</el-form-item>
-					</el-col>				
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="生效日期" prop="TransportLicenseStartDate" required>
-							<el-date-picker
-								v-model="ruleForm.TransportLicenseStartDate"
-								type="date"
-								placeholder="生效日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="至" prop="TransportLicenseEndDate"  required>
-							<el-date-picker
-										v-model="ruleForm.TransportLicenseEndDate"
-										type="date"
-										placeholder="到期日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+						<el-form-item label="编号" prop="No">
+							<el-input v-model="ruleForm.No" placeholder="请输入编号"></el-input> 
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-divider content-position="left">联系人信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="联系人" prop="Linkman"> <el-input v-model="ruleForm.Linkman" placeholder="联系人"></el-input> </el-form-item
-					></el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="电话" prop="Phone"> <el-input v-model="ruleForm.Phone" placeholder="电话"></el-input> </el-form-item></el-col>
+				<el-row>
+					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="服务内容" prop="Content" >
+							<el-input
+								v-model="ruleForm.Content"
+								:rows="3"
+								type="textarea"
+								placeholder="请输入服务内容"
+							/>
+						</el-form-item>
+					</el-col> -->
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
+						<el-form-item label="备注" prop="Remark" >
+							<el-input
+							v-model="ruleForm.Remark"
+							:rows="3"
+							type="textarea"
+							placeholder="请输入备注"
+						/>
+					</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -203,19 +155,11 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'info',
-				VehicleNumber: '',
-				IsExternal:0,
-				VehicleType: '',
-				EnergyType: '',
-				Vin: '',
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
-				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
+				ProjectType: '',
+				GoodsName: '',
+				No: '',
+				Qty: 0,			
+				Remark: '',
 			},
 			tableItem: {
 				Id: '0',
@@ -239,42 +183,28 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			VehicleNumber: [
+			Name: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
 					trigger: 'blur',
 				},
 			],
-			RegistrationDate: [
+			Qty: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			DrivingLicenseStartDate: [
+			GoodsName: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			DrivingLicenseEndDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			TransportLicenseStartDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			TransportLicenseEndDate: [
+			No: [
 				{
 					required: true,
 					message: t('message.validRule.required'),

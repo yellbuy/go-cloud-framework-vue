@@ -43,13 +43,6 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车牌颜色" prop="PlateColor">
-							<el-select v-model="ruleForm.PlateColor" placeholder="请选择">
-								<el-option v-for="item in plateColorList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="车辆识别号" prop="Vin">
 							<el-input v-model="ruleForm.Vin" placeholder="车牌号码"></el-input> 
 						</el-form-item>
@@ -244,7 +237,6 @@ export default {
 			truckTypeList: [],
 			plateColorList:[],
 			energyTypeList:[],
-			plateColorList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],

@@ -29,6 +29,7 @@
 					<el-form-item></el-form-item>
 				</el-form>
 			</div>
+		
 			<el-table
 				:data="tableData.data"
 				v-loading="tableData.loading"
@@ -38,50 +39,38 @@
 				stripe
 				highlight-current-row
 			>
+			
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
-				<el-table-column prop="VehicleType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column label="外部车" width="70" show-overflow-tooltip>
+				<el-table-column prop="Name" label="项目名称" width="100" fixed></el-table-column>
+				<el-table-column prop="Qty" label="预估工时" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Remark" label="备注" width="120" show-overflow-tooltip></el-table-column>
+			
+			<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
-						<el-switch
-							v-model="scope.row.IsExternal"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
-							:active-text="$t('message.action.yes')"
-							:inactive-text="$t('message.action.no')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
+						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
+							{{ $t('message.action.edit') }}
+						</el-button>
+						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+							{{ $t('message.action.see') }}
+						</el-button>
+						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+							{{ $t('message.action.delete') }}
+						</el-button>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
-				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
-				
-				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column label="状态" width="70" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.State"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'state', scope.row.Id, scope.row.State)"
-							:active-text="$t('message.action.enable')"
-							:inactive-text="$t('message.action.disable')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
+			</el-table>
+			<el-table :data="tableData.data"
+				v-loading="tableData.loading"
+				style="width: 100%"
+				:height="proxy.$calcMainHeight(-75)"
+				border
+				stripe
+				highlight-current-row>
+				<el-table-column type="index" label="序号" align="right" width="70" fixed />
+				<el-table-column prop="GoodsName" label="配件名称" width="90"></el-table-column>				
+				<el-table-column prop="No" label="编号" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Remark" label="备注" width="70" align="right"  show-overflow-tooltip></el-table-column>
+			
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -96,6 +85,10 @@
 					</template>
 				</el-table-column>
 			</el-table>
+		
+		
+				
+			
 			<el-pagination
 				small
 				@size-change="onHandleSizeChange"
