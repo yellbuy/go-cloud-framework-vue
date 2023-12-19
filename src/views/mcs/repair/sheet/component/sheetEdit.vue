@@ -1,80 +1,140 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-divider content-position="left">项目列表*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="项目名称" prop="Name">
-							<el-input v-model="ruleForm.Name" placeholder="请输入项目名称"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="预估工时" prop="Qty">
-							<el-input v-model.number="ruleForm.Qty" min="0" max="10000"></el-input> 
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="服务内容" prop="Content" >
-							<el-input
-								v-model="ruleForm.Content"
-								:rows="3"
-								type="textarea"
-								placeholder="请输入服务内容"
-							/>
-						</el-form-item>
-					</el-col> -->
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
-						<el-form-item label="备注" prop="Remark" >
-							<el-input
-							v-model="ruleForm.Remark"
-							:rows="3"
-							type="textarea"
-							placeholder="请输入备注"
-						/>
+			<el-divider content-position="left">基本信息*</el-divider>
+			<el-card shadow="hover">
+				<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading">
+						<el-row :gutter="20">
+							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="维修单号" prop="GoodsName">
+									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="请输入名称" disabled maxlength="100" clearable></el-input>
+								</el-form-item>
+							</el-col>
+							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="车牌号" prop="GoodsNameStyle">
+									<el-input v-model="ruleForm.GoodsNameStyle" placeholder="请输入文章号" disabled learable></el-input>
+								</el-form-item>
+							</el-col>		
+								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="车辆品牌" prop="ExtensionCode">
+									<el-input v-model="ruleForm.ExtensionCode" placeholder="请输入英文简述" disabled clearable></el-input>
+								</el-form-item>
+							</el-col>
+						</el-row>
+						<el-row :gutter="20">
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="车型" prop="GoodsName">
+									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="请输入名称" disabled maxlength="100" clearable></el-input>
+								</el-form-item>
+							</el-col>
+							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="客户名称" prop="GoodsNameStyle">
+									<el-input v-model="ruleForm.GoodsNameStyle" placeholder="请输入文章号" disabled clearable></el-input>
+								</el-form-item>
+							</el-col>		
+								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="公里数" prop="ExtensionCode">
+									<el-input v-model="ruleForm.ExtensionCode" placeholder="请输入英文简述" disabled clearable></el-input>
+								</el-form-item>
+							</el-col>
+						</el-row>
+						<el-row :gutter="20">
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="到厂次数" prop="GoodsName">
+									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="请输入名称" disabled maxlength="100" clearable></el-input>
+								</el-form-item>
+							</el-col>
+							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="联系人" prop="GoodsNameStyle">
+									<el-input v-model="ruleForm.GoodsNameStyle" placeholder="请输入文章号" disabled clearable></el-input>
+								</el-form-item>
+							</el-col>		
+								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="联系电话" prop="ExtensionCode">
+									<el-input v-model="ruleForm.ExtensionCode" placeholder="请输入英文简述" disabled clearable></el-input>
+								</el-form-item>
+							</el-col>
+						</el-row>
+						<el-row :gutter="20">
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="维修类型" prop="GoodsName">
+									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="请输入名称" disabled maxlength="100" clearable></el-input>
+								</el-form-item>
+							</el-col>
+							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="进厂时间" prop="GoodsNameStyle">
+									<el-input v-model="ruleForm.GoodsNameStyle" placeholder="请输入文章号" disabled clearable></el-input>
+								</el-form-item>
+							</el-col>		
+								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="预计完工时间" prop="ExtensionCode">
+									<el-input v-model="ruleForm.ExtensionCode" placeholder="请输入英文简述" clearable></el-input>
+								</el-form-item>
+							</el-col>
+						</el-row>
+						<el-row :gutter="20">
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="备注" prop="Remark">
+									<el-input v-model="ruleForm.Remark" autofocus placeholder=""  maxlength="100" clearable></el-input>
+								</el-form-item>
+							</el-col>
+						</el-row>
+				</el-form>
+			</el-card>
+			<el-divider content-position="left">项目列表*</el-divider>
+			<div class="">
+				<el-form>
+					<el-form-item>
+						<el-button type="primary" >
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							&#8197;{{ $t('message.action.add') }}
+						</el-button>
 					</el-form-item>
-					</el-col>
-				</el-row>
-			</el-form>
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
+				</el-form>
+			</div>
+			<el-table 
+				:data="tableData.data"
+				v-loading="tableData.loading"
+				style="width: 100%"
+				:height="proxy.$calcMainHeight(-75)"
+				border
+				stripe
+				highlight-current-row>
+				
+				<el-table-column type="index" label="序号" align="right" width="70" fixed />
+				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Qty" label="预估工时" width="70" align="right"></el-table-column>
+				<el-table-column prop="Remark" label="备注" width="90" show-overflow-tooltip></el-table-column>
+			</el-table>
+			<el-divider content-position="left">配件列表*</el-divider>
+			<div class="">
+				<el-form>
+					<el-form-item>
+						<el-button type="primary" >
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							&#8197;{{ $t('message.action.add') }}
+						</el-button>
+					</el-form-item>
+				</el-form>
+			</div>
+			<el-table
+				:data="tableData.data"
+				v-loading="tableData.loading"
+				style="width: 100%"
+				:height="proxy.$calcMainHeight(-75)"
+				border
+				stripe
+				highlight-current-row>
 				<el-divider content-position="left">配件列表*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="配件名称" prop="GoodsName">
-							<el-input v-model="ruleForm.GoodsName" placeholder="请输入配件名称"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="编号" prop="No">
-							<el-input v-model="ruleForm.No" placeholder="请输入编号"></el-input> 
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="服务内容" prop="Content" >
-							<el-input
-								v-model="ruleForm.Content"
-								:rows="3"
-								type="textarea"
-								placeholder="请输入服务内容"
-							/>
-						</el-form-item>
-					</el-col> -->
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
-						<el-form-item label="备注" prop="Remark" >
-							<el-input
-							v-model="ruleForm.Remark"
-							:rows="3"
-							type="textarea"
-							placeholder="请输入备注"
-						/>
-					</el-form-item>
-					</el-col>
-				</el-row>
-			</el-form>
+				<el-table-column type="index" label="序号" align="right" width="70" fixed />
+				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Remark" label="备注" width="90" show-overflow-tooltip></el-table-column>
+			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
@@ -102,6 +162,7 @@ export default {
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
+	
 		console.log("message.action.add:",t('message.action.add'))
 		//文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
@@ -259,8 +320,6 @@ export default {
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;

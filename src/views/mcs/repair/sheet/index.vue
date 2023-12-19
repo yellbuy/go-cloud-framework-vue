@@ -19,7 +19,7 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button type="primary" @click="onOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
+						<el-button type="primary" @click="onOpenEditDlg()" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -41,10 +41,18 @@
 			>
 			
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Name" label="项目名称" width="100" fixed></el-table-column>
-				<el-table-column prop="Qty" label="预估工时" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Remark" label="备注" width="120" show-overflow-tooltip></el-table-column>
-			
+				<el-table-column prop="BillNo" label="维修单号" width="110" fixed></el-table-column>
+				<el-table-column prop="IsExternal" label="是否委外" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="BillTime" label="开单时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
+				<el-table-column prop="Brand" label="车辆品牌" width="100" fixed></el-table-column>
+				<el-table-column prop="VehicleType" label="车型" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>
+				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="ExamState" label="维修类型" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="EndTime" label="出厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 			<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -59,36 +67,6 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-table :data="tableData.data"
-				v-loading="tableData.loading"
-				style="width: 100%"
-				:height="proxy.$calcMainHeight(-75)"
-				border
-				stripe
-				highlight-current-row>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="配件名称" width="90"></el-table-column>				
-				<el-table-column prop="No" label="编号" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Remark" label="备注" width="70" align="right"  show-overflow-tooltip></el-table-column>
-			
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
-					<template #default="scope">
-						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
-							{{ $t('message.action.edit') }}
-						</el-button>
-						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
-							{{ $t('message.action.see') }}
-						</el-button>
-						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
-							{{ $t('message.action.delete') }}
-						</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-		
-		
-				
-			
 			<el-pagination
 				small
 				@size-change="onHandleSizeChange"
@@ -110,7 +88,7 @@
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute,useRouter } from 'vue-router';
 import editDlg from './component/sheetEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
@@ -120,6 +98,7 @@ export default {
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
+		const router =  useRouter();
 		const kind = "repair";
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
@@ -201,6 +180,10 @@ export default {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
+		const routerPath= ()=>{
+			//console.log(router)
+			router.push('/admin/mcs/repair/sheet/0/0');
+		}
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
@@ -218,6 +201,7 @@ export default {
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
+			routerPath,
 			...toRefs(state),
 		};
 	},

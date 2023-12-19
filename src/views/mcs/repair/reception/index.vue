@@ -69,7 +69,7 @@
 					</template>
 				</el-table-column> -->
 				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
-				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip></el-table-column>
 				<el-table-column label="是否开单" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -91,10 +91,11 @@
 				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
-						<el-button text bg @click="routerPath(scope.$index, scope.row)" v-auth:[moduleKey]="'btn.Edit'" v-if="scope.row.State !== 1">
-					
+						
+						<el-button text bg @click="routerPath()" v-auth:[moduleKey]="'btn.Add'" v-if="scope.row.State !== 1">
 							{{ $t('message.action.billing') }}
 						</el-button>
+					
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
