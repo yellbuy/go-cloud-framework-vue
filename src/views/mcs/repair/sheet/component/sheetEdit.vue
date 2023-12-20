@@ -6,69 +6,80 @@
 				<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading">
 						<el-row :gutter="20">
 							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="维修单号" prop="GoodsName">
-									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="请输入名称" disabled maxlength="100" clearable></el-input>
+								<el-form-item label="维修单号" prop="BillNo">
+									<el-input v-model="ruleForm.BillNo" autofocus placeholder="" disabled maxlength="100" clearable></el-input>
 								</el-form-item>
 							</el-col>
 							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="车牌号" prop="GoodsNameStyle">
-									<el-input v-model="ruleForm.GoodsNameStyle" placeholder="请输入文章号" disabled learable></el-input>
+								<el-form-item label="车牌号" prop="VehicleNumber">
+									<el-input v-model="ruleForm.VehicleNumber" placeholder="" disabled learable></el-input>
 								</el-form-item>
 							</el-col>		
 								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="车辆品牌" prop="ExtensionCode">
-									<el-input v-model="ruleForm.ExtensionCode" placeholder="请输入英文简述" disabled clearable></el-input>
+								<el-form-item label="车辆品牌" prop="Brand">
+									<el-input v-model="ruleForm.Brand" placeholder="" disabled clearable></el-input>
 								</el-form-item>
 							</el-col>
 						</el-row>
 						<el-row :gutter="20">
 							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="车型" prop="GoodsName">
-									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="请输入名称" disabled maxlength="100" clearable></el-input>
+								<el-form-item label="车型" prop="VehicleType">
+									<el-input v-model="ruleForm.VehicleType" autofocus placeholder="" disabled maxlength="100" clearable></el-input>
 								</el-form-item>
 							</el-col>
 							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="客户名称" prop="GoodsNameStyle">
-									<el-input v-model="ruleForm.GoodsNameStyle" placeholder="请输入文章号" disabled clearable></el-input>
+								<el-form-item label="客户名称" prop="CompanyName">
+									<el-input v-model="ruleForm.CompanyName" placeholder="" disabled clearable></el-input>
 								</el-form-item>
 							</el-col>		
 								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="公里数" prop="ExtensionCode">
-									<el-input v-model="ruleForm.ExtensionCode" placeholder="请输入英文简述" disabled clearable></el-input>
+								<el-form-item label="公里数" prop="Mileage">
+									<el-input v-model="ruleForm.Mileage" placeholder="" disabled clearable></el-input>
 								</el-form-item>
 							</el-col>
 						</el-row>
 						<el-row :gutter="20">
 							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 								<el-form-item label="到厂次数" prop="GoodsName">
-									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="请输入名称" disabled maxlength="100" clearable></el-input>
+									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="" disabled maxlength="100" clearable></el-input>
 								</el-form-item>
 							</el-col>
 							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="联系人" prop="GoodsNameStyle">
-									<el-input v-model="ruleForm.GoodsNameStyle" placeholder="请输入文章号" disabled clearable></el-input>
+								<el-form-item label="联系人" prop="Linkman">
+									<el-input v-model="ruleForm.Linkman" placeholder="" disabled clearable></el-input>
 								</el-form-item>
 							</el-col>		
 								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="联系电话" prop="ExtensionCode">
-									<el-input v-model="ruleForm.ExtensionCode" placeholder="请输入英文简述" disabled clearable></el-input>
+								<el-form-item label="联系电话" prop="Phone">
+									<el-input v-model="ruleForm.Phone" placeholder="" disabled clearable></el-input>
 								</el-form-item>
 							</el-col>
 						</el-row>
 						<el-row :gutter="20">
 							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="维修类型" prop="GoodsName">
-									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="请输入名称" disabled maxlength="100" clearable></el-input>
+								<el-form-item label="维修类型" prop="ExamState">
+									<el-input v-model="ruleForm.ExamState" autofocus placeholder="" disabled maxlength="100" clearable></el-input>
 								</el-form-item>
 							</el-col>
 							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="进厂时间" prop="GoodsNameStyle">
-									<el-input v-model="ruleForm.GoodsNameStyle" placeholder="请输入文章号" disabled clearable></el-input>
+								<el-form-item label="进厂时间" prop="StartTime" required>
+									<el-date-picker
+									v-model="ruleForm.StartTime"
+									type="datetime"
+									placeholder="请选择进厂时间"
+									format="YYYY-MM-DD HH:mm"
+									disabled
+									></el-date-picker>
 								</el-form-item>
 							</el-col>		
 								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="预计完工时间" prop="ExtensionCode">
-									<el-input v-model="ruleForm.ExtensionCode" placeholder="请输入英文简述" clearable></el-input>
+									<el-form-item label="完工时间" prop="EndTime" required>
+									<el-date-picker
+									v-model="ruleForm.EndTime"
+									type="datetime"
+									placeholder="请选择完工时间"
+									format="YYYY-MM-DD HH:mm"
+									></el-date-picker>
 								</el-form-item>
 							</el-col>
 						</el-row>
@@ -102,9 +113,8 @@
 				border
 				stripe
 				highlight-current-row>
-				
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="ProjectName" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Qty" label="预估工时" width="70" align="right"></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="90" show-overflow-tooltip></el-table-column>
 			</el-table>
@@ -129,10 +139,9 @@
 				border
 				stripe
 				highlight-current-row>
-				<el-divider content-position="left">配件列表*</el-divider>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="No" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="90" show-overflow-tooltip></el-table-column>
 			</el-table>
 			<template #footer>
@@ -221,6 +230,17 @@ export default {
 				No: '',
 				Qty: 0,			
 				Remark: '',
+				BillNo:'',
+				VehicleNumber:'',
+				Brand:'',
+				VehicleType:'',
+				CompanyName:'',
+				Mileage:'',
+				Linkman:'',
+				Phone:'',
+				ExamState:'',
+				StartTime:'',
+				EndTime:'',
 			},
 			tableItem: {
 				Id: '0',
@@ -244,28 +264,70 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			Name: [
+			VehicleNumber: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
 					trigger: 'blur',
 				},
 			],
-			Qty: [
+			Brand: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			GoodsName: [
+			VehicleType: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			No: [
+			CompanyName: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Mileage: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Linkman: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Phone: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			ExamState: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			StartTime: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			EndTime: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -309,7 +371,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle.getById(Id);
+				const res = await proxy.$api.erp.sheet.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -353,7 +415,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
+						const res = await proxy.$api.erp.sheet.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
