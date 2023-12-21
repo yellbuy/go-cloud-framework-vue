@@ -96,7 +96,7 @@
 			<div class="">
 				<el-form>
 					<el-form-item>
-						<el-button type="primary" >
+						<el-button type="primary" @click="onOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -122,7 +122,7 @@
 			<div class="">
 				<el-form>
 					<el-form-item>
-						<el-button type="primary" >
+						<el-button type="primary" @click="onOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -155,23 +155,29 @@
 		</el-dialog>
 		
 	</div>
+	<editDlg ref="editDlgRef" />
+	<addDlg ref="editDlgRef" />
 </template>
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
 import { ElMessage, UploadProps } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
+import editDlg from './sheetProject.vue';
+import addDlg from './sheetGoods.vue';
 
 export default {
-	name: 'vehicleEdit',
+	name: 'sheetEdit',
+	components: { editDlg, addDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
-	
+		const editDlgRef = ref();
+		const kind = "repair";
 		console.log("message.action.add:",t('message.action.add'))
 		//文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
@@ -213,9 +219,16 @@ export default {
 				pageSize: 10000,
 			},
 		});
-		
+		// 打开弹窗
+		 const onOpenDlg = (id: string, ishow: boolean) => {
+			console.log("弹框",editDlgRef)
+		 	editDlgRef.value.openDialog(state.kind, id, ishow);
+		 };
+		const moduleKey = `api_repair_sheet`;
 		const state = reactive({
+			moduleKey: moduleKey,
 			isShowDialog: false,
+			kind,
 			title: t('message.action.add'),
 			loading: false,
 			disable: true, //是否禁用
@@ -371,7 +384,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.sheet.getById(Id);
+				const res = await proxy.$api.erp.vehicle_project.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -473,11 +486,10 @@ export default {
 			rules,
 			token,
 			onSubmit,
+			onOpenDlg,
+			editDlgRef,
 			...toRefs(state),
 		};
-	},
-	components: {
-		Plus,
 	},
 	data() {
 		return {};

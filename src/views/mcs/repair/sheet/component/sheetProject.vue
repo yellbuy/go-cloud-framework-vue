@@ -1,98 +1,56 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-divider content-position="left">基本信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车牌号" prop="VehicleNumber">
-							<el-input v-model="ruleForm.VehicleNumber" placeholder="请输入车牌号码"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆类型" prop="VehicleType">
-							<el-select v-model="ruleForm.VehicleType" placeholder="请选择">
-								<el-option v-for="item in vehicleTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆品牌" prop="Brand">
-							<el-select v-model="ruleForm.Brand" filterable placeholder="请选择">
-								<el-option v-for="item in brandList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="联系人" prop="Linkman"> <el-input v-model="ruleForm.Linkman" placeholder="请输入联系人"></el-input> </el-form-item
-					></el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="电话" prop="Phone"> <el-input v-model="ruleForm.Phone" placeholder="请输入电话号码"></el-input> </el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="公里数" prop="Mileage">
-							<el-input-number :min="0" v-model="ruleForm.Mileage" placeholder="请输入公里数"></el-input-number> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="客户名称" prop="CompanyName">
-							<el-input v-model="ruleForm.CompanyName" placeholder="请输入客户名称"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="到厂时间" prop="StartTime" required>
-							<el-date-picker
-								v-model="ruleForm.StartTime"
-								type="datetime"
-								placeholder="到厂时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="出厂时间" prop="EndTime">
-							<el-date-picker
-								v-model="ruleForm.EndTime"
-								type="datetime"
-								placeholder="出厂时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="外观缺陷" prop="SurfaceRemark" >
-							<el-input
-								v-model="ruleForm.SurfaceRemark"
-								:rows="2"
-								type="textarea"
-								placeholder="请输入"
-							/>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">		
-						<el-form-item label="故障描述" prop="FaultRemark" >
-							<el-input
-							v-model="ruleForm.FaultRemark"
-							:rows="2"
-							type="textarea"
-							placeholder="请输入"
-						/>
+			<el-divider content-position="left">选择项目*</el-divider>
+            <div class="">
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
+					<el-form-item label="关键字：">
+						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="备注" prop="Remark" >
-							<el-input
-							v-model="ruleForm.Remark"
-							:rows="2"
-							type="textarea"
-							placeholder="请输入"
-						/>
-						</el-form-item>
-					</el-col>
-				</el-row>
-			</el-form>
+					<el-form-item>
+						<el-button type="info" @click="onResetSearch">
+							<el-icon>
+								<RefreshLeft />
+							</el-icon>
+							{{ $t('message.action.reset') }}
+						</el-button>
+						<el-button type="info" @click="onGetTableData(true)">
+							<el-icon>
+								<Search />
+							</el-icon>
+							&#8197;{{ $t('message.action.search') }}
+						</el-button>
+					</el-form-item>
+                    <el-form-item></el-form-item>
+				</el-form>
+			</div>
+			<div class="">
+				<el-form>
+					<el-form-item>
+						<el-button type="primary" @click="routerPath()" v-auth:[moduleKey]="'btn.Add'">
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							&#8197;{{ $t('message.action.add') }}
+						</el-button>
+					</el-form-item>
+				</el-form>
+			</div>
+			<el-table 
+				:data="tableData.data"
+				v-loading="tableData.loading"
+				style="width: 100%"
+				:height="proxy.$calcMainHeight(-75)"
+				border
+				stripe
+				highlight-current-row
+				ref="multipleTableRef"
+				@selection-change="handleSelectionChange">
+				<el-table-column type="index" label="序号" align="right" width="70" fixed />
+				<el-table-column prop="ProjectName" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
+                <el-table-column prop="No" label="项目编号" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Qty" label="预估工时" width="70" align="right"></el-table-column>
+			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
@@ -104,22 +62,27 @@
 		</el-dialog>
 		
 	</div>
+	<editDlg ref="editDlgRef" />
 </template>
 
 <script lang="ts">
-import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+//import { Plus } from '@element-plus/icons-vue';
+import { ElMessage, UploadProps,ElTable } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
+import { useRouter } from 'vue-router';
 
 export default {
-	name: 'receptionEdit',
+	name: 'sheetEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
+		const editDlgRef = ref();
+		const kind = "repair";
+		const router =  useRouter();
 		console.log("message.action.add:",t('message.action.add'))
 		//文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
@@ -151,8 +114,18 @@ export default {
 			fileUrl = state.httpsText + filList[0];
 			return fileUrl;
 		};
-		
-		
+		//选择框
+		interface User {
+			ProjectName: string
+			No: string
+			Qty: string
+		};
+		const multipleSelection = ref<User[]>([])
+		const handleSelectionChange = (val: User[]) => {
+  			multipleSelection.value = val
+		};
+		const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+
 		const tableData = reactive({
 			data: [],
 			loading: false,
@@ -161,9 +134,16 @@ export default {
 				pageSize: 10000,
 			},
 		});
-		
+		// 打开弹窗
+		 const onOpenDlg = (id: string, ishow: boolean) => {
+			//console.log("弹框",editDlgRef)
+		 	editDlgRef.value.openDialog(state.kind, id, ishow);
+		 };
+		const moduleKey = `api_repair_sheet`;
 		const state = reactive({
+			moduleKey: moduleKey,
 			isShowDialog: false,
+			kind,
 			title: t('message.action.add'),
 			loading: false,
 			disable: true, //是否禁用
@@ -173,20 +153,22 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'info',
-				VehicleNumber: '',
-				IsExternal:0,
-				VehicleType: '',
-				EnergyType: '',
-				Mileage: 0,
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
-				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
-				Brand: '',
+				ProjectType: '',
+				GoodsName: '',
+				No: '',
+				Qty: 0,			
+				Remark: '',
+				BillNo:'',
+				VehicleNumber:'',
+				Brand:'',
+				VehicleType:'',
+				CompanyName:'',
+				Mileage:'',
+				Linkman:'',
+				Phone:'',
+				ExamState:'',
+				StartTime:'',
+				EndTime:'',
 			},
 			tableItem: {
 				Id: '0',
@@ -198,8 +180,8 @@ export default {
 				Kind: 'info',
 			},
 			dialogVisible: false,
-			vehicleTypeList: [],
-			brandList: [],
+			truckTypeList: [],
+			energyTypeList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -217,6 +199,34 @@ export default {
 					trigger: 'blur',
 				},
 			],
+			Brand: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			VehicleType: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			CompanyName: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Mileage: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
 			Linkman: [
 				{
 					required: true,
@@ -231,7 +241,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			Mileage: [
+			ExamState: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -245,28 +255,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			TransportLicenseEndDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			VehicleType: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Brand: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			CompanyName: [
+			EndTime: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -284,19 +273,19 @@ export default {
 			try {
 				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
 				if (resTruckTypes.errcode == 0) {
-					state.vehicleTypeList = resTruckTypes.data;
+					state.truckTypeList = resTruckTypes.data;
 				}else{
 					console.log("error:",resTruckTypes.errmsg)
 				}
-				const resBrands = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_brand', 0, 2);
-				if (resBrands.errcode == 0) {
-					state.brandList = resBrands.data;
+				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
+				if (resEnergyTypes.errcode == 0) {
+					state.energyTypeList = resEnergyTypes.data;
 				}else{
-					console.log("error:",resBrands.errmsg)
+					console.log("error:",resEnergyTypes.errmsg)
 				}
 				state.disable = disable;
 				if (id && id != '0') {
-					getByIdRow(id);
+					GetByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
@@ -308,24 +297,24 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		const getByIdRow = async (Id: string) => {
+		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle.getById(Id);
+				const res = await proxy.$api.erp.vehicle_project.getById(Id);
 				if (res.errcode != 0) {
 					return;
-				}
-				if(res.data.EndTime < '2000-01-01'){
-					res.data.EndTime='';
 				}
 				state.ruleForm = res.data;
 			} finally {
 				state.isShowDialog = true;
 			}
 		};
+		// 页面跳转
+		const routerPath= ()=>{
+			//console.log(router)
+			router.push('/admin/mcs/repair/project/0/0');
+		}
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;
@@ -359,7 +348,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
+						const res = await proxy.$api.erp.sheet.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -405,7 +394,7 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
-			getByIdRow,
+			GetByIdRow,
 			onSuccessFile,
 			onRemove,
 			onBeforeImageUpload,
@@ -417,11 +406,13 @@ export default {
 			rules,
 			token,
 			onSubmit,
+			onOpenDlg,
+			editDlgRef,
+			routerPath,
+			handleSelectionChange,
+			multipleTableRef,
 			...toRefs(state),
 		};
-	},
-	components: {
-		Plus,
 	},
 	data() {
 		return {};

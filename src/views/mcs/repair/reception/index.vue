@@ -92,7 +92,7 @@
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						
-						<el-button text bg @click="routerPath()" v-auth:[moduleKey]="'btn.Add'" v-if="scope.row.State !== 1">
+						<el-button text bg @click="routerPath(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Add'" v-if="scope.row.State !== 1">
 							{{ $t('message.action.billing') }}
 						</el-button>
 					
@@ -221,9 +221,11 @@ export default {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
-		const routerPath= ()=>{
-			//console.log(router)
-			router.push('/admin/mcs/repair/sheet/0/0');
+		// 打开弹窗
+		const routerPath= (id: string, ishow: boolean)=>{
+			//console.log(id)
+			router.push('/admin/mcs/repair/sheet/0/0')
+			editDlgRef.value.openDialog(state.kind, id, ishow);
 		}
 		// 页面加载时
 		onMounted(() => {
