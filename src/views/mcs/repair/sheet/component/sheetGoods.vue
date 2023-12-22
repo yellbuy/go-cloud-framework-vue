@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
-			<el-divider content-position="left">选择配件*</el-divider>
+			<el-divider content-position="left">选择项目*</el-divider>
             <div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="关键字：">
@@ -27,7 +27,7 @@
 			<div class="">
 				<el-form>
 					<el-form-item>
-						<el-button type="primary" @click="onOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
+						<el-button type="primary" @click="routerPath()" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -36,6 +36,9 @@
 					</el-form-item>
 				</el-form>
 			</div>
+			<div style="margin-top: 20px">
+				<el-button @click="toggleSelection()">清空</el-button>
+  			</div>
 			<el-table 
 				:data="tableData.data"
 				v-loading="tableData.loading"
@@ -43,11 +46,14 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row>
+				highlight-current-row
+				ref="multipleTableRef"
+				@selection-change="handleSelectionChange">
+				<el-table-column type="selection" width="55" />
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="配件名称" width="120" show-overflow-tooltip fixed></el-table-column>
-                <el-table-column prop="No" label="编号" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="CategoryName" label="配件类别名称" width="120"></el-table-column>
+                <el-table-column prop="GoodsSn" label="编号" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="GoodsAlisa" label="配件类别名称" width="70" align="right"></el-table-column>
 			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
@@ -60,18 +66,22 @@
 		</el-dialog>
 		
 	</div>
-	<addDlg ref="addDlgRef" />
+	<editDlg ref="addDlgRef" />
+	<div>
+		<index ref="page2Data"></index>
+  </div>
 </template>
 
 <script lang="ts">
 //import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps } from 'element-plus';
+import { ElMessage, UploadProps,ElTable } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-
+import { useRouter } from 'vue-router';
+import  index  from '@/views/mcs/repair/goods/index.vue';
 
 export default {
 	name: 'sheetEdit',
@@ -80,6 +90,8 @@ export default {
 		const { t } = useI18n();
 		const addDlgRef = ref();
 		const kind = "repair";
+		const router =  useRouter();
+		const page2Data = ref();
 		console.log("message.action.add:",t('message.action.add'))
 		//文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
@@ -111,7 +123,26 @@ export default {
 			fileUrl = state.httpsText + filList[0];
 			return fileUrl;
 		};
-		
+		//选择框
+		interface User {
+			date: string
+			name: string
+			address: string
+		};
+		const multipleSelection = ref<User[]>([])
+		const handleSelectionChange = (val: User[]) => {
+  			multipleSelection.value = val
+		};
+		const multipleTableRef = ref<InstanceType<typeof ElTable>>()
+			const toggleSelection = (rows?: User[]) => {
+  				if (rows) {
+    				rows.forEach((row) => {
+      				multipleTableRef.value!.toggleRowSelection(row, undefined)
+    				})
+  				} else {
+    					multipleTableRef.value!.clearSelection()
+  				}
+			}	
 		
 		const tableData = reactive({
 			data: [],
@@ -123,8 +154,8 @@ export default {
 		});
 		// 打开弹窗
 		 const onOpenDlg = (id: string, ishow: boolean) => {
-			console.log("弹框",addDlgRef)
-            addDlgRef.value.openDialog(state.kind, id, ishow);
+			//console.log("弹框",editDlgRef)
+		 	//editDlgRef.value.openDialog(state.kind, id, ishow);
 		 };
 		const moduleKey = `api_repair_sheet`;
 		const state = reactive({
@@ -135,6 +166,17 @@ export default {
 			loading: false,
 			disable: true, //是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
+			tableData: {
+				data: [],
+				total: 0,
+				loading: false,
+				param: {
+					keyword: '',
+					pageNum: 1,
+					pageSize: 20,
+					state: -1,
+				},
+			},
 			//表单
 			ruleForm: {
 				Id: 0,
@@ -253,36 +295,8 @@ export default {
 		
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
-			state.Files = [];
-			console.log('类型', kind);
-			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
-			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				}else{
-					console.log("error:",resTruckTypes.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
-				}
-				state.disable = disable;
-				if (id && id != '0') {
-					GetByIdRow(id);
-					state.title = t('message.action.edit');
-				} else {
-					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal=0;
-					state.title = t('message.action.add');
-				}
-				state.isShowDialog = true;
-			} finally {
-				state.isShowDialog = true;
-			}
+			state.isShowDialog = true;
+			onGetTableData();
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
@@ -295,13 +309,18 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+		// 页面跳转
+		const routerPath= ()=>{
+			//console.log(router)
+			router.push('/admin/mcs/repair/project/0/0');
+		}
 		// 关闭弹窗
 		const closeDialog = () => {
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
+			//onLoadTable();
 		};
 
 		const onLoadTable = () => {
@@ -322,32 +341,29 @@ export default {
 			}
 			state.saveState = false;
 			state.dialogVisible = true;
-		};		
+		};	
+		// 初始化表格数据
+		const onGetTableData = async (gotoFirstPage: boolean = false) => {
+			if (gotoFirstPage) {
+				state.tableData.param.pageNum = 1;
+			}
+			state.tableData.loading = true;
+			try {
+				const res = await proxy.$api.wms.goods.getListByScope("repair", 0, 0, state.tableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.tableData.data = res.data;
+				state.tableData.total = res.total;
+			} finally {
+				state.tableData.loading = false;
+			}
+		};	
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
-			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
-				if (valid) {
-					state.loading = true;
-					state.ruleForm.Id = state.ruleForm.Id.toString();
-					try {
-						const res = await proxy.$api.erp.sheet.save(state.ruleForm);
-						if (res.errcode == 0) {
-							if (isCloseDlg) {
-								closeDialog();
-							} else {
-								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id = 0;
-							}
-							proxy.$parent.onGetTableData();
-						}
-					} finally {
-						state.loading = false;
-					}
-					return false;
-				} else {
-					return false;
-				}
-			});
+			proxy.$parent.saveGoods(multipleSelection.value);
+			closeDialog();
+
 		};
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
@@ -384,12 +400,17 @@ export default {
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
-			tableData,
 			rules,
 			token,
 			onSubmit,
 			onOpenDlg,
 			addDlgRef,
+			routerPath,
+			handleSelectionChange,
+			multipleTableRef,
+			toggleSelection,
+			page2Data,
+			onGetTableData,
 			...toRefs(state),
 		};
 	},

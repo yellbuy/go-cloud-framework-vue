@@ -96,7 +96,7 @@
 			<div class="">
 				<el-form>
 					<el-form-item>
-						<el-button type="primary" @click="onOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
+						<el-button type="primary" @click="onAddOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -106,17 +106,24 @@
 				</el-form>
 			</div>
 			<el-table 
-				:data="tableData.data"
-				v-loading="tableData.loading"
+				:data="projectTableData.data"
+				v-loading="projectTableData.loading"
 				style="width: 100%"
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
 				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="ProjectName" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Qty" label="预估工时" width="70" align="right"></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+					<template #default="scope">
+						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+							{{ $t('message.action.delete') }}
+						</el-button>
+					</template>
+				</el-table-column>
 			</el-table>
 			<el-divider content-position="left">配件列表*</el-divider>
 			<div class="">
@@ -132,8 +139,8 @@
 				</el-form>
 			</div>
 			<el-table
-				:data="tableData.data"
-				v-loading="tableData.loading"
+				:data="goodsTableData.data"
+				v-loading="goodsTableData.loading"
 				style="width: 100%"
 				:height="proxy.$calcMainHeight(-75)"
 				border
@@ -141,8 +148,15 @@
 				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="No" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+					<template #default="scope">
+						<el-button text bg type="danger" @click="onGoodsDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+							{{ $t('message.action.delete') }}
+						</el-button>
+					</template>
+				</el-table-column>
 			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
@@ -156,12 +170,12 @@
 		
 	</div>
 	<editDlg ref="editDlgRef" />
-	<addDlg ref="editDlgRef" />
+	<addDlg ref="addDlgRef" />
 </template>
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps } from 'element-plus';
+import { ElMessage, UploadProps,ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -169,6 +183,7 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 import editDlg from './sheetProject.vue';
 import addDlg from './sheetGoods.vue';
+import { Interface } from 'readline';
 
 export default {
 	name: 'sheetEdit',
@@ -177,6 +192,7 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		const editDlgRef = ref();
+		const addDlgRef = ref();
 		const kind = "repair";
 		console.log("message.action.add:",t('message.action.add'))
 		//文件列表更新
@@ -222,8 +238,46 @@ export default {
 		// 打开弹窗
 		 const onOpenDlg = (id: string, ishow: boolean) => {
 			console.log("弹框",editDlgRef)
+		 	addDlgRef.value.openDialog(state.kind, id, ishow);
+		 };
+		  const onAddOpenDlg = (id: string, ishow: boolean) => {
 		 	editDlgRef.value.openDialog(state.kind, id, ishow);
 		 };
+		 // 删除用户
+		const onModelDel = (Id: string) => {
+			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					const res = await proxy.$api.erp.project.delete(Id);
+					if (res.errcode == 0) {
+						onGetTableData();
+					}
+				} finally {
+					state.tableData.loading = false;
+				}
+				return false;
+			});
+		}; // 删除用户
+		const onGoodsDel = (Id: string) => {
+			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					const res = await proxy.$api.wms.goods.delete(Id);
+					if (res.errcode == 0) {
+						onGetTableData();
+					}
+				} finally {
+					state.tableData.loading = false;
+				}
+				return false;
+			});
+		};
 		const moduleKey = `api_repair_sheet`;
 		const state = reactive({
 			moduleKey: moduleKey,
@@ -233,6 +287,17 @@ export default {
 			loading: false,
 			disable: true, //是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
+			tableData: {
+				data: [],
+				total: 0,
+				loading: false,
+				param: {
+					keyword: '',
+					pageNum: 1,
+					pageSize: 20,
+					state: -1,
+				},
+			},
 			//表单
 			ruleForm: {
 				Id: 0,
@@ -272,6 +337,28 @@ export default {
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
+			projectTableData: {
+				data: [],
+				total: 0,
+				loading: false,
+				param: {
+					keyword: '',
+					pageNum: 1,
+					pageSize: 20,
+					state: -1,
+				},
+			},
+			goodsTableData: {
+				data: [],
+				total: 0,
+				loading: false,
+				param: {
+					keyword: '',
+					pageNum: 1,
+					pageSize: 20,
+					state: -1,
+				},
+			},
 		});
 		const token = Session.get('token');
 		const rules = reactive({
@@ -348,7 +435,12 @@ export default {
 				},
 			],
 		});
-		
+		const saveProject=(list:Array<Interface>)=>{
+			state.projectTableData.data = list
+		}
+		const saveGoods=(list:Array<Interface>)=>{
+			state.goodsTableData.data = list
+		}
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
@@ -467,7 +559,9 @@ export default {
 		};
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
-		onMounted(() => {});
+		onMounted(() => {
+			
+		});
 		return {
 			proxy,
 			t,
@@ -482,12 +576,17 @@ export default {
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
-			tableData,
 			rules,
 			token,
 			onSubmit,
 			onOpenDlg,
+			onAddOpenDlg,
 			editDlgRef,
+			addDlgRef,
+			saveProject,
+			saveGoods,
+			onModelDel,
+			onGoodsDel,
 			...toRefs(state),
 		};
 	},

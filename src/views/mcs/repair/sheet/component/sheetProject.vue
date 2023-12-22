@@ -36,6 +36,9 @@
 					</el-form-item>
 				</el-form>
 			</div>
+			<div style="margin-top: 20px">
+				<el-button @click="toggleSelection()">清空</el-button>
+  			</div>
 			<el-table 
 				:data="tableData.data"
 				v-loading="tableData.loading"
@@ -46,8 +49,9 @@
 				highlight-current-row
 				ref="multipleTableRef"
 				@selection-change="handleSelectionChange">
+				<el-table-column type="selection" width="55" />
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="ProjectName" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
                 <el-table-column prop="No" label="项目编号" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Qty" label="预估工时" width="70" align="right"></el-table-column>
 			</el-table>
@@ -63,6 +67,9 @@
 		
 	</div>
 	<editDlg ref="editDlgRef" />
+	<div>
+		<index ref="page1Data"></index>
+  </div>
 </template>
 
 <script lang="ts">
@@ -74,6 +81,7 @@ import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 import { useRouter } from 'vue-router';
+import  index  from '@/views/mcs/repair/project/index.vue';
 
 export default {
 	name: 'sheetEdit',
@@ -83,6 +91,7 @@ export default {
 		const editDlgRef = ref();
 		const kind = "repair";
 		const router =  useRouter();
+		const page1Data = ref();
 		console.log("message.action.add:",t('message.action.add'))
 		//文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
@@ -116,16 +125,25 @@ export default {
 		};
 		//选择框
 		interface User {
-			ProjectName: string
-			No: string
-			Qty: string
+			date: string
+			name: string
+			address: string
 		};
 		const multipleSelection = ref<User[]>([])
 		const handleSelectionChange = (val: User[]) => {
   			multipleSelection.value = val
 		};
 		const multipleTableRef = ref<InstanceType<typeof ElTable>>()
-
+			const toggleSelection = (rows?: User[]) => {
+  				if (rows) {
+    				rows.forEach((row) => {
+      				multipleTableRef.value!.toggleRowSelection(row, undefined)
+    				})
+  				} else {
+    					multipleTableRef.value!.clearSelection()
+  				}
+			}	
+		
 		const tableData = reactive({
 			data: [],
 			loading: false,
@@ -137,7 +155,7 @@ export default {
 		// 打开弹窗
 		 const onOpenDlg = (id: string, ishow: boolean) => {
 			//console.log("弹框",editDlgRef)
-		 	editDlgRef.value.openDialog(state.kind, id, ishow);
+		 	//editDlgRef.value.openDialog(state.kind, id, ishow);
 		 };
 		const moduleKey = `api_repair_sheet`;
 		const state = reactive({
@@ -148,6 +166,17 @@ export default {
 			loading: false,
 			disable: true, //是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
+			tableData: {
+				data: [],
+				total: 0,
+				loading: false,
+				param: {
+					keyword: '',
+					pageNum: 1,
+					pageSize: 20,
+					state: -1,
+				},
+			},
 			//表单
 			ruleForm: {
 				Id: 0,
@@ -266,36 +295,8 @@ export default {
 		
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
-			state.Files = [];
-			console.log('类型', kind);
-			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
-			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				}else{
-					console.log("error:",resTruckTypes.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
-				}
-				state.disable = disable;
-				if (id && id != '0') {
-					GetByIdRow(id);
-					state.title = t('message.action.edit');
-				} else {
-					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal=0;
-					state.title = t('message.action.add');
-				}
-				state.isShowDialog = true;
-			} finally {
-				state.isShowDialog = true;
-			}
+			state.isShowDialog = true;
+			onGetTableData();
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
@@ -319,7 +320,7 @@ export default {
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
+			//onLoadTable();
 		};
 
 		const onLoadTable = () => {
@@ -340,32 +341,29 @@ export default {
 			}
 			state.saveState = false;
 			state.dialogVisible = true;
-		};		
+		};	
+		// 初始化表格数据
+		const onGetTableData = async (gotoFirstPage: boolean = false) => {
+			if (gotoFirstPage) {
+				state.tableData.param.pageNum = 1;
+			}
+			state.tableData.loading = true;
+			try {
+				const res = await proxy.$api.erp.project.getListByScope("repair", 0, 0, state.tableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.tableData.data = res.data;
+				state.tableData.total = res.total;
+			} finally {
+				state.tableData.loading = false;
+			}
+		};	
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
-			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
-				if (valid) {
-					state.loading = true;
-					state.ruleForm.Id = state.ruleForm.Id.toString();
-					try {
-						const res = await proxy.$api.erp.sheet.save(state.ruleForm);
-						if (res.errcode == 0) {
-							if (isCloseDlg) {
-								closeDialog();
-							} else {
-								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id = 0;
-							}
-							proxy.$parent.onGetTableData();
-						}
-					} finally {
-						state.loading = false;
-					}
-					return false;
-				} else {
-					return false;
-				}
-			});
+			proxy.$parent.saveProject(multipleSelection.value);
+			closeDialog();
+
 		};
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
@@ -402,7 +400,6 @@ export default {
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
-			tableData,
 			rules,
 			token,
 			onSubmit,
@@ -411,6 +408,9 @@ export default {
 			routerPath,
 			handleSelectionChange,
 			multipleTableRef,
+			toggleSelection,
+			page1Data,
+			onGetTableData,
 			...toRefs(state),
 		};
 	},
