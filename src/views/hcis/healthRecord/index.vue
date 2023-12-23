@@ -39,16 +39,16 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
-				<el-table-column prop="VehicleType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column label="外部车" width="70" show-overflow-tooltip>
+				<el-table-column prop="Sn" label="编号" width="100" fixed></el-table-column>
+				<el-table-column prop="Name" label="姓名" width="120" show-overflow-tooltip></el-table-column>
+				<!-- <el-table-column label="外部车" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.IsExternal"
 							inline-prompt
 							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
+							@change="proxy.$api.common.table.updateById('erp_healthRecord', 'is_external', scope.row.Id, scope.row.IsExternal)"
 							:active-text="$t('message.action.yes')"
 							:inactive-text="$t('message.action.no')"
 							:active-value="1"
@@ -57,13 +57,13 @@
 						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
 				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
+				<!-- <el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column> -->
 				
-				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column>
+				<!-- <el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column> -->
 				<el-table-column label="状态" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -71,7 +71,7 @@
 							inline-prompt
 							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'state', scope.row.Id, scope.row.State)"
+							@change="proxy.$api.common.table.updateById('erp_healthRecord', 'state', scope.row.Id, scope.row.State)"
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
@@ -118,11 +118,11 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from './component/vehicleEdit.vue';
+import editDlg from './component/healthRecordEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'vehicleInfo',
+	name: 'healthRecordInfo',
 	components: { editDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -130,7 +130,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_baseinfo_vehicle`;
+		const moduleKey = `api_hcis_healthrecord`;
 		const editDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
@@ -165,7 +165,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.vehicle.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.healthRecord.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -187,7 +187,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.vehicle.delete(Id);
+					const res = await proxy.$api.erp.healthRecord.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}

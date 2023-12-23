@@ -5,6 +5,7 @@ lib
 *.md
 *.scss
 *.woff
+*.woff2
 *.ttf
 .vscode
 .idea

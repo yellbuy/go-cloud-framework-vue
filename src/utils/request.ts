@@ -16,6 +16,8 @@ if (appid == "30") {
 	appPermissionKey = "bpp"
 } else if (appid == "158625451365892097") {
 	appPermissionKey = "ims"
+} else if (appid == "263250626593423361") {
+	appPermissionKey = "hcis"
 }
 // 配置新建一个 axios 实例
 const service = axios.create({

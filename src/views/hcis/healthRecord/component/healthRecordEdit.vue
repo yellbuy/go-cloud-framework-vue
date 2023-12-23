@@ -5,8 +5,8 @@
 				<el-divider content-position="left">基本信息*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车牌号" prop="VehicleNumber">
-							<el-input v-model="ruleForm.VehicleNumber" placeholder="车牌号码"></el-input> 
+						<el-form-item label="车牌号" prop="healthRecordNumber">
+							<el-input v-model="ruleForm.healthRecordNumber" placeholder="车牌号码"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -22,8 +22,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆类型" prop="VehicleType">
-							<el-select v-model="ruleForm.VehicleType" placeholder="请选择">
+						<el-form-item label="车辆类型" prop="healthRecordType">
+							<el-select v-model="ruleForm.healthRecordType" placeholder="请选择">
 								<el-option v-for="item in truckTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -152,7 +152,7 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
-	name: 'vehicleEdit',
+	name: 'healthRecordEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -209,9 +209,9 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'info',
-				VehicleNumber: '',
+				healthRecordNumber: '',
 				IsExternal:0,
-				VehicleType: '',
+				healthRecordType: '',
 				EnergyType: '',
 				PlateColor:'',
 				Vin: '',
@@ -247,7 +247,7 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			VehicleNumber: [
+			healthRecordNumber: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
@@ -298,7 +298,7 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
+				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('healthRecord_type', 0, 2);
 				if (resTruckTypes.errcode == 0) {
 					state.truckTypeList = resTruckTypes.data;
 				}else{
@@ -338,7 +338,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle.getById(Id);
+				const res = await proxy.$api.erp.healthRecord.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -384,7 +384,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
+						const res = await proxy.$api.erp.healthRecord.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
