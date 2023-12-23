@@ -1,5 +1,5 @@
 <template>
-	<div class="hcis-healthrecord-list-container">
+	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
@@ -118,7 +118,7 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from './component/healthRecordEdit.vue';
+import editDlg from './component/vehicleEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
@@ -130,7 +130,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_hcis_healthrecord`;
+		const moduleKey = `api_baseinfo_vehicle`;
 		const editDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
@@ -165,7 +165,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.hcis.healthrecord.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.vehicle.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -187,7 +187,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.hcis.healthrecord.delete(Id);
+					const res = await proxy.$api.erp.vehicle.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}

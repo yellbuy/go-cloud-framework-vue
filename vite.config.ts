@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import { ConfigEnv, defineConfig, loadEnv } from 'vite';
 import viteCompression from 'vite-plugin-compression';
 import vueSetupExtend from 'vite-plugin-vue-setup-extend-plus';
-import { buildConfig } from './src/utils/build';
+import { buildConfig } from './src/utils/build.js';
 import { svgBuilder } from './src/views/meta/components/DynamicForm/icons/index.js';
 
 const pathResolve = (dir: string) => {

@@ -1,5 +1,5 @@
 <template>
-	<div class="hcis-healthrecord-edit-container">
+	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
@@ -338,7 +338,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.hcis.healthrecord.getById(Id);
+				const res = await proxy.$api.erp.vehicle.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -384,7 +384,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.hcis.healthrecord.save(state.ruleForm);
+						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
