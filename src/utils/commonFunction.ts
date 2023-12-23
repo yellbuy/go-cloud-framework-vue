@@ -9,6 +9,7 @@ export default function () {
 
 	const { toClipboard } = useClipboard();
 
+	
 	//列表日期时间格式化
 	const dateFormatYMD = (row: any, column: number, cellValue: any) => {
 		if (!cellValue || cellValue.toString().substr(0, 4) <= '1970') return '-';
@@ -31,6 +32,21 @@ export default function () {
 		if (typeof row === 'number') time = row;
 		if (typeof cellValue === 'number') time = cellValue;
 		return formatDate(new Date(time * 1000), 'HH:MM:SS');
+	};
+	//列表日期时间格式化
+	const dateFormatY = (row: any, column: number, cellValue: any) => {
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '1970') return '-';
+		return formatDate(new Date(cellValue), 'YYYY');
+	};
+	//列表日期时间格式化
+	const dateFormatYM = (row: any, column: number, cellValue: any) => {
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '1970') return '-';
+		return formatDate(new Date(cellValue), 'YYYY-mm');
+	};
+	//列表日期时间格式化
+	const dateFormatMD = (row: any, column: number, cellValue: any) => {
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '1970') return '-';
+		return formatDate(new Date(cellValue), 'mm-dd');
 	};
 
 
@@ -142,7 +158,11 @@ export default function () {
 		isUrl,
 		percentFormat,
 		dateFormat,
+		
 		dateFormatYMD,
+		dateFormatYM,
+		dateFormatMD,
+		dateFormatY,
 		dateFormatYMDHM,
 		dateFormatYMDHMS,
 		dateFormatHMS,

@@ -41,25 +41,27 @@
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Sn" label="编号" width="100" fixed></el-table-column>
 				<el-table-column prop="Name" label="姓名" width="120" show-overflow-tooltip></el-table-column>
-				<!-- <el-table-column label="外部车" width="70" show-overflow-tooltip>
+				<el-table-column label="性别" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
-							v-model="scope.row.IsExternal"
+							v-model="scope.row.Gender"
 							inline-prompt
 							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_healthRecord', 'is_external', scope.row.Id, scope.row.IsExternal)"
-							:active-text="$t('message.action.yes')"
-							:inactive-text="$t('message.action.no')"
+							@change="proxy.$api.common.table.updateById('hcis_health_record', 'gender', scope.row.Id, scope.row.Gender)"
+							:active-text="$t('message.action.male')"
+							:inactive-text="$t('message.action.female')"
 							:active-value="1"
 							:inactive-value="0"
 						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.Gender==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.male') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.female') }}</el-tag>
 					</template>
-				</el-table-column> -->
+				</el-table-column>
+				<el-table-column prop="Contact" label="联系方式" width="90"></el-table-column>
 				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
 				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Birthday" label="出生年月" width="100" :formatter="dateFormatYM" show-overflow-tooltip> </el-table-column>
 				<!-- <el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column> -->
 				
@@ -213,7 +215,7 @@ export default {
 			onGetTableData();
 		});
 
-		const { dateFormatYMDHM } = commonFunction();
+		const { dateFormatYM } = commonFunction();
 
 		return {
 			proxy,
@@ -224,7 +226,7 @@ export default {
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
-			dateFormatYMDHM,
+			dateFormatYM,
 			...toRefs(state),
 		};
 	},
