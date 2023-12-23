@@ -116,7 +116,7 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
-	name: 'vehicleEdit',
+	name: 'receptionEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();

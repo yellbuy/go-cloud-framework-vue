@@ -19,7 +19,7 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button type="primary" @click="onOpenEditDlg()" v-auth:[moduleKey]="'btn.Add'">
+						<el-button type="primary" @click="onOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -151,6 +151,7 @@ export default {
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
+	
 		// 删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
@@ -180,6 +181,7 @@ export default {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
+		// 页面跳转
 		const routerPath= ()=>{
 			//console.log(router)
 			router.push('/admin/mcs/repair/sheet/0/0');
