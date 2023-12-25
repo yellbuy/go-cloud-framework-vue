@@ -53,6 +53,7 @@ export default {
 		frontend:'front end',
 		backend:'back end',
 		billing: "billing",
+		dispatchWorkers:"dispatch workers",
 	},
 	validRule:{
 		required:'Required.',

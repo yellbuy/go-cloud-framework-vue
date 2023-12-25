@@ -1,99 +1,96 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="1000px" :before-close="closeDialog">
 			<el-divider content-position="left">基本信息*</el-divider>
 			<el-card shadow="hover">
-				<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading">
-						<el-row :gutter="20">
-							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="维修单号" prop="BillNo">
-									<el-input v-model="ruleForm.BillNo" autofocus placeholder="" disabled maxlength="100" clearable></el-input>
-								</el-form-item>
-							</el-col>
-							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="车牌号" prop="VehicleNumber">
-									<el-input v-model="ruleForm.VehicleNumber" placeholder="" disabled learable></el-input>
-								</el-form-item>
-							</el-col>		
-								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="车辆品牌" prop="Brand">
-									<el-input v-model="ruleForm.Brand" placeholder="" disabled clearable></el-input>
-								</el-form-item>
-							</el-col>
-						</el-row>
-						<el-row :gutter="20">
-							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="车型" prop="VehicleType">
-									<el-input v-model="ruleForm.VehicleType" autofocus placeholder="" disabled maxlength="100" clearable></el-input>
-								</el-form-item>
-							</el-col>
-							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="客户名称" prop="CompanyName">
-									<el-input v-model="ruleForm.CompanyName" placeholder="" disabled clearable></el-input>
-								</el-form-item>
-							</el-col>		
-								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="公里数" prop="Mileage">
-									<el-input v-model="ruleForm.Mileage" placeholder="" disabled clearable></el-input>
-								</el-form-item>
-							</el-col>
-						</el-row>
-						<el-row :gutter="20">
-							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="到厂次数" prop="GoodsName">
-									<el-input v-model="ruleForm.GoodsName" autofocus placeholder="" disabled maxlength="100" clearable></el-input>
-								</el-form-item>
-							</el-col>
-							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="联系人" prop="Linkman">
-									<el-input v-model="ruleForm.Linkman" placeholder="" disabled clearable></el-input>
-								</el-form-item>
-							</el-col>		
-								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="联系电话" prop="Phone">
-									<el-input v-model="ruleForm.Phone" placeholder="" disabled clearable></el-input>
-								</el-form-item>
-							</el-col>
-						</el-row>
-						<el-row :gutter="20">
-							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="维修类型" prop="ExamState">
-									<el-input v-model="ruleForm.ExamState" autofocus placeholder="" disabled maxlength="100" clearable></el-input>
-								</el-form-item>
-							</el-col>
-							<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="进厂时间" prop="StartTime" required>
-									<el-date-picker
-									v-model="ruleForm.StartTime"
-									type="datetime"
-									placeholder="请选择进厂时间"
-									format="YYYY-MM-DD HH:mm"
-									disabled
-									></el-date-picker>
-								</el-form-item>
-							</el-col>		
-								<el-col  :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-									<el-form-item label="完工时间" prop="EndTime" required>
-									<el-date-picker
-									v-model="ruleForm.EndTime"
-									type="datetime"
-									placeholder="请选择完工时间"
-									format="YYYY-MM-DD HH:mm"
-									></el-date-picker>
-								</el-form-item>
-							</el-col>
-						</el-row>
-						<el-row :gutter="20">
-							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-								<el-form-item label="备注" prop="Remark">
-									<el-input v-model="ruleForm.Remark" autofocus placeholder=""  maxlength="100" clearable></el-input>
-								</el-form-item>
-							</el-col>
-						</el-row>
+				<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="："
+					v-loading="loading">
+					<el-row :gutter="20">
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="维修单号" prop="BillNo">
+								<el-input v-model="ruleForm.BillNo" autofocus placeholder="" disabled maxlength="100"
+									clearable></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="车牌号" prop="VehicleNumber">
+								<el-input v-model="ruleForm.VehicleNumber" placeholder="" disabled learable></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="车辆品牌" prop="Brand">
+								<el-input v-model="ruleForm.Brand" placeholder="" disabled clearable></el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="20">
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="车型" prop="VehicleType">
+								<el-input v-model="ruleForm.VehicleType" autofocus placeholder="" disabled maxlength="100"
+									clearable></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="客户名称" prop="CompanyName">
+								<el-input v-model="ruleForm.CompanyName" placeholder="" disabled clearable></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="公里数" prop="Mileage">
+								<el-input v-model="ruleForm.Mileage" placeholder="" disabled clearable></el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="20">
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="到厂次数" prop="SiteId">
+								<el-input v-model="ruleForm.SiteId" autofocus placeholder="" disabled maxlength="100"
+									clearable></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="联系人" prop="Linkman">
+								<el-input v-model="ruleForm.Linkman" placeholder="" disabled clearable></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="联系电话" prop="Phone">
+								<el-input v-model="ruleForm.Phone" placeholder="" disabled clearable></el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="20">
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="维修类型" prop="ExamState">
+								<el-input v-model="ruleForm.ExamState" autofocus placeholder="" disabled maxlength="100"
+									clearable></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="进厂时间" prop="StartTime" required>
+								<el-date-picker v-model="ruleForm.StartTime" type="datetime" placeholder="请选择进厂时间"
+									format="YYYY-MM-DD HH:mm" disabled></el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="完工时间" prop="EndTime" required>
+								<el-date-picker v-model="ruleForm.EndTime" type="datetime" placeholder="请选择完工时间"
+									format="YYYY-MM-DD HH:mm"></el-date-picker>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row :gutter="20">
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="备注" prop="Remark">
+								<el-input v-model="ruleForm.Remark" autofocus placeholder="" maxlength="100"
+									clearable></el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
 				</el-form>
 			</el-card>
 			<el-divider content-position="left">项目列表*</el-divider>
-			<div class="">
+			<div class="mb10">
 				<el-form>
 					<el-form-item>
 						<el-button type="primary" @click="onAddOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
@@ -105,28 +102,29 @@
 					</el-form-item>
 				</el-form>
 			</div>
-			<el-table 
-				:data="projectTableData.data"
-				v-loading="projectTableData.loading"
-				style="width: 100%"
-				:height="proxy.$calcMainHeight(-75)"
-				border
-				stripe
-				highlight-current-row>
+			<el-table :data="ruleForm.VehicleProjectList" v-loading="projectTableData.loading" style="width: 100%"
+				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Qty" label="预估工时" width="70" align="right"></el-table-column>
+				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="90" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button text bg type="danger" @click="onProjectDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
+						</el-button>
+						<el-button type="primary" @click="onAddWorkerOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							&#8197;{{ $t('message.action.dispatchWorkers') }}
 						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
 			<el-divider content-position="left">配件列表*</el-divider>
-			<div class="">
+			<div class="mb10">
 				<el-form>
 					<el-form-item>
 						<el-button type="primary" @click="onOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
@@ -138,21 +136,15 @@
 					</el-form-item>
 				</el-form>
 			</div>
-			<el-table
-				:data="goodsTableData.data"
-				v-loading="goodsTableData.loading"
-				style="width: 100%"
-				:height="proxy.$calcMainHeight(-75)"
-				border
-				stripe
-				highlight-current-row>
+			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading" style="width: 100%"
+				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Remark" label="备注" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="SellerNote" label="备注" width="90" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="danger" @click="onGoodsDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button text bg type="danger" @click="onGoodsDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
@@ -161,21 +153,23 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
-						$t('message.action.save')
-					}}</el-button>
+					<el-button text bg type="primary" @click="onSubmit(true)"
+						v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+							$t('message.action.save')
+						}}</el-button>
 				</span>
 			</template>
 		</el-dialog>
-		
+
 	</div>
 	<editDlg ref="editDlgRef" />
 	<addDlg ref="addDlgRef" />
+	<addWorkerDlg ref="addWorkerDlgRef" />
 </template>
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps,ElMessageBox } from 'element-plus';
+import { ElMessage, UploadProps, ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -183,18 +177,21 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 import editDlg from './sheetProject.vue';
 import addDlg from './sheetGoods.vue';
+import addWorkerDlg from './sheetAdd.vue';
 import { Interface } from 'readline';
+import { validateHeaderName } from 'http';
 
 export default {
 	name: 'sheetEdit',
-	components: { editDlg, addDlg},
+	components: { editDlg, addDlg, addWorkerDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		const editDlgRef = ref();
 		const addDlgRef = ref();
+		const addWorkerDlgRef = ref();
 		const kind = "repair";
-		console.log("message.action.add:",t('message.action.add'))
+		console.log("message.action.add:", t('message.action.add'))
 		//文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
 			console.log('触发图片上传');
@@ -225,8 +222,8 @@ export default {
 			fileUrl = state.httpsText + filList[0];
 			return fileUrl;
 		};
-		
-		
+
+
 		const tableData = reactive({
 			data: [],
 			loading: false,
@@ -236,46 +233,36 @@ export default {
 			},
 		});
 		// 打开弹窗
-		 const onOpenDlg = (id: string, ishow: boolean) => {
-			console.log("弹框",editDlgRef)
-		 	addDlgRef.value.openDialog(state.kind, id, ishow);
-		 };
-		  const onAddOpenDlg = (id: string, ishow: boolean) => {
-		 	editDlgRef.value.openDialog(state.kind, id, ishow);
-		 };
-		 // 删除用户
-		const onModelDel = (Id: string) => {
+		const onOpenDlg = (id: string, ishow: boolean) => {
+			console.log("弹框", editDlgRef)
+			addDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		const onAddOpenDlg = (id: string, ishow: boolean) => {
+			editDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		const onAddWorkerOpenDlg = (id: string, ishow: boolean) => {
+			console.log("派单")
+			addWorkerDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		// 删除用户
+		const onProjectDel = (index:number) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
-				try {
-					const res = await proxy.$api.erp.project.delete(Id);
-					if (res.errcode == 0) {
-						onGetTableData();
-					}
-				} finally {
-					state.tableData.loading = false;
-				}
-				return false;
+				state.ruleForm.VehicleProjectList.splice(index,1)
+				return true;
 			});
 		}; // 删除用户
-		const onGoodsDel = (Id: string) => {
+		const onGoodsDel = (index:number) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
-				try {
-					const res = await proxy.$api.wms.goods.delete(Id);
-					if (res.errcode == 0) {
-						onGetTableData();
-					}
-				} finally {
-					state.tableData.loading = false;
-				}
-				return false;
+				state.ruleForm.VehicleGoodsList.splice(index,1)
+				return true;
 			});
 		};
 		const moduleKey = `api_repair_sheet`;
@@ -304,21 +291,23 @@ export default {
 				Name: '',
 				Kind: 'info',
 				ProjectType: '',
-				GoodsName: '',
+				SiteId: '',
 				No: '',
-				Qty: 0,			
+				Qty: 0,
 				Remark: '',
-				BillNo:'',
-				VehicleNumber:'',
-				Brand:'',
-				VehicleType:'',
-				CompanyName:'',
-				Mileage:'',
-				Linkman:'',
-				Phone:'',
-				ExamState:'',
-				StartTime:'',
-				EndTime:'',
+				BillNo: '',
+				VehicleNumber: '',
+				Brand: '',
+				VehicleType: '',
+				CompanyName: '',
+				Mileage: '',
+				Linkman: '',
+				Phone: '',
+				ExamState: '',
+				StartTime: '',
+				EndTime: '',
+				VehicleProjectList:[], // 项目列表
+				VehicleGoodsList:[], //配件列表
 			},
 			tableItem: {
 				Id: '0',
@@ -326,12 +315,10 @@ export default {
 				Name: '',
 				Files: '',
 				StartTime: '',
-				EndTime:'',
+				EndTime: '',
 				Kind: 'info',
 			},
 			dialogVisible: false,
-			truckTypeList: [],
-			energyTypeList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -367,7 +354,7 @@ export default {
 			VehicleNumber: [
 				{
 					required: true,
-					message: computed(()=>t('message.validRule.required')),
+					message: computed(() => t('message.validRule.required')),
 					trigger: 'blur',
 				},
 			],
@@ -435,11 +422,13 @@ export default {
 				},
 			],
 		});
-		const saveProject=(list:Array<Interface>)=>{
-			state.projectTableData.data = list
+		const saveProject = (list: never[]) => {
+			const items=list.map(val=>{return {Id:"0",ProjectId:val.Id,ProjectName:val.Name}});
+			state.ruleForm.VehicleProjectList=[...state.ruleForm.VehicleProjectList,...items]
 		}
-		const saveGoods=(list:Array<Interface>)=>{
-			state.goodsTableData.data = list
+		const saveGoods = (list: never[]) => {
+			const items=list.map(val=>{return {Id:"0",GoodsId:val.Id,GoodsSn:val.GoodsSn,GoodsName:val.GoodsName}});
+			state.ruleForm.VehicleGoodsList=[...state.ruleForm.VehicleGoodsList,...items]
 		}
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
@@ -451,14 +440,14 @@ export default {
 				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
 				if (resTruckTypes.errcode == 0) {
 					state.truckTypeList = resTruckTypes.data;
-				}else{
-					console.log("error:",resTruckTypes.errmsg)
+				} else {
+					console.log("error:", resTruckTypes.errmsg)
 				}
 				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
 				if (resEnergyTypes.errcode == 0) {
 					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
+				} else {
+					console.log("error:", resEnergyTypes.errmsg)
 				}
 				state.disable = disable;
 				if (id && id != '0') {
@@ -466,7 +455,7 @@ export default {
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal=0;
+					state.ruleForm.IsExternal = 0;
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -512,7 +501,7 @@ export default {
 			}
 			state.saveState = false;
 			state.dialogVisible = true;
-		};		
+		};
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
@@ -560,7 +549,7 @@ export default {
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
 		onMounted(() => {
-			
+
 		});
 		return {
 			proxy,
@@ -583,10 +572,12 @@ export default {
 			onAddOpenDlg,
 			editDlgRef,
 			addDlgRef,
+			addWorkerDlgRef,
 			saveProject,
 			saveGoods,
-			onModelDel,
+			onProjectDel,
 			onGoodsDel,
+			onAddWorkerOpenDlg,
 			...toRefs(state),
 		};
 	},
@@ -600,6 +591,7 @@ export default {
 .el-select {
 	width: 100%;
 }
+
 .avatar-uploader .el-upload {
 	border: 1px dashed #d9d9d9;
 	border-radius: 6px;

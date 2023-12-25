@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="600px" :before-close="closeDialog">
 			<el-divider content-position="left">选择项目*</el-divider>
             <div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
@@ -43,7 +43,6 @@
 				:data="tableData.data"
 				v-loading="tableData.loading"
 				style="width: 100%"
-				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
 				highlight-current-row
@@ -52,8 +51,9 @@
 				<el-table-column type="selection" width="55" />
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
-                <el-table-column prop="No" label="项目编号" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Qty" label="预估工时" width="70" align="right"></el-table-column>
+				<el-table-column prop="No" label="编号" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="ProjectType" label="项目类型" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Qty" label="预估工时" width="70"></el-table-column>
 			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
@@ -342,6 +342,11 @@ export default {
 			state.saveState = false;
 			state.dialogVisible = true;
 		};	
+		//重置查询条件
+		const onResetSearch = () => {
+			state.tableData.param.keyword = '';
+			onGetTableData(true);
+		};
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
@@ -411,6 +416,7 @@ export default {
 			toggleSelection,
 			page1Data,
 			onGetTableData,
+			onResetSearch,
 			...toRefs(state),
 		};
 	},
