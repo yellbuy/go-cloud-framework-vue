@@ -1,5 +1,5 @@
-import { nextTick } from 'vue';
 import * as svg from '@element-plus/icons-vue';
+import { nextTick } from 'vue';
 
 // 获取阿里字体图标
 const getAlicdnIconfont = () => {
@@ -51,8 +51,10 @@ const getAwesomeIconfont = () => {
 			let sheetsList = [];
 			let sheetsIconList = [];
 			for (let i = 0; i < styles.length; i++) {
-				if (styles[i].href && styles[i].href.indexOf('netdna.bootstrapcdn.com') > -1) {
-					sheetsList.push(styles[i]);
+				const css=styles[i];
+				//console.log("styles[i].href:",css.href)
+				if (css.href && (css.href.indexOf('netdna.bootstrapcdn.com') > -1 || css.href.indexOf('cdn.bootcdn.net') > -1)) {
+					sheetsList.push(css);
 				}
 			}
 			for (let i = 0; i < sheetsList.length; i++) {
