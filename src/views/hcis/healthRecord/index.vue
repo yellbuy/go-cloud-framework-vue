@@ -36,46 +36,34 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-			>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Sn" label="编号" width="100" fixed></el-table-column>
-				<el-table-column prop="Name" label="姓名" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column label="性别" width="70" show-overflow-tooltip>
+				highlight-current-row>
+				<el-table-column type="index" label="序号" align="right" width="70" fixed />				
+				<el-table-column prop="Name" label="姓名" width="70" fixed show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Sn" label="编号" width="110"></el-table-column>
+				<el-table-column label="性别" width="60" align="center">
 					<template #default="scope">
-						<el-switch
-							v-model="scope.row.Gender"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('hcis_health_record', 'gender', scope.row.Id, scope.row.Gender)"
-							:active-text="$t('message.action.male')"
-							:inactive-text="$t('message.action.female')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.Gender==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.male') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.female') }}</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.Gender==1">{{ $t('message.action.male') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.female') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Contact" label="联系方式" width="90"></el-table-column>
-				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
-				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Birthday" label="出生年月" width="100" :formatter="dateFormatYM" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="Contact" label="联系方式" width="100"></el-table-column>
+				<el-table-column prop="Linkman" label="联系人" width="70"></el-table-column>				
+				<el-table-column prop="Phone" label="电话" width="100"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Birthday" label="出生年月" width="80" :formatter="dateFormatYM" show-overflow-tooltip> </el-table-column>
 				<!-- <el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column> -->
 				
 				<!-- <el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column> -->
-				<el-table-column label="状态" width="70" show-overflow-tooltip>
+				<el-table-column label="状态" width="70" align="center">
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
 							inline-prompt
 							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_healthRecord', 'state', scope.row.Id, scope.row.State)"
-							:active-text="$t('message.action.enable')"
-							:inactive-text="$t('message.action.disable')"
+							@change="proxy.$api.common.table.updateById('hcis_health_record', 'state', scope.row.Id, scope.row.State)"
+							:active-text="$t('message.action.valid')"
+							:inactive-text="$t('message.action.invalid')"
 							:active-value="1"
 							:inactive-value="0"
 						/>
@@ -83,11 +71,15 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+				<el-table-column prop="Address" label="地址" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CreateBy" label="录入人" width="80" show-overflow-tooltip></el-table-column>
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
+						</el-button>
+						<el-button text bg type="primary" @click="onOpenFollowUpDlg(scope.row, false)" v-auth:[moduleKey]="'btn.Edit'">
+							{{ $t('pages.hcis.healthRecord.follow_up') }}
 						</el-button>
 						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.see') }}
@@ -113,6 +105,7 @@
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
+		<followUpEditDlg ref="editFollowUpRef" />
 	</div>
 </template>
 
@@ -120,12 +113,13 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
+import followUpEditDlg from './component/followUpEdit.vue';
 import editDlg from './component/healthRecordEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'healthRecordInfo',
-	components: { editDlg },
+	components: { editDlg,followUpEditDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -134,6 +128,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_hcis_healthrecord`;
 		const editDlgRef = ref();
+		const editFollowUpRef=ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -167,7 +162,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.healthRecord.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.hcis.healthRecord.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -177,9 +172,13 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
-		// 打开弹窗
+		// 打开编辑弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		// 打开编辑弹窗
+		const onOpenFollowUpDlg = (row: object, ishow: boolean) => {
+			editFollowUpRef.value.openDialog(state.kind, row.Id,row.Name, ishow);
 		};
 		// 删除用户
 		const onModelDel = (Id: string) => {
@@ -189,7 +188,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.healthRecord.delete(Id);
+					const res = await proxy.$api.hcis.healthRecord.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
@@ -220,9 +219,11 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
+			editFollowUpRef,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
+			onOpenFollowUpDlg,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

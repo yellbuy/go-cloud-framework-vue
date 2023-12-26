@@ -5,6 +5,7 @@ export default {
 	},
 	healthRecord: {
 		no: '档案编号',
+		follow_up:'跟进',
 		tenant: '委托单位',
 		create_by: '委托人',
 		create_time: '委托日期',

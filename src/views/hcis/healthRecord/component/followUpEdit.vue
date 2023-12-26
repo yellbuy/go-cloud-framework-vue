@@ -211,6 +211,59 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
+				<el-divider content-position="left">认知障碍测评结果及后续跟进方式*</el-divider>
+				<el-row :gutter="20" v-for="(val,index) in ruleForm.HealthRecordReviews" :key="index">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="测评编号" prop="No">
+							<el-input v-model="ruleForm.No" placeholder="自动生成"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="测评基准日期" prop="Birthday"  required>
+							<el-date-picker
+										v-model="ruleForm.Birthday"
+										type="date"
+										placeholder="出生日期"
+										format="YYYY-MM-DD"
+									></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="测评原因" prop="Birthday"  required>
+							<el-input v-model="ruleForm.No" placeholder="自动生成"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="测评（MoCA）量表测评结果" prop="Birthday"  required>
+							<el-input-number v-model="ruleForm.Weight" :precision="0" :step="5" :min="0" :max="100"/>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="老人后续跟进方式" prop="Birthday"  required>
+							<el-input v-model="ruleForm.No" placeholder="自动生成"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="测评地点" prop="No">
+							<el-input v-model="ruleForm.No" placeholder="自动生成"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="测评人" prop="No">
+							<el-input v-model="ruleForm.No" placeholder="自动生成"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-divider border-style="dashed"></el-divider>
+					
+				</el-row>
+				
+				<el-row :gutter="30" >
+					<el-col :span="20" :offset="2" class="mb20" style="text-align: center;">
+						<el-button type="primary" size="large" style="width:100%" @click="onFollowUpAdd">新增障碍测评结果及后续跟进方式</el-button>
+					</el-col>
+					
+				</el-row>
+				
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -285,6 +338,7 @@ export default {
 				LostState: 0,
 				ChokeState: 0,
 				SuicideState: 0,
+				HealthRecordReviews:[],
 			},
 			dialogVisible: false,
 			nationList: [],
@@ -396,6 +450,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
+			
 			// FallState: [
 			// 	{
 			// 		required: true,
@@ -427,7 +482,7 @@ export default {
 		});
 		
 		// 打开弹窗
-		const openDialog = async (kind: string, id: string, disable: boolean) => {
+		const openDialog = async (kind: string, id: string,title:string, disable: boolean) => {
 			
 			state.Files = [];
 			state.ruleForm.Id = id || "0";
@@ -453,9 +508,8 @@ export default {
 				
 				state.disable = disable;
 				if(disable){
-					state.title = t('message.action.edit');
-				}
-				if (id && id != '0') {
+					state.title = t('message.action.see');
+				} else if (id && id != '0') {
 					GetByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
@@ -467,10 +521,11 @@ export default {
 			} finally {
 				state.isShowDialog = true;
 			}
+			state.title=title;
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.hcis.healthRecord.getById(Id);
+				const res = await proxy.$api.hcis.healthRecord.getById(Id,true);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -499,14 +554,20 @@ export default {
 		const onLoadTable = () => {
 			proxy.$parent.onGetTableData();
 		};
-		
+		const onFollowUpAdd=()=>{
+			const item={"id":"0"};
+			if(!state.ruleForm.HealthRecordReviews){
+				state.ruleForm.HealthRecordReviews=[];
+			}
+			state.ruleForm.HealthRecordReviews.push(item)
+		};
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
-					state.ruleForm.IsSaveHealthRecordReviews=false;
+					state.ruleForm.IsSaveHealthRecordReviews=true;
 					state.ruleForm.Resident=state.ruleForm.ResidentArray.join(",")
 					state.ruleForm.PayMode=state.ruleForm.PayModeArray.join(",")
 					state.ruleForm.IncomeStream=state.ruleForm.IncomeStreamArray.join(",")
@@ -567,6 +628,7 @@ export default {
 			getUserInfos,
 			rules,
 			token,
+			onFollowUpAdd,
 			onSubmit,
 			...toRefs(state),
 		};
