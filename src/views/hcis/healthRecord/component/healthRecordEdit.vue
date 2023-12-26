@@ -1,133 +1,215 @@
 <template>
-	<div class="system-edit-user-container">
+	<div class="sys-hcis-healthRecordEdit-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="200px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车牌号" prop="healthRecordNumber">
-							<el-input v-model="ruleForm.healthRecordNumber" placeholder="车牌号码"></el-input> 
+						<el-form-item label="姓名" prop="Name">
+							<el-input v-model="ruleForm.Name" placeholder="姓名"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						
-						<el-form-item label="车辆类别" prop="IsExternal">
+						<el-form-item label="性别" prop="Gender">
 							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.IsExternal">
-								<el-radio :label="0">内部车</el-radio>
-								<el-radio :label="1">外部车</el-radio>
+								<el-radio-group v-model="ruleForm.Gender">
+								<el-radio :label="1">男</el-radio>
+								<el-radio :label="2">女</el-radio>
 							</el-radio-group>
 							</div>
 							
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆类型" prop="healthRecordType">
-							<el-select v-model="ruleForm.healthRecordType" placeholder="请选择">
-								<el-option v-for="item in truckTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
+						<el-form-item label="联系方式" prop="Contact">
+							<el-input v-model="ruleForm.Contact" placeholder="联系方式"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车牌颜色" prop="PlateColor">
-							<el-select v-model="ruleForm.PlateColor" placeholder="请选择">
-								<el-option v-for="item in plateColorList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="动力类型" prop="EnergyType">
-							<el-select v-model="ruleForm.EnergyType" placeholder="请选择">
-								<el-option v-for="item in energyTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆识别号" prop="Vin">
-							<el-input v-model="ruleForm.Vin" placeholder="车牌号码"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发动机号" prop="EngineNumber">
-							<el-input v-model="ruleForm.EngineNumber" placeholder="车牌号码"></el-input> 
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-divider content-position="left">行驶证信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="行驶证" prop="DrivingLicense">
-							<el-input v-model="ruleForm.DrivingLicense" placeholder="行驶证号"></el-input> 
-						</el-form-item>
-					</el-col>
-					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="生效日期" prop="DrivingLicenseStartDate" required>
+						<el-form-item label="出生日期" prop="Birthday"  required>
 							<el-date-picker
-								v-model="ruleForm.DrivingLicenseStartDate"
-								type="date"
-								placeholder="生效日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="至" prop="DrivingLicenseEndDate"  required>
-							<el-date-picker
-										v-model="ruleForm.DrivingLicenseEndDate"
+										v-model="ruleForm.Birthday"
 										type="date"
-										placeholder="到期日期"
+										placeholder="出生日期"
 										format="YYYY-MM-DD"
 									></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="登记日期" prop="RegistrationDate" required>
+						<el-form-item label="建档日期" prop="RecordTime"  required>
 							<el-date-picker
-								v-model="ruleForm.RegistrationDate"
-								type="date"
-								placeholder="登记日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					
-				</el-row>
-				<el-divider content-position="left">道路运输证信息*</el-divider>
-				<el-row :gutter="20">	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="道路运输证" prop="TransportLicense">
-							<el-input v-model="ruleForm.TransportLicense" placeholder="道路运输许可证号"></el-input> 
-						</el-form-item>
-					</el-col>				
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="生效日期" prop="TransportLicenseStartDate" required>
-							<el-date-picker
-								v-model="ruleForm.TransportLicenseStartDate"
-								type="date"
-								placeholder="生效日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="至" prop="TransportLicenseEndDate"  required>
-							<el-date-picker
-										v-model="ruleForm.TransportLicenseEndDate"
+										v-model="ruleForm.RecordTime"
 										type="date"
-										placeholder="到期日期"
+										placeholder="建档日期"
 										format="YYYY-MM-DD"
 									></el-date-picker>
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="民族" prop="Nation">
+							<el-select v-model="ruleForm.Nation" filterable  placeholder="请选择">
+								<el-option v-for="item in nationList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="身份证号" prop="Idno">
+							<el-input v-model="ruleForm.Idno" placeholder="身份证号"></el-input> 
+						</el-form-item>
+					</el-col>
+
+					<el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16" class="mb20">
+						<el-form-item label="家庭住址" prop="Address">
+							<el-input v-model="ruleForm.Address" placeholder="家庭住址"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="文化程度" prop="Education">
+							<el-radio-group v-model="ruleForm.Education">
+								<el-radio v-for="item in educationList" :key="item.Id" :label="item.Code">{{item.Name}}</el-radio>
+							</el-radio-group>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="居住情况（多选）" prop="Resident">
+							<el-checkbox-group
+								v-model="ruleForm.ResidentArray">
+								<el-checkbox v-for="item in residentList" :key="item.Id" :label="item.Name">{{ item.Name }}</el-checkbox>
+							</el-checkbox-group>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="婚姻状况" prop="Marriage">
+							<el-radio-group v-model="ruleForm.Marriage">
+								<el-radio v-for="item in marriageList" :key="item.Id" :label="item.Code">{{item.Name}}</el-radio>
+							</el-radio-group>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="医疗费用支付方式（多选）" prop="PayMode">
+							<el-checkbox-group v-model="ruleForm.PayModeArray">
+								<el-checkbox v-for="item in payModeList" :key="item.Id" :label="item.Name">{{item.Name}}</el-checkbox>
+							</el-checkbox-group>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="经济来源（多选）" prop="IncomeStream">
+							<el-checkbox-group v-model="ruleForm.IncomeStreamArray">
+								<el-checkbox v-for="item in incomeStreamList" :key="item.Id" :label="item.Name">{{item.Name}}</el-checkbox>
+							</el-checkbox-group>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="信息提供者姓名" prop="Linkman">
+							<el-input v-model="ruleForm.Linkman" placeholder="信息提供者的姓名"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="联系电话" prop="Phone">
+							<el-input v-model="ruleForm.Phone" placeholder="信息提供者的联系电话"></el-input> 
+						</el-form-item>
+					</el-col>
 				</el-row>
-				<el-divider content-position="left">联系人信息*</el-divider>
+				<el-divider content-position="left">一般检查信息*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="联系人" prop="Linkman"> <el-input v-model="ruleForm.Linkman" placeholder="联系人"></el-input> </el-form-item
-					></el-col>
+						<el-form-item label="身高（CM）" prop="Height">
+							<el-input-number v-model="ruleForm.Height" :precision="0" :step="10" :min="0" :max="300"/>
+						</el-form-item>
+					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="电话" prop="Phone"> <el-input v-model="ruleForm.Phone" placeholder="电话"></el-input> </el-form-item></el-col>
+						<el-form-item label="体重（KG）" prop="Weight">
+							<el-input-number v-model="ruleForm.Weight" :precision="0" :step="5" :min="0" :max="1500"/>
+						</el-form-item>
+					</el-col>
+					
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="不良生活习惯（多选）" prop="BadHabitArray">
+							<el-checkbox-group v-model="ruleForm.BadHabitArray">
+								<el-checkbox v-for="item in badHabitList" :key="item.Id" :label="item.Name">{{item.Name}}</el-checkbox>
+							</el-checkbox-group>
+						</el-form-item>
+					</el-col>
+					
+				</el-row>
+				<el-row>
+					<el-col :span="22" :offset="1" class="mb20">
+						<el-divider border-style="dashed" content-position="left">近30天内照护风险事件</el-divider>
+						<el-row>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+								<el-form-item label="跌倒" prop="FallState">
+									<el-radio-group v-model="ruleForm.FallState">
+										<el-radio :label="0">无</el-radio>
+										<el-radio :label="1">发生过1 次</el-radio>
+										<el-radio :label="2">发生过2 次</el-radio>
+										<el-radio :label="3">发生过3次及以上</el-radio>
+									</el-radio-group>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+								<el-form-item label="走失" prop="LostState">
+									<el-radio-group v-model="ruleForm.LostState">
+										<el-radio :label="0">无</el-radio>
+										<el-radio :label="1">发生过1 次</el-radio>
+										<el-radio :label="2">发生过2 次</el-radio>
+										<el-radio :label="3">发生过3次及以上</el-radio>
+									</el-radio-group>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+								<el-form-item label="噎食" prop="ChokeState">
+									<el-radio-group v-model="ruleForm.ChokeState">
+										<el-radio :label="0">无</el-radio>
+										<el-radio :label="1">发生过1 次</el-radio>
+										<el-radio :label="2">发生过2 次</el-radio>
+										<el-radio :label="3">发生过3次及以上</el-radio>
+									</el-radio-group>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+								<el-form-item label="自杀自伤" prop="SuicideState">
+									<el-radio-group v-model="ruleForm.SuicideState">
+										<el-radio :label="0">无</el-radio>
+										<el-radio :label="1">发生过1 次</el-radio>
+										<el-radio :label="2">发生过2 次</el-radio>
+										<el-radio :label="3">发生过3次及以上</el-radio>
+									</el-radio-group>
+								</el-form-item>
+							</el-col>
+						</el-row>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="疾病诊断(可多选)">								
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithHypertension">高血压病 I10~I15</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCoronary">冠心病 I25</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPulmonitis">肺炎 J12~J18</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPulmonary">慢性阻塞性肺疾病 J44</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithHch">脑出血 I60~I62</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCi">脑梗塞 I63</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithUti">尿路感染(30天内)</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPkn">帕金森综合征 G20~G22</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCrf">慢性肾衰竭 N18~N192</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCirrhosis">肝硬化 K74</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithDu">消化性溃病 K20~K31</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithTumour">肿瘤 CO0~D48</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithAmputation">截肢(6个月内)</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCataclasis">骨折(3个月内) M84</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithEpilepsia">癫痫 G40</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPypothyrea">甲状腺功能减退症 E01~E03</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCataract">白内障 H25~H26</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithGlaucoma">青光眼 H40~H42</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithOsteoporosis">骨质疏松症 M80~82</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithDementia">痴呆 F00~F03</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithDisorder">其他精神和行为障碍 F04~F99</el-checkbox>
+							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithOther">其他疾病</el-checkbox>
+						</el-form-item>
+						<el-form-item label="其他疾病" prop="WithOtherName">
+							<el-input v-model="ruleForm.WithOtherName" placeholder="如有其他疾病请补充"></el-input> 
+						</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -150,7 +232,6 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-
 export default {
 	name: 'healthRecordEdit',
 	setup() {
@@ -187,17 +268,7 @@ export default {
 			fileUrl = state.httpsText + filList[0];
 			return fileUrl;
 		};
-		
-		
-		const tableData = reactive({
-			data: [],
-			loading: false,
-			param: {
-				pageNum: 1,
-				pageSize: 10000,
-			},
-		});
-		
+				
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -206,37 +277,24 @@ export default {
 			baseUrl: import.meta.env.VITE_API_URL,
 			//表单
 			ruleForm: {
-				Id: 0,
+				Id: "0",
 				Name: '',
-				Kind: 'info',
-				healthRecordNumber: '',
-				IsExternal:0,
-				healthRecordType: '',
-				EnergyType: '',
-				PlateColor:'',
-				Vin: '',
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
-				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
-			},
-			tableItem: {
-				Id: '0',
-				CategoryId: '',
-				Name: '',
-				Files: '',
-				StartTime: '',
-				EndTime:'',
-				Kind: 'info',
+				Kind: 'common',
+				State:1,
+				FallState: 0,
+				LostState: 0,
+				ChokeState: 0,
+				SuicideState: 0,
 			},
 			dialogVisible: false,
-			truckTypeList: [],
-			plateColorList:[],
-			energyTypeList:[],
+			nationList: [],
+			educationList:[],
+			residentList:[],
+			marriageList:[],
+			payModeList:[],
+			incomeStreamList:[],
+			relationshipList:[],
+			badHabitList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -247,81 +305,152 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			healthRecordNumber: [
+			Name: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
 					trigger: 'blur',
 				},
 			],
-			RegistrationDate: [
+			Gender: [
+				{
+					required: true,
+					message: computed(()=>t('message.validRule.required')),
+					trigger: 'blur',
+				},
+			],
+			Birthday: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			DrivingLicenseStartDate: [
+			RecordTime: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			DrivingLicenseEndDate: [
+			Contact: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			TransportLicenseStartDate: [
+			Address: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			TransportLicenseEndDate: [
+			Education: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
+			ResidentArray: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Marriage: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			PayModeArray: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			IncomeStreamArray: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Height: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Weight: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			// FallState: [
+			// 	{
+			// 		required: true,
+			// 		message: t('message.validRule.required'),
+			// 		trigger: 'blur',
+			// 	},
+			// ],
+			// LostState: [
+			// 	{
+			// 		required: true,
+			// 		message: t('message.validRule.required'),
+			// 		trigger: 'blur',
+			// 	},
+			// ],
+			// ChokeState: [
+			// 	{
+			// 		required: true,
+			// 		message: t('message.validRule.required'),
+			// 		trigger: 'blur',
+			// 	},
+			// ],
+			// SuicideState: [
+			// 	{
+			// 		required: true,
+			// 		message: t('message.validRule.required'),
+			// 		trigger: 'blur',
+			// 	},
+			// ],
 		});
 		
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
+			
 			state.Files = [];
-			console.log('类型', kind);
+			state.ruleForm.Id = id || "0";
 			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
+			if(!id){
+				state.ruleForm.RecordTime=new Date()
+			}
+			const commonDataParams={types:'nation,education,resident,marriage,pay_mode,income_stream,relationship,bad_habit'};
 			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('healthRecord_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
+				const commonListMapRes = await proxy.$api.common.commondata.getBatchListByScope(commonDataParams, 0, 2);
+				if (commonListMapRes.errcode == 0) {
+					state.nationList = commonListMapRes.data.nation||[];
+					state.educationList = commonListMapRes.data.education||[];
+					state.residentList = commonListMapRes.data.resident||[];
+					state.marriageList = commonListMapRes.data.marriage||[];
+					state.payModeList = commonListMapRes.data.pay_mode||[];
+					state.incomeStreamList = commonListMapRes.data.income_stream||[];
+					state.relationshipList = commonListMapRes.data.relationship||[];
+					state.badHabitList=commonListMapRes.data.bad_habit||[];
 				}else{
-					console.log("error:",resTruckTypes.errmsg)
+					console.log("error:",commonListMapRes.errmsg)
 				}
-				const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColors.errcode == 0) {
-					state.plateColorList = resPlateColors.data;
-				}else{
-					console.log("error:",resPlateColors.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
-				}
-				const resPlateColorTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColorTypes.errcode == 0) {
-					state.plateColorList = resPlateColorTypes.data;
-				}else{
-					console.log("error:",resPlateColorTypes.errmsg)
-				}
+				
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
@@ -338,11 +467,15 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.healthRecord.getById(Id);
+				const res = await proxy.$api.hcis.healthRecord.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
 				state.ruleForm = res.data;
+				state.ruleForm.ResidentArray=state.ruleForm.Resident.split(",")
+				state.ruleForm.PayModeArray=state.ruleForm.PayMode.split(",")
+				state.ruleForm.IncomeStreamArray=state.ruleForm.IncomeStream.split(",")
+				state.ruleForm.BadHabitArray=state.ruleForm.BadHabit.split(",")
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -350,9 +483,11 @@ export default {
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
-			tableData.data = [];
+			state.ruleForm={};
+			state.ruleForm.ResidentArray=[];
+			state.ruleForm.PayModeArray=[];
+			state.ruleForm.IncomeStreamArray=[];
+			state.ruleForm.BadHabitArray=[];
 			state.loading = false;
 			state.isShowDialog = false;
 			onLoadTable();
@@ -361,30 +496,20 @@ export default {
 		const onLoadTable = () => {
 			proxy.$parent.onGetTableData();
 		};
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			state.tableItem = item;
-			console.log(state.tableItem.Files);
-			if (state.tableItem.Files != '') {
-				state.Files = item.Files.split(',');
-				state.FilesList = [];
-				for (let i = 0; i < state.Files.length; i++) {
-					let image = { url: '' };
-					image.url = state.httpsText + state.Files[i];
-					state.FilesList.push(image);
-				}
-			}
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
+		
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					state.ruleForm.IsSaveHealthRecordReviews=false;
+					state.ruleForm.Resident=state.ruleForm.ResidentArray.join(",")
+					state.ruleForm.PayMode=state.ruleForm.PayModeArray.join(",")
+					state.ruleForm.IncomeStream=state.ruleForm.IncomeStreamArray.join(",")
+					state.ruleForm.BadHabit=state.ruleForm.BadHabitArray.join(",")
 					try {
-						const res = await proxy.$api.erp.healthRecord.save(state.ruleForm);
+						const res = await proxy.$api.hcis.healthRecord.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -434,11 +559,9 @@ export default {
 			onSuccessFile,
 			onRemove,
 			onBeforeImageUpload,
-			onModelEdit,
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
-			tableData,
 			rules,
 			token,
 			onSubmit,

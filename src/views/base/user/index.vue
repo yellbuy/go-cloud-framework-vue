@@ -144,7 +144,7 @@ export default {
 	name: 'baseUsers',
 	components: { userEdit },
 	setup() {
-		const moduleKey = 'api_base_user';
+		const moduleKey = 'api_base_org';
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
 		console.log('路由', route.query);
