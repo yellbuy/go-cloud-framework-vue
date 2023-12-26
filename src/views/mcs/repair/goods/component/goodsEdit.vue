@@ -72,6 +72,16 @@
 							</div>
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
+						<el-form-item label="备注" prop="SellerNote" >
+							<el-input
+							v-model="ruleForm.SellerNote"
+							:rows="3"
+							type="textarea"
+							placeholder="请输入备注"
+						/>
+					</el-form-item>
+					</el-col>
 				</el-row> 
 			</el-form>
 			<template #footer>
@@ -158,6 +168,7 @@ export default {
 				NumberRate:0,
 				SupplierState:1,
 				GoodsImg:'',
+				SellerNote:'',
 			},
 			tableItem: {
 				Id: '0',				

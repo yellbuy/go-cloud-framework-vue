@@ -75,6 +75,7 @@
 						</el-button>
 					</template>
 				</el-table-column>
+				<el-table-column prop="SellerNote" label="备注" show-overflow-tooltip></el-table-column>
 			</el-table>
 			<el-pagination
 				small

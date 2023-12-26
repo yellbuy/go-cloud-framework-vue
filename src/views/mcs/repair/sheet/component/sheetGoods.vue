@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
-			<el-divider content-position="left">选择项目*</el-divider>
+		<el-dialog :title="title" v-model="isShowDialog" width="800px" :before-close="closeDialog">
+			<el-divider content-position="left">选择配件*</el-divider>
             <div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="关键字：">
@@ -20,13 +20,6 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-					</el-form-item>
-                    <el-form-item></el-form-item>
-				</el-form>
-			</div>
-			<div class="">
-				<el-form>
-					<el-form-item>
 						<el-button type="primary" @click="routerPath()" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
@@ -34,26 +27,29 @@
 							&#8197;{{ $t('message.action.add') }}
 						</el-button>
 					</el-form-item>
+                    
 				</el-form>
 			</div>
-			<div style="margin-top: 20px">
-				<el-button @click="toggleSelection()">清空</el-button>
-  			</div>
+			
 			<el-table 
 				:data="tableData.data"
 				v-loading="tableData.loading"
 				style="width: 100%"
-				:height="proxy.$calcMainHeight(-75)"
+				:height="360"
 				border
 				stripe
 				highlight-current-row
 				ref="multipleTableRef"
 				@selection-change="handleSelectionChange">
-				<el-table-column type="selection" width="55" />
+				<el-table-column type="selection" width="55" align="center"/>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="配件名称" width="120" show-overflow-tooltip fixed></el-table-column>
                 <el-table-column prop="GoodsSn" label="编号" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="GoodsAlisa" label="配件类别名称" width="70" align="right"></el-table-column>
+				<el-table-column prop="GoodsType" label="商品类别" width="120"></el-table-column>
+				<el-table-column prop="BrandName" label="品牌" width="120"></el-table-column>
+				<el-table-column prop="GoodsSpec" label="规格" width="120"></el-table-column>
+				<el-table-column prop="GoodsUnit" label="货品单位" width="120"></el-table-column>
+				<el-table-column prop="ShopPrice" label="销售价" width="120"></el-table-column>
 			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
@@ -365,6 +361,11 @@ export default {
 			closeDialog();
 
 		};
+		//重置查询条件
+		const onResetSearch = () => {
+			state.tableData.param.keyword = '';
+			onGetTableData(true);
+		};
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
 				rawFile.type !== 'image/jpeg' &&
@@ -411,6 +412,7 @@ export default {
 			toggleSelection,
 			page2Data,
 			onGetTableData,
+			onResetSearch,
 			...toRefs(state),
 		};
 	},
