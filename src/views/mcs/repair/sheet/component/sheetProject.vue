@@ -36,9 +36,6 @@
 					</el-form-item>
 				</el-form>
 			</div>
-			<div style="margin-top: 20px">
-				<el-button @click="toggleSelection()">清空</el-button>
-  			</div>
 			<el-table 
 				:data="tableData.data"
 				v-loading="tableData.loading"
@@ -84,7 +81,7 @@ import { useRouter } from 'vue-router';
 import  index  from '@/views/mcs/repair/project/index.vue';
 
 export default {
-	name: 'sheetEdit',
+	name: 'sheetProject',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
