@@ -36,21 +36,20 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-			>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Sn" label="编号" width="120" fixed></el-table-column>
-				<el-table-column prop="Name" label="姓名" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column label="性别" width="70" align="center">
+				highlight-current-row>
+				<el-table-column type="index" label="序号" align="right" width="70" fixed />				
+				<el-table-column prop="Name" label="姓名" width="70" fixed show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Sn" label="编号" width="110"></el-table-column>
+				<el-table-column label="性别" width="60" align="center">
 					<template #default="scope">
 						<el-tag type="success" effect="plain" v-if="scope.row.Gender==1">{{ $t('message.action.male') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.female') }}</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Contact" label="联系方式" width="100"></el-table-column>
-				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
-				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Birthday" label="出生年月" width="100" :formatter="dateFormatYM" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="Linkman" label="联系人" width="70"></el-table-column>				
+				<el-table-column prop="Phone" label="电话" width="100"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Birthday" label="出生年月" width="80" :formatter="dateFormatYM" show-overflow-tooltip> </el-table-column>
 				<!-- <el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column> -->
 				
@@ -74,10 +73,13 @@
 				</el-table-column>
 				<el-table-column prop="Address" label="地址" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CreateBy" label="录入人" width="80" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
+						</el-button>
+						<el-button text bg type="primary" @click="onOpenFollowUpDlg(scope.row, false)" v-auth:[moduleKey]="'btn.Edit'">
+							{{ $t('pages.hcis.healthRecord.follow_up') }}
 						</el-button>
 						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.see') }}
@@ -103,6 +105,7 @@
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
+		<followUpEditDlg ref="editFollowUpRef" />
 	</div>
 </template>
 
@@ -110,12 +113,13 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
+import followUpEditDlg from './component/followUpEdit.vue';
 import editDlg from './component/healthRecordEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'healthRecordInfo',
-	components: { editDlg },
+	components: { editDlg,followUpEditDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -124,6 +128,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_hcis_healthrecord`;
 		const editDlgRef = ref();
+		const editFollowUpRef=ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -167,9 +172,13 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
-		// 打开弹窗
+		// 打开编辑弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		// 打开编辑弹窗
+		const onOpenFollowUpDlg = (row: object, ishow: boolean) => {
+			editFollowUpRef.value.openDialog(state.kind, row.Id,row.Name, ishow);
 		};
 		// 删除用户
 		const onModelDel = (Id: string) => {
@@ -210,9 +219,11 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
+			editFollowUpRef,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
+			onOpenFollowUpDlg,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

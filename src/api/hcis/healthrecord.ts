@@ -28,8 +28,8 @@ export default {
 	 * @param id 要传的标识
 	 * @returns 返回接口数据
 	 */
-	getById: async (id: number | string) => {
-		const url = `/v1/admin/hcis/healthrecord/${id}`;
+	getById: async (id: number | string,loadRelated:boolean=false) => {
+		const url = `/v1/admin/hcis/healthrecord/${id}?loadRelated=${loadRelated}`;
 		return await http.get(url);
 	},
 	

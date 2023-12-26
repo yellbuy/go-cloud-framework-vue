@@ -5,6 +5,7 @@ export default {
 	},
 	healthRecord: {
 		no: 'no',
+		follow_up:'follow up',
 		tenant: 'tenant',
 		create_by: 'create by',
 		create_time: 'create time',
