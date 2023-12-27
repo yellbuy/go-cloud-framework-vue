@@ -2,266 +2,280 @@
 	<div class="sys-hcis-healthRecordEdit-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="200px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-divider content-position="left">基本信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="姓名" prop="Name">
-							<el-input v-model="ruleForm.Name" placeholder="姓名"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						
-						<el-form-item label="性别" prop="Gender">
-							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.Gender">
-								<el-radio :label="1">男</el-radio>
-								<el-radio :label="2">女</el-radio>
-							</el-radio-group>
-							</div>
-							
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="联系方式" prop="Contact">
-							<el-input v-model="ruleForm.Contact" placeholder="联系方式"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="出生日期" prop="Birthday"  required>
-							<el-date-picker
-										v-model="ruleForm.Birthday"
-										type="date"
-										placeholder="出生日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="建档日期" prop="RecordTime"  required>
-							<el-date-picker
-										v-model="ruleForm.RecordTime"
-										type="date"
-										placeholder="建档日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="民族" prop="Nation">
-							<el-select v-model="ruleForm.Nation" filterable  placeholder="请选择">
-								<el-option v-for="item in nationList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="身份证号" prop="Idno">
-							<el-input v-model="ruleForm.Idno" placeholder="身份证号"></el-input> 
-						</el-form-item>
-					</el-col>
+				<el-collapse v-model="activeName" accordion>
+					<el-collapse-item title="基本信息" name="person_info">
+						<el-row :gutter="20">
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="姓名" prop="Name">
+									<el-input v-model="ruleForm.Name" placeholder="姓名"></el-input> 
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								
+								<el-form-item label="性别" prop="Gender">
+									<div mb-2 flex items-center>
+										<el-radio-group v-model="ruleForm.Gender">
+										<el-radio :label="1">男</el-radio>
+										<el-radio :label="2">女</el-radio>
+									</el-radio-group>
+									</div>
+									
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="联系方式" prop="Contact">
+									<el-input v-model="ruleForm.Contact" placeholder="联系方式"></el-input> 
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="出生日期" prop="Birthday"  required>
+									<el-date-picker
+												v-model="ruleForm.Birthday"
+												type="date"
+												placeholder="出生日期"
+												format="YYYY-MM-DD"
+											></el-date-picker>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="建档日期" prop="RecordTime"  required>
+									<el-date-picker
+												v-model="ruleForm.RecordTime"
+												type="date"
+												placeholder="建档日期"
+												format="YYYY-MM-DD"
+											></el-date-picker>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="民族" prop="Nation">
+									<el-select v-model="ruleForm.Nation" filterable  placeholder="请选择">
+										<el-option v-for="item in nationList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+									</el-select>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="身份证号" prop="Idno">
+									<el-input v-model="ruleForm.Idno" placeholder="身份证号"></el-input> 
+								</el-form-item>
+							</el-col>
 
-					<el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16" class="mb20">
-						<el-form-item label="家庭住址" prop="Address">
-							<el-input v-model="ruleForm.Address" placeholder="家庭住址"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="文化程度" prop="Education">
-							<el-radio-group v-model="ruleForm.Education">
-								<el-radio v-for="item in educationList" :key="item.Id" :label="item.Code">{{item.Name}}</el-radio>
-							</el-radio-group>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="居住情况（多选）" prop="Resident">
-							<el-checkbox-group
-								v-model="ruleForm.ResidentArray">
-								<el-checkbox v-for="item in residentList" :key="item.Id" :label="item.Name">{{ item.Name }}</el-checkbox>
-							</el-checkbox-group>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="婚姻状况" prop="Marriage">
-							<el-radio-group v-model="ruleForm.Marriage">
-								<el-radio v-for="item in marriageList" :key="item.Id" :label="item.Code">{{item.Name}}</el-radio>
-							</el-radio-group>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="医疗费用支付方式（多选）" prop="PayMode">
-							<el-checkbox-group v-model="ruleForm.PayModeArray">
-								<el-checkbox v-for="item in payModeList" :key="item.Id" :label="item.Name">{{item.Name}}</el-checkbox>
-							</el-checkbox-group>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="经济来源（多选）" prop="IncomeStream">
-							<el-checkbox-group v-model="ruleForm.IncomeStreamArray">
-								<el-checkbox v-for="item in incomeStreamList" :key="item.Id" :label="item.Name">{{item.Name}}</el-checkbox>
-							</el-checkbox-group>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="信息提供者姓名" prop="Linkman">
-							<el-input v-model="ruleForm.Linkman" placeholder="信息提供者的姓名"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="联系电话" prop="Phone">
-							<el-input v-model="ruleForm.Phone" placeholder="信息提供者的联系电话"></el-input> 
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-divider content-position="left">一般检查信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="身高（CM）" prop="Height">
-							<el-input-number v-model="ruleForm.Height" :precision="0" :step="10" :min="0" :max="300"/>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="体重（KG）" prop="Weight">
-							<el-input-number v-model="ruleForm.Weight" :precision="0" :step="5" :min="0" :max="1500"/>
-						</el-form-item>
-					</el-col>
-					
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="不良生活习惯（多选）" prop="BadHabitArray">
-							<el-checkbox-group v-model="ruleForm.BadHabitArray">
-								<el-checkbox v-for="item in badHabitList" :key="item.Id" :label="item.Name">{{item.Name}}</el-checkbox>
-							</el-checkbox-group>
-						</el-form-item>
-					</el-col>
-					
-				</el-row>
-				<el-row>
-					<el-col :span="22" :offset="1" class="mb20">
-						<el-divider border-style="dashed" content-position="left">近30天内照护风险事件</el-divider>
-						<el-row>
-							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
-								<el-form-item label="跌倒" prop="FallState">
-									<el-radio-group v-model="ruleForm.FallState">
-										<el-radio :label="0">无</el-radio>
-										<el-radio :label="1">发生过1 次</el-radio>
-										<el-radio :label="2">发生过2 次</el-radio>
-										<el-radio :label="3">发生过3次及以上</el-radio>
+							<el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16" class="mb20">
+								<el-form-item label="家庭住址" prop="Address">
+									<el-input v-model="ruleForm.Address" placeholder="家庭住址"></el-input> 
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+								<el-form-item label="文化程度" prop="Education">
+									<el-radio-group v-model="ruleForm.Education">
+										<el-radio v-for="item in educationList" :key="item.Id" :label="item.Code">{{item.Name}}</el-radio>
 									</el-radio-group>
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
-								<el-form-item label="走失" prop="LostState">
-									<el-radio-group v-model="ruleForm.LostState">
-										<el-radio :label="0">无</el-radio>
-										<el-radio :label="1">发生过1 次</el-radio>
-										<el-radio :label="2">发生过2 次</el-radio>
-										<el-radio :label="3">发生过3次及以上</el-radio>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+								<el-form-item label="居住情况（多选）" prop="Resident">
+									<el-checkbox-group
+										v-model="ruleForm.ResidentArray">
+										<el-checkbox v-for="item in residentList" :key="item.Id" :label="item.Name">{{ item.Name }}</el-checkbox>
+									</el-checkbox-group>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+								<el-form-item label="婚姻状况" prop="Marriage">
+									<el-radio-group v-model="ruleForm.Marriage">
+										<el-radio v-for="item in marriageList" :key="item.Id" :label="item.Code">{{item.Name}}</el-radio>
 									</el-radio-group>
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
-								<el-form-item label="噎食" prop="ChokeState">
-									<el-radio-group v-model="ruleForm.ChokeState">
-										<el-radio :label="0">无</el-radio>
-										<el-radio :label="1">发生过1 次</el-radio>
-										<el-radio :label="2">发生过2 次</el-radio>
-										<el-radio :label="3">发生过3次及以上</el-radio>
-									</el-radio-group>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+								<el-form-item label="医疗费用支付方式（多选）" prop="PayMode">
+									<el-checkbox-group v-model="ruleForm.PayModeArray">
+										<el-checkbox v-for="item in payModeList" :key="item.Id" :label="item.Name">{{item.Name}}</el-checkbox>
+									</el-checkbox-group>
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
-								<el-form-item label="自杀自伤" prop="SuicideState">
-									<el-radio-group v-model="ruleForm.SuicideState">
-										<el-radio :label="0">无</el-radio>
-										<el-radio :label="1">发生过1 次</el-radio>
-										<el-radio :label="2">发生过2 次</el-radio>
-										<el-radio :label="3">发生过3次及以上</el-radio>
-									</el-radio-group>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+								<el-form-item label="经济来源（多选）" prop="IncomeStream">
+									<el-checkbox-group v-model="ruleForm.IncomeStreamArray">
+										<el-checkbox v-for="item in incomeStreamList" :key="item.Id" :label="item.Name">{{item.Name}}</el-checkbox>
+									</el-checkbox-group>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+								<el-form-item label="信息提供者姓名" prop="Linkman">
+									<el-input v-model="ruleForm.Linkman" placeholder="信息提供者的姓名"></el-input> 
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+								<el-form-item label="联系电话" prop="Phone">
+									<el-input v-model="ruleForm.Phone" placeholder="信息提供者的联系电话"></el-input> 
 								</el-form-item>
 							</el-col>
 						</el-row>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="疾病诊断(可多选)">								
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithHypertension">高血压病 I10~I15</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCoronary">冠心病 I25</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPulmonitis">肺炎 J12~J18</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPulmonary">慢性阻塞性肺疾病 J44</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithHch">脑出血 I60~I62</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCi">脑梗塞 I63</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithUti">尿路感染(30天内)</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPkn">帕金森综合征 G20~G22</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCrf">慢性肾衰竭 N18~N192</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCirrhosis">肝硬化 K74</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithDu">消化性溃病 K20~K31</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithTumour">肿瘤 CO0~D48</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithAmputation">截肢(6个月内)</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCataclasis">骨折(3个月内) M84</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithEpilepsia">癫痫 G40</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPypothyrea">甲状腺功能减退症 E01~E03</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCataract">白内障 H25~H26</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithGlaucoma">青光眼 H40~H42</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithOsteoporosis">骨质疏松症 M80~82</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithDementia">痴呆 F00~F03</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithDisorder">其他精神和行为障碍 F04~F99</el-checkbox>
-							<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithOther">其他疾病</el-checkbox>
-						</el-form-item>
-						<el-form-item label="其他疾病" prop="WithOtherName">
-							<el-input v-model="ruleForm.WithOtherName" placeholder="如有其他疾病请补充"></el-input> 
-						</el-form-item>
-					</el-col>
-				</el-row>
+					</el-collapse-item>
+				</el-collapse>
+				<el-collapse>
+					<el-collapse-item title="一般检查信息" name="record_info">
+						<el-row :gutter="20">
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="身高（CM）" prop="Height">
+									<el-input-number v-model="ruleForm.Height" :precision="0" :step="10" :min="0" :max="300"/>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								<el-form-item label="体重（KG）" prop="Weight">
+									<el-input-number v-model="ruleForm.Weight" :precision="0" :step="5" :min="0" :max="1500"/>
+								</el-form-item>
+							</el-col>
+							
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+								<el-form-item label="不良生活习惯（多选）" prop="BadHabitArray">
+									<el-checkbox-group v-model="ruleForm.BadHabitArray">
+										<el-checkbox v-for="item in badHabitList" :key="item.Id" :label="item.Name">{{item.Name}}</el-checkbox>
+									</el-checkbox-group>
+								</el-form-item>
+							</el-col>
+							
+						</el-row>
+						<el-row>
+							<el-col :span="22" :offset="1" class="mb20">
+								<el-divider border-style="dashed" content-position="left">近30天内照护风险事件</el-divider>
+								<el-row>
+									<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+										<el-form-item label="跌倒" prop="FallState">
+											<el-radio-group v-model="ruleForm.FallState">
+												<el-radio :label="0">无</el-radio>
+												<el-radio :label="1">发生过1 次</el-radio>
+												<el-radio :label="2">发生过2 次</el-radio>
+												<el-radio :label="3">发生过3次及以上</el-radio>
+											</el-radio-group>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+										<el-form-item label="走失" prop="LostState">
+											<el-radio-group v-model="ruleForm.LostState">
+												<el-radio :label="0">无</el-radio>
+												<el-radio :label="1">发生过1 次</el-radio>
+												<el-radio :label="2">发生过2 次</el-radio>
+												<el-radio :label="3">发生过3次及以上</el-radio>
+											</el-radio-group>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+										<el-form-item label="噎食" prop="ChokeState">
+											<el-radio-group v-model="ruleForm.ChokeState">
+												<el-radio :label="0">无</el-radio>
+												<el-radio :label="1">发生过1 次</el-radio>
+												<el-radio :label="2">发生过2 次</el-radio>
+												<el-radio :label="3">发生过3次及以上</el-radio>
+											</el-radio-group>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+										<el-form-item label="自杀自伤" prop="SuicideState">
+											<el-radio-group v-model="ruleForm.SuicideState">
+												<el-radio :label="0">无</el-radio>
+												<el-radio :label="1">发生过1 次</el-radio>
+												<el-radio :label="2">发生过2 次</el-radio>
+												<el-radio :label="3">发生过3次及以上</el-radio>
+											</el-radio-group>
+										</el-form-item>
+									</el-col>
+								</el-row>
+							</el-col>
+						</el-row>
+						<el-row :gutter="20">
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+								<el-form-item label="疾病诊断(可多选)">								
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithHypertension">高血压病 I10~I15</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCoronary">冠心病 I25</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPulmonitis">肺炎 J12~J18</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPulmonary">慢性阻塞性肺疾病 J44</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithHch">脑出血 I60~I62</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCi">脑梗塞 I63</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithUti">尿路感染(30天内)</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPkn">帕金森综合征 G20~G22</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCrf">慢性肾衰竭 N18~N192</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCirrhosis">肝硬化 K74</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithDu">消化性溃病 K20~K31</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithTumour">肿瘤 CO0~D48</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithAmputation">截肢(6个月内)</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCataclasis">骨折(3个月内) M84</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithEpilepsia">癫痫 G40</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithPypothyrea">甲状腺功能减退症 E01~E03</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithCataract">白内障 H25~H26</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithGlaucoma">青光眼 H40~H42</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithOsteoporosis">骨质疏松症 M80~82</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithDementia">痴呆 F00~F03</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithDisorder">其他精神和行为障碍 F04~F99</el-checkbox>
+									<el-checkbox :true-label="1" :false-label="0" v-model="ruleForm.WithOther">其他疾病</el-checkbox>
+								</el-form-item>
+								<el-form-item label="其他疾病" prop="WithOtherName">
+									<el-input v-model="ruleForm.WithOtherName" placeholder="如有其他疾病请补充"></el-input> 
+								</el-form-item>
+							</el-col>
+						</el-row>
+					</el-collapse-item>
+				</el-collapse>				
 				<el-divider content-position="left">认知障碍测评结果及后续跟进方式*</el-divider>
-				<el-row :gutter="20" v-for="(val,index) in ruleForm.HealthRecordReviews" :key="index">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="测评编号" prop="No">
-							<el-input v-model="ruleForm.No" placeholder="自动生成"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="测评基准日期" prop="Birthday"  required>
-							<el-date-picker
-										v-model="ruleForm.Birthday"
-										type="date"
-										placeholder="出生日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="测评原因" prop="Birthday"  required>
-							<el-input v-model="ruleForm.No" placeholder="自动生成"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="测评（MoCA）量表测评结果" prop="Birthday"  required>
-							<el-input-number v-model="ruleForm.Weight" :precision="0" :step="5" :min="0" :max="100"/>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="老人后续跟进方式" prop="Birthday"  required>
-							<el-input v-model="ruleForm.No" placeholder="自动生成"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="测评地点" prop="No">
-							<el-input v-model="ruleForm.No" placeholder="自动生成"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="测评人" prop="No">
-							<el-input v-model="ruleForm.No" placeholder="自动生成"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-divider border-style="dashed"></el-divider>
-					
-				</el-row>
+				<el-card class="box-card mb20" v-for="(val,index) in ruleForm.HealthRecordReviews" :key="index">
+					<template #header>
+					<div class="card-header">
+						<span>{{ruleForm.Sn + ' - ' + (index+1)}}</span>
+						<el-button type="danger" :icon="Delete" @click="onFollowUpDel(index)"/>
+					</div>
+					</template>
+						<el-row :gutter="20" justify="center">
+							<el-col :span="12" class="mb20">
+								<el-form-item label="测评基准日期" :prop="`HealthRecordReviews[${index}].ReviewDate`" :rules="rules.ReviewDate">
+									<el-date-picker
+												v-model="val.ReviewDate"
+												type="date"
+												placeholder="测评基准日期"
+												format="YYYY-MM-DD"
+											></el-date-picker>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12" class="mb20">
+								<el-form-item label="测评（MoCA）量表测评结果" :prop="`HealthRecordReviews[${index}].Score`" :rules="rules.Score">
+									<el-input-number v-model="val.Score" :precision="0" :step="5" :min="0" :max="100"/>
+								</el-form-item>
+							</el-col>
+							<el-col :span="24"  class="mb20">
+								<el-form-item label="测评原因" prop="Reason">
+									<el-input v-model="val.Reason" placeholder="测评原因"></el-input> 
+								</el-form-item>
+							</el-col>
+							
+							<el-col :span="24"  class="mb20">
+								<el-form-item label="老人后续跟进方式" prop="FollowUpMode">
+									<el-radio-group v-model="val.FollowUpMode">
+										<el-radio :label="1">转诊医疗机构</el-radio>
+										<el-radio :label="2">转接专业照护机构</el-radio>
+										<el-radio :label="3">纳入社区认知障碍干预及慢病管理</el-radio>
+										<el-radio :label="10">其他</el-radio>
+									</el-radio-group>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12"  class="mb20">
+								<el-form-item label="测评地点" prop="Address">
+									<el-input v-model="val.Address" placeholder="测评地点"></el-input> 
+								</el-form-item>
+							</el-col>
+							<el-col :span="12" class="mb20">
+								<el-form-item label="测评人" prop="ReviewBy">
+									<el-input v-model="val.ReviewBy" placeholder="测评人"></el-input> 
+								</el-form-item>
+							</el-col>
+						</el-row>
+						
+				</el-card>
+				
 				
 				<el-row :gutter="30" >
-					<el-col :span="20" :offset="2" class="mb20" style="text-align: center;">
-						<el-button type="primary" size="large" style="width:100%" @click="onFollowUpAdd">新增障碍测评结果及后续跟进方式</el-button>
+					<el-col :span="16" :offset="4" class="mb20" style="text-align: center;">
+						<el-button size="large" :icon="Plus" style="width:100%" @click="onFollowUpAdd">新增障碍测评结果及后续跟进方式</el-button>
 					</el-col>
-					
 				</el-row>
 				
 			</el-form>
@@ -278,7 +292,7 @@
 </template>
 
 <script lang="ts">
-import { Plus } from '@element-plus/icons-vue';
+import { Delete, Plus } from '@element-plus/icons-vue';
 import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -288,6 +302,7 @@ import { Session } from '/@/utils/storage';
 export default {
 	name: 'healthRecordEdit',
 	setup() {
+		
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
@@ -324,6 +339,7 @@ export default {
 				
 		const state = reactive({
 			isShowDialog: false,
+			activeName :"person_info",
 			title: t('message.action.add'),
 			loading: false,
 			disable: true, //是否禁用
@@ -356,6 +372,7 @@ export default {
 			FilesList: [],
 		});
 		const token = Session.get('token');
+		
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -450,37 +467,21 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			
-			// FallState: [
-			// 	{
-			// 		required: true,
-			// 		message: t('message.validRule.required'),
-			// 		trigger: 'blur',
-			// 	},
-			// ],
-			// LostState: [
-			// 	{
-			// 		required: true,
-			// 		message: t('message.validRule.required'),
-			// 		trigger: 'blur',
-			// 	},
-			// ],
-			// ChokeState: [
-			// 	{
-			// 		required: true,
-			// 		message: t('message.validRule.required'),
-			// 		trigger: 'blur',
-			// 	},
-			// ],
-			// SuicideState: [
-			// 	{
-			// 		required: true,
-			// 		message: t('message.validRule.required'),
-			// 		trigger: 'blur',
-			// 	},
-			// ],
+			Score: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			ReviewDate: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
 		});
-		
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string,title:string, disable: boolean) => {
 			
@@ -555,17 +556,23 @@ export default {
 			proxy.$parent.onGetTableData();
 		};
 		const onFollowUpAdd=()=>{
-			const item={"id":"0"};
+			const item={"Id":"0","ReviewDate":new Date()};
 			if(!state.ruleForm.HealthRecordReviews){
 				state.ruleForm.HealthRecordReviews=[];
 			}
 			state.ruleForm.HealthRecordReviews.push(item)
 		};
+		const onFollowUpDel=(index:number)=>{
+			if(state.ruleForm.HealthRecordReviews && state.ruleForm.HealthRecordReviews.length>index){
+				state.ruleForm.HealthRecordReviews.splice(index,1)
+			}
+		}
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
+					state.ruleForm.IsSaveHealthRecordReviews=true; //同时更新认知障碍测评结果及后续跟进方式列表数据
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.IsSaveHealthRecordReviews=true;
 					state.ruleForm.Resident=state.ruleForm.ResidentArray.join(",")
@@ -628,7 +635,10 @@ export default {
 			getUserInfos,
 			rules,
 			token,
+			Plus,
+			Delete,
 			onFollowUpAdd,
+			onFollowUpDel,
 			onSubmit,
 			...toRefs(state),
 		};
@@ -643,6 +653,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .el-select {
 	width: 100%;
 }
