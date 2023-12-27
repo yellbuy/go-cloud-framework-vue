@@ -92,7 +92,7 @@
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						
-						<el-button text bg @click="routerPath(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Add'" v-if="scope.row.State !== 1">
+						<el-button text bg @click="routerPath(0, false)" v-auth:[moduleKey]="'btn.Add'" v-if="scope.row.State !== 1">
 							{{ $t('message.action.billing') }}
 						</el-button>
 					

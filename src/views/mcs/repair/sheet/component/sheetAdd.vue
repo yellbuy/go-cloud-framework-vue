@@ -56,7 +56,7 @@ import { useRouter } from 'vue-router';
 
 
 export default {
-    name: 'sheetEdit',
+    name: 'sheetAdd',
     setup() {
         const { proxy } = getCurrentInstance() as any;
         const { t } = useI18n();

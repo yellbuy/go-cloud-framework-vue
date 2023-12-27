@@ -80,7 +80,7 @@ import { useRouter } from 'vue-router';
 import  index  from '@/views/mcs/repair/goods/index.vue';
 
 export default {
-	name: 'sheetEdit',
+	name: 'sheetGoods',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
