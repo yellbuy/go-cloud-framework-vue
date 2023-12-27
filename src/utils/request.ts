@@ -7,7 +7,7 @@ import { Session } from '/@/utils/storage';
 
 // let appid = "168763157232222209"//招采系统
 
-let appid = "30"//汉风物流
+let appid = "263250626593423361"//汉风物流
 
 let appPermissionKey = "ybcloudapi"
 if (appid == "30") {
