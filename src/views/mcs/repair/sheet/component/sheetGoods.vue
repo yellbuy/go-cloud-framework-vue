@@ -296,7 +296,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle_project.getById(Id);
+				const res = await proxy.$api.wms.goods.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -308,7 +308,7 @@ export default {
 		// 页面跳转
 		const routerPath= ()=>{
 			//console.log(router)
-			router.push('/admin/mcs/repair/project/0/0');
+			router.push('/admin/mcs/repair/goods/0/0');
 		}
 		// 关闭弹窗
 		const closeDialog = () => {

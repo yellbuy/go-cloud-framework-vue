@@ -8,7 +8,7 @@
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="维修单号" prop="BillNo">
-								<el-input v-model="ruleForm.BillNo" autofocus placeholder="" maxlength="100"
+								<el-input v-model="ruleForm.BillNo" autofocus placeholder="系统自动生成" maxlength="100" disabled
 									clearable></el-input>
 							</el-form-item>
 						</el-col>
@@ -296,7 +296,7 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'info',
-				ProjectType: '',
+				//ProjectType: '',
 				SiteId: '',
 				No: '',
 				Qty: 0,
@@ -518,8 +518,9 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
-						if (res.errcode == 0) {
+						const vehicle = await proxy.$api.erp.vehicle.save(state.ruleForm,
+						state.ruleForm.VehicleProjectList,state.ruleForm.VehicleGoodsList);
+						if (vehicle.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
 							} else {

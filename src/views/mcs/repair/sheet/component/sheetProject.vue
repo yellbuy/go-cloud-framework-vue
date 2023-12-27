@@ -297,7 +297,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle_project.getById(Id);
+				const res = await proxy.$api.erp.project.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
