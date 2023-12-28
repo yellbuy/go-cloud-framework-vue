@@ -519,7 +519,7 @@ export default {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
 						const vehicle = await proxy.$api.erp.vehicle.save(state.ruleForm,
-						state.ruleForm.VehicleProjectList,state.ruleForm.VehicleGoodsList);
+						[state.ruleForm.VehicleProjectList],[state.ruleForm.VehicleGoodsList]);
 						if (vehicle.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();

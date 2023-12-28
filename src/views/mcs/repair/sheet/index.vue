@@ -42,7 +42,23 @@
 			
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="BillNo" label="维修单号" width="110" fixed></el-table-column>
-				<el-table-column prop="IsExternal" label="是否委外" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column label="是否委外" width="120" show-overflow-tooltip>
+					<template #default="scope">
+						<el-switch
+							v-model="scope.row.IsExternal"
+							inline-prompt
+							:width="46"
+							v-auth:[moduleKey]="'btn.Edit'"
+							@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
+							:active-text="$t('message.action.enable')"
+							:inactive-text="$t('message.action.disable')"
+							:active-value="1"
+							:inactive-value="0"
+						/>
+						<el-tag type="success" effect="plain" v-if="scope.row.IsExternal" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="BillTime" label="开单时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
