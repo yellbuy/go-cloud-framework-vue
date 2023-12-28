@@ -188,7 +188,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.hcis.healthRecord.delete(Id);
+					const res = await proxy.$api.hcis.healthrecord.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
