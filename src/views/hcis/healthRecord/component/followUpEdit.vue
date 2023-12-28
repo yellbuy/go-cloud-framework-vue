@@ -243,43 +243,48 @@
 				<el-collapse>
 					<el-collapse-item title="上传附件" name="record_info">
 						<el-divider content-position="left">附件上传*</el-divider>
-						<el-row>
-							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"><el-form-item label="上传附件"
-									prop="Files">
-									<div class="mt10">
-										<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
-											:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-											:on-success="onSuccessFile" :file-list="FilesList" :limit="10"
-											:on-remove="onRemove" :on-preview="showImage"
-											:before-upload="onBeforeImageUpload">
-											<template #default>
-												<el-icon>
-													<plus />
-												</el-icon>
-											</template>
-										</el-upload>
-									</div>
-								</el-form-item></el-col>
-							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"><el-form-item label="上传视频"
-									prop="Videos">
-									<div class="mt10" style="width:80%">
-										<el-upload :action="`${baseUrl}/v1/file/upload`"
-											:headers="{ Appid: getUserInfos.appid, Authorization: token }" :limit="1"
-											class="upload-demo" drag :on-success="onSuccessVideoFile" :file-list="VideoList"
-											:before-upload="onBeforeVideoUpload" :on-preview="showVideo">
-											<el-icon class="el-icon--upload"><upload-filled /></el-icon>
-											<div class="el-upload__text">
-												拖拽文件上传
-											</div>
-											<template #tip>
-												<div class="el-upload__tip">
-													mp4文件且大小小于10MB
-												</div>
-											</template>
-										</el-upload>
-									</div>
-								</el-form-item></el-col>
-						</el-row>
+						<el-row :gutter="20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"><el-form-item label="上传附件"
+							prop="Files">
+							<div class="mt10">
+								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
+									:on-preview="showImage" :before-upload="onBeforeImageUpload">
+									<template #default>
+										<el-icon>
+											<plus />
+										</el-icon>
+									</template>
+								</el-upload>
+							</div>
+						</el-form-item></el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="视频源" prop="Videos">
+							<el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18" >
+								<el-input v-model="ruleForm.Videos" placeholder="上传或输入" clearable></el-input>
+							</el-col>
+							<el-col :xs="12" :sm="6" :md="6" :lg="6" :xl="6" >
+								<el-button type="success" @click="showVideo" v-if="ruleForm.Videos != ''">预览</el-button>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mr10">
+								<div class="mt10">
+								<el-upload :action="`${baseUrl}/v1/file/upload`"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }" :limit="1"
+									class="upload-demo" :on-success="onSuccessVideoFile"
+									:before-upload="onBeforeVideoUpload"
+									:show-file-list="false">
+									<el-button type="primary">上传</el-button>
+									<template #tip>
+										<div class="el-upload__tip">
+											mp4文件且大小小于10MB
+										</div>
+									</template>
+								</el-upload>
+							</div>
+							</el-col>
+						</el-form-item></el-col>
+				</el-row>
 					</el-collapse-item>
 				</el-collapse>
 				<el-divider content-position="left">认知障碍测评结果及后续跟进方式*</el-divider>
@@ -357,7 +362,7 @@
 			<img class="dialog-image" w-full :src="dialogImageUrl" alt="Preview Image" />
 		</el-dialog>
 		<el-dialog v-model="dialogVideoVisible" width="80%">
-			<video :src="VideoUrl" controls="true" style="width: 100%;height: 100%;" >
+			<video :src="ruleForm.Videos" controls="true" style="width: 100%;height: 100%;">
 			</video>
 		</el-dialog>
 	</div>
@@ -398,10 +403,9 @@ export default {
 		};
 		const onSuccessVideoFile = (file: UploadFile) => {
 			console.log('触发视频上传', file);
-			state.Video =  file.data.src;
+			state.ruleForm.Videos = state.httpsText + file.data.src;
 		};
-		const showVideo = (file: UploadFile) => {
-			state.VideoUrl=state.httpsText +state.Video
+		const showVideo = () => {
 			state.dialogVideoVisible = true
 		};
 		const store = useStore();
@@ -452,8 +456,6 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 			Video: "",
-			VideoList:[],
-			VideoUrl:"",
 		});
 		const token = Session.get('token');
 
@@ -629,14 +631,6 @@ export default {
 						state.FilesList.push(image);
 					}
 				}
-				state.VideoList =[];
-				state.Video = state.ruleForm.Videos;
-				if(state.ruleForm.Videos!=""){
-					state.VideoList.push({
-						url:state.httpsText +state.ruleForm.Videos,
-						name:"视频文件"
-					})
-				}
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -686,9 +680,6 @@ export default {
 					state.ruleForm.BadHabit = state.ruleForm.BadHabitArray.join(",")
 					if (state.Files) {
 						state.ruleForm.Pics = state.Files.join(',');
-					}
-					if (state.Video && state.Video != "") {
-						state.ruleForm.Videos = state.Video
 					}
 					try {
 						const res = await proxy.$api.hcis.healthrecord.save(state.ruleForm);
