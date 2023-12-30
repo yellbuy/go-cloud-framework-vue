@@ -8,7 +8,7 @@
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="维修单号" prop="BillNo">
-								<el-input v-model="ruleForm.BillNo" autofocus placeholder="" maxlength="100"
+								<el-input v-model="ruleForm.BillNo" autofocus placeholder="系统自动生成" maxlength="100" disabled
 									clearable></el-input>
 							</el-form-item>
 						</el-col>
@@ -111,9 +111,26 @@
 				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Qty" label="预估工时" width="70" align="right"></el-table-column>
+				<el-table-column prop="Qty" label="预估工时" width="80">
+					<template #default="scope">
+						<el-input-number
+    						v-model="scope.row.Qty"
+							size="small"
+							style="width: 80px;"
+    						controls-position="right"
+    						@change="handleChange"
+  						/>
+					</template>
+				</el-table-column>
+				
 				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Remark" label="备注" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
+					<template #default="scope">
+						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
+							clearable>
+						</el-input>
+					</template>
+				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="danger" @click="onProjectDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
@@ -146,7 +163,13 @@
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="SellerNote" label="备注" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
+					<template #default="scope">
+						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
+							clearable>
+						</el-input>
+					</template>
+				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="danger" @click="onGoodsDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
@@ -228,6 +251,9 @@ export default {
 			return fileUrl;
 		};
 
+		const handleChange = (value: number) => {
+  		console.log(value)
+		}
 
 		const tableData = reactive({
 			data: [],
@@ -296,7 +322,7 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'info',
-				ProjectType: '',
+				//ProjectType: '',
 				SiteId: '',
 				No: '',
 				Qty: 0,
@@ -313,6 +339,7 @@ export default {
 				StartTime: '',
 				EndTime: '',
 				Content:'',
+				SellerNote:'',
 				VehicleProjectList:[], // 项目列表
 				VehicleGoodsList:[], //配件列表
 			},
@@ -518,8 +545,9 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
-						if (res.errcode == 0) {
+						const vehicle = await proxy.$api.erp.vehicle.save(state.ruleForm,
+						[state.ruleForm.VehicleProjectList],[state.ruleForm.VehicleGoodsList]);
+						if (vehicle.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
 							} else {
@@ -587,6 +615,7 @@ export default {
 			onProjectDel,
 			onGoodsDel,
 			onAddWorkerOpenDlg,
+			handleChange,
 			...toRefs(state),
 		};
 	},

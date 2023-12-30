@@ -162,7 +162,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.hcis.healthRecord.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.hcis.healthrecord.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -188,7 +188,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.hcis.healthRecord.delete(Id);
+					const res = await proxy.$api.hcis.healthrecord.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
