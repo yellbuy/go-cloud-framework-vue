@@ -549,7 +549,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.hcis.healthrecord.getById(Id);
+				const res = await proxy.$api.hcis.healthRecord.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -606,7 +606,7 @@ export default {
 						state.ruleForm.Pics = state.Files.join(',');
 					}
 					try {
-						const res = await proxy.$api.hcis.healthrecord.save(state.ruleForm);
+						const res = await proxy.$api.hcis.healthRecord.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();

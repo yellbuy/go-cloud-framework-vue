@@ -68,7 +68,7 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
 		const store = useStore();
-		const kind = route.params.kind;
+		const kind = route.params.kind||'common';
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
 		const state = reactive({
