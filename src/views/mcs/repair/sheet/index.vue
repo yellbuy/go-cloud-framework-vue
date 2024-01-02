@@ -19,7 +19,7 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button type="primary" @click="onOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
+						<el-button type="primary" @click="onAddWorkerOpenDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -64,17 +64,34 @@
 				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
 				<el-table-column prop="Brand" label="车辆品牌" width="100" fixed></el-table-column>
-				<el-table-column prop="VehicleType" label="车型" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column  prop="VehicleType" label="车型" width="120" show-overflow-tooltip>
+				</el-table-column>
 				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>
 				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="ExamState" label="维修类型" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column  prop="ExamState" label="维修类型" width="120" show-overflow-tooltip>
+					 <!-- <template #default="scope">
+						<el-switch
+							v-model="scope.row.ExamState"
+							inline-prompt
+							:width="46"
+							v-auth:[moduleKey]="'btn.Edit'"
+							@change="proxy.$api.common.table.updateById('erp_vehicle', 'exam_state', scope.row.Id, scope.row.ExamState)"
+							:active-text="$t('message.action.enable')"
+							:inactive-text="$t('message.action.disable')"
+							:active-value="1"
+							:inactive-value="10"
+						/>
+						<el-tag type="success" effect="plain" v-if="scope.row.ExamState" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
+					</template>  -->
+				</el-table-column>
 				<el-table-column prop="EndTime" label="出厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 			<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg @click="onSeeWorkerOpenDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.see') }}
 						</el-button>
 						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
@@ -98,6 +115,8 @@
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
+		<addWorkerDlg ref="addWorkerDlgRef" />
+		<seeWorkerDlg ref="seeWorkerDlgRef" />
 	</div>
 </template>
 
@@ -106,11 +125,13 @@ import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute,useRouter } from 'vue-router';
 import editDlg from './component/sheetEdit.vue';
+import addWorkerDlg from './component/sheetAdd.vue';
+import seeWorkerDlg from './component/sheetSee.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'repairSheetList',
-	components: { editDlg },
+	components: { editDlg,addWorkerDlg,seeWorkerDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -120,6 +141,8 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_repair_sheet`;
 		const editDlgRef = ref();
+		const addWorkerDlgRef = ref();
+		const seeWorkerDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -209,17 +232,28 @@ export default {
 
 		const { dateFormatYMDHM } = commonFunction();
 
+		const onAddWorkerOpenDlg = (id: string, ishow: boolean) => {
+			addWorkerDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		const onSeeWorkerOpenDlg = (id: string, ishow: boolean) => {
+			seeWorkerDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+
 		return {
 			proxy,
 			editDlgRef,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
+			onAddWorkerOpenDlg,
+			onSeeWorkerOpenDlg,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
 			routerPath,
+			addWorkerDlgRef,
+			seeWorkerDlgRef,
 			...toRefs(state),
 		};
 	},

@@ -14,66 +14,63 @@
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="车牌号" prop="VehicleNumber">
-								<el-input v-model="ruleForm.VehicleNumber" placeholder=""  learable></el-input>
+								<el-input v-model="ruleForm.VehicleNumber" placeholder=""  clearable disabled></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="车辆品牌" prop="Brand">
-								<el-input v-model="ruleForm.Brand" placeholder=""  clearable></el-input>
+								<el-input v-model="ruleForm.Brand" placeholder=""  clearable disabled></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-							<el-form-item label="车型" prop="VehicleType">
-								<el-input v-model="ruleForm.VehicleType" autofocus placeholder=""  maxlength="100"
-									clearable></el-input>
-							</el-form-item>
-						</el-col>
+						<el-form-item label="车型" prop="VehicleType">
+							<el-select v-model="ruleForm.VehicleType" placeholder="请选择" disabled>
+								<el-option v-for="item in truckTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="客户名称" prop="CompanyName">
-								<el-input v-model="ruleForm.CompanyName" placeholder=""  clearable></el-input>
+								<el-input v-model="ruleForm.CompanyName" placeholder=""  clearable disabled></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="公里数" prop="Mileage">
-								<el-input v-model.number="ruleForm.Mileage" placeholder=""  clearable></el-input>
+								<el-input v-model.number="ruleForm.Mileage" placeholder=""  clearable disabled></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="到厂次数" prop="SiteId">
-								<el-input v-model="ruleForm.SiteId" autofocus placeholder=""  maxlength="100"
+								<el-input v-model="ruleForm.SiteId" autofocus placeholder=""  maxlength="100" disabled
 									clearable></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="联系人" prop="Linkman">
-								<el-input v-model="ruleForm.Linkman" placeholder=""  clearable></el-input>
+								<el-input v-model="ruleForm.Linkman" placeholder=""  clearable disabled></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="联系电话" prop="Phone">
-								<el-input v-model="ruleForm.Phone" placeholder=""  clearable></el-input>
+								<el-input v-model="ruleForm.Phone" placeholder=""  clearable disabled></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-							<el-form-item label="维修类型" prop="ExamState">
-							<el-switch
-								v-model="ruleForm.ExamState"
-    							active-text="维修中"
-    							inactive-text="保养"
-								:active-value="1"
-								:inactive-value="10"
-							/>				
+						<el-form-item label="维修类型" prop="ExamState">
+							<el-select v-model="ruleForm.ExamState" placeholder="请选择" disabled>
+								<el-option v-for="item in examStateList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+							</el-select>
 						</el-form-item>
-						</el-col>
+					</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="进厂时间" prop="StartTime" required>
-								<el-date-picker v-model="ruleForm.StartTime" type="datetime" placeholder="请选择进厂时间"
+								<el-date-picker v-model="ruleForm.StartTime" type="datetime" placeholder="" disabled
 									format="YYYY-MM-DD HH:mm" ></el-date-picker>
 							</el-form-item>
 						</el-col>
@@ -335,7 +332,7 @@ export default {
 				Mileage: 0,
 				Linkman: '',
 				Phone: '',
-				ExamState: 1,
+				ExamState: '',
 				StartTime: '',
 				EndTime: '',
 				Content:'',
@@ -358,6 +355,8 @@ export default {
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
+			truckTypeList: [],
+			examStateList:[],
 			projectTableData: {
 				data: [],
 				total: 0,
@@ -477,9 +476,9 @@ export default {
 				} else {
 					console.log("error:", resTruckTypes.errmsg)
 				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
+				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('exam_state', 0, 2);
 				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
+					state.examStateList = resEnergyTypes.data.toString;
 				} else {
 					console.log("error:", resEnergyTypes.errmsg)
 				}
