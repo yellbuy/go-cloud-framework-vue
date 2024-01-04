@@ -108,6 +108,7 @@
 							style="width: 80px;"
     						controls-position="right"
     						@change="handleChange"
+							disabled
   						/>
 					</template>
 				</el-table-column>
@@ -115,24 +116,18 @@
 				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
 					<template #default="scope">
-						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
+						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100" disabled
 							clearable>
 						</el-input>
 					</template>
 				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+				<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="danger" @click="onProjectDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
 						</el-button>
-						<!-- <el-button type="primary" @click="onAddWorkerOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
-							<el-icon>
-								<CirclePlusFilled />
-							</el-icon>
-							&#8197;{{ $t('message.action.dispatchWorkers') }}
-						</el-button> -->
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 			</el-table>
 			<el-divider content-position="left">配件列表*</el-divider>
 			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading" style="width: 100%"
@@ -142,26 +137,23 @@
 				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
 					<template #default="scope">
-						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
+						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100" disabled
 							clearable>
 						</el-input>
 					</template>
 				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+				<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="danger" @click="onGoodsDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)"
-						v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
-							$t('message.action.save')
-						}}</el-button>
+					
 				</span>
 			</template>
 		</el-dialog>
@@ -476,13 +468,13 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle.getById(Id);
+				const res = await proxy.$api.erp.vehicle.getById(Id,true);
 				if (res.errcode != 0) {
 					return;
 				}
 				state.ruleForm = res.data;
-				state.ruleForm.VehicleProjectList=[];
-				state.ruleForm.VehicleGoodsList=[];
+				//state.ruleForm.VehicleProjectList=[];
+				//state.ruleForm.VehicleGoodsList=[];
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -515,7 +507,7 @@ export default {
 			state.saveState = false;
 			state.dialogVisible = true;
 		};
-		// 提交
+		//提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -581,7 +573,6 @@ export default {
 			getUserInfos,
 			rules,
 			token,
-			onSubmit,
 			onOpenDlg,
 			onAddOpenDlg,
 			editDlgRef,
@@ -593,6 +584,7 @@ export default {
 			onGoodsDel,
 			onAddWorkerOpenDlg,
 			handleChange,
+			onSubmit,
 			...toRefs(state),
 		};
 	},

@@ -319,7 +319,6 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'info',
-				//ProjectType: '',
 				SiteId: '',
 				No: '',
 				Qty: 0,
@@ -470,7 +469,7 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
+				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_id', 0, 2);
 				if (resTruckTypes.errcode == 0) {
 					state.truckTypeList = resTruckTypes.data;
 				} else {
@@ -478,9 +477,9 @@ export default {
 				}
 				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('exam_state', 0, 2);
 				if (resEnergyTypes.errcode == 0) {
-					state.examStateList = resEnergyTypes.data.toString;
+				 	state.examStateList = resEnergyTypes.data;
 				} else {
-					console.log("error:", resEnergyTypes.errmsg)
+				 	console.log("error:", resEnergyTypes.errmsg)
 				}
 				state.disable = disable;
 				if (id && id != '0') {
@@ -498,13 +497,13 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle.getById(Id);
+				const res = await proxy.$api.erp.vehicle.getById(Id,true);
 				if (res.errcode != 0) {
 					return;
 				}
 				state.ruleForm = res.data;
-				state.ruleForm.VehicleProjectList=[];
-				state.ruleForm.VehicleGoodsList=[];
+				 //state.ruleForm.VehicleProjectList=[];
+				 //state.ruleForm.VehicleGoodsList=[];
 			} finally {
 				state.isShowDialog = true;
 			}

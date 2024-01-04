@@ -460,18 +460,18 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				} else {
-					console.log("error:", resTruckTypes.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				} else {
-					console.log("error:", resEnergyTypes.errmsg)
-				}
+				// const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_id', 0, 2);
+				// if (resTruckTypes.errcode == 0) {
+				// 	state.truckTypeList = resTruckTypes.data;
+				// } else {
+				// 	console.log("error:", resTruckTypes.errmsg)
+				// }
+				// const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
+				// if (resEnergyTypes.errcode == 0) {
+				// 	state.energyTypeList = resEnergyTypes.data;
+				// } else {
+				// 	console.log("error:", resEnergyTypes.errmsg)
+				// }
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
@@ -493,8 +493,8 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				state.ruleForm.VehicleProjectList=[];
-				state.ruleForm.VehicleGoodsList=[];
+				//state.ruleForm.VehicleProjectList=[];
+				//state.ruleForm.VehicleGoodsList=[];
 			} finally {
 				state.isShowDialog = true;
 			}
