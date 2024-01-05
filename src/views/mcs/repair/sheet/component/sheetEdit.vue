@@ -62,12 +62,17 @@
 					</el-row>
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="维修类型" prop="ExamState">
-							<el-select v-model="ruleForm.ExamState" placeholder="请选择" disabled>
-								<el-option v-for="item in examStateList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
+							<el-form-item label="维修类型" prop="ExamState">
+							<el-switch
+								v-model="ruleForm.ExamState"
+    							active-text="维修中"
+    							inactive-text="保养"
+								:active-value="1"
+								:inactive-value="10"
+								disabled
+							/>				
 						</el-form-item>
-					</el-col>
+						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="进厂时间" prop="StartTime" required>
 								<el-date-picker v-model="ruleForm.StartTime" type="datetime" placeholder="" disabled
@@ -475,7 +480,7 @@ export default {
 				} else {
 					console.log("error:", resTruckTypes.errmsg)
 				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('exam_state', 0, 2);
+				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope("exam_state", 1, 2);
 				if (resEnergyTypes.errcode == 0) {
 				 	state.examStateList = resEnergyTypes.data;
 				} else {

@@ -69,6 +69,9 @@
 				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>
 				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip></el-table-column>
 				<el-table-column  prop="ExamState" label="维修类型" width="120" show-overflow-tooltip>
+					<template #default="scope">
+						<div>{{examList[scope.row.ExamState] }}</div>
+					</template>
 					 <!-- <template #default="scope">
 						<el-switch
 							v-model="scope.row.ExamState"
@@ -159,7 +162,22 @@ export default {
 					state: 1, //已维修
 				},
 			},
+			examList:{},
 		});
+		const loadExamList= async()=>{
+			const res = await proxy.$api.common.commondata.getConcreteDataListByScope("exam_state", 1, 2);
+			if (res.errcode != 0) {
+				return;
+			}
+			if (res.data.length>0){
+				for(let item of res.data){
+					//console.log("循环数据",item)
+					state.examList[item.Code] =item.Name
+				}
+			}
+			//console.log("数据",state.examList)
+		}
+		
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});
@@ -228,6 +246,7 @@ export default {
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
+			loadExamList()
 		});
 
 		const { dateFormatYMDHM } = commonFunction();
@@ -254,6 +273,7 @@ export default {
 			routerPath,
 			addWorkerDlgRef,
 			seeWorkerDlgRef,
+			loadExamList,
 			...toRefs(state),
 		};
 	},
