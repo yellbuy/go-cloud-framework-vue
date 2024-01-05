@@ -7,18 +7,31 @@
 				:data="tableData.data"
 				v-loading="tableData.loading"
 				style="width: 100%"
-				:height="proxy.$calcMainHeight(-75)"
+				:height="proxy.$calcMainHeight(-35)"
 				border
 				stripe
 				highlight-current-row
-			
-			>
-			</el-table>
+				>
+				<el-table-column type="index" label="" align="right" width="70" fixed />
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="left">
+					<template #default="scope">
+						<el-button text bg type="primary" @click="onOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
+							{{ $t('message.action.add') }}
+						</el-button>
+						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
+							{{ $t('message.action.edit') }}
+						</el-button>
+						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+							{{ $t('message.action.delete') }}
+						</el-button>
+					</template>
+				</el-table-column>
+				<el-table-column prop="CategoryId" label="商品分类" width="120" show-overflow-tooltip fixed></el-table-column>
+					</el-table>
 				</el-col>
 				<el-col :span="16">
-					
-			<div class="">
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
+				<div class="">
+					<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="关键字：">
 						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
