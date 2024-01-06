@@ -268,7 +268,7 @@
 									<el-button type="primary">上传</el-button>
 									<template #tip>
 										<div class="el-upload__tip">
-											mp4文件且大小小于10MB
+											MP4文件且大小不能超过10M
 										</div>
 									</template>
 								</el-upload>

@@ -280,7 +280,7 @@
 									<el-button type="primary">上传</el-button>
 									<template #tip>
 										<div class="el-upload__tip">
-											mp4文件且大小小于10MB
+											MP4文件且大小不能超过10M
 										</div>
 									</template>
 								</el-upload>
@@ -720,8 +720,8 @@ export default {
 			) {
 				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
 				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
+			} else if (rawFile.size / 1024 / 1024 > 2) {
+				ElMessage.error('允许上传的图片大小不能超过2M');
 				return false;
 			}
 			return true;
@@ -733,7 +733,7 @@ export default {
 				ElMessage.error('视频格式错误，只支持的图片格式：mp4');
 				return false;
 			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('视频大小不能超过10MB!');
+				ElMessage.error('允许上传的视频大小不能超过10M');
 				return false;
 			}
 			return true;
