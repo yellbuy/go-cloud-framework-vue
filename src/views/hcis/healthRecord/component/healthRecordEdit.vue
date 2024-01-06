@@ -1,8 +1,11 @@
 <template>
 	<div class="sys-hcis-healthRecordEdit-container">
 		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close width="80%" :before-close="closeDialog">
+			<template #header>
+				<el-text class="mx-1" size="large" type="primary"><h3>{{ title }}</h3></el-text>
+			</template>
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="200px" label-suffix="："
-				v-loading="loading" :disabled="disable">
+				v-loading="loading">
 				<el-divider content-position="left">基本信息*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -230,7 +233,7 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-divider content-position="left">附件上传*</el-divider>
+				<el-divider content-position="left">附件信息*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"><el-form-item label="上传附件"
 							prop="Files">
@@ -276,7 +279,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
+					<el-button text bg @click="closeDialog" v-if="disable">{{ $t('message.action.close') }}</el-button>
+					<el-button text bg @click="closeDialog" v-else>{{ $t('message.action.cancel') }}</el-button>
 					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable"
 						v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 							$t('message.action.save')
@@ -475,34 +479,6 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			// FallState: [
-			// 	{
-			// 		required: true,
-			// 		message: t('message.validRule.required'),
-			// 		trigger: 'blur',
-			// 	},
-			// ],
-			// LostState: [
-			// 	{
-			// 		required: true,
-			// 		message: t('message.validRule.required'),
-			// 		trigger: 'blur',
-			// 	},
-			// ],
-			// ChokeState: [
-			// 	{
-			// 		required: true,
-			// 		message: t('message.validRule.required'),
-			// 		trigger: 'blur',
-			// 	},
-			// ],
-			// SuicideState: [
-			// 	{
-			// 		required: true,
-			// 		message: t('message.validRule.required'),
-			// 		trigger: 'blur',
-			// 	},
-			// ],
 		});
 
 		// 打开弹窗
@@ -532,9 +508,9 @@ export default {
 
 				state.disable = disable;
 				if (disable) {
-					state.title = t('message.action.edit');
-				}
-				if (id && id != '0') {
+					state.title = t('message.action.see');
+					GetByIdRow(id);
+				} else if (id && id != '0') {
 					GetByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
@@ -637,8 +613,8 @@ export default {
 			) {
 				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
 				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
+			} else if (rawFile.size / 1024 / 1024 > 2) {
+				ElMessage.error('允许上传的图片大小不能超过2M');
 				return false;
 			}
 			return true;
@@ -650,7 +626,7 @@ export default {
 				ElMessage.error('视频格式错误，只支持的图片格式：mp4');
 				return false;
 			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('视频大小不能超过10MB!');
+				ElMessage.error('允许上传的视频大小不能超过10M');
 				return false;
 			}
 			return true;
