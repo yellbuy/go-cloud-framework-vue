@@ -19,10 +19,10 @@ export default {
      * 获取信息
      * @returns 返回接口数据
      */
-    getById: async (id: number | string) => {
-        const url = `/v1/admin/erp/vehicle/${id}`;
-        return await http.get(url);
-    },
+    getById: async (id: number | string,loadRelated:boolean=false) => {
+		const url = `/v1/admin/erp/vehicle/${id}?loadRelated=${loadRelated}`;
+		return await http.get(url);
+	},
 
     /**
      * 新增或更新

@@ -25,12 +25,11 @@
 					</el-row>
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车型" prop="VehicleType">
-							<el-select v-model="ruleForm.VehicleType" placeholder="请选择" disabled>
-								<el-option v-for="item in truckTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
+							<el-form-item label="车型" prop="VehicleType">
+								<el-input v-model="ruleForm.VehicleType" autofocus placeholder=""  maxlength="100"
+									clearable disabled></el-input>
+							</el-form-item>
+						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="客户名称" prop="CompanyName">
 								<el-input v-model="ruleForm.CompanyName" placeholder=""  clearable disabled></el-input>
@@ -81,7 +80,7 @@
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="完工时间" prop="EndTime" required>
-								<el-date-picker v-model="ruleForm.EndTime" type="datetime" placeholder="请选择完工时间"
+								<el-date-picker v-model="ruleForm.EndTime" type="datetime" placeholder="请选择完工时间" disabled
 									format="YYYY-MM-DD HH:mm"></el-date-picker>
 							</el-form-item>
 						</el-col>
@@ -89,7 +88,7 @@
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="备注" prop="Remark">
-								<el-input v-model="ruleForm.Remark" autofocus placeholder="" maxlength="100"
+								<el-input v-model="ruleForm.Remark" autofocus placeholder="" maxlength="100" disabled
 									clearable></el-input>
 							</el-form-item>
 						</el-col>
@@ -97,18 +96,6 @@
 				</el-form>
 			</el-card>
 			<el-divider content-position="left">项目列表*</el-divider>
-			<div class="mb10">
-				<el-form>
-					<el-form-item>
-						<el-button type="primary" @click="onAddOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
-							<el-icon>
-								<CirclePlusFilled />
-							</el-icon>
-							&#8197;{{ $t('message.action.add') }}
-						</el-button>
-					</el-form-item>
-				</el-form>
-			</div>
 			<el-table :data="ruleForm.VehicleProjectList" v-loading="projectTableData.loading" style="width: 100%"
 				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
@@ -121,6 +108,7 @@
 							style="width: 80px;"
     						controls-position="right"
     						@change="handleChange"
+							disabled
   						/>
 					</template>
 				</el-table-column>
@@ -128,38 +116,20 @@
 				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
 					<template #default="scope">
-						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
+						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100" disabled
 							clearable>
 						</el-input>
 					</template>
 				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+				<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="danger" @click="onProjectDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
 						</el-button>
-						<!-- <el-button type="primary" @click="onAddWorkerOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
-							<el-icon>
-								<CirclePlusFilled />
-							</el-icon>
-							&#8197;{{ $t('message.action.dispatchWorkers') }}
-						</el-button> -->
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 			</el-table>
 			<el-divider content-position="left">配件列表*</el-divider>
-			<div class="mb10">
-				<el-form>
-					<el-form-item>
-						<el-button type="primary" @click="onOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
-							<el-icon>
-								<CirclePlusFilled />
-							</el-icon>
-							&#8197;{{ $t('message.action.add') }}
-						</el-button>
-					</el-form-item>
-				</el-form>
-			</div>
 			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading" style="width: 100%"
 				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
@@ -167,26 +137,23 @@
 				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
 					<template #default="scope">
-						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
+						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100" disabled
 							clearable>
 						</el-input>
 					</template>
 				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+				<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="danger" @click="onGoodsDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)"
-						v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
-							$t('message.action.save')
-						}}</el-button>
+					
 				</span>
 			</template>
 		</el-dialog>
@@ -324,6 +291,7 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'info',
+				//ProjectType: '',
 				SiteId: '',
 				No: '',
 				Qty: 0,
@@ -336,7 +304,7 @@ export default {
 				Mileage: 0,
 				Linkman: '',
 				Phone: '',
-				ExamState: '',
+				ExamState: 1,
 				StartTime: '',
 				EndTime: '',
 				Content:'',
@@ -359,8 +327,6 @@ export default {
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
-			truckTypeList: [],
-			examStateList:[],
 			projectTableData: {
 				data: [],
 				total: 0,
@@ -474,17 +440,17 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_id', 0, 2);
+				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
 				if (resTruckTypes.errcode == 0) {
 					state.truckTypeList = resTruckTypes.data;
 				} else {
 					console.log("error:", resTruckTypes.errmsg)
 				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope("exam_state", 1, 2);
+				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
 				if (resEnergyTypes.errcode == 0) {
-				 	state.examStateList = resEnergyTypes.data;
+					state.energyTypeList = resEnergyTypes.data;
 				} else {
-				 	console.log("error:", resEnergyTypes.errmsg)
+					console.log("error:", resEnergyTypes.errmsg)
 				}
 				state.disable = disable;
 				if (id && id != '0') {
@@ -507,8 +473,8 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				 //state.ruleForm.VehicleProjectList=[];
-				 //state.ruleForm.VehicleGoodsList=[];
+				//state.ruleForm.VehicleProjectList=[];
+				//state.ruleForm.VehicleGoodsList=[];
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -541,7 +507,7 @@ export default {
 			state.saveState = false;
 			state.dialogVisible = true;
 		};
-		// 提交
+		//提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -607,7 +573,6 @@ export default {
 			getUserInfos,
 			rules,
 			token,
-			onSubmit,
 			onOpenDlg,
 			onAddOpenDlg,
 			editDlgRef,
@@ -619,6 +584,7 @@ export default {
 			onGoodsDel,
 			onAddWorkerOpenDlg,
 			handleChange,
+			onSubmit,
 			...toRefs(state),
 		};
 	},
