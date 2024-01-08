@@ -10,6 +10,9 @@ export default {
 		repair_sheet:'repair sheet',
 		repair_project:'repair project',
 		repair_goods:'repair goods',
+		task:'task',
+		waybill:'waybill',
+		waybill_line:'waybill_line',
 	},
 	field:{
 		
