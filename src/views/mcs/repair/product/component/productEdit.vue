@@ -28,10 +28,22 @@
 				</el-row>
 				<el-row>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="会员价比率" prop="NumberRate">
-							<el-input v-model.number="ruleForm.NumberRate" placeholder="请输入会员价比率"></el-input> 
+						<el-form-item label="助记符" prop="Piny">
+							<el-input v-model.number="ruleForm.Piny" placeholder="助记符"></el-input> 
 						</el-form-item>
 					</el-col>
+                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="商品类型" prop="GoodsType">
+							<el-select v-model="ruleForm.GoodsType" class="m-2" placeholder="请输入货品单位" size="small">
+    							<el-option
+      							v-for="item in GoodsTypeList"
+      							:key="item.Id"
+      							:label="item.Name"
+      							:value="item.Name"
+    							/>
+  							</el-select>
+						</el-form-item>
+					</el-col>	
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="是否开启" prop="SupplierState">
 							<el-switch
@@ -106,7 +118,7 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
-	name: 'projectEdit',
+	name: 'productEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -169,6 +181,7 @@ export default {
 				SupplierState:1,
 				GoodsImg:'',
 				SellerNote:'',
+                Piny:'',
 			},
 			tableItem: {
 				Id: '0',				
@@ -180,7 +193,7 @@ export default {
 				Remark: '',
 			},
 			dialogVisible: false,
-			goodsUnitList: [],
+			GoodsTypeList: [],
 			brandList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
@@ -222,9 +235,9 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
-				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('repair_unit', 0, 2);
+				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_type', 0, 2);
 				if (goodsUnits.errcode == 0) {
-					state.goodsUnitList = goodsUnits.data;
+					state.GoodsTypeList = goodsUnits.data;
 				}else{
 					console.log("error:",goodsUnits.errmsg)
 				}

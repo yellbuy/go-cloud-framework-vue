@@ -10,6 +10,7 @@ export default {
 		repair_sheet:'维修单管理',
 		repair_project:'项目管理',
 		repair_goods:'配件管理',
+		repair_product:'产品管理',
 	},
 	field: {
 

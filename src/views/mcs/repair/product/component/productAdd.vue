@@ -2,20 +2,22 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="50%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-row :gutter="20">
+				<el-row :gutter="20"> 
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="商品名称" prop="GoodsName">
-							<el-input v-model="ruleForm.GoodsName" placeholder="请输入商品名称"></el-input> 
+						<el-form-item label="类别名称" prop="GoodsName">
+							<el-input v-model="ruleForm.GoodsName" placeholder="请输入类别名称"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="商品编号" prop="GoodsSn">
-							<el-input v-model="ruleForm.GoodsSn" placeholder="请输入商品编号"></el-input> 
+						<el-form-item label="识别名称" prop="GoodsSn">
+							<el-input v-model="ruleForm.GoodsSn" placeholder="选填，如果填写则必须保证唯一"></el-input> 
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="货品单位" prop="GoodsUnit">
-							<el-select v-model="ruleForm.GoodsUnit" class="m-2" placeholder="请输入货品单位" size="small">
+					</el-col>				
+				</el-row>
+				<el-row>
+                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="父级" prop="GoodsUnit">
+							<el-select v-model="ruleForm.GoodsUnit" class="m-2" placeholder="" size="small">
     							<el-option
       							v-for="item in goodsUnitList"
       							:key="item.Id"
@@ -24,29 +26,48 @@
     							/>
   							</el-select>
 						</el-form-item>
-					</el-col>					
-				</el-row>
-				<el-row>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="会员价比率" prop="NumberRate">
-							<el-input v-model.number="ruleForm.NumberRate" placeholder="请输入会员价比率"></el-input> 
+					</el-col>	
+                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="图标" prop="icon">
+							<el-input v-model="ruleForm.icon" placeholder=""></el-input> 
 						</el-form-item>
 					</el-col>
+                </el-row>
+                <el-row>
+                    
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="是否开启" prop="SupplierState">
+                       
+						<el-form-item label="排序号" prop="NumberRate">
+							<!-- <el-input v-model.number="ruleForm.NumberRate" placeholder="默认靠后"></el-input>  -->
+                       
+						<el-input-number
+    						v-model="ruleForm.NumberRate"
+							size="small"
+							style="width: 80px;"
+    						controls-position="right"
+    						@change="handleChange"
+  						/>
+                
+						</el-form-item>
+                   
+					</el-col>
+                
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="状态" prop="SupplierState">
 							<el-switch
 						v-model="ruleForm.SupplierState"
-    					active-text="开启"
-    					inactive-text="关闭"
+    					active-text="启用"
+    					inactive-text="禁用"
 						:active-value="1"
 						:inactive-value="0"
 						/>				
 						</el-form-item>
 					</el-col>
+               
 				</el-row>
 				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
-						<el-form-item label="商品图片" prop="GoodsPics">
+						<el-form-item label="封面图" prop="GoodsPics">
 							<div style="width: 50%">
 								<el-upload
 									class="upload-demo"
@@ -72,16 +93,6 @@
 							</div>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
-						<el-form-item label="备注" prop="SellerNote" >
-							<el-input
-							v-model="ruleForm.SellerNote"
-							:rows="3"
-							type="textarea"
-							placeholder="请输入备注"
-						/>
-					</el-form-item>
-					</el-col>
 				</el-row> 
 			</el-form>
 			<template #footer>
@@ -106,7 +117,7 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
-	name: 'projectEdit',
+	name: 'productAdd',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -142,7 +153,10 @@ export default {
 			return fileUrl;
 		};
 		
-		
+		const handleChange = (value: number) => {
+  		//console.log(value)
+		}
+
 		const tableData = reactive({
 			data: [],
 			loading: false,
@@ -165,7 +179,7 @@ export default {
 				GoodsName: '',
 				GoodsUnit:'',
 				GoodsSn:'',
-				NumberRate:0,
+				NumberRate:'',
 				SupplierState:1,
 				GoodsImg:'',
 				SellerNote:'',
@@ -193,13 +207,6 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			GoodsName: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			GoodsSn: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -389,6 +396,7 @@ export default {
 			rules,
 			token,
 			onSubmit,
+            handleChange,
 			...toRefs(state),
 		};
 	},

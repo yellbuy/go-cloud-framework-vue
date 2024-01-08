@@ -10,6 +10,7 @@ export default {
 		repair_sheet:'repair sheet',
 		repair_project:'repair project',
 		repair_goods:'repair goods',
+		repair_product:'repair product',
 	},
 	field:{
 		

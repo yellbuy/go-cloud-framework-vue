@@ -254,7 +254,7 @@ export default {
 		};
 
 		const handleChange = (value: number) => {
-  		console.log(value)
+  		//console.log(value)
 		}
 
 		const tableData = reactive({
