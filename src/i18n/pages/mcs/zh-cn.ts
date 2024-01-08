@@ -11,6 +11,9 @@ export default {
 		repair_project:'项目管理',
 		repair_goods:'配件管理',
 		repair_product:'产品管理',
+		task:'任务管理',
+		waybill:'任务单',
+		waybill_line:'派车单',
 	},
 	field: {
 

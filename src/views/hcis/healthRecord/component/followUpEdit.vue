@@ -1,8 +1,11 @@
 <template>
 	<div class="sys-hcis-healthRecordEdit-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" destroy-on-close :before-close="closeDialog">
+			<template #header>
+				<el-text class="mx-1" size="large" type="primary"><h3>{{ title }}</h3></el-text>
+			</template>
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="200px" label-suffix="："
-				v-loading="loading" :disabled="disable">
+				v-loading="loading">
 				<el-collapse v-model="activeName" accordion>
 					<el-collapse-item title="基本信息" name="person_info">
 						<el-row :gutter="20">
@@ -241,7 +244,7 @@
 					</el-collapse-item>
 				</el-collapse>
 				<el-collapse>
-					<el-collapse-item title="上传附件" name="record_info">
+					<el-collapse-item title="附件信息" name="record_info">
 						<el-divider content-position="left">附件上传*</el-divider>
 						<el-row :gutter="20">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"><el-form-item label="上传附件"
@@ -277,7 +280,7 @@
 									<el-button type="primary">上传</el-button>
 									<template #tip>
 										<div class="el-upload__tip">
-											mp4文件且大小小于10MB
+											仅允许上传MP4格式的视频文件且大小不能超过10M，其他格式的视频文件请上传其他平台并直接输入视频链接地址
 										</div>
 									</template>
 								</el-upload>
@@ -315,7 +318,7 @@
 							</el-form-item>
 						</el-col>
 
-						<el-col :span="24" class="mb20">
+						<el-col :span="18" class="mb20">
 							<el-form-item label="老人后续跟进方式" prop="FollowUpMode">
 								<el-radio-group v-model="val.FollowUpMode">
 									<el-radio :label="1">转诊医疗机构</el-radio>
@@ -324,6 +327,9 @@
 									<el-radio :label="10">其他</el-radio>
 								</el-radio-group>
 							</el-form-item>
+						</el-col>
+						<el-col :span="6" class="mb20">
+							<el-input v-model="val.FollowUpRemark" placeholder="其他后续跟进方式"></el-input>
 						</el-col>
 						<el-col :span="12" class="mb20">
 							<el-form-item label="测评地点" prop="Address">
@@ -350,7 +356,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
+					<el-button text bg @click="closeDialog" v-if="disable">{{ $t('message.action.close') }}</el-button>
+					<el-button text bg @click="closeDialog" v-else>{{ $t('message.action.cancel') }}</el-button>
 					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable"
 						v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 							$t('message.action.save')
@@ -713,8 +720,8 @@ export default {
 			) {
 				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
 				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
+			} else if (rawFile.size / 1024 / 1024 > 2) {
+				ElMessage.error('允许上传的图片大小不能超过2M');
 				return false;
 			}
 			return true;
@@ -726,7 +733,7 @@ export default {
 				ElMessage.error('视频格式错误，只支持的图片格式：mp4');
 				return false;
 			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('视频大小不能超过10MB!');
+				ElMessage.error('允许上传的视频大小不能超过10M');
 				return false;
 			}
 			return true;
