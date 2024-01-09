@@ -4,11 +4,11 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20"> 
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="类别名称" prop="GoodsName">
-							<el-input v-model="ruleForm.GoodsName" placeholder="请输入类别名称"></el-input> 
+						<el-form-item label="类别名称" prop="Name">
+							<el-input v-model="ruleForm.Name" placeholder="请输入类别名称"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="识别名称" prop="GoodsSn">
 							<el-input v-model="ruleForm.GoodsSn" placeholder="选填，如果填写则必须保证唯一"></el-input> 
 						</el-form-item>
@@ -16,20 +16,20 @@
 				</el-row>
 				<el-row>
                     <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="父级" prop="GoodsUnit">
-							<el-select v-model="ruleForm.GoodsUnit" class="m-2" placeholder="" size="small">
+						<el-form-item label="父级" prop="CategoryId">
+							<el-select v-model="ruleForm.CategoryId" class="m-2" placeholder="" size="small">
     							<el-option
-      							v-for="item in goodsUnitList"
+      							v-for="item in CategoryId"
       							:key="item.Id"
       							:label="item.Name"
       							:value="item.Name"
     							/>
   							</el-select>
 						</el-form-item>
-					</el-col>	
+					</el-col>	 -->
                     <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="图标" prop="icon">
-							<el-input v-model="ruleForm.icon" placeholder=""></el-input> 
+						<el-form-item label="图标" prop="GoodsImg">
+							<el-input v-model="ruleForm.GoodsImg" placeholder=""></el-input> 
 						</el-form-item>
 					</el-col>
                 </el-row>
@@ -37,11 +37,11 @@
                     
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
                        
-						<el-form-item label="排序号" prop="NumberRate">
+						<el-form-item label="排序号" prop="Order">
 							<!-- <el-input v-model.number="ruleForm.NumberRate" placeholder="默认靠后"></el-input>  -->
                        
 						<el-input-number
-    						v-model="ruleForm.NumberRate"
+    						v-model.number="ruleForm.Order"
 							size="small"
 							style="width: 80px;"
     						controls-position="right"
@@ -55,7 +55,7 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="状态" prop="SupplierState">
 							<el-switch
-						v-model="ruleForm.SupplierState"
+						v-model.number="ruleForm.SupplierState"
     					active-text="启用"
     					inactive-text="禁用"
 						:active-value="1"
@@ -176,10 +176,10 @@ export default {
 			ruleForm: {
 				Id: '0',				
 				Kind: 'repair',
-				GoodsName: '',
+				Name: '',
 				GoodsUnit:'',
 				GoodsSn:'',
-				NumberRate:'',
+				Order:0,
 				SupplierState:1,
 				GoodsImg:'',
 				SellerNote:'',
@@ -257,7 +257,7 @@ export default {
 		};
 		const getByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.wms.goods.getById(Id);
+				const res = await proxy.$api.common.category.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -312,7 +312,7 @@ export default {
 		};
 
 		const onLoadTable = () => {
-			proxy.$parent.onGetTableData();
+			proxy.$parent.onGetMainTableData();
 		};
 		//修改按钮
 		const onModelEdit = (item: object) => {
@@ -337,16 +337,30 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.wms.goods.save(state.ruleForm);
-						if (res.errcode == 0) {
+						if (state.ruleForm.Id==0){
+							let res = await proxy.$api.common.category.insert(state.ruleForm);
+								if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
 							} else {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id = 0;
 							}
-							proxy.$parent.onGetTableData();
+							proxy.$parent.onGetMainTableData();
 						}
+						}else{
+							let res = await proxy.$api.common.category.update(state.ruleForm);
+							if (res.errcode == 0) {
+							if (isCloseDlg) {
+								closeDialog();
+							} else {
+								proxy.$refs.ruleFormRef.resetFields();
+								state.ruleForm.Id = 0;
+							}
+							proxy.$parent.onGetMainTableData();
+						}
+						}
+						
 					} finally {
 						state.loading = false;
 					}

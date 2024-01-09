@@ -3,9 +3,28 @@
 		<el-card shadow="hover">
 			<el-row>
 				<el-col :span="8">
+					<div class="">
+						<el-form label-width="90px" :inline="true">
+							<el-form-item>
+								<el-button info @click="onGetMainTableData(true)">
+									<el-icon>
+										<Search />
+									</el-icon>
+									&#8197;{{ $t('message.action.refresh') }}
+								</el-button>
+								<el-button type="primary" @click="onOpenAddDlg()" v-auth:[moduleKey]="'btn.CategoryAdd'">
+									<el-icon>
+										<CirclePlusFilled />
+									</el-icon>
+									&#8197;{{ $t('message.action.add') }}
+								</el-button>
+							</el-form-item>
+							<el-form-item> </el-form-item>
+						</el-form>
+					</div>
 					<el-table
-				:data="tableData.data"
-				v-loading="tableData.loading"
+				:data="mainTableData.data"
+				v-loading="mainTableData.loading"
 				style="width: 100%"
 				:height="proxy.$calcMainHeight(-35)"
 				border
@@ -21,12 +40,12 @@
 						<el-button text bg type="primary" @click="onOpenAddDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button text bg type="danger" @click="onCategoryDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
 				</el-table-column>
-				<el-table-column prop="CategoryId" label="商品分类" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Name" label="商品分类" width="120" show-overflow-tooltip fixed></el-table-column>
 					</el-table>
 				</el-col>
 				<el-col :span="16">
@@ -126,6 +145,7 @@
 		</el-card>
 		<editDlg ref="editDlgRef" />
 		<addDlg ref="addDlgRef" />
+		
 	</div>
 </template>
 
@@ -136,7 +156,6 @@ import { useRoute } from 'vue-router';
 import editDlg from './component/productEdit.vue';
 import addDlg from './component/productAdd.vue';
 import commonFunction from '/@/utils/commonFunction';
-
 export default {
 	name: 'projectList',
 	components: { editDlg,addDlg},
@@ -156,6 +175,17 @@ export default {
 			scopeMode,
 			scopeValue,
 			tableData: {
+				data: [],
+				total: 0,
+				loading: false,
+				param: {
+					keyword: '',
+					pageNum: 1,
+					pageSize: 20,
+					state: -1,
+				},
+			},
+			mainTableData: {
 				data: [],
 				total: 0,
 				loading: false,
@@ -193,6 +223,24 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
+		// 初始化表格数据
+		const onGetMainTableData = async (loadFirstChildData: boolean = false) => {
+			state.mainTableData.loading = true;
+			state.mainTableData.data = [];
+			try {
+				const res = await proxy.$api.common.category.getHierarchyDataList(state.kind, state.scopeMode, state.scopeValue, state.mainTableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.mainTableData.total = res.total;
+				state.mainTableData.data = res.data;
+				// if(loadFirstChildData && state.mainTableData.data.length){
+				// 	onGetChildTableData(true)
+				// }
+			} finally {
+				state.mainTableData.loading = false;
+			}
+		};
 		// 打开弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
@@ -220,6 +268,24 @@ export default {
 			});
 		};
 
+		// 删除用户
+		const onCategoryDel = (Id: string) => {
+			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					const res = await proxy.$api.common.category.delete(Id);
+					if (res.errcode == 0) {
+						onGetTableData();
+					}
+				} finally {
+					state.mainTableData.loading = false;
+				}
+				return false;
+			});
+		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
@@ -233,6 +299,7 @@ export default {
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
+			onGetMainTableData();
 		});
 
 		const { dateFormatYMDHM } = commonFunction();
@@ -242,10 +309,12 @@ export default {
 			editDlgRef,
 			addDlgRef,
 			onGetTableData,
+			onGetMainTableData,
 			onResetSearch,
 			onOpenEditDlg,
 			onOpenAddDlg,
 			onModelDel,
+			onCategoryDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,

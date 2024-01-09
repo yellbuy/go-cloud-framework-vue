@@ -29,17 +29,17 @@
 				<el-row>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="助记符" prop="Piny">
-							<el-input v-model.number="ruleForm.Piny" placeholder="助记符"></el-input> 
+							<el-input v-model="ruleForm.Piny" placeholder="助记符"></el-input> 
 						</el-form-item>
 					</el-col>
                     <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="商品类型" prop="GoodsType">
-							<el-select v-model="ruleForm.GoodsType" class="m-2" placeholder="请输入货品单位" size="small">
+						<el-form-item label="商品类型" prop="CategoryId">
+							<el-select v-model="ruleForm.CategoryId" class="m-2" placeholder="请输入商品类型" size="small">
     							<el-option
       							v-for="item in GoodsTypeList"
       							:key="item.Id"
       							:label="item.Name"
-      							:value="item.Name"
+      							:value="item.Id"
     							/>
   							</el-select>
 						</el-form-item>
@@ -182,6 +182,7 @@ export default {
 				GoodsImg:'',
 				SellerNote:'',
                 Piny:'',
+				CategoryId:0,
 			},
 			tableItem: {
 				Id: '0',				
@@ -194,6 +195,7 @@ export default {
 			},
 			dialogVisible: false,
 			GoodsTypeList: [],
+			goodsUnitList: [],
 			brandList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
@@ -235,17 +237,17 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
-				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_type', 0, 2);
+				const GoodsType = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_type', 0, 2);
+				if (GoodsType.errcode == 0) {
+					state.GoodsTypeList = GoodsType.data;
+				}else{
+					console.log("error:",GoodsType.errmsg)
+				}
+				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('repair_unit', 0, 2);
 				if (goodsUnits.errcode == 0) {
-					state.GoodsTypeList = goodsUnits.data;
+					state.goodsUnitList = goodsUnits.data;
 				}else{
 					console.log("error:",goodsUnits.errmsg)
-				}
-				const resBrands = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_brand', 0, 2);
-				if (resBrands.errcode == 0) {
-					state.brandList = resBrands.data;
-				}else{
-					console.log("error:",resBrands.errmsg)
 				}
 				state.disable = disable;
 				if (id && id != '0') {
