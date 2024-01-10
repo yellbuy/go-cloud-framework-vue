@@ -30,6 +30,7 @@
 				border
 				stripe
 				highlight-current-row
+				@cell-click="onMainCellClick"
 				>
 				<el-table-column type="index" label="" align="right" width="70" fixed />
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="left">
@@ -243,7 +244,8 @@ export default {
 		};
 		// 打开弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
-			editDlgRef.value.openDialog(state.kind, id, ishow);
+			console.log(state.CategoryId)
+			editDlgRef.value.openDialog(state.kind, id, ishow,state.CategoryId);
 		};
 		// 打开弹窗
 		const onOpenAddDlg = (id: string, ishow: boolean) => {
@@ -286,6 +288,19 @@ export default {
 				return false;
 			});
 		};
+		const onMainCellClick = async (row: any, column: any, cell: any, event: any) => {
+			console.log(column);
+			state.tableData.param.categoryId = row.Id || '0';
+			state.CategoryId = state.tableData.param.categoryId;
+			onGetTableData();
+			// if(row && column.property=="Title"){
+			// 	// const res=await proxy.$api.cms.article.getById(row.Id)
+			// 	// if(res.errcode==0){
+			// 	// 	dlgDetailRef.value.openDialog(res.data);
+			// 	// }
+
+			// }
+		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
@@ -310,6 +325,7 @@ export default {
 			addDlgRef,
 			onGetTableData,
 			onGetMainTableData,
+			onMainCellClick,
 			onResetSearch,
 			onOpenEditDlg,
 			onOpenAddDlg,
