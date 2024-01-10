@@ -11,6 +11,10 @@ export default {
 		repair_project:'repair project',
 		repair_goods:'repair goods',
 		finance_account:'finance_account',
+		repair_product:'repair product',
+		task:'task',
+		waybill:'waybill',
+		waybill_line:'waybill_line',
 	},
 	field:{
 		

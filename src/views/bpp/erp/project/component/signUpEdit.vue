@@ -278,13 +278,13 @@
 </template>
 
 <script lang="ts">
-import { computed, reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import commonFunction from '/@/utils/commonFunction';
-import { useStore } from '/@/store/index';
-import { Session } from '/@/utils/storage';
 import type { UploadFile } from 'element-plus';
-import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
+import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'api_sys_project_signup',
 	components: {},
@@ -319,7 +319,6 @@ export default {
 				loading: false,
 			},
 			tableDataIndex: 0,
-			FilesList: [],
 		});
 		const token = Session.get('token');
 		const getUserInfos = computed(() => {

@@ -1,97 +1,99 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="50%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-divider content-position="left">基本信息*</el-divider>
-				<el-row :gutter="20">
+				<el-row :gutter="20"> 
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车牌号" prop="VehicleNumber">
-							<el-input v-model="ruleForm.VehicleNumber" placeholder="请输入车牌号码"></el-input> 
+						<el-form-item label="类别名称" prop="Name">
+							<el-input v-model="ruleForm.Name" placeholder="请输入类别名称"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆类型" prop="VehicleType">
-							<el-select v-model="ruleForm.VehicleType" placeholder="请选择">
-								<el-option v-for="item in vehicleTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
+					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="识别名称" prop="GoodsSn">
+							<el-input v-model="ruleForm.GoodsSn" placeholder="选填，如果填写则必须保证唯一"></el-input> 
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆品牌" prop="Brand">
-							<el-select v-model="ruleForm.Brand" filterable placeholder="请选择">
-								<el-option v-for="item in brandList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="联系人" prop="Linkman"> <el-input v-model="ruleForm.Linkman" placeholder="请输入联系人"></el-input> </el-form-item
-					></el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="电话" prop="Phone"> <el-input v-model="ruleForm.Phone" placeholder="请输入电话号码"></el-input> </el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="公里数" prop="Mileage">
-							<el-input-number :min="0" v-model="ruleForm.Mileage" placeholder="请输入公里数"></el-input-number> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="客户名称" prop="CompanyName">
-							<el-input v-model="ruleForm.CompanyName" placeholder="请输入客户名称"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="到厂时间" prop="StartTime" required>
-							<el-date-picker
-								v-model="ruleForm.StartTime"
-								type="datetime"
-								placeholder="到厂时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="出厂时间" prop="EndTime">
-							<el-date-picker
-								v-model="ruleForm.EndTime"
-								type="datetime"
-								placeholder="出厂时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
+					</el-col>				
 				</el-row>
 				<el-row>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="外观缺陷" prop="SurfaceRemark" >
-							<el-input
-								v-model="ruleForm.SurfaceRemark"
-								:rows="2"
-								type="textarea"
-								placeholder="请输入"
-							/>
+                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="父级" prop="CategoryId">
+							<el-select v-model="ruleForm.CategoryId" class="m-2" placeholder="" size="small">
+    							<el-option
+      							v-for="item in CategoryId"
+      							:key="item.Id"
+      							:label="item.Name"
+      							:value="item.Name"
+    							/>
+  							</el-select>
+						</el-form-item>
+					</el-col>	 -->
+                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="图标" prop="GoodsImg">
+							<el-input v-model="ruleForm.GoodsImg" placeholder=""></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">		
-						<el-form-item label="故障描述" prop="FaultRemark" >
-							<el-input
-							v-model="ruleForm.FaultRemark"
-							:rows="2"
-							type="textarea"
-							placeholder="请输入"
-						/>
-					</el-form-item>
-					</el-col>
+                </el-row>
+                <el-row>
+                    
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="备注" prop="Remark" >
-							<el-input
-							v-model="ruleForm.Remark"
-							:rows="2"
-							type="textarea"
-							placeholder="请输入"
-						/>
+                       
+						<el-form-item label="排序号" prop="Order">
+							<!-- <el-input v-model.number="ruleForm.NumberRate" placeholder="默认靠后"></el-input>  -->
+                       
+						<el-input-number
+    						v-model.number="ruleForm.Order"
+							size="small"
+							style="width: 80px;"
+    						controls-position="right"
+    						@change="handleChange"
+  						/>
+                
+						</el-form-item>
+                   
+					</el-col>
+                
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="状态" prop="SupplierState">
+							<el-switch
+						v-model.number="ruleForm.SupplierState"
+    					active-text="启用"
+    					inactive-text="禁用"
+						:active-value="1"
+						:inactive-value="0"
+						/>				
 						</el-form-item>
 					</el-col>
+               
 				</el-row>
+				<el-row>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
+						<el-form-item label="封面图" prop="GoodsPics">
+							<div style="width: 50%">
+								<el-upload
+									class="upload-demo"
+									:action="uploadURL"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onSuccessFile"
+									:on-preview="onPreview"
+									:on-remove="onRemove"
+									:file-list="FilesList"
+									:accept:="`image/png, image/jpeg,image/bmp,image/jpg,application/pdf,application/docx,application/doc,application/xls,application/xlsx`"
+									multiple
+									show-file-list
+								>
+									<template #default>
+										<el-button
+											><el-icon class="el-icon--right"><Upload /></el-icon>上传</el-button
+										>
+									</template>
+								</el-upload>
+							</div>
+							<div>
+								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
+							</div>
+						</el-form-item>
+					</el-col>
+				</el-row> 
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -101,8 +103,7 @@
 					}}</el-button>
 				</span>
 			</template>
-		</el-dialog>
-		
+		</el-dialog>		
 	</div>
 </template>
 
@@ -116,7 +117,7 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
-	name: 'receptionEdit',
+	name: 'productAdd',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -152,7 +153,10 @@ export default {
 			return fileUrl;
 		};
 		
-		
+		const handleChange = (value: number) => {
+  		//console.log(value)
+		}
+
 		const tableData = reactive({
 			data: [],
 			loading: false,
@@ -170,35 +174,27 @@ export default {
 			baseUrl: import.meta.env.VITE_API_URL,
 			//表单
 			ruleForm: {
-				Id: 0,
+				Id: '0',				
+				Kind: 'repair',
 				Name: '',
-				Kind: 'info',
-				VehicleNumber: '',
-				IsExternal:0,
-				VehicleType: '',
-				EnergyType: '',
-				Mileage: 0,
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
-				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
-				Brand: '',
+				GoodsUnit:'',
+				GoodsSn:'',
+				Order:0,
+				SupplierState:1,
+				GoodsImg:'',
+				SellerNote:'',
 			},
 			tableItem: {
-				Id: '0',
-				CategoryId: '',
+				Id: '0',				
+				Kind: 'repair',
 				Name: '',
-				Files: '',
-				StartTime: '',
-				EndTime:'',
-				Kind: 'info',
+				No: '',
+				Qty: 0,
+				Content:"",
+				Remark: '',
 			},
 			dialogVisible: false,
-			vehicleTypeList: [],
+			goodsUnitList: [],
 			brandList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
@@ -210,69 +206,20 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			VehicleNumber: [
-				{
-					required: true,
-					message: computed(()=>t('message.validRule.required')),
-					trigger: 'blur',
-				},
-			],
-			Linkman: [
+			GoodsName: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			Phone: [
+			GoodsUnit: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
-			],
-			Mileage: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			StartTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			TransportLicenseEndDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			VehicleType: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Brand: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			CompanyName: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
+			]
 		});
 		
 		// 打开弹窗
@@ -280,13 +227,13 @@ export default {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
+			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.vehicleTypeList = resTruckTypes.data;
+				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('repair_unit', 0, 2);
+				if (goodsUnits.errcode == 0) {
+					state.goodsUnitList = goodsUnits.data;
 				}else{
-					console.log("error:",resTruckTypes.errmsg)
+					console.log("error:",goodsUnits.errmsg)
 				}
 				const resBrands = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_brand', 0, 2);
 				if (resBrands.errcode == 0) {
@@ -310,7 +257,7 @@ export default {
 		};
 		const getByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle.getById(Id);
+				const res = await proxy.$api.common.category.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -320,6 +267,37 @@ export default {
 				state.ruleForm = res.data;
 			} finally {
 				state.isShowDialog = true;
+			}
+		};
+		//预览文件
+		const onPreview = (uploadFile: any) => {
+			// 当格式为图片就预览图片，否则下载文件
+			let filename = uploadFile.name;
+			if (!uploadFile.name || uploadFile.name == '') {
+				filename = uploadFile.url;
+			}
+			let fileurl = uploadFile.url;
+			let fileExtension = '';
+			// 校检文件类型
+			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
+			if (filename.lastIndexOf('.') > -1) {
+				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
+			}
+			const isTypeOk = imageTypes.some((type) => {
+				if (fileExtension && fileExtension.indexOf(type) > -1) {
+					return true;
+				}
+			});
+			if (isTypeOk) {
+				//预览图片
+				state.dialogImageUrl[0] = fileurl;
+				state.dialogTitle = filename;
+				state.dialogVisible = true;
+			} else {
+				//下载文件
+				state.dialogVisible = false;
+				// openWindow(fileurl, { target: "_self" });
+				window.open(fileurl, '_self');
 			}
 		};
 		// 关闭弹窗
@@ -334,7 +312,7 @@ export default {
 		};
 
 		const onLoadTable = () => {
-			proxy.$parent.onGetTableData();
+			proxy.$parent.onGetMainTableData();
 		};
 		//修改按钮
 		const onModelEdit = (item: object) => {
@@ -359,16 +337,30 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
-						if (res.errcode == 0) {
+						if (state.ruleForm.Id==0){
+							let res = await proxy.$api.common.category.insert(state.ruleForm);
+								if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
 							} else {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id = 0;
 							}
-							proxy.$parent.onGetTableData();
+							proxy.$parent.onGetMainTableData();
 						}
+						}else{
+							let res = await proxy.$api.common.category.update(state.ruleForm);
+							if (res.errcode == 0) {
+							if (isCloseDlg) {
+								closeDialog();
+							} else {
+								proxy.$refs.ruleFormRef.resetFields();
+								state.ruleForm.Id = 0;
+							}
+							proxy.$parent.onGetMainTableData();
+						}
+						}
+						
 					} finally {
 						state.loading = false;
 					}
@@ -407,6 +399,7 @@ export default {
 			onLoadTable,
 			getByIdRow,
 			onSuccessFile,
+			onPreview,
 			onRemove,
 			onBeforeImageUpload,
 			onModelEdit,
@@ -417,6 +410,7 @@ export default {
 			rules,
 			token,
 			onSubmit,
+            handleChange,
 			...toRefs(state),
 		};
 	},

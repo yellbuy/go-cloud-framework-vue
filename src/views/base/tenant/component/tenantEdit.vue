@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-suffix="：" label-width="90px" v-loading="loading">
 				<el-row :gutter="20">
 					<el-col :sm="24" :md="12" class="mb16">
 						<el-form-item prop="Name" label="单位名称">
@@ -75,7 +75,7 @@
 							<p title="" class="color-info-light font10"><SvgIcon name="fa fa-info-circle" class="mr3" />管理员拥有所有权限</p>
 						</el-form-item>
 					</el-col>
-
+					
 					<el-col :sm="24" :md="12" class="mb16">
 						<el-form-item prop="UserPassword" label="密码" maxlength="64">
 							<el-input type="password" v-model="ruleForm.UserPassword" placeholder="登录密码" clearable></el-input>
@@ -86,6 +86,18 @@
 							<el-input type="password" v-model="ruleForm.UserConfirmPassword" placeholder="确认密码" clearable></el-input>
 						</el-form-item>
 					</el-col>
+					<!-- <el-col :sm="24" :md="12">
+						<el-form-item prop="AllowFrontendLogin">
+							<el-checkbox v-model="ruleForm.AllowFrontendLogin" :true-label="1" :false-label="0">前台登录</el-checkbox>
+							<p title="" class="color-info-light ml5 font10"><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录移动端前台</p>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="AllowBackendLogin">
+							<el-checkbox v-model="ruleForm.AllowBackendLogin" :true-label="1" :false-label="0">后台登录</el-checkbox>
+							<p title="" class="color-info-light ml5 font10"><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录系统后台</p>
+						</el-form-item>
+					</el-col> -->
 					<el-col :sm="24" :md="12" class="mb16">
 						<el-form-item prop="UserRealName" label="姓名" maxlength="64">
 							<el-input v-model="ruleForm.UserRealName" placeholder="用户姓名" clearable></el-input>
@@ -114,9 +126,9 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
+import { ElMessage } from 'element-plus';
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElMessage, ElMessageBox } from 'element-plus';
 export default {
 	name: 'baseUserEdit',
 	setup() {

@@ -49,7 +49,7 @@
 				</el-table-column>
 				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Brand" label="车辆品牌" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="TruckType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="VehicleType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
 				<!-- <el-table-column label="外部车" width="70" show-overflow-tooltip>
 					<template #default="scope">
@@ -69,8 +69,7 @@
 					</template>
 				</el-table-column> -->
 				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
-				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
-				
+				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip></el-table-column>
 				<el-table-column label="是否开单" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -84,6 +83,7 @@
 							:active-value="1"
 							:inactive-value="0"
 						/>
+						
 						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
@@ -91,6 +91,11 @@
 				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
+						
+						<el-button text bg @click="routerPath(0, false)" v-auth:[moduleKey]="'btn.Add'" v-if="scope.row.State !== 1">
+							{{ $t('message.action.billing') }}
+						</el-button>
+					
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
@@ -124,7 +129,7 @@
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute,useRouter } from 'vue-router';
 import editDlg from './component/receptionEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
@@ -134,6 +139,7 @@ export default {
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
+		const router =  useRouter();
 		const kind = "repair";
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
@@ -215,6 +221,12 @@ export default {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
+		// 打开弹窗
+		const routerPath= (id: string, ishow: boolean)=>{
+			//console.log(id)
+			router.push('/admin/mcs/repair/sheet/0/0')
+			editDlgRef.value.openDialog(state.kind, id, ishow);
+		}
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
@@ -232,6 +244,7 @@ export default {
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
+			routerPath,
 			...toRefs(state),
 		};
 	},

@@ -14,49 +14,48 @@
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="车牌号" prop="VehicleNumber">
-								<el-input v-model="ruleForm.VehicleNumber" placeholder=""  clearable disabled></el-input>
+								<el-input v-model="ruleForm.VehicleNumber" placeholder=""  clearable ></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="车辆品牌" prop="Brand">
-								<el-input v-model="ruleForm.Brand" placeholder=""  clearable disabled></el-input>
+								<el-input v-model="ruleForm.Brand" placeholder=""  clearable ></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车型" prop="VehicleType">
-							<el-select v-model="ruleForm.VehicleType" placeholder="请选择" disabled>
-								<el-option v-for="item in truckTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
+							<el-form-item label="车型" prop="VehicleType">
+								<el-input v-model="ruleForm.VehicleType" autofocus placeholder=""  maxlength="100"
+									clearable></el-input>
+							</el-form-item>
+						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="客户名称" prop="CompanyName">
-								<el-input v-model="ruleForm.CompanyName" placeholder=""  clearable disabled></el-input>
+								<el-input v-model="ruleForm.CompanyName" placeholder=""  clearable ></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="公里数" prop="Mileage">
-								<el-input v-model.number="ruleForm.Mileage" placeholder=""  clearable disabled></el-input>
+								<el-input v-model.number="ruleForm.Mileage" placeholder=""  clearable ></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-							<el-form-item label="到厂次数" prop="SiteId">
-								<el-input v-model="ruleForm.SiteId" autofocus placeholder=""  maxlength="100" disabled
+							<el-form-item label="到厂次数" prop="VehicleTag">
+								<el-input v-model="ruleForm.VehicleTag" autofocus placeholder=""  maxlength="100" disabled
 									clearable></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="联系人" prop="Linkman">
-								<el-input v-model="ruleForm.Linkman" placeholder=""  clearable disabled></el-input>
+								<el-input v-model="ruleForm.Linkman" placeholder=""  clearable ></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="联系电话" prop="Phone">
-								<el-input v-model="ruleForm.Phone" placeholder=""  clearable disabled></el-input>
+								<el-input v-model="ruleForm.Phone" placeholder=""  clearable ></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -69,20 +68,14 @@
     							inactive-text="保养"
 								:active-value="1"
 								:inactive-value="10"
-								disabled
+								
 							/>				
 						</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="进厂时间" prop="StartTime" required>
-								<el-date-picker v-model="ruleForm.StartTime" type="datetime" placeholder="" disabled
+								<el-date-picker v-model="ruleForm.StartTime" type="datetime" placeholder=""
 									format="YYYY-MM-DD HH:mm" ></el-date-picker>
-							</el-form-item>
-						</el-col>
-						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-							<el-form-item label="完工时间" prop="EndTime" required>
-								<el-date-picker v-model="ruleForm.EndTime" type="datetime" placeholder="请选择完工时间"
-									format="YYYY-MM-DD HH:mm"></el-date-picker>
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -207,19 +200,17 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 import editDlg from './sheetProject.vue';
 import addDlg from './sheetGoods.vue';
-import addWorkerDlg from './sheetAdd.vue';
 import { Interface } from 'readline';
 import { validateHeaderName } from 'http';
 
 export default {
-	name: 'sheetEdit',
-	components: { editDlg, addDlg, addWorkerDlg},
+	name: 'sheetAdd',
+	components: { editDlg, addDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		const editDlgRef = ref();
 		const addDlgRef = ref();
-		const addWorkerDlgRef = ref();
 		const kind = "repair";
 		console.log("message.action.add:", t('message.action.add'))
 		//文件列表更新
@@ -254,7 +245,7 @@ export default {
 		};
 
 		const handleChange = (value: number) => {
-  		//console.log(value)
+  		console.log(value)
 		}
 
 		const tableData = reactive({
@@ -272,10 +263,6 @@ export default {
 		};
 		const onAddOpenDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
-		};
-		const onAddWorkerOpenDlg = (id: string, ishow: boolean) => {
-			console.log("派单")
-			addWorkerDlgRef.value.openDialog(state.kind, id, ishow);
 		};
 		// 删除用户
 		const onProjectDel = (index:number) => {
@@ -324,7 +311,8 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'info',
-				SiteId: '',
+				//ProjectType: '',
+				VehicleTag: '',
 				No: '',
 				Qty: 0,
 				Remark: '',
@@ -336,7 +324,7 @@ export default {
 				Mileage: 0,
 				Linkman: '',
 				Phone: '',
-				ExamState: '',
+				ExamState: 1,
 				StartTime: '',
 				EndTime: '',
 				Content:'',
@@ -359,8 +347,6 @@ export default {
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
-			truckTypeList: [],
-			examStateList:[],
 			projectTableData: {
 				data: [],
 				total: 0,
@@ -474,18 +460,18 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_id', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				} else {
-					console.log("error:", resTruckTypes.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope("exam_state", 1, 2);
-				if (resEnergyTypes.errcode == 0) {
-				 	state.examStateList = resEnergyTypes.data;
-				} else {
-				 	console.log("error:", resEnergyTypes.errmsg)
-				}
+				// const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_id', 0, 2);
+				// if (resTruckTypes.errcode == 0) {
+				// 	state.truckTypeList = resTruckTypes.data;
+				// } else {
+				// 	console.log("error:", resTruckTypes.errmsg)
+				// }
+				// const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
+				// if (resEnergyTypes.errcode == 0) {
+				// 	state.energyTypeList = resEnergyTypes.data;
+				// } else {
+				// 	console.log("error:", resEnergyTypes.errmsg)
+				// }
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
@@ -502,13 +488,13 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle.getById(Id,true);
+				const res = await proxy.$api.erp.vehicle.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
 				state.ruleForm = res.data;
-				 //state.ruleForm.VehicleProjectList=[];
-				 //state.ruleForm.VehicleGoodsList=[];
+				//state.ruleForm.VehicleProjectList=[];
+				//state.ruleForm.VehicleGoodsList=[];
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -612,12 +598,10 @@ export default {
 			onAddOpenDlg,
 			editDlgRef,
 			addDlgRef,
-			addWorkerDlgRef,
 			saveProject,
 			saveGoods,
 			onProjectDel,
 			onGoodsDel,
-			onAddWorkerOpenDlg,
 			handleChange,
 			...toRefs(state),
 		};

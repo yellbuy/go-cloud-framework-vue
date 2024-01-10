@@ -6,16 +6,18 @@ import { Session } from '/@/utils/storage';
 // let appid = "177152369044226049" //特查查
 
 // let appid = "168763157232222209"//招采系统
-
-let appid = "30"//汉风物流
+// let appid = "30"//汉风物流
+let appid = "263250626593423361"//健康档案管理
 
 let appPermissionKey = "ybcloudapi"
-if (appid == "30") {
+if (appid == "30") { 
 	appPermissionKey = "mcs"
 } else if (appid == "168763157232222209") {
 	appPermissionKey = "bpp"
 } else if (appid == "158625451365892097") {
 	appPermissionKey = "ims"
+} else if (appid == "263250626593423361") {
+	appPermissionKey = "hcis"
 }
 // 配置新建一个 axios 实例
 const service = axios.create({

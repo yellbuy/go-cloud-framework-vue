@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="50%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -71,6 +71,16 @@
 								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
 							</div>
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
+						<el-form-item label="备注" prop="SellerNote" >
+							<el-input
+							v-model="ruleForm.SellerNote"
+							:rows="3"
+							type="textarea"
+							placeholder="请输入备注"
+						/>
+					</el-form-item>
 					</el-col>
 				</el-row> 
 			</el-form>
@@ -158,6 +168,7 @@ export default {
 				NumberRate:0,
 				SupplierState:1,
 				GoodsImg:'',
+				SellerNote:'',
 			},
 			tableItem: {
 				Id: '0',				

@@ -11,7 +11,7 @@ export default {
      * @returns 返回接口数据
      */
     getListByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
-        const url = `/v1/admin/erp/vehicle/${kind}/${scopeMode}/${scopeValue}`;
+        const url = `/v1/admin/erp/waybill/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
 
@@ -20,7 +20,7 @@ export default {
      * @returns 返回接口数据
      */
     getById: async (id: number | string,loadRelated:boolean=false) => {
-		const url = `/v1/admin/erp/vehicle/${id}?loadRelated=${loadRelated}`;
+		const url = `/v1/admin/erp/waybill/${id}?loadRelated=${loadRelated}`;
 		return await http.get(url);
 	},
 
@@ -31,10 +31,10 @@ export default {
      */
     save: async (data: object) => {
         if (!data.Id || data.Id == "0") {
-            const url = `/v1/admin/erp/vehicle`;
+            const url = `/v1/admin/erp/waybill`;
             return await http.post(url, data);
         }
-        const url = `/v1/admin/erp/vehicle/${data.Id}`;
+        const url = `/v1/admin/erp/waybill/${data.Id}`;
         return await http.post(url, data);
     },
 
@@ -44,7 +44,7 @@ export default {
      * @returns 返回接口数据
      */
     delete: async (id: number | string) => {
-        const url = `/v1/admin/erp/vehicle/delete/${id}`;
+        const url = `/v1/admin/erp/waybill/delete/${id}`;
         return await http.post(url);
     },
 }

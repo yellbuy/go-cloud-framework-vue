@@ -11,7 +11,7 @@ export default {
      * @returns 返回接口数据
      */
     getListByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
-        const url = `/v1/admin/erp/vehicle/${kind}/${scopeMode}/${scopeValue}`;
+        const url = `/v1/admin/erp/vehicle_goods/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
 
@@ -19,10 +19,10 @@ export default {
      * 获取信息
      * @returns 返回接口数据
      */
-    getById: async (id: number | string,loadRelated:boolean=false) => {
-		const url = `/v1/admin/erp/vehicle/${id}?loadRelated=${loadRelated}`;
-		return await http.get(url);
-	},
+    getById: async (id: number | string) => {
+        const url = `/v1/admin/erp/vehicle_goods/${id}`;
+        return await http.get(url);
+    },
 
     /**
      * 新增或更新
@@ -31,10 +31,10 @@ export default {
      */
     save: async (data: object) => {
         if (!data.Id || data.Id == "0") {
-            const url = `/v1/admin/erp/vehicle`;
+            const url = `/v1/admin/erp/vehicle_goods`;
             return await http.post(url, data);
         }
-        const url = `/v1/admin/erp/vehicle/${data.Id}`;
+        const url = `/v1/admin/erp/vehicle_goods/${data.Id}`;
         return await http.post(url, data);
     },
 
@@ -44,7 +44,7 @@ export default {
      * @returns 返回接口数据
      */
     delete: async (id: number | string) => {
-        const url = `/v1/admin/erp/vehicle/delete/${id}`;
+        const url = `/v1/admin/erp/vehicle_goods/delete/${id}`;
         return await http.post(url);
     },
 }
