@@ -32,9 +32,9 @@
 							<el-input v-model="ruleForm.Piny" placeholder="助记符"></el-input> 
 						</el-form-item>
 					</el-col>
-                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="商品类型" prop="CategoryId">
-							<el-select v-model="ruleForm.CategoryId" class="m-2" placeholder="请输入商品类型" size="small">
+                    <!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="商品类型" prop="GoodsType">
+							<el-select v-model="ruleForm.GoodsType" class="m-2" placeholder="请输入商品类型" size="small">
     							<el-option
       							v-for="item in GoodsTypeList"
       							:key="item.Id"
@@ -43,7 +43,22 @@
     							/>
   							</el-select>
 						</el-form-item>
+					</el-col> -->
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="产品类别" prop="CategoryId">
+							<!-- <el-input v-model="ruleForm.Name" placeholder="请输入产品类别"></el-input>  -->
+							<el-select v-model="ruleForm.CategoryId" class="m-2" placeholder="请输入商品类型" size="small">
+    							<el-option
+      							v-for="item in CategoryList"
+      							:key="item.Id"
+      							:label="item.Name"
+      							:value="item.Id"
+    							/>
+  							</el-select>
+						</el-form-item>
 					</el-col>	
+				</el-row>
+				<el-row>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="是否开启" prop="SupplierState">
 							<el-switch
@@ -55,8 +70,6 @@
 						/>				
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
 						<el-form-item label="商品图片" prop="GoodsPics">
 							<div style="width: 50%">
@@ -182,7 +195,8 @@ export default {
 				GoodsImg:'',
 				SellerNote:'',
                 Piny:'',
-				CategoryId:0,
+				CategoryId:'',
+				Name:'',
 			},
 			tableItem: {
 				Id: '0',				
@@ -195,6 +209,7 @@ export default {
 			},
 			dialogVisible: false,
 			GoodsTypeList: [],
+			CategoryList:[],
 			goodsUnitList: [],
 			brandList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
@@ -231,12 +246,19 @@ export default {
 		});
 		
 		// 打开弹窗
-		const openDialog = async (kind: string, id: string, disable: boolean) => {
+		const openDialog = async (kind: string, id: string, disable: boolean,categoryId:string) => {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
+			state.ruleForm.CategoryId = categoryId;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
+				const res = await proxy.$api.common.category.getHierarchyDataList(kind, 0, 2);
+				if (res.errcode == 0) {
+					state.CategoryList = res.data;
+				}else{
+					console.log("error:",res.errmsg)
+				}
 				const GoodsType = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_type', 0, 2);
 				if (GoodsType.errcode == 0) {
 					state.GoodsTypeList = GoodsType.data;
