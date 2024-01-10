@@ -146,7 +146,7 @@ export default {
 	setup() {
 		const route = useRoute();
 		const categoryEditRef = ref();
-		const kind = route.params.type;
+		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_common_category_${kind}`;
@@ -194,7 +194,7 @@ export default {
 				fetchChild: false,
 				parentid: parentid,
 			};
-			const res = await proxy.$api.common.category.getHierarchyDataListByScope(state.kind, state.scopeMode, state.scopeValue, param);
+			const res = await proxy.$api.common.category.getHierarchyDataList(state.kind, state.scopeMode, state.scopeValue, param);
 			if (res.errcode != 0) {
 				return;
 			}
@@ -207,7 +207,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.common.commondata.getHierarchyDataListByScope(
+				const res = await proxy.$api.common.category.getHierarchyDataList(
 					state.kind,
 					state.scopeMode,
 					state.scopeValue,

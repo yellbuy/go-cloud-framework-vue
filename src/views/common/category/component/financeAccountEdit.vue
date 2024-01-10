@@ -2,13 +2,20 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="90px" v-loading="loading">
-				<el-form-item label="类别标识" prop="Key">
+				<!-- <el-form-item label="类别标识" prop="Key">
 					<el-input v-model="ruleForm.Key"></el-input>
-				</el-form-item>
-				<el-form-item label="类别名称" prop="Name">
+				</el-form-item> -->
+				<el-form-item label="科目名称" prop="Name">
 					<el-input v-model="ruleForm.Name"></el-input>
 				</el-form-item>
-				<el-form-item prop="State" label="状态">
+				<el-form-item label="科目名称" prop="Mold">
+					<el-radio-group v-model="ruleForm.Mold">
+						<el-radio :label="1">收</el-radio>
+						<el-radio :label="2">支</el-radio>
+					</el-radio-group>
+				</el-form-item>
+				
+				<el-form-item  label="状态" prop="State">
 					<el-checkbox v-model="ruleForm.State" :true-label="1" :false-label="0">有效</el-checkbox>
 				</el-form-item>
 				<el-form-item label="排序" prop="Order">
@@ -51,7 +58,7 @@ export default {
 			loading: false,
 			ruleForm: {
 				Id: 0,
-				Kind: 'supplier',
+				Kind: 'finance_account',
 				Name: '',
 				Ext: '',
 				Value: '',
@@ -80,7 +87,7 @@ export default {
 		});
 
 		// 打开弹窗
-		const openDialog = (Type: string, id: string, parentid: number) => {
+		const openDialog = (kind: string, id: string, parentid: number) => {
 			if (id && id != '0') {
 				GetByIdRow(id);
 				state.title = t('message.action.edit');
@@ -91,8 +98,7 @@ export default {
 				state.ruleForm.Parentid = parentid;
 				state.title = t('message.action.add');
 			}
-			state.ruleForm.Type = Type;
-			state.ruleForm.Kind = Type;
+			state.ruleForm.Kind = kind;
 			state.isShowDialog = true;
 		};
 		const GetByIdRow = async (Id: string) => {
