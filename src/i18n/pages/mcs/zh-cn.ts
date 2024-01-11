@@ -12,6 +12,7 @@ export default {
 		repair_project:'项目管理',
 		repair_goods:'配件管理',
 		finance_account:'收支科目管理',
+		vehicle_insurance:'保险管理',
 		
 		task:'任务管理',
 		waybill:'任务单',
