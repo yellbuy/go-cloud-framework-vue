@@ -15,6 +15,7 @@ export default {
 		task:'task',
 		waybill:'waybill',
 		waybill_line:'waybill_line',
+		main_business_account:'main business account',
 	},
 	field:{
 		

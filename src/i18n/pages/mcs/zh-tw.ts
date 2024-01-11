@@ -15,6 +15,8 @@ export default {
 		task:'任务管理',
 		waybill:'任务单',
 		waybill_line:'派车单',
+		main_business_account:'主营收支科目',
+		warehouse_account:'仓储收支科目',
 	},
 	field: {
 

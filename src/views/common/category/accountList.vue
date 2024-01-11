@@ -19,7 +19,7 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button type="primary" @click="onOpenEditDlg(0, 0)" v-auth:[moduleKey]="'btn.CategoryAdd'">
+						<el-button type="primary" @click="onOpenEditDlg('0', '0')" v-auth:[moduleKey]="'btn.CategoryAdd'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -39,11 +39,17 @@
 				highlight-current-row
 				default-expand-all
 				row-key="Id"
-				:tree-props="{ children: 'Children', hasChildren: 'HasChildren' }"
+				:tree-props="{ children: 'Children' }"
 			>
 				<!-- <el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip /> -->
 				<!-- <el-table-column prop="Key" width="100" label="类别标识" show-overflow-tooltip /> -->
 				<el-table-column prop="Name" width="240" label="科目名称" show-overflow-tooltip />
+				<el-table-column label="类别" width="60" align="center">
+					<template #default="scope">
+						<el-tag type="success" effect="plain" v-if="scope.row.Mold==1">收</el-tag>
+						<el-tag type="danger" effect="plain" v-else>支</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column prop="State" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -90,16 +96,16 @@
 						<span v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{ scope.row.Order }}</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Description" label="类别描述" show-overflow-tooltip />
+				<el-table-column prop="Description" label="科目描述" show-overflow-tooltip />
 				<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(230)" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button type="primary" @click="onOpenEditDlg(0, scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryAdd'">
+						<el-button type="primary" @click="onOpenEditDlg('0', scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryAdd'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
 							&#8197;{{ $t('message.action.add') }}
 						</el-button>
-						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryEdit'">
+						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, scope.row.Parentid)" v-auth:[moduleKey]="'btn.CategoryEdit'">
 							<el-icon>
 								<Edit />
 							</el-icon>
@@ -136,7 +142,7 @@
 import { ElMessageBox } from 'element-plus';
 import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import categoryEdit from './component/financeAccountEdit.vue';
+import categoryEdit from './component/accountEdit.vue';
 export default {
 	name: 'categoryList',
 	components: { categoryEdit },
@@ -146,7 +152,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_common_category_${kind}`;
+		const moduleKey = `api_common_category_account_${kind}`;
 		const { proxy } = getCurrentInstance() as any;
 		const tableMaps = ref(new Map());
 
@@ -173,8 +179,8 @@ export default {
 			onGetTableData(true);
 		});
 		// 打开弹窗
-		const onOpenEditDlg = (id: string, parentid: number) => {
-			categoryEditRef.value.openDialog(state.kind, id, parentid);
+		const onOpenEditDlg = (id: string, parentid: string) => {
+			categoryEditRef.value.openDialog(state.kind, id, parentid, state.tableData.data);
 		};
 		const onGetLineTableData = async (parentid: number) => {
 			let param = {

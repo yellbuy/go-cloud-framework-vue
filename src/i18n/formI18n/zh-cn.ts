@@ -68,6 +68,7 @@ export default {
 	},
 	validRule: {
 		required: '必填项',
+		mustOption:'必选项',
 		mobile: '手机号码格式不正确',
 		lengthRange: '长度必须在{min}和{max}之间',
 		minLength: '必须最少输入{value}个字符.',

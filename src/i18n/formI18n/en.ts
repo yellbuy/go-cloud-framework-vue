@@ -57,6 +57,7 @@ export default {
 	},
 	validRule:{
 		required:'Required.',
+		mustOption:'Must option.',
 		mobile:'mobile number is not correct',
 		lengthRange:'Length should be {min} to {max}.',
 		minLength:'Min length is {value}.',

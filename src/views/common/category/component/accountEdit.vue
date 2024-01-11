@@ -2,13 +2,22 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="90px" v-loading="loading">
-				<!-- <el-form-item label="类别标识" prop="Key">
-					<el-input v-model="ruleForm.Key"></el-input>
-				</el-form-item> -->
+				<el-form-item label="父级科目" prop="Parentid">
+					<el-tree-select
+						v-model="ruleForm.Parentid"
+						value-key="Id"
+						:data = "tableData"
+						check-strictly
+						:props = "{ children: 'Children', label:'Name' }"
+						default-expand-all
+						highlight-current
+						:render-after-expand="false"
+					/>
+				</el-form-item>
 				<el-form-item label="科目名称" prop="Name">
 					<el-input v-model="ruleForm.Name"></el-input>
 				</el-form-item>
-				<el-form-item label="科目名称" prop="Mold">
+				<el-form-item label="科目类别" prop="Mold">
 					<el-radio-group v-model="ruleForm.Mold">
 						<el-radio :label="1">收</el-radio>
 						<el-radio :label="2">支</el-radio>
@@ -19,7 +28,7 @@
 					<el-checkbox v-model="ruleForm.State" :true-label="1" :false-label="0">有效</el-checkbox>
 				</el-form-item>
 				<el-form-item label="排序" prop="Order">
-					<el-col :span="12">
+					<el-col :span="6">
 						<el-input type="number" placeholder="排序" v-model="ruleForm.Order"> </el-input>
 						<p title="" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>值小的靠前显示</span></p>
 					</el-col>
@@ -46,6 +55,7 @@
 
 <script lang="ts">
 import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { ElMessageBox, ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 export default {
 	name: 'categoryEdit',
@@ -56,8 +66,9 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
+			tableData:[],
 			ruleForm: {
-				Id: 0,
+				Id: "0",
 				Kind: 'finance_account',
 				Name: '',
 				Ext: '',
@@ -70,10 +81,10 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			Key: [
+			Mold: [
 				{
 					required: true,
-					message: t('message.validRule.required'),
+					message: t('message.validRule.mustOption'),
 					trigger: 'blur',
 				},
 			],
@@ -87,12 +98,13 @@ export default {
 		});
 
 		// 打开弹窗
-		const openDialog = (kind: string, id: string, parentid: number) => {
-			if (id && id != '0') {
+		const openDialog = (kind: string, id: string, parentid: string,tableData:any) => {
+			state.tableData=[{Id:'0', Name: '顶级'}, ...tableData]
+			if (id > 0) {
 				GetByIdRow(id);
 				state.title = t('message.action.edit');
 			} else {
-				state.ruleForm.Id = 0;
+				state.ruleForm.Id = '0';
 				state.ruleForm.State = 1;
 				state.ruleForm.Order = 100;
 				state.ruleForm.Parentid = parentid;
@@ -127,6 +139,10 @@ export default {
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
+					if(state.ruleForm.Id!="0" && state.ruleForm.Id==state.ruleForm.Parentid){
+						ElMessage.error("父节点和当前节点不能相同");
+						return;
+					}
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.Parentid = state.ruleForm.Parentid.toString();
