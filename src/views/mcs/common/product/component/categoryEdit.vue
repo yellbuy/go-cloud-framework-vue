@@ -174,7 +174,8 @@ export default {
 			baseUrl: import.meta.env.VITE_API_URL,
 			//表单
 			ruleForm: {
-				Id: '0',				
+				Id: '0',
+				Parentid:"0",				
 				Kind: 'repair',
 				Name: '',
 				GoodsUnit:'',
@@ -223,13 +224,13 @@ export default {
 		});
 		
 		// 打开弹窗
-		const openDialog = async (kind: string, id: string, disable: boolean) => {
+		const openDialog = async (kind: string, id: string,parentid:string, disable: boolean) => {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
-				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('repair_unit', 0, 2);
+				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_unit', 0, 2);
 				if (goodsUnits.errcode == 0) {
 					state.goodsUnitList = goodsUnits.data;
 				}else{
@@ -247,7 +248,7 @@ export default {
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal=0;
+					state.ruleForm.Parentid = parentid;
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;

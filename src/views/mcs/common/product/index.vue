@@ -30,15 +30,19 @@
 				border
 				stripe
 				highlight-current-row
+				default-expand-all
+				row-key="Id"
+				:tree-props="{ children: 'Children' }"
 				@cell-click="onMainCellClick"
 				>
-				<el-table-column type="index" label="" align="right" width="70" fixed />
+				<el-table-column prop="Name" label="分类名称" show-overflow-tooltip fixed></el-table-column>
+				<!-- <el-table-column type="index" label="" align="right" width="70" fixed /> -->
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="left">
 					<template #default="scope">
-						<el-button text bg type="primary" @click="onOpenCategoryDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
+						<el-button text bg type="primary" @click="onOpenCategoryDlg(0, scope.row.Id)" v-auth:[moduleKey]="'btn.Add'">
 							{{ $t('message.action.add') }}
 						</el-button>
-						<el-button text bg type="primary" @click="onOpenCategoryDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg type="primary" @click="onOpenCategoryDlg(scope.row.Id, scope.row.Parentid,false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button text bg type="danger" @click="onCategoryDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
@@ -46,7 +50,7 @@
 						</el-button>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Name" label="商品分类" width="120" show-overflow-tooltip fixed></el-table-column>
+				
 					</el-table>
 				</el-col>
 				<el-col :span="16">
