@@ -37,16 +37,13 @@
 				border
 				stripe
 				highlight-current-row
-				lazy
+				default-expand-all
 				row-key="Id"
-				:load="load"
 				:tree-props="{ children: 'Children', hasChildren: 'HasChildren' }"
-				ref="tableList"
-				@expand-change="expandChange"
 			>
 				<!-- <el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip /> -->
-				<el-table-column prop="Key" width="100" label="类别标识" show-overflow-tooltip />
-				<el-table-column prop="Name" width="240" label="类别名称" show-overflow-tooltip />
+				<!-- <el-table-column prop="Key" width="100" label="类别标识" show-overflow-tooltip /> -->
+				<el-table-column prop="Name" width="240" label="科目名称" show-overflow-tooltip />
 				<el-table-column prop="State" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -151,7 +148,6 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_common_category_${kind}`;
 		const { proxy } = getCurrentInstance() as any;
-		const tableList = ref(null);
 		const tableMaps = ref(new Map());
 
 		const state = reactive({
@@ -176,13 +172,6 @@ export default {
 		onMounted(() => {
 			onGetTableData(true);
 		});
-		const load = async (row, treeNode, resolve) => {
-			console.log('加载子节点', treeNode, row.Id);
-			let data = [];
-			data = await onGetLineTableData(row.Id); //请求数据
-			resolve(data);
-			tableMaps.value.set(row.Id, { row, treeNode, resolve });
-		};
 		// 打开弹窗
 		const onOpenEditDlg = (id: string, parentid: number) => {
 			categoryEditRef.value.openDialog(state.kind, id, parentid);
@@ -227,27 +216,6 @@ export default {
 			state.tableData.param.name = '';
 			onGetTableData(true);
 		};
-		const expandChange = async (row, expanded) => {
-			let rtr = tableMaps.value.get(row.Id);
-			if (rtr && expanded && !rtr.prevStatus) {
-				// rtr.treeNode.loading = true;
-				let data = [];
-				data = await onGetLineTableData(row.Id);
-				rtr.resolve(data);
-				// load(rtr.row, rtr.treeNode, rtr.resolve);
-			}
-			if (rtr) {
-				rtr.prevStatus = expanded;
-			}
-		};
-		const tableOnReset = async (parentid: number) => {
-			let rtr = tableMaps.value.get(parentid);
-			if (rtr) {
-				let data = [];
-				data = await onGetLineTableData(parentid);
-				rtr.resolve(data);
-			}
-		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
@@ -269,7 +237,7 @@ export default {
 					const res = await proxy.$api.common.category.delete(row.Id);
 					if (res.errcode == 0) {
 						onGetTableData();
-						tableOnReset(row.Parentid);
+						//tableOnReset(row.Parentid);
 					}
 				} finally {
 					state.tableData.loading = false;
@@ -279,10 +247,6 @@ export default {
 		};
 		return {
 			categoryEditRef,
-			tableMaps,
-			expandChange,
-			tableOnReset,
-			load,
 			onResetSearch,
 			onOpenEditDlg,
 			onGetLineTableData,
@@ -291,7 +255,6 @@ export default {
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			proxy,
-			tableList,
 			...toRefs(state),
 		};
 	},
