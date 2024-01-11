@@ -12,7 +12,7 @@
 									</el-icon>
 									&#8197;{{ $t('message.action.refresh') }}
 								</el-button>
-								<el-button type="primary" @click="onOpenAddDlg()" v-auth:[moduleKey]="'btn.CategoryAdd'">
+								<el-button type="primary" @click="onOpenCategoryDlg()" v-auth:[moduleKey]="'btn.CategoryAdd'">
 									<el-icon>
 										<CirclePlusFilled />
 									</el-icon>
@@ -35,10 +35,10 @@
 				<el-table-column type="index" label="" align="right" width="70" fixed />
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="left">
 					<template #default="scope">
-						<el-button text bg type="primary" @click="onOpenAddDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
+						<el-button text bg type="primary" @click="onOpenCategoryDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
 							{{ $t('message.action.add') }}
 						</el-button>
-						<el-button text bg type="primary" @click="onOpenAddDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg type="primary" @click="onOpenCategoryDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button text bg type="danger" @click="onCategoryDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
@@ -68,7 +68,7 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button type="primary" @click="onOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
+						<el-button type="primary" @click="onOpenProductDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -90,10 +90,9 @@
 				
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="GoodsUnit" label="货品单位" width="70" align="right"></el-table-column>
-				<el-table-column prop="NumberRate" label="会员价比率" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsName" label="产品名称" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="GoodsSn" label="产品编码" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsUnit" label="产品单位" width="70" align="right"></el-table-column>
 				
 				<el-table-column label="供货状态" show-overflow-tooltip>
 					<template #default="scope">
@@ -112,13 +111,13 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="GoodsPics" label="商品图片" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsPics" label="产品图片" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg type="primary" @click="onOpenProductDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg @click="onOpenProductDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.see') }}
 						</el-button>
 						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
@@ -144,8 +143,8 @@
 				</el-col>
 			</el-row>
 		</el-card>
-		<editDlg ref="editDlgRef" />
-		<addDlg ref="addDlgRef" />
+		<editDlg ref="prodDlgRef" />
+		<cateDlg ref="cateDlgRef" />
 		
 	</div>
 </template>
@@ -154,12 +153,12 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from './component/productEdit.vue';
-import addDlg from './component/productAdd.vue';
+import prodDlg from './component/productEdit.vue';
+import cateDlg from './component/categoryEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'projectList',
-	components: { editDlg,addDlg},
+	components: { prodDlg,cateDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -167,9 +166,9 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_${kind}_goods`;
-		const editDlgRef = ref();
-		const addDlgRef = ref();
+		const moduleKey = `api_wms_goods_${kind}`;
+		const prodDlgRef = ref();
+		const cateDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -243,13 +242,13 @@ export default {
 			}
 		};
 		// 打开弹窗
-		const onOpenEditDlg = (id: string, ishow: boolean) => {
+		const onOpenProductDlg = (id: string, ishow: boolean) => {
 			console.log(state.CategoryId)
-			editDlgRef.value.openDialog(state.kind, id, ishow,state.CategoryId);
+			prodDlgRef.value.openDialog(state.kind, id, ishow,state.CategoryId);
 		};
 		// 打开弹窗
-		const onOpenAddDlg = (id: string, ishow: boolean) => {
-			addDlgRef.value.openDialog(state.kind, id, ishow);
+		const onOpenCategoryDlg = (id: string, ishow: boolean) => {
+			cateDlgRef.value.openDialog(state.kind, id, ishow);
 		};
 		// 删除用户
 		const onModelDel = (Id: string) => {
@@ -321,14 +320,14 @@ export default {
 
 		return {
 			proxy,
-			editDlgRef,
-			addDlgRef,
+			prodDlgRef,
+			cateDlgRef,
 			onGetTableData,
 			onGetMainTableData,
 			onMainCellClick,
 			onResetSearch,
-			onOpenEditDlg,
-			onOpenAddDlg,
+			onOpenProductDlg,
+			onOpenCategoryDlg,
 			onModelDel,
 			onCategoryDel,
 			onHandleSizeChange,

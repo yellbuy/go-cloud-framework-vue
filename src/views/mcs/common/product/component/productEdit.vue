@@ -4,17 +4,17 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="商品名称" prop="GoodsName">
+						<el-form-item label="产品名称" prop="GoodsName">
 							<el-input v-model="ruleForm.GoodsName" placeholder="请输入商品名称"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="商品编号" prop="GoodsSn">
+						<el-form-item label="产品编码" prop="GoodsSn">
 							<el-input v-model="ruleForm.GoodsSn" placeholder="请输入商品编号"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="货品单位" prop="GoodsUnit">
+						<el-form-item label="产品单位" prop="GoodsUnit">
 							<el-select v-model="ruleForm.GoodsUnit" class="m-2" placeholder="请输入货品单位" size="small">
     							<el-option
       							v-for="item in goodsUnitList"
@@ -47,7 +47,7 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="产品类别" prop="CategoryId">
 							<!-- <el-input v-model="ruleForm.Name" placeholder="请输入产品类别"></el-input>  -->
-							<el-select v-model="ruleForm.CategoryId" class="m-2" placeholder="请输入商品类型" size="small">
+							<el-select v-model="ruleForm.CategoryId" class="m-2" placeholder="请输入产品类" size="small">
     							<el-option
       							v-for="item in CategoryList"
       							:key="item.Id"
@@ -60,7 +60,7 @@
 				</el-row>
 				<el-row>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="是否开启" prop="SupplierState">
+						<el-form-item label="状态" prop="SupplierState">
 							<el-switch
 						v-model="ruleForm.SupplierState"
     					active-text="开启"
@@ -265,7 +265,7 @@ export default {
 				}else{
 					console.log("error:",GoodsType.errmsg)
 				}
-				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('repair_unit', 0, 2);
+				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_unit', 0, 2);
 				if (goodsUnits.errcode == 0) {
 					state.goodsUnitList = goodsUnits.data;
 				}else{
