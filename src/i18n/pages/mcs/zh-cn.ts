@@ -11,8 +11,8 @@ export default {
 		repair_sheet:'维修单管理',
 		repair_project:'项目管理',
 		repair_goods:'配件管理',
+		maintenance_sheet:"保养管理",
 		finance_account:'收支科目管理',
-		
 		task:'任务管理',
 		waybill:'任务单',
 		waybill_line:'派车单',

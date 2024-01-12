@@ -10,9 +10,9 @@ export default {
 		repair_reception:'repair reception',
 		repair_sheet:'repair sheet',
 		repair_project:'repair project',
+		maintenance_sheet:"maintenance sheet",
 		repair_goods:'repair goods',
 		finance_account:'finance_account',
-		
 		task:'task',
 		waybill:'waybill',
 		waybill_line:'waybill_line',
