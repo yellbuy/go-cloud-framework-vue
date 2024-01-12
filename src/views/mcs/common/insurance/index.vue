@@ -63,6 +63,7 @@
 				<el-table-column prop="EndDate" label="保险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CreateTime" label="创建时间" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CompulsoryPics" label="保单图片" show-overflow-tooltip></el-table-column>
 				<!-- <el-table-column label="状态" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -128,7 +129,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_baseinfo_vehicle_insurance`;
+		const moduleKey = `api_baseinfo_vehicle_insurance_${kind}`;
 		const editDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
@@ -163,7 +164,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.vehicle_insurance.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.vehicleinsurance.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -185,7 +186,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.vehicle_insurance.delete(Id);
+					const res = await proxy.$api.erp.vehicleinsurance.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}

@@ -53,7 +53,7 @@
 				<el-divider content-position="left">保单上传*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
-						<el-form-item label="封面图" prop="CompulsoryPics">
+						<el-form-item label="保单上传" prop="CompulsoryPics">
 							<div style="width: 50%">
 								<el-upload
 									class="upload-demo"
@@ -286,7 +286,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicle_insurance.getById(Id);
+				const res = await proxy.$api.erp.vehicleinsurance.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -333,7 +333,7 @@ export default {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					//console.log("提交参数",state.ruleForm)
 					try {
-						const res = await proxy.$api.erp.vehicle_insurance.save(state.ruleForm);
+						const res = await proxy.$api.erp.vehicleinsurance.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
