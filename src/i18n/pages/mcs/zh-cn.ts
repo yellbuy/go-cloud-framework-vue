@@ -11,18 +11,17 @@ export default {
 		repair_sheet:'维修单管理',
 		repair_project:'项目管理',
 		repair_goods:'配件管理',
+		main_business_account:'主营收支科目',
+		warehouse_account:'仓储收支科目',
+		trade_account:'贸易科目',
 		maintenance_sheet:"保养管理",
 		finance_account:'收支科目管理',
-<<<<<<< HEAD
-=======
 		vehicle_insurance:'保险管理',
 		
->>>>>>> 6bbebd9fa8610d6e8fd58beac561483f4e1f740a
 		task:'任务管理',
 		waybill:'任务单',
 		waybill_line:'派车单',
-		main_business_account:'主营收支科目',
-		warehouse_account:'仓储收支科目',
+		
 	},
 	field: {
 

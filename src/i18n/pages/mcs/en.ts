@@ -12,16 +12,15 @@ export default {
 		repair_project:'repair project',
 		maintenance_sheet:"maintenance sheet",
 		repair_goods:'repair goods',
+		main_business_account:'main business account',
+		trade_account:'trade account',
 		finance_account:'finance_account',
-<<<<<<< HEAD
-=======
 		vehicle_insurance:'vehicle insurance',
 		
->>>>>>> 6bbebd9fa8610d6e8fd58beac561483f4e1f740a
 		task:'task',
 		waybill:'waybill',
 		waybill_line:'waybill_line',
-		main_business_account:'main business account',
+		
 	},
 	field:{
 		
