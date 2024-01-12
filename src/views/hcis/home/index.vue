@@ -48,6 +48,32 @@
 				</div>
 			</el-col>
 		</el-row>
+		<el-row :gutter="15">
+			<el-col :sm="12" class="mb15">
+				<div class="flex-warp-item">
+					<div class="flex-warp-item-box">
+						<div class="flex-title">风险分析<span class="flex-title-small ml10">单位：(人)</span></div>
+						
+						<div class="flex-content">
+							<div :style="{height: proxy.$calcMainHeight(-120)}" ref="chartsWarningRef"></div>
+						</div>
+					</div>
+				</div>
+			</el-col>
+			<el-col :sm="12" class="mb15">
+				<div class="flex-warp-item">
+					<div class="flex-warp-item-box">
+						<div class="flex-title">
+							<span>进展分析</span>
+							<span class="flex-title-small ml10">单位：(人)</span>
+						</div>
+						<div class="flex-content">
+							<div :style="{height: proxy.$calcMainHeight(-120)}" ref="chartsInvestmentRef"></div>
+						</div>
+					</div>
+				</div>
+			</el-col>
+		</el-row>
 	</div>
 </template>
 
@@ -118,12 +144,14 @@ export default {
 		// 	state.statData = res.data;
 		// }
 		// 初始化数字滚动
-		const initNumCountUp = async () => {
+		const initData = async () => {
 			const res = await proxy.$api.hcis.healthRecord.getStatByScope(state.kind, state.scopeMode, state.scopeValue);
 			if (res.errcode != 0) {
 				return;
 			}
 			state.statData = res.data;
+			initChartsWarning()
+			initChartsProgress()
 			nextTick(() => {
 				new CountUp('statDataTotalCount', state.statData.TotalCount).start();
 				new CountUp('statDataTodayCount', state.statData.TodayCount).start();
@@ -132,6 +160,74 @@ export default {
 				// new CountUp('tipNum2', Math.random() * 1000).start();
 				// new CountUp('tipNum3', Math.random() * 1000).start();
 			});
+			
+		};
+		// 风险统计
+		const initChartsWarning = () => {
+			const myChart = echarts.init(proxy.$refs.chartsWarningRef);
+			const list=[];
+			for(let i=0;i<state.statData.HealthRecordChart.LevelNameList.length;i++){
+				list.push({
+					value:state.statData.HealthRecordChart.LevelCountList[i],
+					name:state.statData.HealthRecordChart.LevelNameList[i]})
+			}
+			console.log("list",list)
+			const option = {
+				grid: {
+					top: 50,
+					right: 20,
+					bottom: 30,
+					left: 30,
+				},
+				tooltip: {
+					trigger: 'item',
+				},
+				series: [
+					{
+						name: '风险分析',
+						type: 'pie',
+						radius: [20, 200],
+						center: ['50%', '50%'],
+						roseType: 'area',
+						itemStyle: {
+							borderRadius: 6,
+						},
+						data: list,
+					},
+				],
+			};
+			myChart.setOption(option);
+			state.myCharts.push(myChart);
+		};
+		// 进度统计
+		const initChartsProgress = () => {
+			const myChart = echarts.init(proxy.$refs.chartsInvestmentRef);
+			const option = {
+				grid: {
+					top: 15,
+					right: 15,
+					bottom: 20,
+					left: 30,
+				},
+				tooltip: {
+					trigger: 'axis',
+				},
+				xAxis: {
+					type: 'category',
+					data: state.statData.HealthRecordChart.ProgressNameList,
+				},
+				yAxis: {
+					type: 'value',
+				},
+				series: [
+					{
+						data: state.statData.HealthRecordChart.ProgressCountList,
+						type: 'bar',
+					},
+				],
+			};
+			myChart.setOption(option);
+			state.myCharts.push(myChart);
 		};
 		// 商品销售情
 		const initHomeLaboratory = () => {
@@ -283,9 +379,12 @@ export default {
 		const initEchartsResize = () => {
 			window.addEventListener('resize', initEchartsResizeFun);
 		};
+		
 		// 页面加载时
 		onMounted(() => {
-			initNumCountUp();
+			initData();
+			// initChartsInvestment();
+			// initChartsWarning();
 			// initHomeLaboratory();
 			// initHomeOvertime();
 			// initEchartsResize();
@@ -302,6 +401,7 @@ export default {
 			}
 		);
 		return {
+			proxy,
 			getUserInfos,
 			currentTime,
 			...toRefs(state),

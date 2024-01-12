@@ -2,7 +2,8 @@
 	<div class="login-container">
 		<div class="login-logo">
 			<img :src="app.LogoUrl" v-if="app.Id && app.LogoUrl" width="100" height="100" />
-			<span v-else>{{ app.Name || getThemeConfig.globalViceTitle }}</span>
+			<span v-else-if="!app.FullName" class="ml10">{{ app.Name || getThemeConfig.globalViceTitle }}</span>
+			<span v-if="app.FullName" class="ml10">{{ app.FullName }}</span>
 		</div>
 		<div class="login-content">
 			<div class="login-content-main">

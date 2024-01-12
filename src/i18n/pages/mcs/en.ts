@@ -10,14 +10,17 @@ export default {
 		repair_reception:'repair reception',
 		repair_sheet:'repair sheet',
 		repair_project:'repair project',
+		maintenance_sheet:"maintenance sheet",
 		repair_goods:'repair goods',
+		main_business_account:'main business account',
+		trade_account:'trade account',
 		finance_account:'finance_account',
 		vehicle_insurance:'vehicle insurance',
 		
 		task:'task',
 		waybill:'waybill',
 		waybill_line:'waybill_line',
-		main_business_account:'main business account',
+		
 	},
 	field:{
 		
