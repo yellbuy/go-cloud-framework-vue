@@ -45,46 +45,107 @@
 						</el-form-item>
                     </el-col>
                     <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="保费(元)" prop="CompulsoryFee">
-							<el-input v-model.number="ruleForm.CompulsoryFee" placeholder="请输入保费"></el-input> 
+						<el-form-item label="交强险购买费用(元)" prop="CompulsoryFee">
+							<el-input v-model.number="ruleForm.CompulsoryFee" placeholder="请输入交强险购买费用"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="交强险起始日期" prop="CompulsoryStartDate" required>
+							<el-date-picker
+								v-model="ruleForm.CompulsoryStartDate"
+								type="date"
+								placeholder="交强险起始日期"
+								format="YYYY-MM-DD"
+							></el-date-picker>
+						</el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="至" prop="CompulsoryEndDate"  required>
+							<el-date-picker
+										v-model="ruleForm.CompulsoryEndDate"
+										type="date"
+										placeholder="交强险到期日期"
+										format="YYYY-MM-DD"
+									></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="商业险购买费用(元)" prop="CommercialFee">
+							<el-input v-model.number="ruleForm.CommercialFee" placeholder="请输入商业险购买费用"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="交强险起始日期" prop="CommercialStartDate" required>
+							<el-date-picker
+								v-model="ruleForm.CommercialStartDate"
+								type="date"
+								placeholder="交强险起始日期"
+								format="YYYY-MM-DD"
+							></el-date-picker>
+						</el-form-item>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="至" prop="CommercialEndDate"  required>
+							<el-date-picker
+										v-model="ruleForm.CommercialEndDate"
+										type="date"
+										placeholder="商业险到期日期"
+										format="YYYY-MM-DD"
+									></el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">保单上传*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
-						<el-form-item label="保单上传" prop="CompulsoryPics">
+						<el-form-item label="交强险图片" prop="Files">
 							<div style="width: 50%">
-								<el-upload
-									class="upload-demo"
-									:action="uploadURL"
+								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="onSuccessFile"
-									:on-preview="onPreview"
-									:on-remove="onRemove"
-									:file-list="FilesList"
-									:accept:="`image/png, image/jpeg,image/bmp,image/jpg,application/pdf,application/docx,application/doc,application/xls,application/xlsx`"
-									multiple
-									show-file-list
-								>
+									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
+									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
-										<el-button
-											><el-icon class="el-icon--right"><Upload /></el-icon>上传</el-button
-										>
+										<el-icon>
+											<plus />
+										</el-icon>
 									</template>
 								</el-upload>
 							</div>
-							<div>
+							 <div>
 								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
+							</div> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
+						<el-form-item label="商业险图片" prop="Files1">
+							<div style="width: 50%">
+								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onSuccessFile1" :file-list="FilesList1" :limit="10" :on-remove="onRemove1"
+									:on-preview="showImage1" :before-upload="onBeforeImageUpload1">
+									<template #default>
+										<el-icon>
+											<plus />
+										</el-icon>
+									</template>
+								</el-upload>
 							</div>
+							 <div>
+								<el-image-viewer v-if="dialogVisible1" @close="imgOnClose()" :url-list="dialogImageUrl1" />
+							</div> 
 						</el-form-item>
 					</el-col>
 				</el-row>	
 				<el-divider content-position="left">参保信息*</el-divider>
 				<el-row :gutter="20">	
                     <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="保额(元)" prop="CompulsoryAmount">
-							<el-input v-model.number="ruleForm.CompulsoryAmount" placeholder="请输入保费"></el-input> 
+						<el-form-item label="交强险保额(元)" prop="CompulsoryAmount">
+							<el-input v-model.number="ruleForm.CompulsoryAmount" placeholder="请输入交强险保额"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="商业险保额(元)" prop="CompulsoryAmount">
+							<el-input v-model.number="ruleForm.CompulsoryAmount" placeholder="请输入商业险保额"></el-input> 
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -98,13 +159,18 @@
 				</span>
 			</template>
 		</el-dialog>
-		
+		<el-dialog v-model="ImageVisible">
+			<img class="dialog-image" w-full :src="dialogImageUrl" alt="Preview Image" />
+		</el-dialog>
+		<el-dialog v-model="ImageVisible1">
+			<img class="dialog-image" w-full :src="dialogImageUrl1" alt="Preview Image" />
+		</el-dialog>
 	</div>
 </template>
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps } from 'element-plus';
+import { ElMessage, UploadProps,UploadFile } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -123,8 +189,17 @@ export default {
 			state.Files.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
+			 state.FilesList.push(image);
 			console.log(state.FilesList);
+		};
+		//文件列表更新
+		const onSuccessFile1 = (file: UploadFile) => {
+			console.log('触发图片上传');
+			state.Files1.push(file.data.src);
+			let image = { url: '' };
+			image.url = state.httpsText + file.data.src;
+			 state.FilesList1.push(image);
+			console.log(state.FilesList1);
 		};
 		const onRemove = (file: UploadFile) => {
 			console.log(file);
@@ -135,18 +210,30 @@ export default {
 				}
 			}
 		};
+		const onRemove1 = (file: UploadFile) => {
+			console.log(file);
+			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
+			for (let i = 0; i < state.Files1.length; i++) {
+				if (state.Files1[i] == removeUrl) {
+					state.Files1.splice(i, 1);
+				}
+			}
+		};
 		const store = useStore();
 		const getUserInfos = computed(() => {
 			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
 		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
+		const showImage: UploadProps['onPreview'] = (uploadFile) => {
+			state.dialogImageUrl = uploadFile.url!
+			state.ImageVisible = true
+		}
+		//显示表格图片
+		const showImage1: UploadProps['onPreview'] = (uploadFile) => {
+			state.dialogImageUrl1 = uploadFile.url!
+			state.ImageVisible1 = true
+		}
 		//预览文件
 		const onPreview = (uploadFile: any) => {
 			// 当格式为图片就预览图片，否则下载文件
@@ -194,6 +281,10 @@ export default {
 			loading: false,
 			disable: true, //是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
+			dialogImageUrl: "",
+			dialogImageUrl1: "",
+			ImageVisible: false,
+			ImageVisible1: false,
 			//表单
 			ruleForm: {
 				Id: 0,
@@ -205,24 +296,32 @@ export default {
 				CompulsoryFee: '',
                 CompulsoryAmount: '',
                 BillDate: '',
+				CompulsoryStartDate: '',
+				CompulsoryEndDate: '',
+				CommercialPics: '',
+				CompulsoryPics: '',
 			},
 			tableItem: {
 				Id: '0',
 				CategoryId: '',
 				Name: '',
 				Files: '',
+				Files1: '',
 				StartTime: '',
 				EndTime:'',
 				Kind: 'info',
 			},
 			dialogVisible: false,
+			dialogVisible1: false,
 			truckTypeList: [],
 			energyTypeList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
+			Files1: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
+			FilesList1: [],
 		});
 		const token = Session.get('token');
 		const rules = reactive({
@@ -254,9 +353,10 @@ export default {
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
+			state.Files1 = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
+			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Files1: '',Kind: kind, StartTime: '' };
 			try {
 				// const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
 				// if (resTruckTypes.errcode == 0) {
@@ -271,12 +371,15 @@ export default {
 				// 	console.log("error:",resEnergyTypes.errmsg)
 				// }
 				state.disable = disable;
-				if (id && id != '0') {
+				if (disable) {
+					state.title = t('message.action.see');
+					GetByIdRow(id);
+				} else if (id && id != '0') {
 					GetByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal=0;
+					state.ruleForm.IsExternal = 0;
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -286,11 +389,32 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicleinsurance.getById(Id);
+				const res = await proxy.$api.erp.vehicle_insurance.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
+
 				state.ruleForm = res.data;
+				state.Files = state.ruleForm.CommercialPics.split(",");
+				state.Files1 = state.ruleForm.CompulsoryPics.split(",");
+				state.FilesList = [];
+				state.FilesList1 = [];
+				if (state.ruleForm.CommercialPics != "") {
+					for (let i = 0; i < state.Files.length; i++) {
+						let image = { url: '', name: '' };
+						image.url = state.httpsText + state.Files[i];
+						image.name = state.httpsText + state.Files[i];
+						state.FilesList.push(image);
+					}
+				}
+				if ( state.ruleForm.CompulsoryPics != "") {
+					for (let i = 0; i < state.Files1.length; i++) {
+						let image = { url: '', name: '' };
+						image.url = state.httpsText + state.Files1[i];
+						image.name = state.httpsText + state.Files1[i];
+						state.FilesList1.push(image);
+					}
+				}
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -299,7 +423,7 @@ export default {
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			console.log('关闭页面表单', state.ruleForm);
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
+			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '',Files1: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
@@ -325,15 +449,37 @@ export default {
 			state.saveState = false;
 			state.dialogVisible = true;
 		};		
+		//修改按钮
+		const onModelEdit1 = (item: object) => {
+			state.tableItem = item;
+			console.log(state.tableItem.Files1);
+			if (state.tableItem.Files1 != '') {
+				state.Files1 = item.Files1.split(',');
+				state.FilesList1 = [];
+				for (let i = 0; i < state.Files1.length; i++) {
+					let image = { url: '' };
+					image.url = state.httpsText + state.Files1[i];
+					state.FilesList1.push(image);
+				}
+			}
+			state.saveState = false;
+			state.dialogVisible1 = true;
+		};
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					if (state.Files) {
+						state.ruleForm.CommercialPics = state.Files.join(',');
+					}
+					if (state.Files1) {
+						state.ruleForm.CompulsoryPics = state.Files1.join(',');
+					}
 					//console.log("提交参数",state.ruleForm)
 					try {
-						const res = await proxy.$api.erp.vehicleinsurance.save(state.ruleForm);
+						const res = await proxy.$api.erp.vehicle_insurance.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -370,6 +516,24 @@ export default {
 			}
 			return true;
 		};
+		const onBeforeImageUpload1: UploadProps['beforeUpload'] = (rawFile) => {
+			if (
+				rawFile.type !== 'image/jpeg' &&
+				rawFile.type !== 'image/jpg' &&
+				rawFile.type !== 'image/png' &&
+				rawFile.type !== 'image/ico' &&
+				rawFile.type !== 'image/bmp' &&
+				rawFile.type !== 'image/gif' &&
+				rawFile.type !== 'image/svg'
+			) {
+				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
+				return false;
+			} else if (rawFile.size / 1024 / 1024 > 10) {
+				ElMessage.error('图片大小不能超过10MB!');
+				return false;
+			}
+			return true;
+		};
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
 		onMounted(() => {});
@@ -381,10 +545,15 @@ export default {
 			onLoadTable,
 			GetByIdRow,
 			onSuccessFile,
+			onSuccessFile1,
 			onRemove,
+			onRemove1,
 			onBeforeImageUpload,
+			onBeforeImageUpload1,
 			onModelEdit,
+			onModelEdit1,
 			showImage,
+			showImage1,
 			dateFormatYMD,
 			getUserInfos,
 			tableData,
