@@ -84,24 +84,24 @@
 				<pane :size="42">
 					<el-card shadow="hover">
 						<div class="">
-							<el-form ref="searchFormRef" :model="mainTableData.param" label-width="70px" :inline="true">
+							<el-form ref="searchFormRef" :model="childTableData.param" label-width="70px" :inline="true">
 								<el-form-item label="关键字：">
-									<el-input placeholder="输入关键字查询" style="width:100px" v-model="mainTableData.param.keyword"> </el-input>
+									<el-input placeholder="输入关键字查询" style="width:100px" v-model="childTableData.param.keyword"> </el-input>
 								</el-form-item>
 								<el-form-item>
-									<el-button type="info" @click="onMainResetSearch">
+									<el-button type="info" @click="onChildResetSearch">
 										<el-icon>
 											<RefreshLeft />
 										</el-icon>
 										{{ $t('message.action.reset') }}
 									</el-button>
-									<el-button type="info" @click="onMainGetTableData(true)">
+									<el-button type="info" @click="onChildGetTableData(true)">
 										<el-icon>
 											<Search />
 										</el-icon>
 										&#8197;{{ $t('message.action.search') }}
 									</el-button>
-									<el-button type="primary" @click="onMainOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
+									<el-button type="primary" @click="onChildOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.ChildAdd'">
 										<el-icon>
 											<CirclePlusFilled />
 										</el-icon>
@@ -129,27 +129,27 @@
 									v-model="scope.row.State"
 									inline-prompt
 									:width="46"
-									v-auth:[moduleKey]="'btn.Edit'"
+									v-auth:[moduleKey]="'btn.ChildUpdate'"
 									@change="proxy.$api.common.table.updateById('erp_waybill_line', 'state', scope.row.Id, scope.row.IsExternal)"
 									:active-text="$t('message.action.yes')"
 									:inactive-text="$t('message.action.no')"
 									:active-value="1"
 									:inactive-value="0"
 								/>
-								<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.yes') }}</el-tag>
+								<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
 								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.') }}</el-tag>
 							</template>
 						</el-table-column>
 						
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 							<template #default="scope">
-								<el-button text bg type="primary" @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
+								<el-button text bg type="primary" @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ChildEdit'">
 									{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button text bg @click="onMainOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+								<el-button text bg @click="onMainOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.ChildEdit'">
 									{{ $t('message.action.see') }}
 								</el-button>
-								<el-button text bg type="danger" @click="onMainDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+								<el-button text bg type="danger" @click="onMainDel(scope.row.Id)" v-auth:[moduleKey]="'btn.ChildDel'">
 									{{ $t('message.action.delete') }}
 								</el-button>
 							</template>
@@ -157,15 +157,15 @@
 					</el-table>
 					<el-pagination
 						small
-						@size-change="onMainHandleSizeChange"
-						@current-change="onMainHandleCurrentChange"
+						@size-change="onChildHandleSizeChange"
+						@current-change="onChildHandleCurrentChange"
 						class="mt15"
 						:page-sizes="[10, 20, 30, 50, 100]"
-						v-model:current-page="mainTableData.param.pageNum"
+						v-model:current-page="childTableData.param.pageNum"
 						background
-						v-model:page-size="mainTableData.param.pageSize"
+						v-model:page-size="childTableData.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="mainTableData.total"
+						:total="childTableData.total"
 					>
 					</el-pagination>
 					</el-card>
@@ -173,7 +173,8 @@
 			</splitpanes>
 			
 		
-		<editDlg ref="editMainDlgRef" />
+		<editMainDlg ref="editMainDlgRef" />
+		<editChildDlg ref="editChildDlgRef" />
 	</div>
 </template>
 
@@ -183,11 +184,12 @@ import { Pane, Splitpanes } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from './component/freightEdit.vue';
+import editMainDlg from './component/freightEdit.vue';
+import editChildDlg from './component/freightLineEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'freightList',
-	components: { editDlg, Splitpanes, Pane },
+	components: { editMainDlg, editChildDlg,Splitpanes, Pane },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -284,6 +286,67 @@ export default {
 			state.mainTableData.param.pageNum = val;
 			onMainGetTableData();
 		};
+
+		state.childTableData.param.pageIndex = computed(() => {
+			return state.childTableData.param.pageNum - 1;
+		});
+		//重置查询条件
+		const onChildResetSearch = () => {
+			state.childTableData.param.keyword = '';
+			onChildGetTableData(true);
+		};
+
+		// 初始化表格数据
+		const onChildGetTableData = async (gotoFirstPage: boolean = false) => {
+			if (gotoFirstPage) {
+				state.childTableData.param.pageNum = 1;
+			}
+			state.childTableData.loading = true;
+			try {
+				const res = await proxy.$api.erp.waybill.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.mainTableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.childTableData.data = res.data;
+				state.childTableData.total = res.total;
+			} finally {
+				state.childTableData.loading = false;
+			}
+		};
+		// 打开弹窗
+		const onChildOpenEditDlg = (id: string, ishow: boolean) => {
+			editChildDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		// 删除用户
+		const onChildDel = (Id: string) => {
+			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					const res = await proxy.$api.erp.waybillline.delete(Id);
+					if (res.errcode == 0) {
+						onMainGetTableData();
+					}
+				} finally {
+					state.childTableData.loading = false;
+				}
+				return false;
+			});
+		};
+
+		// 分页改变
+		const onChildHandleSizeChange = (val: number) => {
+			state.childTableData.param.pageSize = val;
+			onChildGetTableData();
+		};
+		// 分页改变
+		const onChildHandleCurrentChange = (val: number) => {
+			state.childTableData.param.pageNum = val;
+			onChildGetTableData();
+		};
+
 		// 页面加载时
 		onMounted(() => {
 			onMainGetTableData();
@@ -300,6 +363,12 @@ export default {
 			onMainDel,
 			onMainHandleSizeChange,
 			onMainHandleCurrentChange,
+			onChildGetTableData,
+			onChildResetSearch,
+			onChildOpenEditDlg,
+			onChildDel,
+			onChildHandleSizeChange,
+			onChildHandleCurrentChange,
 			dateFormatYMDHM,
 			...toRefs(state),
 		};
