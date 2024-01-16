@@ -63,12 +63,13 @@
 				<el-table-column prop="EndDate" label="保险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CompulsoryStartDate" label="交强险起始日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CompulsoryEndDate" label="交强险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompulsoryFee" label="交强险购买费用(元)" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompulsoryPics" label="交强险图片" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CompulsoryFee" label="交强险购买费用(元)" width="130" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CommercialStartDate" label="商业险起始日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CommercialEndDate" label="商业险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CommercialFee" label="商业险购买费用(元)" width="130" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="TaxFee" label="车船税费用(元)" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CreateTime" label="创建时间" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CommercialPics" label="商业险图片" show-overflow-tooltip></el-table-column>
-
 				<!-- <el-table-column label="状态" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
