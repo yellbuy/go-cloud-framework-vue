@@ -63,8 +63,8 @@
 						<el-form-item label="状态" prop="SupplierState">
 							<el-switch
 						v-model="ruleForm.SupplierState"
-    					active-text="开启"
-    					inactive-text="关闭"
+    					active-text="有效"
+    					inactive-text="停用"
 						:active-value="1"
 						:inactive-value="0"
 						/>				

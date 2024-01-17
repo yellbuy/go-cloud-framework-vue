@@ -198,6 +198,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_waybill_freight`;
 		const editMainDlgRef = ref();
+		const editChildDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			paneSize: 100,
@@ -357,6 +358,7 @@ export default {
 		return {
 			proxy,
 			editMainDlgRef,
+			editChildDlgRef,
 			onMainGetTableData,
 			onMainResetSearch,
 			onMainOpenEditDlg,

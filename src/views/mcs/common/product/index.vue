@@ -147,9 +147,8 @@
 				</el-col>
 			</el-row>
 		</el-card>
-		<editDlg ref="prodDlgRef" />
+		<prodDlg ref="prodDlgRef" />
 		<cateDlg ref="cateDlgRef" />
-		
 	</div>
 </template>
 
@@ -157,8 +156,8 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import prodDlg from './component/productEdit.vue';
 import cateDlg from './component/categoryEdit.vue';
+import prodDlg from './component/productEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'projectList',
