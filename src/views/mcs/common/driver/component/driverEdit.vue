@@ -298,7 +298,7 @@ export default {
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal=0;
+					state.ruleForm.Gender=1;
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
