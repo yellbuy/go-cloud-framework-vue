@@ -39,9 +39,26 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="VehicleNumber" label="车牌号码" width="100" fixed></el-table-column>
-				<el-table-column prop="BillDate" label="票据日期" width="120" show-overflow-tooltip :formatter="dateFormatYMD"></el-table-column>
-				<!-- <el-table-column label="性别" width="70" show-overflow-tooltip>
+				<el-table-column prop="Name" label="姓名" width="100" fixed></el-table-column>
+				<el-table-column prop="Idno" label="身份证号" width="120" show-overflow-tooltip></el-table-column>
+				<!-- <el-table-column label="外部车" width="70" show-overflow-tooltip>
+					<template #default="scope">
+						<el-switch
+							v-model="scope.row.IsExternal"
+							inline-prompt
+							:width="46"
+							v-auth:[moduleKey]="'btn.Edit'"
+							@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
+							:active-text="$t('message.action.yes')"
+							:inactive-text="$t('message.action.no')"
+							:active-value="1"
+							:inactive-value="0"
+						/>
+						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
+					</template>
+				</el-table-column> -->
+				<el-table-column label="性别" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.Gender"
@@ -57,19 +74,16 @@
 						<el-tag type="success" effect="plain" v-if="scope.row.Gender==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.male') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.female') }}</el-tag>
 					</template>
-				</el-table-column> -->
+				</el-table-column>
 			
-				<el-table-column prop="StartDate" label="保险生效日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="EndDate" label="保险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompulsoryStartDate" label="交强险起始日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompulsoryEndDate" label="交强险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompulsoryFee" label="交强险购买费用(元)" width="130" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CommercialStartDate" label="商业险起始日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CommercialEndDate" label="商业险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CommercialFee" label="商业险购买费用(元)" width="130" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="TaxFee" label="车船税费用(元)" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CreateTime" label="创建时间" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="IdnoEndDate" label="身份证有效期至" width="70" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Nation" label="民族" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Mobile" label="手机号" width="120"  show-overflow-tooltip></el-table-column>
+				
+				<el-table-column prop="NativePlace" label="籍贯" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Birthdate" label="出生日期" width="120"  show-overflow-tooltip :formatter="dateFormatYMD"></el-table-column>
+				<el-table-column prop="Address" label="住址" width="120"  show-overflow-tooltip></el-table-column>
+	
 				<!-- <el-table-column label="状态" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -87,6 +101,7 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column> -->
+				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -100,6 +115,7 @@
 						</el-button>
 					</template>
 				</el-table-column>
+				<el-table-column prop="DriverLicenseType" label="驾驶证类型" width="120"  show-overflow-tooltip></el-table-column>
 			</el-table>
 			<el-pagination
 				small
@@ -123,11 +139,11 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from './component/insuranceEdit.vue';
+import editDlg from './component/trucktypeEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'insuranceInfo',
+	name: 'trucktypeInfo',
 	components: { editDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -135,7 +151,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_baseinfo_vehicle_insurance`;
+		const moduleKey = `api_baseinfo_truck_type`;
 		const editDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
@@ -170,7 +186,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.vehicle_insurance.getListByScope("info", 0, 0, state.tableData.param);
+				const res = await proxy.$api.erp.truck_type.getListByScope("info", 0, 0, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -192,7 +208,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.vehicle_insurance.delete(Id);
+					const res = await proxy.$api.erp.truck_type.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}

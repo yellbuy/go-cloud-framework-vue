@@ -16,6 +16,7 @@ export default {
 		trade_account:'trade account',
 		finance_account:'finance_account',
 		vehicle_insurance:'vehicle insurance',
+		truck_type:'truck type',
 		
 		task:'task',
 		waybill:'waybill',

@@ -30,8 +30,8 @@
 						</el-form-item>
 					</el-col>
                     <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="所属公司" prop="Tname">
-							<el-input v-model="ruleForm.Tname" placeholder="所属公司"></el-input> 
+						<el-form-item label="所属公司" prop="CompanyName">
+							<el-input v-model="ruleForm.CompanyName" placeholder="所属公司"></el-input> 
 						</el-form-item>
 					</el-col>
                     <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -364,6 +364,7 @@ export default {
 				CommercialFee: '',
 				CommercialStartDate: '',
 				CommercialEndDate: '',
+				CompanyName: '',
 			},
 			tableItem: {
 				Id: '0',
