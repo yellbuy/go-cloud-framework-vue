@@ -176,7 +176,7 @@ export default {
 			ruleForm: {
 				Id: '0',
 				Parentid:"0",				
-				Kind: 'repair',
+				Kind: 'product',
 				Name: '',
 				GoodsUnit:'',
 				GoodsSn:'',
