@@ -1,15 +1,15 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="50%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="70%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆类型" prop="Name" required>
+						<el-form-item label="车型名称" prop="Name" required>
 							<el-input v-model="ruleForm.Name" placeholder="请输入车辆类型名称"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆信息" prop="State">
+						<el-form-item label="状态" prop="State">
 							<el-switch
 						v-model="ruleForm.State"
     					active-text="有效"
@@ -21,11 +21,10 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="轮轴数" prop="WheelShaftQty">
-							<!-- <el-input v-model="ruleForm.WheelShaftQty" placeholder="请输入商品编号"></el-input>  -->
 							<el-input-number
 								v-model="ruleForm.WheelShaftQty"
 								size="small"
-								style="width: 80px;"
+								style="width: 130px;"
 								controls-position="right"
 								@change="handleChange"
 							/>
@@ -35,60 +34,51 @@
 				<el-row>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="标准总重" prop="TotalWeight">
-							<!-- <el-input v-model="ruleForm.TotalWeight" placeholder="标准总重"></el-input>  -->
 							<el-input-number
 								v-model="ruleForm.TotalWeight"
 								size="small"
-								style="width: 80px;"
+								style="width: 130px;"
 								controls-position="right"
 								@change="handleChange"
 							/>
 						</el-form-item>
 					</el-col>
-                    <!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="商品类型" prop="GoodsType">
-							<el-select v-model="ruleForm.GoodsType" class="m-2" placeholder="请输入商品类型" size="small">
-    							<el-option
-      							v-for="item in GoodsTypeList"
-      							:key="item.Id"
-      							:label="item.Name"
-      							:value="item.Id"
-    							/>
-  							</el-select>
-						</el-form-item>
-					</el-col> -->
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="标准皮重" prop="TruckWeight">
-							<!-- <el-input v-model="ruleForm.TruckWeight" placeholder="标准总重"></el-input>  -->
 							<el-input-number
 								v-model="ruleForm.TruckWeight"
 								size="small"
-								style="width: 80px;"
+								style="width:130px;"
 								controls-position="right"
 								@change="handleChange"
 							/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="排序" prop="Order">
+							<el-input-number
+								v-model="ruleForm.Order"
+								size="small"
+								style="width: 130px;"
+								controls-position="right"
+								@change="handleChange"
+							/>
+						</el-form-item>
+					</el-col>
+					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="重量单位" prop="WeightUnit">
-							<!-- <el-input v-model="ruleForm.Name" placeholder="请输入产品类别"></el-input>  -->
 							<el-select v-model="ruleForm.WeightUnit" class="m-2" placeholder="" size="small">
     							<el-option
       							v-for="item in WeightUnitList"
-      							:key="item.Id"
+      							:key="item.Code"
       							:label="item.Name"
-      							:value="item.Id"
+      							:value="parseInt(item.Code)"
     							/>
   							</el-select>
 						</el-form-item>
-					</el-col>	
+					</el-col>	 -->
 				</el-row>
 				<el-row>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="排序" prop="Order">
-							<el-input v-model="ruleForm.Order" placeholder=""></el-input> 
-						</el-form-item>
-					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
 						<el-form-item label="备注" prop="Remark" >
 							<el-input
@@ -102,7 +92,7 @@
 				</el-row>	
 				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
-						<el-form-item label="车辆照片" prop="Files">
+						<el-form-item label="车型图片" prop="Files">
 							<div style="width: 50%">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
@@ -163,7 +153,7 @@ export default {
 		};
 		const onRemove = (file: UploadFile) => {
 			console.log(file);
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
+			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.Files.length; i++) {
 				if (state.Files[i] == removeUrl) {
 					state.Files.splice(i, 1);
@@ -206,10 +196,11 @@ export default {
 				State: 1,
 				WheelShaftQty:'',
 				TotalWeight:'',
-				WeightUnit:0,
+				WeightUnit:'',
 				Remark:'',
 				Order:0,
                 TruckWeight:'',
+				Pics:'',
 			},
 			tableItem: {
 				Id: '0',				
@@ -222,7 +213,7 @@ export default {
 				Files: '',
 			},
 			dialogVisible: false,
-			WeightUnitList: [],
+			// WeightUnitList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -263,12 +254,12 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
-				 const WeightUnit = await proxy.$api.common.commondata.getConcreteDataListByScope('weight_unit', 0, 2);
-				 if (WeightUnit.errcode == 0) {
-				 	state.WeightUnitList = WeightUnit.data;
-				 }else{
-				 	console.log("error:",WeightUnit.errmsg)
-				 }
+				//  const WeightUnit = await proxy.$api.common.commondata.getConcreteDataListByScope('weight_unit', 0, 2);
+				//  if (WeightUnit.errcode == 0) {
+				//  	state.WeightUnitList = WeightUnit.data;
+				//  }else{
+				//  	console.log("error:",WeightUnit.errmsg)
+				//  }
 				// const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_unit', 0, 2);
 				// if (goodsUnits.errcode == 0) {
 				// 	state.goodsUnitList = goodsUnits.data;
@@ -276,12 +267,15 @@ export default {
 				// 	console.log("error:",goodsUnits.errmsg)
 				// }
 				state.disable = disable;
-				if (id && id != '0') {
-					getByIdRow(id);
+				if (disable) {
+					state.title = t('message.action.see');
+					GetByIdRow(id);
+				} else if (id && id != '0') {
+					GetByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal=0;
+					state.ruleForm.IsExternal = 0;
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -289,11 +283,22 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		const getByIdRow = async (Id: string) => {
+		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.truck_type.getById(Id);
 				if (res.errcode != 0) {
 					return;
+				}
+				state.ruleForm = res.data;
+				state.Files = state.ruleForm.Pics.split(",");
+				state.FilesList = [];
+				if (state.ruleForm.Pics != "") {
+					for (let i = 0; i < state.Files.length; i++) {
+						let image = { url: '', name: '' };
+						image.url = state.httpsText + state.Files[i];
+						image.name = state.httpsText + state.Files[i];
+						state.FilesList.push(image);
+					}
 				}
 				if(res.data.EndTime < '2000-01-01'){
 					res.data.EndTime='';
@@ -370,6 +375,9 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					if (state.Files) {
+						state.ruleForm.Pics = state.Files.join(',');
+					}
 					try {
 						const res = await proxy.$api.erp.truck_type.save(state.ruleForm);
 						if (res.errcode == 0) {
@@ -421,7 +429,7 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
-			getByIdRow,
+			GetByIdRow,
 			onSuccessFile,
 			onPreview,
 			onRemove,
