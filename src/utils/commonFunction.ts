@@ -28,10 +28,12 @@ export default function () {
 	//列表日期时间格式化
 	const dateFormatHMS = (row: any, column: number, cellValue: any) => {
 		if (!cellValue || cellValue.toString().substr(0, 4) <= '0001') return '-';
-		let time = 0;
-		if (typeof row === 'number') time = row;
-		if (typeof cellValue === 'number') time = cellValue;
-		return formatDate(new Date(time * 1000), 'HH:MM:SS');
+		return formatDate(new Date(cellValue), 'HH:MM:SS');
+	};
+	//列表日期时间格式化
+	const dateFormatHM = (row: any, column: number, cellValue: any) => {
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '0001') return '-';
+		return formatDate(new Date(cellValue), 'HH:MM');
 	};
 	//列表日期时间格式化
 	const dateFormatY = (row: any, column: number, cellValue: any) => {
@@ -166,6 +168,7 @@ export default function () {
 		dateFormatYMDHM,
 		dateFormatYMDHMS,
 		dateFormatHMS,
+		dateFormatHM,
 		scaleFormat,
 		scale2Format,
 		groupSeparator,

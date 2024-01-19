@@ -23,6 +23,15 @@ export default {
 		const url = `/v1/admin/erp/waybillline/${id}`;
 		return await http.get(url);
 	},
+/**
+     * 批量插入
+     * @param data 信息
+     * @returns 返回接口数据
+     */
+    insertMulti: async (data: object) => {
+        const url = `/v1/admin/erp/Waybilllines`;
+        return await http.post(url, data);
+    },
 
     /**
      * 新增或更新

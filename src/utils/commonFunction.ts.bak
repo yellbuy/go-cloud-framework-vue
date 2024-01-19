@@ -6,37 +6,55 @@ import { useI18n } from 'vue-i18n';
 import { formatDate } from '/@/utils/formatTime';
 
 export default function () {
-	
+
 	const { toClipboard } = useClipboard();
+
 	
 	//列表日期时间格式化
 	const dateFormatYMD = (row: any, column: number, cellValue: any) => {
-		if (!cellValue || cellValue.toString().substr(0,4)<='1970') return '-';
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '0001') return '-';
 		return formatDate(new Date(cellValue), 'YYYY-mm-dd');
 	};
 	//列表日期时间格式化
 	const dateFormatYMDHM = (row: any, column: number, cellValue: any) => {
-		if (!cellValue || cellValue.toString().substr(0,4)<='1970') return '-';
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '0001') return '-';
 		return formatDate(new Date(cellValue), 'YYYY-mm-dd HH:MM');
 	};
 	//列表日期时间格式化
 	const dateFormatYMDHMS = (row: any, column: number, cellValue: any) => {
-		if (!cellValue || cellValue.toString().substr(0,4)<='1970') return '-';
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '0001') return '-';
 		return formatDate(new Date(cellValue), 'YYYY-mm-dd HH:MM:SS');
 	};
 	//列表日期时间格式化
 	const dateFormatHMS = (row: any, column: number, cellValue: any) => {
-		if (!cellValue || cellValue.toString().substr(0,4)<='1970') return '-';
-		let time = 0;
-		if (typeof row === 'number') time = row;
-		if (typeof cellValue === 'number') time = cellValue;
-		return formatDate(new Date(time * 1000), 'HH:MM:SS');
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '0001') return '-';
+		return formatDate(new Date(cellValue), 'HH:MM:SS');
+	};
+	//列表日期时间格式化
+	const dateFormatHM = (row: any, column: number, cellValue: any) => {
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '0001') return '-';
+		return formatDate(new Date(cellValue), 'HH:MM');
+	};
+	//列表日期时间格式化
+	const dateFormatY = (row: any, column: number, cellValue: any) => {
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '0001') return '-';
+		return formatDate(new Date(cellValue), 'YYYY');
+	};
+	//列表日期时间格式化
+	const dateFormatYM = (row: any, column: number, cellValue: any) => {
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '0001') return '-';
+		return formatDate(new Date(cellValue), 'YYYY-mm');
+	};
+	//列表日期时间格式化
+	const dateFormatMD = (row: any, column: number, cellValue: any) => {
+		if (!cellValue || cellValue.toString().substr(0, 4) <= '0001') return '-';
+		return formatDate(new Date(cellValue), 'mm-dd');
 	};
 
-	
+
 	/* 日期格式化 */
-	const dateFormat = (date:any, fmt='YYYY-mm-dd HH:MM:SS')=>  {
-		return formatDate(new Date(date),fmt)
+	const dateFormat = (date: any, fmt = 'YYYY-mm-dd HH:MM:SS') => {
+		return formatDate(new Date(date), fmt)
 	}
 	// 小数格式化
 	const scaleFormat = (value: any = 0, scale: number = 4) => {
@@ -47,7 +65,7 @@ export default function () {
 		return Number.parseFloat(value).toFixed(2);
 	};
 	/* 复制对象 */
-	const copyObj = (obj:any)=> {
+	const copyObj = (obj: any) => {
 		return JSON.parse(JSON.stringify(obj));
 	}
 	//百分比格式化
@@ -72,58 +90,63 @@ export default function () {
 		});
 	};
 
-	
+
 	/* 千分符 */
-	const groupSeparator = (num:any)=> {
+	const groupSeparator = (num: any) => {
 		let numStr = num + '';
-		if(!numStr.includes('.')){
+		if (!numStr.includes('.')) {
 			numStr += '.'
 		}
-		return numStr.replace(/(\d)(?=(\d{3})+\.)/g, ($0, $1)=> {
+		return numStr.replace(/(\d)(?=(\d{3})+\.)/g, ($0, $1) => {
 			return $1 + ',';
 		}).replace(/\.$/, '');
 	}
 
 	/* 是否为合法URL地址 */
-	const isUrl = (url:string)=> {
-		const reg=/^(\/\/|[hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
- 		return reg.test(url)
+	const isUrl = (url: string) => {
+		const reg = /^(\/\/|[hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+		return reg.test(url)
 	}
-	
+
 	/* 静态路径解析 */
-	const staticUrlParse = (path:string)=> {
- 		if(isUrl(path)){
-			 //完整域名路径，直接返回
-			 return path;
-		 }
-		 return import.meta.env.VITE_URL+path
+	const staticUrlParse = (path: string) => {
+		if (isUrl(path)) {
+			//完整域名路径，直接返回
+			return path;
+		}
+		return import.meta.env.VITE_URL + path
+	}
+	/* 头像路径 */
+	const staticHeardUrl = (id: string) => {
+		const baseUrl = '/static/img/avatar/user/'
+		return baseUrl + id + '.png'
 	}
 
 	/* 常用加解密 */
 	const crypto = {
 		//MD5加密
-		MD5(data:string){
+		MD5(data: string) {
 			return CryptoJS.MD5(data).toString()
 		},
 		//BASE64加解密
 		BASE64: {
-			encrypt(data:string){
+			encrypt(data: string) {
 				return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(data))
 			},
-			decrypt(cipher:string){
+			decrypt(cipher: string) {
 				return CryptoJS.enc.Base64.parse(cipher).toString(CryptoJS.enc.Utf8)
 			}
 		},
 		//AES加解密
 		AES: {
-			encrypt(data:string, secretKey:string){
+			encrypt(data: string, secretKey: string) {
 				const result = CryptoJS.AES.encrypt(data, CryptoJS.enc.Utf8.parse(secretKey), {
 					mode: CryptoJS.mode.ECB,
 					padding: CryptoJS.pad.Pkcs7
 				})
 				return result.toString()
 			},
-			decrypt(cipher:string, secretKey:string){
+			decrypt(cipher: string, secretKey: string) {
 				const result = CryptoJS.AES.decrypt(cipher, CryptoJS.enc.Utf8.parse(secretKey), {
 					mode: CryptoJS.mode.ECB,
 					padding: CryptoJS.pad.Pkcs7
@@ -137,14 +160,20 @@ export default function () {
 		isUrl,
 		percentFormat,
 		dateFormat,
+		
 		dateFormatYMD,
+		dateFormatYM,
+		dateFormatMD,
+		dateFormatY,
 		dateFormatYMDHM,
 		dateFormatYMDHMS,
 		dateFormatHMS,
+		dateFormatHM,
 		scaleFormat,
 		scale2Format,
 		groupSeparator,
 		staticUrlParse,
+		staticHeardUrl,
 		crypto,
 		copyObj,
 		copyText,

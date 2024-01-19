@@ -5,8 +5,8 @@
 				<el-divider content-position="left">货物名称*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="客户名称" prop="CustomerId">
-							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择">
+						<el-form-item label="客户名称" prop="CustomerId" >
+							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onCustomerSelected">
 								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -64,7 +64,7 @@
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入或选择">
-								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
+								<el-option v-for="item in waybillList" :key="item.Id" :label="item.SenderAddress" :value="item.SenderAddress"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -77,7 +77,7 @@
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入或选择">
-								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
+								<el-option v-for="item in waybillList" :key="item.Id" :label="item.ReceiverAddress" :value="item.ReceiverAddress"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -158,6 +158,7 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'info',
+				CustomerId:"",
 				GoodsCategoryId: '0',
 				GoodsId:"",
 				VehicleNumber: '',
@@ -175,15 +176,7 @@ export default {
 				Fax: '',
 				Im: '',
 			},
-			tableItem: {
-				Id: '0',
-				GoodsCategoryId: '',
-				Name: '',
-				Files: '',
-				StartTime: '',
-				EndTime:'',
-				Kind: 'info',
-			},
+			
 			dialogVisible: false,
 			truckTypeList: [],
 			plateColorList:[],
@@ -191,6 +184,8 @@ export default {
 			goodsTypeList:[],
 			goodsList:[],
 			customerList:[],
+			waybillList:[],
+
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -250,10 +245,10 @@ export default {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
 				loadGoodsCategory();
 				loadGoodsList();
+				
 				const resCustomers = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
 				if (resCustomers.errcode == 0) {
 					state.customerList = resCustomers.data;
@@ -308,10 +303,34 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
+				await loadWaybillList(state.ruleForm.CustomerId);
 			} finally {
 				state.isShowDialog = true;
 			}
 		}
+
+		// 选中客户后，加载最近的运单信息
+		const loadWaybillList = async (customerId:number|string) => {
+			
+			if(!customerId||customerId=="0"){
+				state.waybillList=[];
+				return;
+			}
+			console.log(customerId)
+			const res = await proxy.$api.erp.waybill.getListByScope(state.ruleForm.Kind, 0, 0,{customerId:customerId});
+			if (res.errcode != 0) {
+				return;
+			}
+			state.waybillList=res.data;
+		};
+
+		// 选中客户后，加载最近的运单信息
+		const onCustomerSelected = async (customerId:number|string) => {
+			//清空地址，防止选择了不同的客户忘了修改地址，导致地址录入错误
+			state.ruleForm.SenderAddress="" 
+			state.ruleForm.ReceiverAddress=""
+			await loadWaybillList(customerId)
+		};
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
@@ -401,6 +420,7 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
+			onCustomerSelected,
 			GetByIdRow,
 			onBeforeImageUpload,
 			onModelEdit,
