@@ -19,6 +19,7 @@ export default {
 		task:'任务管理',
 		waybill:'任务单',
 		waybill_line:'派车单',
+		truck_type:'车型管理',
 	},
 	field: {
 

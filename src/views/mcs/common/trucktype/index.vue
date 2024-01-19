@@ -38,55 +38,41 @@
 				stripe
 				highlight-current-row
 			>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="VehicleNumber" label="车牌号码" width="100" fixed></el-table-column>
-				<el-table-column prop="BillDate" label="票据日期" width="120" show-overflow-tooltip :formatter="dateFormatYMD"></el-table-column>
-				<!-- <el-table-column label="性别" width="70" show-overflow-tooltip>
+				<el-table-column type="index" label="序号" align="center" width="70" fixed />
+				<el-table-column prop="Name" label="车型名称" width="100" fixed></el-table-column>
+				<el-table-column prop="TotalWeight" label="标准总重" width="100"  show-overflow-tooltip align="right"></el-table-column>
+				<el-table-column prop="TruckWeight" label="标准皮重" width="100" show-overflow-tooltip align="right"></el-table-column>
+				<!-- <el-table-column prop="WeightUnit" label="重量单位" width="120"  show-overflow-tooltip>
 					<template #default="scope">
-						<el-switch
-							v-model="scope.row.Gender"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_driver', 'gender', scope.row.Id, scope.row.Gender)"
-							:active-text="$t('message.action.male')"
-							:inactive-text="$t('message.action.female')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.Gender==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.male') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.female') }}</el-tag>
+						<div>{{weightUnitList[scope.row.WeightUnit] }}</div>
 					</template>
-				</el-table-column> -->
-			
-				<el-table-column prop="StartDate" label="保险生效日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="EndDate" label="保险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompulsoryStartDate" label="交强险起始日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompulsoryEndDate" label="交强险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompulsoryFee" label="交强险购买费用(元)" width="130" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CommercialStartDate" label="商业险起始日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CommercialEndDate" label="商业险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CommercialFee" label="商业险购买费用(元)" width="130" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="TaxFee" label="车船税费用(元)" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CreateTime" label="创建时间" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<!-- <el-table-column label="状态" width="70" show-overflow-tooltip>
+				</el-table-column>  -->
+				<el-table-column prop="WheelShaftQty" label="轮轴数" width="120"  show-overflow-tooltip align="right"></el-table-column>
+				<el-table-column prop="Pics" label="车型图片" width="120"  show-overflow-tooltip align="center">
+					<!-- <img width="30" height="30" src="http://localhost:8889/static/upload/image"> -->
+					<template #default="scope">
+						<img :src="httpsText+scope.row.Pics" style="width: 30px;height: 30px;" >
+					</template>
+				</el-table-column>
+				<el-table-column prop="Order" label="排序" width="100" show-overflow-tooltip align="right"></el-table-column>
+				<el-table-column label="状态" width="70" show-overflow-tooltip align="center">
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
 							inline-prompt
 							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'state', scope.row.Id, scope.row.State)"
-							:active-text="$t('message.action.enable')"
-							:inactive-text="$t('message.action.disable')"
+							@change="proxy.$api.common.table.updateById('erp_truck_type', 'state', scope.row.Id, scope.row.State)"
+							:active-text="$t('message.action.valid')"
+							:inactive-text="$t('message.action.invalid')"
 							:active-value="1"
 							:inactive-value="0"
 						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.State==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.male') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.female') }}</el-tag>
 					</template>
-				</el-table-column> -->
+				</el-table-column>
+				<el-table-column prop="Remark" label="说明" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -123,11 +109,11 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from './component/insuranceEdit.vue';
+import editDlg from './component/trucktypeEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'insuranceInfo',
+	name: 'trucktypeInfo',
 	components: { editDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -135,7 +121,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_baseinfo_vehicle_insurance`;
+		const moduleKey = `api_baseinfo_truck_type`;
 		const editDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
@@ -153,7 +139,23 @@ export default {
 					state: -1,
 				},
 			},
+			httpsText: import.meta.env.VITE_URL as any,
+			// weightUnitList:{},
 		});
+		// const loadWeightUnitList= async()=>{
+		// 	const res = await proxy.$api.common.commondata.getConcreteDataListByScope("weight_unit", 1, 2);
+		// 	if (res.errcode != 0) {
+		// 		return;
+		// 	}
+		// 	if (res.data.length>0){
+		// 		for(let item of res.data){
+		// 			//console.log("循环数据",item)
+		// 			state.weightUnitList[item.Code] =item.Name
+		// 		}
+		// 	}
+		// 	//console.log("数据",state.examList)
+		// }
+		
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});
@@ -170,7 +172,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.vehicle_insurance.getListByScope("info", 0, 0, state.tableData.param);
+				const res = await proxy.$api.erp.truck_type.getListByScope("info", 0, 0, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -192,7 +194,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.vehicle_insurance.delete(Id);
+					const res = await proxy.$api.erp.truck_type.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
@@ -216,6 +218,7 @@ export default {
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
+			// loadWeightUnitList()
 		});
 
 		const { dateFormatYMD } = commonFunction();
@@ -230,6 +233,7 @@ export default {
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMD,
+			// loadWeightUnitList,
 			...toRefs(state),
 		};
 	},

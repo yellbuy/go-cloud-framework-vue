@@ -17,6 +17,7 @@ export default {
 		maintenance_sheet:"保养管理",
 		finance_account:'收支科目管理',
 		vehicle_insurance:'保险管理',
+		truck_type:'车型管理',
 		
 		task:'任务管理',
 		waybill:'任务单',
