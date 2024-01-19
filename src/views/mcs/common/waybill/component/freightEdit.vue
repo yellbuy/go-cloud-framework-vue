@@ -303,14 +303,14 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				await onCustomerSelected(state.ruleForm.CustomerId);
+				await loadWaybillList(state.ruleForm.CustomerId);
 			} finally {
 				state.isShowDialog = true;
 			}
 		}
 
 		// 选中客户后，加载最近的运单信息
-		const onCustomerSelected = async (customerId:number|string) => {
+		const loadWaybillList = async (customerId:number|string) => {
 			
 			if(!customerId||customerId=="0"){
 				state.waybillList=[];
@@ -322,6 +322,14 @@ export default {
 				return;
 			}
 			state.waybillList=res.data;
+		};
+
+		// 选中客户后，加载最近的运单信息
+		const onCustomerSelected = async (customerId:number|string) => {
+			//清空地址，防止选择了不同的客户忘了修改地址，导致地址录入错误
+			state.ruleForm.SenderAddress="" 
+			state.ruleForm.ReceiverAddress=""
+			await loadWaybillList(customerId)
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
