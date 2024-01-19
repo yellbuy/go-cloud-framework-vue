@@ -40,8 +40,8 @@
 			>
 				<el-table-column type="index" label="序号" align="center" width="70" fixed />
 				<el-table-column prop="Name" label="车型名称" width="100" fixed></el-table-column>
-				<el-table-column prop="TotalWeight" label="标准总重" width="100"  show-overflow-tooltip align="right"></el-table-column>
-				<el-table-column prop="TruckWeight" label="标准皮重" width="100" show-overflow-tooltip align="right"></el-table-column>
+				<el-table-column prop="TotalWeight" label="标准总重(吨)" width="100"  show-overflow-tooltip align="right"></el-table-column>
+				<el-table-column prop="TruckWeight" label="标准皮重(吨)" width="100" show-overflow-tooltip align="right"></el-table-column>
 				<!-- <el-table-column prop="WeightUnit" label="重量单位" width="120"  show-overflow-tooltip>
 					<template #default="scope">
 						<div>{{weightUnitList[scope.row.WeightUnit] }}</div>
@@ -50,8 +50,17 @@
 				<el-table-column prop="WheelShaftQty" label="轮轴数" width="120"  show-overflow-tooltip align="right"></el-table-column>
 				<el-table-column prop="Pics" label="车型图片" width="120"  show-overflow-tooltip align="center">
 					<!-- <img width="30" height="30" src="http://localhost:8889/static/upload/image"> -->
-					<template #default="scope">
-						<img :src="httpsText+scope.row.Pics" style="width: 30px;height: 30px;" >
+					<template #default="scope">		
+						<el-image
+							style="width: 30px; height: 30px"
+							:src="imgUrl(scope.row.Pics)"
+							:zoom-rate="1.2"
+							:max-scale="7"
+							:min-scale="0.2"
+							:preview-src-list="imgUrlList(scope.row.Pics)"
+							fit="cover"
+							:preview-teleported="true"
+							/>			
 					</template>
 				</el-table-column>
 				<el-table-column prop="Order" label="排序" width="100" show-overflow-tooltip align="right"></el-table-column>
@@ -164,7 +173,31 @@ export default {
 			state.tableData.param.keyword = '';
 			onGetTableData(true);
 		};
+		const imgUrlList=(Pics)=>{
+			let imgList = [];
+			if(Pics!=""){
+				imgList = Pics.split(",");
+				if (imgList.length>0){
+					imgList.forEach(function(element, index, array) {
+  					array[index] = state.httpsText+element;
+			});
+					
+			//console.log("获得的数组",imgList)
 
+				}
+			}
+			return imgList
+
+		};
+		const imgUrl = (Pics) =>{
+			let url = "";
+			if (Pics!=""){
+				let imgList =Pics.split(",");
+				url = state.httpsText+imgList[0];
+			}
+			return url
+
+		}
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
@@ -233,6 +266,8 @@ export default {
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMD,
+			imgUrlList,
+			imgUrl,
 			// loadWeightUnitList,
 			...toRefs(state),
 		};

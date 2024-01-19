@@ -33,9 +33,11 @@
 				</el-row>
 				<el-row>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="标准总重" prop="TotalWeight">
+						<el-form-item label="标准总重(吨)" prop="TotalWeight">
 							<el-input-number
 								v-model="ruleForm.TotalWeight"
+								:min="1"
+    							:max="10"
 								size="small"
 								style="width: 130px;"
 								controls-position="right"
@@ -44,9 +46,11 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="标准皮重" prop="TruckWeight">
+						<el-form-item label="标准皮重(吨)" prop="TruckWeight">
 							<el-input-number
 								v-model="ruleForm.TruckWeight"
+								:min="1"
+    							:max="10"
 								size="small"
 								style="width:130px;"
 								controls-position="right"
@@ -196,7 +200,7 @@ export default {
 				State: 1,
 				WheelShaftQty:'',
 				TotalWeight:'',
-				WeightUnit:'',
+				//WeightUnit:'',
 				Remark:'',
 				Order:0,
                 TruckWeight:'',
