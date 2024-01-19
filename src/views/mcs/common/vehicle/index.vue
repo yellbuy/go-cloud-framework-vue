@@ -130,7 +130,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_baseinfo_vehicle`;
+		const moduleKey = `api_commoninfo_vehicle`;
 		const editDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
