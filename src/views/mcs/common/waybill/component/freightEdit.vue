@@ -20,6 +20,11 @@
 							</div>
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="单价" prop="Price">
+							<el-input-number v-model="ruleForm.Price" min="0" max="100000" :precision="2" :step="1" controls-position="right"></el-input-number> 
+						</el-form-item>
+					</el-col>
 					</el-row>
 					<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -232,6 +237,13 @@ export default {
 				},
 			],
 			PlanWeight: [
+				{
+					required: true,
+					message: t('message.validRule.mustOption'),
+					trigger: 'blur',
+				},
+			],
+			Price: [
 				{
 					required: true,
 					message: t('message.validRule.mustOption'),
