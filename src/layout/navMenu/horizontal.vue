@@ -83,7 +83,7 @@ export default defineComponent({
 		};
 		// 传送当前子级数据到菜单中
 		const setSendClassicChildren = (keyPath: string) => {
-			//console.log("store.state.routesList.routesList:",path,store.state.routesList.routesList)
+			console.log("store.state.routesList.routesList:",keyPath,store.state.routesList.routesList)
 			const currentPathSplit = keyPath.split('//');
 			let currentData: any = {};
 			filterRoutesFun(store.state.routesList.routesList).map((v, k) => {
@@ -101,6 +101,7 @@ export default defineComponent({
 			const { path, meta } = currentRoute;
 			const key=meta.keyPath.split("//")[0];
 			const rootRoute=store.state.routesList.routesList.find(c=>c.meta.key == key);
+			console.log("rootRoute:",rootRoute)
 			if(rootRoute){
 				state.defaultActive=rootRoute.meta.isDynamicPath || rootRoute.path;
 			} else {
