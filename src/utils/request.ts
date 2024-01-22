@@ -92,7 +92,7 @@ service.interceptors.response.use(
 					confirmButtonText: '重新登录'
 				}).then(() => {
 					window.location.href = '/'; // 去登录页
-				}).catch(() => { })
+				}).catch(() => { window.location.href = '/'; })
 
 				// ElMessageBox.alert('无权限访问', '温馨提示', {})
 				// 	.then(() => {
@@ -165,7 +165,7 @@ service.interceptors.response.use(
 );
 
 const _request = (config: RequestConfig) => {
-	console.log("config：", config)
+	//console.log("config：", config)
 	config = Object.assign({ notifyError: true }, config)
 
 	//const headers:Record<string, string> = {};

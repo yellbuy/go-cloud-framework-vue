@@ -120,18 +120,15 @@
 </template>
 
 <script lang="ts">
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Session, Local } from '/@/utils/storage';
-import { resetRoute } from '/@/router/index';
 import { useRouter } from 'vue-router';
+import tenantEdit from './component/tenantEdit.vue';
+import { resetRoute } from '/@/router/index';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import tenantEdit from './component/tenantEdit.vue';
-import other from '/@/utils/other';
-import { initFrontEndControlRoutes } from '/@/router/frontEnd';
-import { initBackEndControlRoutes } from '/@/router/backEnd';
+import { Session } from '/@/utils/storage';
 
 export default {
 	name: 'baseCommonTenants',
@@ -234,6 +231,7 @@ export default {
 			}).then(async () => {
 				const res=await proxy.$api.base.proxy.enterTenant(row.Id);
 				if(res.errcode==0){
+					//console.log("proxy.$api.base.proxy.enterTenant:",res)
 					ElMessage.success({
 						showClose: true,
 						duration:2400,
@@ -273,18 +271,6 @@ export default {
 								resetRoute(); // 删除/重置路由
 								window.location.href="/";
 								return;
-								// 删除动态路由
-								await resetRoute();
-								if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
-									// 前端控制路由，2、请注意执行顺序
-									await initFrontEndControlRoutes();
-								} else {
-									// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
-									// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
-									await initBackEndControlRoutes();
-									// 执行完 initBackEndControlRoutes，再执行 signInSuccess
-								}
-								window.location.href="/";
 							} catch(err){
 								console.error(err)
 							}
