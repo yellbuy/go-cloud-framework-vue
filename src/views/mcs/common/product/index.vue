@@ -115,7 +115,20 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="GoodsPics" label="产品图片" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsPics" label="产品图片" show-overflow-tooltip>
+					<template #default="scope">		
+						<el-image
+							style="width: 30px; height: 30px"
+							:src="imgUrl(scope.row.GoodsPics)"
+							:zoom-rate="1.2"
+							:max-scale="7"
+							:min-scale="0.2"
+							:preview-src-list="imgUrlList(scope.row.GoodsPics)"
+							fit="cover"
+							:preview-teleported="true"
+							/>			
+					</template>
+				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenProductDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -199,6 +212,7 @@ export default {
 					state: -1,
 				},
 			},
+			httpsText: import.meta.env.VITE_URL as any,
 		});
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
@@ -321,6 +335,31 @@ export default {
 
 		const { dateFormatYMDHM } = commonFunction();
 
+		const imgUrlList=(GoodsPics)=>{
+			let imgList = [];
+			if(GoodsPics!=""){
+				imgList = GoodsPics.split(",");
+				if (imgList.length>0){
+					imgList.forEach(function(element, index, array) {
+  					array[index] = state.httpsText+element;
+				});
+					
+			console.log("获得的数组",imgList)
+
+				}
+			}
+			return imgList
+
+		};
+		const imgUrl = (GoodsPics) =>{
+			let url = "";
+			if (GoodsPics!=""){
+				let imgList =GoodsPics.split(",");
+				url = state.httpsText+imgList[0];
+			}
+			return url
+
+		}
 		return {
 			proxy,
 			prodDlgRef,
@@ -336,6 +375,8 @@ export default {
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
+			imgUrlList,
+			imgUrl,
 			...toRefs(state),
 		};
 	},

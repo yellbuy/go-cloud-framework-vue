@@ -71,30 +71,22 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
-						<el-form-item label="商品图片" prop="GoodsPics">
+						<el-form-item label="商品图片" prop="Files">
 							<div style="width: 50%">
-								<el-upload
-									class="upload-demo"
-									:action="uploadURL"
+								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="onSuccessFile"
-									:on-preview="onPreview"
-									:on-remove="onRemove"
-									:file-list="FilesList"
-									:accept:="`image/png, image/jpeg,image/bmp,image/jpg,application/pdf,application/docx,application/doc,application/xls,application/xlsx`"
-									multiple
-									show-file-list
-								>
+									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
+									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
-										<el-button
-											><el-icon class="el-icon--right"><Upload /></el-icon>上传</el-button
-										>
+										<el-icon>
+											<plus />
+										</el-icon>
 									</template>
 								</el-upload>
 							</div>
-							<div>
+							 <div>
 								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
-							</div>
+							</div> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
@@ -117,6 +109,9 @@
 					}}</el-button>
 				</span>
 			</template>
+		</el-dialog>
+		<el-dialog v-model="ImageVisible">
+			<img class="dialog-image" w-full :src="dialogImageUrl" alt="Preview Image" />
 		</el-dialog>		
 	</div>
 </template>
@@ -147,7 +142,7 @@ export default {
 		};
 		const onRemove = (file: UploadFile) => {
 			console.log(file);
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
+			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.Files.length; i++) {
 				if (state.Files[i] == removeUrl) {
 					state.Files.splice(i, 1);
@@ -160,12 +155,10 @@ export default {
 			return store.state.userInfos.userInfos;
 		});
 		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
+		const showImage: UploadProps['onPreview'] = (uploadFile) => {
+			state.dialogImageUrl = uploadFile.url!
+			state.ImageVisible = true
+		}
 		
 		
 		const tableData = reactive({
@@ -183,6 +176,8 @@ export default {
 			loading: false,
 			disable: true, //是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
+			dialogImageUrl: "",
+			ImageVisible: false,
 			//表单
 			ruleForm: {
 				Id: '0',				
@@ -197,6 +192,7 @@ export default {
                 Piny:'',
 				CategoryId:'',
 				Name:'',
+				GoodsPics:'',
 			},
 			tableItem: {
 				Id: '0',				
@@ -206,6 +202,7 @@ export default {
 				Qty: 0,
 				Content:"",
 				Remark: '',
+				Files: '',
 			},
 			dialogVisible: false,
 			GoodsTypeList: [],
@@ -248,13 +245,14 @@ export default {
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean,categoryId:string) => {
 			state.Files = [];
-			console.log('类型', kind);
+			//console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.ruleForm.CategoryId = categoryId;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
 				const res = await proxy.$api.common.category.getHierarchyDataList(kind, 0, 2);
 				if (res.errcode == 0) {
+					//console.log("CategoryList",res.data)
 					state.CategoryList = res.data;
 				}else{
 					console.log("error:",res.errmsg)
@@ -272,12 +270,15 @@ export default {
 					console.log("error:",goodsUnits.errmsg)
 				}
 				state.disable = disable;
-				if (id && id != '0') {
-					getByIdRow(id);
+				if (disable) {
+					state.title = t('message.action.see');
+					GetByIdRow(id);
+				} else if (id && id != '0') {
+					GetByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal=0;
+					state.ruleForm.IsExternal = 0;
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -285,11 +286,22 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		const getByIdRow = async (Id: string) => {
+		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.wms.goods.getById(Id);
 				if (res.errcode != 0) {
 					return;
+				}
+				state.ruleForm = res.data;
+				state.Files = state.ruleForm.GoodsPics.split(",");
+				state.FilesList = [];
+				if (state.ruleForm.GoodsPics != "") {
+					for (let i = 0; i < state.Files.length; i++) {
+						let image = { url: '', name: '' };
+						image.url = state.httpsText + state.Files[i];
+						image.name = state.httpsText + state.Files[i];
+						state.FilesList.push(image);
+					}
 				}
 				if(res.data.EndTime < '2000-01-01'){
 					res.data.EndTime='';
@@ -366,6 +378,9 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					if (state.Files) {
+						state.ruleForm.GoodsPics = state.Files.join(',');
+					}
 					try {
 						const res = await proxy.$api.wms.goods.save(state.ruleForm);
 						if (res.errcode == 0) {
@@ -413,7 +428,7 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
-			getByIdRow,
+			GetByIdRow,
 			onSuccessFile,
 			onPreview,
 			onRemove,

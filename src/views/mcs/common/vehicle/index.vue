@@ -148,6 +148,7 @@ export default {
 					state: -1,
 				},
 			},
+			
 		});
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;

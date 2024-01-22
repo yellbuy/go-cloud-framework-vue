@@ -124,6 +124,7 @@
   						/>
 					</template>
 				</el-table-column>
+				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
 					<template #default="scope">
@@ -146,6 +147,18 @@
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Qty" label="预估工时" width="80">
+					<template #default="scope">
+						<el-input-number
+    						v-model="scope.row.Qty"
+							size="small"
+							style="width: 80px;"
+    						controls-position="right"
+    						@change="handleChange"
+							disabled
+  						/>
+					</template>
+				</el-table-column>
 				<el-table-column prop="Price" label="单价" width="90">
 					<template #default="scope">
 						<el-input-number
@@ -158,6 +171,7 @@
   						/>
 					</template>
 				</el-table-column>
+				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
 					<template #default="scope">
 						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100" disabled

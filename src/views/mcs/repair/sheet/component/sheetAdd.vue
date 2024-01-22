@@ -128,6 +128,11 @@
   						/>
 					</template>
 				</el-table-column>
+				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed>
+					<template #default="scope">
+						{{ totalPrice(scope.row) }}
+					</template>
+				</el-table-column>
 				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
 					<template #default="scope">
@@ -177,6 +182,22 @@
     						controls-position="right"
     						@change="handleChange"
   						/>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Qty" label="预估工时" width="80">
+					<template #default="scope">
+						<el-input-number
+    						v-model="scope.row.Qty"
+							size="small"
+							style="width: 80px;"
+    						controls-position="right"
+    						@change="handleChange"
+  						/>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed>
+					<template #default="scope">
+						{{ totalPrice(scope.row) }}
 					</template>
 				</el-table-column>
 				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
@@ -264,7 +285,14 @@ export default {
 			fileUrl = state.httpsText + filList[0];
 			return fileUrl;
 		};
-
+		// 总价
+		const totalPrice = (row)=>{
+			if (row.Price && row.Qty) {
+        		return row.Price * row.Qty;
+      		} else {
+        		return 0; // 如果没有提供单价或数量则不进行计算并将总价格设置为0
+      		}
+		};
 		const handleChange = (value: number) => {
   		console.log(value)
 		}
@@ -467,11 +495,11 @@ export default {
 			],
 		});
 		const saveProject = (list: never[]) => {
-			const items=list.map(val=>{return {Id:"0",ProjectId:val.Id,Name:val.Name,Content:val.Content,Qty:val.Qty,Remark:val.Remark}});
+			const items=list.map(val=>{return {Id:"0",ProjectId:val.Id,Name:val.Name,Content:val.Content,Qty:val.Qty,Price:val.Price,Remark:val.Remark,Amount:val.Amount}});
 			state.ruleForm.VehicleProjectList=[...state.ruleForm.VehicleProjectList,...items]
 		}
 		const saveGoods = (list: never[]) => {
-			const items=list.map(val=>{return {Id:"0",GoodsId:val.Id,GoodsSn:val.GoodsSn,GoodsName:val.GoodsName,SellerNote:val.SellerNote}});
+			const items=list.map(val=>{return {Id:"0",GoodsId:val.Id,GoodsSn:val.GoodsSn,GoodsName:val.GoodsName,SellerNote:val.SellerNote,Qty:val.Qty,Price:val.Price,Amount:val.Amount}});
 			state.ruleForm.VehicleGoodsList=[...state.ruleForm.VehicleGoodsList,...items]
 		}
 		// 打开弹窗
@@ -555,6 +583,16 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
+						if(state.ruleForm.VehicleProjectList.length>0){
+							state.ruleForm.VehicleProjectList.forEach(item => {
+								item.Amount = totalPrice(item)
+							});
+						};
+						if(state.ruleForm.VehicleGoodsList.length>0){
+							state.ruleForm.VehicleGoodsList.forEach(item => {
+								item.Amount = totalPrice(item)
+							});
+						};
 						const vehicle = await proxy.$api.erp.vehicle.save(state.ruleForm,
 						[state.ruleForm.VehicleProjectList],[state.ruleForm.VehicleGoodsList]);
 						if (vehicle.errcode == 0) {
@@ -624,6 +662,7 @@ export default {
 			onProjectDel,
 			onGoodsDel,
 			handleChange,
+			totalPrice,
 			...toRefs(state),
 		};
 	},
