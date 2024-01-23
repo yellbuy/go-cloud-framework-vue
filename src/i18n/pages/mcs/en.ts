@@ -17,6 +17,7 @@ export default {
 		finance_account:'finance_account',
 		vehicle_insurance:'vehicle insurance',
 		truck_type:'truck type',
+		fuel_consumption:'fuel consumption',
 		
 		task:'task',
 		waybill:'waybill',
