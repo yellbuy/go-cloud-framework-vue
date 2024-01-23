@@ -54,20 +54,27 @@
 						<el-table-column prop="SenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="ReceiverAddress" label="收货地址" width="120" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope">
-								<el-button text bg type="primary" @click="onMainCopy(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Copy'">
-									{{ $t('message.action.copy') }}
-								</el-button>
-								<el-button text bg type="primary" @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
-									{{ $t('message.action.edit') }}
-								</el-button>
-								<el-button text bg @click="onMainOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
-									{{ $t('message.action.see') }}
-								</el-button>
-								<el-button text bg type="danger" @click="onMainDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
-									{{ $t('message.action.delete') }}
-								</el-button>
+								<el-dropdown split-button >
+									{{ $t('message.action.operate') }}
+									<template #dropdown>
+										<el-dropdown-menu>
+											<el-dropdown-item @click="onMainCopy(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Copy'">
+												<el-text type="primary" >{{ $t('message.action.copy') }}</el-text>
+											</el-dropdown-item>
+											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
+												<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
+											</el-dropdown-item>
+											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+												<el-text >{{ $t('message.action.see') }}</el-text>
+											</el-dropdown-item>
+											<el-dropdown-item divided @click="onMainDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+												<el-text type="danger" >{{ $t('message.action.delete') }}</el-text>
+											</el-dropdown-item>
+										</el-dropdown-menu>
+									</template>
+								</el-dropdown>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -148,17 +155,24 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="CreateTime" label="创建时间" width="100" :formatter="dateFormatHM" show-overflow-tooltip></el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope">
-								<el-button text bg type="primary" @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ChildEdit'">
-									{{ $t('message.action.edit') }}
-								</el-button>
-								<el-button text bg @click="onMainOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.ChildEdit'">
-									{{ $t('message.action.see') }}
-								</el-button>
-								<el-button text bg type="danger" @click="onChildDel(scope.row.Id)" v-auth:[moduleKey]="'btn.ChildDel'">
-									{{ $t('message.action.delete') }}
-								</el-button>
+								<el-dropdown split-button>
+									{{ $t('message.action.operate') }}
+									<template #dropdown>
+										<el-dropdown-menu>
+											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ChildEdit'">
+												<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
+											</el-dropdown-item>
+											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.ChildEdit'">
+												<el-text  >{{ $t('message.action.see') }}</el-text>
+											</el-dropdown-item>
+											<el-dropdown-item divided @click="onChildDel(scope.row.Id)" v-auth:[moduleKey]="'btn.ChildDel'">
+												<el-text type="danger">{{ $t('message.action.delete') }}</el-text>
+											</el-dropdown-item>
+										</el-dropdown-menu>
+									</template>
+								</el-dropdown>
 							</template>
 						</el-table-column>
 					</el-table>
