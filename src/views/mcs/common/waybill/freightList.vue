@@ -9,6 +9,7 @@
 									<el-input placeholder="输入关键字查询" style="width:100px" v-model="mainTableData.param.keyword"> </el-input>
 								</el-form-item>
 								<el-form-item>
+									
 									<el-button type="info" @click="onMainResetSearch">
 										<el-icon>
 											<RefreshLeft />
@@ -101,21 +102,43 @@
 								</el-form-item>
 								<el-form-item label="当日">
 									<el-checkbox v-model="childTableData.isTodayAll" :true-label="1" :false-label="0">{{ $t('message.action.all') }}</el-checkbox>
-									<el-button type="info" style="margin-left: 10px;" @click="onChildResetSearch">
+									<el-button-group>
+									<el-tooltip
+										class="box-item"
+										effect="dark"
+										:content="$t('message.action.reset')"
+										placement="top-start"
+									><el-button type="info" style="margin-left: 10px;" @click="onChildResetSearch">
 										<el-icon>
 											<RefreshLeft />
 										</el-icon>
 									</el-button>
+								</el-tooltip>
+								<el-tooltip
+										class="box-item"
+										effect="dark"
+										:content="$t('message.action.search')"
+										placement="top-start"
+									>	
 									<el-button type="info" @click="onChildQuery()">
 										<el-icon>
 											<Search />
 										</el-icon>
 									</el-button>
+								</el-tooltip>
+								<el-tooltip
+										class="box-item"
+										effect="dark"
+										:content="$t('message.action.add')"
+										placement="top-start"
+									>	
 									<el-button type="primary" @click="onChildOpenAddDlg(0, false)" v-auth:[moduleKey]="'btn.ChildAdd'">
 										<el-icon>
 											<CirclePlusFilled />
 										</el-icon>
 									</el-button>
+								</el-tooltip>
+							</el-button-group>
 								</el-form-item>
 								<el-form-item>
 									
@@ -134,7 +157,19 @@
 						highlight-current-row
 					>
 						<el-table-column type="selection" width="55" align="center" fixed />
-						<el-table-column prop="VehicleNumber" label="车牌号" width="85" fixed></el-table-column>
+						<el-table-column type="expand" fixed>
+							<template #default="props">
+								<el-card shadow="hover" :body-style="{ padding: '6px' }">
+								<h2><el-text class="mx-1" type="info">任务单号: </el-text><el-text class="mx-1" type="primary">{{ props.row.WaybillBillNo }}</el-text></h2>
+								<h3><el-text class="mx-1" type="info">客户名称: </el-text><el-text class="mx-1" >{{ props.row.WaybillCustomerName }}</el-text></h3>
+								<h3><el-text class="mx-1" type="info">品名规格: </el-text><el-text class="mx-1" >{{ props.row.WaybillGoodsName }}</el-text></h3>
+								<h3><el-text class="mx-1" type="info">发货地址: </el-text><el-text class="mx-1" >{{ props.row.WaybillSenderAddress }}</el-text></h3>
+								<h3><el-text class="mx-1" type="info">收货地址: </el-text><el-text class="mx-1" >{{ props.row.WaybillReceiverAddress }}</el-text></h3>
+								</el-card>
+							</template>
+						</el-table-column>
+						<el-table-column prop="VehicleNumber" label="车牌号" width="85" fixed>
+						</el-table-column>
 						<el-table-column label="结束" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-switch
@@ -155,6 +190,8 @@
 						
 						<el-table-column prop="WaybillGoodsName" label="货物" width="100"></el-table-column>
 						<el-table-column prop="WaybillCustomerName" label="客户" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="WaybillSenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="WaybillReceiverAddress" label="收货地址" width="120" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="WaybillBillNo" label="单号" width="110"></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope">
