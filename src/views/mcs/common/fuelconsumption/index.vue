@@ -1,8 +1,8 @@
 <template>
 	<div class="base-role-container">
 		<el-card shadow="hover">
-				<div class="">
-					<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
+			<div class="">
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="关键字：">
 						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
@@ -37,46 +37,15 @@
 				border
 				stripe
 				highlight-current-row
-				
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="GoodsUnit" label="货品单位" width="70" align="right"></el-table-column>
-				<el-table-column prop="NumberRate" label="会员价比率" show-overflow-tooltip></el-table-column>
-				
-				<el-table-column label="供货状态" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.SupplierState"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('wms_goods', 'supplier_state', scope.row.Id, scope.row.SupplierState)"
-							:active-text="$t('message.action.enable')"
-							:inactive-text="$t('message.action.disable')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.SupplierState" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column prop="GoodsPics" label="商品图片" show-overflow-tooltip>
-					<template #default="scope">		
-						<el-image
-							style="width: 30px; height: 30px"
-							:src="imgUrl(scope.row.GoodsPics)"
-							:zoom-rate="1.2"
-							:max-scale="7"
-							:min-scale="0.2"
-							:preview-src-list="imgUrlList(scope.row.GoodsPics)"
-							fit="cover"
-							:preview-teleported="true"
-							/>			
-					</template>
-				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+				<el-table-column prop="VehicleNumber" label="车牌号" width="120" fixed></el-table-column>
+				<el-table-column prop="StartTime" label="起始时间" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="EndTime" label="结束时间" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Mileage" label="已行驶里程数" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="FuelConsumptionRate" label="燃油消耗率" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CompanyName" label="所属单位"  show-overflow-tooltip></el-table-column>
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
@@ -89,7 +58,6 @@
 						</el-button>
 					</template>
 				</el-table-column>
-				<el-table-column prop="SellerNote" label="备注" show-overflow-tooltip></el-table-column>
 			</el-table>
 			<el-pagination
 				small
@@ -113,19 +81,19 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from './component/goodsEdit.vue';
+import editDlg from './component/fuelconsumptionEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'projectList',
-	components: { editDlg},
+	name: 'fuelconsumptionInfo',
+	components: { editDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
-		const kind = "repair";
+		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_${kind}_goods`;
+		const moduleKey = `api_baseinfo_fuel_consumption`;
 		const editDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
@@ -143,7 +111,6 @@ export default {
 					state: -1,
 				},
 			},
-			httpsText: import.meta.env.VITE_URL as any,
 		});
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
@@ -161,7 +128,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.wms.goods.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.fuelconsumption.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -183,7 +150,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.wms.goods.delete(Id);
+					const res = await proxy.$api.erp.fuelconsumption.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
@@ -209,34 +176,8 @@ export default {
 			onGetTableData();
 		});
 
-		const { dateFormatYMDHM } = commonFunction();
+		const { dateFormatYMD } = commonFunction();
 
-		const imgUrlList=(GoodsPics)=>{
-			let imgList = [];
-			if(GoodsPics!=""){
-				imgList = GoodsPics.split(",");
-				if (imgList.length>0){
-					imgList.forEach(function(element, index, array) {
-  					array[index] = state.httpsText+element;
-				});
-					
-			//console.log("获得的数组",imgList)
-
-				}
-			}
-			return imgList
-
-		};
-		
-		const imgUrl = (GoodsPics) =>{
-			let url = "";
-			if (GoodsPics!=""){
-				let imgList =GoodsPics.split(",");
-				url = state.httpsText+imgList[0];
-			}
-			return url
-
-		}
 		return {
 			proxy,
 			editDlgRef,
@@ -246,9 +187,7 @@ export default {
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
-			dateFormatYMDHM,
-			imgUrlList,
-			imgUrl,
+			dateFormatYMD,
 			...toRefs(state),
 		};
 	},

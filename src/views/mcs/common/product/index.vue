@@ -344,7 +344,7 @@ export default {
   					array[index] = state.httpsText+element;
 				});
 					
-			console.log("获得的数组",imgList)
+			//console.log("获得的数组",imgList)
 
 				}
 			}
