@@ -1,5 +1,5 @@
 <template>
-	<div class="base-role-container">
+	<div class="base-freight-container">
 			<splitpanes class="default-theme" @resize="paneSize = $event[0].size" style="height: 100%">
 				<pane :size="55">
 					<el-card shadow="hover">
@@ -100,7 +100,7 @@
 									<el-input placeholder="输入关键字查询" style="width:100px" v-model="childTableData.param.keyword"> </el-input>
 								</el-form-item>
 								<el-form-item label="当日：">
-									<el-checkbox v-model="childTableData.isTodayAll">{{ $t('message.action.all') }}</el-checkbox>
+									<el-checkbox v-model="childTableData.isTodayAll" :true-label="1" :false-label="0">{{ $t('message.action.all') }}</el-checkbox>
 								</el-form-item>
 								<el-form-item>
 									<el-button type="info" @click="onChildResetSearch">
@@ -134,8 +134,6 @@
 						highlight-current-row
 					>
 						<el-table-column type="selection" width="55" align="center" fixed />
-						<!-- <el-table-column type="index" label="序号" align="right" width="60" fixed /> -->
-						<!-- <el-table-column prop="BillNo" label="单号" width="100" fixed></el-table-column> -->
 						<el-table-column prop="VehicleNumber" label="车牌号" width="85" fixed></el-table-column>
 						<el-table-column label="结束" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
@@ -154,7 +152,10 @@
 								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.') }}</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="CreateTime" label="创建时间" width="100" :formatter="dateFormatHM" show-overflow-tooltip></el-table-column>
+						
+						<el-table-column prop="WaybillGoodsName" label="货物" width="100"></el-table-column>
+						<el-table-column prop="WaybillCustomerName" label="客户" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="WaybillBillNo" label="单号" width="110"></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope">
 								<el-dropdown split-button>
@@ -251,7 +252,7 @@ export default {
 				data: [],
 				total: 0,
 				loading: false,
-				isTodayAll:false, //查询今日所有任务详情
+				isTodayAll:1, //查询今日所有任务详情
 				param: {
 					keyword: '',
 					waybillId:'0',
@@ -278,7 +279,8 @@ export default {
 			} else{
 				state.childTableData.param.waybillId="0"
 			}
-			onChildGetTableData(true,false)
+			state.childTableData.param.isTodayAll=0
+			onChildGetTableData(true)
 		}
 
 		// 初始化表格数据
@@ -427,6 +429,7 @@ export default {
 		// 页面加载时
 		onMounted(() => {
 			onMainGetTableData();
+			onChildGetTableData();
 		});
 
 		const { dateFormatYMDHM,dateFormatHMS,dateFormatHM } = commonFunction();
