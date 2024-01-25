@@ -1,7 +1,7 @@
 <template>
 	<div class="base-role-container">
 			<splitpanes class="default-theme" @resize="paneSize = $event[0].size" style="height: 100%">
-				<pane :size="58">
+				<pane :size="55">
 					<el-card shadow="hover">
 						<div class="">
 							<el-form ref="searchFormRef" :model="mainTableData.param" label-width="70px" :inline="true">
@@ -92,31 +92,31 @@
 					</el-pagination>
 				</el-card>
 				</pane>
-				<pane :size="42">
+				<pane :size="45">
 					<el-card shadow="hover">
 						<div class="">
-							<el-form ref="searchFormRef" :model="childTableData.param" label-width="70px" :inline="true">
+							<el-form ref="searchFormRef" :model="childTableData.param" label-width="60px" :inline="true">
 								<el-form-item label="关键字：">
 									<el-input placeholder="输入关键字查询" style="width:100px" v-model="childTableData.param.keyword"> </el-input>
+								</el-form-item>
+								<el-form-item label="当日：">
+									<el-checkbox v-model="childTableData.isTodayAll">{{ $t('message.action.all') }}</el-checkbox>
 								</el-form-item>
 								<el-form-item>
 									<el-button type="info" @click="onChildResetSearch">
 										<el-icon>
 											<RefreshLeft />
 										</el-icon>
-										{{ $t('message.action.reset') }}
 									</el-button>
-									<el-button type="info" @click="onChildGetTableData(true)">
+									<el-button type="info" @click="onChildQuery()">
 										<el-icon>
 											<Search />
 										</el-icon>
-										&#8197;{{ $t('message.action.search') }}
 									</el-button>
 									<el-button type="primary" @click="onChildOpenAddDlg(0, false)" v-auth:[moduleKey]="'btn.ChildAdd'">
 										<el-icon>
 											<CirclePlusFilled />
 										</el-icon>
-										&#8197;{{ $t('message.action.add') }}
 									</el-button>
 								</el-form-item>
 								<el-form-item></el-form-item>
@@ -164,10 +164,13 @@
 											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ChildEdit'">
 												<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
 											</el-dropdown-item>
-											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.ChildEdit'">
+											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.ChildEdit'">
 												<el-text  >{{ $t('message.action.see') }}</el-text>
 											</el-dropdown-item>
-											<el-dropdown-item divided @click="onChildDel(scope.row.Id)" v-auth:[moduleKey]="'btn.ChildDel'">
+											<el-dropdown-item @click="onChildOpenMapDlg(scope.row.Id, true)" divided v-auth:[moduleKey]="'btn.ChildEdit'">
+												<el-text  >{{ $t('message.action.location') }}</el-text>
+											</el-dropdown-item>
+											<el-dropdown-item @click="onChildDel(scope.row.Id)" divided v-auth:[moduleKey]="'btn.ChildDel'">
 												<el-text type="danger">{{ $t('message.action.delete') }}</el-text>
 											</el-dropdown-item>
 										</el-dropdown-menu>
@@ -192,10 +195,9 @@
 					</el-card>
 				</pane>
 			</splitpanes>
-			
-		
 		<editMainDlg ref="editMainDlgRef" />
 		<editChildDlg ref="editChildDlgRef" />
+		<childMapDlg ref="childMapDlgRef" />
 		<batchAddLineDlg ref="batchAddLineDlgRef" />
 	</div>
 </template>
@@ -209,10 +211,11 @@ import { useRoute } from 'vue-router';
 import editMainDlg from './component/freightEdit.vue';
 import batchAddLineDlg from './component/freightLineBatchAdd.vue';
 import editChildDlg from './component/freightLineEdit.vue';
+import childMapDlg from './component/vehicleMap.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'freightList',
-	components: { editMainDlg, editChildDlg, batchAddLineDlg,Splitpanes, Pane },
+	components: { editMainDlg, editChildDlg, batchAddLineDlg,childMapDlg, Splitpanes, Pane },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -222,6 +225,7 @@ export default {
 		const moduleKey = `api_waybill_freight`;
 		const editMainDlgRef = ref();
 		const editChildDlgRef = ref();
+		const childMapDlgRef=ref();
 		const batchAddLineDlgRef = ref();
 		const mainTableRef = ref();
 		const childTableRef = ref();
@@ -247,6 +251,7 @@ export default {
 				data: [],
 				total: 0,
 				loading: false,
+				isTodayAll:false, //查询今日所有任务详情
 				param: {
 					keyword: '',
 					waybillId:'0',
@@ -273,7 +278,7 @@ export default {
 			} else{
 				state.childTableData.param.waybillId="0"
 			}
-			onChildGetTableData(true)
+			onChildGetTableData(true,false)
 		}
 
 		// 初始化表格数据
@@ -346,6 +351,13 @@ export default {
 		//重置查询条件
 		const onChildResetSearch = () => {
 			state.childTableData.param.keyword = '';
+			state.childTableData.param.isTodayAll=state.childTableData.isTodayAll
+			onChildGetTableData(true);
+		};
+
+		//重置查询条件
+		const onChildQuery = () => {
+			state.childTableData.param.isTodayAll=state.childTableData.isTodayAll
 			onChildGetTableData(true);
 		};
 
@@ -377,6 +389,10 @@ export default {
 		// 打开弹窗
 		const onChildOpenEditDlg = (id: string, ishow: boolean) => {
 			editChildDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		// 打开地图
+		const onChildOpenMapDlg = (id: string, ishow: boolean) => {
+			childMapDlgRef.value.openDialog(state.kind, id, ishow);
 		};
 		// 删除用户
 		const onChildDel = (Id: string) => {
@@ -419,6 +435,7 @@ export default {
 			proxy,
 			editMainDlgRef,
 			editChildDlgRef,
+			childMapDlgRef,
 			batchAddLineDlgRef,
 			mainTableRef,
 			childTableRef,
@@ -430,10 +447,12 @@ export default {
 			onMainDel,
 			onMainHandleSizeChange,
 			onMainHandleCurrentChange,
+			onChildQuery,
 			onChildGetTableData,
 			onChildResetSearch,
 			onChildOpenAddDlg,
 			onChildOpenEditDlg,
+			onChildOpenMapDlg,
 			onChildDel,
 			onChildHandleSizeChange,
 			onChildHandleCurrentChange,
