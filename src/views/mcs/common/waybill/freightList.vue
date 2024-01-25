@@ -4,8 +4,8 @@
 				<pane :size="55">
 					<el-card shadow="hover">
 						<div class="">
-							<el-form ref="searchFormRef" :model="mainTableData.param" label-width="70px" :inline="true">
-								<el-form-item label="关键字：">
+							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="70px" :inline="true">
+								<el-form-item label="关键字">
 									<el-input placeholder="输入关键字查询" style="width:100px" v-model="mainTableData.param.keyword"> </el-input>
 								</el-form-item>
 								<el-form-item>
@@ -46,9 +46,9 @@
 						<el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column>
 						<el-table-column prop="GoodsName" label="货物" width="100"></el-table-column>
 						<el-table-column prop="CustomerName" label="客户" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="PlanWeight" label="执行进度" width="80" align="right">
+						<el-table-column prop="PlanWeight" label="执行进度" width="80" align="center">
 							<template #default="scope">
-								<el-tag type="success" effect="plain">{{ scope.row.Weight}} / {{scope.row.PlanWeight }}</el-tag>
+								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
 							</template>
 						</el-table-column>
 						<el-table-column prop="SenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
@@ -95,15 +95,13 @@
 				<pane :size="45">
 					<el-card shadow="hover">
 						<div class="">
-							<el-form ref="searchFormRef" :model="childTableData.param" label-width="60px" :inline="true">
-								<el-form-item label="关键字：">
+							<el-form ref="searchFormRef" :model="childTableData.param" label-suffix="：" label-width="60px" :inline="true">
+								<el-form-item label="关键字">
 									<el-input placeholder="输入关键字查询" style="width:100px" v-model="childTableData.param.keyword"> </el-input>
 								</el-form-item>
-								<el-form-item label="当日：">
+								<el-form-item label="当日">
 									<el-checkbox v-model="childTableData.isTodayAll" :true-label="1" :false-label="0">{{ $t('message.action.all') }}</el-checkbox>
-								</el-form-item>
-								<el-form-item>
-									<el-button type="info" @click="onChildResetSearch">
+									<el-button type="info" style="margin-left: 10px;" @click="onChildResetSearch">
 										<el-icon>
 											<RefreshLeft />
 										</el-icon>
@@ -119,7 +117,9 @@
 										</el-icon>
 									</el-button>
 								</el-form-item>
-								<el-form-item></el-form-item>
+								<el-form-item>
+									
+									</el-form-item>
 							</el-form>
 						</div>
 					<el-table
