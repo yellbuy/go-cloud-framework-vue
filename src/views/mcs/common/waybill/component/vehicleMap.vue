@@ -6,17 +6,17 @@
 					<bm-navigation anchor="BMAP_ANCHOR_TOP_LEFT"  enableGeolocation showZoomInfo></bm-navigation>
 					<bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
 					<!-- <bm-label content="川D12345" :position="{lng: 101.728637, lat: 26.582347}" :labelStyle="{color: 'red', fontSize : '18px',padding:'4px'}" title="点击查看详情" /> -->
-					<bm-marker :position="{lng: item.Lng, lat: item.Lat}" :title="item.VehicleNumber" :dragging="false" :icon="{url: '/img/truck_location_blue_32x32.png', size: {width: 32, height: 32}}"
+					<bm-marker :position="{lng: item.VehicleCurrentLocation.Lng, lat: item.VehicleCurrentLocation.Lat}" :title="item.VehicleNumber" :dragging="false" :icon="{url: '/img/truck_location_blue_32x32.png', size: {width: 32, height: 32}}"
 					@click="isShowInfoWindow = true">
 						<bm-label :content="item.VehicleNumber" :offset="{width: -16, height: 34}" :labelStyle="{color: 'red',fontWeight:'bold', fontSize : '12px',padding:'4px 6px', border: '1px dashed #f70', boxShadow: '4px 4px 2px #888',borderRadius:'6px',opacity:0.7}" title="点击查看详情" />
 						<bm-info-window :show="isShowInfoWindow" @close="isShowInfoWindow=false" @open="isShowInfoWindow = true">
 							<el-tag type="primary" class="mx-1" effect="dark">{{ item.VehicleNumber }}</el-tag>
 							<el-divider border-style="dashed" style="margin: '4px 0'" />
 							<el-text class="mx-1" type="info">今日任务：</el-text> 
-								<el-text class="mx-1" tag="b" size="default" type="success">2</el-text> / <el-text class="mx-1" tag="b" size="default" type="danger">5</el-text>
+								<el-text class="mx-1" tag="b" size="default" type="success">{{item.FinishCount}}</el-text> / <el-text class="mx-1" tag="b" size="default" type="danger">{{item.PlanCount}}</el-text>
 							<br/>
 							<el-text class="mx-1" type="info">今日运量：</el-text> 
-							<el-text class="mx-1" tag="b" size="default" type="success">89.75</el-text> <el-text class="mx-1" type="info">T</el-text> 
+							<el-text class="mx-1" tag="b" size="default" type="success">{{item.FinishWeight}}</el-text> <el-text class="mx-1" type="info">T</el-text> 
 						</bm-info-window>
 					</bm-marker>
 				</baidu-map>
@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import 'echarts/extension/bmap/bmap';
-import { computed, onMounted, reactive, toRefs } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { BaiduMap, BmGeolocation, BmInfoWindow, BmLabel, BmMarker, BmNavigation } from 'vue-baidu-map-3x';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -35,6 +35,7 @@ export default {
 	name: 'funEchartsMap',
 	components: { BaiduMap,BmNavigation,BmGeolocation,BmLabel,BmMarker,BmInfoWindow },
 	setup() {
+		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
 		const store = useStore();
 		const state = reactive({
@@ -42,8 +43,11 @@ export default {
 			isShowInfoWindow:true,
 			item:{
 				VehicleNumber:"川D13785",
-				Lng: 101.728637, 
-				Lat: 26.582347,
+				VehicleCurrentLocation:{
+					Lng: 101.728637, 
+					Lat: 26.582347,
+				}
+				
 			},
 			
 			title: t('message.action.location'),
@@ -61,10 +65,18 @@ export default {
 		});
 		
 		// 打开弹窗
-		const openDialog = async (kind: string, id: string, disable: boolean) => {
-			
-			state.isShowDialog = true;
+		const openDialog = async (vehilceNumber: string, disable: boolean) => {
 			state.isShowInfoWindow=true;
+			try {
+				const res = await proxy.$api.erp.vehicle.getWaybillLineStat(vehilceNumber);
+				if (res.errcode != 0) {
+					state.isShowDialog = false;
+					return;
+				}
+				state.item = res.data;
+				state.isShowDialog = true;
+			} finally {
+			}
 			// nextTick(() => {
 			// 	state.item.Lng = 101.728637;
 			// 	state.item.Lat = 26.582347;

@@ -205,7 +205,7 @@
 											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.ChildEdit'">
 												<el-text  >{{ $t('message.action.see') }}</el-text>
 											</el-dropdown-item>
-											<el-dropdown-item @click="onChildOpenMapDlg(scope.row.Id, true)" divided v-auth:[moduleKey]="'btn.ChildEdit'">
+											<el-dropdown-item @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" divided v-auth:[moduleKey]="'btn.ChildMap'">
 												<el-text  >{{ $t('message.action.location') }}</el-text>
 											</el-dropdown-item>
 											<el-dropdown-item @click="onChildDel(scope.row.Id)" divided v-auth:[moduleKey]="'btn.ChildDel'">
@@ -430,8 +430,8 @@ export default {
 			editChildDlgRef.value.openDialog(state.kind, id, ishow);
 		};
 		// 打开地图
-		const onChildOpenMapDlg = (id: string, ishow: boolean) => {
-			childMapDlgRef.value.openDialog(state.kind, id, ishow);
+		const onChildOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
+			childMapDlgRef.value.openDialog(vehicleNumber, ishow);
 		};
 		// 删除用户
 		const onChildDel = (Id: string) => {
