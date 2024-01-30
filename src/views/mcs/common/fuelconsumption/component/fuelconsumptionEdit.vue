@@ -137,7 +137,7 @@ export default {
 			},
 			tableItem: {
 				Id: '0',
-				CategoryId: '',
+				VehicleNumber: '',
 				Name: '',
 				Files: '',
 				StartTime: '',
@@ -196,10 +196,10 @@ export default {
 		
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
-			state.Files = [];
+			//state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
+			state.tableItem = { Id: '0',  Name: '', Files: '', Kind: kind, StartTime: '', EndTime: '', VehicleNumber: '' };
 			try {
 				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
 				if (resTruckTypes.errcode == 0) {
@@ -242,7 +242,7 @@ export default {
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			console.log('关闭页面表单', state.ruleForm);
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
+			state.tableItem = { Id: '0',  Name: '', Files: '', Kind: 'supplier', StartTime: '', EndTime: '', VehicleNumber: '' };
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
