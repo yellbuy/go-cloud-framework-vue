@@ -2,7 +2,7 @@
 	<div class="vehicle-map-container">
 		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close :before-close="closeDialog">
 			<baidu-map style="width:100%; height: 480px" 
-					:zoom="13" ak="wsijQt8sLXrCW71YesmispvYHitfG9gv" scrollWheelZoom v="3.0" type="API" :center="{lng: item.Lng, lat: item.Lat}" >
+					:zoom="13" ak="wsijQt8sLXrCW71YesmispvYHitfG9gv" scrollWheelZoom v="3.0" type="API" :center="{lng: item.VehicleCurrentLocation.Lng, lat: item.VehicleCurrentLocation.Lat}" >
 					<bm-navigation anchor="BMAP_ANCHOR_TOP_LEFT"  enableGeolocation showZoomInfo></bm-navigation>
 					<bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
 					<!-- <bm-label content="川D12345" :position="{lng: 101.728637, lat: 26.582347}" :labelStyle="{color: 'red', fontSize : '18px',padding:'4px'}" title="点击查看详情" /> -->
@@ -72,6 +72,11 @@ export default {
 				if (res.errcode != 0) {
 					state.isShowDialog = false;
 					return;
+				}
+				if(res.data && res.data.VehicleCurrentLocation){
+					// res.data.VehicleCurrentLocation.Lng=Number.parseFloat(res.data.VehicleCurrentLocation.Lng)
+					// res.data.VehicleCurrentLocation.Lat=Number.parseFloat(res.data.VehicleCurrentLocation.Lat)
+					console.log("res.data.VehicleCurrentLocation:",res.data.VehicleCurrentLocation)
 				}
 				state.item = res.data;
 				state.isShowDialog = true;
