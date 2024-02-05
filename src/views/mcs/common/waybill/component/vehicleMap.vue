@@ -16,7 +16,10 @@
 								<el-text class="mx-1" tag="b" size="default" type="success">{{item.FinishCount}}</el-text> / <el-text class="mx-1" tag="b" size="default" type="danger">{{item.PlanCount}}</el-text>
 							<br/>
 							<el-text class="mx-1" type="info">今日运量：</el-text> 
-							<el-text class="mx-1" tag="b" size="default" type="success">{{item.FinishWeight}}</el-text> <el-text class="mx-1" type="info">T</el-text> 
+							<el-text class="mx-1" tag="b" size="default" type="success">{{item.FinishWeight}}</el-text> <el-text class="mx-1" type="info">T</el-text>
+							<br/>
+							<el-text class="mx-1" type="info">当前速度：</el-text> 
+							<el-text class="mx-1" tag="b" size="default" type="primary">{{item.VehicleCurrentLocation.Speed}}</el-text> <el-text class="mx-1" type="info">km/h</el-text>  
 						</bm-info-window>
 					</bm-marker>
 				</baidu-map>

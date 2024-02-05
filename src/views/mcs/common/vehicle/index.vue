@@ -64,7 +64,20 @@
 				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
 				
 				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column label="状态" width="70" show-overflow-tooltip>
+				<el-table-column label="提醒" width="150" show-overflow-tooltip>
+					<template #default="scope">
+						<!-- <el-badge :value="scope.row.WaybillLineCount" class="mark mr4" v-if="scope.row.WaybillLineCount">
+							<el-button type="danger" size="small" round effect="dark">任</el-button>
+							
+						</el-badge> -->
+						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.WaybillLineCount" >任</el-tag>
+						<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
+						<el-tag type="danger" class="mr4" round effect="dark" v-if="!scope.row.DrivingLicenseState">行</el-tag>
+						<el-tag type="danger" class="mr4" round effect="dark" v-if="!scope.row.TransportLicenseState">道</el-tag>
+						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.RepairState">修</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column label="有效" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
