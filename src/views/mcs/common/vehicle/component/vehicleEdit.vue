@@ -128,7 +128,9 @@
 					></el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="电话" prop="Phone"> <el-input v-model="ruleForm.Phone" placeholder="电话"></el-input> </el-form-item></el-col>
-				</el-row>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="司机电话" prop="DriverMobile" required> <el-input v-model="ruleForm.DriverMobile" placeholder="司机电话"></el-input> </el-form-item></el-col>	
+					</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
