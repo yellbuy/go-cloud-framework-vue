@@ -71,6 +71,7 @@
 							
 						</el-badge> -->
 						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.WaybillLineCount" >任</el-tag>
+						<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
 						<el-tag type="danger" class="mr4" round effect="dark" v-if="!scope.row.DrivingLicenseState">行</el-tag>
 						<el-tag type="danger" class="mr4" round effect="dark" v-if="!scope.row.TransportLicenseState">道</el-tag>
 						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.RepairState">修</el-tag>
