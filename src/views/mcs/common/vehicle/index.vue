@@ -72,8 +72,8 @@
 						</el-badge> -->
 						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.WaybillLineCount" >任</el-tag>
 						<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
-						<el-tag type="danger" class="mr4" round effect="dark" v-if="!scope.row.DrivingLicenseState">行</el-tag>
-						<el-tag type="danger" class="mr4" round effect="dark" v-if="!scope.row.TransportLicenseState">道</el-tag>
+						<el-tag :type="scope.row.DrivingLicenseState==1?'warning':'danger'" class="mr4" round effect="dark" v-if="!scope.row.DrivingLicenseStat">行</el-tag>
+						<el-tag :type="scope.row.TransportLicenseState==1?'warning':'danger'" class="mr4" round effect="dark" v-if="!scope.row.TransportLicenseState">道</el-tag>
 						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.RepairState">修</el-tag>
 					</template>
 				</el-table-column>
@@ -95,10 +95,13 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
+						</el-button>
+						<el-button text bg type="primary" @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" v-auth:[moduleKey]="'btn.ChildMap'">
+							{{ $t('message.action.location') }}
 						</el-button>
 						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.see') }}
@@ -124,6 +127,7 @@
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
+		<childMapDlg ref="childMapDlgRef" />
 	</div>
 </template>
 
@@ -131,12 +135,13 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
+import childMapDlg from '../waybill/component/vehicleMap.vue';
 import editDlg from './component/vehicleEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'vehicleInfo',
-	components: { editDlg },
+	components: { editDlg,childMapDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -145,6 +150,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_commoninfo_vehicle`;
 		const editDlgRef = ref();
+		const childMapDlgRef=ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -193,6 +199,10 @@ export default {
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
+		// 打开地图
+		const onChildOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
+			childMapDlgRef.value.openDialog(vehicleNumber, ishow);
+		};
 		// 删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
@@ -232,9 +242,11 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
+			childMapDlgRef,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
+			onChildOpenMapDlg,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

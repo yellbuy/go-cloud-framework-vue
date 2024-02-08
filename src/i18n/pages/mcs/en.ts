@@ -16,6 +16,7 @@ export default {
 		warehouse_account:'warehouse account',
 		trade_account:'trade account',
 		finance_account:'finance_account',
+		ine:'income and expense',
 		main_business_ine:'main business ine',
 		warehouse_ine:'warehouse ine',
 		trade_ine:'trade ine',

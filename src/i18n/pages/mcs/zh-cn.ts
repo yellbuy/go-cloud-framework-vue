@@ -14,6 +14,7 @@ export default {
 		main_business_account:'主营收支科目',
 		warehouse_account:'仓储收支科目',
 		trade_account:'贸易收支科目',
+		ine:'收支管理',
 		main_business_ine:'主营收支管理',
 		warehouse_ine:'仓储收支管理',
 		trade_ine:'贸易收支管理',

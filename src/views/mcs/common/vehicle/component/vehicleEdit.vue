@@ -134,7 +134,7 @@
 						</el-form-item>
 					</el-col>	
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="司机姓名" prop="Driver" required> <el-input v-model="ruleForm.Driver" placeholder="司机电话"></el-input> 
+						<el-form-item label="司机姓名" prop="Driver"> <el-input v-model="ruleForm.Driver" placeholder="司机姓名"></el-input> 
 						</el-form-item>
 					</el-col>	
 				</el-row>
@@ -292,6 +292,13 @@ export default {
 				},
 			],
 			TransportLicenseEndDate: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			DriverMobile: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
