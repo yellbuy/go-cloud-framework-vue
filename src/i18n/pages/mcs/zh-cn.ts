@@ -27,7 +27,8 @@ export default {
 		task:'任务管理',
 		waybill:'任务单',
 		waybill_line:'派车单',
-		
+		energy_bill:'油耗单',
+		energy_bill_line:'油耗详情',
 	},
 	field: {
 

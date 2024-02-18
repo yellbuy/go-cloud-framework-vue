@@ -26,8 +26,9 @@ export default {
 		
 		task:'task',
 		waybill:'waybill',
-		waybill_line:'waybill_line',
-		
+		waybill_line:'waybill line',
+		energy_bill:'energy bill',
+		energy_bill_line:'energy bill line',
 	},
 	field:{
 		

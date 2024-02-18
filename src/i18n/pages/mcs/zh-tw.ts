@@ -28,6 +28,8 @@ export default {
 		waybill_line:'派车单',
 		truck_type:'车型管理',
 		fuel_consumption:'燃油消耗管理',
+		energy_bill:'油耗单',
+		energy_bill_line:'油耗详情',
 	},
 	field: {
 
