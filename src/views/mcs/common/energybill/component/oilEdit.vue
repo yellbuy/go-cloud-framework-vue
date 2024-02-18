@@ -2,122 +2,221 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-divider content-position="left">货物名称*</el-divider>
+				<el-divider content-position="left">*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="客户名称" prop="CustomerId" >
-							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onCustomerSelected">
-								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="业务类型" prop="WaybillMode">
-							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.WaybillMode">
-									<el-radio :label="1">货运</el-radio>
-								</el-radio-group>
-							</div>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="单价" prop="Price">
-							<el-input-number v-model="ruleForm.Price" min="0" max="100000" :precision="2" :step="1" controls-position="right"></el-input-number> 
-						</el-form-item>
-					</el-col>
-					</el-row>
-					<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="产品类型" prop="GoodsCategoryId">
-							<el-tree-select
-								v-model="ruleForm.GoodsCategoryId"
-								placeholder="产品类型"
-								default-expand-all
-								node-key="Id"
-								:value-key="Id"
-								:current-node-key="ruleForm.GoodsCategoryId"
-								:data="goodsTypeList"
-								:props="{ label: 'Name', value: 'Id', children: 'Children' }"
-								check-strictly
-								highlight-current
-								@change="onCategorySelect"
-							/>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="产品名称" prop="GoodsId">
-							<el-select v-model="ruleForm.GoodsId" placeholder="请选择">
-								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="计划量" prop="PlanWeight">
-							<el-input v-model.number="ruleForm.PlanWeight" min="0" max="1000000000"></el-input> 
+						<el-form-item label="月份" prop="BillTime" >
+							<el-date-picker
+								v-model="ruleForm.BillTime"
+								type="month"
+								placeholder="请选择"
+								/>
 						</el-form-item>
 					</el-col>
 					
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="备注" prop="Remark">
+							<el-input v-model="ruleForm.Remark" ></el-input> 
+						</el-form-item>
+					</el-col>
 				</el-row>
-				<el-divider content-position="left">收发货信息*</el-divider>
+				<el-divider content-position="left">加油信息*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发货地点" prop="SenderAddress">
-							<el-select
-								v-model="ruleForm.SenderAddress"
-								filterable
-								allow-create
-								default-first-option
-								:reserve-keyword="false"
-								placeholder="请输入或选择">
-								<el-option v-for="item in waybillList" :key="item.Id" :label="item.SenderAddress" :value="item.SenderAddress"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="收货地点" prop="ReceiverAddress">
-							<el-select
-								v-model="ruleForm.ReceiverAddress" 
-								filterable
-								allow-create
-								default-first-option
-								:reserve-keyword="false"
-								placeholder="请输入或选择">
-								<el-option v-for="item in waybillList" :key="item.Id" :label="item.ReceiverAddress" :value="item.ReceiverAddress"> </el-option>
-							</el-select>
-						</el-form-item>
+					<el-col :xs="24" :sm="24" class="mb20">
+						<el-table
+							ref="mainTableRef"
+							:data="ruleForm.EnergyBillLines"
+							style="width: 100%"
+							:height="proxy.$calcMainHeight(-175)"
+							border
+							stripe
+							highlight-current-row
+						>
+							<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed>
+								<template #default="scope">
+									<el-input v-model="scope.row.VehicleNumber" ></el-input> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume21" label="21号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume21" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume22" label="22号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume22" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume23" label="23号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume23" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume24" label="24号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume24" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume25" label="25号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume25" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume26" label="26号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume26" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume27" label="27号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume27" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume28" label="28号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume28" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume29" label="29号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume29" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume30" label="30号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume30" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume31" label="31号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume31" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume01" label="1号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume01" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume02" label="2号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume02" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume03" label="3号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume03" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume04" label="4号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume04" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume05" label="5号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume05" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume06" label="6号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume06" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume07" label="7号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume07" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume08" label="8号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume08" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume09" label="9号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume09" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume10" label="10号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume10" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume11" label="11号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume11" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume12" label="12号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume12" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume13" label="13号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume13" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume14" label="14号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume14" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume15" label="15号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume15" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume16" label="16号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume16" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume17" label="17号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume17" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume18" label="18号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume18" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume19" label="19号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume19" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Volume20" label="20号" width="70" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Volume20" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+								</template>
+							</el-table-column>
+							<el-table-column :width="proxy.$calcWidth(130)" fixed="right">
+								<template #header>
+									<el-button bg type="primary" @click="onAddRow()">
+										{{ $t('message.action.add') }}
+									</el-button>
+									<el-button bg type="primary" @click="onImport(scope.row.Id)">
+										{{ $t('message.action.import') }}
+									</el-button>
+								</template>
+								<template #default="scope">
+									<el-button text bg type="danger" @click="onDelRow(scope.$index)">
+										{{ $t('message.action.delete') }}
+									</el-button>
+								</template>
+							</el-table-column>
+						</el-table>
 					</el-col>
 				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="要求发货时间" prop="SenderPlanTime">
-							<el-date-picker
-								v-model="ruleForm.SenderPlanTime"
-								type="datetime"
-								placeholder="要求发货时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="要求收货时间" prop="ReceiverPlanTime">
-							<el-date-picker
-								v-model="ruleForm.ReceiverPlanTime"
-								type="datetime"
-								placeholder="要求收货时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					
-				</el-row>
-				
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
-						$t('message.action.save')
-					}}</el-button>
+					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">
+						{{ $t('message.action.save')}}
+					</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -162,34 +261,14 @@ export default {
 			ruleForm: {
 				Id: 0,
 				Name: '',
-				Kind: 'info',
+				Kind: 'oil',
 				CustomerId:"",
-				GoodsCategoryId: '0',
 				GoodsId:"",
-				VehicleNumber: '',
-				IsExternal:0,
-				VehicleType: '',
-				EnergyType: '',
-				PlateColor:'',
-				Vin: '',
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
-				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
+				BillTime: '',
+				EnergyBillLines:[{}],
 			},
 			
 			dialogVisible: false,
-			truckTypeList: [],
-			plateColorList:[],
-			energyTypeList:[],
-			goodsTypeList:[],
-			goodsList:[],
-			customerList:[],
-			waybillList:[],
 
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
@@ -336,12 +415,11 @@ export default {
 			state.waybillList=res.data;
 		};
 
-		// 选中客户后，加载最近的运单信息
-		const onCustomerSelected = async (customerId:number|string) => {
-			//清空地址，防止选择了不同的客户忘了修改地址，导致地址录入错误
-			state.ruleForm.SenderAddress="" 
-			state.ruleForm.ReceiverAddress=""
-			await loadWaybillList(customerId)
+		const onAddRow = () => {
+		 	state.ruleForm.EnergyBillLines=[{},...state.ruleForm.EnergyBillLines]
+		};
+		const onDelRow = (index:number) => {
+			state.ruleForm.EnergyBillLines.splice(index,1)
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -432,7 +510,8 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
-			onCustomerSelected,
+			onAddRow,
+			onDelRow,
 			GetByIdRow,
 			onBeforeImageUpload,
 			onModelEdit,
