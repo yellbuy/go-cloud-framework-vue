@@ -19,6 +19,12 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
+						<el-button type="info" @click="onGetXlsData()" v-auth:[moduleKey]="'btn.ExportXls'">
+							<el-icon>
+								<Download />
+							</el-icon>
+							&#8197;{{ $t('message.action.export') }}
+						</el-button>
 						<el-button type="primary" @click="onOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
@@ -178,7 +184,7 @@ export default {
 			onGetTableData(true);
 		};
 
-		// 初始化表格数据
+		// 查询表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
@@ -195,6 +201,23 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
+		// 导出表格数据
+		const onGetXlsData = async () => {
+			const res = await proxy.$api.erp.vehicle.exportXlsByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+			if (!res.data || res.data.size == 0) {
+				return;
+			} 
+			// 返回不为空
+			var url = window.URL.createObjectURL(res.data);
+				var a = document.createElement('a');
+				a.href = url;
+				a.download = '车辆台账_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+				a.click();
+			// if (res.errcode !== 0) {
+			// 	return;
+			// }
+		};
+		
 		// 打开弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
@@ -244,6 +267,7 @@ export default {
 			editDlgRef,
 			childMapDlgRef,
 			onGetTableData,
+			onGetXlsData,
 			onResetSearch,
 			onOpenEditDlg,
 			onChildOpenMapDlg,

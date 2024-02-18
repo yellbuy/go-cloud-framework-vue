@@ -71,4 +71,13 @@ export default {
         const url = `/v1/admin/erp/vehicle/delete/${id}`;
         return await http.post(url);
     },
+    /**
+	 * 删除记录
+	 * @param id 记录标识
+	 * @returns 返回接口数据
+	 */
+	exportXlsByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+		const url = `/v1/admin/erp/vehicle/excel/${kind}/${scopeMode}/${scopeValue}`;
+		return await http.get(url, params, { responseType: "blob" });
+	},
 }
