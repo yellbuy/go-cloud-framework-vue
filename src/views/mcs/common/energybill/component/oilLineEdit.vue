@@ -1,75 +1,183 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-divider content-position="left">货物名称*</el-divider>
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="60px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="客户名称" prop="CustomerId">
-							<el-select v-model="ruleForm.CustomerId" placeholder="请选择">
-								<el-option v-for="item in customerList" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
-							</el-select>
+					<el-col :xs="6" :sm="4" class="mb20">
+						<el-form-item label="金额" prop="Amount">
+							<el-input-number v-model="ruleForm.Amount" :value-on-clear="0"  min="0" max="100000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						
-						<el-form-item label="业务类型" prop="WaybillMode">
-							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.WaybillMode">
-									<el-radio :label="1">货运</el-radio>
-								</el-radio-group>
-							</div>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="计划量" prop="PlanWeight">
-							<el-input v-model.number="ruleForm.PlanWeight" min="0" max="1000000000"></el-input> 
-						</el-form-item>
-					</el-col>
-					
-				</el-row>
-				<el-divider content-position="left">收发货信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发货地点" prop="SenderAddress">
-							<el-input v-model="ruleForm.SenderAddress" placeholder="发货地点"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="收货地点" prop="ReceiverAddress">
-							<el-input v-model="ruleForm.ReceiverAddress" placeholder="收货地点"></el-input> 
+					<el-col :xs="6" :sm="4" class="mb20">
+						<el-form-item label="里程" prop="Mileage">
+							<el-input-number v-model="ruleForm.Mileage" :value-on-clear="0"  min="0" max="100000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="要求发货时间" prop="SenderPlanTime" required>
-							<el-date-picker
-								v-model="ruleForm.SenderPlanTime"
-								type="datetime"
-								placeholder="要求发货时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="21号" prop="Volume21">
+							<el-input-number v-model="ruleForm.Volume21" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="要求收货时间" prop="ReceiverPlanTime" required>
-							<el-date-picker
-								v-model="ruleForm.ReceiverPlanTime"
-								type="datetime"
-								placeholder="要求收货时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="22号" prop="Volume22">
+							<el-input-number v-model="ruleForm.Volume22" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
 						</el-form-item>
 					</el-col>
-					
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="23号" prop="Volume23">
+							<el-input-number v-model="ruleForm.Volume23" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="24号" prop="Volume24">
+							<el-input-number v-model="ruleForm.Volume24" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="25号" prop="Volume25">
+							<el-input-number v-model="ruleForm.Volume25" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="26号" prop="Volume26">
+							<el-input-number v-model="ruleForm.Volume26" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="27号" prop="Volume27">
+							<el-input-number v-model="ruleForm.Volume27" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="28号" prop="Volume28">
+							<el-input-number v-model="ruleForm.Volume28" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="29号" prop="Volume29">
+							<el-input-number v-model="ruleForm.Volume29" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="30号" prop="Volume30">
+							<el-input-number v-model="ruleForm.Volume30" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="31号" prop="Volume31">
+							<el-input-number v-model="ruleForm.Volume31" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
 				</el-row>
-				
+				<el-row :gutter="20">
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="1号" prop="Volume01">
+							<el-input-number v-model="ruleForm.Volume01" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="2号" prop="Volume02">
+							<el-input-number v-model="ruleForm.Volume02" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="3号" prop="Volume03">
+							<el-input-number v-model="ruleForm.Volume03" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="4号" prop="Volume04">
+							<el-input-number v-model="ruleForm.Volume04" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="5号" prop="Volume05">
+							<el-input-number v-model="ruleForm.Volume05" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="6号" prop="Volume06">
+							<el-input-number v-model="ruleForm.Volume06" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="7号" prop="Volume07">
+							<el-input-number v-model="ruleForm.Volume07" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="8号" prop="Volume08">
+							<el-input-number v-model="ruleForm.Volume08" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="9号" prop="Volume09">
+							<el-input-number v-model="ruleForm.Volume09" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="10号" prop="Volume10">
+							<el-input-number v-model="ruleForm.Volume10" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="11号" prop="Volume11">
+							<el-input-number v-model="ruleForm.Volume11" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="12号" prop="Volume12">
+							<el-input-number v-model="ruleForm.Volume12" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="13号" prop="Volume13">
+							<el-input-number v-model="ruleForm.Volume13" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="14号" prop="Volume14">
+							<el-input-number v-model="ruleForm.Volume14" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="15号" prop="Volume15">
+							<el-input-number v-model="ruleForm.Volume15" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="16号" prop="Volume16">
+							<el-input-number v-model="ruleForm.Volume16" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="17号" prop="Volume17">
+							<el-input-number v-model="ruleForm.Volume17" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="18号" prop="Volume18">
+							<el-input-number v-model="ruleForm.Volume18" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="19号" prop="Volume19">
+							<el-input-number v-model="ruleForm.Volume19" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="6" :sm="4"  class="mb20">
+						<el-form-item label="20号" prop="Volume20">
+							<el-input-number v-model="ruleForm.Volume20" :value-on-clear="0"  min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button text bg type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']" v-if="!disable">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
@@ -134,7 +242,7 @@ export default {
 			ruleForm: {
 				Id: 0,
 				Name: '',
-				Kind: 'info',
+				Kind: 'oil',
 				VehicleNumber: '',
 				IsExternal:0,
 				VehicleType: '',
@@ -224,30 +332,7 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				}else{
-					console.log("error:",resTruckTypes.errmsg)
-				}
-				const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColors.errcode == 0) {
-					state.plateColorList = resPlateColors.data;
-				}else{
-					console.log("error:",resPlateColors.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
-				}
-				const resPlateColorTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColorTypes.errcode == 0) {
-					state.plateColorList = resPlateColorTypes.data;
-				}else{
-					console.log("error:",resPlateColorTypes.errmsg)
-				}
+				
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
@@ -264,7 +349,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.waybill.getById(Id);
+				const res = await proxy.$api.erp.energyBillLine.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -307,7 +392,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
+						const res = await proxy.$api.erp.energyBillLine.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();

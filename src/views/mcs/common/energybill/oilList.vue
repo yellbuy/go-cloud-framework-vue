@@ -1,7 +1,7 @@
 <template>
 	<div class="base-freight-container">
 			<splitpanes class="default-theme" @resize="paneSize = $event[0].size" style="height: 100%">
-				<pane :size="55">
+				<pane :size="45">
 					<el-card shadow="hover">
 						<div class="">
 							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="70px" :inline="true">
@@ -46,10 +46,10 @@
 						<el-table-column type="index" label="序号" align="right" width="70" fixed />
 						<el-table-column prop="BillNo" label="年月" width="80" fixed></el-table-column>
 						<el-table-column prop="CreateBy" label="录入人" width="80"></el-table-column>
-						<el-table-column prop="CreateTime" label="录入时间" width="160" align="right" :formatter="dateFormatHM"  show-overflow-tooltip></el-table-column>
-						<el-table-column prop="UpdateBy" label="更新人" width="80"></el-table-column>
-						<el-table-column prop="UpdateTime" label="更新时间" width="160" align="right" :formatter="dateFormatHM"  show-overflow-tooltip></el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
+						<el-table-column prop="CreateTime" label="录入时间" width="120" :formatter="dateFormatYMDHM"  show-overflow-tooltip></el-table-column>
+						<!-- <el-table-column prop="UpdateBy" label="更新人" width="80"></el-table-column>
+						<el-table-column prop="UpdateTime" label="更新时间" width="160" align="right" :formatter="dateFormatHM"  show-overflow-tooltip></el-table-column> -->
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 							<template #default="scope">
 								<el-button text bg type="primary" @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 									{{ $t('message.action.edit') }}
@@ -77,7 +77,7 @@
 					</el-pagination>
 				</el-card>
 				</pane>
-				<pane :size="45">
+				<pane :size="55">
 					<el-card shadow="hover">
 						<div class="">
 							<el-form ref="searchFormRef" :model="childTableData.param" label-suffix="：" label-width="60px" :inline="true">
@@ -138,7 +138,7 @@
 						selectable
 						highlight-current-row
 					>
-						<el-table-column type="selection" width="55" align="center" fixed />
+						<!-- <el-table-column type="selection" width="55" align="center" fixed /> -->
 						<el-table-column prop="VehicleNumber" label="车牌号" width="85" fixed>
 						</el-table-column>
 						<el-table-column prop="Volume" label="累计加油" width="85">
@@ -147,8 +147,11 @@
 						</el-table-column>
 						<el-table-column prop="Amount" label="合计金额" width="85">
 						</el-table-column>
-						
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
+						<el-table-column prop="Mileage" label="累计里程" width="85">
+						</el-table-column>
+						<el-table-column prop="ConsumptionRate" label="百公里油耗" width="85">
+						</el-table-column>
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 							<template #default="scope">
 								<el-button text bg type="primary" @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ChildEdit'">
 									{{ $t('message.action.edit') }}
@@ -382,7 +385,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.energybillLine.delete(Id);
+					const res = await proxy.$api.erp.energyBillLine.delete(Id);
 					if (res.errcode == 0) {
 						onChildGetTableData();
 					}

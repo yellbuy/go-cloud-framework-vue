@@ -64,6 +64,11 @@
 									<el-input-number v-model="scope.row.Amount" :value-on-clear="0" style="width: 80px" min="0" max="100000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
 								</template>
 							</el-table-column>
+							<el-table-column prop="Mileage" label="行驶里程" width="90" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Mileage" :value-on-clear="0" style="width: 80px" min="0" max="100000" :controls="false" :precision="1" :step="10"  ></el-input-number> 
+								</template>
+							</el-table-column>
 							<el-table-column prop="Volume21" label="21号" width="70" align="center">
 								<template #default="scope">
 									<el-input-number v-model="scope.row.Volume21" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
