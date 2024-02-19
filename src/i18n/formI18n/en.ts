@@ -32,6 +32,7 @@ export default {
 		saveAndAdd:'save and add',
 		upload:'upload',
 		download:'download',
+		download_tpl: 'download template',
 		import:'import',
 		export:'export',
 		submit:'submit',

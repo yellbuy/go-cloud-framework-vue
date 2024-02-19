@@ -28,6 +28,7 @@ export default {
 		saveAndAdd: '保存并新增',
 		upload: '上传',
 		download: '下载',
+		download_tpl: '模板下载',
 		import: '导入',
 		export: '导出',
 		reset: '重置',

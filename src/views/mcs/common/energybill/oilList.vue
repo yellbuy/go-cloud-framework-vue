@@ -234,7 +234,7 @@ export default {
 				isTodayAll:1, //查询今日所有任务详情
 				param: {
 					keyword: '',
-					energybillId:'0',
+					energyBillId:'0',
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -254,11 +254,10 @@ export default {
 			console.log(row);
 			state.mainCurrentRow = row
 			if(row){
-				state.childTableData.param.energybillId=row.Id
+				state.childTableData.param.energyBillId=row.Id
 			} else{
-				state.childTableData.param.energybillId="0"
+				state.childTableData.param.energyBillId="0"
 			}
-			state.childTableData.param.isTodayAll=0
 			onChildGetTableData(true)
 		}
 
@@ -349,7 +348,7 @@ export default {
 			}
 			state.childTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.energybillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.childTableData.param);
+				const res = await proxy.$api.erp.energyBillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.childTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}

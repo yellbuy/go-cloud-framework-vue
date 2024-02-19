@@ -209,13 +209,10 @@ export default {
 			} 
 			// 返回不为空
 			var url = window.URL.createObjectURL(res.data);
-				var a = document.createElement('a');
-				a.href = url;
-				a.download = '车辆台账_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
-				a.click();
-			// if (res.errcode !== 0) {
-			// 	return;
-			// }
+			var a = document.createElement('a');
+			a.href = url;
+			a.download = '车辆台账_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.click();
 		};
 		
 		// 打开弹窗

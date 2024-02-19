@@ -20,14 +20,36 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-divider content-position="left">加油信息*</el-divider>
-				<el-row :gutter="20">
+				<el-divider content-position="left" v-if="!ruleForm.Id || ruleForm.Id == '0'">加油信息*</el-divider>
+				<el-row :gutter="20" v-if="!ruleForm.Id || ruleForm.Id == '0'">
+					<el-col :xs="2" :sm="1" class="mb20">
+						<el-upload ref="uploadRef" class="upload-demo" :before-upload="
+								() => {return false;}" :auto-upload="false" :on-change="onImportXlsx" :show-file-list="false">
+							<template #trigger>
+								<el-button bg type="primary">
+									{{ $t('message.action.import') }}
+								</el-button>
+							</template>
+						</el-upload>
+					</el-col>
+					<el-col :xs="2" :sm="1" class="mb20 ml10">
+						<el-button bg type="danger" @click="onClearRow()">
+							{{ $t('message.action.clear') }}
+						</el-button>
+					</el-col>
+					<el-col :xs="2" :sm="1" class="mb20 ml10">
+						<el-button bg type="info" @click="onDownloadTpl()">
+							{{ $t('message.action.download_tpl') }}
+						</el-button>
+					</el-col>
+				</el-row>	
+				<el-row :gutter="20" v-if="!ruleForm.Id || ruleForm.Id == '0'">
 					<el-col :xs="24" :sm="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
 							:data="ruleForm.EnergyBillLines"
 							style="width: 100%"
-							:height="proxy.$calcMainHeight(-175)"
+							:height="proxy.$calcMainHeight(-205)"
 							border
 							stripe
 							highlight-current-row
@@ -35,6 +57,11 @@
 							<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed>
 								<template #default="scope">
 									<el-input v-model="scope.row.VehicleNumber" ></el-input> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Amount" label="合计金额" width="90" align="center">
+								<template #default="scope">
+									<el-input-number v-model="scope.row.Amount" :value-on-clear="0" style="width: 80px" min="0" max="100000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Volume21" label="21号" width="70" align="center">
@@ -192,13 +219,10 @@
 									<el-input-number v-model="scope.row.Volume20" :value-on-clear="0" style="width: 60px" min="0" max="1000" :controls="false" :precision="2" :step="1"  ></el-input-number> 
 								</template>
 							</el-table-column>
-							<el-table-column :width="proxy.$calcWidth(130)" fixed="right">
+							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
 								<template #header>
 									<el-button bg type="primary" @click="onAddRow()">
 										{{ $t('message.action.add') }}
-									</el-button>
-									<el-button bg type="primary" @click="onImport(scope.row.Id)">
-										{{ $t('message.action.import') }}
 									</el-button>
 								</template>
 								<template #default="scope">
@@ -224,10 +248,10 @@
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs';
 import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import * as XLSX from "xlsx"; //引入
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
@@ -262,10 +286,8 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'oil',
-				CustomerId:"",
-				GoodsId:"",
 				BillTime: '',
-				EnergyBillLines:[{}],
+				EnergyBillLines:[],
 			},
 			
 			dialogVisible: false,
@@ -280,55 +302,14 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			GoodsId: [
+			BillTime: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
 					trigger: 'blur',
 				},
 			],
-			SenderPlanTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			ReceiverPlanTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			CustomerId: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			WaybillMode: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
-			PlanWeight: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
-			Price: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
+			
 		});
 		
 		// 打开弹窗
@@ -336,51 +317,18 @@ export default {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
-			try {
-				loadGoodsCategory();
-				loadGoodsList();
+			try {				
 				
-				const resCustomers = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
-				if (resCustomers.errcode == 0) {
-					state.customerList = resCustomers.data;
-				}else{
-					console.log("error:",resCustomers.errmsg)
-				}
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				}else{
-					console.log("error:",resTruckTypes.errmsg)
-				}
-				const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColors.errcode == 0) {
-					state.plateColorList = resPlateColors.data;
-				}else{
-					console.log("error:",resPlateColors.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
-				}
-				const resPlateColorTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColorTypes.errcode == 0) {
-					state.plateColorList = resPlateColorTypes.data;
-				} else{
-					console.log("error:",resPlateColorTypes.errmsg);
-				}
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal=0;
-					state.ruleForm.SenderPlanTime=new Date()
-					state.ruleForm.ReceiverPlanTime=dayjs(new Date()).add(1, 'day')
+					state.ruleForm.BillTime=new Date()
 					state.title = t('message.action.add');
 				}
+				state.ruleForm.EnergyBillLines=[];
 				state.isShowDialog = true;
 			} finally {
 				state.isShowDialog = true;
@@ -389,34 +337,96 @@ export default {
 
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.waybill.getById(Id);
+				const res = await proxy.$api.erp.energybill.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
 				state.ruleForm = res.data;
-				await loadWaybillList(state.ruleForm.CustomerId);
 			} finally {
 				state.isShowDialog = true;
 			}
 		}
 
-		// 选中客户后，加载最近的运单信息
-		const loadWaybillList = async (customerId:number|string) => {
-			
-			if(!customerId||customerId=="0"){
-				state.waybillList=[];
-				return;
+		//导入地址
+		const onImportXlsx = (e: any) => {
+			const file = e.raw
+			const reader = new FileReader()
+			reader.readAsArrayBuffer(file)
+			reader.onload = (ev: any) => {
+				let data = ev.target.result
+				const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
+				if(workbook.SheetNames.length==0){
+					return;
+				}
+				const wsname = workbook.SheetNames[0]
+				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
+				console.log("get xlsx data：",list)
+				if(!list.length||list.length<5){
+					return;
+				}
+				state.ruleForm.EnergyBillLines=[];
+				for(var i=3;i<list.length;i++){
+					const row=list[i];
+					const name=row["加油明细台账"]||"";
+					if(name=="合计"){
+						break;
+					}
+					const vehicleNumber=row["__EMPTY"]||"";
+					if(!vehicleNumber){
+						continue;
+					}
+					const model={};
+					model.VehicleNumber=vehicleNumber;
+					model.Volume21=row["__EMPTY_3"]||0;
+					model.Volume22=row["__EMPTY_4"]||0;
+					model.Volume23=row["__EMPTY_5"]||0;
+					model.Volume24=row["__EMPTY_6"]||0;
+					model.Volume25=row["__EMPTY_7"]||0;
+					model.Volume26=row["__EMPTY_8"]||0;
+					model.Volume27=row["__EMPTY_9"]||0;
+					model.Volume28=row["__EMPTY_10"]||0;
+					model.Volume29=row["__EMPTY_11"]||0;
+					model.Volume30=row["__EMPTY_12"]||0;
+					model.Volume31=row["__EMPTY_13"]||0;
+					model.Volume01=row["__EMPTY_17"]||0;
+					model.Volume02=row["__EMPTY_18"]||0;
+					model.Volume03=row["__EMPTY_19"]||0;
+					model.Volume04=row["__EMPTY_20"]||0;
+					model.Volume05=row["__EMPTY_21"]||0;
+					model.Volume06=row["__EMPTY_22"]||0;
+					model.Volume07=row["__EMPTY_23"]||0;
+					model.Volume08=row["__EMPTY_24"]||0;
+					model.Volume09=row["__EMPTY_25"]||0;
+					model.Volume10=row["__EMPTY_26"]||0;
+					model.Volume11=row["__EMPTY_27"]||0;
+					model.Volume12=row["__EMPTY_28"]||0;
+					model.Volume13=row["__EMPTY_29"]||0;
+					model.Volume14=row["__EMPTY_30"]||0;
+					model.Volume15=row["__EMPTY_31"]||0;
+					model.Volume16=row["__EMPTY_32"]||0;
+					model.Volume17=row["__EMPTY_33"]||0;
+					model.Volume18=row["__EMPTY_34"]||0;
+					model.Volume19=row["__EMPTY_35"]||0;
+					model.Volume20=row["__EMPTY_36"]||0;
+					model.Volume=row["__EMPTY_40"]||0;
+					model.Amount=row["__EMPTY_41"]||0;
+					state.ruleForm.EnergyBillLines.push(model);
+				}
 			}
-			console.log(customerId)
-			const res = await proxy.$api.erp.waybill.getListByScope(state.ruleForm.Kind, 0, 0,{customerId:customerId});
-			if (res.errcode != 0) {
-				return;
-			}
-			state.waybillList=res.data;
-		};
+		}
 
 		const onAddRow = () => {
 		 	state.ruleForm.EnergyBillLines=[{},...state.ruleForm.EnergyBillLines]
+		};
+		const onClearRow = () => {
+		 	state.ruleForm.EnergyBillLines=[]
+		};
+		// 下载导入模板
+		const onDownloadTpl = async () => {
+			var a = document.createElement('a');
+			a.href = import.meta.env.VITE_URL+"/static/download/erp/energy_oil.xlsx";
+			a.download = '加油台账模板_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.click();
 		};
 		const onDelRow = (index:number) => {
 			state.ruleForm.EnergyBillLines.splice(index,1)
@@ -432,25 +442,7 @@ export default {
 		const onLoadTable = () => {
 			proxy.$parent.onMainGetTableData();
 		};
-		const onCategorySelect=async (id:string)=>{
-			loadGoodsList(id);
-		}
-		const loadGoodsCategory = async () => {
-			const goodsTypeRes = await proxy.$api.common.category.getHierarchyDataList("product", 0, 2, {pageSize:10000});
-			if (goodsTypeRes.errcode == 0) {
-				state.goodsTypeList = [...[{"Id":"0","Name":"所有"}],...goodsTypeRes.data];
-			}else{
-				console.log("error:",goodsTypeRes.errmsg)
-			}
-		};
-		const loadGoodsList=async(categoryId:string="0")=>{
-			const goodsRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000,categoryId:categoryId});
-			if (goodsRes.errcode == 0) {
-				state.goodsList = goodsRes.data;
-			}else{
-				console.log("error:",goodsRes.errmsg)
-			}
-		}
+		
 		//修改按钮
 		const onModelEdit = (item: object) => {
 			
@@ -464,7 +456,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.waybill.save(state.ruleForm);
+						const res = await proxy.$api.erp.energybill.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -512,10 +504,12 @@ export default {
 			onLoadTable,
 			onAddRow,
 			onDelRow,
+			onClearRow,
+			onDownloadTpl,
+			onImportXlsx,
 			GetByIdRow,
 			onBeforeImageUpload,
 			onModelEdit,
-			onCategorySelect,
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
