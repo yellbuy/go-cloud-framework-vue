@@ -14,6 +14,7 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
+				<el-divider content-position="left"></el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="6" :sm="4"  class="mb20">
 						<el-form-item label="21号" prop="Volume21">
@@ -71,6 +72,7 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
+				<el-divider content-position="left"></el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="6" :sm="4"  class="mb20">
 						<el-form-item label="1号" prop="Volume01">
