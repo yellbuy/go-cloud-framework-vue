@@ -30,6 +30,7 @@ export default {
 		fuel_consumption:'燃油消耗管理',
 		energy_bill:'油耗单',
 		energy_bill_line:'油耗详情',
+		chart:'图表',
 	},
 	field: {
 

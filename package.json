@@ -19,6 +19,8 @@
 		"cropperjs": "^1.6.1",
 		"crypto-js": "^4.2.0",
 		"dayjs": "^1.11.10",
+		"devextreme":"23.2.4",
+		"devextreme-vue":"23.2.4",
 		"echarts": "^5.4.3",
 		"echarts-gl": "^2.0.9",
 		"echarts-wordcloud": "^2.1.0",
@@ -51,6 +53,7 @@
 		"vxe-table-plugin-element": "3.1.0",
 		"wangeditor": "^4.7.15",
 		"xe-utils": "3.5.18"
+		
 	},
 	"devDependencies": {
 		"@types/axios": "^0.14.0",

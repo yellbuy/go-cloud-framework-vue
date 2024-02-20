@@ -29,6 +29,7 @@ export default {
 		waybill_line:'waybill line',
 		energy_bill:'energy bill',
 		energy_bill_line:'energy bill line',
+		chart:'chart',
 	},
 	field:{
 		

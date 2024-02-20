@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 
+import 'devextreme/dist/css/dx.material.teal.light.compact.css';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import mitt from 'mitt';

@@ -29,6 +29,7 @@ export default {
 		waybill_line:'派车单',
 		energy_bill:'油耗单',
 		energy_bill_line:'油耗详情',
+		chart:'图表',
 	},
 	field: {
 
