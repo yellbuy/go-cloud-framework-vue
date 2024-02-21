@@ -7,6 +7,7 @@ import { i18n } from '/@/i18n/index';
 import router from '/@/router/index';
 import { store } from '/@/store/index';
 import { Local } from '/@/utils/storage';
+import { verifyUrl } from '/@/utils/toolsValidate';
 import MetaSvgIcon from '/@/views/meta/components/DynamicForm/components/SvgIcon/index.vue'; // svg component
 
 /**
@@ -164,6 +165,16 @@ export function calcWidth(smallWidth:number){
 	return smallWidth;
 }
 /**
+ * 打开外部链接
+ * @param val 当前点击项菜单
+ */
+export function handleOpenLink(val: any) {
+	const { origin, pathname } = window.location;
+	router.push(val.path);
+	if (verifyUrl(<string>val.meta?.isLink)) window.open(val.meta?.isLink);
+	else window.open(`${origin}${pathname}#${val.meta?.isLink}`);
+}
+/**
  * 统一批量导出
  * @method elSvg 导出全局注册 element plus svg 图标
  * @method useTitle 设置浏览器标题国际化
@@ -197,7 +208,10 @@ const other = {
 	},
 	calcWidth: (smallWidth:number)=>{
 		return calcWidth(smallWidth);
-	}
+	},
+	handleOpenLink: (val: any) => {
+		handleOpenLink(val);
+	},
 };
 
 // 统一批量导出

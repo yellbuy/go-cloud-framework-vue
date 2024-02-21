@@ -30,6 +30,7 @@ export default {
 		energy_bill:'energy bill',
 		energy_bill_line:'energy bill line',
 		chart:'chart',
+		dashboard:'dashboard',
 		waybill_stat:'waybill DA',
 	},
 	field:{

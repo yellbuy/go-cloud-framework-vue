@@ -10,6 +10,7 @@ import screenShort from 'vue-web-screen-shot';
 // import VXETablePluginElement from 'vxe-table-plugin-element';
 // import 'vxe-table-plugin-element/dist/style.css';
 // import 'vxe-table/lib/style.css';
+import DataVVue3 from '@kjgl77/datav-vue3';
 import App from './App.vue';
 import router from './router';
 import { key, store } from './store';
@@ -47,11 +48,11 @@ other.elSvg(app);
 other.metaSvg(app);
 formControls.install(app);
 
-
 app
 	.use(router)
 	.use(store, key)
 	.use(ElementPlus)
+	.use(DataVVue3)
 	.use(i18n)
 	.use(VueUeditorWrap)
 	.use(screenShort, { enableWebRtc: false })

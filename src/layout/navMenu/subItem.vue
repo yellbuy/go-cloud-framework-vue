@@ -14,7 +14,11 @@
 					<span>{{ $t(val.meta.title) }}</span>
 				</template>
 				<template v-else>
-					<a :href="val.meta.isLink" target="_blank" rel="opener">
+					<!-- <a :href="val.meta.isLink" target="_blank" @click.prevent="onALinkClick(val)" rel="opener">
+						<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
+						{{ $t(val.meta.title) }}
+					</a> -->
+					<a :href="val.meta.isLink" target="_blank">
 						<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
 						{{ $t(val.meta.title) }}
 					</a>
@@ -27,6 +31,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
+import other from '/@/utils/other';
 export default defineComponent({
 	name: 'navMenuSubItem',
 	props: {
@@ -40,7 +45,12 @@ export default defineComponent({
 		const chils = computed(() => {
 			return props.chil;
 		});
+		// 打开外部链接
+		const onALinkClick = (val: any) => {
+			other.handleOpenLink(val);
+		};
 		return {
+			onALinkClick,
 			chils,
 		};
 	},

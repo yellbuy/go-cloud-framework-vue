@@ -1,13 +1,12 @@
 <template>
 	<div class="layout-view-bg-white flex layout-view-link" :style="{ height: `calc(100vh - ${setLinkHeight}` }">
 		<a :href="currentRouteMeta.isLink" target="_blank" rel="opener" class="flex-margin"
-			>{{ $t(currentRouteMeta.title) }}：{{ currentRouteMeta.isLink }}</a
-		>
+			>{{ $t(currentRouteMeta.title) }}：{{ currentRouteMeta.isLink }}</a>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive, computed, watch } from 'vue';
+import { computed, defineComponent, reactive, toRefs, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 export default defineComponent({
