@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="data-view">
-      <!-- <dv-full-screen-container> -->
+      <dv-full-screen-container>
         <top-header />
 
         <div class="main-content">
@@ -25,12 +25,12 @@
             </div>
           </div>
         </div>
-      <!-- </dv-full-screen-container> -->
+      </dv-full-screen-container>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import cards from "./cards.vue";
 import digitalFlop from "./digitalFlop.vue";
 import rankingBoard from "./rankingBoard.vue";
@@ -56,6 +56,7 @@ export default {
   setup() {
     function showDialog() {
       console.log("点击事件");
+      this.dialogVisible = true;
     }
     return {
       showDialog,

@@ -14,14 +14,14 @@
 					<span>{{ $t(val.meta.title) }}</span>
 				</template>
 				<template v-else>
-					<!-- <a :href="val.meta.isLink" target="_blank" @click.prevent="onALinkClick(val)" rel="opener">
-						<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
-						{{ $t(val.meta.title) }}
-					</a> -->
-					<a :href="val.meta.isLink" target="_blank">
+					<a :href="val.meta.isLink" @click.prevent="onALinkClick(val)" rel="opener">
 						<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
 						{{ $t(val.meta.title) }}
 					</a>
+					<!-- <a :href="val.meta.isLink" target="_blank">
+						<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
+						{{ $t(val.meta.title) }}
+					</a> -->
 				</template>
 			</el-menu-item>
 		</template>
@@ -48,6 +48,7 @@ export default defineComponent({
 		// 打开外部链接
 		const onALinkClick = (val: any) => {
 			other.handleOpenLink(val);
+			return false;
 		};
 		return {
 			onALinkClick,

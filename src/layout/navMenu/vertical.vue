@@ -23,7 +23,10 @@
 						<span>{{ $t(val.meta.title) }}</span>
 					</template>
 					<template #title v-else>
-						<a :href="val.meta.isLink" target="_blank" rel="opener">{{ $t(val.meta.title) }}</a>
+						<a :href="val.meta.isLink" @click.prevent="onALinkClick(val)" rel="opener">
+							{{ $t(val.meta.title) }}
+						</a>
+						<!-- <a :href="val.meta.isLink" target="_blank" rel="opener">{{ $t(val.meta.title) }}</a> -->
 					</template>
 				</el-menu-item>
 			</template>
@@ -36,6 +39,7 @@ import { computed, defineComponent, getCurrentInstance, onMounted, reactive, toR
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import SubItem from '/@/layout/navMenu/subItem.vue';
 import { useStore } from '/@/store/index';
+import other from '/@/utils/other';
 export default defineComponent({
 	name: 'navMenuVertical',
 	components: { SubItem },
@@ -96,7 +100,13 @@ export default defineComponent({
 			const clientWidth = document.body.clientWidth;
 			if (clientWidth < 1000) getThemeConfig.value.isCollapse = false;
 		});
+		// 打开外部链接
+		const onALinkClick = (val: any) => {
+			other.handleOpenLink(val);
+			return false;
+		};
 		return {
+			onALinkClick,
 			menuLists,
 			openLists,
 			getThemeConfig,

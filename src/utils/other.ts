@@ -171,8 +171,8 @@ export function calcWidth(smallWidth:number){
 export function handleOpenLink(val: any) {
 	const { origin, pathname } = window.location;
 	router.push(val.path);
-	if (verifyUrl(<string>val.meta?.isLink)) window.open(val.meta?.isLink);
-	else window.open(`${origin}${pathname}#${val.meta?.isLink}`);
+	if (verifyUrl(<string>val.meta?.isLink)) window.open(val.meta?.isLink,"_blank");
+	else window.open(`${origin}${pathname}#${val.meta?.isLink}`,"_blank");
 }
 /**
  * 统一批量导出

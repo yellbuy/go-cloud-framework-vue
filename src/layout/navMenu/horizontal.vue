@@ -17,10 +17,14 @@
 								{{ $t(val.meta.title) }}
 							</template>
 							<template #title v-else>
-								<a :href="val.meta.isLink" target="_blank" rel="opener">
+								<a :href="val.meta.isLink" @click.prevent="onALinkClick(val)" rel="opener">
 									<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
 									{{ $t(val.meta.title) }}
 								</a>
+								<!-- <a :href="val.meta.isLink" target="_blank" rel="opener">
+									<SvgIcon :name="val.meta.icon" :color="val.meta.color"/>
+									{{ $t(val.meta.title) }}
+								</a> -->
 							</template>
 						</el-menu-item>
 					</template>
@@ -35,6 +39,7 @@ import { computed, defineComponent, getCurrentInstance, nextTick, onBeforeMount,
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import SubItem from '/@/layout/navMenu/subItem.vue';
 import { useStore } from '/@/store/index';
+import other from '/@/utils/other';
 export default defineComponent({
 	name: 'navMenuHorizontal',
 	components: { SubItem },
@@ -137,7 +142,13 @@ export default defineComponent({
 				proxy.mittBus.emit('setSendClassicChildren', setSendClassicChildren(to.meta.keyPath));
 			}
 		});
+		// 打开外部链接
+		const onALinkClick = (val: any) => {
+			other.handleOpenLink(val);
+			return false;
+		};
 		return {
+			onALinkClick,
 			menuLists,
 			onElMenuHorizontalScroll,
 			...toRefs(state),

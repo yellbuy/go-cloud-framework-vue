@@ -3,14 +3,30 @@
     <dv-decoration-8 class="header-left-decoration" />
     <dv-decoration-5 class="header-center-decoration" />
     <dv-decoration-8 class="header-right-decoration" :reverse="true" />
-    <div class="center-title">汉风物流货运管理系统</div>
+    <div class="center-title">汉风物流管理系统 </div>
+    <div style="float:right">
+      <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px">全屏</dv-button>
+    </div>
   </div>
 </template>
 
-<script>
-
+<script lang="ts">
 export default {
   name: "TopHeader",
+  setup() {
+    //重置查询条件
+    
+		const onFullScreen = () => {
+			//admin/dashboard/home/fullScreen
+      const { origin, pathname } = window.location;
+      const url=`${origin}${pathname}#admin/dashboard/home/fullscreen`;
+      window.open(url,"_blank");
+			return false;
+		};
+    return {
+        onFullScreen
+      }
+  }
 };
 </script>
 
