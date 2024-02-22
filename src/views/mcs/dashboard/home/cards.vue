@@ -44,12 +44,12 @@ export default {
     createData() {
       const { randomExtend } = this;
       let chineseNumbers = [
-        "横通物流",
-        "汉风物流",
+        "汽运一分公司",
+        "汽运二分公司",
         "汉盛物流",
-        "汉威物流",
-        "汉恒物流",
-        "钛智捷",
+        "汉佳物流",
+        "横通物流",
+        "贸易分公司",
       ];
       this.cards = new Array(5).fill(0).map((foo, i) => ({
         title: chineseNumbers[i],

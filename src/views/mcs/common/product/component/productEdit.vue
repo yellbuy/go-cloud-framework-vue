@@ -185,7 +185,6 @@ export default {
 				GoodsName: '',
 				GoodsUnit:'',
 				GoodsSn:'',
-				NumberRate:0,
 				SupplierState:1,
 				GoodsImg:'',
 				SellerNote:'',

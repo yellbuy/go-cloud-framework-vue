@@ -24,12 +24,12 @@ export default {
             radius: "50%",
             roseSort: false,
             data: [
-              { name: "横通物流", value: randomExtend(40, 70) },
-              { name: "汉风物流", value: randomExtend(20, 30) },
+              { name: "汽运一分公司", value: randomExtend(40, 70) },
+              { name: "汽运二分公司", value: randomExtend(20, 30) },
               { name: "汉盛物流", value: randomExtend(10, 50) },
-              { name: "汉威物流", value: randomExtend(5, 20) },
-              { name: "汉恒物流", value: randomExtend(40, 50) },
-              { name: "钛智捷", value: randomExtend(20, 30) },
+              { name: "汉佳物流", value: randomExtend(5, 20) },
+              { name: "仓储物流中心", value: randomExtend(40, 50) },
+              { name: "贸易分公司", value: randomExtend(20, 30) },
             ],
             insideLabel: {
               show: false,

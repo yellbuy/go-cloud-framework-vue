@@ -13,11 +13,11 @@ export default {
       config: {
         data: [
           {
-            name: "横通物流",
+            name: "汽运一分公司",
             value: 15231,
           },
           {
-            name: "汉风物流",
+            name: "汽运二分公司",
             value: 12450,
           },
           {
@@ -25,22 +25,22 @@ export default {
             value: 10078,
           },
           {
-            name: "汉威物流",
+            name: "汉佳物流",
             value: 9866,
           },
-          {
-            name: "汉恒物流",
-            value: 5400,
-          },
-          {
-            name: "钛智捷",
-            value: 4205,
-          },
+          // {
+          //   name: "仓储物流中心",
+          //   value: 5400,
+          // },
+          // {
+          //   name: "贸易分公司",
+          //   value: 4205,
+          // },
         ],
         colors: ["#e062ae", "#fb7293", "#e690d1", "#32c5e9", "#96bfff"],
         unit: "吨",
         showValue: true,
-        rowNum: 6,
+        rowNum: 4,
       },
     };
   },
