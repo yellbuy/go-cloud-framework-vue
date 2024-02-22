@@ -1,5 +1,5 @@
 <template>
-	<div class="base-role-container">
+	<div class="base-business-trade-container">
 		<el-card shadow="hover">
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
@@ -45,29 +45,13 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="VehicleNumber" label="品名" width="100" fixed></el-table-column>
-				<el-table-column prop="VehicleType" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column label="外部车" width="70" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.IsExternal"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
-							:active-text="$t('message.action.yes')"
-							:inactive-text="$t('message.action.no')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column prop="Linkman" label="供应商" width="120"></el-table-column>				
+				<el-table-column prop="GoodsName" label="品名" width="100" fixed></el-table-column>
+				<el-table-column prop="CustomerName" label="客户名称" width="200" show-overflow-tooltip></el-table-column>
+				
+				<el-table-column prop="SupplierName" label="供应商" width="200"></el-table-column>				
 				<el-table-column prop="Weight" label="吨位" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Mileage" label="收入" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="BillTime" label="日期" width="120"></el-table-column>		
+				<el-table-column prop="Amount" label="收入" width="70" align="right"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="BillTime" label="日期" width="90"></el-table-column>		
 				
 				<el-table-column label="有效" width="70" show-overflow-tooltip>
 					<template #default="scope">
@@ -147,7 +131,11 @@ export default {
 			scopeMode,
 			scopeValue,
 			tableData: {
-				data: [],
+				data: [
+					{"Id":"1","GoodsName":"铁矿","CustomerName":"攀钢","SupplierName":"君同商贸有限公司","ReceiverName":"西钢钒","Weight":"200","Amount":"56.3","Tname":"汉盛物流","BillTime":"2024-02-21"},
+					{"Id":"2","GoodsName":"煤炭","CustomerName":"攀钢","SupplierName":"富源硕歌贸易有限公司","ReceiverName":"富源硕歌贸易有限公司","Weight":"200","Amount":"102.4","Tname":"汉盛物流","BillTime":"2024-02-22"},
+					{"Id":"3","GoodsName":"球团矿","CustomerName":"攀钢","SupplierName":"富源硕歌贸易有限公司","ReceiverName":"富源硕歌贸易有限公司","Weight":"200","Amount":"300","Tname":"汉盛物流","BillTime":"2024-02-23"}
+				],
 				total: 0,
 				loading: false,
 				param: {
@@ -203,10 +191,6 @@ export default {
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-		// 打开地图
-		const onChildOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
-			childMapDlgRef.value.openDialog(vehicleNumber, ishow);
-		};
 		// 删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
@@ -251,7 +235,6 @@ export default {
 			onGetXlsData,
 			onResetSearch,
 			onOpenEditDlg,
-			onChildOpenMapDlg,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

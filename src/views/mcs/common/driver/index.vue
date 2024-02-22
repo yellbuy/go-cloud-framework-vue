@@ -76,7 +76,7 @@
 					</template>
 				</el-table-column>
 			
-				<el-table-column prop="IdnoEndDate" label="身份证有效期至" width="70" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="IdnoEndDate" label="身份证有效期至" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Nation" label="民族" width="120"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Mobile" label="手机号" width="120"  show-overflow-tooltip></el-table-column>
 				
@@ -102,7 +102,7 @@
 					</template>
 				</el-table-column> -->
 				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}

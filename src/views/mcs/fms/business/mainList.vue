@@ -1,5 +1,5 @@
 <template>
-	<div class="base-role-container">
+	<div class="base-business-main-container">
 		<el-card shadow="hover">
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
@@ -45,13 +45,13 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="VehicleNumber" label="品名" width="100" fixed></el-table-column>
-				<el-table-column prop="VehicleType" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Linkman" label="发货站" width="90"></el-table-column>				
-				<el-table-column prop="Phone" label="到达地" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsName" label="品名" width="100" fixed></el-table-column>
+				<el-table-column prop="CustomerName" label="客户名称" width="200" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="SenderName" label="发货站" width="120"></el-table-column>				
+				<el-table-column prop="ReceiverName" label="到达地" width="120"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Weight" label="吨位" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Mileage" label="列数" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				
+				<el-table-column prop="VehicleCount" label="列数" width="70" align="right"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="BillTime" label="日期" width="90"></el-table-column>		
 				
 				<el-table-column label="有效" width="70" show-overflow-tooltip>
 					<template #default="scope">
@@ -131,8 +131,12 @@ export default {
 			scopeMode,
 			scopeValue,
 			tableData: {
-				data: [],
-				total: 0,
+				data: [
+					{"Id":"1","GoodsName":"铁矿","CustomerName":"攀钢","SenderName":"桐子林","ReceiverName":"西钢钒","Weight":"200","VehicleCount":"1","Tname":"汉盛物流","BillTime":"2024-02-21"},
+					{"Id":"2","GoodsName":"煤炭","CustomerName":"攀钢","SenderName":"桐子林","ReceiverName":"西钢钒","Weight":"200","VehicleCount":"1","Tname":"汉盛物流","BillTime":"2024-02-22"},
+					{"Id":"3","GoodsName":"球团矿","CustomerName":"攀钢","SenderName":"弯丘","ReceiverName":"铁厂","Weight":"200","VehicleCount":"1","Tname":"汉盛物流","BillTime":"2024-02-23"}
+				],
+				total: 3,
 				loading: false,
 				param: {
 					keyword: '',
@@ -187,10 +191,6 @@ export default {
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-		// 打开地图
-		const onChildOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
-			childMapDlgRef.value.openDialog(vehicleNumber, ishow);
-		};
 		// 删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
@@ -235,7 +235,6 @@ export default {
 			onGetXlsData,
 			onResetSearch,
 			onOpenEditDlg,
-			onChildOpenMapDlg,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

@@ -1,5 +1,5 @@
 <template>
-	<div class="base-role-container">
+	<div class="base-business-warehouse-container">
 		<el-card shadow="hover">
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
@@ -45,11 +45,11 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="VehicleNumber" label="平台" width="100" fixed></el-table-column>
-				<el-table-column prop="VehicleType" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="SupplierName" label="平台" width="200" fixed></el-table-column>
+				<el-table-column prop="CustomerName" label="客户名称" width="200" show-overflow-tooltip></el-table-column>
 				
-				<el-table-column prop="Weight" label="收入" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="BillTime" label="日期" width="70" align="left"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Amount" label="收入" width="70" align="right"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="BillTime" label="日期" width="90" align="left"  show-overflow-tooltip></el-table-column>
 				
 				
 				<el-table-column label="有效" width="70" show-overflow-tooltip>
@@ -130,7 +130,11 @@ export default {
 			scopeMode,
 			scopeValue,
 			tableData: {
-				data: [],
+				data: [
+					{"Id":"1","GoodsName":"铁矿","CustomerName":"比亚迪","SupplierName":"一平台","ReceiverName":"西钢钒","Weight":"200","Amount":"20000","Tname":"汉盛物流","BillTime":"2024-02-21"},
+					{"Id":"2","GoodsName":"煤炭","CustomerName":"永辉物贸公司","SupplierName":"二平台","ReceiverName":"富源硕歌贸易有限公司","Weight":"3500","Amount":"102.4","Tname":"汉盛物流","BillTime":"2024-02-22"},
+					{"Id":"3","GoodsName":"球团矿","CustomerName":"永盛商贸公司","SupplierName":"三平台","ReceiverName":"富源硕歌贸易有限公司","Weight":"4800","Amount":"300","Tname":"汉盛物流","BillTime":"2024-02-23"}
+				],
 				total: 0,
 				loading: false,
 				param: {
@@ -186,10 +190,6 @@ export default {
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-		// 打开地图
-		const onChildOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
-			childMapDlgRef.value.openDialog(vehicleNumber, ishow);
-		};
 		// 删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
@@ -234,7 +234,6 @@ export default {
 			onGetXlsData,
 			onResetSearch,
 			onOpenEditDlg,
-			onChildOpenMapDlg,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
