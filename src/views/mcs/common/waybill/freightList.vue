@@ -208,7 +208,7 @@
 											<el-dropdown-item @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" divided v-auth:[moduleKey]="'btn.ChildMap'">
 												<el-text  >{{ $t('message.action.location') }}</el-text>
 											</el-dropdown-item>
-											<el-dropdown-item @click="onChildDel(scope.row.Id)" divided v-auth:[moduleKey]="'btn.ChildDel'">
+											<el-dropdown-item @click="onChildDel(scope.row.Id,scope.row.WaybillId)" divided v-auth:[moduleKey]="'btn.ChildDel'">
 												<el-text type="danger">{{ $t('message.action.delete') }}</el-text>
 											</el-dropdown-item>
 										</el-dropdown-menu>
@@ -434,14 +434,14 @@ export default {
 			childMapDlgRef.value.openDialog(vehicleNumber, ishow);
 		};
 		// 删除用户
-		const onChildDel = (Id: string) => {
+		const onChildDel = (id: string,waybillId:string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.waybillLine.delete(Id);
+					const res = await proxy.$api.erp.waybillLine.delete(id,waybillId);
 					if (res.errcode == 0) {
 						onChildGetTableData();
 					}

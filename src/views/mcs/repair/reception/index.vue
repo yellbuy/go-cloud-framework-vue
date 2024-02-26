@@ -72,7 +72,7 @@
 				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip></el-table-column>
 				<el-table-column label="是否开单" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-switch
+						<el-switch v-if="scope.row.State<2"
 							v-model="scope.row.State"
 							inline-prompt
 							:width="60"
@@ -83,19 +83,15 @@
 							:active-value="1"
 							:inactive-value="0"
 						/>
+						<el-tag type="danger" effect="plain" v-else>{{ $t('pages.mcs.action.has_finished') }}</el-tag>
+						<el-tag type="success" effect="plain" v-if="!scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('pages.mcs.action.not_billing') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else-if="scope.row.State==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('pages.mcs.action.has_billed') }}</el-tag>
 						
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
-						
-						<el-button text bg @click="routerPath(0, false)" v-auth:[moduleKey]="'btn.Add'" v-if="scope.row.State !== 1">
-							{{ $t('message.action.billing') }}
-						</el-button>
-					
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
@@ -104,6 +100,9 @@
 						</el-button>
 						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
+						</el-button>
+						<el-button text bg @click="routerPath(0, false)" v-auth:[moduleKey]="'btn.Add'" v-if="!scope.row.State">
+							{{ $t('message.action.billing') }}
 						</el-button>
 					</template>
 				</el-table-column>
@@ -129,7 +128,7 @@
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
-import { useRoute,useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import editDlg from './component/receptionEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 

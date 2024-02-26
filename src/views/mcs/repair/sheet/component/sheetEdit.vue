@@ -25,12 +25,12 @@
 					</el-row>
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车型" prop="VehicleType">
-							<el-select v-model="ruleForm.VehicleType" placeholder="请选择" disabled>
-								<el-option v-for="item in truckTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
+							<el-form-item label="车型" prop="VehicleType">
+								<el-select v-model="ruleForm.VehicleType" placeholder="请选择" disabled>
+									<el-option v-for="item in truckTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="客户名称" prop="CompanyName">
 								<el-input v-model="ruleForm.CompanyName" placeholder=""  clearable disabled></el-input>
@@ -79,14 +79,27 @@
 									format="YYYY-MM-DD HH:mm" ></el-date-picker>
 							</el-form-item>
 						</el-col>
+					</el-row>
+					<el-row :gutter="20">
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						
+							<el-form-item label="是否完工" prop="State">
+								<div mb-2 flex items-center>
+									<el-radio-group v-model="ruleForm.State">
+										<el-radio :label="0">未开单</el-radio>
+										<el-radio :label="1">已开单</el-radio>
+										<el-radio :label="2">已完工</el-radio>
+									</el-radio-group>
+								</div>
+								
+							</el-form-item>
+						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="完工时间" prop="EndTime" required>
 								<el-date-picker v-model="ruleForm.EndTime" type="datetime" placeholder="请选择完工时间"
 									format="YYYY-MM-DD HH:mm"></el-date-picker>
 							</el-form-item>
 						</el-col>
-					</el-row>
-					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="备注" prop="Remark">
 								<el-input v-model="ruleForm.Remark" autofocus placeholder="" maxlength="100"
@@ -240,18 +253,15 @@
 </template>
 
 <script lang="ts">
-import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps, ElMessageBox } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs, ref } from 'vue';
+import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import addWorkerDlg from './sheetAdd.vue';
+import addDlg from './sheetGoods.vue';
+import editDlg from './sheetProject.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-import editDlg from './sheetProject.vue';
-import addDlg from './sheetGoods.vue';
-import addWorkerDlg from './sheetAdd.vue';
-import { Interface } from 'readline';
-import { validateHeaderName } from 'http';
 
 export default {
 	name: 'sheetEdit',

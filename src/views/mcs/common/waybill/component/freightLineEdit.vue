@@ -1,63 +1,56 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-divider content-position="left">货物名称*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="客户名称" prop="CustomerId">
-							<el-select v-model="ruleForm.CustomerId" placeholder="请选择">
-								<el-option v-for="item in customerList" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						
-						<el-form-item label="业务类型" prop="WaybillMode">
-							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.WaybillMode">
-									<el-radio :label="1">货运</el-radio>
-								</el-radio-group>
-							</div>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="计划量" prop="PlanWeight">
-							<el-input v-model.number="ruleForm.PlanWeight" min="0" max="1000000000"></el-input> 
+						<el-form-item label="车牌号码" prop="VehicleNumber">
+							<el-input v-model="ruleForm.VehicleNumber"></el-input> 
 						</el-form-item>
 					</el-col>
 					
 				</el-row>
-				<el-divider content-position="left">收发货信息*</el-divider>
+				<el-divider content-position="left">发货信息*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发货地点" prop="SenderAddress">
-							<el-input v-model="ruleForm.SenderAddress" placeholder="发货地点"></el-input> 
+						<el-form-item label="是否发货" prop="BeginState">
+							<el-switch v-model="ruleForm.BeginState" :width="50" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="收货地点" prop="ReceiverAddress">
-							<el-input v-model="ruleForm.ReceiverAddress" placeholder="收货地点"></el-input> 
+						<el-form-item label="发货重量" prop="SenderNetWeight">
+							<el-input v-model.number="ruleForm.SenderNetWeight" min="0" max="10000"></el-input> 
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="要求发货时间" prop="SenderPlanTime" required>
+						<el-form-item label="发货时间" prop="BeginTime">
 							<el-date-picker
-								v-model="ruleForm.SenderPlanTime"
+								v-model="ruleForm.BeginTime"
 								type="datetime"
-								placeholder="要求发货时间"
+								placeholder="发货时间"
 								format="YYYY-MM-DD HH:mm"
 							></el-date-picker>
 						</el-form-item>
 					</el-col>
+				</el-row>
+				<el-divider content-position="left">卸货信息*</el-divider>
+				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="要求收货时间" prop="ReceiverPlanTime" required>
+						<el-form-item label="是否卸货" prop="FinishState">
+							<el-switch v-model="ruleForm.FinishState" :width="50" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="卸货重量" prop="ReceiverNetWeight">
+							<el-input v-model.number="ruleForm.ReceiverNetWeight" min="0" max="10000"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="卸货时间" prop="FinishTime">
 							<el-date-picker
-								v-model="ruleForm.ReceiverPlanTime"
+								v-model="ruleForm.FinishTime"
 								type="datetime"
-								placeholder="要求收货时间"
+								placeholder="卸货时间"
 								format="YYYY-MM-DD HH:mm"
 							></el-date-picker>
 						</el-form-item>
@@ -180,41 +173,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			RegistrationDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			DrivingLicenseStartDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			DrivingLicenseEndDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			TransportLicenseStartDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			TransportLicenseEndDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
+			
 		});
 		
 		// 打开弹窗
@@ -264,9 +223,15 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.waybill.getById(Id);
+				const res = await proxy.$api.erp.waybillLine.getById(Id);
 				if (res.errcode != 0) {
 					return;
+				}
+				if(!res.data.BeginState){
+					res.data.BeginTime=""
+				}
+				if(!res.data.FinishState){
+					res.data.FinishTime=""
 				}
 				state.ruleForm = res.data;
 			} finally {
@@ -307,7 +272,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
+						const res = await proxy.$api.erp.waybillLine.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();

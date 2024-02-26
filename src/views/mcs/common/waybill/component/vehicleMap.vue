@@ -1,7 +1,32 @@
 <template>
 	<div class="vehicle-map-container">
-		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close :before-close="closeDialog">
-			<baidu-map style="width:100%; height: 480px" 
+		<el-dialog :title="title" v-model="isShowDialog" width="80%" destroy-on-close :before-close="closeDialog">
+			<div class="common-layout">
+			<el-container>
+			<el-aside width="300px">
+				<el-tag	effect="dark" class="mb10">
+					<el-icon>
+						<location />
+					</el-icon>
+					{{item.VehicleNumber}}
+				</el-tag>
+				<el-timeline>
+					<el-timeline-item :timestamp="val.BeginState?val.FinishState?'已完成':'未完成':'未开始'" placement="top" :key="index" v-for="(val, index) in item.WaybillLineList">
+					<el-card>
+						<h4>{{val.WaybillCustomerName}}</h4>
+						<el-divider></el-divider>
+						<p class="mt10">
+							{{val.WaybillGoodsName}} - {{ val.WaybillGoodsSkuName }}
+						</p>
+						<p>
+							{{val.WaybillSenderAddress}} 至 {{ val.WaybillReceiverAddress }}
+						</p>
+					</el-card>
+					</el-timeline-item>
+				</el-timeline>
+			</el-aside>
+			<el-main>
+				<baidu-map style="width:100%; height: 480px" 
 					:zoom="13" ak="wsijQt8sLXrCW71YesmispvYHitfG9gv" scrollWheelZoom v="3.0" type="API" :center="{lng: item.VehicleCurrentLocation.Lng, lat: item.VehicleCurrentLocation.Lat}" >
 					<bm-navigation anchor="BMAP_ANCHOR_TOP_LEFT"  enableGeolocation showZoomInfo></bm-navigation>
 					<bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
@@ -26,6 +51,10 @@
 						</bm-info-window>
 					</bm-marker>
 				</baidu-map>
+			</el-main>
+			</el-container>
+		</div>
+			
 		</el-dialog>
 	</div>
 </template>
@@ -36,7 +65,6 @@ import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { BaiduMap, BmGeolocation, BmInfoWindow, BmLabel, BmMarker, BmNavigation } from 'vue-baidu-map-3x';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
-
 export default {
 	name: 'funEchartsMap',
 	components: { BaiduMap,BmNavigation,BmGeolocation,BmLabel,BmMarker,BmInfoWindow },
@@ -52,8 +80,8 @@ export default {
 				VehicleCurrentLocation:{
 					Lng: 101.728637, 
 					Lat: 26.582347,
-				}
-				
+				},
+				WaybillLineList:[],
 			},
 			
 			title: t('message.action.location'),

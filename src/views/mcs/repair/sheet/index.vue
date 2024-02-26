@@ -59,6 +59,14 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
+				<el-table-column label="状态" width="80" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						
+						<el-tag type="success" effect="plain" v-if="!scope.row.State">{{ $t('pages.mcs.action.not_billing') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else-if="scope.row.State==1">{{ $t('pages.mcs.action.has_billed') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else>{{ $t('pages.mcs.action.has_finished') }}</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="BillTime" label="开单时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
@@ -126,9 +134,9 @@
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
-import { useRoute,useRouter } from 'vue-router';
-import editDlg from './component/sheetEdit.vue';
+import { useRoute, useRouter } from 'vue-router';
 import addWorkerDlg from './component/sheetAdd.vue';
+import editDlg from './component/sheetEdit.vue';
 import seeWorkerDlg from './component/sheetSee.vue';
 import commonFunction from '/@/utils/commonFunction';
 
@@ -159,7 +167,6 @@ export default {
 					keyword: '',
 					pageNum: 1,
 					pageSize: 20,
-					state: 1, //已维修
 				},
 			},
 			examList:{},

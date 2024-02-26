@@ -70,17 +70,28 @@
 				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
 				
 				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column label="提醒" width="150" show-overflow-tooltip>
+				<el-table-column label="提醒" width="110" show-overflow-tooltip>
 					<template #default="scope">
 						<!-- <el-badge :value="scope.row.WaybillLineCount" class="mark mr4" v-if="scope.row.WaybillLineCount">
 							<el-button type="danger" size="small" round effect="dark">任</el-button>
 							
 						</el-badge> -->
-						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.WaybillLineCount" >任</el-tag>
-						<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
-						<el-tag :type="scope.row.DrivingLicenseState==1?'warning':'danger'" class="mr4" round effect="dark" v-if="!scope.row.DrivingLicenseStat">行</el-tag>
-						<el-tag :type="scope.row.TransportLicenseState==1?'warning':'danger'" class="mr4" round effect="dark" v-if="!scope.row.TransportLicenseState">道</el-tag>
 						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.RepairState">修</el-tag>
+						<el-tag type="success" class="mr4" round effect="dark" v-else-if="scope.row.WaybillLineCount" >任</el-tag>
+						<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
+						<el-tooltip v-if="scope.row.DrivingLicenseStat < 2 || scope.row.TransportLicenseState < 2"
+							class="box-item"
+							effect="dark"
+							placement="top"
+						>
+						<template #content>行驶证：{{ scope.row.DrivingLicenseStartDate.substr(0,10) }} 至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
+							<br />
+							道路运输许可证：{{ scope.row.TransportLicenseStartDate.substr(0,10) }} 至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
+						</template>
+						<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseStat < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
+						</el-tooltip>
+						
+						
 					</template>
 				</el-table-column>
 				<el-table-column label="有效" width="70" show-overflow-tooltip>
