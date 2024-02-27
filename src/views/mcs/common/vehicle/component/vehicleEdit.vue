@@ -333,12 +333,6 @@ export default {
 				}else{
 					console.log("error:",resEnergyTypes.errmsg)
 				}
-				const resPlateColorTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColorTypes.errcode == 0) {
-					state.plateColorList = resPlateColorTypes.data;
-				}else{
-					console.log("error:",resPlateColorTypes.errmsg)
-				}
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);

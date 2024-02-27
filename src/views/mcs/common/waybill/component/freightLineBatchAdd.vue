@@ -3,14 +3,36 @@
 		<el-dialog :title="title" v-model="isShowDialog" :before-close="closeDialog">
 			<div style="text-align: center;">
 				<el-transfer
-				v-model="ruleForm.VehicleIdList"
-				filterable
-				filter-placeholder="搜索"
-				:titles="['可用车辆', '分配车辆']"
-      			:button-texts="['移除','分配']"
-				:props="{ key: 'Id', label: 'VehicleNumber', disabled: 'state'}"
-				:data="allTruckList"
-			/>
+					v-model="ruleForm.VehicleIdList"
+					filterable
+					filter-placeholder="搜索"
+					:titles="['可用车辆', '分配车辆']"
+					:button-texts="['移除','分配']"
+					:props="{ key: 'Id', label: 'VehicleNumber', disabled: 'state'}"
+					:data="allTruckList"
+				>
+				<template #left-footer>
+					<el-select
+					v-model="isExternal"
+						class="m-2 p10"
+						placeholder="车辆类型"
+						@change="onIsExternalChange"
+					>
+						<el-option
+						label="所有"
+						:value="-1"
+						/>
+						<el-option
+						label="内部车"
+						:value="0"
+						/>
+						<el-option
+						label="外部车"
+						:value="1"
+						/>
+					</el-select>
+				</template>
+			</el-transfer>
 			</div>
 			
 			<template #footer>
@@ -55,6 +77,7 @@ export default {
 			loading: false,
 			disable: true, //是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
+			isExternal:-1,
 			//表单
 			ruleForm: {
 				WaybillId: 0,
@@ -74,12 +97,7 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.ruleForm.WaybillId=waybillId;
 			try {
-				const resTrucks = await proxy.$api.erp.vehicle.getValidListByScope('info', 0, 2);
-				if (resTrucks.errcode == 0) {
-					state.allTruckList = resTrucks.data;
-				}else{
-					console.log("error:",resTrucks.errmsg)
-				}
+				await loadVehicleList()
 				state.title = t('message.action.add');
 				state.isShowDialog = true;
 			} finally {
@@ -96,7 +114,19 @@ export default {
 		const onLoadTable = () => {
 			proxy.$parent.onChildGetTableData();
 		};
-		
+		const loadVehicleList=async ()=>{
+			const resTrucks = await proxy.$api.erp.vehicle.getValidListByScope('info', 0, 2,{isExternal:state.isExternal});
+			if (resTrucks.errcode == 0) {
+				state.allTruckList = resTrucks.data;
+			}else{
+				console.log("error:",resTrucks.errmsg)
+			}
+		}
+		const onIsExternalChange=async (value: any)=>{
+			state.ruleForm.VehicleIdList=[];
+			state.isExternal=value;
+			await loadVehicleList();
+		}
 		// 提交
 		const onSubmit = async (isCloseDlg: boolean) => {
 			const valid=state.ruleForm.VehicleIdList.length>0
@@ -127,6 +157,7 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
+			onIsExternalChange,
 			dateFormatYMD,
 			getUserInfos,
 			token,

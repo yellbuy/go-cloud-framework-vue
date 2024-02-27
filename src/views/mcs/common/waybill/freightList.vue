@@ -309,7 +309,9 @@ export default {
 		};
 
 		const onMainCurrentChange = (row) => {
-			console.log(row);
+			if(!row){
+				return;
+			}
 			state.mainCurrentRow = row
 			if(row){
 				state.childTableData.param.waybillId=row.Id
@@ -443,6 +445,7 @@ export default {
 				try {
 					const res = await proxy.$api.erp.waybillLine.delete(id,waybillId);
 					if (res.errcode == 0) {
+						onMainGetTableData();
 						onChildGetTableData();
 					}
 				} finally {

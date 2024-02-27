@@ -267,30 +267,25 @@ export default {
 				}else{
 					console.log("error:",resCustomers.errmsg)
 				}
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				}else{
-					console.log("error:",resTruckTypes.errmsg)
-				}
-				const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColors.errcode == 0) {
-					state.plateColorList = resPlateColors.data;
-				}else{
-					console.log("error:",resPlateColors.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
-				}
-				const resPlateColorTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColorTypes.errcode == 0) {
-					state.plateColorList = resPlateColorTypes.data;
-				} else{
-					console.log("error:",resPlateColorTypes.errmsg);
-				}
+				// const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
+				// if (resTruckTypes.errcode == 0) {
+				// 	state.truckTypeList = resTruckTypes.data;
+				// }else{
+				// 	console.log("error:",resTruckTypes.errmsg)
+				// }
+				// const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
+				// if (resPlateColors.errcode == 0) {
+				// 	state.plateColorList = resPlateColors.data;
+				// }else{
+				// 	console.log("error:",resPlateColors.errmsg)
+				// }
+				// const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
+				// if (resEnergyTypes.errcode == 0) {
+				// 	state.energyTypeList = resEnergyTypes.data;
+				// } else {
+				// 	console.log("error:",resEnergyTypes.errmsg)
+				// }
+			
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);

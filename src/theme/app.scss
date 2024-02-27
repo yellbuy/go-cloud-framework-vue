@@ -239,6 +239,9 @@ body,
 	.margin#{$i} {
 		margin: #{$i}px !important;
 	}
+	.m#{$i} {
+		margin: #{$i}px !important;
+	}
 	.mt#{$i} {
 		margin-top: #{$i}px !important;
 	}
@@ -251,7 +254,18 @@ body,
 	.ml#{$i} {
 		margin-left: #{$i}px !important;
 	}
+	.mtb#{$i} {
+		margin-top: #{$i}px !important;
+		margin-bottom: #{$i}px !important;
+	}
+	.mlr#{$i} {
+		margin-left: #{$i}px !important;
+		margin-right: #{$i}px !important;
+	}
 	.padding#{$i} {
+		padding: #{$i}px !important;
+	}
+	.p#{$i} {
 		padding: #{$i}px !important;
 	}
 	.pt#{$i} {
@@ -265,6 +279,14 @@ body,
 	}
 	.pl#{$i} {
 		padding-left: #{$i}px !important;
+	}
+	.ptb#{$i} {
+		padding-top: #{$i}px !important;
+		padding-bottom: #{$i}px !important;
+	}
+	.plr#{$i} {
+		padding-left: #{$i}px !important;
+		padding-right: #{$i}px !important;
 	}
 }
 
