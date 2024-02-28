@@ -11,6 +11,9 @@
 					:props="{ key: 'Id', label: 'VehicleNumber', disabled: 'state'}"
 					:data="allTruckList"
 				>
+				<template #default="{ option }">
+					<el-tag v-if="option.IsExternal" type="primary">外</el-tag><el-tag v-else type="success">内</el-tag><span class="ml2">{{ option.VehicleNumber }}</span>
+				</template>
 				<template #left-footer>
 					<el-select
 					v-model="isExternal"
