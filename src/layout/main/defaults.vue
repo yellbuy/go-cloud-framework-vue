@@ -31,7 +31,7 @@ export default {
 		});
 		// 监听路由的变化
 		watch(
-			() => route.path,
+			() => route.fullPath,
 			() => {
 				console.log(proxy.$refs)
 				proxy.$refs.layoutDefaultsScrollbarRef!.wrapRef!.scrollTop = 0;

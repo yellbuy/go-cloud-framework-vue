@@ -76,9 +76,6 @@
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button text bg type="primary" @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" v-auth:[moduleKey]="'btn.ChildMap'">
-							{{ $t('message.action.location') }}
-						</el-button>
 						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.see') }}
 						</el-button>
@@ -119,12 +116,11 @@ export default {
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
-		const kind = route.params.kind||'info';
+		const kind = route.params.kind||'trade';
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_fms_balance_trade`;
 		const editDlgRef = ref();
-		const childMapDlgRef=ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -230,7 +226,6 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
-			childMapDlgRef,
 			onGetTableData,
 			onGetXlsData,
 			onResetSearch,

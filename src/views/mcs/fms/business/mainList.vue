@@ -19,12 +19,6 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
-						<el-button type="info" @click="onGetXlsData()" v-auth:[moduleKey]="'btn.ExportXls'">
-							<el-icon>
-								<Download />
-							</el-icon>
-							&#8197;{{ $t('message.action.export') }}
-						</el-button>
 						<el-button type="primary" @click="onOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
@@ -119,12 +113,11 @@ export default {
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
-		const kind = route.params.kind||'info';
+		const kind = route.params.kind||'main_business';
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_fms_balance_main_business`;
 		const editDlgRef = ref();
-		const childMapDlgRef=ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -173,19 +166,6 @@ export default {
 			// 	state.tableData.loading = false;
 			// }
 		};
-		// 导出表格数据
-		const onGetXlsData = async () => {
-			const res = await proxy.$api.erp.vehicle.exportXlsByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
-			if (!res.data || res.data.size == 0) {
-				return;
-			} 
-			// 返回不为空
-			var url = window.URL.createObjectURL(res.data);
-			var a = document.createElement('a');
-			a.href = url;
-			a.download = '车辆台账_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
-			a.click();
-		};
 		
 		// 打开弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
@@ -230,9 +210,7 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
-			childMapDlgRef,
 			onGetTableData,
-			onGetXlsData,
 			onResetSearch,
 			onOpenEditDlg,
 			onModelDel,

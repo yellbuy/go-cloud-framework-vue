@@ -1,5 +1,5 @@
 <template>
-	<div class="system-edit-user-container">
+	<div class="system-edit-main-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">铁运收入*</el-divider>
@@ -115,7 +115,7 @@ import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
-	name: 'freightEdit',
+	name: 'mainEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -144,7 +144,7 @@ export default {
 			ruleForm: {
 				Id: 0,
 				Name: '',
-				Kind: 'info',
+				Kind: 'main_business',
 				CustomerId:"",
 				GoodsCategoryId: '0',
 				GoodsId:"",

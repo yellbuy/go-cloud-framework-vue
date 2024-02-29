@@ -67,7 +67,7 @@ export default {
 		const router = useRouter();
 		const state: any = reactive({
 			routeActive: '',
-			routePath: route.path,
+			routePath: route.meta.isDynamic ? route.meta.isDynamicPath : route.path,
 			dropdown: { x: '', y: '' },
 			tagsRefsIndex: 0,
 			tagsViewList: [],
@@ -113,7 +113,8 @@ export default {
 						state.tagsViewList.push({ ...v });
 					}
 				});
-				await addTagsView(route.path, route);
+				const fullPath=(await route.meta.isDynamic) ? route.meta.isDynamicPath : route.path
+				await addTagsView(fullPath, route);
 			}
 			
 			// 初始化当前元素(li)的下标
@@ -129,14 +130,17 @@ export default {
 			);
 			if (current.length <= 0) {
 				// 防止：Avoid app logic that relies on enumerating keys on a component instance. The keys will be empty in production mode to avoid performance overhead.
-				let findItem = state.tagsViewRoutesList.find((v: any) => (v.name==to.name));
-				if (!findItem || findItem.meta.isAffix) return false;
-				if (findItem.meta.isLink && !findItem.meta.isIframe) return false;
-				to.meta.isDynamic ? (findItem.params = to.params, findItem.query = to.query) : (findItem.query = to.query);
-				
-				findItem.url = setTagsViewHighlight(findItem);
-				state.tagsViewList.push({ ...findItem });
-				addBrowserSetSession(state.tagsViewList);
+				let item = state.tagsViewRoutesList.find((v: any) => (v.name==to.name));
+				if (!item || item.meta.isAffix) return false;
+				if (item.meta.isLink && !item.meta.isIframe) return false;
+				if (to && to.meta.isDynamic) {
+					item.params = to?.params ? to?.params : route.params;
+				} else {
+					item.query = to?.query ? to?.query : route.query;
+				}
+				item.url = setTagsViewHighlight(item);
+				await state.tagsViewList.push({ ...item });
+				await addBrowserSetSession(state.tagsViewList);
 			}
 		};
 		// 处理单标签时，第二次的值未覆盖第一次的 tagsViewList 值（Session Storage）
@@ -161,18 +165,22 @@ export default {
 					// 动态路由（xxx/:id/:name"）：参数不同，开启多个 tagsview
 					
 					if(!to.meta.isHide){
-						!getThemeConfig.value.isShareTagsView  ? await solveAddTagsView(path, to)  : await singleAddTagsView(path, to);
+						getThemeConfig.value.isShareTagsView  ? await singleAddTagsView(path, to) : await solveAddTagsView(path, to);
 					}
-					
-					if (state.tagsViewList.some((v: any) => v.name==to.name)) return false;
+					if (state.tagsViewList.some((v: any) => v.name==to.name)) {
+						return false;
+					}
 					item = state.tagsViewRoutesList.find((v: any) => v.name==to.name);
 				}
 				if(!item || to.meta.isHide) {
 					return false
 				}
 				if (item.meta.isLink && !item.meta.isIframe) return false;
-				if (to && to.meta.isDynamic) item.params = to?.params ? to?.params : route.params;
-				else item.query = to?.query ? to?.query : route.query;
+				if (to && to.meta.isDynamic) {
+					item.params = to?.params ? to?.params : route.params;
+				} else {
+					item.query = to?.query ? to?.query : route.query;
+				}
 				item.url = setTagsViewHighlight(item);
 				await state.tagsViewList.push({ ...item });
 				await addBrowserSetSession(state.tagsViewList);

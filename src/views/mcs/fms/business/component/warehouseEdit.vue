@@ -1,5 +1,5 @@
 <template>
-	<div class="system-edit-user-container">
+	<div class="system-edit-warehouse-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="500px" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">仓储收入*</el-divider>
@@ -74,7 +74,7 @@ import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
-	name: 'freightEdit',
+	name: 'warehouseEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -103,7 +103,7 @@ export default {
 			ruleForm: {
 				Id: 0,
 				Name: '',
-				Kind: 'info',
+				Kind: 'warehouse',
 				CustomerId:"",
 				GoodsCategoryId: '0',
 				GoodsId:"",

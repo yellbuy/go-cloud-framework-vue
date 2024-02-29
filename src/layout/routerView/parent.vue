@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs, reactive, getCurrentInstance, onBeforeMount, onUnmounted, nextTick, watch } from 'vue';
+import { computed, defineComponent, getCurrentInstance, nextTick, onBeforeMount, onUnmounted, reactive, toRefs, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 export default defineComponent({
