@@ -9,10 +9,10 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive,computed } from 'vue';
+import { computed, reactive, toRefs } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { useStore } from '/@/store/index';
-import { useI18n } from 'vue-i18n';
 export default {
 	name: 'layoutFooter',
 	setup() {
@@ -30,7 +30,7 @@ export default {
 			|| store.state.themeConfig.themeConfig.globalTitle;
 		});
 		const globalCopyright = computed(() => {
-			return store.state.userInfos.userInfos.app.Copyright || t('message.copyright.one5');
+			return store.state.userInfos.userInfos.app.Copyright || t('pages.login.copyright.one5');
 		});
 		// 路由改变时，等主界面动画加载完毕再显示 footer
 		onBeforeRouteUpdate(() => {

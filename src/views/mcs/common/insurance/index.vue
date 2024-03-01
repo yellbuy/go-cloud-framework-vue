@@ -40,36 +40,18 @@
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="VehicleNumber" label="车牌号码" width="100" fixed></el-table-column>
-				<el-table-column prop="BillDate" label="票据日期" width="120" show-overflow-tooltip :formatter="dateFormatYMD"></el-table-column>
-				<!-- <el-table-column label="性别" width="70" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.Gender"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_driver', 'gender', scope.row.Id, scope.row.Gender)"
-							:active-text="$t('message.action.male')"
-							:inactive-text="$t('message.action.female')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.Gender==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.male') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.female') }}</el-tag>
-					</template>
-				</el-table-column> -->
-			
-				<el-table-column prop="StartDate" label="保险生效日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="EndDate" label="保险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompulsoryStartDate" label="交强险起始日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CompulsoryEndDate" label="交强险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="BillTime" label="保单日期" width="110" show-overflow-tooltip :formatter="dateFormatYMD"></el-table-column>
+				<el-table-column prop="StartTime" label="保险生效日期" width="110" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="EndTime" label="保险到期日期" width="110" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CompulsoryStartDate" label="交强险起始日期" width="120"  :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CompulsoryEndDate" label="交强险到期日期" width="120"  :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CompulsoryFee" label="交强险购买费用(元)" width="130" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CommercialStartDate" label="商业险起始日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CommercialEndDate" label="商业险到期日期" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CommercialStartDate" label="商业险起始日期" width="120" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CommercialEndDate" label="商业险到期日期" width="120"  :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CommercialFee" label="商业险购买费用(元)" width="130" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="TaxFee" label="车船税费用(元)" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CreateTime" label="创建时间" width="120" align="right" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CreateTime" label="创建时间" width="120" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<!-- <el-table-column label="状态" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -170,7 +152,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.vehicle_insurance.getListByScope("info", 0, 0, state.tableData.param);
+				const res = await proxy.$api.erp.vehicleInsurance.getListByScope("info", 0, 0, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -192,7 +174,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.vehicle_insurance.delete(Id);
+					const res = await proxy.$api.erp.vehicleInsurance.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}

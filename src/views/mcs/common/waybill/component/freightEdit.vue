@@ -6,7 +6,7 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId" >
-							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onCustomerSelected">
+							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onFormSelected">
 								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -46,7 +46,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="产品名称" prop="GoodsId">
-							<el-select v-model="ruleForm.GoodsId" placeholder="请选择">
+							<el-select v-model="ruleForm.GoodsId" placeholder="请选择" @change="onFormSelected">
 								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -69,7 +69,7 @@
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入或选择">
-								<el-option v-for="item in waybillList" :key="item.Id" :label="item.SenderAddress" :value="item.SenderAddress"> </el-option>
+								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -82,7 +82,7 @@
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入或选择">
-								<el-option v-for="item in waybillList" :key="item.Id" :label="item.ReceiverAddress" :value="item.ReceiverAddress"> </el-option>
+								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -189,8 +189,8 @@ export default {
 			goodsTypeList:[],
 			goodsList:[],
 			customerList:[],
-			waybillList:[],
-
+			senderAddressList:[],
+			receiverAddressList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -310,33 +310,35 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				await loadWaybillList(state.ruleForm.CustomerId);
+				await loadAddressList();
 			} finally {
 				state.isShowDialog = true;
 			}
 		}
 
 		// 选中客户后，加载最近的运单信息
-		const loadWaybillList = async (customerId:number|string) => {
+		const loadAddressList = async () => {
 			
-			if(!customerId||customerId=="0"){
-				state.waybillList=[];
+			if(!state.ruleForm.CustomerId||state.ruleForm.CustomerId=="0"){
+				state.senderAddressList=[];
+				state.receiverAddressList=[];
 				return;
 			}
-			console.log(customerId)
-			const res = await proxy.$api.erp.waybill.getListByScope(state.ruleForm.Kind, 0, 0,{customerId:customerId});
+			const res = await proxy.$api.erp.waybill.getAddressListByScope(state.ruleForm.Kind, 0, 0,{customerId:state.ruleForm.CustomerId,goodsId:state.ruleForm.GoodsId});
 			if (res.errcode != 0) {
 				return;
 			}
-			state.waybillList=res.data;
+			console.log("res.data",res.data)
+			state.senderAddressList=res.data.SenderAddressList||[];
+			state.receiverAddressList=res.data.ReceiverAddressList||[];
 		};
 
 		// 选中客户后，加载最近的运单信息
-		const onCustomerSelected = async (customerId:number|string) => {
+		const onFormSelected = async () => {
 			//清空地址，防止选择了不同的客户忘了修改地址，导致地址录入错误
 			state.ruleForm.SenderAddress="" 
 			state.ruleForm.ReceiverAddress=""
-			await loadWaybillList(customerId)
+			await loadAddressList()
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -427,7 +429,7 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
-			onCustomerSelected,
+			onFormSelected,
 			GetByIdRow,
 			onBeforeImageUpload,
 			onModelEdit,

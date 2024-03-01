@@ -64,13 +64,7 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
-				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
-				
-				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column label="提醒" width="110" show-overflow-tooltip>
+				<el-table-column label="提醒" width="120" show-overflow-tooltip>
 					<template #default="scope">
 						<!-- <el-badge :value="scope.row.WaybillLineCount" class="mark mr4" v-if="scope.row.WaybillLineCount">
 							<el-button type="danger" size="small" round effect="dark">任</el-button>
@@ -79,7 +73,19 @@
 						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.RepairState">修</el-tag>
 						<el-tag type="success" class="mr4" round effect="dark" v-else-if="scope.row.WaybillLineCount" >任</el-tag>
 						<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
-						<el-tooltip v-if="scope.row.DrivingLicenseStat < 2 || scope.row.TransportLicenseState < 2"
+						
+						<el-tooltip v-if="scope.row.InsuranceState > 0"
+							class="box-item"
+							effect="dark"
+							placement="top"
+						>
+						<template #content>保险：{{ scope.row.InsuranceStartTime.substr(0,10) }} 至 {{ scope.row.InsuranceEndTime.substr(0,10) }}
+						</template>
+						<el-tag :type="scope.row.InsuranceState == 2?'success':'warning'" class="mr4" round effect="dark" >险</el-tag>
+						</el-tooltip>
+						<el-tag type="danger" class="mr4" round effect="dark" v-else >险</el-tag>
+
+						<el-tooltip v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2"
 							class="box-item"
 							effect="dark"
 							placement="top"
@@ -90,10 +96,15 @@
 						</template>
 						<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseStat < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
 						</el-tooltip>
-						
-						
 					</template>
 				</el-table-column>
+				<el-table-column prop="Linkman" label="联系人" width="90" show-overflow-tooltip></el-table-column>				
+				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Mileage" label="公里数" width="70" align="right"></el-table-column>
+				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
+				
+				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column>
+				
 				<el-table-column label="有效" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
