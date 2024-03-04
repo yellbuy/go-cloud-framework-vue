@@ -84,14 +84,11 @@
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						
 							<el-form-item label="是否完工" prop="State">
-								<div mb-2 flex items-center>
-									<el-radio-group v-model="ruleForm.State">
-										<el-radio :label="0">未开单</el-radio>
-										<el-radio :label="1">已开单</el-radio>
-										<el-radio :label="2">已完工</el-radio>
-									</el-radio-group>
-								</div>
-								
+								<el-select v-model="ruleForm.State" class="m-2" placeholder="请选择">
+									<el-option :label="'未开单'" :value="0" />
+									<el-option :label="'已开单'" :value="1" />
+									<el-option :label="'已完工'" :value="2" />
+								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -126,7 +123,8 @@
 				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Qty" label="预估工时" width="80">
+				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Qty" label="工时" width="80">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Qty"
@@ -148,20 +146,21 @@
   						/>
 					</template>
 				</el-table-column>
+				
 				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed>
 					<template #default="scope">
-						{{ totalPrice(scope.row) }}
+						{{ calcAmount(scope.row) }}
 					</template>
 				</el-table-column>
-				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
+				
+				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
 					<template #default="scope">
 						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
 							clearable>
 						</el-input>
 					</template>
 				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(80)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="danger" @click="onProjectDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
@@ -191,9 +190,9 @@
 			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading" style="width: 100%"
 				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Qty" label="预估工时" width="80">
+				<el-table-column prop="GoodsName" label="配件名称" width="240" show-overflow-tooltip fixed></el-table-column>
+				<!-- <el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column> -->
+				<el-table-column prop="Qty" label="数量" width="80">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Qty"
@@ -217,17 +216,17 @@
 				</el-table-column>
 				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed>
 					<template #default="scope">
-						{{ totalPrice(scope.row) }}
+						{{ calcAmount(scope.row) }}
 					</template>
 				</el-table-column>
-				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
+				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
 					<template #default="scope">
 						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
 							clearable>
 						</el-input>
 					</template>
 				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(80)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="danger" @click="onGoodsDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
@@ -447,6 +446,13 @@ export default {
 					trigger: 'blur',
 				},
 			],
+			State: [
+				{
+					required: true,
+					message: computed(() => t('message.validRule.required')),
+					trigger: 'blur',
+				},
+			],
 			Brand: [
 				{
 					required: true,
@@ -516,7 +522,7 @@ export default {
 			state.ruleForm.VehicleProjectList=[...state.ruleForm.VehicleProjectList,...items]
 		}
 		const saveGoods = (list: never[]) => {
-			const items=list.map(val=>{return {Id:"0",GoodsId:val.Id,GoodsSn:val.GoodsSn,GoodsName:val.GoodsName,Qty:val.Qty,Price:val.Price,SellerNote:val.SellerNote,Amount:val.Amount}});
+			const items=list.map(val=>{return {Id:"0",GoodsId:val.Id,GoodsSn:val.GoodsSn,GoodsName:val.GoodsName,Qty:1,Price:val.ShopPrice,SellerNote:val.SellerNote,Amount:val.Amount}});
 			state.ruleForm.VehicleGoodsList=[...state.ruleForm.VehicleGoodsList,...items]
 		}
 		// 打开弹窗
@@ -602,12 +608,12 @@ export default {
 					try {
 						if(state.ruleForm.VehicleProjectList.length>0){
 							state.ruleForm.VehicleProjectList.forEach(item => {
-								item.Amount = totalPrice(item)
+								item.Amount = calcAmount(item)
 							});
 						};
 						if(state.ruleForm.VehicleGoodsList.length>0){
 							state.ruleForm.VehicleGoodsList.forEach(item => {
-								item.Amount = totalPrice(item)
+								item.Amount = calcAmount(item)
 							});
 						};
 						const vehicle = await proxy.$api.erp.vehicle.save(state.ruleForm,
@@ -650,7 +656,7 @@ export default {
 		};
 		const { dateFormatYMD } = commonFunction();
  		// 总价
-		const totalPrice = (row)=>{
+		const calcAmount = (row)=>{
 			if (row.Price && row.Qty) {
         		return row.Price * row.Qty;
       		} else {
@@ -689,7 +695,7 @@ export default {
 			onGoodsDel,
 			onAddWorkerOpenDlg,
 			handleChange,
-			totalPrice,
+			calcAmount,
 			...toRefs(state),
 		};
 	},

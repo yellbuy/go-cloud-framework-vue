@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="600px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="800px" :before-close="closeDialog">
 			<el-divider content-position="left">选择项目*</el-divider>
             <div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
@@ -48,9 +48,10 @@
 				<el-table-column type="selection" width="55" />
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="No" label="编号" width="120" show-overflow-tooltip fixed></el-table-column>
+				<!-- <el-table-column prop="No" label="编号" width="120" show-overflow-tooltip fixed></el-table-column> -->
 				<el-table-column prop="ProjectType" label="项目类型" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Qty" label="预估工时" width="70"></el-table-column>
+				<el-table-column prop="Price" label="工时单价" width="70"></el-table-column>
 			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
@@ -70,15 +71,13 @@
 </template>
 
 <script lang="ts">
-//import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps,ElTable } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs, ref } from 'vue';
+import { ElMessage, ElTable, UploadProps } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-import { useRouter } from 'vue-router';
-import  index  from '@/views/mcs/repair/project/index.vue';
 
 export default {
 	name: 'sheetProject',

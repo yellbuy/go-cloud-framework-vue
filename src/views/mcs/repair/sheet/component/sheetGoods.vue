@@ -44,12 +44,12 @@
 				<el-table-column type="selection" width="55" align="center"/>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="配件名称" width="120" show-overflow-tooltip fixed></el-table-column>
-                <el-table-column prop="GoodsSn" label="编号" width="120" show-overflow-tooltip fixed></el-table-column>
+                <!-- <el-table-column prop="GoodsSn" label="编号" width="120" show-overflow-tooltip fixed></el-table-column> -->
 				<el-table-column prop="GoodsType" label="商品类别" width="120"></el-table-column>
 				<el-table-column prop="BrandName" label="品牌" width="120"></el-table-column>
-				<el-table-column prop="GoodsSpec" label="规格" width="120"></el-table-column>
-				<el-table-column prop="GoodsUnit" label="货品单位" width="120"></el-table-column>
-				<el-table-column prop="ShopPrice" label="销售价" width="120"></el-table-column>
+				<el-table-column prop="GoodsSpec" label="规格" width="100"></el-table-column>
+				<el-table-column prop="GoodsUnit" label="货品单位" width="80"></el-table-column>
+				<el-table-column prop="ShopPrice" label="预估单价" width="80"></el-table-column>
 			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
@@ -70,14 +70,13 @@
 
 <script lang="ts">
 //import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps,ElTable } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs, ref } from 'vue';
+import { ElMessage, ElTable, UploadProps } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-import { useRouter } from 'vue-router';
-import  index  from '@/views/mcs/repair/goods/index.vue';
 
 export default {
 	name: 'sheetGoods',

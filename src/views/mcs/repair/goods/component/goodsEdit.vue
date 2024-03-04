@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="50%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -8,11 +8,11 @@
 							<el-input v-model="ruleForm.GoodsName" placeholder="请输入商品名称"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="商品编号" prop="GoodsSn">
 							<el-input v-model="ruleForm.GoodsSn" placeholder="请输入商品编号"></el-input> 
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="货品单位" prop="GoodsUnit">
 							<el-select v-model="ruleForm.GoodsUnit" class="m-2" placeholder="请输入货品单位" size="small">
@@ -28,19 +28,20 @@
 				</el-row>
 				<el-row>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="会员价比率" prop="NumberRate">
-							<el-input v-model.number="ruleForm.NumberRate" placeholder="请输入会员价比率"></el-input> 
+						<el-form-item label="是否启用" prop="IsOnSale">
+							<el-switch
+							v-model="ruleForm.IsOnSale"
+							:active-icon="Check"
+							:inactive-icon="Close"
+							:active-value="1"
+							:inactive-value="0"
+							inline-prompt
+							/>				
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="是否开启" prop="SupplierState">
-							<el-switch
-						v-model="ruleForm.SupplierState"
-    					active-text="开启"
-    					inactive-text="关闭"
-						:active-value="1"
-						:inactive-value="0"
-						/>				
+						<el-form-item label="参考单价" prop="ShopPrice">
+							<el-input-number v-model="ruleForm.ShopPrice" min="0" max="10000" precision="2"></el-input-number> 
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -92,7 +93,7 @@
 </template>
 
 <script lang="ts">
-import { Plus } from '@element-plus/icons-vue';
+import { Check, Close, Plus } from '@element-plus/icons-vue';
 import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -153,6 +154,8 @@ export default {
 			baseUrl: import.meta.env.VITE_API_URL,
 			dialogImageUrl: "",
 			ImageVisible: false,
+			Check, 
+			Close, 
 			//表单
 			ruleForm: {
 				Id: '0',				
@@ -195,13 +198,6 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			GoodsSn: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
 			GoodsUnit: [
 				{
 					required: true,
@@ -231,12 +227,13 @@ export default {
 					console.log("error:",resBrands.errmsg)
 				}
 				state.disable = disable;
+				
 				if (disable) {
 					state.title = t('message.action.see');
-					GetByIdRow(id);
+					await GetByIdRow(id);
 				} else if (id && id != '0') {
-					GetByIdRow(id);
 					state.title = t('message.action.edit');
+					await GetByIdRow(id);
 				} else {
 					state.ruleForm.Id = 0;
 					state.ruleForm.IsExternal = 0;

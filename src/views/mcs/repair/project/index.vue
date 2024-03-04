@@ -42,6 +42,7 @@
 				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="No" label="项目编号" width="90" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Qty" label="预估工时" width="70" align="right"></el-table-column>
+				<el-table-column prop="Price" label="工时单价" width="70" align="right"></el-table-column>
 				<el-table-column prop="Content" label="服务内容" show-overflow-tooltip></el-table-column>
 				
 				<el-table-column label="状态" show-overflow-tooltip>

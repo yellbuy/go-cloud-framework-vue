@@ -81,6 +81,21 @@
 					</el-row>
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="状态" prop="State">
+								<el-select v-model="ruleForm.State" class="m-2" placeholder="请选择">
+									<el-option :label="'未开单'" :value="0" />
+									<el-option :label="'已开单'" :value="1" />
+									<el-option :label="'已完工'" :value="2" />
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+							<el-form-item label="完工时间" prop="EndTime" required>
+								<el-date-picker v-model="ruleForm.EndTime" type="datetime" placeholder="请选择完工时间"
+									format="YYYY-MM-DD HH:mm"></el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="备注" prop="Remark">
 								<el-input v-model="ruleForm.Remark" autofocus placeholder="" maxlength="100"
 									clearable></el-input>
@@ -105,7 +120,7 @@
 			<el-table :data="ruleForm.VehicleProjectList" v-loading="projectTableData.loading" style="width: 100%"
 				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Name" label="项目名称" width="240" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Qty" label="预估工时" width="80">
 					<template #default="scope">
 						<el-input-number
@@ -134,14 +149,14 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
+				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
 					<template #default="scope">
 						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
 							clearable>
 						</el-input>
 					</template>
 				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(80)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="danger" @click="onProjectDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
@@ -171,12 +186,12 @@
 			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading" style="width: 100%"
 				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Price" label="单价" width="90">
+				<el-table-column prop="GoodsName" label="配件名称" width="240" show-overflow-tooltip fixed></el-table-column>
+				
+				<el-table-column prop="Qty" label="预估工时" width="80">
 					<template #default="scope">
 						<el-input-number
-    						v-model="scope.row.Price"
+    						v-model="scope.row.Qty"
 							size="small"
 							style="width: 80px;"
     						controls-position="right"
@@ -184,10 +199,10 @@
   						/>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Qty" label="预估工时" width="80">
+				<el-table-column prop="Price" label="单价" width="90">
 					<template #default="scope">
 						<el-input-number
-    						v-model="scope.row.Qty"
+    						v-model="scope.row.Price"
 							size="small"
 							style="width: 80px;"
     						controls-position="right"
@@ -200,14 +215,14 @@
 						{{ totalPrice(scope.row) }}
 					</template>
 				</el-table-column>
-				<el-table-column prop="Remark" label="备注" width="130" show-overflow-tooltip>
+				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
 					<template #default="scope">
 						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
 							clearable>
 						</el-input>
 					</template>
 				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(80)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="danger" @click="onGoodsDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
@@ -233,17 +248,14 @@
 </template>
 
 <script lang="ts">
-import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps, ElMessageBox } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs, ref } from 'vue';
+import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import addDlg from './sheetGoods.vue';
+import editDlg from './sheetProject.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-import editDlg from './sheetProject.vue';
-import addDlg from './sheetGoods.vue';
-import { Interface } from 'readline';
-import { validateHeaderName } from 'http';
 
 export default {
 	name: 'sheetAdd',
@@ -430,6 +442,13 @@ export default {
 					trigger: 'blur',
 				},
 			],
+			State: [
+				{
+					required: true,
+					message: computed(() => t('message.validRule.required')),
+					trigger: 'blur',
+				},
+			],
 			Brand: [
 				{
 					required: true,
@@ -499,7 +518,7 @@ export default {
 			state.ruleForm.VehicleProjectList=[...state.ruleForm.VehicleProjectList,...items]
 		}
 		const saveGoods = (list: never[]) => {
-			const items=list.map(val=>{return {Id:"0",GoodsId:val.Id,GoodsSn:val.GoodsSn,GoodsName:val.GoodsName,SellerNote:val.SellerNote,Qty:val.Qty,Price:val.Price,Amount:val.Amount}});
+			const items=list.map(val=>{return {Id:"0",GoodsId:val.Id,GoodsSn:val.GoodsSn,GoodsName:val.GoodsName,SellerNote:val.SellerNote,Qty:1,Price:val.ShopPrice,Amount:val.Amount}});
 			state.ruleForm.VehicleGoodsList=[...state.ruleForm.VehicleGoodsList,...items]
 		}
 		// 打开弹窗

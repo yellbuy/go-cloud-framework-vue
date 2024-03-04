@@ -40,29 +40,29 @@
 				
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="GoodsUnit" label="货品单位" width="70" align="right"></el-table-column>
-				<el-table-column prop="NumberRate" label="会员价比率" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsName" label="商品名称" show-overflow-tooltip fixed></el-table-column>
+				<!-- <el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column> -->
+				<el-table-column prop="GoodsUnit" label="货品单位" width="70" align="center"></el-table-column>
+				<el-table-column prop="ShopPrice" label="参考单价" width="70" align="right"></el-table-column>
 				
-				<el-table-column label="供货状态" show-overflow-tooltip>
+				<el-table-column label="状态" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.SupplierState"
 							inline-prompt
 							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('wms_goods', 'supplier_state', scope.row.Id, scope.row.SupplierState)"
+							@change="proxy.$api.common.table.updateById('wms_goods', 'is_on_sale', scope.row.Id, scope.row.IsOnSale)"
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
 							:inactive-value="0"
 						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.SupplierState" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.IsOnSale" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="GoodsPics" label="商品图片" show-overflow-tooltip>
+				<el-table-column prop="GoodsPics" label="商品图片" width="70" show-overflow-tooltip>
 					<template #default="scope">		
 						<el-image
 							style="width: 30px; height: 30px"

@@ -13,20 +13,28 @@
 							<el-input v-model="ruleForm.No" placeholder="请输入项目编号"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="参考工时" prop="Qty">
-							<el-input v-model.number="ruleForm.Qty" min="0" max="10000"></el-input> 
-						</el-form-item>
-					</el-col>
+				</el-row>
+				<el-row>	
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="是否启用" prop="No">
 							<el-switch
-						v-model="ruleForm.State"
-    					active-text="开启"
-    					inactive-text="关闭"
-						:active-value="1"
-						:inactive-value="0"
-						/>				
+							v-model="ruleForm.State"
+							:active-icon="Check"
+							:inactive-icon="Close"
+							:active-value="1"
+							:inactive-value="0"
+							inline-prompt
+							/>				
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="预估工时" prop="Qty">
+							<el-input-number v-model.number="ruleForm.Qty" min="0" max="10000" precision="0"></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="工时单价" prop="Price">
+							<el-input-number v-model="ruleForm.Price" min="0" max="10000" precision="2"></el-input-number> 
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -66,14 +74,13 @@
 </template>
 
 <script lang="ts">
-import { Plus } from '@element-plus/icons-vue';
+import { Check, Close, Plus } from '@element-plus/icons-vue';
 import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-
 export default {
 	name: 'projectEdit',
 	setup() {
@@ -127,6 +134,8 @@ export default {
 			loading: false,
 			disable: true, //是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
+			Check, 
+			Close,
 			//表单
 			ruleForm: {
 				Id: '0',				
