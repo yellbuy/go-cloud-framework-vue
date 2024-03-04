@@ -36,11 +36,12 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-				
+				highlight-current-row				
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="商品名称" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="GoodsName" label="配件名称" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="GoodsBrief" label="配件类别" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="ProviderName" label="供应商" width="150" show-overflow-tooltip></el-table-column>
 				<!-- <el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column> -->
 				<el-table-column prop="GoodsUnit" label="货品单位" width="70" align="center"></el-table-column>
 				<el-table-column prop="ShopPrice" label="参考单价" width="70" align="right"></el-table-column>

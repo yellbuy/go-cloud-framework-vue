@@ -45,8 +45,8 @@
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="配件名称" width="120" show-overflow-tooltip fixed></el-table-column>
                 <!-- <el-table-column prop="GoodsSn" label="编号" width="120" show-overflow-tooltip fixed></el-table-column> -->
-				<el-table-column prop="GoodsType" label="商品类别" width="120"></el-table-column>
-				<el-table-column prop="BrandName" label="品牌" width="120"></el-table-column>
+				<el-table-column prop="GoodsBrief" label="配件类别" width="120"></el-table-column>
+				<el-table-column prop="ProviderName" label="供应商" width="120"></el-table-column>
 				<el-table-column prop="GoodsSpec" label="规格" width="100"></el-table-column>
 				<el-table-column prop="GoodsUnit" label="货品单位" width="80"></el-table-column>
 				<el-table-column prop="ShopPrice" label="预估单价" width="80"></el-table-column>

@@ -39,7 +39,6 @@
 				stripe
 				highlight-current-row
 			>
-			
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="BillNo" label="维修单号" width="110" fixed></el-table-column>
 				<el-table-column label="是否委外" width="120" show-overflow-tooltip>
@@ -61,10 +60,9 @@
 				</el-table-column>
 				<el-table-column label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						
-						<el-tag type="success" effect="plain" v-if="!scope.row.State">{{ $t('pages.mcs.action.not_billing') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else-if="scope.row.State==1">{{ $t('pages.mcs.action.has_billed') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else>{{ $t('pages.mcs.action.has_finished') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-if="!scope.row.State">{{ $t('pages.mcs.action.not_billing') }}</el-tag>
+						<el-tag type="warning" effect="plain" v-else-if="scope.row.State==1">{{ $t('pages.mcs.action.has_billed') }}</el-tag>
+						<el-tag type="success" effect="plain" v-else>{{ $t('pages.mcs.action.has_finished') }}</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
@@ -80,24 +78,9 @@
 					<template #default="scope">
 						<div>{{examList[scope.row.ExamState] }}</div>
 					</template>
-					 <!-- <template #default="scope">
-						<el-switch
-							v-model="scope.row.ExamState"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'exam_state', scope.row.Id, scope.row.ExamState)"
-							:active-text="$t('message.action.enable')"
-							:inactive-text="$t('message.action.disable')"
-							:active-value="1"
-							:inactive-value="10"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.ExamState" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
-					</template>  -->
 				</el-table-column>
 				<el-table-column prop="EndTime" label="出厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-			<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}

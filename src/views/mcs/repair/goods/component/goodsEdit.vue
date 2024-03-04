@@ -3,9 +3,26 @@
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
+					
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="商品名称" prop="GoodsName">
 							<el-input v-model="ruleForm.GoodsName" placeholder="请输入商品名称"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="商品类别" prop="GoodsBrief">
+							<el-select v-model="ruleForm.GoodsBrief" placeholder="请选择">
+								<el-option v-for="item in categoryList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="供应商" prop="ProviderName">
+							<el-select v-model="ruleForm.ProviderName" placeholder="请选择">
+								<el-option v-for="item in providerList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -181,6 +198,8 @@ export default {
 			dialogVisible: false,
 			goodsUnitList: [],
 			brandList: [],
+			categoryList: [],
+			providerList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -192,6 +211,20 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			GoodsName: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			GoodsPrief: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			ProviderName: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -220,11 +253,17 @@ export default {
 				}else{
 					console.log("error:",goodsUnits.errmsg)
 				}
-				const resBrands = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_brand', 0, 2);
-				if (resBrands.errcode == 0) {
-					state.brandList = resBrands.data;
+				const resCategoryList = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_category', 0, 2);
+				if (resCategoryList.errcode == 0) {
+					state.categoryList = resCategoryList.data;
 				}else{
-					console.log("error:",resBrands.errmsg)
+					console.log("error:",resCategoryList.errmsg)
+				}
+				const resProviderList = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_provider', 0, 2);
+				if (resProviderList.errcode == 0) {
+					state.providerList = resProviderList.data;
+				}else{
+					console.log("error:",resProviderList.errmsg)
 				}
 				state.disable = disable;
 				

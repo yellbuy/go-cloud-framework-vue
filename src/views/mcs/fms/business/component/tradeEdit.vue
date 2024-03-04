@@ -1,38 +1,33 @@
 <template>
-	<div class="system-edit-trade-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="800px" :before-close="closeDialog">
+	<div class="system-edit-user-container">
+		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-divider content-position="left">基本信息*</el-divider>
+				<el-divider content-position="left">货物名称*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12"  class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId" >
-							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onCustomerSelected">
+							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onFormSelected">
 								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="供应商" prop="CompanyId" >
-							<el-select v-model="ruleForm.CompanyId" filterable placeholder="请选择" @change="onCustomerSelected">
-								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
-							</el-select>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="业务类型" prop="WaybillMode">
+							<div mb-2 flex items-center>
+								<el-radio-group v-model="ruleForm.WaybillMode">
+									<el-radio :label="1">货运</el-radio>
+								</el-radio-group>
+							</div>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="日期" prop="SenderPlanTime">
-							<el-date-picker
-								v-model="ruleForm.SenderPlanTime"
-								type="date"
-								placeholder="日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="单价" prop="Price">
+							<el-input-number v-model="ruleForm.Price" min="0" max="100000" :precision="2" :step="1" controls-position="right"></el-input-number> 
 						</el-form-item>
 					</el-col>
-					
-					
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12"  class="mb20">
+					</el-row>
+					<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-tree-select
 								v-model="ruleForm.GoodsCategoryId"
@@ -49,27 +44,72 @@
 							/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="产品名称" prop="GoodsId">
-							<el-select v-model="ruleForm.GoodsId" placeholder="请选择">
+							<el-select v-model="ruleForm.GoodsId" placeholder="请选择" @change="onFormSelected">
 								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="吨位" prop="PlanWeight">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="计划量" prop="PlanWeight">
 							<el-input v-model.number="ruleForm.PlanWeight" min="0" max="1000000000"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="收入" prop="VehicleCount">
-							<el-input v-model.number="ruleForm.VehicleCount" min="0" max="1000000000"></el-input> 
+					
+				</el-row>
+				<el-divider content-position="left">收发货信息*</el-divider>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="发货地点" prop="SenderAddress">
+							<el-select
+								v-model="ruleForm.SenderAddress"
+								filterable
+								allow-create
+								default-first-option
+								:reserve-keyword="false"
+								placeholder="请输入或选择">
+								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item"> </el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
-				</el-row>		
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="收货地点" prop="ReceiverAddress">
+							<el-select
+								v-model="ruleForm.ReceiverAddress" 
+								filterable
+								allow-create
+								default-first-option
+								:reserve-keyword="false"
+								placeholder="请输入或选择">
+								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item"> </el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="要求发货时间" prop="SenderPlanTime">
+							<el-date-picker
+								v-model="ruleForm.SenderPlanTime"
+								type="datetime"
+								placeholder="要求发货时间"
+								format="YYYY-MM-DD HH:mm"
+							></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="要求收货时间" prop="ReceiverPlanTime">
+							<el-date-picker
+								v-model="ruleForm.ReceiverPlanTime"
+								type="datetime"
+								placeholder="要求收货时间"
+								format="YYYY-MM-DD HH:mm"
+							></el-date-picker>
+						</el-form-item>
+					</el-col>
+					
+				</el-row>
 				
 			</el-form>
 			<template #footer>
@@ -93,7 +133,7 @@ import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
-	name: 'tradeEdit',
+	name: 'freightEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -122,7 +162,7 @@ export default {
 			ruleForm: {
 				Id: 0,
 				Name: '',
-				Kind: 'trade',
+				Kind: 'info',
 				CustomerId:"",
 				GoodsCategoryId: '0',
 				GoodsId:"",
@@ -149,8 +189,8 @@ export default {
 			goodsTypeList:[],
 			goodsList:[],
 			customerList:[],
-			waybillList:[],
-
+			senderAddressList:[],
+			receiverAddressList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -227,30 +267,25 @@ export default {
 				}else{
 					console.log("error:",resCustomers.errmsg)
 				}
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				}else{
-					console.log("error:",resTruckTypes.errmsg)
-				}
-				const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColors.errcode == 0) {
-					state.plateColorList = resPlateColors.data;
-				}else{
-					console.log("error:",resPlateColors.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
-				}
-				const resPlateColorTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColorTypes.errcode == 0) {
-					state.plateColorList = resPlateColorTypes.data;
-				} else{
-					console.log("error:",resPlateColorTypes.errmsg);
-				}
+				// const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
+				// if (resTruckTypes.errcode == 0) {
+				// 	state.truckTypeList = resTruckTypes.data;
+				// }else{
+				// 	console.log("error:",resTruckTypes.errmsg)
+				// }
+				// const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
+				// if (resPlateColors.errcode == 0) {
+				// 	state.plateColorList = resPlateColors.data;
+				// }else{
+				// 	console.log("error:",resPlateColors.errmsg)
+				// }
+				// const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
+				// if (resEnergyTypes.errcode == 0) {
+				// 	state.energyTypeList = resEnergyTypes.data;
+				// } else {
+				// 	console.log("error:",resEnergyTypes.errmsg)
+				// }
+			
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
@@ -275,33 +310,35 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				await loadWaybillList(state.ruleForm.CustomerId);
+				await loadAddressList();
 			} finally {
 				state.isShowDialog = true;
 			}
 		}
 
 		// 选中客户后，加载最近的运单信息
-		const loadWaybillList = async (customerId:number|string) => {
+		const loadAddressList = async () => {
 			
-			if(!customerId||customerId=="0"){
-				state.waybillList=[];
+			if(!state.ruleForm.CustomerId||state.ruleForm.CustomerId=="0"){
+				state.senderAddressList=[];
+				state.receiverAddressList=[];
 				return;
 			}
-			console.log(customerId)
-			const res = await proxy.$api.erp.waybill.getListByScope(state.ruleForm.Kind, 0, 0,{customerId:customerId});
+			const res = await proxy.$api.erp.waybill.getAddressListByScope(state.ruleForm.Kind, 0, 0,{customerId:state.ruleForm.CustomerId,goodsId:state.ruleForm.GoodsId});
 			if (res.errcode != 0) {
 				return;
 			}
-			state.waybillList=res.data;
+			console.log("res.data",res.data)
+			state.senderAddressList=res.data.SenderAddressList||[];
+			state.receiverAddressList=res.data.ReceiverAddressList||[];
 		};
 
 		// 选中客户后，加载最近的运单信息
-		const onCustomerSelected = async (customerId:number|string) => {
+		const onFormSelected = async () => {
 			//清空地址，防止选择了不同的客户忘了修改地址，导致地址录入错误
 			state.ruleForm.SenderAddress="" 
 			state.ruleForm.ReceiverAddress=""
-			await loadWaybillList(customerId)
+			await loadAddressList()
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -312,7 +349,7 @@ export default {
 		};
 
 		const onLoadTable = () => {
-			//proxy.$parent.onMainGetTableData();
+			proxy.$parent.onMainGetTableData();
 		};
 		const onCategorySelect=async (id:string)=>{
 			loadGoodsList(id);
@@ -392,7 +429,7 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
-			onCustomerSelected,
+			onFormSelected,
 			GetByIdRow,
 			onBeforeImageUpload,
 			onModelEdit,
