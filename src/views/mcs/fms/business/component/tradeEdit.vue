@@ -92,6 +92,7 @@ export default {
 				Name: '',
 				Kind: 'trade',
 				CustomerId:"",
+				
 				GoodsCategoryId: '0',
 				GoodsId:"",
 			},
@@ -163,7 +164,7 @@ export default {
 
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.waybill.getById(Id);
+				const res = await proxy.$api.erp.businessBill.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}

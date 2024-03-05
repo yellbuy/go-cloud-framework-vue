@@ -1,7 +1,7 @@
 <template>
 	<div class="base-freight-container">
 			<splitpanes class="default-theme" @resize="paneSize = $event[0].size" style="height: 100%">
-				<pane :size="70">
+				<pane :size="65">
 					<el-card shadow="hover">
 						<div class="">
 							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="70px" :inline="true">
@@ -44,9 +44,9 @@
 						highlight-current-row
 					>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-						<el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column>
+						<!-- <el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column> -->
 						<el-table-column prop="GoodsName" label="品名" width="120"></el-table-column>
-						<el-table-column prop="CategoryName" label="品类" width="120"></el-table-column>
+						<el-table-column prop="GoodsCategoryName" label="品类" width="120"></el-table-column>
 						<el-table-column prop="CustomerName" label="供应商" width="180" show-overflow-tooltip></el-table-column>
 						<!-- <el-table-column prop="PlanWeight" label="吨位" width="80" align="right"></el-table-column>
 						<el-table-column prop="Amount" label="收入" width="120" align="right"></el-table-column> -->
@@ -86,7 +86,7 @@
 					</el-pagination>
 				</el-card>
 				</pane>
-				<pane :size="30">
+				<pane :size="35">
 					<el-card shadow="hover">
 						<div class="">
 							<el-form ref="searchFormRef" :model="childTableData.param" label-suffix="：" label-width="60px" :inline="true">
@@ -95,6 +95,7 @@
 								</el-form-item>
 								<el-form-item>
 									<el-button-group>
+										
 										<el-tooltip
 											class="box-item"
 											effect="dark"
@@ -124,7 +125,7 @@
 												:content="$t('message.action.add')"
 												placement="top-start"
 											>	
-											<el-button type="primary" @click="onChildOpenAddDlg(0, false)" v-auth:[moduleKey]="'btn.ChildAdd'">
+											<el-button type="primary" @click="onChildOpenEditDlg(0, 0,false)" v-auth:[moduleKey]="'btn.Add'">
 												<el-icon>
 													<CirclePlusFilled />
 												</el-icon>
@@ -146,26 +147,23 @@
 						selectable
 						highlight-current-row
 					>
-						<el-table-column type="selection" width="55" align="center" fixed />
-						
-						<el-table-column prop="BillTime" label="日期" width="100" :formatter="dateFormatYMD" fixed></el-table-column>
-						<el-table-column prop="PlanWeight" label="吨位" width="85" align="right"></el-table-column>
+						<!-- <el-table-column type="selection" width="55" align="center" fixed /> -->
+						<el-table-column prop="BillNo" label="流水号" width="120" fixed></el-table-column>
+						<el-table-column prop="BillTime" label="日期" width="100" :formatter="dateFormatYMD"></el-table-column>
+						<el-table-column prop="Weight" label="吨位" width="70" align="right"></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope">
 								<el-dropdown split-button>
 									{{ $t('message.action.operate') }}
 									<template #dropdown>
 										<el-dropdown-menu>
-											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ChildEdit'">
+											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id,scope.row.BusinessBillId, false)" v-auth:[moduleKey]="'btn.Edit'">
 												<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
 											</el-dropdown-item>
-											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.ChildEdit'">
+											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, scope.row.BusinessBillId,true)" v-auth:[moduleKey]="'btn.Edit'">
 												<el-text  >{{ $t('message.action.see') }}</el-text>
 											</el-dropdown-item>
-											<el-dropdown-item @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" divided v-auth:[moduleKey]="'btn.ChildMap'">
-												<el-text  >{{ $t('message.action.location') }}</el-text>
-											</el-dropdown-item>
-											<el-dropdown-item @click="onChildDel(scope.row.Id,scope.row.WaybillId)" divided v-auth:[moduleKey]="'btn.ChildDel'">
+											<el-dropdown-item @click="onChildDel(scope.row.Id,scope.row.BusinessBillId)" divided v-auth:[moduleKey]="'btn.Del'">
 												<el-text type="danger">{{ $t('message.action.delete') }}</el-text>
 											</el-dropdown-item>
 										</el-dropdown-menu>
@@ -196,7 +194,7 @@
 </template>
 
 <script lang="ts">
-import { ElMessageBox } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { Pane, Splitpanes } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
@@ -243,7 +241,7 @@ export default {
 				isTodayAll:1, //查询今日所有任务详情
 				param: {
 					keyword: '',
-					waybillId:'0',
+					businessBillId:'0',
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -265,9 +263,9 @@ export default {
 			}
 			state.mainCurrentRow = row
 			if(row){
-				state.childTableData.param.waybillId=row.Id
+				state.childTableData.param.businessBillId=row.Id
 			} else{
-				state.childTableData.param.waybillId="0"
+				state.childTableData.param.businessBillId="0"
 			}
 			state.childTableData.param.isTodayAll=0
 			onChildGetTableData(true)
@@ -303,7 +301,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.waybill.delete(Id);
+					const res = await proxy.$api.erp.businessBill.delete(Id);
 					if (res.errcode == 0) {
 						onMainGetTableData();
 					}
@@ -360,18 +358,29 @@ export default {
 		};
 		
 		// 打开弹窗
-		const onChildOpenEditDlg = (id: string, ishow: boolean) => {
-			editChildDlgRef.value.openDialog(state.kind, id, ishow);
+		const onChildOpenEditDlg = (id: string,billId:string, ishow: boolean) => {
+			const businessBillId = state.childTableData.param.businessBillId||billId;
+			if(!businessBillId || businessBillId=="0"){
+				ElMessage({
+					grouping: true,
+					showClose: true,
+					message: "请选择主记录后再操作",
+					duration: 3600,
+					type: 'error',
+				})
+				return businessBillId;
+			}
+			editChildDlgRef.value.openDialog(state.kind, id, businessBillId, ishow);
 		};
 		// 删除用户
-		const onChildDel = (id: string,waybillId:string) => {
+		const onChildDel = (id: string,businessBillId:string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.waybillLine.delete(id,waybillId);
+					const res = await proxy.$api.erp.businessBillLine.delete(id,businessBillId);
 					if (res.errcode == 0) {
 						onMainGetTableData();
 						onChildGetTableData();

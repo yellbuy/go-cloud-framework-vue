@@ -15,7 +15,7 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="16" class="mb20">
 						<el-form-item label="重量" prop="Weight">
 							<el-input v-model.number="ruleForm.Weight" min="0" max="10000">
 								<template #append>吨</template>
@@ -93,20 +93,10 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'trade',
-				VehicleNumber: '',
-				IsExternal:0,
-				VehicleType: '',
-				EnergyType: '',
-				PlateColor:'',
-				Vin: '',
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
-				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
+				BusinessBillId:"0",
+				State:1,
+				BillTime: new Date(),
+				Weight:0,
 			},
 			tableItem: {
 				Id: '0',
@@ -131,7 +121,7 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			VehicleNumber: [
+			BillTime: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
@@ -142,43 +132,21 @@ export default {
 		});
 		
 		// 打开弹窗
-		const openDialog = async (kind: string, id: string, disable: boolean) => {
+		const openDialog = async (kind: string, id: string, businessBillId:string, disable: boolean) => {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				}else{
-					console.log("error:",resTruckTypes.errmsg)
-				}
-				const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColors.errcode == 0) {
-					state.plateColorList = resPlateColors.data;
-				}else{
-					console.log("error:",resPlateColors.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
-				}
-				const resPlateColorTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColorTypes.errcode == 0) {
-					state.plateColorList = resPlateColorTypes.data;
-				}else{
-					console.log("error:",resPlateColorTypes.errmsg)
-				}
+				
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal=0;
+					state.ruleForm.BusinessBillId = businessBillId;
+					state.ruleForm.State=1;
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -246,6 +214,7 @@ export default {
 								state.ruleForm.Id = 0;
 							}
 							proxy.$parent.onMainGetTableData();
+							proxy.$parent.onChildGetTableData();
 						}
 					} finally {
 						state.loading = false;
