@@ -57,9 +57,6 @@
 									{{ $t('message.action.operate') }}
 									<template #dropdown>
 										<el-dropdown-menu>
-											<el-dropdown-item @click="onMainCopy(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Copy'">
-												<el-text type="primary" >{{ $t('message.action.copy') }}</el-text>
-											</el-dropdown-item>
 											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 												<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
 											</el-dropdown-item>
@@ -283,7 +280,7 @@ export default {
 			}
 			state.mainTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.waybill.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.mainTableData.param);
+				const res = await proxy.$api.erp.businessBill.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.mainTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -293,19 +290,7 @@ export default {
 				state.mainTableData.loading = false;
 			}
 		};
-		// 打开弹窗
-		const onMainCopy = async (id: string, ishow: boolean) => {
-			state.mainTableData.loading = true;
-			try {
-				const res = await proxy.$api.erp.waybill.copy(id);
-				if (res.errcode == 0) {
-					onMainGetTableData(true)
-				}
-			} finally {
-				state.mainTableData.loading = false;
-			}
-			return false;
-		};
+		
 		// 打开弹窗
 		const onMainOpenEditDlg = (id: string, ishow: boolean) => {
 			editMainDlgRef.value.openDialog(state.kind, id, ishow);
@@ -363,7 +348,7 @@ export default {
 			}
 			state.childTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.waybillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.childTableData.param);
+				const res = await proxy.$api.erp.businessBillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.childTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -427,7 +412,6 @@ export default {
 			onMainGetTableData,
 			onMainResetSearch,
 			onMainOpenEditDlg,
-			onMainCopy,
 			onMainDel,
 			onMainHandleSizeChange,
 			onMainHandleCurrentChange,

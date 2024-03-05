@@ -1,33 +1,19 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="500px" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">货物名称*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="客户名称" prop="CustomerId" >
-							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onFormSelected">
+					<el-col :xs="24" class="mb20">
+						<el-form-item label="供应商" prop="CustomerId" >
+							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择">
 								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="业务类型" prop="WaybillMode">
-							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.WaybillMode">
-									<el-radio :label="1">货运</el-radio>
-								</el-radio-group>
-							</div>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="单价" prop="Price">
-							<el-input-number v-model="ruleForm.Price" min="0" max="100000" :precision="2" :step="1" controls-position="right"></el-input-number> 
-						</el-form-item>
-					</el-col>
 					</el-row>
 					<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" class="mb20">
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-tree-select
 								v-model="ruleForm.GoodsCategoryId"
@@ -44,73 +30,16 @@
 							/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" class="mb20">
 						<el-form-item label="产品名称" prop="GoodsId">
 							<el-select v-model="ruleForm.GoodsId" placeholder="请选择" @change="onFormSelected">
 								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="计划量" prop="PlanWeight">
-							<el-input v-model.number="ruleForm.PlanWeight" min="0" max="1000000000"></el-input> 
-						</el-form-item>
-					</el-col>
-					
 				</el-row>
-				<el-divider content-position="left">收发货信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发货地点" prop="SenderAddress">
-							<el-select
-								v-model="ruleForm.SenderAddress"
-								filterable
-								allow-create
-								default-first-option
-								:reserve-keyword="false"
-								placeholder="请输入或选择">
-								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="收货地点" prop="ReceiverAddress">
-							<el-select
-								v-model="ruleForm.ReceiverAddress" 
-								filterable
-								allow-create
-								default-first-option
-								:reserve-keyword="false"
-								placeholder="请输入或选择">
-								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="要求发货时间" prop="SenderPlanTime">
-							<el-date-picker
-								v-model="ruleForm.SenderPlanTime"
-								type="datetime"
-								placeholder="要求发货时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="要求收货时间" prop="ReceiverPlanTime">
-							<el-date-picker
-								v-model="ruleForm.ReceiverPlanTime"
-								type="datetime"
-								placeholder="要求收货时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					
-				</el-row>
-				
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -125,7 +54,6 @@
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs';
 import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -133,7 +61,7 @@ import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
-	name: 'freightEdit',
+	name: 'tradeEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -162,24 +90,10 @@ export default {
 			ruleForm: {
 				Id: 0,
 				Name: '',
-				Kind: 'info',
+				Kind: 'trade',
 				CustomerId:"",
 				GoodsCategoryId: '0',
 				GoodsId:"",
-				VehicleNumber: '',
-				IsExternal:0,
-				VehicleType: '',
-				EnergyType: '',
-				PlateColor:'',
-				Vin: '',
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
-				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
 			},
 			
 			dialogVisible: false,
@@ -208,45 +122,10 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			SenderPlanTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			ReceiverPlanTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
 			CustomerId: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			WaybillMode: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
-			PlanWeight: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
-			Price: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
 					trigger: 'blur',
 				},
 			],
@@ -267,25 +146,6 @@ export default {
 				}else{
 					console.log("error:",resCustomers.errmsg)
 				}
-				// const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				// if (resTruckTypes.errcode == 0) {
-				// 	state.truckTypeList = resTruckTypes.data;
-				// }else{
-				// 	console.log("error:",resTruckTypes.errmsg)
-				// }
-				// const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				// if (resPlateColors.errcode == 0) {
-				// 	state.plateColorList = resPlateColors.data;
-				// }else{
-				// 	console.log("error:",resPlateColors.errmsg)
-				// }
-				// const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				// if (resEnergyTypes.errcode == 0) {
-				// 	state.energyTypeList = resEnergyTypes.data;
-				// } else {
-				// 	console.log("error:",resEnergyTypes.errmsg)
-				// }
-			
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
@@ -293,8 +153,6 @@ export default {
 				} else {
 					state.ruleForm.Id = 0;
 					state.ruleForm.IsExternal=0;
-					state.ruleForm.SenderPlanTime=new Date()
-					state.ruleForm.ReceiverPlanTime=dayjs(new Date()).add(1, 'day')
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -310,36 +168,11 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				await loadAddressList();
 			} finally {
 				state.isShowDialog = true;
 			}
 		}
 
-		// 选中客户后，加载最近的运单信息
-		const loadAddressList = async () => {
-			
-			if(!state.ruleForm.CustomerId||state.ruleForm.CustomerId=="0"){
-				state.senderAddressList=[];
-				state.receiverAddressList=[];
-				return;
-			}
-			const res = await proxy.$api.erp.waybill.getAddressListByScope(state.ruleForm.Kind, 0, 0,{customerId:state.ruleForm.CustomerId,goodsId:state.ruleForm.GoodsId});
-			if (res.errcode != 0) {
-				return;
-			}
-			console.log("res.data",res.data)
-			state.senderAddressList=res.data.SenderAddressList||[];
-			state.receiverAddressList=res.data.ReceiverAddressList||[];
-		};
-
-		// 选中客户后，加载最近的运单信息
-		const onFormSelected = async () => {
-			//清空地址，防止选择了不同的客户忘了修改地址，导致地址录入错误
-			state.ruleForm.SenderAddress="" 
-			state.ruleForm.ReceiverAddress=""
-			await loadAddressList()
-		};
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
@@ -383,7 +216,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.waybill.save(state.ruleForm);
+						const res = await proxy.$api.erp.businessBill.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -429,7 +262,6 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
-			onFormSelected,
 			GetByIdRow,
 			onBeforeImageUpload,
 			onModelEdit,

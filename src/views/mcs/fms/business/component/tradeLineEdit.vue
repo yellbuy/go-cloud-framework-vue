@@ -1,63 +1,28 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="500px" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车牌号码" prop="VehicleNumber">
-							<el-input v-model="ruleForm.VehicleNumber"></el-input> 
-						</el-form-item>
-					</el-col>
-					
-				</el-row>
-				<el-divider content-position="left">发货信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="是否发货" prop="BeginState">
-							<el-switch v-model="ruleForm.BeginState" :width="50" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发货重量" prop="SenderNetWeight">
-							<el-input v-model.number="ruleForm.SenderNetWeight" min="0" max="10000"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发货时间" prop="BeginTime">
+					<el-col :xs="24" class="mb20">
+						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
-								v-model="ruleForm.BeginTime"
-								type="datetime"
-								placeholder="发货时间"
-								format="YYYY-MM-DD HH:mm"
+								v-model="ruleForm.BillTime"
+								type="date"
+								placeholder="日期"
+								format="YYYY-MM-DD"
 							></el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-divider content-position="left">卸货信息*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="是否卸货" prop="FinishState">
-							<el-switch v-model="ruleForm.FinishState" :width="50" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+						<el-form-item label="重量" prop="Weight">
+							<el-input v-model.number="ruleForm.Weight" min="0" max="10000">
+								<template #append>吨</template>
+							</el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="卸货重量" prop="ReceiverNetWeight">
-							<el-input v-model.number="ruleForm.ReceiverNetWeight" min="0" max="10000"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="卸货时间" prop="FinishTime">
-							<el-date-picker
-								v-model="ruleForm.FinishTime"
-								type="datetime"
-								placeholder="卸货时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					
 				</el-row>
-				
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -127,7 +92,7 @@ export default {
 			ruleForm: {
 				Id: 0,
 				Name: '',
-				Kind: 'info',
+				Kind: 'trade',
 				VehicleNumber: '',
 				IsExternal:0,
 				VehicleType: '',
@@ -150,7 +115,7 @@ export default {
 				Files: '',
 				StartTime: '',
 				EndTime:'',
-				Kind: 'info',
+				Kind: 'trade',
 			},
 			dialogVisible: false,
 			truckTypeList: [],
@@ -223,7 +188,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.waybillLine.getById(Id);
+				const res = await proxy.$api.erp.businessBillLine.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -272,7 +237,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.waybillLine.save(state.ruleForm);
+						const res = await proxy.$api.erp.businessBillLine.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
