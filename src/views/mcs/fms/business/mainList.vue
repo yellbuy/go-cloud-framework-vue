@@ -38,16 +38,16 @@
 				stripe
 				highlight-current-row
 			>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="品名" width="100" fixed></el-table-column>
-				<el-table-column prop="CustomerName" label="客户名称" width="200" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="SenderName" label="发货站" width="120"></el-table-column>				
-				<el-table-column prop="ReceiverName" label="到达地" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Weight" label="吨位" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="VehicleCount" label="列数" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="BillTime" label="日期" width="90"></el-table-column>		
+				<el-table-column type="index" label="序号" align="right" width="50" fixed />
+				<el-table-column prop="GoodsName" label="品名" width="120" show-overflow-tooltip="true" fixed></el-table-column>
+				<el-table-column prop="CustomerName" label="客户名称" width="150" show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="SenderAddress" label="发货站" width="200" show-overflow-tooltip="true"></el-table-column>				
+				<el-table-column prop="ReceiverAddress" label="到达地" width="200"  show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="PlanWeight" label="吨位" width="50" align="right"  show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="VehicleCount" label="列数" width="50" align="right"  show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="BillTime" label="日期" width="100" :formatter="dateFormatYMD" show-overflow-tooltip="true"></el-table-column>		
 				
-				<el-table-column label="有效" width="70" show-overflow-tooltip>
+				<el-table-column label="有效" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
@@ -64,7 +64,7 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -124,11 +124,7 @@ export default {
 			scopeMode,
 			scopeValue,
 			tableData: {
-				data: [
-					{"Id":"1","GoodsName":"铁矿","CustomerName":"攀钢","SenderName":"桐子林","ReceiverName":"西钢钒","Weight":"200","VehicleCount":"1","Tname":"汉盛物流","BillTime":"2024-02-21"},
-					{"Id":"2","GoodsName":"煤炭","CustomerName":"攀钢","SenderName":"桐子林","ReceiverName":"西钢钒","Weight":"200","VehicleCount":"1","Tname":"汉盛物流","BillTime":"2024-02-22"},
-					{"Id":"3","GoodsName":"球团矿","CustomerName":"攀钢","SenderName":"弯丘","ReceiverName":"铁厂","Weight":"200","VehicleCount":"1","Tname":"汉盛物流","BillTime":"2024-02-23"}
-				],
+				data: [],
 				total: 3,
 				loading: false,
 				param: {
@@ -151,20 +147,20 @@ export default {
 
 		// 查询表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			// if (gotoFirstPage) {
-			// 	state.tableData.param.pageNum = 1;
-			// }
-			// state.tableData.loading = true;
-			// try {
-			// 	const res = await proxy.$api.erp.vehicle.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
-			// 	if (res.errcode != 0) {
-			// 		return;
-			// 	}
-			// 	state.tableData.data = res.data;
-			// 	state.tableData.total = res.total;
-			// } finally {
-			// 	state.tableData.loading = false;
-			// }
+			if (gotoFirstPage) {
+				state.tableData.param.pageNum = 1;
+			}
+			state.tableData.loading = true;
+			try {
+				const res = await proxy.$api.erp.businessBillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.tableData.data = res.data;
+				state.tableData.total = res.total;
+			} finally {
+				state.tableData.loading = false;
+			}
 		};
 		
 		// 打开弹窗
@@ -205,7 +201,7 @@ export default {
 			onGetTableData();
 		});
 
-		const { dateFormatYMDHM } = commonFunction();
+		const { dateFormatYMD,dateFormatYMDHM } = commonFunction();
 
 		return {
 			proxy,
@@ -216,6 +212,7 @@ export default {
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
+			dateFormatYMD,
 			dateFormatYMDHM,
 			...toRefs(state),
 		};

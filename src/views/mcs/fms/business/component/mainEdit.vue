@@ -7,7 +7,7 @@
 					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId" >
 							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onCustomerSelected">
-								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
+								<el-option v-for="(item,index) in customerList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -45,7 +45,7 @@
 					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="产品名称" prop="GoodsId">
 							<el-select v-model="ruleForm.GoodsId" placeholder="请选择">
-								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
+								<el-option v-for="(item,index) in goodsList" :key="index" :label="item.GoodsName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -74,7 +74,7 @@
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入或选择">
-								<el-option v-for="item in waybillList" :key="item.Id" :label="item.SenderAddress" :value="item.SenderAddress"> </el-option>
+								<el-option v-for="(item,index) in tableList" :key="index" :label="item.SenderAddress" :value="item.SenderAddress"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -87,7 +87,7 @@
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入或选择">
-								<el-option v-for="item in waybillList" :key="item.Id" :label="item.ReceiverAddress" :value="item.ReceiverAddress"> </el-option>
+								<el-option v-for="(item,index) in tableList" :key="index" :label="item.ReceiverAddress" :value="item.ReceiverAddress"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -166,12 +166,11 @@ export default {
 			
 			dialogVisible: false,
 			truckTypeList: [],
-			plateColorList:[],
 			energyTypeList:[],
 			goodsTypeList:[],
 			goodsList:[],
 			customerList:[],
-			waybillList:[],
+			tableList:[],
 
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
@@ -255,12 +254,6 @@ export default {
 				}else{
 					console.log("error:",resTruckTypes.errmsg)
 				}
-				const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColors.errcode == 0) {
-					state.plateColorList = resPlateColors.data;
-				}else{
-					console.log("error:",resPlateColors.errmsg)
-				}
 				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
 				if (resEnergyTypes.errcode == 0) {
 					state.energyTypeList = resEnergyTypes.data;
@@ -292,30 +285,30 @@ export default {
 
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.waybill.getById(Id);
+				const res = await proxy.$api.erp.businessBillLine.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
 				state.ruleForm = res.data;
-				await loadWaybillList(state.ruleForm.CustomerId);
+				await loadList(state.ruleForm.CustomerId);
 			} finally {
 				state.isShowDialog = true;
 			}
 		}
 
 		// 选中客户后，加载最近的运单信息
-		const loadWaybillList = async (customerId:number|string) => {
+		const loadList = async (customerId:number|string) => {
 			
 			if(!customerId||customerId=="0"){
-				state.waybillList=[];
+				state.tableList=[];
 				return;
 			}
 			console.log(customerId)
-			const res = await proxy.$api.erp.waybill.getListByScope(state.ruleForm.Kind, 0, 0,{customerId:customerId});
+			const res = await proxy.$api.erp.businessBillLine.getListByScope(state.ruleForm.Kind, 0, 0,{customerId:customerId});
 			if (res.errcode != 0) {
 				return;
 			}
-			state.waybillList=res.data;
+			state.tableList=res.data;
 		};
 
 		// 选中客户后，加载最近的运单信息
@@ -323,7 +316,7 @@ export default {
 			//清空地址，防止选择了不同的客户忘了修改地址，导致地址录入错误
 			state.ruleForm.SenderAddress="" 
 			state.ruleForm.ReceiverAddress=""
-			await loadWaybillList(customerId)
+			await loadList(customerId)
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -368,7 +361,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.waybill.save(state.ruleForm);
+						const res = await proxy.$api.erp.businessBillLine.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
