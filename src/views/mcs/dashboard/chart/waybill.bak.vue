@@ -67,7 +67,6 @@
 		:show-row-totals="true"
 		:show-column-totals="true"
 		:field-panel="true"
-		@exporting="onExporting"
 	  >
 	  <DxHeaderFilter
         :show-relevant-values="true"
@@ -82,17 +81,11 @@
 		<DxFieldPanel
         :visible="true"
       />
-	  <DxStateStoring
-          :enabled="true"
-          type="localStorage"
-          storageKey="dashboard-chart-waybill_v1.0"
-        />
 	  <FieldChooser :enabled="true" />
-	  <DxExport :enabled="true" />
 	  </DxPivotGrid>
 	</div>
   </template>
-  <script setup lang="ts">
+<script setup lang="ts">
 import dayjs from 'dayjs';
 import { loadMessages, locale } from "devextreme/localization";
 import zhCnMessages from "devextreme/localization/messages/zh.json";
@@ -104,24 +97,22 @@ locale(navigator.language);
 	DxChart,
 	DxCommonSeriesSettings,
 	DxSize,
-	DxTooltip
+	DxTooltip,
 } from 'devextreme-vue/chart';
 
+
 import {
-	DxExport,
 	DxFieldChooser,
 	DxFieldPanel,
 	DxHeaderFilter,
 	DxPivotGrid
 } from 'devextreme-vue/pivot-grid';
 import DxToolbar, { DxItem } from 'devextreme-vue/toolbar';
-import { exportPivotGrid } from 'devextreme/excel_exporter';
 import 'devextreme/ui/date_box';
+import 'devextreme/ui/select_box';
+
 import dxDateBox from "devextreme/ui/date_box";
 import notify from 'devextreme/ui/notify';
-import 'devextreme/ui/select_box';
-import { Workbook } from 'exceljs';
-import saveAs from 'file-saver';
 import { getCurrentInstance, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 	const grid = ref<DxPivotGrid>();
@@ -261,24 +252,6 @@ import { useRoute } from 'vue-router';
 			dataSource.store=res.data;
 		 }
 	}
-	const onExporting=(e)=> {
-            const workbook = new Workbook();
-            const worksheet = workbook.addWorksheet('Main sheet');
-            exportPivotGrid({
-                component: e.component,
-                worksheet: worksheet,
-                customizeCell: function(options) {
-                    const excelCell = options;
-                    excelCell.font = { name: 'Arial', size: 12 };
-                    excelCell.alignment = { horizontal: 'left' };
-                } 
-            }).then(function() {
-                workbook.xlsx.writeBuffer()
-                    .then(function(buffer) {
-                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), '运力统计.xlsx');
-                    });
-            });
-        }
 
 	onMounted(() => {
 		grid.value?.instance?.bindChart(chart.value?.instance, {
