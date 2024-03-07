@@ -126,7 +126,7 @@ import saveAs from 'file-saver';
 import { getCurrentInstance, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-let startDate=dayjs(new Date()).add(-1, 'month');
+let startDate=dayjs(new Date()).add(-3, 'year');
 let endDate=dayjs(new Date());
 const customStore = new CustomStore({
     loadMode: "raw", // omit in the DataGrid, TreeList, PivotGrid, and Scheduler 
