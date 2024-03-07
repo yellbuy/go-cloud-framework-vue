@@ -115,19 +115,33 @@ import {
 	DxPivotGrid
 } from 'devextreme-vue/pivot-grid';
 import DxToolbar, { DxItem } from 'devextreme-vue/toolbar';
+import CustomStore from 'devextreme/data/custom_store';
 import { exportPivotGrid } from 'devextreme/excel_exporter';
 import 'devextreme/ui/date_box';
 import dxDateBox from "devextreme/ui/date_box";
-import notify from 'devextreme/ui/notify';
+import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
 import 'devextreme/ui/select_box';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
 import { getCurrentInstance, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+
+let startDate=dayjs(new Date()).add(-1, 'month');
+let endDate=dayjs(new Date());
+const customStore = new CustomStore({
+    loadMode: "raw", // omit in the DataGrid, TreeList, PivotGrid, and Scheduler 
+    load: async () => {
+        const startTime=dayjs(startDate).format("YYYY-MM-DD")
+		const endTime=dayjs(endDate).format("YYYY-MM-DD")
+		const res = await proxy.$api.erp.waybillLine.getStatListByScope(kind,scopeMode,scopeValue,{startTime,endTime})
+		return  res.data||[]
+    },
+});
 	const grid = ref<DxPivotGrid>();
 	const chart = ref<DxChart>();
 	const startDateBox=ref<dxDateBox>();
-	const dataSource = {
+
+	const dataSource = new PivotGridDataSource({
 		fields: [{
 		caption: '产品',
 		width: 120,
@@ -165,29 +179,30 @@ import { useRoute } from 'vue-router';
 			expanded: true,
 			area: "filter"
 		}, {
-		dataField: 'date',
-		dataType: 'date',
-		area: 'column',
+			dataField: 'BillDate',
+			dataType: 'date',
+			area: 'column',
 		}, {
-		groupName: 'date',
-		groupInterval: 'day',
-		visible: true,
+			groupName: 'BillDate',
+			groupInterval: 'day',
+			visible: false,
 		}, {
-		caption: '运量（吨）',
-		dataField: 'ReceiverNetWeight',
-		dataType: 'number',
-		summaryType: 'sum',
-		//format: 'currency',
-		area: 'data',
+			caption: '运量（吨）',
+			dataField: 'ReceiverNetWeight',
+			dataType: 'number',
+			summaryType: 'sum',
+			//format: 'currency',
+			area: 'data',
 		}, {
 			caption: '车数',
 			dataField: 'TotalCount',
-		dataType: 'number',
-		summaryType: 'sum',
-		area: 'data',
+			dataType: 'number',
+			summaryType: 'sum',
+			area: 'data',
 		}],
-		store: [],
-	};
+		store: customStore,
+	});
+	
 	const customizeTooltip = ({ seriesName, originalValue }) => {
 		const valueText = (seriesName.indexOf('Total') !== -1)
 		? new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'RMB' }).format(originalValue)
@@ -197,8 +212,7 @@ import { useRoute } from 'vue-router';
 		html: `${seriesName}<div class='currency'>${valueText}</div>`,
 		};
 	};
-	let startDate=dayjs(new Date()).add(-1, 'month');
-	let endDate=dayjs(new Date());
+
 	const startDateBoxOptions = {
 		showClearButton: false,
 		applyButtonText:  "确定",
@@ -250,35 +264,33 @@ import { useRoute } from 'vue-router';
 	const scopeMode = route.params.scopeMode || 0;
 	const scopeValue = route.params.scopeValue || 0;
 	
-	const onQuery=async ()=>{
-		notify('加载中!');
+	const onQuery= async ()=>{
+		
 		const startTime=dayjs(startDate).format("YYYY-MM-DD")
 		const endTime=dayjs(endDate).format("YYYY-MM-DD")
-		 const res = await proxy.$api.erp.waybillLine.getStatListByScope(kind,scopeMode,scopeValue,{startTime,endTime})
-		 if(res.errcode!=0) {
-			notify(res.errmsg)
-		 } else{
-			dataSource.store=res.data;
-		 }
+		const res = await proxy.$api.erp.waybillLine.getStatListByScope(kind,scopeMode,scopeValue,{startTime,endTime})
+
+		const source=grid.value?.dataSource.getData();
+		source.store=res.data;
 	}
 	const onExporting=(e)=> {
-            const workbook = new Workbook();
-            const worksheet = workbook.addWorksheet('Main sheet');
-            exportPivotGrid({
-                component: e.component,
-                worksheet: worksheet,
-                customizeCell: function(options) {
-                    const excelCell = options;
-                    excelCell.font = { name: 'Arial', size: 12 };
-                    excelCell.alignment = { horizontal: 'left' };
-                } 
-            }).then(function() {
-                workbook.xlsx.writeBuffer()
-                    .then(function(buffer) {
-                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), '运力统计.xlsx');
-                    });
-            });
-        }
+		const workbook = new Workbook();
+		const worksheet = workbook.addWorksheet('Main sheet');
+		exportPivotGrid({
+			component: e.component,
+			worksheet: worksheet,
+			customizeCell: function(options) {
+				const excelCell = options;
+				excelCell.font = { name: 'Arial', size: 12 };
+				excelCell.alignment = { horizontal: 'left' };
+			} 
+		}).then(function() {
+			workbook.xlsx.writeBuffer()
+				.then(function(buffer) {
+					saveAs(new Blob([buffer], { type: 'application/octet-stream' }), '运力统计.xlsx');
+				});
+		});
+	}
 
 	onMounted(() => {
 		grid.value?.instance?.bindChart(chart.value?.instance, {
