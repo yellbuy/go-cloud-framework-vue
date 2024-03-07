@@ -126,11 +126,7 @@ export default {
 			scopeMode,
 			scopeValue,
 			tableData: {
-				data: [
-					{"Id":"1","GoodsName":"铁矿","CustomerName":"比亚迪","SupplierName":"一平台","ReceiverName":"西钢钒","Weight":"200","Amount":"20000","Tname":"汉盛物流","BillTime":"2024-02-21"},
-					{"Id":"2","GoodsName":"煤炭","CustomerName":"永辉物贸公司","SupplierName":"二平台","ReceiverName":"富源硕歌贸易有限公司","Weight":"3500","Amount":"102.4","Tname":"汉盛物流","BillTime":"2024-02-22"},
-					{"Id":"3","GoodsName":"球团矿","CustomerName":"永盛商贸公司","SupplierName":"三平台","ReceiverName":"富源硕歌贸易有限公司","Weight":"4800","Amount":"300","Tname":"汉盛物流","BillTime":"2024-02-23"}
-				],
+				data: [],
 				total: 0,
 				loading: false,
 				param: {
@@ -153,20 +149,20 @@ export default {
 
 		// 查询表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			// if (gotoFirstPage) {
-			// 	state.tableData.param.pageNum = 1;
-			// }
-			// state.tableData.loading = true;
-			// try {
-			// 	const res = await proxy.$api.erp.vehicle.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
-			// 	if (res.errcode != 0) {
-			// 		return;
-			// 	}
-			// 	state.tableData.data = res.data;
-			// 	state.tableData.total = res.total;
-			// } finally {
-			// 	state.tableData.loading = false;
-			// }
+			if (gotoFirstPage) {
+				state.tableData.param.pageNum = 1;
+			}
+			state.tableData.loading = true;
+			try {
+				const res = await proxy.$api.erp.businessBillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.tableData.data = res.data;
+				state.tableData.total = res.total;
+			} finally {
+				state.tableData.loading = false;
+			}
 		};
 		// 导出表格数据
 		const onGetXlsData = async () => {

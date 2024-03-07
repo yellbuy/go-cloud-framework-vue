@@ -106,7 +106,7 @@ export default {
 				Kind: 'warehouse',
 				CustomerId:"",
 				GoodsCategoryId: '0',
-				GoodsId:"",
+				GoodsId:"0",
 				VehicleNumber: '',
 				IsExternal:0,
 				VehicleType: '',
@@ -130,7 +130,7 @@ export default {
 			goodsTypeList:[],
 			goodsList:[],
 			customerList:[],
-			waybillList:[],
+			businessBillLineList:[],
 
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
@@ -170,7 +170,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			WaybillMode: [
+			businessBillLineMode: [
 				{
 					required: true,
 					message: t('message.validRule.mustOption'),
@@ -251,30 +251,30 @@ export default {
 
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.waybill.getById(Id);
+				const res = await proxy.$api.erp.businessBillLine.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
 				state.ruleForm = res.data;
-				await loadWaybillList(state.ruleForm.CustomerId);
+				await loadbusinessBillLineList(state.ruleForm.CustomerId);
 			} finally {
 				state.isShowDialog = true;
 			}
 		}
 
 		// 选中客户后，加载最近的运单信息
-		const loadWaybillList = async (customerId:number|string) => {
+		const loadbusinessBillLineList = async (customerId:number|string) => {
 			
 			if(!customerId||customerId=="0"){
-				state.waybillList=[];
+				state.businessBillLineList=[];
 				return;
 			}
 			console.log(customerId)
-			const res = await proxy.$api.erp.waybill.getListByScope(state.ruleForm.Kind, 0, 0,{customerId:customerId});
+			const res = await proxy.$api.erp.businessBillLine.getListByScope(state.ruleForm.Kind, 0, 0,{customerId:customerId});
 			if (res.errcode != 0) {
 				return;
 			}
-			state.waybillList=res.data;
+			state.businessBillLineList=res.data;
 		};
 
 		// 选中客户后，加载最近的运单信息
@@ -282,7 +282,7 @@ export default {
 			//清空地址，防止选择了不同的客户忘了修改地址，导致地址录入错误
 			state.ruleForm.SenderAddress="" 
 			state.ruleForm.ReceiverAddress=""
-			await loadWaybillList(customerId)
+			await loadbusinessBillLineList(customerId)
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -327,7 +327,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.waybill.save(state.ruleForm);
+						const res = await proxy.$api.erp.businessBillLine.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -335,7 +335,7 @@ export default {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id = 0;
 							}
-							proxy.$parent.onMainGetTableData();
+							proxy.$parent.onGetTableData();
 						}
 					} finally {
 						state.loading = false;
