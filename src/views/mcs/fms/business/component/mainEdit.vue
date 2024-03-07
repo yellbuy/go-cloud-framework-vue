@@ -369,7 +369,8 @@ export default {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id = 0;
 							}
-							proxy.$parent.onMainGetTableData();
+							proxy.$parent.onGetTableData();
+							// alert(2)
 						}
 					} finally {
 						state.loading = false;
@@ -380,6 +381,7 @@ export default {
 				}
 			});
 		};
+
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
 				rawFile.type !== 'image/jpeg' &&

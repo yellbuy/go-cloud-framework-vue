@@ -39,6 +39,7 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="50" fixed />
+				<el-table-column prop="BillNo" label="流水单号" width="120" show-overflow-tooltip="true" fixed></el-table-column>
 				<el-table-column prop="GoodsName" label="品名" width="120" show-overflow-tooltip="true" fixed></el-table-column>
 				<el-table-column prop="CustomerName" label="客户名称" width="150" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column prop="SenderAddress" label="发货站" width="200" show-overflow-tooltip="true"></el-table-column>				
