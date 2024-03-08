@@ -44,15 +44,15 @@
 				stripe
 				highlight-current-row
 			>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="SupplierName" label="平台" width="200" fixed></el-table-column>
-				<el-table-column prop="CustomerName" label="客户名称" width="200" show-overflow-tooltip></el-table-column>
+				<el-table-column type="index" label="序号" align="right" width="50" fixed />
+				<el-table-column prop="CompanyName" label="平台" width="150" fixed></el-table-column>
+				<el-table-column prop="CustomerName" label="客户名称" width="150" show-overflow-tooltip></el-table-column>
 				
-				<el-table-column prop="Amount" label="收入" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="BillTime" label="日期" width="90" align="left"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="PlanWeight" label="收入" width="100" align="right"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="BillTime" label="日期" width="100" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
 				
 				
-				<el-table-column label="有效" width="70">
+				<el-table-column label="有效" align="center" width="100">
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
@@ -69,7 +69,7 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -216,7 +216,7 @@ export default {
 			onGetTableData();
 		});
 
-		const { dateFormatYMDHM } = commonFunction();
+		const { dateFormatYMD,dateFormatYMDHM } = commonFunction();
 
 		return {
 			proxy,
@@ -228,6 +228,7 @@ export default {
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
+			dateFormatYMD,
 			dateFormatYMDHM,
 			...toRefs(state),
 		};

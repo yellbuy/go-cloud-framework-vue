@@ -46,7 +46,7 @@
 				<el-table-column prop="ReceiverAddress" label="到达地" width="200"  show-overflow-tooltip="true"></el-table-column>
 				<el-table-column prop="PlanWeight" label="吨位" width="50" align="right"  show-overflow-tooltip="true"></el-table-column>
 				<el-table-column prop="VehicleCount" label="列数" width="50" align="right"  show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="BillTime" label="日期" width="100" :formatter="dateFormatYMD" show-overflow-tooltip="true"></el-table-column>		
+				<el-table-column prop="BillTime" label="日期" width="100" align="left" :formatter="dateFormatYMD" show-overflow-tooltip="true"></el-table-column>		
 				
 				<el-table-column label="有效" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
@@ -65,7 +65,7 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">

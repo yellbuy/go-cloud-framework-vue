@@ -5,8 +5,8 @@
 				<el-divider content-position="left">仓储收入*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24"  class="mb20">
-						<el-form-item label="平台名称" prop="CustomerId" >
-							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onCustomerSelected">
+						<el-form-item label="平台名称" prop="CompanyName" >
+							<el-select v-model="ruleForm.CompanyName" filterable placeholder="请选择" @change="onCustomerSelected">
 								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -28,14 +28,14 @@
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24"  class="mb20">
-						<el-form-item label="客户名称" prop="GoodsCategoryId">
+						<el-form-item label="客户名称" prop="CustomerName">
 							<el-tree-select
-								v-model="ruleForm.GoodsCategoryId"
+								v-model="ruleForm.CustomerName"
 								placeholder="客户名称"
 								default-expand-all
 								node-key="Id"
 								:value-key="Id"
-								:current-node-key="ruleForm.GoodsCategoryId"
+								:current-node-key="ruleForm.CustomerName"
 								:data="goodsTypeList"
 								:props="{ label: 'Name', value: 'Id', children: 'Children' }"
 								check-strictly
@@ -305,7 +305,7 @@ export default {
 			}else{
 				console.log("error:",goodsTypeRes.errmsg)
 			}
-		};
+
 		const loadGoodsList=async(categoryId:string="0")=>{
 			const goodsRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000,categoryId:categoryId});
 			if (goodsRes.errcode == 0) {
