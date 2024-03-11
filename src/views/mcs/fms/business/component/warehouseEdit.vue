@@ -305,6 +305,7 @@ export default {
 			}else{
 				console.log("error:",goodsTypeRes.errmsg)
 			}
+		}
 
 		const loadGoodsList=async(categoryId:string="0")=>{
 			const goodsRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000,categoryId:categoryId});
