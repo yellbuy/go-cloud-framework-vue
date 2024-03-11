@@ -30,14 +30,14 @@
 					<el-col :xs="24" :sm="24"  class="mb20">
 						<el-form-item label="客户名称" prop="CustomerName">
 							<el-tree-select
-								v-model="ruleForm.CustomerName"
+								v-model="ruleForm.Name"
 								placeholder="客户名称"
 								default-expand-all
 								node-key="Id"
 								:value-key="Id"
-								:current-node-key="ruleForm.CustomerName"
-								:data="goodsTypeList"
-								:props="{ label: 'Name', value: 'Id', children: 'Children' }"
+								:current-node-key="ruleForm.Name"
+								:data="CustomerNameList"
+								:props="{ label: 'CustomerName', value: 'Id', children: 'Children' }"
 								check-strictly
 								highlight-current
 								@change="onCategorySelect"
@@ -127,7 +127,7 @@ export default {
 			truckTypeList: [],
 			plateColorList:[],
 			energyTypeList:[],
-			goodsTypeList:[],
+			CustomerNameList:[],
 			goodsList:[],
 			customerList:[],
 			businessBillLineList:[],
@@ -199,8 +199,8 @@ export default {
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {
-				loadGoodsCategory();
-				loadGoodsList();
+				loadCustomerName();
+				// loadGoodsList();
 				
 				const resCustomers = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
 				if (resCustomers.errcode == 0) {
@@ -298,12 +298,14 @@ export default {
 		const onCategorySelect=async (id:string)=>{
 			loadGoodsList(id);
 		}
-		const loadGoodsCategory = async () => {
-			const goodsTypeRes = await proxy.$api.common.category.getHierarchyDataList("product", 0, 2, {pageSize:10000});
-			if (goodsTypeRes.errcode == 0) {
-				state.goodsTypeList = [...[{"Id":"0","Name":"所有"}],...goodsTypeRes.data];
+
+		//加载客户名称列表
+		const loadCustomerName = async () => {
+			const CustomerNameRes = await proxy.$api.erp.businessBillLine.getListByScope(state.ruleForm.Kind, 0, 2, {pageSize:10000});
+			if (CustomerNameRes.errcode == 0) {
+				state.CustomerNameList = [...CustomerNameRes.data];
 			}else{
-				console.log("error:",goodsTypeRes.errmsg)
+				console.log("error:",CustomerNameRes.errmsg)
 			}
 		}
 
