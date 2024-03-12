@@ -57,7 +57,7 @@
 	  <DxPivotGrid
 		id="pivotgrid"
 		ref="grid"
-		:data-source="dataSource"
+		:data-source="state.dataSource"
 		:allow-sorting-by-summary="true"
 		:allow-filtering="true"
       	:allow-sorting="true"
@@ -123,36 +123,73 @@ import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
 import 'devextreme/ui/select_box';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
-import { getCurrentInstance, onMounted, ref } from 'vue';
+import { getCurrentInstance, onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
-
+const grid = ref<DxPivotGrid>();
+const chart = ref<DxChart>();
+const startDateBox=ref<dxDateBox>();
+const endDateBox=ref<dxDateBox>();
+const state: any = reactive({
+	dataSource:PivotGridDataSource
+});
 let startDate=dayjs(new Date()).add(-3, 'year');
 let endDate=dayjs(new Date());
-const customStore = new CustomStore({
+const createDataSource:any = ()=>{
+	const customStore = new CustomStore({
     loadMode: "raw", // omit in the DataGrid, TreeList, PivotGrid, and Scheduler 
     load: async () => {
         const startTime=dayjs(startDate).format("YYYY-MM-DD")
 		const endTime=dayjs(endDate).format("YYYY-MM-DD")
 		const res = await proxy.$api.erp.waybillLine.getStatListByScope(kind,scopeMode,scopeValue,{startTime,endTime})
 		return  res.data||[]
-    },
-});
-	const grid = ref<DxPivotGrid>();
-	const chart = ref<DxChart>();
-	const startDateBox=ref<dxDateBox>();
-
+    }});
+	
 	const dataSource = new PivotGridDataSource({
+		//retrieveFields:false,
+		onFieldsPrepared: (fields) => {
+        // Your code goes here
+			for(const field of fields){
+				console.log("fileds:",field)
+				
+				if(field.groupName=="BillDate"){
+					if(field.levels && field.levels.length>0){
+						for(const level of field.levels){
+							if(level.groupInterval=="year"){
+								level.caption="年"
+							}else if(level.groupInterval=="quarter"){
+								level.caption="季"
+							}else if(level.groupInterval=="month"){
+								level.caption="月"
+							}else if(level.groupInterval=="day"){
+								level.caption="日"
+							}
+						}
+					}
+					
+
+					if(field.groupInterval=="year"){
+						field.caption="年"
+					} else if(field.groupInterval=="quarter"){
+						field.caption="季"
+					} else if(field.groupInterval=="month"){
+						field.caption="月"
+					} else if(field.groupInterval=="day"){
+						field.caption="日"
+					}
+				}
+			}
+    	},
 		fields: [{
-		caption: '产品',
-		width: 120,
-		dataField: 'GoodsName',
-		area: 'row',
-		sortBySummaryField: 'Total',
+			caption: '产品',
+			width: 120,
+			dataField: 'GoodsName',
+			area: 'row',
+			sortBySummaryField: 'Total',
 		}, {
-		caption: '规格',
-		dataField: 'GoodsSkuName',
-		width: 150,
-		area: 'row',
+			caption: '规格',
+			dataField: 'GoodsSkuName',
+			width: 150,
+			area: 'row',
 		},{
 			caption: "类别",
 			dataField: "GoodsCategoryName",
@@ -179,13 +216,11 @@ const customStore = new CustomStore({
 			expanded: true,
 			area: "filter"
 		}, {
+			caption: "日期",
 			dataField: 'BillDate',
 			dataType: 'date',
 			area: 'column',
-		}, {
-			groupName: 'BillDate',
-			groupInterval: 'day',
-			visible: false,
+			visible: true,
 		}, {
 			caption: '运量（吨）',
 			dataField: 'ReceiverNetWeight',
@@ -202,6 +237,9 @@ const customStore = new CustomStore({
 		}],
 		store: customStore,
 	});
+	return dataSource;
+}
+state.dataSource=createDataSource();
 	
 	const customizeTooltip = ({ seriesName, originalValue }) => {
 		const valueText = (seriesName.indexOf('Total') !== -1)
@@ -240,18 +278,7 @@ const customStore = new CustomStore({
 		},
 	};
 
-	const selectBoxOptions = {
-	width: 140,
-	items: [],
-	valueExpr: 'id',
-	displayExpr: 'text',
-	value: '0',
-	inputAttr: { 'aria-label': 'Categories' },
-	onValueChanged: ({ value }) => {
-		// productsStore.filter(value > 1 ? ['type', '=', value] : null);
-		// productsStore.load();
-	},
-	};
+	
 	const queryButtonOptions = {
 	icon: 'refresh',
 	onClick: async () => {
@@ -265,13 +292,7 @@ const customStore = new CustomStore({
 	const scopeValue = route.params.scopeValue || 0;
 	
 	const onQuery= async ()=>{
-		
-		const startTime=dayjs(startDate).format("YYYY-MM-DD")
-		const endTime=dayjs(endDate).format("YYYY-MM-DD")
-		const res = await proxy.$api.erp.waybillLine.getStatListByScope(kind,scopeMode,scopeValue,{startTime,endTime})
-
-		const source=grid.value?.dataSource.getData();
-		source.store=res.data;
+		state.dataSource=createDataSource()
 	}
 	const onExporting=(e)=> {
 		const workbook = new Workbook();
@@ -291,7 +312,58 @@ const customStore = new CustomStore({
 				});
 		});
 	}
-
+	loadMessages({
+		"zh": {
+			dates: {
+                calendars: {
+                    gregorian: {
+                        quarters: {
+                            format: {
+                                abbreviated: {
+                                    1: "一季度",
+                                    2: "二季度",
+                                    3: "三季度",
+                                    4: "四季度"
+                                },
+                                narrow: {
+                                    1: "1",
+                                    2: "2",
+                                    3: "3",
+                                    4: "4"
+                                },
+                                wide: {
+                                    1: "第一季度",
+                                    2: "第二季度",
+                                    3: "第三季度",
+                                    4: "第四季度"
+                                }
+                            },
+                            "stand-alone": {
+                                abbreviated: {
+                                    1: "一季度",
+                                    2: "二季度",
+                                    3: "三季度",
+                                    4: "四季度"
+                                },
+                                narrow: {
+                                    1: "1",
+                                    2: "2",
+                                    3: "3",
+                                    4: "4"
+                                },
+                                wide: {
+                                    1: "第一季度",
+                                    2: "第二季度",
+                                    3: "第三季度",
+                                    4: "第四季度"
+                                }
+                            }
+                        },
+                    }
+                }
+            },
+        }
+    });
 	onMounted(() => {
 		grid.value?.instance?.bindChart(chart.value?.instance, {
 		dataFieldsDisplayMode: 'splitPanes',

@@ -7,7 +7,7 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId" >
 							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onFormSelected">
-								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
+								<el-option v-for="(item,index) in customerList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
