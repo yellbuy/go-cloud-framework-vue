@@ -5,50 +5,38 @@
 				<el-divider content-position="left">仓储收入*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24"  class="mb20">
-						<el-form-item label="平台名称" prop="CompanyName" >
-							<el-select v-model="ruleForm.CompanyName" filterable placeholder="请选择" @change="onCustomerSelected">
-								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
+						<el-form-item label="平台名称" prop="SiteId" >
+							<el-select v-model="ruleForm.SiteId" filterable placeholder="请选择">
+								<el-option v-for="(item, index) in siteNameList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24"  class="mb20">
-						<el-form-item label="日期" prop="SenderPlanTime">
+						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
-								v-model="ruleForm.SenderPlanTime"
+								v-model="ruleForm.BillTime"
 								type="date"
 								placeholder="日期"
 								format="YYYY-MM-DD"
 							></el-date-picker>
 						</el-form-item>
 					</el-col>
-					
-					
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24"  class="mb20">
-						<el-form-item label="客户名称" prop="CustomerName">
-							<el-tree-select
-								v-model="ruleForm.Name"
-								placeholder="客户名称"
-								default-expand-all
-								node-key="Id"
-								:value-key="Id"
-								:current-node-key="ruleForm.Name"
-								:data="CustomerNameList"
-								:props="{ label: 'CustomerName', value: 'Id', children: 'Children' }"
-								check-strictly
-								highlight-current
-								@change="onCategorySelect"
-							/>
+						<el-form-item label="客户名称" prop="CustomerId">
+							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择">
+								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24"  class="mb20">
 						<el-form-item label="收入" prop="PlanWeight">
-							<el-input v-model.number="ruleForm.PlanWeight" min="0" max="1000000000"></el-input> 
+							<el-input-number v-model="ruleForm.PlanWeight" type="number" min="0" max="1000000000" step="1"></el-input-number> 
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -107,6 +95,11 @@ export default {
 				CustomerId:"",
 				GoodsCategoryId: '0',
 				GoodsId:"0",
+				SiteId:"",
+				SiteName:'',
+				CustomerName:'',
+				BillTime:new Date(),
+				PlanWeight:'',
 				VehicleNumber: '',
 				IsExternal:0,
 				VehicleType: '',
@@ -124,13 +117,8 @@ export default {
 			},
 			
 			dialogVisible: false,
-			truckTypeList: [],
-			plateColorList:[],
-			energyTypeList:[],
-			CustomerNameList:[],
-			goodsList:[],
-			customerList:[],
-			businessBillLineList:[],
+			siteNameList:[],
+			companyNameList:[],
 
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
@@ -199,39 +187,10 @@ export default {
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {
-				loadCustomerName();
-				// loadGoodsList();
-				
-				const resCustomers = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
-				if (resCustomers.errcode == 0) {
-					state.customerList = resCustomers.data;
-				}else{
-					console.log("error:",resCustomers.errmsg)
-				}
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				}else{
-					console.log("error:",resTruckTypes.errmsg)
-				}
-				const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColors.errcode == 0) {
-					state.plateColorList = resPlateColors.data;
-				}else{
-					console.log("error:",resPlateColors.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
-				}
-				const resPlateColorTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColorTypes.errcode == 0) {
-					state.plateColorList = resPlateColorTypes.data;
-				} else{
-					console.log("error:",resPlateColorTypes.errmsg);
-				}
+
+				loadsiteName()
+				loadCustomerName()
+
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
@@ -256,34 +215,12 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				await loadbusinessBillLineList(state.ruleForm.CustomerId);
+				await loadList(state.ruleForm.CustomerId);
 			} finally {
 				state.isShowDialog = true;
 			}
 		}
 
-		// 选中客户后，加载最近的运单信息
-		const loadbusinessBillLineList = async (customerId:number|string) => {
-			
-			if(!customerId||customerId=="0"){
-				state.businessBillLineList=[];
-				return;
-			}
-			console.log(customerId)
-			const res = await proxy.$api.erp.businessBillLine.getListByScope(state.ruleForm.Kind, 0, 0,{customerId:customerId});
-			if (res.errcode != 0) {
-				return;
-			}
-			state.businessBillLineList=res.data;
-		};
-
-		// 选中客户后，加载最近的运单信息
-		const onCustomerSelected = async (customerId:number|string) => {
-			//清空地址，防止选择了不同的客户忘了修改地址，导致地址录入错误
-			state.ruleForm.SenderAddress="" 
-			state.ruleForm.ReceiverAddress=""
-			await loadbusinessBillLineList(customerId)
-		};
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
@@ -295,28 +232,27 @@ export default {
 		const onLoadTable = () => {
 			//proxy.$parent.onMainGetTableData();
 		};
-		const onCategorySelect=async (id:string)=>{
-			loadGoodsList(id);
+
+		//加载平台名称
+		const loadsiteName = async () =>{
+			const siteNameRes = await proxy.$api.common.commondata.getConcreteDataListByScope('warehouse_platform', 0, 2);
+			if (siteNameRes.errcode == 0) {
+				state.siteNameList = siteNameRes.data;
+			}else{
+				console.log("error:",siteNameRes.errmsg)
+			}
 		}
 
 		//加载客户名称列表
 		const loadCustomerName = async () => {
-			const CustomerNameRes = await proxy.$api.erp.businessBillLine.getListByScope(state.ruleForm.Kind, 0, 2, {pageSize:10000});
+			const CustomerNameRes = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
 			if (CustomerNameRes.errcode == 0) {
-				state.CustomerNameList = [...CustomerNameRes.data];
+				state.companyNameList = [...CustomerNameRes.data];
 			}else{
 				console.log("error:",CustomerNameRes.errmsg)
 			}
 		}
 
-		const loadGoodsList=async(categoryId:string="0")=>{
-			const goodsRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000,categoryId:categoryId});
-			if (goodsRes.errcode == 0) {
-				state.goodsList = goodsRes.data;
-			}else{
-				console.log("error:",goodsRes.errmsg)
-			}
-		}
 		//修改按钮
 		const onModelEdit = (item: object) => {
 			
@@ -349,6 +285,8 @@ export default {
 				}
 			});
 		};
+
+
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
 				rawFile.type !== 'image/jpeg' &&
@@ -367,6 +305,9 @@ export default {
 			}
 			return true;
 		};
+
+
+
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
 		onMounted(() => {});
@@ -376,11 +317,9 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
-			onCustomerSelected,
 			GetByIdRow,
 			onBeforeImageUpload,
 			onModelEdit,
-			onCategorySelect,
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
@@ -388,9 +327,9 @@ export default {
 			token,
 			onSubmit,
 			...toRefs(state),
-		};
-	},
-};
+		}
+	}
+}
 </script>
 <style scoped lang="scss">
 .el-select {

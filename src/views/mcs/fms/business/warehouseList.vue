@@ -45,14 +45,14 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="50" fixed />
-				<el-table-column prop="CompanyName" label="平台" width="150" fixed></el-table-column>
-				<el-table-column prop="CustomerName" label="客户名称" width="150" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="SiteName" label="平台" width="300" fixed></el-table-column>
+				<el-table-column prop="CustomerName" label="客户名称" width="300" show-overflow-tooltip></el-table-column>
 				
-				<el-table-column prop="PlanWeight" label="收入" width="100" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="BillTime" label="日期" width="100" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="PlanWeight" label="收入" width="80" align="right"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="BillTime" label="日期" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
 				
 				
-				<el-table-column label="有效" align="center" width="100">
+				<el-table-column label="有效" align="center" width="80">
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
@@ -70,7 +70,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}

@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-main-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="640px" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">铁运收入*</el-divider>
 				<el-row :gutter="20">
