@@ -1,12 +1,16 @@
 <template>
 	<div class="system-edit-warehouse-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="500px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="450px" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">仓储收入*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24"  class="mb20">
 						<el-form-item label="平台名称" prop="SiteId" >
-							<el-select v-model="ruleForm.SiteId" filterable placeholder="请选择">
+							<el-select
+								v-model="ruleForm.SiteId"
+								style="max-width: 200px"
+								filterable
+								placeholder="请选择">
 								<el-option v-for="(item, index) in siteNameList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -17,6 +21,7 @@
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
+								style="max-width: 200px"
 								type="date"
 								placeholder="日期"
 								format="YYYY-MM-DD"
@@ -27,7 +32,11 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24"  class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId">
-							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择">
+							<el-select
+								v-model="ruleForm.CustomerId"
+								style="max-width: 200px"
+								filterable
+								placeholder="请选择">
 								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -36,7 +45,32 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24"  class="mb20">
 						<el-form-item label="收入" prop="PlanWeight">
-							<el-input-number v-model="ruleForm.PlanWeight" type="number" min="0" max="1000000000" step="1"></el-input-number> 
+							<el-input
+								v-model.number="ruleForm.PlanWeight"
+								style="max-width: 200px"
+								placeholder="请输入"
+								type="number"
+								min="0"
+								max="1000000000"
+								step="1">
+								<template #append>元</template>
+							</el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="24"  class="mb20">
+						<el-form-item label="面积" prop="Volume">
+							<el-input
+								v-model.number="ruleForm.Volume"
+								style="max-width: 200px"
+								placeholder="请输入"
+								type="number"
+								min="0"
+								max="1000000000"
+								step="1">
+								<template #append>平方米</template>
+							</el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -68,18 +102,6 @@ export default {
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
 		
-		const store = useStore();
-		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
-			return store.state.userInfos.userInfos;
-		});
-		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
 		
 		const state = reactive({
 			isShowDialog: false,
@@ -99,7 +121,8 @@ export default {
 				SiteName:'',
 				CustomerName:'',
 				BillTime:new Date(),
-				PlanWeight:'',
+				PlanWeight:0,
+				Volume:0,
 				VehicleNumber: '',
 				IsExternal:0,
 				VehicleType: '',
@@ -127,38 +150,27 @@ export default {
 			FilesList: [],
 		});
 		const token = Session.get('token');
+
+		//必填项标识
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			GoodsId: [
-				{
-					required: true,
-					message: computed(()=>t('message.validRule.required')),
-					trigger: 'blur',
-				},
-			],
-			SenderPlanTime: [
+
+			SiteId: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			ReceiverPlanTime: [
+			BillTime: [
 				{
 					required: true,
-					message: t('message.validRule.required'),
+					message: t('message.validRule.mustOption'),
 					trigger: 'blur',
 				},
 			],
 			CustomerId: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			businessBillLineMode: [
 				{
 					required: true,
 					message: t('message.validRule.mustOption'),
@@ -172,7 +184,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			Price: [
+			Volume: [
 				{
 					required: true,
 					message: t('message.validRule.mustOption'),
@@ -208,6 +220,7 @@ export default {
 			}
 		}
 
+
 		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.businessBillLine.getById(Id);
@@ -226,12 +239,8 @@ export default {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
 		};
 
-		const onLoadTable = () => {
-			//proxy.$parent.onMainGetTableData();
-		};
 
 		//加载平台名称
 		const loadsiteName = async () =>{
@@ -253,13 +262,8 @@ export default {
 			}
 		}
 
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
-		// 提交
+	
+		// 保存按钮
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -287,25 +291,6 @@ export default {
 		};
 
 
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
-
 
 
 		const { dateFormatYMD } = commonFunction();
@@ -316,13 +301,8 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
 			GetByIdRow,
-			onBeforeImageUpload,
-			onModelEdit,
-			showImage,
 			dateFormatYMD,
-			getUserInfos,
 			rules,
 			token,
 			onSubmit,
@@ -331,29 +311,3 @@ export default {
 	}
 }
 </script>
-<style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
-}
-</style>

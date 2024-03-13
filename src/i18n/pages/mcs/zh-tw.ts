@@ -4,6 +4,7 @@ export default {
 		vehicle: '车辆管理',
 		driver: '司机台账',
 		customer: '客户管理',
+		shipper: '相关方管理',
 		project: '项目管理',
 		product:'产品管理',
 		repair:'维修管理',

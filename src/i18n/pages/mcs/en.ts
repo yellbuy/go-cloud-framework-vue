@@ -4,6 +4,7 @@ export default {
 		vehicle: 'vehicle',
 		driver: 'driver',
 		customer: 'customer',
+		shipper: 'shipper',
 		project: 'project',
 		product:'product',
 		repair:'vehicle repair',

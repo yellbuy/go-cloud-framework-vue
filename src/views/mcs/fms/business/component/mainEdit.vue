@@ -1,65 +1,83 @@
 <template>
 	<div class="system-edit-main-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="640px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="800px" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">铁运收入*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="客户名称" prop="CustomerId" >
-							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onCustomerSelected">
-								<el-option v-for="(item,index) in customerList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
+						<el-form-item label="客户名称" prop="CustomerId">
+							<el-select
+								v-model="ruleForm.CustomerId"
+								style="max-width: 200px"
+								filterable
+								placeholder="请选择">
+								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="日期" prop="SenderPlanTime">
+						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
-								v-model="ruleForm.SenderPlanTime"
+								v-model="ruleForm.BillTime"
+								style="max-width: 200px"
 								type="date"
 								placeholder="日期"
 								format="YYYY-MM-DD"
 							></el-date-picker>
 						</el-form-item>
-					</el-col>
-					
-					
+					</el-col>	
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
-							<el-tree-select
+							<el-select
 								v-model="ruleForm.GoodsCategoryId"
-								placeholder="产品类型"
-								default-expand-all
-								node-key="Id"
-								:value-key="Id"
-								:current-node-key="ruleForm.GoodsCategoryId"
-								:data="goodsTypeList"
-								:props="{ label: 'Name', value: 'Id', children: 'Children' }"
-								check-strictly
-								highlight-current
-								@change="onCategorySelect"
-							/>
+								style="max-width: 200px"
+								filterable
+								placeholder="请选择">
+								<el-option v-for="(item, index) in GoodsCategoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="产品名称" prop="GoodsId">
-							<el-select v-model="ruleForm.GoodsId" placeholder="请选择">
-								<el-option v-for="(item,index) in goodsList" :key="index" :label="item.GoodsName" :value="item.Id"> </el-option>
+							<el-select
+								v-model="ruleForm.GoodsId"
+								style="max-width: 200px"
+								filterable
+								placeholder="请选择">
+								<el-option v-for="(item,index) in goodsNameList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="吨位" prop="PlanWeight">
-							<el-input-number v-model.number="ruleForm.PlanWeight" min="0" max="1000000000"></el-input-number> 
+						<el-form-item label="吨位" prop="Weight">
+							<el-input
+								v-model.number="ruleForm.Weight"
+								style="max-width: 200px"
+								placeholder="请输入"
+								type="number"
+								min="0"
+								max="1000000000"
+								step="1">
+								<template #append>吨</template>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="列数" prop="VehicleCount">
-							<el-input-number v-model.number="ruleForm.VehicleCount" min="0" max="1000000000"></el-input-number> 
+						<el-form-item label="列数" prop="PlanVehicleCount">
+							<el-input
+								v-model.number="ruleForm.PlanVehicleCount"
+								style="max-width: 200px"
+								placeholder="请输入"
+								type="number"
+								min="0"
+								max="1000000000"
+								step="1">
+								<template #append>列</template>
+							</el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -69,12 +87,13 @@
 						<el-form-item label="发货站" prop="SenderAddress">
 							<el-select
 								v-model="ruleForm.SenderAddress"
+								style="max-width: 200px"
 								filterable
 								allow-create
 								default-first-option
 								:reserve-keyword="false"
-								placeholder="请输入或选择">
-								<el-option v-for="(item,index) in tableList" :key="index" :label="item.SenderAddress" :value="item.SenderAddress"> </el-option>
+								placeholder="请输入并选择">
+								<el-option v-for="(item,index) in tableList" :key="index" :label="item.SenderAddress" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -82,12 +101,13 @@
 						<el-form-item label="到达地" prop="ReceiverAddress">
 							<el-select
 								v-model="ruleForm.ReceiverAddress" 
+								style="max-width: 200px"
 								filterable
 								allow-create
 								default-first-option
 								:reserve-keyword="false"
-								placeholder="请输入或选择">
-								<el-option v-for="(item,index) in tableList" :key="index" :label="item.ReceiverAddress" :value="item.ReceiverAddress"> </el-option>
+								placeholder="请输入并选择">
+								<el-option v-for="(item,index) in tableList" :key="index" :label="item.ReceiverAddress" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -146,8 +166,13 @@ export default {
 				Name: '',
 				Kind: 'main_business',
 				CustomerId:"",
-				GoodsCategoryId: '0',
+				GoodsCategoryId: '',
 				GoodsId:"",
+				BillTime:new Date(),
+				PlanVehicleCount:0,
+				Weight:0,
+				SenderAddress:'',
+				ReceiverAddress:'',
 				VehicleNumber: '',
 				IsExternal:0,
 				VehicleType: '',
@@ -167,9 +192,9 @@ export default {
 			dialogVisible: false,
 			truckTypeList: [],
 			energyTypeList:[],
-			goodsTypeList:[],
-			goodsList:[],
-			customerList:[],
+			GoodsCategoryList:[],
+			goodsNameList:[],
+			companyNameList:[],
 			tableList:[],
 
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
@@ -182,49 +207,56 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			GoodsId: [
+			CustomerId: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
 					trigger: 'blur',
 				},
 			],
-			SenderPlanTime: [
+			BillTime: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			ReceiverPlanTime: [
+			GoodsCategoryId: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			CustomerId: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			WaybillMode: [
+			GoodsId: [
 				{
 					required: true,
 					message: t('message.validRule.mustOption'),
 					trigger: 'blur',
 				},
 			],
-			PlanWeight: [
+			Weight: [
 				{
 					required: true,
 					message: t('message.validRule.mustOption'),
 					trigger: 'blur',
 				},
 			],
-			Price: [
+			PlanVehicleCount: [
+				{
+					required: true,
+					message: t('message.validRule.mustOption'),
+					trigger: 'blur',
+				},
+			],
+			SenderAddress: [
+				{
+					required: true,
+					message: t('message.validRule.mustOption'),
+					trigger: 'blur',
+				},
+			],
+			ReceiverAddress: [
 				{
 					required: true,
 					message: t('message.validRule.mustOption'),
@@ -239,33 +271,10 @@ export default {
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {
+				loadCustomerName();
 				loadGoodsCategory();
-				loadGoodsList();
-				
-				const resCustomers = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
-				if (resCustomers.errcode == 0) {
-					state.customerList = resCustomers.data;
-				}else{
-					console.log("error:",resCustomers.errmsg)
-				}
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				}else{
-					console.log("error:",resTruckTypes.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
-				}
-				const resPlateColorTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColorTypes.errcode == 0) {
-					state.plateColorList = resPlateColorTypes.data;
-				} else{
-					console.log("error:",resPlateColorTypes.errmsg);
-				}
+				loadgoodsName();
+
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
@@ -293,6 +302,36 @@ export default {
 				await loadList(state.ruleForm.CustomerId);
 			} finally {
 				state.isShowDialog = true;
+			}
+		}
+
+		//加载客户名称列表
+		const loadCustomerName = async () => {
+			const CustomerNameRes = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
+			if (CustomerNameRes.errcode == 0) {
+				state.companyNameList = CustomerNameRes.data;
+			}else{
+				console.log("error:",CustomerNameRes.errmsg)
+			}
+		}
+
+		//加载产品类型
+		const loadGoodsCategory = async () => {
+			const GoodsCategoryRes = await proxy.$api.common.category.getHierarchyDataList("product", 0, 2, {pageSize:10000});
+			if (GoodsCategoryRes.errcode == 0) {
+				state.GoodsCategoryList = GoodsCategoryRes.data;
+			}else{
+				console.log("error:",GoodsCategoryRes.errmsg)
+			}
+		}
+
+		//加载产品名称
+		const loadgoodsName = async () => {
+			const goodsNameRes = await proxy.$api.common.category.getHierarchyDataList('product', 0, 2, {pageSize:10000});  //方法错误
+			if (goodsNameRes.errcode == 0) {
+				state.goodsNameList = goodsNameRes.data;
+			}else{
+				console.log("error:",goodsNameRes.errmsg)
 			}
 		}
 
@@ -332,14 +371,6 @@ export default {
 		const onCategorySelect=async (id:string)=>{
 			loadGoodsList(id);
 		}
-		const loadGoodsCategory = async () => {
-			const goodsTypeRes = await proxy.$api.common.category.getHierarchyDataList("product", 0, 2, {pageSize:10000});
-			if (goodsTypeRes.errcode == 0) {
-				state.goodsTypeList = [...[{"Id":"0","Name":"所有"}],...goodsTypeRes.data];
-			}else{
-				console.log("error:",goodsTypeRes.errmsg)
-			}
-		};
 		const loadGoodsList=async(categoryId:string="0")=>{
 			const goodsRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000,categoryId:categoryId});
 			if (goodsRes.errcode == 0) {
@@ -425,29 +456,3 @@ export default {
 	},
 };
 </script>
-<style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
-}
-</style>

@@ -40,15 +40,15 @@
 			>
 				<el-table-column type="index" label="序号" align="right" width="50" fixed />
 				<el-table-column prop="BillNo" label="流水单号" width="120" show-overflow-tooltip="true" fixed></el-table-column>
-				<el-table-column prop="GoodsName" label="品名" width="120" show-overflow-tooltip="true" fixed></el-table-column>
-				<el-table-column prop="CustomerName" label="客户名称" width="150" show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="GoodsId" label="产品名称" width="150" show-overflow-tooltip="true" fixed></el-table-column>
+				<el-table-column prop="CustomerName" label="客户名称" width="250" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column prop="SenderAddress" label="发货站" width="200" show-overflow-tooltip="true"></el-table-column>				
 				<el-table-column prop="ReceiverAddress" label="到达地" width="200"  show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="PlanWeight" label="吨位" width="50" align="right"  show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="VehicleCount" label="列数" width="50" align="right"  show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="BillTime" label="日期" width="100" align="left" :formatter="dateFormatYMD" show-overflow-tooltip="true"></el-table-column>		
+				<el-table-column prop="Weight" label="吨位" width="50" align="right"  show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="PlanVehicleCount" label="列数" width="50" align="right"  show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="BillTime" label="日期" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip="true"></el-table-column>		
 				
-				<el-table-column label="有效" width="100" align="center" show-overflow-tooltip>
+				<el-table-column label="有效" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
