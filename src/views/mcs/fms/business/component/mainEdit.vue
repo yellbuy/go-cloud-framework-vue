@@ -8,7 +8,7 @@
 						<el-form-item label="客户名称" prop="CustomerId">
 							<el-select
 								v-model="ruleForm.CustomerId"
-								style="max-width: 200px"
+								style="width: 200px"
 								filterable
 								placeholder="请选择">
 								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
@@ -19,7 +19,7 @@
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
-								style="max-width: 200px"
+								style="width: 200px"
 								type="date"
 								placeholder="日期"
 								format="YYYY-MM-DD"
@@ -32,10 +32,10 @@
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-select
 								v-model="ruleForm.GoodsCategoryId"
-								style="max-width: 200px"
+								style="width: 200px"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in GoodsCategoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in goodsCategoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -43,10 +43,10 @@
 						<el-form-item label="产品名称" prop="GoodsId">
 							<el-select
 								v-model="ruleForm.GoodsId"
-								style="max-width: 200px"
+								style="width: 200px"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item,index) in goodsNameList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item,index) in goodsNameList" :key="index" :label="item.GoodsName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -56,7 +56,7 @@
 						<el-form-item label="吨位" prop="Weight">
 							<el-input
 								v-model.number="ruleForm.Weight"
-								style="max-width: 200px"
+								style="width: 200px"
 								placeholder="请输入"
 								type="number"
 								min="0"
@@ -70,12 +70,13 @@
 						<el-form-item label="列数" prop="PlanVehicleCount">
 							<el-input
 								v-model.number="ruleForm.PlanVehicleCount"
-								style="max-width: 200px"
+								style="width: 200px"
 								placeholder="请输入"
 								type="number"
 								min="0"
 								max="1000000000"
-								step="1">
+								step="1"
+								oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 								<template #append>列</template>
 							</el-input>
 						</el-form-item>
@@ -87,27 +88,27 @@
 						<el-form-item label="发货站" prop="SenderAddress">
 							<el-select
 								v-model="ruleForm.SenderAddress"
-								style="max-width: 200px"
-								filterable
+								style="width: 200px"
+								filterable="true"
 								allow-create
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入并选择">
-								<el-option v-for="(item,index) in tableList" :key="index" :label="item.SenderAddress" :value="item.Id"> </el-option>
+								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="到达地" prop="ReceiverAddress">
 							<el-select
-								v-model="ruleForm.ReceiverAddress" 
-								style="max-width: 200px"
-								filterable
+								v-model="ruleForm.ReceiverAddress"
+								style="width: 200px"
+								filterable="true"
 								allow-create
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入并选择">
-								<el-option v-for="(item,index) in tableList" :key="index" :label="item.ReceiverAddress" :value="item.Id"> </el-option>
+								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -129,7 +130,7 @@
 <script lang="ts">
 import dayjs from 'dayjs';
 import { ElMessage, UploadProps } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs, defineComponent, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
@@ -146,62 +147,37 @@ export default {
 			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
 		
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
 			disable: true, //是否禁用
-			baseUrl: import.meta.env.VITE_API_URL,
 			//表单
 			ruleForm: {
 				Id: 0,
-				Name: '',
 				Kind: 'main_business',
 				CustomerId:"",
 				GoodsCategoryId: '',
 				GoodsId:"",
 				BillTime:new Date(),
-				PlanVehicleCount:0,
-				Weight:0,
+				PlanVehicleCount:'',
+				Weight:'',
 				SenderAddress:'',
 				ReceiverAddress:'',
-				VehicleNumber: '',
 				IsExternal:0,
-				VehicleType: '',
-				EnergyType: '',
-				PlateColor:'',
-				Vin: '',
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
-				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
+				State: 1
 			},
 			
 			dialogVisible: false,
-			truckTypeList: [],
-			energyTypeList:[],
-			GoodsCategoryList:[],
+			goodsCategoryList:[],
 			goodsNameList:[],
 			companyNameList:[],
 			tableList:[],
-
-			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
-			httpsText: import.meta.env.VITE_URL as any,
-			FilesList: [],
+			senderAddressList: ['test1', 'test2', 'test3'],
+			receiverAddressList: ['Address1', 'Address2', 'Address3'],
 		});
 		const token = Session.get('token');
 		const rules = reactive({
@@ -319,7 +295,7 @@ export default {
 		const loadGoodsCategory = async () => {
 			const GoodsCategoryRes = await proxy.$api.common.category.getHierarchyDataList("product", 0, 2, {pageSize:10000});
 			if (GoodsCategoryRes.errcode == 0) {
-				state.GoodsCategoryList = GoodsCategoryRes.data;
+				state.goodsCategoryList = GoodsCategoryRes.data;
 			}else{
 				console.log("error:",GoodsCategoryRes.errmsg)
 			}
@@ -327,7 +303,7 @@ export default {
 
 		//加载产品名称
 		const loadgoodsName = async () => {
-			const goodsNameRes = await proxy.$api.common.category.getHierarchyDataList('product', 0, 2, {pageSize:10000});  //方法错误
+			const goodsNameRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000});
 			if (goodsNameRes.errcode == 0) {
 				state.goodsNameList = goodsNameRes.data;
 			}else{
@@ -343,42 +319,22 @@ export default {
 				return;
 			}
 			console.log(customerId)
-			const res = await proxy.$api.erp.businessBillLine.getListByScope(state.ruleForm.Kind, 0, 0,{customerId:customerId});
+			const res = await proxy.$api.erp.businessBillLine.getListByScope('product', 0, 0,{customerId:customerId});
 			if (res.errcode != 0) {
 				return;
 			}
 			state.tableList=res.data;
 		};
 
-		// 选中客户后，加载最近的运单信息
-		const onCustomerSelected = async (customerId:number|string) => {
-			//清空地址，防止选择了不同的客户忘了修改地址，导致地址录入错误
-			state.ruleForm.SenderAddress="" 
-			state.ruleForm.ReceiverAddress=""
-			await loadList(customerId)
-		};
+
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
 		};
 
-		const onLoadTable = () => {
-			//proxy.$parent.onMainGetTableData();
-		};
-		const onCategorySelect=async (id:string)=>{
-			loadGoodsList(id);
-		}
-		const loadGoodsList=async(categoryId:string="0")=>{
-			const goodsRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000,categoryId:categoryId});
-			if (goodsRes.errcode == 0) {
-				state.goodsList = goodsRes.data;
-			}else{
-				console.log("error:",goodsRes.errmsg)
-			}
-		}
+
 		//修改按钮
 		const onModelEdit = (item: object) => {
 			
@@ -401,7 +357,6 @@ export default {
 								state.ruleForm.Id = 0;
 							}
 							proxy.$parent.onGetTableData();
-							// alert(2)
 						}
 					} finally {
 						state.loading = false;
@@ -413,39 +368,17 @@ export default {
 			});
 		};
 
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
-			onCustomerSelected,
 			GetByIdRow,
-			onBeforeImageUpload,
 			onModelEdit,
-			onCategorySelect,
-			showImage,
 			dateFormatYMD,
 			getUserInfos,
 			rules,

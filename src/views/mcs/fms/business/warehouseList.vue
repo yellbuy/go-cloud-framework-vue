@@ -59,7 +59,7 @@
 							inline-prompt
 							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'state', scope.row.Id, scope.row.State)"
+							@change="proxy.$api.common.table.updateById('erp_business_bill_line', 'state', scope.row.Id, scope.row.State)"
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"

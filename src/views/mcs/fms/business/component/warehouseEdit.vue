@@ -108,47 +108,27 @@ export default {
 			title: t('message.action.add'),
 			loading: false,
 			disable: true, //是否禁用
-			baseUrl: import.meta.env.VITE_API_URL,
 			//表单
 			ruleForm: {
 				Id: 0,
-				Name: '',
 				Kind: 'warehouse',
 				CustomerId:"",
 				GoodsCategoryId: '0',
 				GoodsId:"0",
 				SiteId:"",
-				SiteName:'',
-				CustomerName:'',
 				BillTime:new Date(),
-				PlanWeight:0,
-				Volume:0,
-				VehicleNumber: '',
+				PlanWeight:'',
+				Volume:'',
 				IsExternal:0,
-				VehicleType: '',
-				EnergyType: '',
-				PlateColor:'',
-				Vin: '',
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
 				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
 			},
 			
-			dialogVisible: false,
 			siteNameList:[],
 			companyNameList:[],
-
-			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
-			saveState: false,
+			tableList:[],
 			Files: [],
-			httpsText: import.meta.env.VITE_URL as any,
-			FilesList: [],
 		});
+
 		const token = Session.get('token');
 
 		//必填项标识
@@ -261,6 +241,21 @@ export default {
 				console.log("error:",CustomerNameRes.errmsg)
 			}
 		}
+
+		// 选中客户后，加载最近的运单信息
+		const loadList = async (customerId:number|string) => {
+			
+			if(!customerId||customerId=="0"){
+				state.tableList=[];
+				return;
+			}
+			console.log(customerId)
+			const res = await proxy.$api.erp.businessBillLine.getListByScope('product', 0, 0,{customerId:customerId});
+			if (res.errcode != 0) {
+				return;
+			}
+			state.tableList=res.data;
+		};
 
 	
 		// 保存按钮
