@@ -38,7 +38,7 @@ export default {
           },
         },
         xAxis: {
-          data: ["一月", "二月", "三月", "四月", "五月", "六月", "七月"],
+          data: ["一月", "二月", "三月", "四月", "五月", "六月"],
           axisLine: {
             style: {
               stroke: "#999",
@@ -77,7 +77,7 @@ export default {
         series: [
           {
             name: "计划量",
-            data: [2.5, 3.5, 6.5, 6.5, 7.5, 6.5, 2.5],
+            data: [2.5, 3.5, 6.5, 6.5, 7.5, 6.5],
             type: "bar",
             barStyle: {
               fill: "rgba(0, 186, 255, 0.4)",
@@ -85,7 +85,7 @@ export default {
           },
           {
             name: "完成量",
-            data: [2.5, 3.5, 6.5, 6.5, 7.5, 6.5, 2.5],
+            data: [2.5, 3.5, 6.5, 6.5, 7.5, 6.5],
             type: "line",
             lineStyle: {
               stroke: "#ff5ca9",
@@ -100,7 +100,7 @@ export default {
           },
           {
             name: "累计量",
-            data: [1.3, 2.3, 5.3, 5.3, 6.3, 5.3, 1.3],
+            data: [1.3, 2.3, 5.3, 5.3, 6.3, 5.3],
             type: "line",
             smooth: true,
             lineArea: {
@@ -118,7 +118,7 @@ export default {
             },
           },
           {
-            data: [0.2, 1.2, 4.2, 4.2, 5.2, 4.2, 0.2],
+            data: [0.2, 1.2, 4.2, 4.2, 5.2, 4.2],
             type: "line",
             name: "完成进度",
             lineArea: {
