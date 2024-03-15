@@ -50,7 +50,7 @@
 						<el-table-column prop="CustomerName" label="供应商" width="180" show-overflow-tooltip></el-table-column>
 						<!-- <el-table-column prop="PlanWeight" label="吨位" width="80" align="right"></el-table-column>
 						<el-table-column prop="Amount" label="收入" width="120" align="right"></el-table-column> -->
-						<el-table-column prop="CompanyName" label="所属公司" width="180" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope"> 
 								<el-dropdown split-button >

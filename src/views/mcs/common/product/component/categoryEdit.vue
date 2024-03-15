@@ -1,11 +1,14 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="50%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="1000px" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20"> 
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="类别名称" prop="Name">
-							<el-input v-model="ruleForm.Name" placeholder="请输入类别名称"></el-input> 
+							<el-input
+								v-model="ruleForm.Name"
+								style="width: 200px"
+								placeholder="请输入类别名称"/>
 						</el-form-item>
 					</el-col>
 					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -29,7 +32,10 @@
 					</el-col>	 -->
                     <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="图标" prop="GoodsImg">
-							<el-input v-model="ruleForm.GoodsImg" placeholder=""></el-input> 
+							<el-input
+								v-model="ruleForm.GoodsImg"
+								style="width: 200px"
+								placeholder=""/>
 						</el-form-item>
 					</el-col>
                 </el-row>
@@ -43,7 +49,7 @@
 						<el-input-number
     						v-model.number="ruleForm.Order"
 							size="small"
-							style="width: 80px;"
+							style="width: 200px"
     						controls-position="right"
     						@change="handleChange"
   						/>
