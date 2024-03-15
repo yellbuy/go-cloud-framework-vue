@@ -256,15 +256,15 @@
               <div class="flex-row" style="padding-top:6px !important;padding-bottom:6px !important">
                 <div class="digital-flop-item">
                   <div class="unit">年计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:180px" :config="{ data: [45], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [45], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                 <div class="digital-flop-item">
                   <div class="unit">月计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:180px" :config="{ data: [35], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [35], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                 <div class="digital-flop-item">
                   <div class="unit">日计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:180px" :config="{ data: [25], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [25], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                   <!-- <Decoration2 style="width:200px; height:5px;" /> -->
                 <dv-decoration-2 />
@@ -367,15 +367,15 @@
               <div class="flex-row" style="padding-top:6px !important;padding-bottom:6px !important;margin-bottom:16px">
                 <div class="digital-flop-item">
                   <div class="unit">年计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:180px" :config="{ data: [45], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [45], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                 <div class="digital-flop-item">
                   <div class="unit">月计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:180px" :config="{ data: [35], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [35], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                 <div class="digital-flop-item">
                   <div class="unit">日计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:180px" :config="{ data: [25], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [25], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                   <!-- <Decoration2 style="width:200px; height:5px;" /> -->
                 <dv-decoration-2 />
