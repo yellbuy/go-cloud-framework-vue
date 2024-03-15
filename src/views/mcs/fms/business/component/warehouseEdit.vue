@@ -4,7 +4,7 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">仓储收入*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24"  class="mb20">
+					<el-col :xs="24" class="mb20">
 						<el-form-item label="平台名称" prop="SiteId" >
 							<el-select
 								v-model="ruleForm.SiteId"
@@ -17,7 +17,7 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24"  class="mb20">
+					<el-col :xs="24" class="mb20">
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
@@ -30,7 +30,7 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24"  class="mb20">
+					<el-col :xs="24" class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId">
 							<el-select
 								v-model="ruleForm.CustomerId"
@@ -43,7 +43,7 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24"  class="mb20">
+					<el-col :xs="24" class="mb20">
 						<el-form-item label="收入" prop="PlanWeight">
 							<el-input
 								v-model.number="ruleForm.PlanWeight"
@@ -59,7 +59,7 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24"  class="mb20">
+					<el-col :xs="24" class="mb20">
 						<el-form-item label="面积" prop="Volume">
 							<el-input
 								v-model.number="ruleForm.Volume"
