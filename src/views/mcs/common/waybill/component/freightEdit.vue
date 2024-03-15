@@ -1,13 +1,18 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="70%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">货物名称*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId" >
-							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择" @change="onFormSelected">
-								<el-option v-for="(item,index) in customerList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
+							<el-select
+								v-model="ruleForm.CustomerId"
+								style="width: 200px"
+								filterable
+								placeholder="请选择"
+								@change="onFormSelected">
+								<el-option v-for="(item, index) in customerList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -22,38 +27,57 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="单价" prop="Price">
-							<el-input-number v-model="ruleForm.Price" min="0" max="100000" :precision="2" :step="1" controls-position="right"></el-input-number> 
+							<el-input
+								v-model.number="ruleForm.Price"
+								style="width: 200px"
+								placeholder="请输入"
+								type="number"
+								min="0"
+								max="1000000000"
+								step="1"
+								controls-position="right">
+								<template #append>元</template>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					</el-row>
 					<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
-							<el-tree-select
+							<el-select
 								v-model="ruleForm.GoodsCategoryId"
-								placeholder="产品类型"
-								default-expand-all
-								node-key="Id"
-								:value-key="Id"
-								:current-node-key="ruleForm.GoodsCategoryId"
-								:data="goodsTypeList"
-								:props="{ label: 'Name', value: 'Id', children: 'Children' }"
-								check-strictly
-								highlight-current
-								@change="onCategorySelect"
-							/>
+								style="width: 200px"
+								filterable
+								placeholder="请选择"
+								@change="onCategorySelect">
+								<el-option v-for="(item, index) in goodsTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="产品名称" prop="GoodsId">
-							<el-select v-model="ruleForm.GoodsId" placeholder="请选择" @change="onFormSelected">
-								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
+							<el-select
+								v-model="ruleForm.GoodsId"
+								style="width: 200px"
+								filterable
+								placeholder="请选择"
+								@change="onFormSelected">
+								<el-option v-for="(item, index) in goodsList" :key="index" :label="item.GoodsName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="计划量" prop="PlanWeight">
-							<el-input v-model.number="ruleForm.PlanWeight" min="0" max="1000000000"></el-input> 
+							<el-input
+								v-model.number="ruleForm.PlanWeight"
+								style="width: 200px"
+								placeholder="请输入"
+								type="number"
+								min="0"
+								max="1000000000"
+								step="1">
+								<template #append>个</template>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					
@@ -64,6 +88,7 @@
 						<el-form-item label="发货地点" prop="SenderAddress">
 							<el-select
 								v-model="ruleForm.SenderAddress"
+								style="width: 200px"
 								filterable
 								allow-create
 								default-first-option
@@ -77,6 +102,7 @@
 						<el-form-item label="收货地点" prop="ReceiverAddress">
 							<el-select
 								v-model="ruleForm.ReceiverAddress" 
+								style="width: 200px"
 								filterable
 								allow-create
 								default-first-option
@@ -92,6 +118,7 @@
 						<el-form-item label="要求发货时间" prop="SenderPlanTime">
 							<el-date-picker
 								v-model="ruleForm.SenderPlanTime"
+								style="width: 200px"
 								type="datetime"
 								placeholder="要求发货时间"
 								format="YYYY-MM-DD HH:mm"
@@ -102,6 +129,7 @@
 						<el-form-item label="要求收货时间" prop="ReceiverPlanTime">
 							<el-date-picker
 								v-model="ruleForm.ReceiverPlanTime"
+								style="width: 200px"
 								type="datetime"
 								placeholder="要求收货时间"
 								format="YYYY-MM-DD HH:mm"
@@ -357,7 +385,7 @@ export default {
 		const loadGoodsCategory = async () => {
 			const goodsTypeRes = await proxy.$api.common.category.getHierarchyDataList("product", 0, 2, {pageSize:10000});
 			if (goodsTypeRes.errcode == 0) {
-				state.goodsTypeList = [...[{"Id":"0","Name":"所有"}],...goodsTypeRes.data];
+				state.goodsTypeList = goodsTypeRes.data;
 			}else{
 				console.log("error:",goodsTypeRes.errmsg)
 			}
@@ -402,24 +430,6 @@ export default {
 				}
 			});
 		};
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
 		onMounted(() => {});
@@ -431,7 +441,6 @@ export default {
 			onLoadTable,
 			onFormSelected,
 			GetByIdRow,
-			onBeforeImageUpload,
 			onModelEdit,
 			onCategorySelect,
 			showImage,
@@ -445,29 +454,3 @@ export default {
 	},
 };
 </script>
-<style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
-}
-</style>
