@@ -1,40 +1,41 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="500px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="450px" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">货物名称*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" class="mb20">
 						<el-form-item label="供应商" prop="CustomerId" >
-							<el-select v-model="ruleForm.CustomerId" filterable placeholder="请选择">
+							<el-select
+								v-model="ruleForm.CustomerId"
+								style="width: 200px"
+								filterable placeholder="请选择">
 								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					</el-row>
-					<el-row :gutter="20">
+				</el-row>
+				<el-row :gutter="20">
 					<el-col :xs="24" class="mb20">
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
-							<el-tree-select
+							<el-select
 								v-model="ruleForm.GoodsCategoryId"
-								placeholder="产品类型"
-								default-expand-all
-								node-key="Id"
-								:value-key="Id"
-								:current-node-key="ruleForm.GoodsCategoryId"
-								:data="goodsTypeList"
-								:props="{ label: 'Name', value: 'Id', children: 'Children' }"
-								check-strictly
-								highlight-current
-								@change="onCategorySelect"
-							/>
+								style="width: 200px"
+								filterable
+								placeholder="请选择">
+								<el-option v-for="(item, index) in goodsTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" class="mb20">
 						<el-form-item label="产品名称" prop="GoodsId">
-							<el-select v-model="ruleForm.GoodsId" placeholder="请选择" @change="onFormSelected">
+							<el-select
+								v-model="ruleForm.GoodsId"
+								style="width: 200px"
+								placeholder="请选择"
+								@change="onFormSelected">
 								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -93,7 +94,7 @@ export default {
 				Kind: 'trade',
 				CustomerId:"",
 				
-				GoodsCategoryId: '0',
+				GoodsCategoryId: '',
 				GoodsId:"",
 			},
 			

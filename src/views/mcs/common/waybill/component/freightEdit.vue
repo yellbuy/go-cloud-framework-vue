@@ -1,10 +1,10 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="70%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="800px" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">货物名称*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId" >
 							<el-select
 								v-model="ruleForm.CustomerId"
@@ -16,7 +16,7 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="业务类型" prop="WaybillMode">
 							<div mb-2 flex items-center>
 								<el-radio-group v-model="ruleForm.WaybillMode">
@@ -25,7 +25,7 @@
 							</div>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="单价" prop="Price">
 							<el-input
 								v-model.number="ruleForm.Price"
@@ -42,7 +42,7 @@
 					</el-col>
 					</el-row>
 					<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-select
 								v-model="ruleForm.GoodsCategoryId"
@@ -54,7 +54,7 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="产品名称" prop="GoodsId">
 							<el-select
 								v-model="ruleForm.GoodsId"
@@ -66,7 +66,7 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="计划量" prop="PlanWeight">
 							<el-input
 								v-model.number="ruleForm.PlanWeight"
@@ -84,7 +84,7 @@
 				</el-row>
 				<el-divider content-position="left">收发货信息*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="发货地点" prop="SenderAddress">
 							<el-select
 								v-model="ruleForm.SenderAddress"
@@ -98,7 +98,7 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="收货地点" prop="ReceiverAddress">
 							<el-select
 								v-model="ruleForm.ReceiverAddress" 
@@ -114,7 +114,7 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="要求发货时间" prop="SenderPlanTime">
 							<el-date-picker
 								v-model="ruleForm.SenderPlanTime"
@@ -125,7 +125,7 @@
 							></el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="要求收货时间" prop="ReceiverPlanTime">
 							<el-date-picker
 								v-model="ruleForm.ReceiverPlanTime"

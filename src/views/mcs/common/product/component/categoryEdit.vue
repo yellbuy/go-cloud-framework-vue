@@ -1,9 +1,9 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="1000px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="800px" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20"> 
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="类别名称" prop="Name">
 							<el-input
 								v-model="ruleForm.Name"
@@ -11,26 +11,7 @@
 								placeholder="请输入类别名称"/>
 						</el-form-item>
 					</el-col>
-					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="识别名称" prop="GoodsSn">
-							<el-input v-model="ruleForm.GoodsSn" placeholder="选填，如果填写则必须保证唯一"></el-input> 
-						</el-form-item>
-					</el-col>				
-				</el-row>
-				<el-row>
-                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="父级" prop="CategoryId">
-							<el-select v-model="ruleForm.CategoryId" class="m-2" placeholder="" size="small">
-    							<el-option
-      							v-for="item in CategoryId"
-      							:key="item.Id"
-      							:label="item.Name"
-      							:value="item.Name"
-    							/>
-  							</el-select>
-						</el-form-item>
-					</el-col>	 -->
-                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+                    <el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="图标" prop="GoodsImg">
 							<el-input
 								v-model="ruleForm.GoodsImg"
@@ -39,9 +20,9 @@
 						</el-form-item>
 					</el-col>
                 </el-row>
-                <el-row>
+                <el-row :gutter="20">
                     
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
                        
 						<el-form-item label="排序号" prop="Order">
 							<!-- <el-input v-model.number="ruleForm.NumberRate" placeholder="默认靠后"></el-input>  -->
@@ -58,7 +39,7 @@
                    
 					</el-col>
                 
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="状态" prop="SupplierState">
 							<el-switch
 						v-model.number="ruleForm.SupplierState"
@@ -71,8 +52,8 @@
 					</el-col>
                
 				</el-row>
-				<el-row>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" class="mb12">
 						<el-form-item label="封面图" prop="GoodsPics">
 							<div style="width: 50%">
 								<el-upload
@@ -377,24 +358,7 @@ export default {
 				}
 			});
 		};
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
+		
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
 		onMounted(() => {});
@@ -408,7 +372,6 @@ export default {
 			onSuccessFile,
 			onPreview,
 			onRemove,
-			onBeforeImageUpload,
 			onModelEdit,
 			showImage,
 			dateFormatYMD,
@@ -430,29 +393,3 @@ export default {
 	methods: {},
 };
 </script>
-<style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
-}
-</style>
