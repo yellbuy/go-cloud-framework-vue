@@ -5,7 +5,7 @@
         <top-header />
 
         <div class="main-rows">
-          <dv-border-box-12 style="width:33%;height:600px;padding:12px">
+          <dv-border-box-12 style="width:33%;height:auto;padding:12px">
             <div>
               <p>
                 <span style="color:white;font-size: 16pt;margin-right: 16px;">3月13日运量情况</span> 
@@ -76,7 +76,7 @@
               </p>
             </div>
             <div style="margin-top:12px">
-              <span style="color:lightgray;font-size: 14pt;margin-right: 4px;">主要业务完成情况</span>
+              <span style="color:lightgray;font-size: 14pt;margin-right: 4px;">临配业务完成情况</span>
             </div>
             <table>
               <tr>
@@ -128,8 +128,35 @@
                 </td>
               </tr>
             </table>
+            <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" />
+            <div>
+            <div class="block-left-content">
+              <table>
+                <tr>
+                  <td>
+                    <scroll-board />
+                  </td>
+                  <td>
+                    <scroll-board />
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="block-left-content">
+              <table>
+                <tr>
+                  <td>
+                    <scroll-board />
+                  </td>
+                  <td>
+                    <scroll-board />
+                  </td>
+                </tr>
+              </table>
+            </div>
+        </div>
           </dv-border-box-12>
-          <dv-border-box-12 style="width:34%;height:auto">
+          <dv-border-box-12 style="width:34%;height:auto;padding:2px 2px">
             <div class="digital-container">
               <div class="digital-title">年运量（公路）</div>
               <div class="flex-row">
@@ -224,18 +251,18 @@
               <dv-decoration-2 />
             </div>
             <div class="digital-container">
-              <div class="flex-row">
+              <div class="flex-row" style="padding-top:6px !important;padding-bottom:6px !important">
                 <div class="digital-flop-item">
                   <div class="unit">年计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:120px" :config="{ data: [45], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:150px" :config="{ data: [45], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                 <div class="digital-flop-item">
                   <div class="unit">月计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:120px" :config="{ data: [35], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:150px" :config="{ data: [35], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                 <div class="digital-flop-item">
                   <div class="unit">日计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:120px" :config="{ data: [25], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:150px" :config="{ data: [25], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                   <!-- <Decoration2 style="width:200px; height:5px;" /> -->
                 <dv-decoration-2 />
@@ -335,57 +362,49 @@
               <dv-decoration-2 />
             </div>
             <div class="digital-container" >
-              <div class="flex-row" style="margin-bottom:16px">
+              <div class="flex-row" style="padding-top:6px !important;padding-bottom:6px !important;margin-bottom:16px">
                 <div class="digital-flop-item">
                   <div class="unit">年计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:120px" :config="{ data: [45], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:150px" :config="{ data: [45], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                 <div class="digital-flop-item">
                   <div class="unit">月计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:120px" :config="{ data: [35], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:150px" :config="{ data: [35], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                 <div class="digital-flop-item">
                   <div class="unit">日计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:120px" :config="{ data: [25], shape: 'round', waveHeight: 5, waveNum: 5}" />
+                  <dv-water-level-pond style="width:100%;height:150px" :config="{ data: [25], shape: 'round', waveHeight: 5, waveNum: 5}" />
                 </div>
                   <!-- <Decoration2 style="width:200px; height:5px;" /> -->
                 <dv-decoration-2 />
               </div>
             </div>
           </dv-border-box-12>
-          <dv-border-box-12 style="width:33%;height:600px">
+          <dv-border-box-12 style="width:33%;height:auto">
             <div style="margin:12px">
-              <p>
-                <span style="color:white;font-size: 16pt;margin-right: 4px;">3月13日运量情况</span> 
-              共<span style="color:lightblue;font-size: 12pt;margin-left:4px;margin-right:4px">30</span>
-              出<span style="color:lightgreen;font-size: 12pt;margin-left:4px;margin-right:4px">20</span>
-              停<span style="color:lightsalmon;font-size: 12pt;margin-left:4px">10</span>
-            </p>
+              <dv-capsule-chart :config="{data:[{name: '自有车', value: 355},{name: '已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#32c5e9', '#96bfff','#e062ae', '#fb7293', '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
+            </div>
+            <div style="margin:12px">
+              <dv-capsule-chart :config="{data:[{name: '外租车', value: 2189},{name: '今日调配', value: 210}],colors: ['#32c5e9', '#96bfff','#e062ae', '#fb7293', '#e690d1'],unit: '辆',showValue: true}" style="height:100px" />
+            </div>
+            <div style="margin:12px">
+              <dv-capsule-chart :config="{data:[{name: '自有货运车', value: 48},{name: '当日已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
+            </div>
+            <div style="margin:12px">
+              <dv-capsule-chart :config="{data:[{name: '自有乘用车', value: 255},{name: '当日已出车', value: 201},{name: '停驶中', value: 24}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
+            </div>
+            <div style="margin:12px">
+              <dv-capsule-chart :config="{data:[{name: '工程机械车', value: 34},{name: '装载机', value: 24},{name: '挖掘机', value: 2}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
+            </div>
+            <div style="margin:12px">
+              <dv-capsule-chart :config="{data:[{name: '自有货运车', value: 48},{name: '当日已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
+            </div>
+            <div style="margin:12px">
+              <dv-capsule-chart :config="{data:[{name: '其他特种车', value: 48},{name: '搅拌罐车', value: 19},{name: '当日已出车', value: 10}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
             </div>
           </dv-border-box-12>
         </div>
-        <div class="main-content">
-          
-          <digital-flop />
-
-          <div class="block-left-right-content">
-            <div class="block-top-bottom-content">
-              <div class="block-top-content">
-                <ranking-board />
-
-                <rose-chart />
-
-                <water-level-chart />
-              </div>
-
-              <cards />
-            </div>
-            <div class="block-left-content">
-              <scroll-board />
-              <scroll-board-amount />
-            </div>
-          </div>
-        </div>
+        
       <!-- </dv-full-screen-container> -->
     </div>
   </div>

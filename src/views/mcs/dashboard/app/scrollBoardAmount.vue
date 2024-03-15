@@ -11,7 +11,7 @@
 <script>
 export default {
   name: "ScrollBoardAmount",
-  data() {
+  setup() {
     return {
       option: {
         legend: {
@@ -120,7 +120,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<!-- <style lang="less">
 .scroll-board {
   position: relative;
   padding: 10px;
@@ -134,4 +134,4 @@ export default {
     font-size: 20px;
   }
 }
-</style>
+</style> -->

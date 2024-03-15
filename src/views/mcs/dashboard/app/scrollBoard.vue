@@ -1,17 +1,17 @@
 <template>
   <div class="scroll-board">
     <div class="chart-name">
-      月计划完成情况
-      <dv-decoration-3 style="width: 100%; height: 20px" />
+      计划完成情况
+      <dv-decoration-3 style="width: 150px;" />
     </div>
-    <dv-charts :option="option" />
+    <dv-charts :option="option" style="width: 240px; height:180px"/>
   </div>
 </template>
 
 <script>
 export default {
   name: "ScrollBoard",
-  data() {
+  setup() {
     return {
       option: {
         legend: {
@@ -145,16 +145,17 @@ export default {
 
 <style lang="less">
 .scroll-board {
-  position: relative;
-  padding: 10px;
+  //position: relative;
+  padding: 8px;
   box-sizing: border-box;
   height: 100%;
+  //top:-50px;
 
   .chart-name {
-    position: absolute;
-    left: 70px;
+    // position: absolute;
+    margin-left: 30px;
     text-align: left;
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 </style>
