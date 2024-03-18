@@ -66,7 +66,8 @@ export default {
 		wastePackage: "废包",
 		certificatAdd: "添加资质文件",
 		uploadPhotocopy: "上传影印件",
-		billing: "开单",
+		statistics:"统计",
+		billing: "开单",		
 		dispatchWorkers:"派工",
 	},
 	validRule: {

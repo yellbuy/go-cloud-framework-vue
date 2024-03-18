@@ -55,7 +55,8 @@ export default {
 		action:'action',
 		frontend:'front end',
 		backend:'back end',
-		billing: "billing",
+		statistics:"statistics",
+		billing: "billing",		
 		dispatchWorkers:"dispatch workers",
 	},
 	validRule:{
