@@ -155,18 +155,23 @@ export default {
 			disable: true, //是否禁用
 			//表单
 			ruleForm: {
-				Id: 0,
-				Kind: 'main_business',
+				Id:0,
+				Kind:'main_business',
 				CustomerId:"",
-				GoodsCategoryId: '',
+				CompanyName:"",
+				GoodsCategoryId:"",
+				GoodsCategoryName:"",
 				GoodsId:"",
+				GoodsName:"",
 				BillTime:new Date(),
 				PlanVehicleCount:'',
 				Weight:'',
 				SenderAddress:'',
 				ReceiverAddress:'',
 				IsExternal:0,
-				State: 1
+				State:1,
+				SenderPlanTime:new Date(),
+				ReceiverPlanTime:new Date(),
 			},
 			
 			dialogVisible: false,
@@ -246,15 +251,17 @@ export default {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
+			loadCustomerName();
+			loadGoodsCategory();
+			loadgoodsName();
+			// loadSenderAddressList(),
+			// loadReceiverAddressList(),
 			try {
-				loadCustomerName();
-				loadGoodsCategory();
-				loadgoodsName();
-				// loadSenderAddressList(),
-				// loadReceiverAddressList(),
-
 				state.disable = disable;
-				if (id && id != '0') {
+				if (id && id != '0' && disable == true) {
+					GetByIdRow(id);
+					state.title = t('message.action.edit');
+				} else if (id && id != '0' && disable == false){
 					GetByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
@@ -277,7 +284,7 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				await loadList(state.ruleForm.CustomerId);
+				// await loadList(state.ruleForm.CustomerId);
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -321,7 +328,8 @@ export default {
 				return;
 			}
 			console.log(customerId)
-			const res = await proxy.$api.erp.businessBillLine.getListByScope('product', 0, 0,{customerId:customerId});
+			const res = await proxy.$api.erp.businessBillLine.getListByScope('product', 0, 2,{customerId:customerId});
+			// const res = await proxy.$api.erp.businessBillLine.getById(customerId);
 			if (res.errcode != 0) {
 				return;
 			}
@@ -331,7 +339,7 @@ export default {
 		// //加载发货地列表
 		// const loadSenderAddressList = async () => {
 		// 	const SenderAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("product", 0, 2, {pageSize:1000000});
-		// 	if (CustomerNameRes.errcode == 0) {
+		// 	if (SenderAddressRes.errcode == 0) {
 		// 		state.senderAddressList = SenderAddressRes.data;
 		// 	}else{
 		// 		console.log("error:",SenderAddressRes.errmsg)
@@ -341,7 +349,7 @@ export default {
 		// //加载目的地列表
 		// const loadReceiverAddressList = async () => {
 		// 	const ReceiverAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("product", 0, 2, {pageSize:1000000});
-		// 	if (CustomerNameRes.errcode == 0) {
+		// 	if (ReceiverAddressRes.errcode == 0) {
 		// 		state.receiverAddressList = ReceiverAddressRes.data;
 		// 	}else{
 		// 		console.log("error:",ReceiverAddressRes.errmsg)
@@ -393,13 +401,6 @@ export default {
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
 		onMounted(() => {});
-
-		const handleBlur = (e) => {
-			if(e.target.value.trim()!== ''){
-				console.log(e)
-				this.type = e.target.value;
-			}
-    	}
 
 
 		return {
