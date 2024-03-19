@@ -10,7 +10,8 @@
 								v-model="ruleForm.CustomerId"
 								style="width: 200px"
 								filterable
-								placeholder="请选择">
+								placeholder="请选择"
+								@visible-change = "loadCustomerName">
 								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -34,7 +35,8 @@
 								v-model="ruleForm.GoodsCategoryId"
 								style="width: 200px"
 								filterable
-								placeholder="请选择">
+								placeholder="请选择"
+								@visible-change = "loadGoodsCategory">
 								<el-option v-for="(item, index) in goodsCategoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -45,7 +47,8 @@
 								v-model="ruleForm.GoodsId"
 								style="width: 200px"
 								filterable
-								placeholder="请选择">
+								placeholder="请选择"
+								@visible-change = "loadgoodsName">
 								<el-option v-for="(item,index) in goodsNameList" :key="index" :label="item.GoodsName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -136,7 +139,9 @@ import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
+
 	name: 'mainEdit',
+
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -202,13 +207,6 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			GoodsCategoryId: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
 			GoodsId: [
 				{
 					required: true,
@@ -251,9 +249,7 @@ export default {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
-			loadCustomerName();
-			loadGoodsCategory();
-			loadgoodsName();
+
 			// loadSenderAddressList(),
 			// loadReceiverAddressList(),
 			try {
@@ -291,32 +287,38 @@ export default {
 		}
 
 		//加载客户名称列表
-		const loadCustomerName = async () => {
-			const CustomerNameRes = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
-			if (CustomerNameRes.errcode == 0) {
-				state.companyNameList = CustomerNameRes.data;
-			}else{
-				console.log("error:",CustomerNameRes.errmsg)
+		const loadCustomerName = async (visible: object) => {
+			if (visible) {
+				const CustomerNameRes = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
+				if (CustomerNameRes.errcode == 0) {
+					state.companyNameList = CustomerNameRes.data;
+				}else{
+					console.log("error:",CustomerNameRes.errmsg)
+				}
 			}
 		}
 
 		//加载产品类型
-		const loadGoodsCategory = async () => {
-			const GoodsCategoryRes = await proxy.$api.common.category.getHierarchyDataList("product", 0, 2, {pageSize:10000});
-			if (GoodsCategoryRes.errcode == 0) {
-				state.goodsCategoryList = GoodsCategoryRes.data;
-			}else{
-				console.log("error:",GoodsCategoryRes.errmsg)
+		const loadGoodsCategory = async (visible: object) => {
+			if (visible) {
+				const GoodsCategoryRes = await proxy.$api.common.category.getHierarchyDataList("product", 0, 2, {pageSize:10000});
+				if (GoodsCategoryRes.errcode == 0) {
+					state.goodsCategoryList = GoodsCategoryRes.data;
+				}else{
+					console.log("error:",GoodsCategoryRes.errmsg)
+				}
 			}
 		}
 
 		//加载产品名称
-		const loadgoodsName = async () => {
-			const goodsNameRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000});
-			if (goodsNameRes.errcode == 0) {
-				state.goodsNameList = goodsNameRes.data;
-			}else{
-				console.log("error:",goodsNameRes.errmsg)
+		const loadgoodsName = async (visible: object) => {
+			if (visible) {
+				const goodsNameRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000, categoryId:state.ruleForm.GoodsCategoryId});
+				if (goodsNameRes.errcode == 0) {
+					state.goodsNameList = goodsNameRes.data;
+				}else{
+					console.log("error:",goodsNameRes.errmsg)
+				}
 			}
 		}
 
@@ -398,9 +400,11 @@ export default {
 			});
 		};
 
+
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
 		onMounted(() => {});
+
 
 
 		return {
@@ -415,6 +419,9 @@ export default {
 			rules,
 			token,
 			onSubmit,
+			loadCustomerName,
+			loadGoodsCategory,
+			loadgoodsName,
 			// loadSenderAddressList,
 			// loadReceiverAddressList,
 			...toRefs(state),
