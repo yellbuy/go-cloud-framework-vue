@@ -21,6 +21,15 @@
 							
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20" v-if="ruleForm.IsExternal">
+						<el-form-item label="相关方" prop="Shipper">
+							<el-select v-model="ruleForm.Shipper" placeholder="请选择">
+								<el-option v-for="item in shipperList" :key="item.Id" :label="item.CompanyName" :value="item.CompanyName"> </el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="车辆类型" prop="VehicleType">
 							<el-select v-model="ruleForm.VehicleType" placeholder="请选择">
@@ -244,6 +253,7 @@ export default {
 				Kind: 'info',
 			},
 			dialogVisible: false,
+			shipperList:[],
 			truckTypeList: [],
 			plateColorList:[],
 			energyTypeList:[],
@@ -315,6 +325,12 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
+				const resShippers = await proxy.$api.erp.company.getListByScope("shipper", 0, 2, {pageSize:1000000});
+				if (resShippers.errcode == 0) {
+					state.shipperList = resShippers.data;
+				}else{
+					console.log("error:",resShippers.errmsg)
+				}
 				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
 				if (resTruckTypes.errcode == 0) {
 					state.truckTypeList = resTruckTypes.data;
@@ -392,8 +408,15 @@ export default {
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
+					if(!state.ruleForm.IsExternal){
+						state.ruleForm.Shipper=""
+					} else if(state.ruleForm.Shipper==""){
+						ElMessage.warning('请选择相关方');
+						return false;
+					}
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					
 					try {
 						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
 						if (res.errcode == 0) {
