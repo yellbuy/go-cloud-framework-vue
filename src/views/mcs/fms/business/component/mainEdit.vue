@@ -250,6 +250,8 @@ export default {
 				loadCustomerName();
 				loadGoodsCategory();
 				loadgoodsName();
+				// loadSenderAddressList(),
+				// loadReceiverAddressList(),
 
 				state.disable = disable;
 				if (id && id != '0') {
@@ -326,6 +328,26 @@ export default {
 			state.tableList=res.data;
 		};
 
+		// //加载发货地列表
+		// const loadSenderAddressList = async () => {
+		// 	const SenderAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("product", 0, 2, {pageSize:1000000});
+		// 	if (CustomerNameRes.errcode == 0) {
+		// 		state.senderAddressList = SenderAddressRes.data;
+		// 	}else{
+		// 		console.log("error:",SenderAddressRes.errmsg)
+		// 	}
+		// }
+
+		// //加载目的地列表
+		// const loadReceiverAddressList = async () => {
+		// 	const ReceiverAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("product", 0, 2, {pageSize:1000000});
+		// 	if (CustomerNameRes.errcode == 0) {
+		// 		state.receiverAddressList = ReceiverAddressRes.data;
+		// 	}else{
+		// 		console.log("error:",ReceiverAddressRes.errmsg)
+		// 	}
+		// }
+
 
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -372,6 +394,14 @@ export default {
 		// 页面加载时
 		onMounted(() => {});
 
+		const handleBlur = (e) => {
+			if(e.target.value.trim()!== ''){
+				console.log(e)
+				this.type = e.target.value;
+			}
+    	}
+
+
 		return {
 			proxy,
 			t,
@@ -384,6 +414,8 @@ export default {
 			rules,
 			token,
 			onSubmit,
+			// loadSenderAddressList,
+			// loadReceiverAddressList,
 			...toRefs(state),
 		};
 	},

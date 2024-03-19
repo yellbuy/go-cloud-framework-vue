@@ -71,9 +71,6 @@
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button text bg type="primary" @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" v-auth:[moduleKey]="'btn.ChildMap'">
-							{{ $t('message.action.location') }}
-						</el-button>
 						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.see') }}
 						</el-button>
@@ -168,7 +165,7 @@ export default {
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-		// 删除用户
+		// 删除记录
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -176,7 +173,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.vehicle.delete(Id);
+					const res = await proxy.$api.erp.businessBillLine.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
