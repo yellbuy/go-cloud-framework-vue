@@ -55,8 +55,7 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 export default {
 	name: 'baseRoleEdit',
@@ -120,7 +119,6 @@ export default {
 				state.ruleForm.AllowFrontendLogin=1;
 			}
 			state.isShowDialog = true;
-
 			//加载权限数据
 			onInitPermData();
 		};
@@ -209,11 +207,12 @@ export default {
 				for(const child of val.list){
 					child.parent=val.value
 					child.name=t(child.name)
+					console.log("child.name:",child.name)
 					if(child.checked){
 						state.permTree.checkedKeys.push(child.value)
-						if(child.list && child.list.length){
-							insertCheckedKeys(child);
-						}
+					}
+					if(child.list && child.list.length){
+						insertCheckedKeys(child);
 					}
 				}
 			}
@@ -252,12 +251,13 @@ export default {
 							for(const val3 of val2.list){
 								val3.parent=val2.value
 								val3.name=t(val3.name)
+								console.log("val3.name:",val3.name)
 								state.permTree.expandedKeys.push(val3.value)
 								if(val3.checked){
 									state.permTree.checkedKeys.push(val3.value)
-									if(val3.list && val3.list.length>0){
-										insertCheckedKeys(val3)
-									}
+								}
+								if(val3.list && val3.list.length>0){
+									insertCheckedKeys(val3)
 								}
 							}
 						}
