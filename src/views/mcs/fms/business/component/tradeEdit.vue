@@ -41,6 +41,47 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" class="mb20">
+						<el-form-item label="计划量" prop="PlanWeight">
+							<el-input-number
+								v-model.number="ruleForm.PlanWeight"
+								style="width: 200px"
+								placeholder="请输入"
+								type="number"
+								min="0"
+								max="1000000000"
+								step="1">
+							</el-input-number>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" class="mb20">
+						<el-form-item label="开始日期" prop="SenderPlanTime">
+							<el-date-picker
+								v-model="ruleForm.SenderPlanTime"
+								style="width: 200px"
+								type="date"
+								placeholder="日期"
+								format="YYYY-MM-DD"
+							></el-date-picker>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" class="mb20">
+						<el-form-item label="结束日期" prop="ReceiverPlanTime">
+							<el-date-picker
+								v-model="ruleForm.ReceiverPlanTime"
+								style="width: 200px"
+								type="date"
+								placeholder="日期"
+								format="YYYY-MM-DD"
+							></el-date-picker>
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -55,7 +96,6 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -131,6 +171,13 @@ export default {
 					trigger: 'blur',
 				},
 			],
+			PlanWeight: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				}
+			],
 		});
 		
 		// 打开弹窗
@@ -155,6 +202,8 @@ export default {
 				} else {
 					state.ruleForm.Id = 0;
 					state.ruleForm.IsExternal=0;
+					state.ruleForm.SenderPlanTime=new Date()
+					state.ruleForm.ReceiverPlanTime=new Date()
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -217,6 +266,7 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					state.ruleForm.BillTime=state.ruleForm.SenderPlanTime;
 					try {
 						const res = await proxy.$api.erp.businessBill.save(state.ruleForm);
 						if (res.errcode == 0) {

@@ -52,8 +52,8 @@ export default {
      * @param ids 标识，字符串或数组
      * @returns 返回接口数据
      */
-    delete: async (id: number | string) => {
-        const url = `/v1/admin/erp/businessbillline/delete/${id}`;
+    delete: async (id: number | string,businessBillId: number | string=0) => {
+        const url = `/v1/admin/erp/businessbillline/delete/${id}?businessBillId=${businessBillId}`;
         return await http.post(url);
     },
 }

@@ -44,12 +44,18 @@
 						highlight-current-row
 					>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-						<!-- <el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column> -->
+						<el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column>
 						<el-table-column prop="GoodsName" label="品名" width="120"></el-table-column>
 						<el-table-column prop="GoodsCategoryName" label="品类" width="120"></el-table-column>
 						<el-table-column prop="CustomerName" label="供应商" width="180" show-overflow-tooltip></el-table-column>
-						<!-- <el-table-column prop="PlanWeight" label="吨位" width="80" align="right"></el-table-column>
-						<el-table-column prop="Amount" label="收入" width="120" align="right"></el-table-column> -->
+						<el-table-column prop="PlanWeight" label="完成情况" width="80" align="center">
+							<template #default="scope">
+								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
+							</template>
+						</el-table-column>
+						<el-table-column prop="SenderPlanTime" label="开始时间" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="ReceiverPlanTime" label="结束时间" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
+						<!-- <el-table-column prop="Amount" label="收入" width="120" align="right"></el-table-column> -->
 						<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope"> 
