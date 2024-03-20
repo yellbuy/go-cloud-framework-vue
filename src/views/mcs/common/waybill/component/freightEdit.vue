@@ -76,7 +76,17 @@
 								min="0"
 								max="1000000000"
 								step="1">
-								<template #append>个</template>
+								<template #append>
+									<el-select
+									v-model="ruleForm.Unit"
+									style="width: 80px"
+									filterable
+									placeholder="请选择"
+									@change="onFormSelected">
+									<el-option label="吨" value=""> </el-option>
+									<el-option label="台班" value="台班"> </el-option>
+								</el-select>
+								</template>
 							</el-input>
 						</el-form-item>
 					</el-col>
@@ -154,7 +164,6 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
