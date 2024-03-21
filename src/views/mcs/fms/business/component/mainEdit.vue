@@ -99,7 +99,7 @@
 								:reserve-keyword="false"
 								placeholder="请输入并选择"
 								@visible-change = "loadSenderAddressList">
-								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item.SenderAddress" :value="item"> </el-option>
+								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -333,7 +333,7 @@ export default {
 		//加载发货地列表
 		const loadSenderAddressList = async (visible: object) => {
 			if (visible) {
-				const SenderAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("main_business", 0, 2, {pageSize:1000000});
+				const SenderAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("main_business", 0, 2, {pageSize:1000000, Order:"CreateTime asc"});
 				if (SenderAddressRes.errcode == 0) {
 					for (let i = 0; i < SenderAddressRes.data.length; i++){
 						state.senderAddressList.push(SenderAddressRes.data[i].SenderAddress);
