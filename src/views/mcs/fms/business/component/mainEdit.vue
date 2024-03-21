@@ -333,7 +333,7 @@ export default {
 		//加载发货地列表
 		const loadSenderAddressList = async (visible: object) => {
 			if (visible) {
-				const SenderAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("main_business", 0, 2, {pageSize:1000000, Order:"CreateTime asc"});
+				const SenderAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("main_business", 0, 2, {pageSize:1000000});
 				if (SenderAddressRes.errcode == 0) {
 					for (let i = 0; i < SenderAddressRes.data.length; i++){
 						state.senderAddressList.push(SenderAddressRes.data[i].SenderAddress);

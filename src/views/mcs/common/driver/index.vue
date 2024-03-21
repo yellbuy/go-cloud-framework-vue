@@ -19,11 +19,23 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
+						<el-button type="info" @click="onGetXlsData()" v-auth:[moduleKey]="'btn.ExportXls'">
+							<el-icon>
+								<Download />
+							</el-icon>
+							&#8197;{{ $t('message.action.export') }}
+						</el-button>
 						<el-button type="primary" @click="onOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
 							&#8197;{{ $t('message.action.add') }}
+						</el-button>
+						<el-button type="primary" @click="onOpenImportDlg" v-auth:[moduleKey]="'btn.Add'">
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							&#8197;{{ $t('message.action.import') }}
 						</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
@@ -38,9 +50,27 @@
 				stripe
 				highlight-current-row
 			>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Name" label="姓名" width="100" fixed></el-table-column>
-				<el-table-column prop="Idno" label="身份证号" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column type="index" label="序号" align="right" width="50" fixed />
+				<el-table-column prop="Name" label="姓名" sortable width="100" fixed></el-table-column>
+				<el-table-column label="性别" sortable width="70" show-overflow-tooltip>
+					<template #default="scope">
+						<el-switch
+							v-model="scope.row.Gender"
+							inline-prompt
+							:width="46"
+							v-auth:[moduleKey]="'btn.Edit'"
+							@change="proxy.$api.common.table.updateById('erp_driver', 'gender', scope.row.Id, scope.row.Gender)"
+							:active-text="$t('message.action.male')"
+							:inactive-text="$t('message.action.female')"
+							:active-value="1"
+							:inactive-value="0"
+						/>
+						<el-tag type="success" effect="plain" v-if="scope.row.Gender==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.male') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.female') }}</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Nation" label="民族" sortable width="120" show-overflow-tooltip></el-table-column>
+				<!-- <el-table-column prop="Idno" label="身份证号" width="120" show-overflow-tooltip></el-table-column> -->
 				<!-- <el-table-column label="外部车" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -58,30 +88,16 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column> -->
-				<el-table-column label="性别" width="70" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.Gender"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_driver', 'gender', scope.row.Id, scope.row.Gender)"
-							:active-text="$t('message.action.male')"
-							:inactive-text="$t('message.action.female')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.Gender==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.male') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.female') }}</el-tag>
-					</template>
-				</el-table-column>
-			
-				<el-table-column prop="IdnoEndDate" label="身份证有效期至" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Nation" label="民族" width="120"  show-overflow-tooltip></el-table-column>
+
+
+				<el-table-column prop="IdnoEndDate" label="身份证截止日" sortable width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Tname" label="所属公司" sortable show-overflow-tooltip></el-table-column>
+				<el-table-column prop="DriverLicenseType" label="驾驶证类型" sortable width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="IdnoEndDate" label="驾驶证截止日" sortable width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Mobile" label="手机号" width="120"  show-overflow-tooltip></el-table-column>
 				
-				<el-table-column prop="NativePlace" label="籍贯" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Birthdate" label="出生日期" width="120"  show-overflow-tooltip :formatter="dateFormatYMD"></el-table-column>
+				<!-- <el-table-column prop="NativePlace" label="籍贯" width="120"  show-overflow-tooltip></el-table-column> -->
+				<!-- <el-table-column prop="Birthdate" label="出生日期" width="120"  show-overflow-tooltip :formatter="dateFormatYMD"></el-table-column> -->
 				<el-table-column prop="Address" label="住址" width="120"  show-overflow-tooltip></el-table-column>
 	
 				<!-- <el-table-column label="状态" width="70" show-overflow-tooltip>
@@ -101,7 +117,7 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column> -->
-				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
+				
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -115,7 +131,7 @@
 						</el-button>
 					</template>
 				</el-table-column>
-				<el-table-column prop="DriverLicenseType" label="驾驶证类型" width="120"  show-overflow-tooltip></el-table-column>
+
 			</el-table>
 			<el-pagination
 				small
@@ -132,6 +148,7 @@
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
+		<importDlg ref="importDlgRef" />
 	</div>
 </template>
 
@@ -141,10 +158,11 @@ import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from '
 import { useRoute } from 'vue-router';
 import editDlg from './component/driverEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
+import importDlg from './component/driverImport.vue';
 
 export default {
 	name: 'driverInfo',
-	components: { editDlg },
+	components: { editDlg,importDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -153,6 +171,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_baseinfo_driver`;
 		const editDlgRef = ref();
+		const importDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -200,6 +219,12 @@ export default {
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
+
+		//打开导入窗
+		const onOpenImportDlg = () => {
+			importDlgRef.value.openDialog(state.kind);
+		};
+
 		// 删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
@@ -217,6 +242,20 @@ export default {
 				}
 				return false;
 			});
+		};
+
+			// 导出表格数据
+		const onGetXlsData = async () => {
+			const res = await proxy.$api.erp.vehicle.exportXlsByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+			if (!res.data || res.data.size == 0) {
+				return;
+			} 
+			// 返回不为空
+			var url = window.URL.createObjectURL(res.data);
+			var a = document.createElement('a');
+			a.href = url;
+			a.download = '车辆台账_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.click();
 		};
 
 		// 分页改变
@@ -246,6 +285,9 @@ export default {
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMD,
+			onGetXlsData,
+			onOpenImportDlg,
+			importDlgRef,
 			...toRefs(state),
 		};
 	},
