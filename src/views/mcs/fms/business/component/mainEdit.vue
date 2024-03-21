@@ -36,7 +36,8 @@
 								style="width: 200px"
 								filterable
 								placeholder="请选择"
-								@visible-change = "loadGoodsCategory">
+								@visible-change = "loadGoodsCategory"
+								@change = "clearGoodsName">
 								<el-option v-for="(item, index) in goodsCategoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -96,8 +97,9 @@
 								allow-create
 								default-first-option
 								:reserve-keyword="false"
-								placeholder="请输入并选择">
-								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item"> </el-option>
+								placeholder="请输入并选择"
+								@visible-change = "loadSenderAddressList">
+								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item.SenderAddress" :value="item"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -110,7 +112,8 @@
 								allow-create
 								default-first-option
 								:reserve-keyword="false"
-								placeholder="请输入并选择">
+								placeholder="请输入并选择"
+								@visible-change = "loadReceiverAddressList">
 								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -149,7 +152,6 @@ export default {
 		
 		const store = useStore();
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
 		
@@ -186,8 +188,8 @@ export default {
 			tableList:[],
 			saveState: false,
 			Files: [],
-			senderAddressList: ['test1', 'test2', 'test3'],
-			receiverAddressList: ['Address1', 'Address2', 'Address3'],
+			senderAddressList: [],
+			receiverAddressList: [],
 		});
 		const token = Session.get('token');
 		const rules = reactive({
@@ -280,7 +282,6 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				// await loadList(state.ruleForm.CustomerId);
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -305,14 +306,20 @@ export default {
 				if (GoodsCategoryRes.errcode == 0) {
 					state.goodsCategoryList = GoodsCategoryRes.data;
 				}else{
-					console.log("error:",GoodsCategoryRes.errmsg)
+					console.log("error:",GoodsCategoryRes.errmsg);
 				}
 			}
+		}
+
+		//清空产品名
+		const clearGoodsName = async() => {
+			state.ruleForm.GoodsId = ""; 
 		}
 
 		//加载产品名称
 		const loadgoodsName = async (visible: object) => {
 			if (visible) {
+				
 				const goodsNameRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000, categoryId:state.ruleForm.GoodsCategoryId});
 				if (goodsNameRes.errcode == 0) {
 					state.goodsNameList = goodsNameRes.data;
@@ -322,41 +329,36 @@ export default {
 			}
 		}
 
-		// 选中客户后，加载最近的运单信息
-		const loadList = async (customerId:number|string) => {
-			
-			if(!customerId||customerId=="0"){
-				state.tableList=[];
-				return;
-			}
-			console.log(customerId)
-			const res = await proxy.$api.erp.businessBillLine.getListByScope('product', 0, 2,{customerId:customerId});
-			// const res = await proxy.$api.erp.businessBillLine.getById(customerId);
-			if (res.errcode != 0) {
-				return;
-			}
-			state.tableList=res.data;
-		};
 
-		// //加载发货地列表
-		// const loadSenderAddressList = async () => {
-		// 	const SenderAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("product", 0, 2, {pageSize:1000000});
-		// 	if (SenderAddressRes.errcode == 0) {
-		// 		state.senderAddressList = SenderAddressRes.data;
-		// 	}else{
-		// 		console.log("error:",SenderAddressRes.errmsg)
-		// 	}
-		// }
+		//加载发货地列表
+		const loadSenderAddressList = async (visible: object) => {
+			if (visible) {
+				const SenderAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("main_business", 0, 2, {pageSize:1000000});
+				if (SenderAddressRes.errcode == 0) {
+					for (let i = 0; i < SenderAddressRes.data.length; i++){
+						state.senderAddressList.push(SenderAddressRes.data[i].SenderAddress);
+					}
+				state.senderAddressList = state.senderAddressList.filter((value, index, self) => self.indexOf(value) === index);
+				}else{
+					console.log("error:",SenderAddressRes.errmsg)
+				}
+			}
+		}
 
-		// //加载目的地列表
-		// const loadReceiverAddressList = async () => {
-		// 	const ReceiverAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("product", 0, 2, {pageSize:1000000});
-		// 	if (ReceiverAddressRes.errcode == 0) {
-		// 		state.receiverAddressList = ReceiverAddressRes.data;
-		// 	}else{
-		// 		console.log("error:",ReceiverAddressRes.errmsg)
-		// 	}
-		// }
+		//加载目的地列表
+		const loadReceiverAddressList = async (visible: object) => {
+			if (visible) {
+				const ReceiverAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("main_business", 0, 2, {pageSize:1000000});
+				if (ReceiverAddressRes.errcode == 0) {
+					for (let i = 0; i < ReceiverAddressRes.data.length; i++) {
+						state.receiverAddressList.push(ReceiverAddressRes.data[i].ReceiverAddress);
+					}
+				state.receiverAddressList = state.receiverAddressList.filter((value, index, self) => self.indexOf(value) === index);
+				}else{
+					console.log("error:",ReceiverAddressRes.errmsg)
+				}
+			}
+		}
 
 
 		// 关闭弹窗
@@ -399,13 +401,14 @@ export default {
 				}
 			});
 		};
+		
 
-
+		//时间格式
 		const { dateFormatYMD } = commonFunction();
+
+
 		// 页面加载时
 		onMounted(() => {});
-
-
 
 		return {
 			proxy,
@@ -422,8 +425,9 @@ export default {
 			loadCustomerName,
 			loadGoodsCategory,
 			loadgoodsName,
-			// loadSenderAddressList,
-			// loadReceiverAddressList,
+			loadSenderAddressList,
+			loadReceiverAddressList,
+			clearGoodsName,
 			...toRefs(state),
 		};
 	},

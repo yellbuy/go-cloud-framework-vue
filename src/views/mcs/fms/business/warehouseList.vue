@@ -45,11 +45,11 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="50" fixed />
-				<el-table-column prop="SiteName" label="平台" width="300" fixed></el-table-column>
-				<el-table-column prop="CustomerName" label="客户名称" width="300" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Volume" label="面积" width="80" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="PlanWeight" label="收入" width="80" align="right"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="BillTime" label="日期" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="SiteName" label="平台" width="300" sortable fixed></el-table-column>
+				<el-table-column prop="CustomerName" label="客户名称" width="300" sortable show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Volume" label="面积" width="80" align="right" sortable show-overflow-tooltip></el-table-column>
+				<el-table-column prop="PlanWeight" label="收入" width="80" align="right" sortable show-overflow-tooltip></el-table-column>
+				<el-table-column prop="BillTime" label="日期" width="80" align="left" sortable :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
 				
 				
 				<el-table-column label="有效" align="center" width="80">
@@ -69,7 +69,7 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CompanyName" label="所属公司" sortable show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
