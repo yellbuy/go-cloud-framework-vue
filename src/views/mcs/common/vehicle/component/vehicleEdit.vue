@@ -10,7 +10,6 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						
 						<el-form-item label="车辆类别" prop="IsExternal">
 							<div mb-2 flex items-center>
 								<el-radio-group v-model="ruleForm.IsExternal">

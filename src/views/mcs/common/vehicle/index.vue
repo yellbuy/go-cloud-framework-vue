@@ -31,6 +31,12 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.add') }}
 						</el-button>
+						<el-button type="primary" @click="onOpenImportDlg" v-auth:[moduleKey]="'btn.Add'">
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							&#8197;{{ $t('message.action.import') }}
+						</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
 				</el-form>
@@ -63,6 +69,8 @@
 						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
+				</el-table-column>
+				<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column label="提醒" width="120" show-overflow-tooltip>
 					<template #default="scope">
@@ -160,6 +168,7 @@
 		<editDlg ref="editDlgRef" />
 		<childMapDlg ref="childMapDlgRef" />
 		<energyStatDlg ref="energyStatDlgRef" />
+		<importDlg ref="importDlgRef" />
 	</div>
 </template>
 
@@ -170,11 +179,12 @@ import { useRoute } from 'vue-router';
 import childMapDlg from '../waybill/component/vehicleMap.vue';
 import editDlg from './component/vehicleEdit.vue';
 import energyStatDlg from './component/vehicleEnergyStat.vue';
+import importDlg from './component/vehicleImport.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'vehicleInfo',
-	components: { editDlg,childMapDlg,energyStatDlg },
+	components: { editDlg,childMapDlg,energyStatDlg,importDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -185,6 +195,7 @@ export default {
 		const editDlgRef = ref();
 		const childMapDlgRef=ref();
 		const energyStatDlgRef=ref();
+		const importDlgRef=ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -243,9 +254,13 @@ export default {
 			a.click();
 		};
 		
-		// 打开弹窗
+		// 打开编辑弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		// 打开导入弹窗
+		const onOpenImportDlg = () => {
+			importDlgRef.value.openDialog(state.kind);
 		};
 		// 打开地图
 		const onChildOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
@@ -294,12 +309,14 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
+			importDlgRef,
 			childMapDlgRef,
 			energyStatDlgRef,
 			onGetTableData,
 			onGetXlsData,
 			onResetSearch,
 			onOpenEditDlg,
+			onOpenImportDlg,
 			onChildOpenMapDlg,
 			onEnergyOpenMapDlg,
 			onModelDel,
