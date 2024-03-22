@@ -20,7 +20,9 @@
 						<el-form-item label="业务类型" prop="WaybillMode">
 							<div mb-2 flex items-center>
 								<el-radio-group v-model="ruleForm.WaybillMode">
-									<el-radio :label="1">货运</el-radio>
+									<el-radio :label="1">固定</el-radio>
+									<el-radio :label="2">临配</el-radio>
+									<el-radio :label="10">其他</el-radio>
 								</el-radio-group>
 							</div>
 						</el-form-item>
