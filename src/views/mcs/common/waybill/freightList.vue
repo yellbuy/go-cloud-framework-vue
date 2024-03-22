@@ -43,10 +43,16 @@
 						stripe
 						highlight-current-row
 					>
-					<el-table-column type="index" label="序号" align="right" width="70" fixed />
+					<el-table-column type="index" label="序号" align="right" width="60" fixed />
 						<el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column>
 						<el-table-column prop="GoodsName" label="货物" width="100"></el-table-column>
 						<el-table-column prop="CustomerName" label="客户" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="WaybillMode" label="业务类型" width="70" align="center">
+							<template #default="scope">
+								<el-text type="success" effect="plain" v-if="scope.row.WaybillMode==1">货运</el-text>
+								<el-text type="danger" effect="plain" v-else-if="scope.row.WaybillMode==10">临配</el-text>
+							</template>
+						</el-table-column>
 						<el-table-column prop="PlanWeight" label="执行进度" width="80" align="center">
 							<template #default="scope">
 								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
