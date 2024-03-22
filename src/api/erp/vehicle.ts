@@ -66,10 +66,11 @@ export default {
      * @param data 信息
      * @returns 返回接口数据
      */
-    saveMulti: async (kind:string,data: any) => {
+    saveMulti: async (kind:string, data: any) => {
         const url = `/v1/admin/erp/vehicles/${kind}`;
         return await http.post(url, data);
     },
+    
 
     /**
      * 删除
