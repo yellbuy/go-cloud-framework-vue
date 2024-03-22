@@ -42,11 +42,11 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="至：" prop="BusinessStartTime"  required>
+						<el-form-item label="至：" prop="BusinessEndTime"  required>
 							<el-date-picker
-										v-model="ruleForm.BusinessStartTime"
+										v-model="ruleForm.BusinessEndTime"
 										type="date"
-										placeholder="开始日期"
+										placeholder="到期日期"
 										format="YYYY-MM-DD"
 									></el-date-picker>
 						</el-form-item>
