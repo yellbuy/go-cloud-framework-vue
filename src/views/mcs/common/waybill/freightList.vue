@@ -49,8 +49,9 @@
 						<el-table-column prop="CustomerName" label="客户" width="120" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="WaybillMode" label="业务类型" width="70" align="center">
 							<template #default="scope">
-								<el-text type="success" effect="plain" v-if="scope.row.WaybillMode==1">货运</el-text>
-								<el-text type="danger" effect="plain" v-else-if="scope.row.WaybillMode==10">临配</el-text>
+								<el-tag type="success" class="mr4" effect="dark" v-if="scope.row.WaybillMode==1">固定</el-tag>
+								<el-tag type="danger" class="mr4" effect="dark" v-else-if="scope.row.WaybillMode==2">临配</el-tag>
+								<el-tag type="warning" class="mr4" effect="dark" v-else-if="scope.row.WaybillMode==10">其他</el-tag>
 							</template>
 						</el-table-column>
 						<el-table-column prop="PlanWeight" label="执行进度" width="80" align="center">
