@@ -212,13 +212,13 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			CompanyAlias: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
+			// CompanyAlias: [
+			// 	{
+			// 		required: true,
+			// 		message: t('message.validRule.required'),
+			// 		trigger: 'blur',
+			// 	},
+			// ],
 			Idno: [
 				{
 					required: true,

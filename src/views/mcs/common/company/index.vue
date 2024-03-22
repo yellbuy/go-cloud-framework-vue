@@ -40,13 +40,14 @@
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="CompanyName" label="客户名称" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="CompanyAlias" label="客户简称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="CreateBy" label="创建人" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CompanyAlias" label="客户简称" width="120"></el-table-column>
+				<el-table-column prop="Idno" label="证件号码" width="130"></el-table-column>
 				<el-table-column prop="CreateTime" label="公司注册时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="UpdateBy" label="更改人" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Linkman" label="联系人" width="80"></el-table-column>
+				<el-table-column prop="Tel" label="电话" width="80"></el-table-column>
+				<el-table-column prop="UpdateBy" label="更改人" width="80"></el-table-column>
 				<el-table-column prop="UpdateTime" label="更新时间" width="115" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Linkman" label="联系人"></el-table-column>
-				<el-table-column label="状态" show-overflow-tooltip>
+				<el-table-column label="状态" width="70" align="center">
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
