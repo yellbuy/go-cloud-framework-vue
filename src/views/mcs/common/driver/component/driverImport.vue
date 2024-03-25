@@ -329,7 +329,7 @@ export default {
 		// 下载导入模板
 		const onDownloadTpl = async () => {
 			var a = document.createElement('a');
-			a.href = import.meta.env.VITE_URL+"/static/download/erp/vehicle.xlsx";
+			a.href = import.meta.env.VITE_URL+"/static/download/erp/driver.xlsx";
 			a.download = '司机台账模板_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
 			a.click();
 		};

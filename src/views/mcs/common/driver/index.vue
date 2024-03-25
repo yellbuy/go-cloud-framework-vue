@@ -256,7 +256,7 @@ export default {
 			var url = window.URL.createObjectURL(res.data);
 			var a = document.createElement('a');
 			a.href = url;
-			a.download = '车辆台账_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.download = '司机台账_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
 			a.click();
 		};
 
