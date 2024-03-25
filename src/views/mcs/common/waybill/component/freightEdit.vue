@@ -27,7 +27,7 @@
 							</div>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" class="mb20">
+					<!-- <el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="单价" prop="Price">
 							<el-input
 								v-model.number="ruleForm.Price"
@@ -41,7 +41,7 @@
 								<template #append>元</template>
 							</el-input>
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 					</el-row>
 					<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" class="mb20">
@@ -78,21 +78,20 @@
 								min="0"
 								max="1000000000"
 								step="1">
-								<template #append>
-									<el-select
-									v-model="ruleForm.Unit"
-									style="width: 80px"
-									filterable
-									placeholder="请选择"
-									@change="onFormSelected">
-									<el-option label="吨" value=""> </el-option>
-									<el-option label="台班" value="台班"> </el-option>
-								</el-select>
-								</template>
+								<template #append>{{ruleForm.Mode==1?'吨':'台班'}}</template>
 							</el-input>
 						</el-form-item>
 					</el-col>
-					
+					<el-col :xs="24" :sm="12" class="mb20">
+						<el-form-item label="单位" prop="Mode">
+							<div mb-2 flex items-center>
+								<el-radio-group v-model="ruleForm.Mode">
+									<el-radio :label="1">吨</el-radio>
+									<el-radio :label="2">台班</el-radio>
+								</el-radio-group>
+							</div>
+						</el-form-item>
+					</el-col>
 				</el-row>
 				<el-divider content-position="left">收发货信息*</el-divider>
 				<el-row :gutter="20">
@@ -204,6 +203,7 @@ export default {
 				Kind: 'info',
 				CustomerId:"",
 				GoodsCategoryId: '0',
+				Mode:1,
 				GoodsId:"",
 				VehicleNumber: '',
 				IsExternal:0,
@@ -265,6 +265,13 @@ export default {
 				{
 					required: true,
 					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Mode: [
+				{
+					required: true,
+					message: t('message.validRule.mustOption'),
 					trigger: 'blur',
 				},
 			],
@@ -332,6 +339,7 @@ export default {
 				} else {
 					state.ruleForm.Id = 0;
 					state.ruleForm.IsExternal=0;
+					state.ruleForm.Mode=1;
 					state.ruleForm.SenderPlanTime=new Date()
 					state.ruleForm.ReceiverPlanTime=dayjs(new Date()).add(1, 'day')
 					state.title = t('message.action.add');
