@@ -52,7 +52,9 @@
 			>
 				<el-table-column type="index" label="序号" align="right" width="50" fixed />
 				<el-table-column prop="Name" label="姓名" sortable width="100" fixed></el-table-column>
-				<el-table-column label="性别" sortable width="70" show-overflow-tooltip>
+				<el-table-column prop="Gender" label="性别" :formatter="formatGender" sortable width="100" fixed>
+				</el-table-column>
+				<!-- <el-table-column label="性别" sortable width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.Gender"
@@ -68,7 +70,7 @@
 						<el-tag type="success" effect="plain" v-if="scope.row.Gender==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.male') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.female') }}</el-tag>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column prop="Nation" label="民族" sortable width="120" show-overflow-tooltip></el-table-column>
 				<!-- <el-table-column prop="Idno" label="身份证号" width="120" show-overflow-tooltip></el-table-column> -->
 				<!-- <el-table-column label="外部车" width="70" show-overflow-tooltip>
@@ -91,14 +93,14 @@
 
 
 				<el-table-column prop="IdnoEndDate" label="身份证截止日" sortable width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Tname" label="所属公司" sortable show-overflow-tooltip></el-table-column>
-				<el-table-column prop="DriverLicenseType" label="驾驶证类型" sortable width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="IdnoEndDate" label="驾驶证截止日" sortable width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Tname" label="所属公司" sortable width="200" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="DriverLicenseType" label="驾照类型" sortable width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="IdnoEndDate" label="驾照截止日" sortable width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Mobile" label="手机号" width="120"  show-overflow-tooltip></el-table-column>
 				
 				<!-- <el-table-column prop="NativePlace" label="籍贯" width="120"  show-overflow-tooltip></el-table-column> -->
 				<!-- <el-table-column prop="Birthdate" label="出生日期" width="120"  show-overflow-tooltip :formatter="dateFormatYMD"></el-table-column> -->
-				<el-table-column prop="Address" label="住址" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Address" label="住址" show-overflow-tooltip></el-table-column>
 	
 				<!-- <el-table-column label="状态" width="70" show-overflow-tooltip>
 					<template #default="scope">
@@ -273,6 +275,11 @@ export default {
 			onGetTableData();
 		});
 
+		//性别展示
+		const formatGender = (row: object) => {
+			return row.gender === 1 ? '男' : '女'
+		};
+
 		const { dateFormatYMD } = commonFunction();
 
 		return {
@@ -288,6 +295,7 @@ export default {
 			onGetXlsData,
 			onOpenImportDlg,
 			importDlgRef,
+			formatGender,
 			...toRefs(state),
 		};
 	},

@@ -35,25 +35,33 @@
 							stripe
 							highlight-current-row
 						>
-							<el-table-column prop="Name" label="姓名" width="80" fixed>
+							<el-table-column prop="Name" label="姓名" width="100" fixed>
 								<template #default="scope">
 									<el-input v-model="scope.row.Name" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Gender" label="性别" width="80">
+							<el-table-column prop="Gender" label="性别" width="100">
 								<template #default="scope">
-									<el-input v-model="scope.row.Gender" ></el-input> 
+									<el-select
+										v-model="scope.row.Gender"
+										style="width: 100%"
+										filterable="true"
+										default-first-option="true"
+										:reserve-keyword="false"
+										placeholder="请选择">
+										<el-option v-for="(item,index) in GenderList" :key="index" :label="item" :value="index+1"></el-option>
+									</el-select> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Nation" label="民族" width="80">
+							<el-table-column prop="Mobile" label="手机号" width="120">
 								<template #default="scope">
-									<el-input v-model="scope.row.Nation" ></el-input> 
+									<el-input v-model="scope.row.Mobile" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Birthday" label="出生日期" width="120">
+							<el-table-column prop="Birthdate " label="出生日期" width="120">
 								<template #default="scope">
 									<el-date-picker
-										v-model="scope.row.Birthday"
+										v-model="scope.row.Birthdate"
 										style="width: 100%"
 										type="date"
 										placeholder="选择日期"
@@ -61,20 +69,62 @@
 									></el-date-picker>
 								</template>
 							</el-table-column>
-							<el-table-column prop="NativePlace" label="籍贯" width="100">
+							<el-table-column prop="Idno" label="身份证号码" width="180">
+								<template #default="scope">
+									<el-input v-model="scope.row.Idno" ></el-input> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="IdnoEndDate" label="身份证截止日期" width="120">
+								<template #default="scope">
+									<el-date-picker
+										v-model="scope.row.IdnoEndDate"
+										style="width: 100%"
+										type="date"
+										placeholder="选择日期"
+										format="YYYY-MM-DD"
+									></el-date-picker>
+								</template>
+							</el-table-column>
+							<el-table-column prop="Nation" label="民族" width="120">
+								<template #default="scope">
+									<el-select
+										v-model="scope.row.Nation"
+										style="width: 100%"
+										filterable="true"
+										default-first-option="true"
+										:reserve-keyword="false"
+										placeholder="请选择">
+										<el-option v-for="(item,index) in NationList" :key="index" :label="item" :value="index"></el-option>
+									</el-select> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="NativePlace" label="籍贯" width="200">
 								<template #default="scope">
 									<el-input v-model="scope.row.NativePlace" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="IDNumber" label="身份证号" width="180">
+							<el-table-column prop="Address" label="家庭地址" width="400">
 								<template #default="scope">
-									<el-input v-model="scope.row.IDNumber" ></el-input> 
+									<el-input v-model="scope.row.Address" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="IDEndDate" label="身份证截止日" width="120">
+							<el-table-column prop="DriverLicenseType" label="驾照类型" width="100">
+								<template #default="scope">
+									<el-select
+										v-model="scope.row.DriverLicenseType"
+										style="width: 100%"
+										filterable="true"
+										default-first-option="true"
+										:reserve-keyword="false"
+										placeholder="请选择">
+										<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="index"></el-option>
+									</el-select> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="RegistrationDate" label="驾照登记日期" width="120">
 								<template #default="scope">
 									<el-date-picker
-										v-model="scope.row.IDEndDate"
+										v-model="scope.row.RegistrationDate"
 										style="width: 100%"
 										type="date"
 										placeholder="选择日期"
@@ -82,15 +132,10 @@
 									></el-date-picker>
 								</template>
 							</el-table-column>
-							<el-table-column prop="DrivingLicenceType" label="驾驶证类型" width="100">
-								<template #default="scope">
-									<el-input v-model="scope.row.DrivingLicenceType" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="DrivingLicenseRecordDate" label="驾驶证登记日" width="120">
+							<el-table-column prop="DriverLicenseStartDate" label="驾照生效日期" width="120">
 								<template #default="scope">
 									<el-date-picker
-										v-model="scope.row.DrivingLicenseRecordDate"
+										v-model="scope.row.DriverLicenseStartDate"
 										style="width: 100%"
 										type="date"
 										placeholder="选择日期"
@@ -98,15 +143,10 @@
 									></el-date-picker>
 								</template>
 							</el-table-column>
-							<el-table-column prop="DrivingLicenseIndate" label="驾驶证有效期" width="100">
-								<template #default="scope">
-									<el-input v-model="scope.row.DrivingLicenseIndate" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="DrivingLicenseEndDate" label="驾驶证截止日" width="120">
+							<el-table-column prop="DriverLicenseEndDate" label="驾照截止日期" width="120">
 								<template #default="scope">
 									<el-date-picker
-										v-model="scope.row.DrivingLicenseEndDate"
+										v-model="scope.row.DriverLicenseEndDate"
 										style="width: 100%"
 										type="date"
 										placeholder="选择日期"
@@ -114,26 +154,6 @@
 									></el-date-picker>
 								</template>
 							</el-table-column>
-							<el-table-column prop="Phone" label="手机号" width="120">
-								<template #default="scope">
-									<el-input v-model="scope.row.Phone" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="HouseAddress" label="家庭地址" width="400">
-								<template #default="scope">
-									<el-input v-model="scope.row.HouseAddress" ></el-input> 
-								</template>
-							</el-table-column>
-							<!-- <el-table-column prop="TransportLicenseEndDate" label="所属公司" width="150">
-								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.TransportLicenseEndDate"
-										type="date"
-										placeholder="生效日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-								</template>
-							</el-table-column> -->
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
 								<template #header>
 									<el-button bg type="primary" @click="onAddRow()">
@@ -209,6 +229,11 @@ export default {
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
+			GenderList: ["男", "女"],
+			NationList: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","布依族","白族","朝鲜族","侗族","哈尼族","哈萨克族","满族","土家族","瑶族","达斡尔族",
+			"东乡族","高山族","景颇族","柯尔克孜族","拉祜族","纳西族","畲族","傣族","黎族","傈僳族","仫佬族","阿昌族","布朗族","毛南族","普米族","撒拉族","塔吉克族",
+			"锡伯族","保安族","德昂族","俄罗斯族","鄂温克族","京族","怒族","乌孜别克族","裕固族","独龙族","鄂伦春族","赫哲族","基诺族","珞巴族","门巴族"],
+			DriverLicenseTypeList: ["A1","A2","A3","B1","B2","C1","C2","C3","C4","D","E","F","M","N","P"],
 		});
 		const token = Session.get('token');
 		const rules = reactive({
@@ -267,17 +292,29 @@ export default {
 					const model={};
 					model.Name=Name;
 					model.Gender=row["__EMPTY_1"]||"";
-					model.Nation=row["__EMPTY_2"]||"";
-					model.Birthday=row["__EMPTY_3"]||new Date();
-					model.NativePlace=row["__EMPTY_4"]||"";
-					model.IDNumber=row["__EMPTY_5"]||"";
-					model.IDEndDate=row["__EMPTY_6"]||new Date();
-					model.DrivingLicenceType=row["__EMPTY_7"]||"";
-					model.DrivingLicenseRecordDate=row["__EMPTY_8"]||new Date();
-					model.DrivingLicenseIndate=row["__EMPTY_9"]||"";
-					model.DrivingLicenseEndDate=row["__EMPTY_10"]||new Date();
-					model.Phone=row["__EMPTY_11"]||"";
-					model.HouseAddress=row["__EMPTY_12"]||"";
+					if (model.Gender = "男") {
+						model.Gender = 1
+					}else if(model.Gender = "女") {
+						model.Gender = 2
+					}else{
+						model.Gender = 0
+					}
+
+					model.Mobile=row["__EMPTY_2"]||"";
+					model.Mobile = model.Mobile.toString();
+
+					model.Birthdate=row["__EMPTY_3"]||new Data();
+					model.Idno=row["__EMPTY_4"]||"";
+					model.Idno = model.Idno.toString();
+
+					model.IdnoEndDate=row["__EMPTY_5"]||new Data();
+					model.Nation=row["__EMPTY_6"]||"";
+					model.NativePlace=row["__EMPTY_7"]||"";
+					model.Address=row["__EMPTY_8"]||"";
+					model.DriverLicenseType=row["__EMPTY_9"]||"";
+					model.RegistrationDate=row["__EMPTY_10"]||new Data();
+					model.DriverLicenseStartDate=row["__EMPTY_11"]||new Data();
+					model.DriverLicenseEndDate=row["__EMPTY_12"]||new Data();
 					state.ruleForm.DriverList.push(model);
 				}
 			}
