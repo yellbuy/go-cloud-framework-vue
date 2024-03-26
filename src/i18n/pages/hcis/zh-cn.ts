@@ -2,6 +2,7 @@
 export default {
 	router: {
 		healthRecord: '健康档案',
+		interveneRegulate: '干预管理',
 	},
 	healthRecord: {
 		no: '档案编号',
