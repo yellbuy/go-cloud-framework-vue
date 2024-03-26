@@ -1,122 +1,126 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="45%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="姓名" prop="Name">
-							<el-input v-model="ruleForm.Name" placeholder="姓名"></el-input> 
+					<el-col :xs="24" :sm="12" class="mb20">
+						<el-form-item label="姓名" prop="Name" required>
+							<el-input
+								v-model="ruleForm.Name"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+						<el-form-item label="手机号码" prop="Mobile" required>
+							<el-input
+								v-model="ruleForm.Mobile"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+						<el-form-item label="身份证号码" prop="Idno" required>
+							<el-input
+								v-model="ruleForm.Idno"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+						<el-form-item label="民族" prop="Nation">
+							<el-select
+								v-model="ruleForm.Nation"
+								style="width: 100%"
+								filterable="true"
+								default-first-option="true"
+								:reserve-keyword="false"
+								placeholder="请选择">
+								<el-option v-for="(item,index) in NationList" :key="index" :label="item" :value="item"> </el-option>
+							</el-select> 
 						</el-form-item>
 					</el-col>
-					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="身份证" prop="Idno">
-							<el-input v-model="ruleForm.Idno" placeholder="身份证号"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="至" prop="IdnoEndDate"  required>
-							<el-date-picker
-										v-model="ruleForm.IdnoEndDate"
-										type="date"
-										placeholder="身份证有效截止日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						
-						<el-form-item label="性别" prop="Gender">
+					<el-col :xs="24" :sm="12" class="mb20">
+						<el-form-item label="性别" prop="Gender" required>
 							<div mb-2 flex items-center>
 								<el-radio-group v-model="ruleForm.Gender">
 								<el-radio :label="1">男</el-radio>
 								<el-radio :label="2">女</el-radio>
 							</el-radio-group>
 							</div>
-							
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="民族" prop="Nation">
-							<el-input v-model="ruleForm.Nation" placeholder="民族"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="籍贯" prop="NativePlace">
-							<el-input v-model="ruleForm.NativePlace" placeholder="籍贯"></el-input> 
-						</el-form-item>
-					</el-col>					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="出生日期" prop="Birthdate" required>
 							<el-date-picker
 								v-model="ruleForm.Birthdate"
+								style="width: 100%"
 								type="date"
-								placeholder="出生日期"
+								placeholder="选择日期"
 								format="YYYY-MM-DD"
 							></el-date-picker>
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="所属公司" prop="Tname">
-							<el-input v-model="ruleForm.Tname" placeholder="所属公司"></el-input> 
+						<el-form-item label="身份证截止日期" prop="IdnoEndDate"  required>
+							<el-date-picker
+								v-model="ruleForm.IdnoEndDate"
+								style="width: 100%"
+								type="date"
+								placeholder="选择日期"
+								format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+						<el-form-item label="籍贯" prop="NativePlace">
+							<el-input
+								v-model="ruleForm.NativePlace"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-divider content-position="left">行驶证信息*</el-divider>
 				<el-row :gutter="20">
-					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="驾照登记日期" prop="RegistrationDate"  required>
-							<el-date-picker
-										v-model="ruleForm.RegistrationDate"
-										type="date"
-										placeholder="驾照登记日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+					<el-col>
+						<el-form-item label="家庭地址" prop="Address">
+							<el-input
+								v-model="ruleForm.Address"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
 						</el-form-item>
 					</el-col>
-					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="驾照有效期" prop="DriverLicenseStartDate" required>
+				</el-row>
+				<el-divider content-position="left">驾照信息*</el-divider>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12" class="mb20">
+						<el-form-item label="驾照类型" prop="DriverLicenseType" required>
+							<el-select
+								v-model="ruleForm.DriverLicenseType"
+								style="width: 100%"
+								filterable="true"
+								default-first-option="true"
+								:reserve-keyword="false"
+								placeholder="请选择">
+								<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="item"> </el-option>
+							</el-select> 
+						</el-form-item>
+						<el-form-item label="驾照生效日期" prop="DriverLicenseStartDate" required>
 							<el-date-picker
 								v-model="ruleForm.DriverLicenseStartDate"
+								style="width: 100%"
 								type="date"
-								placeholder="驾照有效开始日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
+								placeholder="选择日期"
+								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="至" prop="DriverLicenseEndDate"  required>
+					<el-col :xs="24" :sm="12" class="mb20">
+						<el-form-item label="驾照登记日期" prop="RegistrationDate"  required>
 							<el-date-picker
-										v-model="ruleForm.DriverLicenseEndDate"
-										type="date"
-										placeholder="驾照有效截止日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+								v-model="ruleForm.RegistrationDate"
+								style="width: 100%"
+								type="date"
+								placeholder="选择日期"
+								format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+						<el-form-item label="驾照截止日期" prop="DriverLicenseEndDate"  required>
+							<el-date-picker
+								v-model="ruleForm.DriverLicenseEndDate"
+								style="width: 100%"
+								type="date"
+								placeholder="选择日期"
+								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 					</el-col>				
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="驾驶证类型" prop="DriverLicenseType">
-							<el-input v-model="ruleForm.DriverLicenseType" placeholder="驾驶证类型"></el-input> 
-						</el-form-item>
-					</el-col>
 				</el-row>	
-				<el-divider content-position="left">联系人信息*</el-divider>
-				<el-row :gutter="20">	
-				
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="手机" prop="Mobile">
-							<el-input v-model="ruleForm.Mobile" placeholder="手机号码"></el-input> 
-						</el-form-item>
-					</el-col>	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="家庭地址" prop="Address">
-							<el-input v-model="ruleForm.Address" placeholder="住址"></el-input> 
-						</el-form-item>
-					</el-col>
-				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -169,13 +173,6 @@ export default {
 			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
 		
 		
 		const tableData = reactive({
@@ -225,7 +222,11 @@ export default {
 			},
 			dialogVisible: false,
 			truckTypeList: [],
-			energyTypeList:[],
+			energyTypeList: [],
+			NationList: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","布依族","白族","朝鲜族","侗族","哈尼族","哈萨克族","满族","土家族","瑶族","达斡尔族",
+			"东乡族","高山族","景颇族","柯尔克孜族","拉祜族","纳西族","畲族","傣族","黎族","傈僳族","仫佬族","阿昌族","布朗族","毛南族","普米族","撒拉族","塔吉克族",
+			"锡伯族","保安族","德昂族","俄罗斯族","鄂温克族","京族","怒族","乌孜别克族","裕固族","独龙族","鄂伦春族","赫哲族","基诺族","珞巴族","门巴族"],
+			DriverLicenseTypeList: ["A1","A2","A3","B1","B2","C1","C2","C3","C4","D","E","F","M","N","P"],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -243,21 +244,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			Idno: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Tname: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			DriverLicenseType: [
+			Gender: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -271,6 +258,56 @@ export default {
 					trigger: 'blur',
 				},
 			],
+			Birthdate: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			Idno: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			IdnoEndDate: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			DriverLicenseType: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			RegistrationDate: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			DriverLicenseStartDate: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			DriverLicenseEndDate: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+
 		});
 		
 		// 打开弹窗
@@ -374,24 +411,8 @@ export default {
 				}
 			});
 		};
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
+
+
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
 		onMounted(() => {});
@@ -404,9 +425,7 @@ export default {
 			GetByIdRow,
 			onSuccessFile,
 			onRemove,
-			onBeforeImageUpload,
 			onModelEdit,
-			showImage,
 			dateFormatYMD,
 			getUserInfos,
 			tableData,
@@ -426,28 +445,4 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
-}
 </style>
