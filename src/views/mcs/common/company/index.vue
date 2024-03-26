@@ -25,6 +25,12 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.add') }}
 						</el-button>
+						<el-button type="primary" @click="onOpenImportDlg" v-auth:[moduleKey]="'btn.Add'">
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							&#8197;{{ $t('message.action.import') }}
+						</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
 				</el-form>
@@ -93,6 +99,7 @@
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
+		<importDlg ref="importDlgRef" />
 	</div>
 </template>
 
@@ -101,11 +108,11 @@ import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import editDlg from './component/companyEdit.vue';
+import importDlg from './component/companyImport.vue';
 import commonFunction from '/@/utils/commonFunction';
-
 export default {
 	name: 'companyInfo',
-	components: { editDlg },
+	components: { editDlg,importDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -114,6 +121,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_baseinfo_customer`;
 		const editDlgRef = ref();
+		const importDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -157,9 +165,13 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
-		// 打开弹窗
+		// 打开编辑弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		// 打开导入弹窗
+		const onOpenImportDlg = (id: string, ishow: boolean) => {
+			importDlgRef.value.openDialog(state.kind, id, ishow);
 		};
 		// 删除用户
 		const onModelDel = (Id: string) => {
@@ -200,9 +212,11 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
+			importDlgRef,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
+			onOpenImportDlg,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
