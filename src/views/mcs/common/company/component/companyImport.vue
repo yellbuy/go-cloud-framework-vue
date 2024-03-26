@@ -35,105 +35,69 @@
 							stripe
 							highlight-current-row
 						>
-							<el-table-column prop="Name" label="姓名" width="80" fixed>
+							<el-table-column prop="CompanyName" label="客户名称" width="120" fixed>
 								<template #default="scope">
-									<el-input v-model="scope.row.Name" ></el-input> 
+									<el-input v-model="scope.row.CompanyName" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Gender" label="性别" width="80">
+							<el-table-column prop="CompanyAlias" label="客户简称" width="80" fixed>
 								<template #default="scope">
-									<el-input v-model="scope.row.Gender" ></el-input> 
+									<el-input v-model="scope.row.CompanyAlias" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Nation" label="民族" width="80">
+							<el-table-column prop="Idno" label="证件号码" width="120">
 								<template #default="scope">
-									<el-input v-model="scope.row.Nation" ></el-input> 
+									<el-input v-model="scope.row.Idno" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Birthday" label="出生日期" width="120">
+							<el-table-column prop="Address" label="地址" width="120">
+								<template #default="scope">
+									<el-input v-model="scope.row.Address" ></el-input> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="BusinessScope" label="经营范围" width="120">
+								<template #default="scope">
+									<el-input v-model="scope.row.BusinessScope" ></el-input> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="TaxpayerKind" label="纳税人类型" width="120">
+								<template #default="scope">
+									<el-input v-model="scope.row.TaxpayerKind" ></el-input> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="BusinessStartTime" label="营业期限" width="120">
 								<template #default="scope">
 									<el-date-picker
-										v-model="scope.row.Birthday"
+										v-model="scope.row.BusinessStartTime"
 										style="width: 100%"
 										type="date"
-										placeholder="选择日期"
+										placeholder="起始日期"
 										format="YYYY-MM-DD"
 									></el-date-picker>
 								</template>
 							</el-table-column>
-							<el-table-column prop="NativePlace" label="籍贯" width="100">
-								<template #default="scope">
-									<el-input v-model="scope.row.NativePlace" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="IDNumber" label="身份证号" width="180">
-								<template #default="scope">
-									<el-input v-model="scope.row.IDNumber" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="IDEndDate" label="身份证截止日" width="120">
+							<el-table-column prop="BusinessEndTime" label="至" width="120">
 								<template #default="scope">
 									<el-date-picker
-										v-model="scope.row.IDEndDate"
+										v-model="scope.row.BusinessEndTime"
 										style="width: 100%"
 										type="date"
-										placeholder="选择日期"
+										placeholder="到期日期"
 										format="YYYY-MM-DD"
 									></el-date-picker>
 								</template>
 							</el-table-column>
-							<el-table-column prop="DrivingLicenceType" label="驾驶证类型" width="100">
+							<el-table-column prop="Linkman" label="联系人" width="80">
 								<template #default="scope">
-									<el-input v-model="scope.row.DrivingLicenceType" ></el-input> 
+									<el-input v-model="scope.row.Linkman" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="DrivingLicenseRecordDate" label="驾驶证登记日" width="120">
+							<el-table-column prop="Tel" label="联系电话" width="100">
 								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.DrivingLicenseRecordDate"
-										style="width: 100%"
-										type="date"
-										placeholder="选择日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+									<el-input v-model="scope.row.Tel" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="DrivingLicenseIndate" label="驾驶证有效期" width="100">
-								<template #default="scope">
-									<el-input v-model="scope.row.DrivingLicenseIndate" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="DrivingLicenseEndDate" label="驾驶证截止日" width="120">
-								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.DrivingLicenseEndDate"
-										style="width: 100%"
-										type="date"
-										placeholder="选择日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-								</template>
-							</el-table-column>
-							<el-table-column prop="Phone" label="手机号" width="120">
-								<template #default="scope">
-									<el-input v-model="scope.row.Phone" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="HouseAddress" label="家庭地址" width="400">
-								<template #default="scope">
-									<el-input v-model="scope.row.HouseAddress" ></el-input> 
-								</template>
-							</el-table-column>
-							<!-- <el-table-column prop="TransportLicenseEndDate" label="所属公司" width="150">
-								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.TransportLicenseEndDate"
-										type="date"
-										placeholder="生效日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-								</template>
-							</el-table-column> -->
+							
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
 								<template #header>
 									<el-button bg type="primary" @click="onAddRow()">
@@ -163,7 +127,6 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as XLSX from "xlsx"; //引入
@@ -253,31 +216,30 @@ export default {
 				const wsname = workbook.SheetNames[0]
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
 				console.log("get xlsx data：",list)
-				if(!list.length||list.length<2){
+				if(!list.length||list.length<1){
 					return;
 				}
 				state.ruleForm.DriverList=[];
-				for(let i=2;i<list.length;i++){
+				for(let i=0;i<list.length;i++){
 					const row=list[i];
-					const Name=row["__EMPTY"]||"";
-					console.log(Name)
-					if(!Name){
+					const name=row["*客户名称"]||"";
+					console.log(name)
+					if(!name){
 						continue;
 					}
 					const model={};
-					model.Name=Name;
-					model.Gender=row["__EMPTY_1"]||"";
-					model.Nation=row["__EMPTY_2"]||"";
-					model.Birthday=row["__EMPTY_3"]||new Date();
-					model.NativePlace=row["__EMPTY_4"]||"";
-					model.IDNumber=row["__EMPTY_5"]||"";
-					model.IDEndDate=row["__EMPTY_6"]||new Date();
-					model.DrivingLicenceType=row["__EMPTY_7"]||"";
-					model.DrivingLicenseRecordDate=row["__EMPTY_8"]||new Date();
-					model.DrivingLicenseIndate=row["__EMPTY_9"]||"";
-					model.DrivingLicenseEndDate=row["__EMPTY_10"]||new Date();
-					model.Phone=row["__EMPTY_11"]||"";
-					model.HouseAddress=row["__EMPTY_12"]||"";
+					model.CompanyName=name+"";
+					model.CompanyAlias=`${row["简称"]}`||"";
+					model.Idno=`${row["*证件号码"]}`||"";
+					model.Address=`${row["地址"]}`||"";
+					model.BusinessScope=`${row["经营范围"]}`||"";
+					model.TaxpayerKind=`${row["纳税人类型"]}`||""; 
+					model.BusinessStartTime=row["*经营期限开始"]||new Date();
+					model.BusinessEndTime=row["*经营期限至"]||new Date();
+					model.Linkman= `${row["联系人"]}`||""; 
+					model.Tel= `${row["*联系电话"]}`||"";
+					model.State=1;
+					model.AuditState=1;
 					state.ruleForm.DriverList.push(model);
 				}
 			}
@@ -292,8 +254,8 @@ export default {
 		// 下载导入模板
 		const onDownloadTpl = async () => {
 			var a = document.createElement('a');
-			a.href = import.meta.env.VITE_URL+"/static/download/erp/vehicle.xlsx";
-			a.download = '司机台账模板_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.href = import.meta.env.VITE_URL+`/static/download/erp/company_${state.ruleForm.Kind}.xlsx`;
+			a.download = '模板_'+state.ruleForm.Kind + '_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
 			a.click();
 		};
 		const onDelRow = (index:number) => {
@@ -322,7 +284,7 @@ export default {
 				if (valid) {
 					state.loading = true;
 					try {
-						const res = await proxy.$api.erp.driver.saveMulti(state.ruleForm.Kind, state.ruleForm.DriverList);
+						const res = await proxy.$api.erp.company.saveMulti(state.ruleForm.Kind, state.ruleForm.DriverList);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
