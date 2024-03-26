@@ -39,7 +39,7 @@ export default {
     },
 
     /**
-     * 新增或更新
+     * 批量保存
      * @param data 信息
      * @returns 返回接口数据
      */

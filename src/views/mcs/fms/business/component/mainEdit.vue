@@ -58,31 +58,35 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="吨位" prop="Weight">
-							<el-input
+							<el-input-number
 								v-model.number="ruleForm.Weight"
 								style="width: 200px"
+								:controls="true"
+								precision="2"
 								placeholder="请输入"
-								type="number"
 								min="0"
 								max="1000000000"
 								step="1">
 								<template #append>吨</template>
-							</el-input>
+							</el-input-number>
+							<span class="ml5">吨</span>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="列数" prop="PlanVehicleCount">
-							<el-input
+							<el-input-number
 								v-model.number="ruleForm.PlanVehicleCount"
 								style="width: 200px"
 								placeholder="请输入"
-								type="number"
+								:controls="true"
+								precision="0"
 								min="0"
 								max="1000000000"
 								step="1"
 								oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 								<template #append>列</template>
-							</el-input>
+							</el-input-number>
+							<span class="ml5">列</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -135,8 +139,7 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { ElMessage, UploadProps } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs, defineComponent, ref } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';

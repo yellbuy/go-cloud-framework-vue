@@ -183,7 +183,6 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as XLSX from "xlsx"; //引入
@@ -300,17 +299,15 @@ export default {
 						model.Gender = 0
 					}
 
-					model.Mobile=row["__EMPTY_2"]||"";
-					model.Mobile = model.Mobile.toString();
+					model.Mobile=`${row["__EMPTY_2"]}`||"";
 
 					model.Birthdate=row["__EMPTY_3"]||new Data();
-					model.Idno=row["__EMPTY_4"]||"";
-					model.Idno = model.Idno.toString();
+					model.Idno=`${row["__EMPTY_4"]}`||"";
 
 					model.IdnoEndDate=row["__EMPTY_5"]||new Data();
-					model.Nation=row["__EMPTY_6"]||"";
-					model.NativePlace=row["__EMPTY_7"]||"";
-					model.Address=row["__EMPTY_8"]||"";
+					model.Nation=`${row["__EMPTY_6"]}`||"";
+					model.NativePlace=`${row["__EMPTY_7"]}`||"";
+					model.Address=`${row["__EMPTY_8"]}`||"";
 					model.DriverLicenseType=row["__EMPTY_9"]||"";
 					model.RegistrationDate=row["__EMPTY_10"]||new Data();
 					model.DriverLicenseStartDate=row["__EMPTY_11"]||new Data();

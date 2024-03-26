@@ -28,104 +28,76 @@
 					<el-col :xs="24" :sm="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
-							:data="ruleForm.VehicleList"
+							:data="ruleForm.DriverList"
 							style="width: 100%"
 							:height="proxy.$calcMainHeight(-205)"
 							border
 							stripe
 							highlight-current-row
 						>
-							<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed>
+							<el-table-column prop="CompanyName" label="客户名称" width="120" fixed>
 								<template #default="scope">
-									<el-input v-model="scope.row.VehicleNumber" ></el-input> 
+									<el-input v-model="scope.row.CompanyName" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="IsExternal" label="车辆类别" width="100" align="center">
+							<el-table-column prop="CompanyAlias" label="客户简称" width="80" fixed>
 								<template #default="scope">
-									<el-tag type="danger" effect="plain" v-if="scope.row.IsExternal">外部车</el-tag>
-									<el-tag type="success" effect="plain" v-else>内部车</el-tag>
+									<el-input v-model="scope.row.CompanyAlias" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Shipper" label="相关方" width="180">
+							<el-table-column prop="Idno" label="证件号码" width="120">
 								<template #default="scope">
-									<el-input v-model="scope.row.Shipper" ></el-input> 
+									<el-input v-model="scope.row.Idno" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="VehicleType" label="车辆类型" width="100">
+							<el-table-column prop="Address" label="地址" width="120">
 								<template #default="scope">
-									<el-input v-model="scope.row.VehicleType" ></el-input> 
+									<el-input v-model="scope.row.Address" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Linkman" label="联系人" width="100">
+							<el-table-column prop="BusinessScope" label="经营范围" width="120">
+								<template #default="scope">
+									<el-input v-model="scope.row.BusinessScope" ></el-input> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="TaxpayerKind" label="纳税人类型" width="120">
+								<template #default="scope">
+									<el-input v-model="scope.row.TaxpayerKind" ></el-input> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="BusinessStartTime" label="营业期限" width="120">
+								<template #default="scope">
+									<el-date-picker
+										v-model="scope.row.BusinessStartTime"
+										style="width: 100%"
+										type="date"
+										placeholder="起始日期"
+										format="YYYY-MM-DD"
+									></el-date-picker>
+								</template>
+							</el-table-column>
+							<el-table-column prop="BusinessEndTime" label="至" width="120">
+								<template #default="scope">
+									<el-date-picker
+										v-model="scope.row.BusinessEndTime"
+										style="width: 100%"
+										type="date"
+										placeholder="到期日期"
+										format="YYYY-MM-DD"
+									></el-date-picker>
+								</template>
+							</el-table-column>
+							<el-table-column prop="Linkman" label="联系人" width="80">
 								<template #default="scope">
 									<el-input v-model="scope.row.Linkman" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Phone" label="联系电话" width="110">
+							<el-table-column prop="Tel" label="联系电话" width="100">
 								<template #default="scope">
-									<el-input v-model="scope.row.Phone" ></el-input> 
+									<el-input v-model="scope.row.Tel" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Driver" label="司机姓名" width="100">
-								<template #default="scope">
-									<el-input v-model="scope.row.Driver" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="DriverMobile" label="司机电话" width="110">
-								<template #default="scope">
-									<el-input v-model="scope.row.DriverMobile" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="DrivingLicense" label="行驶证号" width="150">
-								<template #default="scope">
-									<el-input v-model="scope.row.DrivingLicense" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="DrivingLicenseStartDate" label="行驶证有效开始日期" width="150">
-								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.DrivingLicenseStartDate"
-										type="date"
-										placeholder="生效日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-								</template>
-							</el-table-column>
-							<el-table-column prop="DrivingLicenseEndDate" label="行驶证有效截止日期" width="150">
-								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.DrivingLicenseEndDate"
-										type="date"
-										placeholder="生效日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-								</template>
-							</el-table-column>
-							<el-table-column prop="TransportLicense" label="道路运输许可证" width="150">
-								<template #default="scope">
-									<el-input v-model="scope.row.TransportLicense" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="TransportLicenseStartDate" label="许可证有效开始日期" width="150">
-								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.TransportLicenseStartDate"
-										type="date"
-										placeholder="生效日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-								</template>
-							</el-table-column>
-							<el-table-column prop="TransportLicenseEndDate" label="许可证有效截止日期" width="150">
-								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.TransportLicenseEndDate"
-										type="date"
-										placeholder="生效日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-								</template>
-							</el-table-column>
+							
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
 								<template #header>
 									<el-button bg type="primary" @click="onAddRow()">
@@ -155,7 +127,6 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as XLSX from "xlsx"; //引入
@@ -191,7 +162,7 @@ export default {
 			//表单
 			ruleForm: {
 				Kind: 'info',
-				VehicleList:[],
+				DriverList:[],
 			},
 			
 			dialogVisible: false,
@@ -223,7 +194,7 @@ export default {
 			state.ruleForm.Kind = kind;
 			try {				
 				
-				state.ruleForm.VehicleList=[];
+				state.ruleForm.DriverList=[];
 				state.isShowDialog = true;
 			} finally {
 				state.isShowDialog = true;
@@ -245,57 +216,50 @@ export default {
 				const wsname = workbook.SheetNames[0]
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
 				console.log("get xlsx data：",list)
-				if(!list.length||list.length<3){
+				if(!list.length||list.length<1){
 					return;
 				}
-				state.ruleForm.VehicleList=[];
-				for(let i=2;i<list.length;i++){
+				state.ruleForm.DriverList=[];
+				for(let i=0;i<list.length;i++){
 					const row=list[i];
-					const vehicleNumber=row["__EMPTY"]||"";
-					if(!vehicleNumber){
+					const name=row["*客户名称"]||"";
+					console.log(name)
+					if(!name){
 						continue;
 					}
 					const model={};
-					model.VehicleNumber=vehicleNumber;
-					model.VehicleType=row["__EMPTY_1"]||"";
-					model.Shipper=row["__EMPTY_3"]||"";
-					if(model.Shipper){
-						model.IsExternal=1
-					}else{
-						model.IsExternal=0
-					}
-					model.Linkman=row["__EMPTY_4"]||"";
-					model.Phone=`${row["__EMPTY_5"]}`||""; //转字符串
-					model.Driver=`${row["__EMPTY_6"]}`||"";
-					model.DriverMobile=`${row["__EMPTY_7"]}`||""; //转字符串
-
-					model.DrivingLicense=`${row["__EMPTY_8"]}`||"";
-					model.DrivingLicenseStartDate=row["__EMPTY_9"]||new Date();
-					model.DrivingLicenseEndDate=row["__EMPTY_10"]||new Date();
-					model.RegistrationDate=new Date();
-					model.TransportLicense=`${row["__EMPTY_11"]}`||"";
-					model.TransportLicenseStartDate=row["__EMPTY_12"]||new Date();
-					model.TransportLicenseEndDate=row["__EMPTY_13"]||new Date();
-					state.ruleForm.VehicleList.push(model);
+					model.CompanyName=name+"";
+					model.CompanyAlias=`${row["简称"]}`||"";
+					model.Idno=`${row["*证件号码"]}`||"";
+					model.Address=`${row["地址"]}`||"";
+					model.BusinessScope=`${row["经营范围"]}`||"";
+					model.TaxpayerKind=`${row["纳税人类型"]}`||""; 
+					model.BusinessStartTime=row["*经营期限开始"]||new Date();
+					model.BusinessEndTime=row["*经营期限至"]||new Date();
+					model.Linkman= `${row["联系人"]}`||""; 
+					model.Tel= `${row["*联系电话"]}`||"";
+					model.State=1;
+					model.AuditState=1;
+					state.ruleForm.DriverList.push(model);
 				}
 			}
 		}
 
 		const onAddRow = () => {
-		 	state.ruleForm.VehicleList=[{},...state.ruleForm.VehicleList]
+		 	state.ruleForm.DriverList=[{},...state.ruleForm.DriverList]
 		};
 		const onClearRow = () => {
-		 	state.ruleForm.VehicleList=[]
+		 	state.ruleForm.DriverList=[]
 		};
 		// 下载导入模板
 		const onDownloadTpl = async () => {
 			var a = document.createElement('a');
-			a.href = import.meta.env.VITE_URL+"/static/download/erp/vehicle.xlsx";
-			a.download = '车辆台账模板_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.href = import.meta.env.VITE_URL+`/static/download/erp/company_${state.ruleForm.Kind}.xlsx`;
+			a.download = '模板_'+state.ruleForm.Kind + '_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
 			a.click();
 		};
 		const onDelRow = (index:number) => {
-			state.ruleForm.VehicleList.splice(index,1)
+			state.ruleForm.DriverList.splice(index,1)
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -320,7 +284,7 @@ export default {
 				if (valid) {
 					state.loading = true;
 					try {
-						const res = await proxy.$api.erp.vehicle.saveMulti(state.ruleForm.Kind,state.ruleForm.VehicleList);
+						const res = await proxy.$api.erp.company.saveMulti(state.ruleForm.Kind, state.ruleForm.DriverList);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -338,24 +302,7 @@ export default {
 				}
 			});
 		};
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
+
 		const { dateFormatYMD } = commonFunction();
 		// 页面加载时
 		onMounted(() => {});
@@ -370,7 +317,6 @@ export default {
 			onClearRow,
 			onDownloadTpl,
 			onImportXlsx,
-			onBeforeImageUpload,
 			onModelEdit,
 			showImage,
 			dateFormatYMD,
@@ -387,25 +333,12 @@ export default {
 .el-select {
 	width: 100%;
 }
-.avatar-uploader .el-upload {
+.el-upload {
 	border: 1px dashed #d9d9d9;
 	border-radius: 6px;
 	cursor: pointer;
 	position: relative;
 	overflow: hidden;
 	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
 }
 </style>

@@ -45,32 +45,37 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" class="mb20">
 						<el-form-item label="收入" prop="PlanWeight">
-							<el-input
-								v-model.number="ruleForm.PlanWeight"
+							<el-input-number
+								v-model="ruleForm.PlanWeight"
+								:controls="true"
 								style="max-width: 200px"
 								placeholder="请输入"
 								type="number"
+								precision="2"
 								min="0"
 								max="1000000000"
 								step="1">
-								<template #append>元</template>
-							</el-input>
+							</el-input-number>
+							<span class="ml5">元</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" class="mb20">
 						<el-form-item label="面积" prop="Volume">
-							<el-input
-								v-model.number="ruleForm.Volume"
+							<el-input-number
+								v-model="ruleForm.Volume"
 								style="max-width: 200px"
+								:controls="true"
+								precision="2"
 								placeholder="请输入"
 								type="number"
 								min="0"
 								max="1000000000"
 								step="1">
-								<template #append>平方米</template>
-							</el-input>
+								<template #append>平米</template>
+							</el-input-number>
+							<span class="ml5">平米</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -89,10 +94,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { ElMessage, UploadProps } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
