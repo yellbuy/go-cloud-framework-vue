@@ -2,6 +2,7 @@
 export default {
 	router: {
 		healthRecord: 'health record',
+		interveneRegulate: 'intervene regulate',
 	},
 	healthRecord: {
 		no: 'no',
