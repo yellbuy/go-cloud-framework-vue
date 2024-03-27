@@ -70,16 +70,19 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="计划量" prop="PlanWeight">
-							<el-input
+							<el-input-number
 								v-model.number="ruleForm.PlanWeight"
-								style="width: 200px"
+								style="width: 120px"
+								:controls="true"
+								:precision="ruleForm.Mode==2?0:2"
 								placeholder="请输入"
-								type="number"
 								min="0"
 								max="1000000000"
 								step="1">
-								<template #append>{{ruleForm.Mode==1?'吨':'台班'}}</template>
-							</el-input>
+								<template #append>吨</template>
+							</el-input-number>
+							<span class="ml5" v-if="ruleForm.Mode==1">吨</span>
+							<span class="ml5" v-else-if="ruleForm.Mode==2">台班</span>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" class="mb20">

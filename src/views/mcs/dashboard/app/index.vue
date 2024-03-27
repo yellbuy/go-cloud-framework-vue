@@ -6,131 +6,9 @@
 
         <div class="main-rows">
           <dv-border-box-12 style="width:33%;height:auto;padding:12px">
-            <div>
-              <p>
-                <span style="color:white;font-size: 16pt;margin-right: 16px;">3月13日运量情况</span> 
-                共<span style="color:lightblue;font-size: 12pt;margin-left:4px;margin-right:4px">30</span>
-                出<span style="color:lightgreen;font-size: 12pt;margin-left:4px;margin-right:4px">20</span>
-                停<span style="color:lightsalmon;font-size: 12pt;margin-left:4px">10</span>
-              </p>
-            </div>
-            <div style="margin-top:12px">
-              <span style="color:lightgray;font-size: 14pt;margin-right: 4px;">主要业务完成情况</span>
-            </div>
-            <table style="width:100%">
-              <tr>
-                <td style="width:25% !important">汽运一分公司</td>
-                <td style="width:75% !important;color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                  <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
-                  <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
-                </td>
-              </tr>
-              <tr>
-                <td>汽运二分公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>米易分公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>西昌分公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>铁运公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>贸易公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>成都分公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>知邻智联</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-            </table>
-            <div style="margin-top:12px">
-              <p>
-                <span style="color:white;font-size: 16pt;margin-right: 16px;">3月13日临配用车情况</span> 
-                共<span style="color:lightblue;font-size: 12pt;margin-left:4px;margin-right:4px">18</span>
-                出<span style="color:lightgreen;font-size: 12pt;margin-left:4px;margin-right:4px">12</span>
-                停<span style="color:lightsalmon;font-size: 12pt;margin-left:4px">6</span>
-              </p>
-            </div>
-            <div style="margin-top:12px">
-              <span style="color:lightgray;font-size: 14pt;margin-right: 4px;">临配业务完成情况</span>
-            </div>
-            <table style="width:100%">
-              <tr>
-                <td style="width:25% !important">汽运一分公司</td>
-                <td style="width:75% !important;color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>汽运二分公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>米易分公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>西昌分公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>铁运公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>贸易公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>成都分公司</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-              <tr>
-                <td>知邻智联</td>
-                <td style="color:#e3dc0f">
-                  <marquee>渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</marquee>
-                </td>
-              </tr>
-            </table>
-            <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" />
+            <left-top></left-top>
+            <notice-list></notice-list>
+            <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
             <div class="block-left-content">
               <table>
@@ -159,117 +37,7 @@
         </div>
           </dv-border-box-12>
           <dv-border-box-12 style="width:47%;height:auto;padding:2px 2px">
-            <div class="digital-container">
-              <div class="digital-title">年运量（公路）</div>
-              <div class="flex-row">
-                  <div class="digital-flop-item">
-                    <div class="unit">计划</div>
-                    <dv-digital-flop
-                      :config="{number:[100000.59],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px;"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">完成</div>
-                    <dv-digital-flop
-                      :config="{number:[99900.59],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">超/欠</div>
-                    <dv-digital-flop
-                      :config="{number:[100],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                </div>
-                <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-              <dv-decoration-2 />
-            </div>
-            <div class="digital-container">
-              <div class="digital-title">月运量（公路）</div>
-              <div class="flex-row">
-                  <div class="digital-flop-item">
-                    <div class="unit">计划</div>
-                    <dv-digital-flop
-                      :config="{number:[10000.59],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">完成</div>
-                    <dv-digital-flop
-                      :config="{number:[9990.59],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">超/欠</div>
-                    <dv-digital-flop
-                      :config="{number:[10],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                </div>
-                <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-              <dv-decoration-2 />
-            </div>
-            <div class="digital-container">
-              <div class="digital-title">日运量（公路）</div>
-              <div class="flex-row">
-                  <div class="digital-flop-item">
-                    <div class="unit">计划</div>
-                    <dv-digital-flop
-                      :config="{number:[1000.59],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">完成</div>
-                    <dv-digital-flop
-                      :config="{number:[999.59],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">超/欠</div>
-                    <dv-digital-flop
-                      :config="{number:[1],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                </div>
-                <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-              <dv-decoration-2 />
-            </div>
-            <div class="digital-container">
-              <div class="flex-row" style="padding-top:6px !important;padding-bottom:6px !important">
-                <div class="digital-flop-item">
-                  <div class="unit">年计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [45], shape: 'round', waveHeight: 5, waveNum: 5}" />
-                </div>
-                <div class="digital-flop-item">
-                  <div class="unit">月计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [35], shape: 'round', waveHeight: 5, waveNum: 5}" />
-                </div>
-                <div class="digital-flop-item">
-                  <div class="unit">日计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [25], shape: 'round', waveHeight: 5, waveNum: 5}" />
-                </div>
-                  <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-                <dv-decoration-2 />
-              </div>
-            </div>
+            <center-top></center-top>
             <div class="digital-container">
               <div class="digital-title">年运量（铁路）</div>
               <div class="flex-row">
@@ -414,7 +182,10 @@
 
 <script lang="ts">
 import cards from "./cards.vue";
+import centerTop from "./centerTop.vue";
 import digitalFlop from "./digitalFlop.vue";
+import leftTop from "./leftTop.vue";
+import noticeList from "./noticeList.vue";
 import rankingBoard from "./rankingBoard.vue";
 import roseChart from "./roseChart.vue";
 import scrollBoard from "./scrollBoard.vue";
@@ -427,6 +198,9 @@ export default {
   name: "DataView",
   components: {
     topHeader,
+    leftTop,
+    centerTop,
+    noticeList,
     digitalFlop,
     rankingBoard,
     roseChart,
