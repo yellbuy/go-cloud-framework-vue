@@ -117,8 +117,9 @@ export default {
 				loading: false,
 				param: {
 					title: '',
-					auditState: 1,
-					isHot: 1,
+					state:1,
+					//auditState: 1,
+					// isHot: 1,
 					pageNum: 1,
 					pageSize: 30,
 				},

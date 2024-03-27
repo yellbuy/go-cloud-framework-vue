@@ -106,8 +106,8 @@
 						</el-tooltip>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Linkman" label="联系人" width="90" show-overflow-tooltip></el-table-column>				
-				<el-table-column prop="Phone" label="电话" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Driver" label="司机" width="80" show-overflow-tooltip></el-table-column>				
+				<el-table-column prop="DriverMobile" label="电话" width="100"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Mileage" label="公里数" width="70" align="right"></el-table-column>
 				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
 				

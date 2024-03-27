@@ -46,6 +46,9 @@
 							<el-text class="mx-1" type="info">当前速度：</el-text> 
 							<el-text class="mx-1" tag="b" size="default" type="primary">{{item.VehicleCurrentLocation.Speed}}</el-text> <el-text class="mx-1" type="info">km/h</el-text>  
 							<br/>
+							<el-text class="mx-1" type="info">司机姓名：</el-text> 
+							<el-text class="mx-1" type="info">{{item.Vehicle.Driver}}</el-text>
+							<br/>
 							<el-text class="mx-1" type="info">司机电话：</el-text> 
 							<el-text class="mx-1" type="info">{{item.Vehicle.DriverMobile}}</el-text>
 						</bm-info-window>
