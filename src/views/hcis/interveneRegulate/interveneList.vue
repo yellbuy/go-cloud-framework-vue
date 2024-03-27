@@ -1,12 +1,12 @@
 <template>
 	<div class="base-freight-container">
 		<splitpanes class="default-theme" @resize="paneSize = $event[0].size" style="height: 100%">
-			<pane :size="65">
+			<pane :size="60">
 				<el-card shadow="hover">
 					<div class="">
 						<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="70px" :inline="true">
 							<el-form-item label="关键字">
-								<el-input placeholder="输入关键字查询" style="width:100px" v-model="mainTableData.param.keyword"> </el-input>
+								<el-input placeholder="输入关键字查询" style="width:200px" v-model="mainTableData.param.keyword"> </el-input>
 							</el-form-item>
 							<el-form-item>
 								<el-button type="info" @click="onMainResetSearch">
@@ -43,20 +43,16 @@
 						border
 						stripe
 						highlight-current-row>
-						<el-table-column type="index" label="序号" align="right" width="70" fixed />
-						<el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column>
-						<el-table-column prop="GoodsName" label="品名" width="120"></el-table-column>
-						<el-table-column prop="GoodsCategoryName" label="品类" width="120"></el-table-column>
-						<el-table-column prop="CustomerName" label="供应商" width="180" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="PlanWeight" label="完成情况" width="80" align="center">
-							<template #default="scope">
-								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
-							</template>
-						</el-table-column>
-						<el-table-column prop="SenderPlanTime" label="开始时间" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
+						<el-table-column type="index" label="序号" width="50" fixed />
+						<el-table-column prop="Title" label="课程名称" width="150" show-overflow-tooltip fixed></el-table-column>
+						<el-table-column prop="No" label="编号" width="150" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="TrainTime" label="培训时间" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="Address" label="培训地址" width="300" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="Duration" label="培训时长" width="80" show-overflow-tooltip></el-table-column>
+						<!-- <el-table-column prop="SenderPlanTime" label="开始时间" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="ReceiverPlanTime" label="结束时间" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
+						<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column> -->
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" fixed="right">
 							<template #default="scope"> 
 								<el-dropdown split-button >
 									{{ $t('message.action.operate') }}
@@ -90,12 +86,12 @@
 					</el-pagination>
 				</el-card>
 			</pane>
-			<pane :size="35">
+			<pane :size="40">
 				<el-card shadow="hover">
 					<div class="">
 						<el-form ref="searchFormRef" :model="childTableData.param" label-suffix="：" label-width="60px" :inline="true">
 							<el-form-item label="关键字">
-								<el-input placeholder="输入关键字查询" style="width:100px" v-model="childTableData.param.keyword"> </el-input>
+								<el-input placeholder="输入关键字查询" style="width:200px" v-model="childTableData.param.keyword"> </el-input>
 							</el-form-item>
 							<el-form-item>
 								<el-button-group>
@@ -147,10 +143,10 @@
 						stripe
 						selectable
 						highlight-current-row>
-						<el-table-column prop="BillNo" label="流水号" width="120" fixed></el-table-column>
-						<el-table-column prop="BillTime" label="日期" width="100" :formatter="dateFormatYMD"></el-table-column>
-						<el-table-column prop="Weight" label="吨位" width="70" align="right"></el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
+						<el-table-column prop="Name" label="学员姓名" width="120" show-overflow-tooltip fixed></el-table-column>
+						<el-table-column prop="No" label="编号" width="100" show-overflow-tooltip :formatter="dateFormatYMD"></el-table-column>
+						<el-table-column prop="Idno" label="身份证号码" width="150" show-overflow-tooltip></el-table-column>
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 							<template #default="scope">
 								<el-dropdown split-button>
 									{{ $t('message.action.operate') }}
@@ -408,7 +404,6 @@ export default {
 		});
 
 		const { dateFormatYMD,dateFormatHMS,dateFormatHM } = commonFunction();
-
 
 
 		return {
