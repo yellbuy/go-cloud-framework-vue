@@ -80,13 +80,16 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="EndTime" label="出厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button text bg @click="onSeeWorkerOpenDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg @click="onSeeWorkerOpenDlg(scope.row.Id, true)">
 							{{ $t('message.action.see') }}
+						</el-button>
+						<el-button text bg type="primary" @click="onOpenPrintDlg(scope.row.Id)">
+							{{ $t('message.action.print') }}
 						</el-button>
 						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
@@ -111,6 +114,7 @@
 		<editDlg ref="editDlgRef" />
 		<addWorkerDlg ref="addWorkerDlgRef" />
 		<seeWorkerDlg ref="seeWorkerDlgRef" />
+		<printDlg ref="printDlgRef"/>
 	</div>
 </template>
 
@@ -120,12 +124,13 @@ import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from '
 import { useRoute, useRouter } from 'vue-router';
 import addWorkerDlg from './component/sheetAdd.vue';
 import editDlg from './component/sheetEdit.vue';
+import printDlg from './component/sheetPrint.vue';
 import seeWorkerDlg from './component/sheetSee.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'repairSheetList',
-	components: { editDlg,addWorkerDlg,seeWorkerDlg },
+	components: { editDlg,printDlg,addWorkerDlg,seeWorkerDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -135,6 +140,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_repair_sheet`;
 		const editDlgRef = ref();
+		const printDlgRef=ref()
 		const addWorkerDlgRef = ref();
 		const seeWorkerDlgRef = ref();
 		const state: any = reactive({
@@ -198,7 +204,10 @@ export default {
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-	
+		// 打开弹窗
+		const onOpenPrintDlg = (id: string) => {
+			printDlgRef.value.onPrintJs(id);
+		};
 		// 删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
@@ -251,9 +260,11 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
+			printDlgRef,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
+			onOpenPrintDlg,
 			onAddWorkerOpenDlg,
 			onSeeWorkerOpenDlg,
 			onModelDel,
@@ -271,4 +282,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
 </style>

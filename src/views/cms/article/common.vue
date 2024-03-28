@@ -34,8 +34,7 @@
 				:height="proxy.$calcMainHeight(-75)" @cell-click="onCellClick"
 				border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
-				<el-table-column prop="Id" label="标识" width="160" align="right">
-				</el-table-column>
+				<el-table-column prop="Id" label="标识" width="150" align="right"></el-table-column>
 				<el-table-column prop="ImgUrl" label="封面图" width="60" align="center">
 					<template #default="scope">
 						<el-image v-if="scope.row.ImgUrl" lazy preview-teleported
@@ -55,11 +54,12 @@
 				</el-table-column>
 				<el-table-column prop="Title" label="标题" width="200" >
 					<template #default="scope">
-						<SvgIcon name="fa fa-angle-right"/><span class="title-link ml5">{{scope.row.Title}}</span>
+						<el-text tag="ins" class="title-link">{{scope.row.Title}}</el-text>
+						<!-- <SvgIcon name="fa fa-angle-right"/><span class="title-link ml5">{{scope.row.Title}}</span> -->
 					</template>
 				</el-table-column>
 				<!-- <el-table-column prop="SpecialName" label="所属专题" width="180" ></el-table-column> -->
-				<el-table-column prop="CreateBy" label="创建人" width="70" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CreateBy" label="创建人" width="80" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CreateTime" label="创建时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="PublishTime" label="发布时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="State" label="状态" width="80" align="center">
@@ -93,7 +93,7 @@
 					</template>
 				</el-table-column>
 
-				<el-table-column prop="IsSwiper" label="轮播" width="80" align="center">
+				<el-table-column prop="IsSwiper" label="轮播" width="70" align="center">
 					<template #default="scope">
 						<el-switch v-model="scope.row.IsSwiper" inline-prompt :width="46" v-auth:[moduleKey]="'btn.ArticleEdit'"
 						@change="proxy.$api.common.table.updateById('cms_article','IsSwiper',scope.row.Id,scope.row.IsSwiper)" 
@@ -103,7 +103,7 @@
 					</template>
 				</el-table-column>
 
-				<el-table-column prop="IsPromote" label="推荐" width="80" align="center">
+				<el-table-column prop="IsPromote" label="推荐" width="70" align="center">
 					<template #default="scope">
 						<el-switch v-model="scope.row.IsPromote" inline-prompt :width="46" v-auth:[moduleKey]="'btn.ArticleEdit'"
 						@change="proxy.$api.common.table.updateById('cms_article','IsPromote',scope.row.Id,scope.row.IsPromote)" 
@@ -128,10 +128,10 @@
 						<span v-no-auth:[moduleKey]="'btn.ArticleEdit'">{{scope.row.ViewNum}}</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="ClickNum" label="阅读量" width="80" align="right">
+				<el-table-column prop="ClickNum" label="阅读量" width="70" align="right">
 				</el-table-column>
-				<el-table-column prop="FaviorNum" label="点赞数" width="80" align="right"></el-table-column>
-				<el-table-column prop="ReplyNum" label="评论数" width="80" align="right"></el-table-column>
+				<el-table-column prop="FaviorNum" label="点赞数" width="70" align="right"></el-table-column>
+				<el-table-column prop="ReplyNum" label="评论数" width="70" align="right"></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" plain @click="onOpenEditDlg(scope.row)" v-auth:[moduleKey]="'btn.ArticleEdit'">
@@ -323,6 +323,7 @@ export default {
 .title-link{
 	text-decoration:none; 
 	color:var(--el-color-primary-dark-2);
+	
 	cursor: pointer;
 }
 .title-link:hover{
