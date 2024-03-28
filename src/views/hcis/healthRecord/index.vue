@@ -73,13 +73,16 @@
 				</el-table-column>
 				<el-table-column prop="Address" label="地址" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CreateBy" label="录入人" width="80" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
 						<el-button text bg type="primary" @click="onOpenFollowUpDlg(scope.row, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('pages.hcis.healthRecord.follow_up') }}
+						</el-button>
+						<el-button text bg type="primary" @click="onOpenInterveneUpDlg(scope.row, false)" v-auth:[moduleKey]="'btn.Edit'">
+							{{ $t('pages.hcis.healthRecord.intervene') }}
 						</el-button>
 						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.see') }}
@@ -106,6 +109,7 @@
 		</el-card>
 		<editDlg ref="editDlgRef" />
 		<followUpEditDlg ref="editFollowUpRef" />
+		<interveneUpEditDlg ref="editInterveneUpRef" />
 	</div>
 </template>
 
@@ -115,11 +119,13 @@ import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from '
 import { useRoute } from 'vue-router';
 import followUpEditDlg from './component/followUpEdit.vue';
 import editDlg from './component/healthRecordEdit.vue';
+import interveneUpEditDlg from './component/interveneUpEdit.vue';
+// import interveneUpEditDlg from './component/healthRecordEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'healthRecordInfo',
-	components: { editDlg,followUpEditDlg },
+	components: { editDlg,followUpEditDlg,interveneUpEditDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -129,6 +135,7 @@ export default {
 		const moduleKey = `api_hcis_healthrecord`;
 		const editDlgRef = ref();
 		const editFollowUpRef=ref();
+		const editInterveneUpRef=ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -180,6 +187,12 @@ export default {
 		const onOpenFollowUpDlg = (row: object, ishow: boolean) => {
 			editFollowUpRef.value.openDialog(state.kind, row.Id,row.Name, ishow);
 		};
+		// 打开编辑弹窗
+		const onOpenInterveneUpDlg = (row: object, ishow: boolean) => {
+			editInterveneUpRef.value.openDialog(state.kind, row.Id,row.Name, ishow);
+		};
+		
+		
 		// 删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
@@ -220,10 +233,12 @@ export default {
 			proxy,
 			editDlgRef,
 			editFollowUpRef,
+			editInterveneUpRef,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
 			onOpenFollowUpDlg,
+			onOpenInterveneUpDlg,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
