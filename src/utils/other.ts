@@ -174,6 +174,7 @@ export function handleOpenLink(val: any) {
 	if (verifyUrl(<string>val.meta?.isLink)) window.open(val.meta?.isLink,"_blank");
 	else window.open(`${origin}${pathname}#${val.meta?.isLink}`,"_blank");
 }
+
 /**
  * 统一批量导出
  * @method elSvg 导出全局注册 element plus svg 图标

@@ -102,6 +102,32 @@ export default function () {
 		}).replace(/\.$/, '');
 	}
 
+	/**
+	 * 金额转中文大写
+	 * @param val 金额数值
+	 */
+	const toUpperCaseAmount = (value:number)=> {
+		// 将数字金额转换为大写的逻辑
+		const digitUppercase = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+		const unit = ['元', '拾', '佰', '仟', '万', '拾', '佰', '仟', '亿', '拾', '佰', '仟', '万'];
+		// 小数部分----将数字转换为字符串，并按小数点进行分割
+		const amountStr = String(value).split('.');
+		// 整数部分转换
+		let integerPart = '';
+		for (let i = 0; i < amountStr[0].length; i++) {
+			integerPart += digitUppercase[parseInt(amountStr[0][i])] + unit[amountStr[0].length - i - 1];
+		}
+		// 小数部分转换
+		let decimalPart = '';
+		if (amountStr[1] && amountStr[1].length > 0) {
+			decimalPart = digitUppercase[parseInt(amountStr[1][0])] + '角';
+			if (amountStr[1].length > 1) {
+				decimalPart += digitUppercase[parseInt(amountStr[1][1])] + '分';
+			}
+		}
+		return integerPart + decimalPart;
+	}
+
 	/* 是否为合法URL地址 */
 	const isUrl = (url: string) => {
 		const reg = /^(\/\/|[hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
@@ -172,6 +198,7 @@ export default function () {
 		scaleFormat,
 		scale2Format,
 		groupSeparator,
+		toUpperCaseAmount,
 		staticUrlParse,
 		staticHeardUrl,
 		crypto,

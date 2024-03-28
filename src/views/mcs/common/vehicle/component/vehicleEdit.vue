@@ -109,7 +109,7 @@
 						</el-form-item>
 					</el-col>				
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="生效日期" prop="TransportLicenseStartDate" required>
+						<el-form-item label="生效日期" prop="TransportLicenseStartDate">
 							<el-date-picker
 								v-model="ruleForm.TransportLicenseStartDate"
 								type="date"
@@ -119,7 +119,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="至" prop="TransportLicenseEndDate"  required>
+						<el-form-item label="至" prop="TransportLicenseEndDate" >
 							<el-date-picker
 										v-model="ruleForm.TransportLicenseEndDate"
 										type="date"
@@ -301,20 +301,20 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			TransportLicenseStartDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			TransportLicenseEndDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
+			// TransportLicenseStartDate: [
+			// 	{
+			// 		required: true,
+			// 		message: t('message.validRule.required'),
+			// 		trigger: 'blur',
+			// 	},
+			// ],
+			// TransportLicenseEndDate: [
+			// 	{
+			// 		required: true,
+			// 		message: t('message.validRule.required'),
+			// 		trigger: 'blur',
+			// 	},
+			// ],
 			DriverMobile: [
 				{
 					required: true,

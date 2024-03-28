@@ -147,7 +147,7 @@
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Qty" label="预估工时" width="80">
+				<el-table-column prop="Qty" label="数量" width="80">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Qty"
@@ -202,18 +202,15 @@
 </template>
 
 <script lang="ts">
-import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps, ElMessageBox } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs, ref } from 'vue';
+import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import addWorkerDlg from './sheetAdd.vue';
+import addDlg from './sheetGoods.vue';
+import editDlg from './sheetProject.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-import editDlg from './sheetProject.vue';
-import addDlg from './sheetGoods.vue';
-import addWorkerDlg from './sheetAdd.vue';
-import { Interface } from 'readline';
-import { validateHeaderName } from 'http';
 
 export default {
 	name: 'sheetEdit',
