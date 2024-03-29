@@ -2,11 +2,11 @@
 export default {
 	router: {
 		healthRecord: 'health record',
-		interveneRegulate: 'intervene regulate',
 	},
 	healthRecord: {
 		no: 'no',
 		follow_up:'follow up',
+		intervene:'intervene',
 		tenant: 'tenant',
 		create_by: 'create by',
 		create_time: 'create time',
