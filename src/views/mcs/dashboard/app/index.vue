@@ -38,117 +38,7 @@
           </dv-border-box-12>
           <dv-border-box-12 style="width:47%;height:auto;padding:2px 2px">
             <center-top></center-top>
-            <div class="digital-container">
-              <div class="digital-title">年运量（铁路）</div>
-              <div class="flex-row">
-                  <div class="digital-flop-item">
-                    <div class="unit">计划</div>
-                    <dv-digital-flop
-                      :config="{number:[100000.59],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">完成</div>
-                    <dv-digital-flop
-                      :config="{number:[99900.59],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">超/欠</div>
-                    <dv-digital-flop
-                      :config="{number:[100],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                </div>
-                <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-              <dv-decoration-2 />
-            </div>
-            <div class="digital-container">
-              <div class="digital-title">月运量（铁路）</div>
-              <div class="flex-row">
-                  <div class="digital-flop-item">
-                    <div class="unit">计划</div>
-                    <dv-digital-flop
-                      :config="{number:[10000.59],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">完成</div>
-                    <dv-digital-flop
-                      :config="{number:[9990.59],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">超/欠</div>
-                    <dv-digital-flop
-                      :config="{number:[10],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                </div>
-                <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-              <dv-decoration-2 />
-            </div>
-            <div class="digital-container">
-              <div class="digital-title">日运量（铁路）</div>
-              <div class="flex-row">
-                  <div class="digital-flop-item">
-                    <div class="unit">计划</div>
-                    <dv-digital-flop
-                      :config="{number:[1000.59],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">完成</div>
-                    <dv-digital-flop
-                      :config="{number:[999.59],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                  <div class="digital-flop-item">
-                    <div class="unit">超/欠</div>
-                    <dv-digital-flop
-                      :config="{number:[1],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
-                      style="width: 100%; height: 24px"
-                    />
-                    <div class="unit">吨</div>
-                  </div>
-                </div>
-                <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-              <dv-decoration-2 />
-            </div>
-            <div class="digital-container" >
-              <div class="flex-row" style="padding-top:6px !important;padding-bottom:6px !important;margin-bottom:16px">
-                <div class="digital-flop-item">
-                  <div class="unit">年计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [45], shape: 'round', waveHeight: 5, waveNum: 5}" />
-                </div>
-                <div class="digital-flop-item">
-                  <div class="unit">月计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [35], shape: 'round', waveHeight: 5, waveNum: 5}" />
-                </div>
-                <div class="digital-flop-item">
-                  <div class="unit">日计划完成情况</div>
-                  <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [25], shape: 'round', waveHeight: 5, waveNum: 5}" />
-                </div>
-                  <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-                <dv-decoration-2 />
-              </div>
-            </div>
+            <center-bottom></center-bottom>
           </dv-border-box-12>
           <dv-border-box-12 style="width:20%;height:auto">
             <div style="margin:12px">
@@ -182,6 +72,7 @@
 
 <script lang="ts">
 import cards from "./cards.vue";
+import centerBottom from "./centerBottom.vue";
 import centerTop from "./centerTop.vue";
 import digitalFlop from "./digitalFlop.vue";
 import leftTop from "./leftTop.vue";
@@ -200,6 +91,7 @@ export default {
     topHeader,
     leftTop,
     centerTop,
+    centerBottom,
     noticeList,
     digitalFlop,
     rankingBoard,

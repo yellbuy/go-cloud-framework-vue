@@ -56,9 +56,10 @@
 				</el-table-column>
 				<el-table-column prop="Title" label="标题">
 					<template #default="scope">
-						<SvgIcon name="fa fa-angle-right" /><span class="ml5" :class="scope.row.IsClick ? 'title-readed-link' : 'title-link'">{{
+						<el-text tag="ins" class="title-link">{{scope.row.Title}}</el-text>
+						<!-- <SvgIcon name="fa fa-angle-right" /><span class="ml5" :class="scope.row.IsClick ? 'title-readed-link' : 'title-link'">{{
 							scope.row.Title
-						}}</span>
+						}}</span> -->
 					</template>
 				</el-table-column>
 				<el-table-column prop="Description" width="270" label="描述" show-overflow-tooltip> </el-table-column>
@@ -73,11 +74,11 @@
 					</template>
 				</el-table-column>
 
-				<el-table-column prop="ClickNum" label="阅读量" width="80" align="right"> </el-table-column>
+				<el-table-column prop="ClickNum" label="阅读量" width="70" align="right"> </el-table-column>
 
-				<el-table-column prop="FaviorNum" label="点赞数" width="80" align="right"></el-table-column>
-				<el-table-column prop="ReplyNum" label="评论数" width="80" align="right"></el-table-column>
-				<el-table-column prop="CreateBy" label="创建人" width="70" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="FaviorNum" label="点赞数" width="70" align="right"></el-table-column>
+				<el-table-column prop="ReplyNum" label="评论数" width="70" align="right"></el-table-column>
+				<el-table-column prop="CreateBy" label="创建人" width="80" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CreateTime" label="创建时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 			</el-table>
 			<el-pagination

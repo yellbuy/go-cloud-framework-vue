@@ -57,9 +57,9 @@
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="吨位" prop="Weight">
+						<el-form-item label="计划吨位" prop="PlanWeight">
 							<el-input-number
-								v-model.number="ruleForm.Weight"
+								v-model="ruleForm.PlanWeight"
 								style="width: 200px"
 								:controls="true"
 								precision="2"
@@ -73,9 +73,25 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="列数" prop="PlanVehicleCount">
+						<el-form-item label="实际吨位" prop="Weight">
 							<el-input-number
-								v-model.number="ruleForm.PlanVehicleCount"
+								v-model="ruleForm.Weight"
+								style="width: 200px"
+								:controls="true"
+								precision="2"
+								placeholder="请输入"
+								min="0"
+								max="1000000000"
+								step="1">
+								<template #append>吨</template>
+							</el-input-number>
+							<span class="ml5">吨</span>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12"  class="mb20">
+						<el-form-item label="列数" prop="VehicleCount">
+							<el-input-number
+								v-model="ruleForm.VehicleCount"
 								style="width: 200px"
 								placeholder="请输入"
 								:controls="true"
@@ -87,6 +103,15 @@
 								<template #append>列</template>
 							</el-input-number>
 							<span class="ml5">列</span>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12"  class="mb20">
+						<el-form-item label="备注" prop="Remark">
+							<el-input
+								v-model="ruleForm.Remark"
+								style="width: 200px"
+								placeholder="请输入">
+							</el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -174,8 +199,9 @@ export default {
 				GoodsId:"",
 				GoodsName:"",
 				BillTime:new Date(),
-				PlanVehicleCount:'',
-				Weight:'',
+				VehicleCount:0,
+				PlanWeight:0,
+				Weight:0,
 				SenderAddress:'',
 				ReceiverAddress:'',
 				IsExternal:0,
