@@ -51,8 +51,8 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="50" fixed />
-				<el-table-column prop="Name" label="姓名" sortable width="100" fixed></el-table-column>
-				<el-table-column prop="Gender" label="性别" :formatter="formatGender" sortable width="100" fixed>
+				<el-table-column prop="Name" label="姓名" width="100" fixed></el-table-column>
+				<el-table-column prop="Gender" label="性别" :formatter="formatGender" width="100" fixed>
 				</el-table-column>
 				<!-- <el-table-column label="性别" sortable width="70" show-overflow-tooltip>
 					<template #default="scope">
@@ -92,10 +92,10 @@
 				</el-table-column> -->
 
 
-				<el-table-column prop="IdnoEndDate" label="身份证截止日" sortable width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Tname" label="所属公司" sortable width="200" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="DriverLicenseType" label="驾照类型" sortable width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="IdnoEndDate" label="驾照截止日" sortable width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="IdnoEndDate" label="身份证截止日" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Tname" label="所属公司" width="200" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="DriverLicenseType" label="驾照类型" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="IdnoEndDate" label="驾照截止日" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Mobile" label="手机号" width="120"  show-overflow-tooltip></el-table-column>
 				
 				<!-- <el-table-column prop="NativePlace" label="籍贯" width="120"  show-overflow-tooltip></el-table-column> -->

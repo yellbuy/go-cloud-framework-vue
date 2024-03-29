@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="45%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="45%" destroy-on-close :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
 				<el-row :gutter="20">
@@ -70,7 +70,7 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col>
+					<el-col class="mb20">
 						<el-form-item label="家庭地址" prop="Address">
 							<el-input
 								v-model="ruleForm.Address"
