@@ -38,17 +38,17 @@
 				stripe
 				highlight-current-row
 			>
-				<el-table-column type="index" label="序号" align="right" width="60" fixed />
-				<el-table-column prop="BillNo" label="流水单号" width="110" show-overflow-tooltip="true" fixed></el-table-column>
-				<el-table-column prop="GoodsName" label="产品名称" width="110" show-overflow-tooltip="true" fixed></el-table-column>
+				<el-table-column type="index" label="序号" align="right" width="50" fixed />
+				<el-table-column prop="BillNo" label="流水单号" width="120" show-overflow-tooltip="true" fixed></el-table-column>
+				<el-table-column prop="GoodsName" label="产品名称" width="120" show-overflow-tooltip="true" fixed></el-table-column>
 				<el-table-column prop="CustomerName" label="客户名称" width="180" show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="SenderAddress" label="发货站" width="100" show-overflow-tooltip="true"></el-table-column>				
-				<el-table-column prop="ReceiverAddress" label="到达地" width="100" show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="Weight" label="实际吨位" width="100" align="right" show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="SenderAddress" label="发货站" width="200" show-overflow-tooltip="true"></el-table-column>				
+				<el-table-column prop="ReceiverAddress" label="到达地" width="200" show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="Weight" label="实际吨位" width="80" align="right" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column prop="VehicleCount" label="列数" width="80" align="right" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column prop="BillTime" label="日期" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip="true"></el-table-column>		
 				
-				<el-table-column label="有效" width="70" align="center">
+				<el-table-column label="有效" width="80" align="center">
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.State"
@@ -65,7 +65,7 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="CompanyName" label="所属公司" width="120" show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">

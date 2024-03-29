@@ -1,24 +1,32 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="500px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="20%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
 					<el-col :xs="24" class="mb20">
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
+								style="width: 100%"
 								type="date"
 								placeholder="日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
+								format="YYYY-MM-DD">
+							</el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="16" class="mb20">
 						<el-form-item label="重量" prop="Weight">
-							<el-input v-model.number="ruleForm.Weight" min="0" max="10000">
-								<template #append>吨</template>
+							<el-input 
+								v-model.number="ruleForm.Weight"
+								style="width: 100%"
+								:controls="true"
+								precision="2"
+								placeholder="请输入"
+								min="0"
+								max="1000000000"
+								step="1">
 							</el-input> 
 						</el-form-item>
 					</el-col>
