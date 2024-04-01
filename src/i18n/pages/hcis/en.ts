@@ -2,6 +2,7 @@
 export default {
 	router: {
 		healthRecord: 'health record',
+		statAge: 'age statistics',
 	},
 	healthRecord: {
 		no: 'no',
