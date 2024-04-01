@@ -2,6 +2,7 @@
 export default {
 	router: {
 		healthRecord: '健康档案',
+		statAge: '年龄段统计',
 	},
 	healthRecord: {
 		no: '档案编号',
