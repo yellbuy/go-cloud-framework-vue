@@ -1,9 +1,9 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="500px" :before-close="closeDialog">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
+		<el-dialog :title="title" v-model="isShowDialog" width="480px" :before-close="closeDialog">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
+					<el-col :sm="24" class="mb20">
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
@@ -15,11 +15,12 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="16" class="mb20">
+					<el-col :xs="24" :sm="24" class="mb20">
 						<el-form-item label="重量" prop="Weight">
-							<el-input v-model.number="ruleForm.Weight" min="0" max="10000">
+							<el-input-number v-model="ruleForm.Weight" style="width: 150px" :precision="2" step="1" min="0" max="10000">
 								<template #append>吨</template>
-							</el-input> 
+							</el-input-number> 
+							<span class="ml5">吨</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
