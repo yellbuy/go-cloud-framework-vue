@@ -7,10 +7,11 @@
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
+								style="width: 100%"
 								type="date"
 								placeholder="日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
+								format="YYYY-MM-DD">
+							</el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>

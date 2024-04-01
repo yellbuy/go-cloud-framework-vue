@@ -8,7 +8,7 @@
 						<el-form-item label="平台名称" prop="SiteId" >
 							<el-select
 								v-model="ruleForm.SiteId"
-								style="max-width: 200px"
+								style="width: 100%"
 								filterable
 								placeholder="请选择">
 								<el-option v-for="(item, index) in siteNameList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
@@ -21,11 +21,11 @@
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
-								style="max-width: 200px"
+								style="width: 100%"
 								type="date"
 								placeholder="日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
+								format="YYYY-MM-DD">
+							</el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -34,7 +34,7 @@
 						<el-form-item label="客户名称" prop="CustomerId">
 							<el-select
 								v-model="ruleForm.CustomerId"
-								style="max-width: 200px"
+								style="width: 100%"
 								filterable
 								placeholder="请选择">
 								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
@@ -48,7 +48,7 @@
 							<el-input-number
 								v-model="ruleForm.PlanWeight"
 								:controls="true"
-								style="max-width: 200px"
+								style="width: 100%"
 								placeholder="请输入"
 								type="number"
 								precision="2"
@@ -56,7 +56,6 @@
 								max="1000000000"
 								step="1">
 							</el-input-number>
-							<span class="ml5">元</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -65,7 +64,7 @@
 						<el-form-item label="面积" prop="Volume">
 							<el-input-number
 								v-model="ruleForm.Volume"
-								style="max-width: 200px"
+								style="width: 100%"
 								:controls="true"
 								precision="2"
 								placeholder="请输入"
@@ -73,9 +72,7 @@
 								min="0"
 								max="1000000000"
 								step="1">
-								<template #append>平米</template>
 							</el-input-number>
-							<span class="ml5">平米</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
