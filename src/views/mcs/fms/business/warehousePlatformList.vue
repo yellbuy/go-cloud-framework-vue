@@ -39,15 +39,8 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="60" fixed />
-				<el-table-column prop="BillNo" label="流水单号" width="110" show-overflow-tooltip="true" fixed></el-table-column>
-				<el-table-column prop="GoodsName" label="产品名称" width="110" show-overflow-tooltip="true" fixed></el-table-column>
-				<el-table-column prop="CustomerName" label="客户名称" width="180" show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="SenderAddress" label="发货站" width="100" show-overflow-tooltip="true"></el-table-column>				
-				<el-table-column prop="ReceiverAddress" label="到达地" width="100" show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="Weight" label="实际吨位" width="100" align="right" show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="VehicleCount" label="列数" width="80" align="right" show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="BillTime" label="日期" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip="true"></el-table-column>		
-				
+				<el-table-column prop="Name" label="平台名称" width="300" show-overflow-tooltip="true" fixed></el-table-column>
+				<el-table-column prop="Volume" label="面积" width="100" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="有效" width="70" align="center">
 					<template #default="scope">
 						<el-switch
@@ -55,7 +48,7 @@
 							inline-prompt
 							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_business_bill_line', 'state', scope.row.Id, scope.row.State)"
+							@change="proxy.$api.common.table.updateById('erp_business_bill', 'state', scope.row.Id, scope.row.State)"
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
@@ -65,7 +58,7 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="CompanyName" label="所属公司" width="120" show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="Remark" label="备注" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -102,7 +95,7 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from './component/mainEdit.vue';
+import editDlg from './component/warehousePlatformEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
@@ -111,7 +104,7 @@ export default {
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
-		const kind = route.params.kind||'main_business';
+		const kind = route.params.kind||'warehouse_plateform';
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_fms_balance_main_business`;
@@ -150,7 +143,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.businessBillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.businessBill.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -173,7 +166,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.businessBillLine.delete(Id);
+					const res = await proxy.$api.erp.businessBill.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}

@@ -5,13 +5,13 @@
 				<el-divider content-position="left">仓储收入*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" class="mb20">
-						<el-form-item label="平台名称" prop="SiteId" >
+						<el-form-item label="平台名称" prop="BusinessBillId" >
 							<el-select
-								v-model="ruleForm.SiteId"
+								v-model="ruleForm.BusinessBillId"
 								style="width: 100%"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in siteNameList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in businessBillList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -115,7 +115,7 @@ export default {
 				CustomerId:"",
 				GoodsCategoryId: '0',
 				GoodsId:"0",
-				SiteId:"",
+				BusinessBillId:"",
 				BillTime:new Date(),
 				PlanWeight:'',
 				Volume:'',
@@ -123,7 +123,7 @@ export default {
 				State: 1,
 			},
 			
-			siteNameList:[],
+			businessBillList:[],
 			companyNameList:[],
 			tableList:[],
 			Files: [],
@@ -136,7 +136,7 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 
-			SiteId: [
+			BusinessBillId: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -224,9 +224,9 @@ export default {
 
 		//加载平台名称
 		const loadsiteName = async () =>{
-			const siteNameRes = await proxy.$api.common.commondata.getConcreteDataListByScope('warehouse_platform', 0, 2);
+			const siteNameRes = await proxy.$api.erp.businessBill.getListByScope('warehouse_plateform', 0, 0);
 			if (siteNameRes.errcode == 0) {
-				state.siteNameList = siteNameRes.data;
+				state.businessBillList = siteNameRes.data;
 			}else{
 				console.log("error:",siteNameRes.errmsg)
 			}

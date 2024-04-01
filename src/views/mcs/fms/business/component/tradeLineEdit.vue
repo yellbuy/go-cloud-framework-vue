@@ -19,9 +19,7 @@
 					<el-col :xs="24" :sm="24" class="mb20">
 						<el-form-item label="重量" prop="Weight">
 							<el-input-number v-model="ruleForm.Weight" style="width: 150px" :precision="2" step="1" min="0" max="10000">
-								<template #append>吨</template>
 							</el-input-number> 
-							<span class="ml5">吨</span>
 						</el-form-item>
 					</el-col>
 				</el-row>
