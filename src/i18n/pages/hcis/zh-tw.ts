@@ -5,6 +5,7 @@ export default {
 		statAge: '年龄段统计',
 		statScreen: '筛查情况统计',
 		statRisk: '风险情况统计',
+		statIntervene: '干预效果统计',
 	},
 	healthRecord: {
 		no: '档案编号',
