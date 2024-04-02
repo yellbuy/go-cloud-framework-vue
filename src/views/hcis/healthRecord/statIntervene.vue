@@ -1,109 +1,118 @@
 <template>
 	<div>
-	  <!-- <DxChart  ref="chart">
+	  <DxChart  ref="chart" id="chart">
 		<DxTooltip
 		  :enabled="true"
 		  :customize-tooltip="customizeTooltip"
 		/>
 		<DxAdaptiveLayout :width="450"/>
 		<DxSize :height="280"/>
+		<DxLabel
+			:visible="true"
+			:customize-text="formatLabel"
+			position="columns"
+		>
+			<DxConnector
+			:visible="true"
+			:width="0.5"
+			/>
+			<DxFont :size="16"/>
+		</DxLabel>
 		<DxCommonSeriesSettings type="bar"/>
-	  </DxChart> -->
-	  <DxPieChart
-					id="pieChart"
-					:data-source="state.list"
-					palette="Bright"
-					title="年龄段统计"
+	  </DxChart>
+	  <!-- <DxPieChart
+			id="pieChart"
+			:data-source="state.list"
+			palette="Bright"
+			title="筛查情况统计"
+		>
+			<DxSeries
+			argument-field="Name"
+			value-field="Total"
+			>
+			<DxAnimation
+				easing="linear"
+				:duration="500"
+				:max-point-count-supported="100"
+			/>
+			<DxMargin
+				:top="50"
+				:bottom="20"
+				:left="30"
+				:right="30"
+			/>
+				<DxLabel
+					:visible="true"
+					:customize-text="formatLabel"
+					position="columns"
 				>
-					<DxSeries
-					argument-field="Name"
-					value-field="Total"
-					>
-					<DxAnimation
-						easing="linear"
-						:duration="500"
-						:max-point-count-supported="100"
+					<DxConnector
+					:visible="true"
+					:width="0.5"
 					/>
-					<DxMargin
-						:top="50"
-						:bottom="20"
-						:left="30"
-						:right="30"
-					/>
-						<DxLabel
-							:visible="true"
-							:customize-text="formatLabel"
-							position="columns"
-						>
-							<DxConnector
-							:visible="true"
-							:width="0.5"
-							/>
-							<DxFont :size="16"/>
-						</DxLabel>
-					</DxSeries>
-					<DxLegend
-					:column-count="3"
-					orientation="horizontal"
-					item-text-position="right"
-					horizontal-alignment="center"
-					vertical-alignment="bottom"
-					/>
-					<DxExport :enabled="true"/>
-				</DxPieChart>
-				<DxPivotGrid
-					id="pivotgrid"
-					ref="grid"
-					:data-source="state.dataSource"
-					:allow-sorting-by-summary="false"
-					:allow-filtering="false"
-					:allow-sorting="false"
-					:show-borders="true"
-					:show-column-grand-totals="true"
-					:show-row-grand-totals="true"
-					:show-row-totals="true"
-					:show-column-totals="false"
-					:field-panel="false"
-					@exporting="onExporting"
-				>
-				<DxHeaderFilter
-					:show-relevant-values="true"
-					:width="300"
-					:height="400"
-				>
-				<DxSearch :enabled="false"/>
-				</DxHeaderFilter>
-					<DxFieldChooser
-					:enabled="true"
-					/>
-					<DxFieldPanel
-					:visible="false"
+					<DxFont :size="16"/>
+				</DxLabel>
+			</DxSeries>
+			<DxLegend
+			:column-count="3"
+			orientation="horizontal"
+			item-text-position="right"
+			horizontal-alignment="center"
+			vertical-alignment="bottom"
+			/>
+			<DxExport :enabled="true"/>
+		</DxPieChart> -->
+		<div style="width:100%;text-align: center;">
+			<DxPivotGrid
+				id="pivotgrid"
+				ref="grid"
+				:data-source="state.dataSource"
+				:allow-sorting-by-summary="false"
+				:allow-filtering="false"
+				:allow-sorting="false"
+				:show-borders="true"
+				:show-column-grand-totals="true"
+				:show-row-grand-totals="true"
+				:show-row-totals="true"
+				:show-column-totals="false"
+				:field-panel="false"
+				@exporting="onExporting"
+			>
+			<DxHeaderFilter
+				:show-relevant-values="true"
+				:width="300"
+				:height="400"
+			>
+			<DxSearch :enabled="false"/>
+			</DxHeaderFilter>
+				<DxFieldChooser
+				:enabled="true"
 				/>
-				<DxStateStoring
-					:enabled="true"
-					type="localStorage"
-					storageKey="dashboard-chart-hcis-age-stat_v1.0"
-					/>
-				<FieldChooser :enabled="true" />
-				<DxExport :enabled="true" />
-				</DxPivotGrid>
-	 
-	  
+				<DxFieldPanel
+				:visible="false"
+			/>
+			<DxStateStoring
+				:enabled="true"
+				type="localStorage"
+				storageKey="dashboard-chart-hcis-intervene-stat_v1.0"
+				/>
+			<FieldChooser :enabled="true" />
+			<DxExport :enabled="true" />
+			</DxPivotGrid>
+		</div>
 	</div>
   </template>
   <script setup lang="ts">
-  import {
-DxChart
-} from 'devextreme-vue/chart';
-import DxPieChart, {
-DxAnimation,
-DxConnector,
-DxExport,
-DxFont,
+import {
+DxAdaptiveLayout,
+DxChart,
+DxCommonSeriesSettings,
 DxLabel,
-DxLegend,
-DxMargin,
-DxSeries
+DxSize,
+DxTooltip
+} from 'devextreme-vue/chart';
+import {
+DxExport
 } from 'devextreme-vue/pie-chart';
 import { loadMessages, locale } from "devextreme/localization";
 import zhCnMessages from "devextreme/localization/messages/zh.json";
@@ -136,7 +145,7 @@ const createDataSource:any = ()=>{
 	const customStore = new CustomStore({
     loadMode: "raw", // omit in the DataGrid, TreeList, PivotGrid, and Scheduler 
     load: async () => {
-		const res = await proxy.$api.hcis.healthRecord.getAgeStatByScope(kind,scopeMode,scopeValue)
+		const res = await proxy.$api.hcis.healthRecord.getInterveneStatByScope(kind,scopeMode,scopeValue)
 		state.list=res.data||[];
 		return  res.data||[]
     }});
@@ -148,8 +157,8 @@ const createDataSource:any = ()=>{
 			
     	},
 		fields: [{
-			caption: '年龄段',
-			width: 300,
+			caption: '干预效果',
+			width: 400,
 			dataField: 'Name',
 			sortBy : 'none',
 			area: 'row',
@@ -214,16 +223,17 @@ state.dataSource=createDataSource();
   </script>
   <style>
   #pivotgrid {
+	width:500px;
+	margin-left: 300px;
+	margin-right: 50%;
 	margin-top: 30px;
 	margin-bottom: 30px;
-	width:600px;
   }
   
   .currency {
 	text-align: center;
   }
-  #pieChart {
-    width: 600px;
-    height: 300px;
+  #chart {
+	margin-top:50px;
 }
   </style>

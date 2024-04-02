@@ -13,7 +13,7 @@
 					id="pieChart"
 					:data-source="state.list"
 					palette="Bright"
-					title="年龄段统计"
+					title="筛查情况统计"
 				>
 					<DxSeries
 					argument-field="Name"
@@ -82,7 +82,7 @@
 				<DxStateStoring
 					:enabled="true"
 					type="localStorage"
-					storageKey="dashboard-chart-hcis-age-stat_v1.0"
+					storageKey="dashboard-chart-hcis-screen-stat_v1.0"
 					/>
 				<FieldChooser :enabled="true" />
 				<DxExport :enabled="true" />
@@ -136,7 +136,7 @@ const createDataSource:any = ()=>{
 	const customStore = new CustomStore({
     loadMode: "raw", // omit in the DataGrid, TreeList, PivotGrid, and Scheduler 
     load: async () => {
-		const res = await proxy.$api.hcis.healthRecord.getAgeStatByScope(kind,scopeMode,scopeValue)
+		const res = await proxy.$api.hcis.healthRecord.getScreenStatByScope(kind,scopeMode,scopeValue)
 		state.list=res.data||[];
 		return  res.data||[]
     }});
@@ -148,7 +148,7 @@ const createDataSource:any = ()=>{
 			
     	},
 		fields: [{
-			caption: '年龄段',
+			caption: '级别',
 			width: 300,
 			dataField: 'Name',
 			sortBy : 'none',

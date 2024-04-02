@@ -2,9 +2,23 @@
 	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="80px" :inline="true">
+					<el-form-item label="是否跟进：">
+						<el-select v-model="tableData.param.isFollowUp" placeholder="请选择" style="width:80px">
+							<el-option label="不限" :value="-1"></el-option>
+							<el-option label="未跟进" :value="0"></el-option>
+							<el-option label="已跟进" :value="1"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="是否干预：">
+						<el-select v-model="tableData.param.isIntervene" style="width:80px" placeholder="请选择">
+							<el-option label="不限" :value="-1"></el-option>
+							<el-option label="未干预" :value="0"></el-option>
+							<el-option label="已干预" :value="1"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item label="关键字：">
-						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
+						<el-input placeholder="请输入关键字查询" style="width:120px" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -109,7 +123,7 @@
 		</el-card>
 		<editDlg ref="editDlgRef" />
 		<followUpEditDlg ref="editFollowUpRef" />
-		<interveneUpEditDlg ref="editInterveneUpRef" />
+		<interveneEditDlg ref="editInterveneRef" />
 	</div>
 </template>
 
@@ -119,13 +133,13 @@ import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from '
 import { useRoute } from 'vue-router';
 import followUpEditDlg from './component/followUpEdit.vue';
 import editDlg from './component/healthRecordEdit.vue';
-import interveneUpEditDlg from './component/interveneUpEdit.vue';
-// import interveneUpEditDlg from './component/healthRecordEdit.vue';
+import interveneEditDlg from './component/interveneEdit.vue';
+// import interveneEditDlg from './component/healthRecordEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'healthRecordInfo',
-	components: { editDlg,followUpEditDlg,interveneUpEditDlg },
+	components: { editDlg,followUpEditDlg,interveneEditDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -135,7 +149,7 @@ export default {
 		const moduleKey = `api_hcis_healthrecord`;
 		const editDlgRef = ref();
 		const editFollowUpRef=ref();
-		const editInterveneUpRef=ref();
+		const editInterveneRef=ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -147,6 +161,8 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
+					isFollowUp:-1,
+					isIntervene:-1,
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -158,6 +174,8 @@ export default {
 		});
 		//重置查询条件
 		const onResetSearch = () => {
+			state.tableData.param.isIntervene = -1;
+			state.tableData.param.isFollowUp = -1;
 			state.tableData.param.keyword = '';
 			onGetTableData(true);
 		};
@@ -189,7 +207,7 @@ export default {
 		};
 		// 打开编辑弹窗
 		const onOpenInterveneUpDlg = (row: object, ishow: boolean) => {
-			editInterveneUpRef.value.openDialog(state.kind, row.Id,row.Name, ishow);
+			editInterveneRef.value.openDialog(state.kind, row.Id,row.Name, ishow);
 		};
 		
 		
@@ -233,7 +251,7 @@ export default {
 			proxy,
 			editDlgRef,
 			editFollowUpRef,
-			editInterveneUpRef,
+			editInterveneRef,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
