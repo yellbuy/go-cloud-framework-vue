@@ -273,7 +273,7 @@ export default {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id = 0;
 							}
-							proxy.$parent.onGetTableData();
+							proxy.$parent.onGetTableDtoData();
 						}
 					} finally {
 						state.loading = false;

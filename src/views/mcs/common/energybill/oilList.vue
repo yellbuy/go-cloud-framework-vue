@@ -6,7 +6,7 @@
 						<div class="">
 							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="70px" :inline="true">
 								<el-form-item label="关键字">
-									<el-input placeholder="输入关键字查询" style="width:100px" v-model="mainTableData.param.keyword"> </el-input>
+									<el-input placeholder="输入关键字查询" style="width:200px" v-model="mainTableData.param.keyword"> </el-input>
 								</el-form-item>
 								<el-form-item>
 									
@@ -82,7 +82,7 @@
 						<div class="">
 							<el-form ref="searchFormRef" :model="childTableData.param" label-suffix="：" label-width="60px" :inline="true">
 								<el-form-item label="关键字">
-									<el-input placeholder="输入关键字查询" style="width:100px" v-model="childTableData.param.keyword"> </el-input>
+									<el-input placeholder="输入关键字查询" style="width:200px" v-model="childTableData.param.keyword"> </el-input>
 								</el-form-item>
 								<el-form-item>
 									<el-button-group>
@@ -453,7 +453,6 @@ export default {
 .splitpanes__pane {
 	justify-content: center;
 	align-items: center;
-	display: flex;
 	position: relative;
 	color: var(--color-primary-light-5);
 	border: 1px solid #ebeef5;
