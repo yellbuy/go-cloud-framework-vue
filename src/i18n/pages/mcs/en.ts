@@ -21,6 +21,7 @@ export default {
 		main_business_ine:'main business ine',
 		warehouse_ine:'warehouse ine',
 		trade_ine:'trade ine',
+		platform_ine:'platform ine',
 		vehicle_insurance:'vehicle insurance',
 		truck_type:'truck type',
 		fuel_consumption:'fuel consumption',

@@ -20,6 +20,7 @@ export default {
 		main_business_ine:'铁运收支管理',
 		warehouse_ine:'仓储收支管理',
 		trade_ine:'贸易收支管理',
+		platform_ine:'平台管理',
 		vehicle_insurance:'保险管理',
 		main_business:'铁运收支管理',
 		warehouse:'仓储收支管理',

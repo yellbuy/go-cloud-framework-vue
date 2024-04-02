@@ -450,7 +450,6 @@ export default {
 .splitpanes__pane {
 	justify-content: center;
 	align-items: center;
-	display: flex;
 	position: relative;
 	color: var(--color-primary-light-5);
 	border: 1px solid #ebeef5;

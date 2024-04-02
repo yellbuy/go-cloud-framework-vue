@@ -1,112 +1,42 @@
 <template>
 	<div class="system-edit-main-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="800px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="平台名称" prop="SiteName">
+						<el-form-item label="平台名称" prop="Name">
 							<el-input
-								v-model="ruleForm.SiteName"
-								style="width: 200px"
+								v-model="ruleForm.Name"
+								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="12" class="mb20">
+						<el-form-item label="面积" prop="Volume">
+							<el-input-number
+								v-model="ruleForm.Volume"
+								style="width: 100%"
+								:controls="true"
+								precision="2"
+								placeholder="请输入"
+								type="number"
+								min="0"
+								max="1000000000"
+								step="1">
+							</el-input-number>
+						</el-form-item>
+					</el-col>
 				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="计划吨位" prop="PlanWeight">
-							<el-input-number
-								v-model="ruleForm.PlanWeight"
-								style="width: 200px"
-								:controls="true"
-								precision="2"
-								placeholder="请输入"
-								min="0"
-								max="1000000000"
-								step="1">
-								<template #append>吨</template>
-							</el-input-number>
-							<span class="ml5">吨</span>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="实际吨位" prop="Weight">
-							<el-input-number
-								v-model="ruleForm.Weight"
-								style="width: 200px"
-								:controls="true"
-								precision="2"
-								placeholder="请输入"
-								min="0"
-								max="1000000000"
-								step="1">
-								<template #append>吨</template>
-							</el-input-number>
-							<span class="ml5">吨</span>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="列数" prop="VehicleCount">
-							<el-input-number
-								v-model="ruleForm.VehicleCount"
-								style="width: 200px"
-								placeholder="请输入"
-								:controls="true"
-								precision="0"
-								min="0"
-								max="1000000000"
-								step="1"
-								oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-								<template #append>列</template>
-							</el-input-number>
-							<span class="ml5">列</span>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
+					<el-col :xs="24"  class="mb20">
 						<el-form-item label="备注" prop="Remark">
 							<el-input
 								v-model="ruleForm.Remark"
-								style="width: 200px"
+								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-divider content-position="left">收发货信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="发货站" prop="SenderAddress">
-							<el-select
-								v-model="ruleForm.SenderAddress"
-								style="width: 200px"
-								filterable="true"
-								allow-create
-								default-first-option
-								:reserve-keyword="false"
-								placeholder="请输入并选择"
-								@visible-change = "loadSenderAddressList">
-								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="到达地" prop="ReceiverAddress">
-							<el-select
-								v-model="ruleForm.ReceiverAddress"
-								style="width: 200px"
-								filterable="true"
-								allow-create
-								default-first-option
-								:reserve-keyword="false"
-								placeholder="请输入并选择"
-								@visible-change = "loadReceiverAddressList">
-								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -149,85 +79,34 @@ export default {
 			//表单
 			ruleForm: {
 				Id:0,
-				Kind:'main_business',
-				CustomerId:"",
-				CompanyName:"",
-				GoodsCategoryId:"",
-				GoodsCategoryName:"",
-				GoodsId:"",
-				GoodsName:"",
-				BillTime:new Date(),
-				VehicleCount:0,
-				PlanWeight:0,
-				Weight:0,
-				SenderAddress:'',
-				ReceiverAddress:'',
-				IsExternal:0,
-				State:1,
+				Kind:'warehouse_plateform',
+				Name:"",
+				Volume:0,
+				Remark:"",
 				SenderPlanTime:new Date(),
 				ReceiverPlanTime:new Date(),
+				IsExternal:0,
+				State:1,
 			},
 			
 			dialogVisible: false,
-			goodsCategoryList:[],
-			goodsNameList:[],
-			companyNameList:[],
-			tableList:[],
 			saveState: false,
-			Files: [],
-			senderAddressList: [],
-			receiverAddressList: [],
 		});
 		const token = Session.get('token');
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			CustomerId: [
+			Name: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
 					trigger: 'blur',
 				},
 			],
-			BillTime: [
+			Volume: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			GoodsId: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
-			Weight: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
-			PlanVehicleCount: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
-			SenderAddress: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
-			ReceiverAddress: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
 					trigger: 'blur',
 				},
 			],
@@ -248,7 +127,7 @@ export default {
 					state.title = t('message.action.edit');
 				} else if (id && id != '0' && disable == false){
 					GetByIdRow(id);
-					state.title = t('message.action.edit');
+					state.title = t('message.action.edit');1
 				} else {
 					state.ruleForm.Id = 0;
 					state.ruleForm.IsExternal=0;
@@ -264,86 +143,13 @@ export default {
 
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.businessBillLine.getById(Id);
+				const res = await proxy.$api.erp.businessBill.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
 				state.ruleForm = res.data;
 			} finally {
 				state.isShowDialog = true;
-			}
-		}
-
-		//加载客户名称列表
-		const loadCustomerName = async (visible: object) => {
-			if (visible) {
-				const CustomerNameRes = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
-				if (CustomerNameRes.errcode == 0) {
-					state.companyNameList = CustomerNameRes.data;
-				}else{
-					console.log("error:",CustomerNameRes.errmsg)
-				}
-			}
-		}
-
-		//加载产品类型
-		const loadGoodsCategory = async (visible: object) => {
-			if (visible) {
-				const GoodsCategoryRes = await proxy.$api.common.category.getHierarchyDataList("product", 0, 2, {pageSize:10000});
-				if (GoodsCategoryRes.errcode == 0) {
-					state.goodsCategoryList = GoodsCategoryRes.data;
-				}else{
-					console.log("error:",GoodsCategoryRes.errmsg);
-				}
-			}
-		}
-
-		//清空产品名
-		const clearGoodsName = async() => {
-			state.ruleForm.GoodsId = ""; 
-		}
-
-		//加载产品名称
-		const loadgoodsName = async (visible: object) => {
-			if (visible) {
-				
-				const goodsNameRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000, categoryId:state.ruleForm.GoodsCategoryId});
-				if (goodsNameRes.errcode == 0) {
-					state.goodsNameList = goodsNameRes.data;
-				}else{
-					console.log("error:",goodsNameRes.errmsg)
-				}
-			}
-		}
-
-
-		//加载发货地列表
-		const loadSenderAddressList = async (visible: object) => {
-			if (visible) {
-				const SenderAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("main_business", 0, 2, {pageSize:1000000});
-				if (SenderAddressRes.errcode == 0) {
-					for (let i = 0; i < SenderAddressRes.data.length; i++){
-						state.senderAddressList.push(SenderAddressRes.data[i].SenderAddress);
-					}
-				state.senderAddressList = state.senderAddressList.filter((value, index, self) => self.indexOf(value) === index);
-				}else{
-					console.log("error:",SenderAddressRes.errmsg)
-				}
-			}
-		}
-
-		//加载目的地列表
-		const loadReceiverAddressList = async (visible: object) => {
-			if (visible) {
-				const ReceiverAddressRes = await proxy.$api.erp.businessBillLine.getListByScope("main_business", 0, 2, {pageSize:1000000});
-				if (ReceiverAddressRes.errcode == 0) {
-					for (let i = 0; i < ReceiverAddressRes.data.length; i++) {
-						state.receiverAddressList.push(ReceiverAddressRes.data[i].ReceiverAddress);
-					}
-				state.receiverAddressList = state.receiverAddressList.filter((value, index, self) => self.indexOf(value) === index);
-				}else{
-					console.log("error:",ReceiverAddressRes.errmsg)
-				}
 			}
 		}
 
@@ -369,7 +175,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.businessBillLine.save(state.ruleForm);
+						const res = await proxy.$api.erp.businessBill.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -409,12 +215,6 @@ export default {
 			rules,
 			token,
 			onSubmit,
-			loadCustomerName,
-			loadGoodsCategory,
-			loadgoodsName,
-			loadSenderAddressList,
-			loadReceiverAddressList,
-			clearGoodsName,
 			...toRefs(state),
 		};
 	},
