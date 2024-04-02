@@ -4,30 +4,29 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">干预信息*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="是否干预" prop="IsIntervene">
-							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.IsIntervene">
-									<el-radio :label="0">是</el-radio>
-									<el-radio :label="1">否</el-radio>
-								</el-radio-group>
-							</div>
+							<el-radio-group v-model="ruleForm.IsIntervene">
+								<el-radio :label="0">是</el-radio>
+								<el-radio :label="1">否</el-radio>
+							</el-radio-group>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8"  class="mb20">
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="干预次数" prop="InterveneQty">
 							<el-input-number
 								v-model.number="ruleForm.InterveneQty"
-								style="width: 100%"
 								:controls="true"
 								placeholder="请输入"
 								min="0"
-								max="1000000000"
+								max="1000"
 								step="1">
 							</el-input-number>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8"  class="mb20">
+					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="干预效果" prop="InterveneResult">
 							<el-select
 								v-model="ruleForm.InterveneResult"
@@ -48,10 +47,12 @@
 								placeholder="请输入"></el-input>
 						</el-form-item>
 						<el-form-item label="干预内容" prop="InterveneContent">
-							<textarea
+							<el-input
 								v-model="ruleForm.InterveneContent"
-								style="width: 100%"
-								placeholder="请输入"></textarea>
+								:autosize="{ minRows: 2, maxRows: 4 }"
+								type="textarea"
+								placeholder="请输入"
+							/>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -72,7 +73,6 @@
 
 <script lang="ts">
 import { Delete, Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -168,21 +168,21 @@ export default {
 				},
 			],
 
-			InterveneRemark: [
-				{
-					required: true,
-					message: computed(() => t('message.validRule.required')),
-					trigger: 'blur',
-				},
-			],
+			// InterveneRemark: [
+			// 	{
+			// 		required: true,
+			// 		message: computed(() => t('message.validRule.required')),
+			// 		trigger: 'blur',
+			// 	},
+			// ],
 
-			InterveneContent: [
-				{
-					required: true,
-					message: computed(() => t('message.validRule.required')),
-					trigger: 'blur',
-				},
-			],
+			// InterveneContent: [
+			// 	{
+			// 		required: true,
+			// 		message: computed(() => t('message.validRule.required')),
+			// 		trigger: 'blur',
+			// 	},
+			// ],
 		
 		});
 		// 打开弹窗

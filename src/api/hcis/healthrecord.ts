@@ -27,7 +27,7 @@ export default {
         return await http.get(url, params);
     },
 	/**
-     * 获取年龄统计数据
+     * 获取年龄段统计数据
      * @param kind 分类
      * @param scopeMode：模式，0按scopeLevel，多少级有多少个Filter参数；1按scopeKind，始终3个参数，按所在层级不足时填充0
      * @param scopeValue：层级值，0：当前用户所在层级，1：系统，2：应用，3：租户，4：用户
@@ -36,6 +36,42 @@ export default {
      */
     getAgeStatByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
         const url = `/v1/admin/hcis/healthrecord/stat/age/${kind}/${scopeMode}/${scopeValue}`;
+        return await http.get(url, params);
+    },
+	/**
+     * 获取筛查情况统计数据
+     * @param kind 分类
+     * @param scopeMode：模式，0按scopeLevel，多少级有多少个Filter参数；1按scopeKind，始终3个参数，按所在层级不足时填充0
+     * @param scopeValue：层级值，0：当前用户所在层级，1：系统，2：应用，3：租户，4：用户
+     * @param params 要传的参数值
+     * @returns 返回接口数据
+     */
+    getScreenStatByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+        const url = `/v1/admin/hcis/healthrecord/stat/screen/${kind}/${scopeMode}/${scopeValue}`;
+        return await http.get(url, params);
+    },
+	/**
+     * 获取风险统计数据
+     * @param kind 分类
+     * @param scopeMode：模式，0按scopeLevel，多少级有多少个Filter参数；1按scopeKind，始终3个参数，按所在层级不足时填充0
+     * @param scopeValue：层级值，0：当前用户所在层级，1：系统，2：应用，3：租户，4：用户
+     * @param params 要传的参数值
+     * @returns 返回接口数据
+     */
+    getRiskStatByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+        const url = `/v1/admin/hcis/healthrecord/stat/risk/${kind}/${scopeMode}/${scopeValue}`;
+        return await http.get(url, params);
+    },
+	/**
+     * 获取风险去向统计数据
+     * @param kind 分类
+     * @param scopeMode：模式，0按scopeLevel，多少级有多少个Filter参数；1按scopeKind，始终3个参数，按所在层级不足时填充0
+     * @param scopeValue：层级值，0：当前用户所在层级，1：系统，2：应用，3：租户，4：用户
+     * @param params 要传的参数值
+     * @returns 返回接口数据
+     */
+    getFollowUpModeStatByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+        const url = `/v1/admin/hcis/healthrecord/stat/followupmode/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
 	/**
