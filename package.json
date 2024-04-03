@@ -51,10 +51,10 @@
 		"xlsx": "^0.18.5",
 		"exceljs":"4.4.0",
 		"file-saver":"2.0.5",
-		"vxe-table": "4.5.18",
-		"vxe-table-plugin-element": "3.1.0",
+		"vxe-table": "4.5.21",
+		"vxe-table-plugin-element": "4.0.1",
 		"wangeditor": "^4.7.15",
-		"xe-utils": "3.5.18",
+		"xe-utils": "3.5.23",
 		"@kjgl77/datav-vue3":"^1.7.2"
 		
 	},
