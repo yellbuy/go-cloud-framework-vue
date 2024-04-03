@@ -13,7 +13,7 @@
 							</el-icon>
 							{{ $t('message.action.reset') }}
 						</el-button>
-						<el-button type="info" @click="onGetTableData(true)">
+						<el-button type="info" @click="onGetTableDtoData(true)">
 							<el-icon>
 								<Search />
 							</el-icon>
@@ -45,10 +45,11 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="50" fixed />
-				<el-table-column prop="SiteName" label="平台" width="300" sortable fixed></el-table-column>
+				<el-table-column prop="BusinessBillName" label="平台" width="120" fixed></el-table-column>
 				<el-table-column prop="CustomerName" label="客户名称" width="300" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Volume" label="面积" width="80" align="right" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="PlanWeight" label="收入" width="80" align="right" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Volume" label="出租面积" width="80" align="right" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="BusinessBillVolume" label="平台面积" width="80" align="right" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="BillTime" label="日期" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
 				
 				
@@ -144,17 +145,18 @@ export default {
 		//重置查询条件
 		const onResetSearch = () => {
 			state.tableData.param.keyword = '';
-			onGetTableData(true);
+			onGetTableDtoData(true);
 		};
 
-		// 查询表格数据
-		const onGetTableData = async (gotoFirstPage: boolean = false) => {
+
+		//关联查询平台名称
+		const onGetTableDtoData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.businessBillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.businessBillLine.getListDtoByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -164,6 +166,7 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
+
 		// 导出表格数据
 		const onGetXlsData = async () => {
 			const res = await proxy.$api.erp.vehicle.exportXlsByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
@@ -192,7 +195,7 @@ export default {
 				try {
 					const res = await proxy.$api.erp.businessBillLine.delete(Id);
 					if (res.errcode == 0) {
-						onGetTableData();
+						onGetTableDtoData();
 					}
 				} finally {
 					state.tableData.loading = false;
@@ -204,16 +207,18 @@ export default {
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
-			onGetTableData();
+			onGetTableDtoData();
 		};
 		// 分页改变
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
-			onGetTableData();
+			onGetTableDtoData();
 		};
 		// 页面加载时
 		onMounted(() => {
-			onGetTableData();
+			onGetTableDtoData();
+
+			
 		});
 
 		const { dateFormatYMD,dateFormatYMDHM } = commonFunction();
@@ -221,7 +226,6 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
-			onGetTableData,
 			onGetXlsData,
 			onResetSearch,
 			onOpenEditDlg,
@@ -230,6 +234,7 @@ export default {
 			onHandleCurrentChange,
 			dateFormatYMD,
 			dateFormatYMDHM,
+			onGetTableDtoData,
 			...toRefs(state),
 		};
 	},

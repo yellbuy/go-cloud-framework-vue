@@ -40,7 +40,7 @@
 			>
 				<el-table-column type="index" label="序号" align="right" width="60" fixed />
 				<el-table-column prop="Name" label="平台名称" width="300" show-overflow-tooltip="true" fixed></el-table-column>
-				<el-table-column prop="Volume" label="面积" width="100" show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="Volume" label="面积" width="100" align="right" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="有效" width="70" align="center">
 					<template #default="scope">
 						<el-switch
