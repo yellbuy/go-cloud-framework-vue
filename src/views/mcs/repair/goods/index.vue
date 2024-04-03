@@ -19,11 +19,23 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.search') }}
 						</el-button>
+						<el-button type="info" @click="onGetXlsData()" v-auth:[moduleKey]="'btn.ExportXls'">
+							<el-icon>
+								<Download />
+							</el-icon>
+							&#8197;{{ $t('message.action.export') }}
+						</el-button>
 						<el-button type="primary" @click="onOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
 							&#8197;{{ $t('message.action.add') }}
+						</el-button>
+						<el-button type="primary" @click="onOpenImportDlg" v-auth:[moduleKey]="'btn.Add'">
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							&#8197;{{ $t('message.action.import') }}
 						</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
@@ -102,11 +114,11 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
+				:total="tableData.total">
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
+		<importDlg ref="importDlgRef" />
 	</div>
 </template>
 
@@ -116,10 +128,11 @@ import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from '
 import { useRoute } from 'vue-router';
 import editDlg from './component/goodsEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
+import importDlg from './component/goodsImport.vue';
 
 export default {
 	name: 'projectList',
-	components: { editDlg},
+	components: { editDlg, importDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -128,6 +141,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_${kind}_goods`;
 		const editDlgRef = ref();
+		const importDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -168,6 +182,7 @@ export default {
 				}
 				state.tableData.data = res.data;
 				state.tableData.total = res.total;
+				console.log("测试：。。。", state.tableData.data)
 			} finally {
 				state.tableData.loading = false;
 			}
@@ -175,6 +190,7 @@ export default {
 		// 打开弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
+	
 		};
 		// 删除用户
 		const onModelDel = (Id: string) => {
@@ -205,6 +221,24 @@ export default {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
+
+		const onGetXlsData = async () => {
+			const res = await proxy.$api.wms.goods.exportXlsByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+			if (!res.data || res.data.size == 0) {
+				return;
+			} 
+			// 返回不为空
+			var url = window.URL.createObjectURL(res.data);
+			var a = document.createElement('a');
+			a.href = url;
+			a.download = '司机台账_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.click();
+		};
+
+		const onOpenImportDlg = () => {
+			importDlgRef.value.openDialog(state.kind);
+		};
+
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
@@ -241,12 +275,15 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
+			importDlgRef,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
+			onOpenImportDlg,
+			onGetXlsData,
 			dateFormatYMDHM,
 			imgUrlList,
 			imgUrl,

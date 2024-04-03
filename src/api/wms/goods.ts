@@ -46,6 +46,16 @@ export default {
     },
 
     /**
+     * 批量保存
+     * @param data 信息
+     * @returns 返回接口数据
+     */
+    saveMulti: async (kind:string,data: any) => {
+        const url = `/v1/admin/wms/goods/${kind}`;
+        return await http.post(url, data);
+    },
+
+    /**
      * 删除
      * @param ids 标识，字符串或数组
      * @returns 返回接口数据
@@ -95,4 +105,14 @@ export default {
         const url = `/v1/admin/wms/goods/signup/${id}/${companyId}`;
         return await http.get(url);
     },
+
+    /**
+	 * 删除记录
+	 * @param id 记录标识
+	 * @returns 返回接口数据
+	 */
+	exportXlsByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+		const url = `/v1/admin/wms/goods/excel/${kind}/${scopeMode}/${scopeValue}`;
+		return await http.get(url, params, { responseType: "blob" });
+	},
 }

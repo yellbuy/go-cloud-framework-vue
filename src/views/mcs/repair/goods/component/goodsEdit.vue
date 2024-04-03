@@ -11,7 +11,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="商品类别" prop="GoodsBrief">
-							<el-select v-model="ruleForm.GoodsBrief" placeholder="请选择">
+							<el-select v-model="ruleForm.GoodsAlisa" placeholder="请选择">
 								<el-option v-for="item in categoryList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
 							</el-select>
 						</el-form-item>
@@ -178,6 +178,7 @@ export default {
 				Id: '0',				
 				Kind: 'repair',
 				GoodsName: '',
+				GoodsAlisa: '',
 				GoodsUnit:'',
 				GoodsSn:'',
 				NumberRate:0,

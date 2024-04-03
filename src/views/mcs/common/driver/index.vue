@@ -285,6 +285,7 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
+			importDlgRef,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
@@ -294,7 +295,6 @@ export default {
 			dateFormatYMD,
 			onGetXlsData,
 			onOpenImportDlg,
-			importDlgRef,
 			formatGender,
 			...toRefs(state),
 		};
