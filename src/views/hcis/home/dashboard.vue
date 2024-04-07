@@ -51,7 +51,7 @@
                           </div>
                           <div>
                               <dv-digital-flop
-                              :config="{number:[stat.TrainCount],content: '{nt} 次',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:16}}"
+                              :config="{number:[stat.TrainCount],content: '{nt} 人次',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:16}}"
                               style="width: 100%; height: 24px"/>
                           </div>
                           
@@ -142,7 +142,7 @@
                             </div>
                             <div>
                                 <dv-digital-flop
-                                :config="{number:[stat.TrainCount],content: '{nt} 次',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:16}}"
+                                :config="{number:[stat.TrainCount],content: '{nt} 人次',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:16}}"
                                 style="width: 100%; height: 24px"/>
                             </div>
                             
