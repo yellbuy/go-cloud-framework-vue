@@ -51,17 +51,16 @@
 				highlight-current-row				
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="配件名称" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="GoodsBrief" label="配件类别" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="ProviderName" label="供应商" width="150" show-overflow-tooltip></el-table-column>
-				<!-- <el-table-column prop="GoodsSn" label="商品编号" width="90" show-overflow-tooltip></el-table-column> -->
-				<el-table-column prop="GoodsUnit" label="货品单位" width="70" align="center"></el-table-column>
-				<el-table-column prop="ShopPrice" label="参考单价" width="70" align="right"></el-table-column>
-				
+				<el-table-column prop="GoodsName" label="名称" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="BrandName" label="规格型号" width="150" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsUnit" label="计量单位" width="70" align="center"></el-table-column>
+				<el-table-column prop="Birthdate" label="部位" width="70" align="left"></el-table-column>
+				<el-table-column prop="GoodsAlisa" label="类别" width="120"show-overflow-tooltip></el-table-column>
+				<el-table-column prop="ShopPrice" label="基准价格" width="90" align="right" show-overflow-tooltip></el-table-column>
 				<el-table-column label="状态" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
-							v-model="scope.row.SupplierState"
+							v-model="scope.row.IsOnSale"
 							inline-prompt
 							:width="46"
 							v-auth:[moduleKey]="'btn.Edit'"

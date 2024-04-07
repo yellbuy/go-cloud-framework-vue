@@ -51,7 +51,7 @@ export default {
      * @returns 返回接口数据
      */
     saveMulti: async (kind:string,data: any) => {
-        const url = `/v1/admin/wms/goods/${kind}`;
+        const url = `/v1/admin/wms/goodss/${kind}`;
         return await http.post(url, data);
     },
 

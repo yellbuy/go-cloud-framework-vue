@@ -46,39 +46,31 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.GoodsName"
+										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Gender" label="规格型号">
+							<el-table-column prop="BrandName" label="规格型号">
 								<template #default="scope">
-									<el-select
-										v-model="scope.row.Gender"
+									<el-input
+										v-model="scope.row.BrandName"
 										style="width: 100%"
-										filterable="true"
-										default-first-option="true"
-										:reserve-keyword="false"
-										placeholder="请选择">
-										<el-option v-for="(item,index) in GenderList" :key="index" :label="item" :value="index+1"></el-option>
-									</el-select> 
+										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="GoodsUnit" label="计量单位" width="120">
 								<template #default="scope">
-									<el-select
+									<el-input
 										v-model="scope.row.GoodsUnit"
 										style="width: 100%"
-										filterable="true"
-										default-first-option="true"
-										:reserve-keyword="false"
-										placeholder="请选择">
-										<el-option v-for="(item,index) in GenderList" :key="index" :label="item" :value="index+1"></el-option>
-									</el-select> 
+										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Birthdate " label="部位" width="120">
+							<el-table-column prop="Birthdate" label="部位" width="120">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Birthdate"
+										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -86,6 +78,7 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.GoodsAlisa"
+										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -182,7 +175,7 @@ export default {
 			baseUrl: import.meta.env.VITE_API_URL,
 			//表单
 			ruleForm: {
-				Kind: 'info',
+				Kind: 'repair',
 				PartsList:[],
 			},
 			
@@ -195,10 +188,6 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 			GoodsAlisaList: [],
-			NationList: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","布依族","白族","朝鲜族","侗族","哈尼族","哈萨克族","满族","土家族","瑶族","达斡尔族",
-			"东乡族","高山族","景颇族","柯尔克孜族","拉祜族","纳西族","畲族","傣族","黎族","傈僳族","仫佬族","阿昌族","布朗族","毛南族","普米族","撒拉族","塔吉克族",
-			"锡伯族","保安族","德昂族","俄罗斯族","鄂温克族","京族","怒族","乌孜别克族","裕固族","独龙族","鄂伦春族","赫哲族","基诺族","珞巴族","门巴族"],
-			DriverLicenseTypeList: ["A1","A2","A3","B1","B2","C1","C2","C3","C4","D","E","F","M","N","P"],
 		});
 		const token = Session.get('token');
 		const rules = reactive({
@@ -241,12 +230,11 @@ export default {
 					return;
 				}
 				const wsname = workbook.SheetNames[0]
-				console.log("测试", workbook.SheetNames)
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
 				console.log("get xlsx data：",list)
 				let num = 0
 				if(!list.length||list.length<2){
-					return;
+					num = 0
 				}else if (list.length>100){
 					num = 100;
 				}else{
@@ -254,7 +242,7 @@ export default {
 				}
 				state.ruleForm.PartsList=[];
 				const rows=[]
-				for(let i=1;i<5;i++){
+				for(let i=1;i<num;i++){
 					//console.log("测试。。。。。。。。。。。。")
 					const row=list[i];
 					const GoodsName=row["__EMPTY"]||"";
@@ -263,8 +251,10 @@ export default {
 						continue;
 					}
 					const model={};
+					model.IsOnSale=1;
+
 					model.GoodsName=GoodsName;
-					model.Gender=row["__EMPTY_1"]||"";
+					model.BrandName=row["__EMPTY_1"]||"";
 					model.GoodsUnit=`${row["__EMPTY_2"]}`||"";
 					model.GoodsAlisa=wsname
 					model.Birthdate=row["__EMPTY_3"]||"";
@@ -276,7 +266,7 @@ export default {
 					// model.Address=`${row["__EMPTY_8"]}`||"";
 					// model.DriverLicenseType=row["__EMPTY_9"]||"";
 					// model.RegistrationDate=row["__EMPTY_10"]||new Data();
-					// model.DriverLicenseStartDate=row["__EMPTY_11"]||new Data();
+					// model.DriverLicenseStartDate=row["__EMPTY_11"]||new Data();parts
 					// model.DriverLicenseEndDate=row["__EMPTY_12"]||new Data();
 					rows.push(model);
 				}
