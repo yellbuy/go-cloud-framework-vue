@@ -86,7 +86,9 @@
                   </dv-border-box-13>
                   <dv-border-box-13 :reverse="true" style="width:74%;height:300px;padding:2px;margin-left:1%;margin-right:1%;text-align:center;">
                       <h1 style="margin-top:20px">跟进方式分析</h1>
-                      <dv-charts :option="followUpOption" style="width: 100%; height:280px;margin:0;padding:0"/>
+                      <div class="scroll-board">
+                          <dv-charts :option="followUpOption" style="width: 100%; height:280px;margin:0;padding:0"/>
+                        </div>
                   </dv-border-box-13>
               </div>
           </dv-full-screen-container>
@@ -175,7 +177,9 @@
                     </dv-border-box-13>
                     <dv-border-box-13 :reverse="true" style="width:74%;height:300px;padding:2px;margin-left:1%;margin-right:1%;text-align:center;">
                         <h1 style="margin-top:20px">跟进方式分析</h1>
-                        <dv-charts :option="followUpOption" style="width: 100%; height:280px;margin:0;padding:0"/>
+                        <div class="scroll-board">
+                          <dv-charts :option="followUpOption" style="width: 100%; height:280px;margin:0;padding:0"/>
+                        </div>
                     </dv-border-box-13>
                 </div>
             </div>
@@ -636,6 +640,17 @@ import waterLevelChart from "./waterLevelChart.vue";
       left: 50%;
       top: 15px;
       transform: translateX(-50%);
+    }
+    .scroll-board {
+      position: relative;
+      box-sizing: border-box;
+      top:-40px;
+
+      .chart-name {
+        // position: absolute;
+        text-align: left;
+        font-size: 18px;
+      }
     }
   }
   </style>
