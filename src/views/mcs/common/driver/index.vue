@@ -159,8 +159,8 @@ import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import editDlg from './component/driverEdit.vue';
-import commonFunction from '/@/utils/commonFunction';
 import importDlg from './component/driverImport.vue';
+import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'driverInfo',
@@ -277,7 +277,7 @@ export default {
 
 		//性别展示
 		const formatGender = (row: object) => {
-			return row.gender === 1 ? '男' : '女'
+			return row.Gender === 1 ? '男' : '女'
 		};
 
 		const { dateFormatYMD } = commonFunction();
