@@ -25,6 +25,12 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.add') }}
 						</el-button>
+						<el-button type="primary" @click="onOpenImportDlg" v-auth:[moduleKey]="'btn.Add'">
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							&#8197;{{ $t('message.action.import') }}
+						</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
 				</el-form>
@@ -98,6 +104,7 @@
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
+		<importDlg ref="importDlgRef" />
 	</div>
 </template>
 
@@ -106,11 +113,12 @@ import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import editDlg from './component/insuranceEdit.vue';
+import importDlg from './component/insuranceImport.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
 	name: 'insuranceInfo',
-	components: { editDlg },
+	components: { editDlg, importDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -119,6 +127,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_baseinfo_vehicle_insurance`;
 		const editDlgRef = ref();
+		const importDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -195,6 +204,11 @@ export default {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
+
+		const onOpenImportDlg = () => {
+			importDlgRef.value.openDialog(state.kind);
+		};
+
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
@@ -205,9 +219,11 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
+			importDlgRef,
 			onGetTableData,
 			onResetSearch,
 			onOpenEditDlg,
+			onOpenImportDlg,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
