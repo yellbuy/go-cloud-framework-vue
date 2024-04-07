@@ -210,7 +210,6 @@ export default {
 			editInterveneRef.value.openDialog(state.kind, row.Id,row.Name, ishow);
 		};
 		
-		
 		// 删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
