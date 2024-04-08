@@ -261,8 +261,8 @@ export default {
 			baseUrl: import.meta.env.VITE_API_URL,
 			//表单
 			ruleForm: {
-				Kind: 'repair',
-				InsuranceListList:[],
+				Kind: 'info',
+				InsuranceList:[],
 			},
 			
 			dialogVisible: false,
@@ -342,7 +342,8 @@ export default {
 					model.StartTime=row["__EMPTY_1"]||new Data();
 					model.EndTime=row["__EMPTY_2"]||new Data();
 					model.CompanyName=row["__EMPTY_3"]||"";
-					model.No=row["__EMPTY_4"]||"";
+					model.No=String(row["__EMPTY_4"]||"");
+
 					model.BillTime=row["__EMPTY_5"]||new Data();
 					model.CompulsoryAmount=row["__EMPTY_6"]||"";
 					model.CompulsoryFee=row["__EMPTY_7"]||"";
@@ -398,7 +399,8 @@ export default {
 				if (valid) {
 					state.loading = true;
 					try {
-						const res = await proxy.$api.erp.vehicleInsurance.saveMulti(state.ruleForm.Kind, state.ruleForm.InsuranceList);
+						console.log("测试kind", state.ruleForm.Kind);
+						const res = await proxy.$api.erp.vehicleinsurance.saveMulti(state.ruleForm.Kind, state.ruleForm.InsuranceList);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
