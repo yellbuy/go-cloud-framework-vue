@@ -13,6 +13,7 @@
 						<el-form-item label="商品类别" prop="GoodsBrief">
 							<el-select
 								v-model="ruleForm.GoodsAlisa"
+								filterable
 								style="width: 100%"
 								placeholder="请选择">
 								<el-option v-for="(item, index) in categoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
@@ -34,6 +35,7 @@
 							<el-select
 								v-model="ruleForm.GoodsUnit"
 								style="width: 100%"
+								filterable
 								class="m-2"
 								placeholder="请输入"
 								size="small">
@@ -43,6 +45,7 @@
 						<el-form-item label="供应商" prop="ProviderName">
 							<el-select
 								v-model="ruleForm.ProviderName"
+								filterable
 								style="width: 100%"
 								placeholder="请选择">
 								<el-option v-for="(item, index) in providerList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
