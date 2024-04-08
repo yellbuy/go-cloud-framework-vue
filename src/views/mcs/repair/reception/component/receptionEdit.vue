@@ -1,94 +1,108 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="8" class="mb20">
 						<el-form-item label="车牌号" prop="VehicleNumber">
-							<el-input v-model="ruleForm.VehicleNumber" placeholder="请输入车牌号码"></el-input> 
+							<el-input
+								v-model="ruleForm.VehicleNumber"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+						<el-form-item label="联系人" prop="Linkman">
+							<el-input
+								v-model="ruleForm.Linkman"
+								style="width: 100%"
+								placeholder="请输入"></el-input>
+						</el-form-item>
+						<el-form-item label="客户名称" prop="CompanyId">
+							<el-select
+								v-model="ruleForm.CustomerId"
+								style="width: 100%"
+								filterable
+								placeholder="请选择"
+								@change = "loadAddressList">
+								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="8" class="mb20">
 						<el-form-item label="车辆类型" prop="VehicleType">
-							<el-select v-model="ruleForm.VehicleType" placeholder="请选择">
+							<el-select
+								v-model="ruleForm.VehicleType"
+								style="width: 100%"
+								placeholder="请选择">
 								<el-option v-for="item in vehicleTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆品牌" prop="Brand">
-							<el-select v-model="ruleForm.Brand" filterable placeholder="请选择">
-								<el-option v-for="item in brandList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
+						<el-form-item label="电话" prop="Phone">
+							<el-input
+								v-model="ruleForm.Phone"
+								style="width: 100%"
+								placeholder="请输入"></el-input>
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="联系人" prop="Linkman"> <el-input v-model="ruleForm.Linkman" placeholder="请输入联系人"></el-input> </el-form-item
-					></el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="电话" prop="Phone"> <el-input v-model="ruleForm.Phone" placeholder="请输入电话号码"></el-input> </el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="公里数" prop="Mileage">
-							<el-input-number :min="0" v-model="ruleForm.Mileage" placeholder="请输入公里数"></el-input-number> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="客户名称" prop="CompanyName">
-							<el-input v-model="ruleForm.CompanyName" placeholder="请输入客户名称"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="到厂时间" prop="StartTime" required>
 							<el-date-picker
 								v-model="ruleForm.StartTime"
+								style="width: 100%"
 								type="datetime"
-								placeholder="到厂时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
+								placeholder="请选择时间"
+								format="YYYY-MM-DD HH:mm"></el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="8" class="mb20">
+						<el-form-item label="车辆品牌" prop="Brand">
+							<el-select
+								v-model="ruleForm.Brand"
+								style="width: 100%"
+								filterable placeholder="请选择">
+								<el-option v-for="item in brandList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="公里数" prop="Mileage">
+							<el-input-number
+								v-model="ruleForm.Mileage"
+								style="width: 100%"
+								:min="0"
+								placeholder="请输入"></el-input-number> 
+						</el-form-item>
 						<el-form-item label="出厂时间" prop="EndTime">
 							<el-date-picker
 								v-model="ruleForm.EndTime"
+								style="width: 100%"
 								type="datetime"
-								placeholder="出厂时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
+								placeholder="请选择时间"
+								format="YYYY-MM-DD HH:mm"></el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="24" class="mb20">
 						<el-form-item label="外观缺陷" prop="SurfaceRemark" >
 							<el-input
 								v-model="ruleForm.SurfaceRemark"
+								style="width: 100%"
 								:rows="2"
 								type="textarea"
-								placeholder="请输入"
-							/>
+								placeholder="请输入"/>
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">		
 						<el-form-item label="故障描述" prop="FaultRemark" >
 							<el-input
-							v-model="ruleForm.FaultRemark"
-							:rows="2"
-							type="textarea"
-							placeholder="请输入"
-						/>
-					</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+								v-model="ruleForm.FaultRemark"
+								style="width: 100%"
+								:rows="2"
+								type="textarea"
+								placeholder="请输入"/>
+						</el-form-item>
 						<el-form-item label="备注" prop="Remark" >
 							<el-input
-							v-model="ruleForm.Remark"
-							:rows="2"
-							type="textarea"
-							placeholder="请输入"
-						/>
+								v-model="ruleForm.Remark"
+								style="width: 100%"
+								:rows="2"
+								type="textarea"
+								placeholder="请输入"/>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -174,6 +188,7 @@ export default {
 				Name: '',
 				Kind: 'info',
 				VehicleNumber: '',
+				CompanyId: '',
 				IsExternal:0,
 				VehicleType: '',
 				EnergyType: '',
@@ -205,6 +220,7 @@ export default {
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
+			companyNameList: [],
 		});
 		const token = Session.get('token');
 		const rules = reactive({
@@ -282,6 +298,7 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
+				loadCustomerName();
 				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
 				if (resTruckTypes.errcode == 0) {
 					state.vehicleTypeList = resTruckTypes.data;
@@ -378,6 +395,17 @@ export default {
 				}
 			});
 		};
+
+		//加载客户名称列表
+		const loadCustomerName = async () => {
+			const CustomerNameRes = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
+			if (CustomerNameRes.errcode == 0) {
+				state.companyNameList = CustomerNameRes.data;
+			}else{
+				console.log("error:",CustomerNameRes.errmsg)
+			}
+		}
+
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
 				rawFile.type !== 'image/jpeg' &&
@@ -409,6 +437,7 @@ export default {
 			onSuccessFile,
 			onRemove,
 			onBeforeImageUpload,
+			loadCustomerName,
 			onModelEdit,
 			showImage,
 			dateFormatYMD,

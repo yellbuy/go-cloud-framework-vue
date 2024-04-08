@@ -82,7 +82,7 @@
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="ShopPrice" label="基准价" width="180">
+							<el-table-column prop="ShopPrice" label="基准价格" width="180">
 								<template #default="scope">
 									<el-input-number
 										v-model="scope.row.ShopPrice"

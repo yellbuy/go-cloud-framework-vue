@@ -1,65 +1,64 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="45%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
-					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="商品名称" prop="GoodsName">
-							<el-input v-model="ruleForm.GoodsName" placeholder="请输入商品名称"></el-input> 
+							<el-input
+								v-model="ruleForm.GoodsName"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="商品类别" prop="GoodsBrief">
-							<el-select v-model="ruleForm.GoodsAlisa" placeholder="请选择">
-								<el-option v-for="item in categoryList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+							<el-select
+								v-model="ruleForm.GoodsAlisa"
+								style="width: 100%"
+								placeholder="请选择">
+								<el-option v-for="(item, index) in categoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="供应商" prop="ProviderName">
-							<el-select v-model="ruleForm.ProviderName" placeholder="请选择">
-								<el-option v-for="item in providerList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="商品编号" prop="GoodsSn">
-							<el-input v-model="ruleForm.GoodsSn" placeholder="请输入商品编号"></el-input> 
-						</el-form-item>
-					</el-col> -->
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="货品单位" prop="GoodsUnit">
-							<el-select v-model="ruleForm.GoodsUnit" class="m-2" placeholder="请输入货品单位" size="small">
-    							<el-option
-      							v-for="item in goodsUnitList"
-      							:key="item.Id"
-      							:label="item.Name"
-      							:value="item.Name"
-    							/>
-  							</el-select>
-						</el-form-item>
-					</el-col>					
-				</el-row>
-				<el-row>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="是否启用" prop="IsOnSale">
 							<el-switch
-							v-model="ruleForm.IsOnSale"
-							:active-icon="Check"
-							:inactive-icon="Close"
-							:active-value="1"
-							:inactive-value="0"
-							inline-prompt
-							/>				
+								v-model="ruleForm.IsOnSale"
+								style="width: 100%"
+								:active-icon="Check"
+								:inactive-icon="Close"
+								:active-value="1"
+								:inactive-value="0"
+								inline-prompt/>				
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="参考单价" prop="ShopPrice">
-							<el-input-number v-model="ruleForm.ShopPrice" min="0" max="10000" precision="2"></el-input-number> 
+					<el-col :xs="24" :sm="12" class="mb20">
+						<el-form-item label="计量单位" prop="GoodsUnit">
+							<el-select
+								v-model="ruleForm.GoodsUnit"
+								style="width: 100%"
+								class="m-2"
+								placeholder="请输入"
+								size="small">
+    							<el-option v-for="item in goodsUnitList" :key="item.Id" :label="item.Name" :value="item.Name"/>
+  							</el-select>
 						</el-form-item>
+						<el-form-item label="供应商" prop="ProviderName">
+							<el-select
+								v-model="ruleForm.ProviderName"
+								style="width: 100%"
+								placeholder="请选择">
+								<el-option v-for="(item, index) in providerList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="基准价格" prop="ShopPrice">
+							<el-input-number
+								v-model="ruleForm.ShopPrice"
+								style="width: 100%"
+								min="0"
+								max="10000"
+								precision="2"></el-input-number> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" class="mb20">
+
 					</el-col>
 				</el-row>
 				<el-row>
@@ -85,11 +84,11 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
 						<el-form-item label="备注" prop="SellerNote" >
 							<el-input
-							v-model="ruleForm.SellerNote"
-							:rows="3"
-							type="textarea"
-							placeholder="请输入备注"
-						/>
+								v-model="ruleForm.SellerNote"
+								style="width: 100%"
+								:rows="3"
+								type="textarea"
+								placeholder="请输入"/>
 					</el-form-item>
 					</el-col>
 				</el-row> 
@@ -219,13 +218,6 @@ export default {
 				},
 			],
 			GoodsPrief: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			ProviderName: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
