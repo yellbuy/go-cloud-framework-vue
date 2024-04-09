@@ -79,7 +79,7 @@
 									</template>
 								</el-upload>
 							</div>
-							 <div>
+							<div>
 								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
 							</div> 
 						</el-form-item>
@@ -121,20 +121,22 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
-	name: 'projectEdit',
+	name: 'goodsEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+		
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
-		//文件列表更新
+
+		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
 			console.log('触发图片上传');
 			state.Files.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
 			console.log(state.FilesList);
 		};
+
 		const onRemove = (file: UploadFile) => {
 			console.log(file);
 			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
@@ -144,17 +146,18 @@ export default {
 				}
 			}
 		};
+
 		const store = useStore();
+
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
+
+		//	显示表格图片
 		const showImage: UploadProps['onPreview'] = (uploadFile) => {
 			state.dialogImageUrl = uploadFile.url!
 			state.ImageVisible = true
 		}
-		
 		
 		const tableData = reactive({
 			data: [],
@@ -169,13 +172,11 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
+			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
 			dialogImageUrl: "",
 			ImageVisible: false,
-			Check, 
-			Close, 
-			//表单
+			//	表单
 			ruleForm: {
 				Id: '0',				
 				Kind: 'repair',
@@ -200,16 +201,15 @@ export default {
 			},
 			dialogVisible: false,
 			goodsUnitList: [],
-			brandList: [],
 			categoryList: [],
 			providerList:[],
-			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
-			saveState: false,
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -236,7 +236,7 @@ export default {
 			]
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
 			console.log('类型', kind);
@@ -279,6 +279,7 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+
 		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.wms.goods.getById(Id);
@@ -304,16 +305,17 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		//预览文件
+
+		//	预览文件
 		const onPreview = (uploadFile: any) => {
-			// 当格式为图片就预览图片，否则下载文件
+			//	当格式为图片就预览图片，否则下载文件
 			let filename = uploadFile.name;
 			if (!uploadFile.name || uploadFile.name == '') {
 				filename = uploadFile.url;
 			}
 			let fileurl = uploadFile.url;
 			let fileExtension = '';
-			// 校检文件类型
+			//	校检文件类型
 			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
 			if (filename.lastIndexOf('.') > -1) {
 				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
@@ -324,18 +326,18 @@ export default {
 				}
 			});
 			if (isTypeOk) {
-				//预览图片
+				//	预览图片
 				state.dialogImageUrl[0] = fileurl;
 				state.dialogTitle = filename;
 				state.dialogVisible = true;
 			} else {
-				//下载文件
+				//	下载文件
 				state.dialogVisible = false;
-				// openWindow(fileurl, { target: "_self" });
 				window.open(fileurl, '_self');
 			}
 		};
-		// 关闭弹窗
+
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			console.log('关闭页面表单', state.ruleForm);
@@ -343,29 +345,10 @@ export default {
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
-		};
-
-		const onLoadTable = () => {
 			proxy.$parent.onGetTableData();
 		};
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			state.tableItem = item;
-			console.log(state.tableItem.Files);
-			if (state.tableItem.Files != '') {
-				state.Files = item.Files.split(',');
-				state.FilesList = [];
-				for (let i = 0; i < state.Files.length; i++) {
-					let image = { url: '' };
-					image.url = state.httpsText + state.Files[i];
-					state.FilesList.push(image);
-				}
-			}
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
-		// 提交
+
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -394,6 +377,7 @@ export default {
 				}
 			});
 		};
+
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
 				rawFile.type !== 'image/jpeg' &&
@@ -412,21 +396,22 @@ export default {
 			}
 			return true;
 		};
+
 		const { dateFormatYMD } = commonFunction();
-		// 页面加载时
+
+		// 窗口页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
 			GetByIdRow,
 			onSuccessFile,
 			onPreview,
 			onRemove,
 			onBeforeImageUpload,
-			onModelEdit,
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
@@ -446,29 +431,3 @@ export default {
 	methods: {},
 };
 </script>
-<style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
-}
-</style>

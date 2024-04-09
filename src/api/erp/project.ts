@@ -14,6 +14,7 @@ export default {
         const url = `/v1/admin/erp/project/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
+    
     /**
      * 获取信息
      * @returns 返回接口数据
@@ -22,6 +23,7 @@ export default {
         const url = `/v1/admin/erp/project`;
         return await http.get(url, params);
     },
+
     /**
      * 获取信息
      * @returns 返回接口数据
@@ -46,6 +48,16 @@ export default {
     },
 
     /**
+     * 批量保存
+     * @param data 信息
+     * @returns 返回接口数据
+     */
+    saveMulti: async (kind:string,data: any) => {
+        const url = `/v1/admin/erp/projects/${kind}`;
+        return await http.post(url, data);
+    },
+
+    /**
      * 删除
      * @param ids 标识，字符串或数组
      * @returns 返回接口数据
@@ -54,6 +66,7 @@ export default {
         const url = `/v1/admin/erp/project/delete/${id}`;
         return await http.post(url);
     },
+
     /**
    * 禁用
    * @param ids 标识，字符串或数组
@@ -63,6 +76,7 @@ export default {
         const url = `/v1/admin/erp/project/disable`;
         return await http.post(url, data);
     },
+
     /**
     * 获取项目专家信息
     * @returns 返回接口数据
@@ -71,6 +85,7 @@ export default {
         const url = `/v1/admin/erp/project/expertlist/${id}`;
         return await http.get(url);
     },
+
     /**
     * 项目专家信息
     * @returns 返回接口数据
@@ -79,6 +94,7 @@ export default {
         const url = `/v1/admin/erp/project/expert`;
         return await http.post(url, data);
     },
+
      /**
     * 监审专家授权
     * @returns 返回接口数据
@@ -87,6 +103,7 @@ export default {
         const url = `/v1/admin/erp/project/empower`;
         return await http.post(url, data);
     },
+
       /**
     * 获取公司报名信息
     * @returns 返回接口数据

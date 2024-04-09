@@ -42,10 +42,9 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-			>
-				<el-table-column type="index" label="序号" align="right" width="60" fixed />
-				<el-table-column prop="VehicleNumber" label="车牌号码" align="left" width="100" show-overflow-tooltip fixed></el-table-column>
+				highlight-current-row>
+				<el-table-column type="index" label="序号" width="60" align="right" fixed />
+				<el-table-column prop="VehicleNumber" label="车牌号码" width="100" align="left" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="BillTime" label="保单日期" width="120" align="center" show-overflow-tooltip :formatter="dateFormatYMD"></el-table-column>
 				<el-table-column prop="StartTime" label="保险生效日期" width="120" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="EndTime" label="保险到期日期" width="120" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
@@ -58,23 +57,6 @@
 				<el-table-column prop="TaxFee" label="车船税费用(元)" width="150" align="right" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CompanyName" label="所属公司" align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CreateTime" label="创建时间" width="120" align="center" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
-				<!-- <el-table-column label="状态" width="70" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.State"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'state', scope.row.Id, scope.row.State)"
-							:active-text="$t('message.action.enable')"
-							:inactive-text="$t('message.action.disable')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
-					</template>
-				</el-table-column> -->
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -99,8 +81,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
+				:total="tableData.total">
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
@@ -117,7 +98,7 @@ import importDlg from './component/insuranceImport.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'insuranceInfo',
+	name: 'insuranceList',
 	components: { editDlg, importDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -148,13 +129,14 @@ export default {
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});
-		//重置查询条件
+
+		//	重置查询条件
 		const onResetSearch = () => {
 			state.tableData.param.keyword = '';
 			onGetTableData(true);
 		};
 
-		// 初始化表格数据
+		//	初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
@@ -171,11 +153,13 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
-		// 打开弹窗
+
+		//	打开弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-		// 删除用户
+
+		//	删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -194,17 +178,19 @@ export default {
 			});
 		};
 
-		// 分页改变
+		//	分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
 			onGetTableData();
 		};
-		// 分页改变
+
+		//	分页改变
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
 
+		//	导入功能
 		const onOpenImportDlg = () => {
 			importDlgRef.value.openDialog(state.kind);
 		};
@@ -214,6 +200,7 @@ export default {
 			onGetTableData();
 		});
 
+		//	时间格式
 		const { dateFormatYMD } = commonFunction();
 
 		return {
@@ -233,6 +220,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped lang="scss">
-</style>

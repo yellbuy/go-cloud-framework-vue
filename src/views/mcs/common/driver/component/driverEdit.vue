@@ -39,9 +39,9 @@
 						<el-form-item label="性别" prop="Gender" required>
 							<div mb-2 flex items-center>
 								<el-radio-group v-model="ruleForm.Gender">
-								<el-radio :label="1">男</el-radio>
-								<el-radio :label="2">女</el-radio>
-							</el-radio-group>
+									<el-radio :label="1">男</el-radio>
+									<el-radio :label="2">女</el-radio>
+								</el-radio-group>
 							</div>
 						</el-form-item>
 						<el-form-item label="出生日期" prop="Birthdate" required>
@@ -50,8 +50,7 @@
 								style="width: 100%"
 								type="date"
 								placeholder="选择日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
+								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 						<el-form-item label="身份证截止日期" prop="IdnoEndDate"  required>
 							<el-date-picker
@@ -131,13 +130,11 @@
 				</span>
 			</template>
 		</el-dialog>
-		
 	</div>
 </template>
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -148,32 +145,16 @@ export default {
 	name: 'driverEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
-		//文件列表更新
-		const onSuccessFile = (file: UploadFile) => {
-			console.log('触发图片上传');
-			state.Files.push(file.data.src);
-			let image = { url: '' };
-			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
-			console.log(state.FilesList);
-		};
-		const onRemove = (file: UploadFile) => {
-			console.log(file);
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
-			for (let i = 0; i < state.Files.length; i++) {
-				if (state.Files[i] == removeUrl) {
-					state.Files.splice(i, 1);
-				}
-			}
-		};
+
 		const store = useStore();
+
+		//	获取用户信息
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		
 		
 		const tableData = reactive({
 			data: [],
@@ -188,9 +169,8 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
-			baseUrl: import.meta.env.VITE_API_URL,
-			//表单
+			disable: true, //	是否禁用
+			//	表单
 			ruleForm: {
 				Id: 0,
 				Name: '',
@@ -220,20 +200,17 @@ export default {
 				EndTime:'',
 				Kind: 'info',
 			},
-			dialogVisible: false,
 			truckTypeList: [],
 			energyTypeList: [],
 			NationList: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","布依族","白族","朝鲜族","侗族","哈尼族","哈萨克族","满族","土家族","瑶族","达斡尔族",
 			"东乡族","高山族","景颇族","柯尔克孜族","拉祜族","纳西族","畲族","傣族","黎族","傈僳族","仫佬族","阿昌族","布朗族","毛南族","普米族","撒拉族","塔吉克族",
 			"锡伯族","保安族","德昂族","俄罗斯族","鄂温克族","京族","怒族","乌孜别克族","裕固族","独龙族","鄂伦春族","赫哲族","基诺族","珞巴族","门巴族"],
 			DriverLicenseTypeList: ["A1","A2","A3","B1","B2","C1","C2","C3","C4","D","E","F","M","N","P"],
-			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
-			saveState: false,
 			Files: [],
-			httpsText: import.meta.env.VITE_URL as any,
-			FilesList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -310,7 +287,7 @@ export default {
 
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
 			console.log('类型', kind);
@@ -343,6 +320,7 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+
 		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.driver.getById(Id);
@@ -354,7 +332,8 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		// 关闭弹窗
+
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			console.log('关闭页面表单', state.ruleForm);
@@ -362,35 +341,15 @@ export default {
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
-		};
-
-		const onLoadTable = () => {
 			proxy.$parent.onGetTableData();
 		};
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			state.tableItem = item;
-			console.log(state.tableItem.Files);
-			if (state.tableItem.Files != '') {
-				state.Files = item.Files.split(',');
-				state.FilesList = [];
-				for (let i = 0; i < state.Files.length; i++) {
-					let image = { url: '' };
-					image.url = state.httpsText + state.Files[i];
-					state.FilesList.push(image);
-				}
-			}
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
-		// 提交
+	
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
-					//console.log("提交参数",state.ruleForm)
 					try {
 						const res = await proxy.$api.erp.driver.save(state.ruleForm);
 						if (res.errcode == 0) {
@@ -412,20 +371,17 @@ export default {
 			});
 		};
 
-
+		//	时间格式
 		const { dateFormatYMD } = commonFunction();
-		// 页面加载时
+
+		//	窗口页面加载时
 		onMounted(() => {});
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
 			GetByIdRow,
-			onSuccessFile,
-			onRemove,
-			onModelEdit,
 			dateFormatYMD,
 			getUserInfos,
 			tableData,
@@ -444,5 +400,3 @@ export default {
 	methods: {},
 };
 </script>
-<style scoped lang="scss">
-</style>

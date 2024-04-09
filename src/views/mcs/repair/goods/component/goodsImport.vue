@@ -97,21 +97,6 @@
 									</el-input-number>
 								</template>
 							</el-table-column>
-							<!-- <el-table-column prop="ShopPrice" label="成交单价" width="180">
-								<template #default="scope">
-									<el-input-number
-										v-model="scope.row.ShopPrice"
-										style="width: 100%"
-										placeholder="请输入"
-										:controls="true"
-										precision="2"
-										min="0"
-										max="1000000000"
-										step="1"
-										oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-									</el-input-number>
-								</template>
-							</el-table-column> -->
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
 								<template #header>
 									<el-button bg type="primary" @click="onAddRow()">
@@ -148,18 +133,21 @@ import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
-	name: 'freightEdit',
+	name: 'goodsImport',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
+
+		//	获取用户信息
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
+
+		//	显示表格图片
 		const showImage = (Files: string) => {
 			let fileUrl = '';
 			let filList = Files.split(',');
@@ -171,25 +159,20 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
-			baseUrl: import.meta.env.VITE_API_URL,
-			//表单
+			disable: true, //	是否禁用
+			//	表单
 			ruleForm: {
 				Kind: 'repair',
 				PartsList:[],
 			},
-			
-			dialogVisible: false,
-
 			tableData: [],
-			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
-			saveState: false,
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
-			FilesList: [],
 			GoodsAlisaList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -203,7 +186,7 @@ export default {
 			
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string) => {
 			state.Files = [];
 			console.log('类型', kind);
@@ -217,8 +200,7 @@ export default {
 			}
 		}
 
-
-		//导入地址
+		//	导入功能
 		const onImportXlsx = (e: any) => {
 			const file = e.raw
 			const reader = new FileReader()
@@ -243,7 +225,6 @@ export default {
 				state.ruleForm.PartsList=[];
 				const rows=[]
 				for(let i=1;i<num;i++){
-					//console.log("测试。。。。。。。。。。。。")
 					const row=list[i];
 					const GoodsName=row["__EMPTY"]||"";
 					
@@ -259,37 +240,35 @@ export default {
 					model.GoodsAlisa=wsname
 					model.Birthdate=row["__EMPTY_3"]||"";
 					model.ShopPrice=`${row["__EMPTY_4"]}`||"";
-
-					// model.ShopPrice=row["__EMPTY_6"]||"";
-					// model.Nation=`${row["__EMPTY_6"]}`||"";
-					// model.NativePlace=`${row["__EMPTY_7"]}`||"";
-					// model.Address=`${row["__EMPTY_8"]}`||"";
-					// model.DriverLicenseType=row["__EMPTY_9"]||"";
-					// model.RegistrationDate=row["__EMPTY_10"]||new Data();
-					// model.DriverLicenseStartDate=row["__EMPTY_11"]||new Data();parts
-					// model.DriverLicenseEndDate=row["__EMPTY_12"]||new Data();
 					rows.push(model);
 				}
 				state.ruleForm.PartsList=rows;
 			}
 		}
 
+		//	导入列表新增记录
 		const onAddRow = () => {
 		 	state.ruleForm.PartsList=[{},...state.ruleForm.PartsList]
 		};
+
+		//	导入列表清空记录
 		const onClearRow = () => {
 		 	state.ruleForm.PartsList=[]
 		};
+
 		// 下载导入模板
 		const onDownloadTpl = async () => {
 			var a = document.createElement('a');
 			a.href = import.meta.env.VITE_URL+"/static/download/erp/parts.xlsx";
-			a.download = '配件表模板_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.download = '配件管理模板_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
 			a.click();
 		};
+
+		//	导入列表删除单条记录
 		const onDelRow = (index:number) => {
 			state.ruleForm.PartsList.splice(index,1)
 		};
+
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
@@ -297,17 +276,7 @@ export default {
 			state.isShowDialog = false;
 		};
 
-		const onLoadTable = () => {
-			proxy.$parent.onGetTableData();
-		};
-		
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
-		// 提交
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -332,21 +301,21 @@ export default {
 			});
 		};
 
+		//	时间格式
 		const { dateFormatYMD } = commonFunction();
-		// 页面加载时
+
+		//	页面加载时
 		onMounted(() => {});
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
 			onAddRow,
 			onDelRow,
 			onClearRow,
 			onDownloadTpl,
 			onImportXlsx,
-			onModelEdit,
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
@@ -358,16 +327,3 @@ export default {
 	},
 };
 </script>
-<style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-</style>
