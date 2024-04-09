@@ -399,7 +399,6 @@ export default {
 				if (valid) {
 					state.loading = true;
 					try {
-						console.log("测试kind", state.ruleForm.Kind);
 						const res = await proxy.$api.erp.vehicleinsurance.saveMulti(state.ruleForm.Kind, state.ruleForm.InsuranceList);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {

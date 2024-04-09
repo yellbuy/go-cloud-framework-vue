@@ -539,7 +539,7 @@ export default {
 		};
 		const GetByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.vehicleInsurance.getById(Id);
+				const res = await proxy.$api.erp.vehicleinsurance.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -658,7 +658,7 @@ export default {
 					}
 					//console.log("提交参数",state.ruleForm)
 					try {
-						const res = await proxy.$api.erp.vehicleInsurance.save(state.ruleForm);
+						const res = await proxy.$api.erp.vehicleinsurance.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();

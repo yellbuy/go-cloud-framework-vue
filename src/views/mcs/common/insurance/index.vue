@@ -161,7 +161,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.vehicleInsurance.getListByScope("info", 0, 0, state.tableData.param);
+				const res = await proxy.$api.erp.vehicleinsurance.getListByScope("info", 0, 0, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -183,7 +183,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.vehicleInsurance.delete(Id);
+					const res = await proxy.$api.erp.vehicleinsurance.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
