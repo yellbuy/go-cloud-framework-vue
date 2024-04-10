@@ -13,12 +13,6 @@
 							</el-icon>
 							{{ $t('message.action.reset') }}
 						</el-button>
-						<el-button type="info" @click="onGetTableData(true)">
-							<el-icon>
-								<Search />
-							</el-icon>
-							&#8197;{{ $t('message.action.search') }}
-						</el-button>
 						<el-button type="info" @click="onGetXlsData()" v-auth:[moduleKey]="'btn.ExportXls'">
 							<el-icon>
 								<Download />
