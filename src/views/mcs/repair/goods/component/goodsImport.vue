@@ -3,14 +3,6 @@
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
 				<el-row :gutter="20">
-					<!-- <el-col :xs="2" :sm="4" class="mb20">
-						<el-select
-							v-model="GoodsAlisaList"
-							style="width: 100%"
-							placeholder="请选择">
-							<el-option v-for="(item, index) in GoodsAlisaList" :key="index" :label="item.GoodsAlisa" :value="item.Id"> </el-option>
-						</el-select>
-					</el-col> -->
 					<el-col :xs="1" :sm="1" class="mb20">
 						<el-upload ref="uploadRef" class="upload-demo" :before-upload="
 								() => {return false;}" :auto-upload="false" :on-change="onImportXlsx" :show-file-list="false">
@@ -36,7 +28,7 @@
 					<el-col :xs="24" :sm="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
-							:data="ruleForm.PartsList"
+							:data="paginatedData"
 							style="width: 100%"
 							:height="proxy.$calcMainHeight(-205)"
 							border
@@ -110,6 +102,18 @@
 								</template>
 							</el-table-column>
 						</el-table>
+						<el-pagination
+							small
+							@size-change="onHandleSizeChange"
+							@current-change="onHandleCurrentChange"
+							class="mt15"
+							:page-sizes="[15, 30]"
+							v-model:current-page="tableData.param.pageNum"
+							background
+							v-model:page-size="tableData.param.pageSize"
+							layout="->, total, sizes, prev, pager, next, jumper"
+							:total="tableData.total">
+						</el-pagination>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -165,7 +169,19 @@ export default {
 				Kind: 'repair',
 				PartsList:[],
 			},
-			tableData: [],
+			tableData: {
+				data: [],
+				total: 0,
+				loading: false,
+				currentPageFirst: 0,
+				currentPageFinally: 0,
+				param: {
+					keyword: '',
+					pageNum: 1,
+					pageSize: 15,
+					state: -1,
+				},
+			},
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			GoodsAlisaList: [],
@@ -192,8 +208,8 @@ export default {
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {				
-				
 				state.ruleForm.PartsList=[];
+				state.tableData.data = [];
 				state.isShowDialog = true;
 			} finally {
 				state.isShowDialog = true;
@@ -213,18 +229,9 @@ export default {
 				}
 				const wsname = workbook.SheetNames[0]
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
-				console.log("get xlsx data：",list)
-				let num = 0
-				if(!list.length||list.length<2){
-					num = 0
-				}else if (list.length>100){
-					num = 100;
-				}else{
-					num = list.length;
-				}
-				state.ruleForm.PartsList=[];
+				state.tableData.total=list.length
 				const rows=[]
-				for(let i=1;i<num;i++){
+				for(let i = 1; i < state.tableData.total; i++){
 					const row=list[i];
 					const GoodsName=row["__EMPTY"]||"";
 					
@@ -233,16 +240,16 @@ export default {
 					}
 					const model={};
 					model.IsOnSale=1;
-
 					model.GoodsName=GoodsName;
 					model.BrandName=row["__EMPTY_1"]||"";
-					model.GoodsUnit=`${row["__EMPTY_2"]}`||"";
-					model.GoodsAlisa=wsname
-					model.Birthdate=row["__EMPTY_3"]||"";
-					model.ShopPrice=`${row["__EMPTY_4"]}`||"";
+					model.GoodsUnit=row["__EMPTY_2"]||"";
+					model.GoodsAlisa=row["__EMPTY_3"]||""
+					model.Birthdate=row["__EMPTY_4"]||"";
+					model.ShopPrice=row["__EMPTY_5"]||"";
 					rows.push(model);
 				}
 				state.ruleForm.PartsList=rows;
+				//pageChange();
 			}
 		}
 
@@ -275,6 +282,36 @@ export default {
 			state.loading = false;
 			state.isShowDialog = false;
 		};
+
+		//	单页条数修改
+		const onHandleSizeChange = (val: number) => {
+			state.tableData.param.pageSize = val;
+			//pageChange();
+		}
+
+		//	页码修改
+		const onHandleCurrentChange = (val: number) => {
+			state.tableData.param.pageNum = val;
+			//pageChange();
+		}
+
+		//	分页改变
+		const pageChange = () => {
+			state.tableData.data = []
+			state.tableData.currentPageFinally = state.tableData.param.pageSize * state.tableData.param.pageNum
+			state.tableData.currentPageFirst = state.tableData.currentPageFinally - state.tableData.param.pageSize
+			if (state.tableData.currentPageFinally > state.tableData.total){
+				state.tableData.currentPageFinally = state.tableData.total
+			}
+			state.tableData.data = state.ruleForm.PartsList.slice(state.tableData.currentPageFirst, state.tableData.currentPageFinally)
+		}
+
+		const paginatedData = computed(() => {
+			const start = (state.tableData.param.pageNum - 1) * state.tableData.param.pageSize;
+			const end = start + state.tableData.param.pageSize;
+			const list= state.ruleForm.PartsList.slice(start, end);
+			return list;
+		});
 
 		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
@@ -311,9 +348,13 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
+			pageChange,
+			onHandleSizeChange,
+			onHandleCurrentChange,
 			onAddRow,
 			onDelRow,
 			onClearRow,
+			paginatedData,
 			onDownloadTpl,
 			onImportXlsx,
 			showImage,
