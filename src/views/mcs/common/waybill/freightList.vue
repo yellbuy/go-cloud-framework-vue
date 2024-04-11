@@ -54,7 +54,7 @@
 								<el-tag type="warning" class="mr4" effect="dark" v-else-if="scope.row.WaybillMode==10">其他</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="PlanWeight" label="执行进度" width="80" align="center">
+						<el-table-column prop="PlanWeight" label="执行进度" width="100" align="center">
 							<template #default="scope">
 								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
 							</template>

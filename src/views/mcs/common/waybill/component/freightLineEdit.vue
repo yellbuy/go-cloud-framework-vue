@@ -19,7 +19,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="发货重量" prop="SenderNetWeight">
-							<el-input v-model.number="ruleForm.SenderNetWeight" min="0" max="10000"></el-input> 
+							<el-input-number v-model="ruleForm.SenderNetWeight" min="0" max="10000" :precision="2"></el-input-number> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -42,7 +42,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="卸货重量" prop="ReceiverNetWeight">
-							<el-input v-model.number="ruleForm.ReceiverNetWeight" min="0" max="10000"></el-input> 
+							<el-input-number v-model="ruleForm.ReceiverNetWeight" min="0" max="10000" :precision="2"></el-input-number> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
