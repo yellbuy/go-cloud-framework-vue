@@ -21,36 +21,25 @@
 					</el-col>
                 </el-row>
                 <el-row :gutter="20">
-                    
 					<el-col :xs="24" :sm="12" class="mb20">
-                       
 						<el-form-item label="排序号" prop="Order">
-							<!-- <el-input v-model.number="ruleForm.NumberRate" placeholder="默认靠后"></el-input>  -->
-                       
 						<el-input-number
     						v-model.number="ruleForm.Order"
 							size="small"
 							style="width: 200px"
     						controls-position="right"
-    						@change="handleChange"
-  						/>
-                
-						</el-form-item>
-                   
+    						@change="handleChange"/></el-form-item>
 					</el-col>
-                
 					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="状态" prop="SupplierState">
 							<el-switch
-						v-model.number="ruleForm.SupplierState"
-    					active-text="启用"
-    					inactive-text="禁用"
-						:active-value="1"
-						:inactive-value="0"
-						/>				
+								v-model.number="ruleForm.SupplierState"
+								active-text="启用"
+								inactive-text="禁用"
+								:active-value="1"
+								:inactive-value="0"/>				
 						</el-form-item>
 					</el-col>
-               
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" class="mb12">
@@ -66,12 +55,10 @@
 									:file-list="FilesList"
 									:accept:="`image/png, image/jpeg,image/bmp,image/jpg,application/pdf,application/docx,application/doc,application/xls,application/xlsx`"
 									multiple
-									show-file-list
-								>
+									show-file-list>
 									<template #default>
 										<el-button
-											><el-icon class="el-icon--right"><Upload /></el-icon>上传</el-button
-										>
+											><el-icon class="el-icon--right"><Upload /></el-icon>上传</el-button>
 									</template>
 								</el-upload>
 							</div>
@@ -85,7 +72,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
@@ -96,7 +83,6 @@
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -104,20 +90,22 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
-	name: 'productAdd',
+	name: 'categoryEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
-		//文件列表更新
+
+		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
 			console.log('触发图片上传');
 			state.Files.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
 			console.log(state.FilesList);
 		};
+
 		const onRemove = (file: UploadFile) => {
 			console.log(file);
 			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
@@ -127,12 +115,15 @@ export default {
 				}
 			}
 		};
+
 		const store = useStore();
+
+		//	获取用户信息
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
+
+		//	显示表格图片
 		const showImage = (Files: string) => {
 			let fileUrl = '';
 			let filList = Files.split(',');
@@ -141,7 +132,6 @@ export default {
 		};
 		
 		const handleChange = (value: number) => {
-  		//console.log(value)
 		}
 
 		const tableData = reactive({
@@ -157,9 +147,9 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
+			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
-			//表单
+			//	表单
 			ruleForm: {
 				Id: '0',
 				Parentid:"0",				
@@ -190,7 +180,9 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -210,7 +202,7 @@ export default {
 			]
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string,parentid:string, disable: boolean) => {
 			state.Files = [];
 			console.log('类型', kind);
@@ -243,6 +235,7 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+
 		const getByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.common.category.getById(Id);
@@ -257,16 +250,17 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		//预览文件
+
+		//	预览文件
 		const onPreview = (uploadFile: any) => {
-			// 当格式为图片就预览图片，否则下载文件
+			//	当格式为图片就预览图片，否则下载文件
 			let filename = uploadFile.name;
 			if (!uploadFile.name || uploadFile.name == '') {
 				filename = uploadFile.url;
 			}
 			let fileurl = uploadFile.url;
 			let fileExtension = '';
-			// 校检文件类型
+			//	校检文件类型
 			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
 			if (filename.lastIndexOf('.') > -1) {
 				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
@@ -277,18 +271,19 @@ export default {
 				}
 			});
 			if (isTypeOk) {
-				//预览图片
+				//	预览图片
 				state.dialogImageUrl[0] = fileurl;
 				state.dialogTitle = filename;
 				state.dialogVisible = true;
 			} else {
-				//下载文件
+				//	下载文件
 				state.dialogVisible = false;
-				// openWindow(fileurl, { target: "_self" });
+				//	openWindow(fileurl, { target: "_self" });
 				window.open(fileurl, '_self');
 			}
 		};
-		// 关闭弹窗
+
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			console.log('关闭页面表单', state.ruleForm);
@@ -296,29 +291,10 @@ export default {
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
-		};
-
-		const onLoadTable = () => {
 			proxy.$parent.onGetMainTableData();
 		};
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			state.tableItem = item;
-			console.log(state.tableItem.Files);
-			if (state.tableItem.Files != '') {
-				state.Files = item.Files.split(',');
-				state.FilesList = [];
-				for (let i = 0; i < state.Files.length; i++) {
-					let image = { url: '' };
-					image.url = state.httpsText + state.Files[i];
-					state.FilesList.push(image);
-				}
-			}
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
-		// 提交
+
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -360,19 +336,19 @@ export default {
 		};
 		
 		const { dateFormatYMD } = commonFunction();
-		// 页面加载时
+
+		//	页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
 			getByIdRow,
 			onSuccessFile,
 			onPreview,
 			onRemove,
-			onModelEdit,
 			showImage,
 			dateFormatYMD,
 			getUserInfos,

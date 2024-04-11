@@ -48,8 +48,7 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-			>
+				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
 				<el-table-column prop="VehicleType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
@@ -64,8 +63,7 @@
 							:active-text="$t('message.action.yes')"
 							:inactive-text="$t('message.action.no')"
 							:active-value="1"
-							:inactive-value="0"
-						/>
+							:inactive-value="0"/>
 						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
@@ -74,30 +72,22 @@
 				</el-table-column>
 				<el-table-column label="提醒" width="120" show-overflow-tooltip>
 					<template #default="scope">
-						<!-- <el-badge :value="scope.row.WaybillLineCount" class="mark mr4" v-if="scope.row.WaybillLineCount">
-							<el-button type="danger" size="small" round effect="dark">任</el-button>
-							
-						</el-badge> -->
 						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.RepairState">修</el-tag>
 						<el-tag type="success" class="mr4" round effect="dark" v-else-if="scope.row.WaybillLineCount" >任</el-tag>
 						<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
-						
 						<el-tooltip v-if="scope.row.InsuranceState > 0"
 							class="box-item"
 							effect="dark"
-							placement="top"
-						>
+							placement="top">
 						<template #content>保险：{{ scope.row.InsuranceStartTime.substr(0,10) }} 至 {{ scope.row.InsuranceEndTime.substr(0,10) }}
 						</template>
 						<el-tag :type="scope.row.InsuranceState == 2?'success':'warning'" class="mr4" round effect="dark" >险</el-tag>
 						</el-tooltip>
 						<el-tag type="danger" class="mr4" round effect="dark" v-else >险</el-tag>
-
 						<el-tooltip v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2"
 							class="box-item"
 							effect="dark"
-							placement="top"
-						>
+							placement="top">
 						<template #content>行驶证：{{ scope.row.DrivingLicenseStartDate.substr(0,10) }} 至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
 							<br />
 							道路运输许可证：{{ scope.row.TransportLicenseStartDate.substr(0,10) }} 至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
@@ -110,9 +100,7 @@
 				<el-table-column prop="DriverMobile" label="电话" width="100"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Mileage" label="公里数" width="70" align="right"></el-table-column>
 				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
-				
 				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column>
-				
 				<el-table-column label="有效" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -124,8 +112,7 @@
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
-							:inactive-value="0"
-						/>
+							:inactive-value="0"/>
 						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
@@ -161,8 +148,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
+				:total="tableData.total">
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />

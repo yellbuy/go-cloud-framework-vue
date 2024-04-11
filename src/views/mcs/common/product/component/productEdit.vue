@@ -5,23 +5,26 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="产品名称" prop="GoodsName">
-							<el-input v-model="ruleForm.GoodsName" placeholder="请输入商品名称"></el-input> 
+							<el-input
+								v-model="ruleForm.GoodsName"
+								placeholder="请输入商品名称"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="产品编码" prop="GoodsSn">
-							<el-input v-model="ruleForm.GoodsSn" placeholder="请输入商品编号"></el-input> 
+							<el-input
+								v-model="ruleForm.GoodsSn"
+								placeholder="请输入商品编号"></el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="产品单位" prop="GoodsUnit">
 							<el-select v-model="ruleForm.GoodsUnit" class="m-2" placeholder="请输入货品单位" size="small">
     							<el-option
-      							v-for="item in goodsUnitList"
-      							:key="item.Id"
-      							:label="item.Name"
-      							:value="item.Name"
-    							/>
+									v-for="item in goodsUnitList"
+									:key="item.Id"
+									:label="item.Name"
+									:value="item.Name"/>
   							</el-select>
 						</el-form-item>
 					</el-col>					
@@ -32,28 +35,14 @@
 							<el-input v-model="ruleForm.Piny" placeholder="助记符"></el-input> 
 						</el-form-item>
 					</el-col>
-                    <!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="商品类型" prop="GoodsType">
-							<el-select v-model="ruleForm.GoodsType" class="m-2" placeholder="请输入商品类型" size="small">
-    							<el-option
-      							v-for="item in GoodsTypeList"
-      							:key="item.Id"
-      							:label="item.Name"
-      							:value="item.Id"
-    							/>
-  							</el-select>
-						</el-form-item>
-					</el-col> -->
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="产品类别" prop="CategoryId">
-							<!-- <el-input v-model="ruleForm.Name" placeholder="请输入产品类别"></el-input>  -->
 							<el-select v-model="ruleForm.CategoryId" class="m-2" placeholder="请输入产品类" size="small">
     							<el-option
-      							v-for="item in CategoryList"
-      							:key="item.Id"
-      							:label="item.Name"
-      							:value="item.Id"
-    							/>
+									v-for="item in CategoryList"
+									:key="item.Id"
+									:label="item.Name"
+									:value="item.Id"/>
   							</el-select>
 						</el-form-item>
 					</el-col>	
@@ -62,12 +51,11 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="状态" prop="SupplierState">
 							<el-switch
-						v-model="ruleForm.SupplierState"
-    					active-text="有效"
-    					inactive-text="停用"
-						:active-value="1"
-						:inactive-value="0"
-						/>				
+								v-model="ruleForm.SupplierState"
+								active-text="有效"
+								inactive-text="停用"
+								:active-value="1"
+								:inactive-value="0"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
@@ -84,7 +72,7 @@
 									</template>
 								</el-upload>
 							</div>
-							 <div>
+							<div>
 								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
 							</div> 
 						</el-form-item>
@@ -92,19 +80,18 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
 						<el-form-item label="备注" prop="SellerNote" >
 							<el-input
-							v-model="ruleForm.SellerNote"
-							:rows="3"
-							type="textarea"
-							placeholder="请输入备注"
-						/>
-					</el-form-item>
+								v-model="ruleForm.SellerNote"
+								:rows="3"
+								type="textarea"
+								placeholder="请输入备注"/>
+						</el-form-item>
 					</el-col>
 				</el-row> 
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
@@ -129,17 +116,19 @@ export default {
 	name: 'productEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
+
 		console.log("message.action.add:",t('message.action.add'))
-		//文件列表更新
+		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
 			console.log('触发图片上传');
 			state.Files.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
 			console.log(state.FilesList);
 		};
+
 		const onRemove = (file: UploadFile) => {
 			console.log(file);
 			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
@@ -149,17 +138,18 @@ export default {
 				}
 			}
 		};
+
 		const store = useStore();
+
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
+
+		//	显示表格图片
 		const showImage: UploadProps['onPreview'] = (uploadFile) => {
 			state.dialogImageUrl = uploadFile.url!
 			state.ImageVisible = true
 		}
-		
 		
 		const tableData = reactive({
 			data: [],
@@ -174,11 +164,11 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
+			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
 			dialogImageUrl: "",
 			ImageVisible: false,
-			//表单
+			//	表单
 			ruleForm: {
 				Id: '0',				
 				Kind: 'repair',
@@ -214,7 +204,9 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -241,17 +233,15 @@ export default {
 			]
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean,categoryId:string) => {
 			state.Files = [];
-			//console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.ruleForm.CategoryId = categoryId;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
 				const res = await proxy.$api.common.category.getHierarchyDataList(kind, 0, 2);
 				if (res.errcode == 0) {
-					//console.log("CategoryList",res.data)
 					state.CategoryList = res.data;
 				}else{
 					console.log("error:",res.errmsg)
@@ -285,6 +275,7 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+
 		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.wms.goods.getById(Id);
@@ -310,16 +301,17 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		//预览文件
+
+		//	预览文件
 		const onPreview = (uploadFile: any) => {
-			// 当格式为图片就预览图片，否则下载文件
+			//	当格式为图片就预览图片，否则下载文件
 			let filename = uploadFile.name;
 			if (!uploadFile.name || uploadFile.name == '') {
 				filename = uploadFile.url;
 			}
 			let fileurl = uploadFile.url;
 			let fileExtension = '';
-			// 校检文件类型
+			//	校检文件类型
 			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
 			if (filename.lastIndexOf('.') > -1) {
 				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
@@ -330,18 +322,18 @@ export default {
 				}
 			});
 			if (isTypeOk) {
-				//预览图片
+				//	预览图片
 				state.dialogImageUrl[0] = fileurl;
 				state.dialogTitle = filename;
 				state.dialogVisible = true;
 			} else {
-				//下载文件
+				//	下载文件
 				state.dialogVisible = false;
-				// openWindow(fileurl, { target: "_self" });
 				window.open(fileurl, '_self');
 			}
 		};
-		// 关闭弹窗
+
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			console.log('关闭页面表单', state.ruleForm);
@@ -355,7 +347,8 @@ export default {
 		const onLoadTable = () => {
 			proxy.$parent.onGetTableData();
 		};
-		//修改按钮
+
+		//	修改按钮
 		const onModelEdit = (item: object) => {
 			state.tableItem = item;
 			console.log(state.tableItem.Files);
@@ -370,8 +363,9 @@ export default {
 			}
 			state.saveState = false;
 			state.dialogVisible = true;
-		};		
-		// 提交
+		};
+
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -400,6 +394,7 @@ export default {
 				}
 			});
 		};
+
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
 				rawFile.type !== 'image/jpeg' &&
@@ -418,9 +413,12 @@ export default {
 			}
 			return true;
 		};
+
 		const { dateFormatYMD } = commonFunction();
-		// 页面加载时
+
+		//	页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,
@@ -452,29 +450,3 @@ export default {
 	methods: {},
 };
 </script>
-<style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
-}
-</style>

@@ -36,20 +36,13 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-			>
+				highlight-current-row>
 				<el-table-column type="index" label="序号" align="center" width="70" fixed />
 				<el-table-column prop="Name" label="车型名称" width="100" fixed></el-table-column>
 				<el-table-column prop="TotalWeight" label="标准总重(吨)" width="100"  show-overflow-tooltip align="right"></el-table-column>
 				<el-table-column prop="TruckWeight" label="标准皮重(吨)" width="100" show-overflow-tooltip align="right"></el-table-column>
-				<!-- <el-table-column prop="WeightUnit" label="重量单位" width="120"  show-overflow-tooltip>
-					<template #default="scope">
-						<div>{{weightUnitList[scope.row.WeightUnit] }}</div>
-					</template>
-				</el-table-column>  -->
 				<el-table-column prop="WheelShaftQty" label="轮轴数" width="120"  show-overflow-tooltip align="right"></el-table-column>
 				<el-table-column prop="Pics" label="车型图片" width="120"  show-overflow-tooltip align="center">
-					<!-- <img width="30" height="30" src="http://localhost:8889/static/upload/image"> -->
 					<template #default="scope">		
 						<el-image
 							style="width: 30px; height: 30px"
@@ -59,8 +52,7 @@
 							:min-scale="0.2"
 							:preview-src-list="imgUrlList(scope.row.Pics)"
 							fit="cover"
-							:preview-teleported="true"
-							/>			
+							:preview-teleported="true"/>			
 					</template>
 				</el-table-column>
 				<el-table-column prop="Order" label="排序" width="100" show-overflow-tooltip align="right"></el-table-column>
@@ -75,8 +67,7 @@
 							:active-text="$t('message.action.valid')"
 							:inactive-text="$t('message.action.invalid')"
 							:active-value="1"
-							:inactive-value="0"
-						/>
+							:inactive-value="0"/>
 						<el-tag type="success" effect="plain" v-if="scope.row.State==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.male') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.female') }}</el-tag>
 					</template>
@@ -106,8 +97,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
+				:total="tableData.total">
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
@@ -149,26 +139,13 @@ export default {
 				},
 			},
 			httpsText: import.meta.env.VITE_URL as any,
-			// weightUnitList:{},
 		});
-		// const loadWeightUnitList= async()=>{
-		// 	const res = await proxy.$api.common.commondata.getConcreteDataListByScope("weight_unit", 1, 2);
-		// 	if (res.errcode != 0) {
-		// 		return;
-		// 	}
-		// 	if (res.data.length>0){
-		// 		for(let item of res.data){
-		// 			//console.log("循环数据",item)
-		// 			state.weightUnitList[item.Code] =item.Name
-		// 		}
-		// 	}
-		// 	//console.log("数据",state.examList)
-		// }
 		
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});
-		//重置查询条件
+
+		//	重置查询条件
 		const onResetSearch = () => {
 			state.tableData.param.keyword = '';
 			onGetTableData(true);
@@ -180,15 +157,12 @@ export default {
 				if (imgList.length>0){
 					imgList.forEach(function(element, index, array) {
   					array[index] = state.httpsText+element;
-			});
-					
-			//console.log("获得的数组",imgList)
-
+					});
 				}
 			}
 			return imgList
-
 		};
+
 		const imgUrl = (Pics) =>{
 			let url = "";
 			if (Pics!=""){
@@ -198,7 +172,7 @@ export default {
 			return url
 
 		}
-		// 初始化表格数据
+		//	初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
@@ -215,11 +189,13 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
-		// 打开弹窗
+
+		//	打开弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-		// 删除用户
+
+		//	删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -238,20 +214,21 @@ export default {
 			});
 		};
 
-		// 分页改变
+		//	分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
 			onGetTableData();
 		};
-		// 分页改变
+
+		//	分页改变
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
-		// 页面加载时
+
+		//	页面加载时
 		onMounted(() => {
 			onGetTableData();
-			// loadWeightUnitList()
 		});
 
 		const { dateFormatYMD } = commonFunction();
@@ -268,12 +245,8 @@ export default {
 			dateFormatYMD,
 			imgUrlList,
 			imgUrl,
-			// loadWeightUnitList,
 			...toRefs(state),
 		};
 	},
 };
 </script>
-
-<style scoped lang="scss">
-</style>

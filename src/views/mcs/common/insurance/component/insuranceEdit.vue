@@ -187,7 +187,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" class="mb12">
 						<el-form-item label="商业险图片" prop="Files1">
-							<div style="width: 50%">
+							<div style="width: 100%">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="onSuccessFile1" :file-list="FilesList1" :limit="10" :on-remove="onRemove1"
@@ -206,7 +206,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" class="mb12">
 						<el-form-item label="车船税图片" prop="Files2">
-							<div style="width: 50%">
+							<div style="width: 100%">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="onSuccessFile2" :file-list="FilesList2" :limit="10" :on-remove="onRemove2"
@@ -228,7 +228,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
@@ -269,7 +269,7 @@ export default {
 			state.Files.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			 state.FilesList.push(image);
+			state.FilesList.push(image);
 			console.log(state.FilesList);
 		};
 
@@ -279,7 +279,7 @@ export default {
 			state.Files1.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			 state.FilesList1.push(image);
+			state.FilesList1.push(image);
 			console.log(state.FilesList1);
 		};
 
@@ -289,7 +289,7 @@ export default {
 			state.Files2.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			 state.FilesList2.push(image);
+			state.FilesList2.push(image);
 			console.log(state.FilesList2);
 		};
 

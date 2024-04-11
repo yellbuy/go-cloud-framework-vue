@@ -41,8 +41,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="closeDialog" size="small">{{ $t('message.action.cancel') }}</el-button>
-					<el-button type="primary" @click="onSubmit(true)" size="small"
-						v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button type="primary" @click="onSubmit(true)" size="small" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 							$t('message.action.save')
 						}}</el-button>
 				</span>

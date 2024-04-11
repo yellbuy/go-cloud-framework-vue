@@ -1,156 +1,214 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="8" class="mb20">
 						<el-form-item label="车牌号" prop="VehicleNumber">
-							<el-input v-model="ruleForm.VehicleNumber" placeholder="车牌号码"></el-input> 
+							<el-input
+								v-model="ruleForm.VehicleNumber"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+						<el-form-item label="车辆类型" prop="VehicleType">
+							<el-select
+								v-model="ruleForm.VehicleType"
+								style="width: 100%"
+								placeholder="请选择">
+								<el-option v-for="(item, index) in truckTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="车辆识别号" prop="Vin">
+							<el-input
+								v-model="ruleForm.Vin"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="8" class="mb20">
 						<el-form-item label="车辆类别" prop="IsExternal">
 							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.IsExternal">
-								<el-radio :label="0">内部车</el-radio>
-								<el-radio :label="1">外部车</el-radio>
-							</el-radio-group>
+								<el-radio-group
+									v-model="ruleForm.IsExternal">
+									<el-radio :label="0">内部车</el-radio>
+									<el-radio :label="1">外部车</el-radio>
+								</el-radio-group>
 							</div>
-							
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20" v-if="ruleForm.IsExternal">
-						<el-form-item label="相关方" prop="Shipper">
-							<el-select v-model="ruleForm.Shipper" placeholder="请选择">
-								<el-option v-for="item in shipperList" :key="item.Id" :label="item.CompanyName" :value="item.CompanyName"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆类型" prop="VehicleType">
-							<el-select v-model="ruleForm.VehicleType" placeholder="请选择">
-								<el-option v-for="item in truckTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="车牌颜色" prop="PlateColor">
-							<el-select v-model="ruleForm.PlateColor" placeholder="请选择">
-								<el-option v-for="item in plateColorList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+							<el-select
+								v-model="ruleForm.PlateColor"
+								style="width: 100%"
+								placeholder="请选择">
+								<el-option v-for="(item, index) in plateColorList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="动力类型" prop="EnergyType">
-							<el-select v-model="ruleForm.EnergyType" placeholder="请选择">
-								<el-option v-for="item in energyTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车辆识别号" prop="Vin">
-							<el-input v-model="ruleForm.Vin" placeholder="车牌号码"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="发动机号" prop="EngineNumber">
-							<el-input v-model="ruleForm.EngineNumber" placeholder="车牌号码"></el-input> 
+							<el-input
+								v-model="ruleForm.EngineNumber"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-divider content-position="left">行驶证信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="行驶证" prop="DrivingLicense">
-							<el-input v-model="ruleForm.DrivingLicense" placeholder="行驶证号"></el-input> 
+					<el-col :xs="24" :sm="8" class="mb20">
+						<el-form-item label="相关方" prop="Shipper">
+							<el-select
+								v-model="ruleForm.Shipper"
+								style="width: 100%"
+								placeholder="请选择">
+								<el-option v-for="(item, index) in shipperList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
+							</el-select>
 						</el-form-item>
-					</el-col>
-					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="生效日期" prop="DrivingLicenseStartDate" required>
-							<el-date-picker
-								v-model="ruleForm.DrivingLicenseStartDate"
-								type="date"
-								placeholder="生效日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="至" prop="DrivingLicenseEndDate"  required>
-							<el-date-picker
-										v-model="ruleForm.DrivingLicenseEndDate"
-										type="date"
-										placeholder="到期日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="登记日期" prop="RegistrationDate" required>
-							<el-date-picker
-								v-model="ruleForm.RegistrationDate"
-								type="date"
-								placeholder="登记日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					
-				</el-row>
-				<el-divider content-position="left">道路运输证信息*</el-divider>
-				<el-row :gutter="20">	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="道路运输证" prop="TransportLicense">
-							<el-input v-model="ruleForm.TransportLicense" placeholder="道路运输许可证号"></el-input> 
-						</el-form-item>
-					</el-col>				
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="生效日期" prop="TransportLicenseStartDate">
-							<el-date-picker
-								v-model="ruleForm.TransportLicenseStartDate"
-								type="date"
-								placeholder="生效日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="至" prop="TransportLicenseEndDate" >
-							<el-date-picker
-										v-model="ruleForm.TransportLicenseEndDate"
-										type="date"
-										placeholder="到期日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+						<el-form-item label="动力类型" prop="EnergyType">
+							<el-select
+								v-model="ruleForm.EnergyType"
+								style="width: 100%"
+								placeholder="请选择">
+								<el-option v-for="(item, index) in energyTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">联系人信息*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="8" class="mb20">
 						<el-form-item label="联系人" prop="Linkman"> 
-							<el-input v-model="ruleForm.Linkman" placeholder="联系人"></el-input> 
+							<el-input
+								v-model="ruleForm.Linkman"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+						<el-form-item label="司机姓名" prop="Driver"> 
+							<el-input
+								v-model="ruleForm.Driver"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="8" class="mb20">
 						<el-form-item label="电话" prop="Phone"> 
-							<el-input v-model="ruleForm.Phone" placeholder="电话"></el-input> 
+							<el-input
+								v-model="ruleForm.Phone"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+						<el-form-item label="司机电话" prop="DriverMobile"> 
+							<el-input
+								v-model="ruleForm.DriverMobile"
+								style="width: 100%"
+								placeholder="请输入"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-divider content-position="left">行驶证信息*</el-divider>
+				<el-row :gutter="20">
+					<el-col :xs="24" :sm="8" class="mb20">
+						<el-form-item label="行驶证号" prop="DrivingLicense">
+							<el-input
+								v-model="ruleForm.DrivingLicense"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+						<el-form-item label="登记日期" prop="RegistrationDate">
+							<el-date-picker
+								v-model="ruleForm.RegistrationDate"
+								style="width: 100%"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="8" class="mb20">
+						<el-form-item label="生效日期" prop="DrivingLicenseStartDate">
+							<el-date-picker
+								v-model="ruleForm.DrivingLicenseStartDate"
+								style="width: 100%"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+						<el-form-item label="结束日期" prop="DrivingLicenseEndDate">
+							<el-date-picker
+								v-model="ruleForm.DrivingLicenseEndDate"
+								style="width: 100%"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="司机姓名" prop="Driver"> 
-							<el-input v-model="ruleForm.Driver" placeholder="司机姓名"></el-input> 
+					<el-col :xs="24" :sm="24" class="mb12">
+						<el-form-item label="证件图片" prop="Files">
+							<div style="width: 100%">
+								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onDrivingLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="10" :on-remove="onRemoveTransportLicensePic"
+									:on-preview="showImage" :before-upload="onBeforeImageUpload">
+									<template #default>
+										<el-icon>
+											<plus />
+										</el-icon>
+									</template>
+								</el-upload>
+							</div>
+							<div>
+								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
+							</div> 
 						</el-form-item>
-					</el-col>	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="司机电话" prop="DriverMobile" required> 
-							<el-input v-model="ruleForm.DriverMobile" placeholder="司机电话"></el-input>
+					</el-col>
+				</el-row>
+				<el-divider content-position="left">道路运输证信息*</el-divider>
+				<el-row :gutter="20">	
+					<el-col :xs="24" :sm="8" class="mb20">
+						<el-form-item label="道路运输证" prop="TransportLicense">
+							<el-input
+								v-model="ruleForm.TransportLicense"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+					</el-col>				
+					<el-col :xs="24" :sm="8" class="mb20">
+						<el-form-item label="生效日期" prop="TransportLicenseStartDate">
+							<el-date-picker
+								v-model="ruleForm.TransportLicenseStartDate"
+								style="width: 100%"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD"
+							></el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="8" class="mb20">
+						<el-form-item label="结束日期" prop="TransportLicenseEndDate" >
+							<el-date-picker
+								v-model="ruleForm.TransportLicenseEndDate"
+								style="width: 100%"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">	
+					<el-col :xs="24" :sm="24" class="mb12">
+						<el-form-item label="证件图片" prop="Files1">
+							<div style="width: 100%">
+								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="10" :on-remove="onRemoveTransportLicensePic"
+									:on-preview="showImage" :before-upload="onBeforeImageUpload">
+									<template #default>
+										<el-icon>
+											<plus />
+										</el-icon>
+									</template>
+								</el-upload>
+							</div>
+							<div>
+								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
+							</div> 
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -158,18 +216,21 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
 			</template>
+		</el-dialog>
+		<el-dialog v-model="ImageVisible">
+			<img class="dialog-image" w-full :src="dialogImageUrl" alt="Preview Image" />
 		</el-dialog>
 	</div>
 </template>
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps } from 'element-plus';
+import { ElMessage, UploadFile, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -180,56 +241,27 @@ export default {
 	name: 'vehicleEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
-		//文件列表更新
-		const onSuccessFile = (file: UploadFile) => {
-			console.log('触发图片上传');
-			state.Files.push(file.data.src);
-			let image = { url: '' };
-			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
-			console.log(state.FilesList);
-		};
-		const onRemove = (file: UploadFile) => {
-			console.log(file);
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
-			for (let i = 0; i < state.Files.length; i++) {
-				if (state.Files[i] == removeUrl) {
-					state.Files.splice(i, 1);
-				}
-			}
-		};
+
 		const store = useStore();
+
+		//	获取用户信息
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
-		});
-		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
-		
-		
-		const tableData = reactive({
-			data: [],
-			loading: false,
-			param: {
-				pageNum: 1,
-				pageSize: 10000,
-			},
 		});
 		
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
-			baseUrl: import.meta.env.VITE_API_URL,
-			//表单
+			disable: true, //	是否禁用
+			baseApiUrl: import.meta.env.VITE_API_URL,
+			baseUrl: import.meta.env.VITE_URL,
+			dialogImageUrl: "",
+			ImageVisible: false,
+			//	表单
 			ruleForm: {
 				Id: 0,
 				Name: '',
@@ -243,37 +275,38 @@ export default {
 				EngineNumber: '',
 				Linkman: '',
 				BusinessScope: '',
+				DrivingLicensePics: '',
+				TransportLicensePics: '',
 				State: 1,
 				TaxpayerKind: '',
 				WebSite: '',
 				Fax: '',
 				Im: '',
 			},
-			tableItem: {
-				Id: '0',
-				CategoryId: '',
-				Name: '',
-				Files: '',
-				StartTime: '',
-				EndTime:'',
-				Kind: 'info',
-			},
 			dialogVisible: false,
 			shipperList:[],
 			truckTypeList: [],
 			plateColorList:[],
 			energyTypeList:[],
-			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
-			Files: [],
-			httpsText: import.meta.env.VITE_URL as any,
-			FilesList: [],
+			baseUrl: import.meta.env.VITE_URL as any, //后台路径根目录
+			DrivingLicensePicList: [],
+			TransportLicensePicList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
 			VehicleNumber: [
+				{
+					required: true,
+					message: computed(()=>t('message.validRule.required')),
+					trigger: 'blur',
+				},
+			],
+			IsExternal: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
@@ -301,20 +334,6 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			// TransportLicenseStartDate: [
-			// 	{
-			// 		required: true,
-			// 		message: t('message.validRule.required'),
-			// 		trigger: 'blur',
-			// 	},
-			// ],
-			// TransportLicenseEndDate: [
-			// 	{
-			// 		required: true,
-			// 		message: t('message.validRule.required'),
-			// 		trigger: 'blur',
-			// 	},
-			// ],
 			DriverMobile: [
 				{
 					required: true,
@@ -324,12 +343,12 @@ export default {
 			],
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
-			state.Files = [];
+			state.DrivingLicensePics = "";
+			state.TransportLicensePics = "";
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
 				const resShippers = await proxy.$api.erp.company.getListByScope("shipper", 0, 2, {pageSize:1000000});
 				if (resShippers.errcode == 0) {
@@ -357,7 +376,7 @@ export default {
 				}
 				state.disable = disable;
 				if (id && id != '0') {
-					GetByIdRow(id);
+					getRowById(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
@@ -369,51 +388,53 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		const GetByIdRow = async (Id: string) => {
+
+		const getRowById = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.vehicle.getById(Id);
+				console.log("测试测试", res)
 				if (res.errcode != 0) {
 					return;
 				}
 				state.ruleForm = res.data;
+				state.DrivingLicensePicList=[];
+				if (state.ruleForm.DrivingLicensePics != "") {
+					state.DrivingLicensePicList = state.ruleForm.DrivingLicensePics.split(",").map(path=>{
+						const url=state.baseUrl+path;
+						return { url:url, name:path }
+					})
+				}
+				state.TransportLicensePicList=[];
+				if (state.ruleForm.TransportLicensePics != "") {
+					state.TransportLicensePicList = state.ruleForm.TransportLicensePics.split(",").map(path=>{
+						const url=state.baseUrl+path;
+						return { url:url, name:path }
+					})
+				}
 			} finally {
 				state.isShowDialog = true;
 			}
 		};
-		// 关闭弹窗
+
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			console.log('关闭页面表单', state.ruleForm);
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
-			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
-		};
-
-		const onLoadTable = () => {
 			proxy.$parent.onGetTableData();
 		};
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			state.tableItem = item;
-			console.log(state.tableItem.Files);
-			if (state.tableItem.Files != '') {
-				state.Files = item.Files.split(',');
-				state.FilesList = [];
-				for (let i = 0; i < state.Files.length; i++) {
-					let image = { url: '' };
-					image.url = state.httpsText + state.Files[i];
-					state.FilesList.push(image);
-				}
-			}
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
-		// 提交
+
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
+					if (state.DrivingLicensePicList) {
+						state.ruleForm.DrivingLicensePics = state.DrivingLicensePicList.map(val=>{return val.name}).join(',');
+					}
+					if (state.TransportLicensePicList) {
+						state.ruleForm.TransportLicensePics = state.TransportLicensePicList.map(val=>{return val.name}).join(',');
+					}
 					if(!state.ruleForm.IsExternal){
 						state.ruleForm.Shipper=""
 					} else if(state.ruleForm.Shipper==""){
@@ -443,6 +464,8 @@ export default {
 				}
 			});
 		};
+
+		//	图片上传
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
 				rawFile.type !== 'image/jpeg' &&
@@ -461,24 +484,101 @@ export default {
 			}
 			return true;
 		};
+
+		//	行驶证文件列表更新
+		const onDrivingLicensePicUploadSuccess = (file: UploadFile) => {
+			//debugger
+			const url=state.baseUrl + file.data.src
+			const model = { url: url,name:file.data.src };
+			state.DrivingLicensePicList.push(model);
+		};
+
+		//	道路运输许可证文件列表更新
+		const onTransportLicensePicUploadSuccess = (file: UploadFile) => {
+			const url=state.baseUrl + file.data.src
+			const model = { url: url,name:file.data.src };
+			state.TransportLicensePicList.push(model);
+		};
+		
+		//	显示表格图片
+		const showImage: UploadProps['onPreview'] = (uploadFile) => {
+			state.dialogImageUrl = uploadFile.url
+			state.ImageVisible = true
+		}
+
+		//	预览文件
+		const onPreview = (uploadFile: any) => {
+			//	当格式为图片就预览图片，否则下载文件
+			let filename = uploadFile.name;
+			if (!uploadFile.name || uploadFile.name == '') {
+				filename = uploadFile.url;
+			}
+			let fileurl = uploadFile.url;
+			let fileExtension = '';
+			//	校检文件类型
+			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
+			if (filename.lastIndexOf('.') > -1) {
+				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
+			}
+			const isTypeOk = imageTypes.some((type) => {
+				if (fileExtension && fileExtension.indexOf(type) > -1) {
+					return true;
+				}
+			});
+			if (isTypeOk) {
+				//	预览图片
+				state.dialogImageUrl[0] = fileurl;
+				state.dialogTitle = filename;
+				state.dialogVisible = true;
+			} else {
+				//	下载文件
+				state.dialogVisible = false;
+				window.open(fileurl, '_self');
+			}
+		};
+
+		//	删除图片
+		const onRemoveDrivingLicensePic = (file: UploadFile) => {
+			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			for (let i = 0; i < state.DrivingLicensePicList.length; i++) {
+				console.log("删除文件",state.DrivingLicensePicList[i],removeUrl)
+				if (state.DrivingLicensePicList[i] == removeUrl) {
+					state.DrivingLicensePicList.splice(i, 1);
+				}
+			}
+		};
+
+		//	删除图片
+		const onRemoveTransportLicensePic = (file: UploadFile) => {
+			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			for (let i = 0; i < state.TransportLicensePicList.length; i++) {
+				console.log("删除文件",state.TransportLicensePicList[i],removeUrl)
+				if (state.TransportLicensePicList[i] == removeUrl) {
+					state.TransportLicensePicList.splice(i, 1);
+				}
+			}
+		};
+
+		//	时间格式
 		const { dateFormatYMD } = commonFunction();
-		// 页面加载时
+
+		//	窗口页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
-			GetByIdRow,
-			onSuccessFile,
-			onRemove,
+			onDrivingLicensePicUploadSuccess,
+			onTransportLicensePicUploadSuccess,
+			onRemoveDrivingLicensePic,
+			onRemoveTransportLicensePic,
 			onBeforeImageUpload,
-			onModelEdit,
+			onPreview,
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
-			tableData,
 			rules,
 			token,
 			onSubmit,
@@ -494,29 +594,3 @@ export default {
 	methods: {},
 };
 </script>
-<style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
-}
-</style>

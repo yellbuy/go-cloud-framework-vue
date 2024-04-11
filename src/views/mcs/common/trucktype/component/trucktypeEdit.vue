@@ -69,18 +69,6 @@
 							/>
 						</el-form-item>
 					</el-col>
-					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="重量单位" prop="WeightUnit">
-							<el-select v-model="ruleForm.WeightUnit" class="m-2" placeholder="" size="small">
-    							<el-option
-      							v-for="item in WeightUnitList"
-      							:key="item.Code"
-      							:label="item.Name"
-      							:value="parseInt(item.Code)"
-    							/>
-  							</el-select>
-						</el-form-item>
-					</el-col>	 -->
 				</el-row>
 				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
@@ -89,8 +77,7 @@
 							v-model="ruleForm.Remark"
 							:rows="3"
 							type="textarea"
-							placeholder="请输入备注"
-						/>
+							placeholder="请输入备注"/>
 					</el-form-item>
 					</el-col>
 				</el-row>	
@@ -119,7 +106,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>

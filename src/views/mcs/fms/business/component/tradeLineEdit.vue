@@ -18,7 +18,13 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="24" class="mb20">
 						<el-form-item label="重量" prop="Weight">
-							<el-input-number v-model="ruleForm.Weight" style="width: 150px" :precision="2" step="1" min="0" max="10000">
+							<el-input-number
+								v-model="ruleForm.Weight"
+								style="width: 150px"
+								:precision="2"
+								step="1"
+								min="0"
+								max="10000">
 							</el-input-number> 
 						</el-form-item>
 					</el-col>
@@ -27,7 +33,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
