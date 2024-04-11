@@ -163,7 +163,7 @@ import importDlg from './component/driverImport.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'driverInfo',
+	name: 'driverList',
 	components: { editDlg,importDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;

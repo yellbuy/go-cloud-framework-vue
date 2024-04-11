@@ -14,6 +14,7 @@ export default {
         const url = `/v1/admin/hcis/healthrecord/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
+
 	/**
      * 获取统计数据
      * @param kind 分类
@@ -26,6 +27,7 @@ export default {
         const url = `/v1/admin/hcis/healthrecord/stat/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
+
 	/**
      * 获取年龄段统计数据
      * @param kind 分类
@@ -34,10 +36,12 @@ export default {
      * @param params 要传的参数值
      * @returns 返回接口数据
      */
+
     getDashboardStatByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
         const url = `/v1/admin/hcis/healthrecord/stat/dashboard/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
+
 	/**
      * 获取年龄段统计数据
      * @param kind 分类
@@ -50,6 +54,7 @@ export default {
         const url = `/v1/admin/hcis/healthrecord/stat/age/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
+
 	/**
      * 获取筛查情况统计数据
      * @param kind 分类
@@ -58,10 +63,12 @@ export default {
      * @param params 要传的参数值
      * @returns 返回接口数据
      */
+
     getScreenStatByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
         const url = `/v1/admin/hcis/healthrecord/stat/screen/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
+
 	/**
      * 获取风险统计数据
      * @param kind 分类
@@ -70,10 +77,12 @@ export default {
      * @param params 要传的参数值
      * @returns 返回接口数据
      */
+
     getRiskStatByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
         const url = `/v1/admin/hcis/healthrecord/stat/risk/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
+
 	/**
      * 获取风险去向统计数据
      * @param kind 分类
@@ -82,10 +91,12 @@ export default {
      * @param params 要传的参数值
      * @returns 返回接口数据
      */
+
     getFollowUpModeStatByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
         const url = `/v1/admin/hcis/healthrecord/stat/followupmode/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
+
 	/**
      * 获取干预效果统计数据
      * @param kind 分类
@@ -94,10 +105,12 @@ export default {
      * @param params 要传的参数值
      * @returns 返回接口数据
      */
+
     getInterveneStatByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
         const url = `/v1/admin/hcis/healthrecord/stat/intervene/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
+
 	/**
 	 * 获取列表
 	 * @param params 要传的参数值
@@ -107,11 +120,13 @@ export default {
 		const url = `/v1/admin/hcis/healthrecord`;
 		return await http.get(url, params);
 	},
+
 	/**
 	 * 获取记录
 	 * @param id 要传的标识
 	 * @returns 返回接口数据
 	 */
+
 	getById: async (id: number | string,loadRelated:boolean=false) => {
 		const url = `/v1/admin/hcis/healthrecord/${id}?loadRelated=${loadRelated}`;
 		return await http.get(url);
@@ -126,29 +141,35 @@ export default {
 		const url = `/v1/admin/hcis/healthrecord`;
 		return await http.post(url, data);
 	},
+
 	/**
 	 * 更新记录
 	 * @param data 记录数据
 	 * @returns 返回接口数据
 	 */
+
 	update: async (data: object) => {
 		const url = `/v1/admin/hcis/healthrecord/${data.Id}`;
 		return await http.post(url, data);
 	},
+
 	/**
 	 * 更新步骤
 	 * @param data 记录数据
 	 * @returns 返回接口数据
 	 */
+
 	updateStep: async (step: Number | String, data: object) => {
 		const url = `/v1/admin/hcis/healthrecord/${step}/${data.Id}`;
 		return await http.post(url, data);
 	},
+
 	/**
 	 * 新增或更新记录
 	 * @param data 记录数据
 	 * @returns 返回接口数据
 	 */
+
 	save: async (data: object) => {
 		if (!data.Id || data.Id == "0") {
 			const url = `/v1/admin/hcis/healthrecord`;
@@ -157,20 +178,24 @@ export default {
 		const url = `/v1/admin/hcis/healthrecord/${data.Id}`;
 		return await http.post(url, data);
 	},
+
 	/**
 	 * 删除记录
 	 * @param id 记录标识
 	 * @returns 返回接口数据
 	 */
+
 	delete: async (id: number | string) => {
 		const url = `/v1/admin/hcis/healthrecord/delete/${id}`;
 		return await http.post(url);
 	},
+
 	/**
 	 * 删除记录
 	 * @param id 记录标识
 	 * @returns 返回接口数据
 	 */
+    
 	export: async (params: object = {}) => {
 		const url = `/v1/admin/hcis/healthrecord/export`;
 		return await http.get(url, params, { responseType: "blob" });

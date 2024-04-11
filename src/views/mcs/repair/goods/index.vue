@@ -13,12 +13,6 @@
 							</el-icon>
 							{{ $t('message.action.reset') }}
 						</el-button>
-						<el-button type="info" @click="onGetTableData(true)">
-							<el-icon>
-								<Search />
-							</el-icon>
-							&#8197;{{ $t('message.action.search') }}
-						</el-button>
 						<el-button type="info" @click="onGetXlsData()" v-auth:[moduleKey]="'btn.ExportXls'">
 							<el-icon>
 								<Download />
@@ -48,16 +42,15 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row				
-			>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="名称" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="BrandName" label="规格型号" width="150" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="GoodsUnit" label="计量单位" width="70" align="center"></el-table-column>
-				<el-table-column prop="Birthdate" label="部位" width="70" align="left"></el-table-column>
-				<el-table-column prop="GoodsAlisa" label="类别" width="120"show-overflow-tooltip></el-table-column>
-				<el-table-column prop="ShopPrice" label="基准价格" width="90" align="right" show-overflow-tooltip></el-table-column>
-				<el-table-column label="状态" width="70" show-overflow-tooltip>
+				highlight-current-row>
+				<el-table-column type="index" label="序号" width="60" align="right" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="GoodsName" label="名称" width="200" align="left" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="BrandName" label="规格型号" width="200" align="left" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsUnit" label="计量单位" width="80" align="left" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Birthdate" label="部位" width="80" align="left" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="GoodsAlisa" label="类别" width="120" align="left" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="ShopPrice" label="基准价格" width="100" align="right" show-overflow-tooltip></el-table-column>
+				<el-table-column label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.IsOnSale"
@@ -68,13 +61,12 @@
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
-							:inactive-value="0"
-						/>
+							:inactive-value="0"/>
 						<el-tag type="success" effect="plain" v-if="scope.row.IsOnSale" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="GoodsPics" label="商品图片" width="70" show-overflow-tooltip>
+				<el-table-column prop="GoodsPics" label="商品图片" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">		
 						<el-image
 							style="width: 30px; height: 30px"
@@ -84,8 +76,7 @@
 							:min-scale="0.2"
 							:preview-src-list="imgUrlList(scope.row.GoodsPics)"
 							fit="cover"
-							:preview-teleported="true"
-							/>			
+							:preview-teleported="true"/>			
 					</template>
 				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
@@ -101,7 +92,7 @@
 						</el-button>
 					</template>
 				</el-table-column>
-				<el-table-column prop="SellerNote" label="备注" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="SellerNote" label="备注" align="left" show-overflow-tooltip></el-table-column>
 			</el-table>
 			<el-pagination
 				small
@@ -130,7 +121,7 @@ import commonFunction from '/@/utils/commonFunction';
 import importDlg from './component/goodsImport.vue';
 
 export default {
-	name: 'projectList',
+	name: 'goodsList',
 	components: { editDlg, importDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -162,13 +153,14 @@ export default {
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});
-		//重置查询条件
+
+		//	重置查询条件
 		const onResetSearch = () => {
 			state.tableData.param.keyword = '';
 			onGetTableData(true);
 		};
 
-		// 初始化表格数据
+		//	初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
@@ -186,12 +178,14 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
-		// 打开弹窗
+
+		//	打开弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 	
 		};
-		// 删除用户
+
+		//	删除用户
 		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -210,39 +204,43 @@ export default {
 			});
 		};
 
-		// 分页改变
+		//	分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
 			onGetTableData();
 		};
-		// 分页改变
+
+		//	分页改变
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
 
+		//	导入功能
 		const onGetXlsData = async () => {
 			const res = await proxy.$api.wms.goods.exportXlsByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 			if (!res.data || res.data.size == 0) {
 				return;
 			} 
-			// 返回不为空
+			//	返回不为空
 			var url = window.URL.createObjectURL(res.data);
 			var a = document.createElement('a');
 			a.href = url;
-			a.download = '司机台账_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.download = '司机台账_' + new Date().getTime() + '.xlsx'; //	下载后的文件名称
 			a.click();
 		};
 
+		//	打开窗口
 		const onOpenImportDlg = () => {
 			importDlgRef.value.openDialog(state.kind);
 		};
 
-		// 页面加载时
+		//	页面加载时
 		onMounted(() => {
 			onGetTableData();
 		});
 
+		//	时间格式
 		const { dateFormatYMDHM } = commonFunction();
 
 		const imgUrlList=(GoodsPics)=>{
@@ -253,9 +251,6 @@ export default {
 					imgList.forEach(function(element, index, array) {
   					array[index] = state.httpsText+element;
 				});
-					
-			//console.log("获得的数组",imgList)
-
 				}
 			}
 			return imgList
@@ -291,6 +286,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped lang="scss">
-</style>

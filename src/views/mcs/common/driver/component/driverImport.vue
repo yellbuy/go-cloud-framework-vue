@@ -190,51 +190,39 @@ import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
-	name: 'freightEdit',
+	name: 'driverImport',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
+		
+		//	获取用户信息
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
 		
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
-			baseUrl: import.meta.env.VITE_API_URL,
-			//表单
+			//	表单
 			ruleForm: {
 				Kind: 'info',
 				DriverList:[],
 			},
-			
-			dialogVisible: false,
-
-			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
-			saveState: false,
 			Files: [],
-			httpsText: import.meta.env.VITE_URL as any,
-			FilesList: [],
 			GenderList: ["男", "女"],
 			NationList: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","布依族","白族","朝鲜族","侗族","哈尼族","哈萨克族","满族","土家族","瑶族","达斡尔族",
 			"东乡族","高山族","景颇族","柯尔克孜族","拉祜族","纳西族","畲族","傣族","黎族","傈僳族","仫佬族","阿昌族","布朗族","毛南族","普米族","撒拉族","塔吉克族",
 			"锡伯族","保安族","德昂族","俄罗斯族","鄂温克族","京族","怒族","乌孜别克族","裕固族","独龙族","鄂伦春族","赫哲族","基诺族","珞巴族","门巴族"],
 			DriverLicenseTypeList: ["A1","A2","A3","B1","B2","C1","C2","C3","C4","D","E","F","M","N","P"],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -248,13 +236,12 @@ export default {
 			
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string, ) => {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {				
-				
 				state.ruleForm.DriverList=[];
 				state.isShowDialog = true;
 			} finally {
@@ -262,8 +249,7 @@ export default {
 			}
 		}
 
-
-		//导入地址
+		//	导入功能
 		const onImportXlsx = (e: any) => {
 			const file = e.raw
 			const reader = new FileReader()
@@ -300,10 +286,8 @@ export default {
 					}
 
 					model.Mobile=`${row["__EMPTY_2"]}`||"";
-
 					model.Birthdate=row["__EMPTY_3"]||new Data();
 					model.Idno=`${row["__EMPTY_4"]}`||"";
-
 					model.IdnoEndDate=row["__EMPTY_5"]||new Data();
 					model.Nation=`${row["__EMPTY_6"]}`||"";
 					model.NativePlace=`${row["__EMPTY_7"]}`||"";
@@ -317,40 +301,37 @@ export default {
 			}
 		}
 
+		//	导入列表新增记录
 		const onAddRow = () => {
 		 	state.ruleForm.DriverList=[{},...state.ruleForm.DriverList]
 		};
+
+		//	导入列表清空记录
 		const onClearRow = () => {
 		 	state.ruleForm.DriverList=[]
 		};
-		// 下载导入模板
+
+		//	下载导入模板
 		const onDownloadTpl = async () => {
 			var a = document.createElement('a');
 			a.href = import.meta.env.VITE_URL+"/static/download/erp/driver.xlsx";
-			a.download = '司机台账模板_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.download = '司机台账模板_' + new Date().getTime() + '.xlsx'; //	下载后的文件名称
 			a.click();
 		};
+
+		//	导入列表删除单条记录
 		const onDelRow = (index:number) => {
 			state.ruleForm.DriverList.splice(index,1)
 		};
-		// 关闭弹窗
+
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
 			state.isShowDialog = false;
 		};
-
-		const onLoadTable = () => {
-			proxy.$parent.onGetTableData();
-		};
-		
-		//修改按钮
-		const onModelEdit = (item: object) => {
 			
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
-		// 提交
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -375,22 +356,21 @@ export default {
 			});
 		};
 
+		//	时间格式
 		const { dateFormatYMD } = commonFunction();
-		// 页面加载时
+
+		//	页面加载时
 		onMounted(() => {});
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
 			onAddRow,
 			onDelRow,
 			onClearRow,
 			onDownloadTpl,
 			onImportXlsx,
-			onModelEdit,
-			showImage,
 			dateFormatYMD,
 			getUserInfos,
 			rules,
@@ -401,16 +381,3 @@ export default {
 	},
 };
 </script>
-<style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-</style>

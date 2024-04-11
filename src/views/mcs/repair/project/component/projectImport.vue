@@ -3,14 +3,6 @@
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
 				<el-row :gutter="20">
-					<!-- <el-col :xs="2" :sm="4" class="mb20">
-						<el-select
-							v-model="GoodsAlisaList"
-							style="width: 100%"
-							placeholder="请选择">
-							<el-option v-for="(item, index) in GoodsAlisaList" :key="index" :label="item.GoodsAlisa" :value="item.Id"> </el-option>
-						</el-select>
-					</el-col> -->
 					<el-col :xs="1" :sm="1" class="mb20">
 						<el-upload ref="uploadRef" class="upload-demo" :before-upload="
 								() => {return false;}" :auto-upload="false" :on-change="onImportXlsx" :show-file-list="false">
@@ -36,56 +28,46 @@
 					<el-col :xs="24" :sm="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
-							:data="ruleForm.PartsList"
+							:data="ruleForm.ProjectList"
 							style="width: 100%"
 							:height="proxy.$calcMainHeight(-205)"
 							border
 							stripe
 							highlight-current-row>
-							<el-table-column prop="GoodsName" label="名称" width="200" fixed="left">
+							<el-table-column prop="Name" label="项目名称" width="200" align="left" fixed="left">
 								<template #default="scope">
 									<el-input
-										v-model="scope.row.GoodsName"
+										v-model="scope.row.Name"
 										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="BrandName" label="规格型号">
+							<el-table-column prop="No" label="项目编号" width="200" align="center">
 								<template #default="scope">
 									<el-input
-										v-model="scope.row.BrandName"
+										v-model="scope.row.No"
 										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="GoodsUnit" label="计量单位" width="120">
-								<template #default="scope">
-									<el-input
-										v-model="scope.row.GoodsUnit"
-										style="width: 100%"
-										placeholder="请输入"></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="Birthdate" label="部位" width="120">
-								<template #default="scope">
-									<el-input
-										v-model="scope.row.Birthdate"
-										style="width: 100%"
-										placeholder="请输入"></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="GoodsAlisa" label="类别" width="200">
-								<template #default="scope">
-									<el-input
-										v-model="scope.row.GoodsAlisa"
-										style="width: 100%"
-										placeholder="请输入"></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="ShopPrice" label="基准价格" width="180">
+							<el-table-column prop="Qty" label="预估工时" width="180" align="center">
 								<template #default="scope">
 									<el-input-number
-										v-model="scope.row.ShopPrice"
+										v-model="scope.row.Qty"
+										style="width: 100%"
+										placeholder="请输入"
+										:controls="true"
+										precision="0"
+										min="0"
+										max="1000000000"
+										step="1"
+										oninput="this.value = this.value.replace(/[^0-9]/g, '')"></el-input-number>
+								</template>
+							</el-table-column>
+							<el-table-column prop="Price" label="工时单价" width="180" align="left">
+								<template #default="scope">
+									<el-input-number
+										v-model="scope.row.Price"
 										style="width: 100%"
 										placeholder="请输入"
 										:controls="true"
@@ -93,8 +75,23 @@
 										min="0"
 										max="1000000000"
 										step="1"
-										oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-									</el-input-number>
+										oninput="this.value = this.value.replace(/[^0-9]/g, '')"></el-input-number>
+								</template>
+							</el-table-column>
+							<el-table-column prop="Content" label="服务内容" width="300" align="left">
+								<template #default="scope">
+									<el-input
+										v-model="scope.row.Content"
+										style="width: 100%"
+										placeholder="请输入"></el-input> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Remark" label="备注" align="center">
+								<template #default="scope">
+									<el-input
+										v-model="scope.row.Remark"
+										style="width: 100%"
+										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
@@ -128,12 +125,12 @@
 <script lang="ts">
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import * as XLSX from "xlsx"; //引入
+import * as XLSX from "xlsx"; //	引入
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
-	name: 'goodsImport',
+	name: 'projectImport',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 
@@ -147,28 +144,24 @@ export default {
 			return store.state.userInfos.userInfos;
 		});
 
-		//	显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
 		
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //	是否禁用
 			//	表单
 			ruleForm: {
 				Kind: 'repair',
-				PartsList:[],
+				ProjectList:[],
 			},
+			
+			dialogVisible: false,
+
 			tableData: [],
+			saveState: false,
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
-			GoodsAlisaList: [],
+			FilesList: [],
 		});
 
 		const token = Session.get('token');
@@ -193,14 +186,14 @@ export default {
 			state.ruleForm.Kind = kind;
 			try {				
 				
-				state.ruleForm.PartsList=[];
+				state.ruleForm.ProjectList=[];
 				state.isShowDialog = true;
 			} finally {
 				state.isShowDialog = true;
 			}
 		}
 
-		//	导入功能
+		//	导入地址
 		const onImportXlsx = (e: any) => {
 			const file = e.raw
 			const reader = new FileReader()
@@ -222,54 +215,54 @@ export default {
 				}else{
 					num = list.length;
 				}
-				state.ruleForm.PartsList=[];
+				state.ruleForm.ProjectList=[];
 				const rows=[]
 				for(let i=1;i<num;i++){
 					const row=list[i];
-					const GoodsName=row["__EMPTY"]||"";
+					const Name=row["__EMPTY"]||"";
 					
-					if(!GoodsName){
+					if(!Name){
 						continue;
 					}
 					const model={};
-					model.IsOnSale=1;
 
-					model.GoodsName=GoodsName;
-					model.BrandName=row["__EMPTY_1"]||"";
-					model.GoodsUnit=`${row["__EMPTY_2"]}`||"";
-					model.GoodsAlisa=wsname
-					model.Birthdate=row["__EMPTY_3"]||"";
-					model.ShopPrice=`${row["__EMPTY_4"]}`||"";
+					model.Name=Name;
+					model.No=String(row["__EMPTY_1"]||"");
+					model.Qty=row["__EMPTY_2"]||"";
+					model.Price=row["__EMPTY_3"]||"";
+					model.Content=row["__EMPTY_4"]||"";
+					model.Remark=row["__EMPTY_5"]||"";
+					model.State=1;
 					rows.push(model);
 				}
-				state.ruleForm.PartsList=rows;
+				state.ruleForm.ProjectList=rows;
 			}
 		}
 
 		//	导入列表新增记录
 		const onAddRow = () => {
-		 	state.ruleForm.PartsList=[{},...state.ruleForm.PartsList]
+		 	state.ruleForm.ProjectList=[{},...state.ruleForm.ProjectList]
 		};
 
 		//	导入列表清空记录
 		const onClearRow = () => {
-		 	state.ruleForm.PartsList=[]
+		 	state.ruleForm.ProjectList=[]
 		};
 
-		// 下载导入模板
+		//	下载导入模板
 		const onDownloadTpl = async () => {
 			var a = document.createElement('a');
-			a.href = import.meta.env.VITE_URL+"/static/download/erp/parts.xlsx";
-			a.download = '配件管理模板_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.href = import.meta.env.VITE_URL+"/static/download/erp/project.xlsx";
+			a.download = '项目管理模板_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
 			a.click();
 		};
 
 		//	导入列表删除单条记录
 		const onDelRow = (index:number) => {
-			state.ruleForm.PartsList.splice(index,1)
+			state.ruleForm.ProjectList.splice(index,1)
 		};
 
-		// 关闭弹窗
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
@@ -282,7 +275,7 @@ export default {
 				if (valid) {
 					state.loading = true;
 					try {
-						const res = await proxy.$api.wms.goods.saveMulti(state.ruleForm.Kind, state.ruleForm.PartsList);
+						const res = await proxy.$api.erp.project.saveMulti(state.ruleForm.Kind, state.ruleForm.ProjectList);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -304,8 +297,9 @@ export default {
 		//	时间格式
 		const { dateFormatYMD } = commonFunction();
 
-		//	页面加载时
+		//	窗口页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,
@@ -316,7 +310,6 @@ export default {
 			onClearRow,
 			onDownloadTpl,
 			onImportXlsx,
-			showImage,
 			dateFormatYMD,
 			getUserInfos,
 			rules,
