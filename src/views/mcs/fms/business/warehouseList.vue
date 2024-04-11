@@ -47,7 +47,7 @@
 				<el-table-column type="index" label="序号" align="right" width="50" fixed />
 				<el-table-column prop="BusinessBillName" label="平台" width="120" fixed></el-table-column>
 				<el-table-column prop="CustomerName" label="客户名称" width="300" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="PlanWeight" label="收入" width="80" align="right" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Amount" label="收入" width="80" align="right" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Volume" label="出租面积" width="80" align="right" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="BusinessBillVolume" label="平台面积" width="80" align="right" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="BillTime" label="日期" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
