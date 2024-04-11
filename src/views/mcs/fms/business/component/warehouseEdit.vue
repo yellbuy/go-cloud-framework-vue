@@ -44,9 +44,9 @@
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" class="mb20">
-						<el-form-item label="收入" prop="PlanWeight">
+						<el-form-item label="收入" prop="Amount">
 							<el-input-number
-								v-model="ruleForm.PlanWeight"
+								v-model="ruleForm.Amount"
 								:controls="true"
 								style="width: 100%"
 								placeholder="请输入"
@@ -117,7 +117,7 @@ export default {
 				GoodsId:"0",
 				BusinessBillId:"",
 				BillTime:new Date(),
-				PlanWeight:'',
+				Amount:0,
 				Volume:'',
 				IsExternal:0,
 				State: 1,
@@ -157,7 +157,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			PlanWeight: [
+			Amount: [
 				{
 					required: true,
 					message: t('message.validRule.mustOption'),

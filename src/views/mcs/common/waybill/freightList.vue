@@ -54,7 +54,7 @@
 								<el-tag type="warning" class="mr4" effect="dark" v-else-if="scope.row.WaybillMode==10">其他</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="PlanWeight" label="执行进度" width="80" align="center">
+						<el-table-column prop="PlanWeight" label="执行进度" width="100" align="center">
 							<template #default="scope">
 								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
 							</template>
@@ -191,7 +191,7 @@
 									:inactive-value="0"
 								/>
 								<el-tag type="success" effect="plain" v-if="scope.row.FinishState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
-								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.') }}</el-tag>
+								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
 							</template>
 						</el-table-column>
 						
