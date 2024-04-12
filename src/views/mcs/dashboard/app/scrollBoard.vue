@@ -69,7 +69,7 @@ export default {
         series: [
           {
             name: "计划量",
-            data: [2.5, 3.5, 6.5, 6.5, 7.5, 6.5],
+            data: [0, 3.5, 6.5, 6.5, 7.5, 6.5],
             type: "bar",
             barStyle: {
               fill: "rgba(0, 186, 255, 0.4)",
@@ -77,7 +77,7 @@ export default {
           },
           {
             name: "完成量",
-            data: [2.5, 3.5, 6.5, 6.5, 7.5, 6.5],
+            data: [0, 3.5, 6.5, 6.5, 7.5, 6.5],
             type: "line",
             lineStyle: {
               stroke: "#ff5ca9",
