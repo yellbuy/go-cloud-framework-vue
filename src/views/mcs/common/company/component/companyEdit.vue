@@ -111,7 +111,6 @@ export default {
 			state.Files.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
 			console.log(state.FilesList);
 		};
 		const onRemove = (file: UploadFile) => {
@@ -125,10 +124,10 @@ export default {
 		};
 		const store = useStore();
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
+
+		//	显示表格图片
 		const showImage = (Files: string) => {
 			let fileUrl = '';
 			let filList = Files.split(',');
@@ -137,7 +136,8 @@ export default {
 		};
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
-		//资质表格
+
+		//	资质表格
 		const tableData = reactive({
 			data: [],
 			loading: false,
@@ -151,9 +151,9 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
+			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
-			//表单
+			//	表单
 			ruleForm: {
 				Id: 0,
 				Name: '',
@@ -186,7 +186,7 @@ export default {
 				Kind: 'bpp',
 			},
 			dialogVisible: false,
-			//供应商类型
+			//	供应商类型
 			industryList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
@@ -212,13 +212,6 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			// CompanyAlias: [
-			// 	{
-			// 		required: true,
-			// 		message: t('message.validRule.required'),
-			// 		trigger: 'blur',
-			// 	},
-			// ],
 			Idno: [
 				{
 					required: true,
@@ -308,7 +301,7 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		// 关闭弹窗
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			console.log('关闭页面表单', state.ruleForm);
@@ -322,7 +315,7 @@ export default {
 		const onLoadTable = () => {
 			proxy.$parent.onGetTableData();
 		};
-		//修改按钮
+		//	修改按钮
 		const onModelEdit = (item: object) => {
 			state.tableItem = item;
 			console.log(state.tableItem.Files);
@@ -338,7 +331,7 @@ export default {
 			state.saveState = false;
 			state.dialogVisible = true;
 		};
-		//表格新增按钮
+		//	表格新增按钮
 		const onModelAdd = () => {
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'customer', StartTime: '' };
 			state.Files = [];
@@ -346,7 +339,7 @@ export default {
 			state.saveState = true;
 			state.dialogVisible = true;
 		};
-		//弹窗保存按钮
+		//	弹窗保存按钮
 		const CompanyLineSave = () => {
 			if (state.Files) {
 				state.tableItem.Files = state.Files.join(',');
@@ -355,7 +348,7 @@ export default {
 				console.log('是否符合规则', valid);
 				if (valid) {
 					if (state.saveState) {
-						//确定按钮
+						//	确定按钮
 						if (!Array.isArray(tableData.data)) {
 							tableData.data = [];
 						}
@@ -365,14 +358,14 @@ export default {
 				}
 			});
 		};
-		//弹窗取消
+		//	弹窗取消
 		const CompanyLineClose = () => {
 			proxy.$refs.categoryFormRef.clearValidate();
 			state.Files = [];
 			state.FilesList = [];
 			state.dialogVisible = false;
 		};
-		//表格删除按钮
+		//	表格删除按钮
 		const onModelDel = (item: Object, index: number) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -407,7 +400,7 @@ export default {
 				})
 				.catch((err) => {});
 		};
-		// 新增
+		//	新增
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -453,7 +446,7 @@ export default {
 			return true;
 		};
 		const { dateFormatYMD } = commonFunction();
-		// 页面加载时
+		//	页面加载时
 		onMounted(() => {});
 		return {
 			proxy,
@@ -490,29 +483,3 @@ export default {
 	methods: {},
 };
 </script>
-<style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
-}
-</style>

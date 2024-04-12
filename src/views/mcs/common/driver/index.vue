@@ -48,78 +48,17 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-			>
-				<el-table-column type="index" label="序号" align="right" width="50" fixed />
-				<el-table-column prop="Name" label="姓名" width="100" fixed></el-table-column>
-				<el-table-column prop="Gender" label="性别" :formatter="formatGender" width="100" fixed>
-				</el-table-column>
-				<!-- <el-table-column label="性别" sortable width="70" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.Gender"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_driver', 'gender', scope.row.Id, scope.row.Gender)"
-							:active-text="$t('message.action.male')"
-							:inactive-text="$t('message.action.female')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.Gender==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.male') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.female') }}</el-tag>
-					</template>
-				</el-table-column> -->
-				<el-table-column prop="Nation" label="民族" sortable width="120" show-overflow-tooltip></el-table-column>
-				<!-- <el-table-column prop="Idno" label="身份证号" width="120" show-overflow-tooltip></el-table-column> -->
-				<!-- <el-table-column label="外部车" width="70" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.IsExternal"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
-							:active-text="$t('message.action.yes')"
-							:inactive-text="$t('message.action.no')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
-					</template>
-				</el-table-column> -->
-
-
+				highlight-current-row>
+				<el-table-column type="index" label="序号" width="50" align="right" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Name" label="姓名" width="100" align="left" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Gender" label="性别" width="100" align="left" :formatter="formatGender" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Nation" label="民族" width="120" align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="IdnoEndDate" label="身份证截止日" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Tname" label="所属公司" width="200" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="DriverLicenseType" label="驾照类型" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Mobile" label="手机号" width="120" align="right" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Address" label="住址" align="left" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="DriverLicenseType" label="驾照类型" width="120" align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="IdnoEndDate" label="驾照截止日" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Mobile" label="手机号" width="120"  show-overflow-tooltip></el-table-column>
-				
-				<!-- <el-table-column prop="NativePlace" label="籍贯" width="120"  show-overflow-tooltip></el-table-column> -->
-				<!-- <el-table-column prop="Birthdate" label="出生日期" width="120"  show-overflow-tooltip :formatter="dateFormatYMD"></el-table-column> -->
-				<el-table-column prop="Address" label="住址" show-overflow-tooltip></el-table-column>
-	
-				<!-- <el-table-column label="状态" width="70" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.State"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'state', scope.row.Id, scope.row.State)"
-							:active-text="$t('message.action.enable')"
-							:inactive-text="$t('message.action.disable')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
-					</template>
-				</el-table-column> -->
-				
+				<el-table-column prop="Tname" label="所属公司" width="200"  align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -145,8 +84,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
+				:total="tableData.total">
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />

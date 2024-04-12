@@ -28,19 +28,18 @@
 					<el-col :xs="24" :sm="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
-							:data="ruleForm.DriverList"
+							:data="paginatedData"
 							style="width: 100%"
 							:height="proxy.$calcMainHeight(-205)"
 							border
 							stripe
-							highlight-current-row
-						>
+							highlight-current-row>
 							<el-table-column prop="Name" label="姓名" width="100" fixed>
 								<template #default="scope">
 									<el-input v-model="scope.row.Name" ></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Gender" label="性别" width="100">
+							<el-table-column prop="Gender" label="性别" width="80">
 								<template #default="scope">
 									<el-select
 										v-model="scope.row.Gender"
@@ -51,38 +50,6 @@
 										placeholder="请选择">
 										<el-option v-for="(item,index) in GenderList" :key="index" :label="item" :value="index+1"></el-option>
 									</el-select> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="Mobile" label="手机号" width="120">
-								<template #default="scope">
-									<el-input v-model="scope.row.Mobile" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="Birthdate " label="出生日期" width="120">
-								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.Birthdate"
-										style="width: 100%"
-										type="date"
-										placeholder="选择日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
-								</template>
-							</el-table-column>
-							<el-table-column prop="Idno" label="身份证号码" width="180">
-								<template #default="scope">
-									<el-input v-model="scope.row.Idno" ></el-input> 
-								</template>
-							</el-table-column>
-							<el-table-column prop="IdnoEndDate" label="身份证截止日期" width="120">
-								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.IdnoEndDate"
-										style="width: 100%"
-										type="date"
-										placeholder="选择日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
 								</template>
 							</el-table-column>
 							<el-table-column prop="Nation" label="民族" width="120">
@@ -98,9 +65,41 @@
 									</el-select> 
 								</template>
 							</el-table-column>
+							<el-table-column prop="Birthdate " label="出生日期" width="120">
+								<template #default="scope">
+									<el-date-picker
+										v-model="scope.row.Birthdate"
+										style="width: 100%"
+										type="date"
+										placeholder="选择日期"
+										format="YYYY-MM-DD"
+									></el-date-picker>
+								</template>
+							</el-table-column>
+							<el-table-column prop="Idno" label="身份证号码" width="160">
+								<template #default="scope">
+									<el-input v-model="scope.row.Idno" ></el-input> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="IdnoEndDate" label="身份证截止日期" width="120">
+								<template #default="scope">
+									<el-date-picker
+										v-model="scope.row.IdnoEndDate"
+										style="width: 100%"
+										type="date"
+										placeholder="选择日期"
+										format="YYYY-MM-DD"
+									></el-date-picker>
+								</template>
+							</el-table-column>
 							<el-table-column prop="NativePlace" label="籍贯" width="200">
 								<template #default="scope">
 									<el-input v-model="scope.row.NativePlace" ></el-input> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="Mobile" label="手机号" width="120">
+								<template #default="scope">
+									<el-input v-model="scope.row.Mobile" ></el-input> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Address" label="家庭地址" width="400">
@@ -167,6 +166,16 @@
 								</template>
 							</el-table-column>
 						</el-table>
+						<el-pagination
+							small
+							class="mt15"
+							:page-sizes="[15, 30]"
+							v-model:current-page="tableData.param.pageNum"
+							background
+							v-model:page-size="tableData.param.pageSize"
+							layout="->, total, sizes, prev, pager, next, jumper"
+							:total="tableData.total">
+						</el-pagination>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -213,6 +222,13 @@ export default {
 				Kind: 'info',
 				DriverList:[],
 			},
+			tableData: {
+				total: 0,
+				param: {
+					pageNum: 1,
+					pageSize: 15,
+				},
+			},
 			Files: [],
 			GenderList: ["男", "女"],
 			NationList: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","布依族","白族","朝鲜族","侗族","哈尼族","哈萨克族","满族","土家族","瑶族","达斡尔族",
@@ -255,6 +271,8 @@ export default {
 			const reader = new FileReader()
 			reader.readAsArrayBuffer(file)
 			reader.onload = (ev: any) => {
+				const rows=[]
+				const unique = {};
 				let data = ev.target.result
 				const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
 				if(workbook.SheetNames.length==0){
@@ -262,18 +280,13 @@ export default {
 				}
 				const wsname = workbook.SheetNames[0]
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
-				console.log("get xlsx data：",list)
-				if(!list.length||list.length<2){
-					return;
-				}
-				state.ruleForm.DriverList=[];
-				for(let i=2;i<list.length;i++){
+				for(let i = 1; i < list.length; i++){
 					const row=list[i];
 					const Name=row["__EMPTY"]||"";
-					console.log(Name)
-					if(!Name){
+					if(!Name || unique[Name]){
 						continue;
 					}
+					unique[Name] = true
 					const model={};
 					model.Name=Name;
 					model.Gender=row["__EMPTY_1"]||"";
@@ -285,19 +298,21 @@ export default {
 						model.Gender = 0
 					}
 
-					model.Mobile=`${row["__EMPTY_2"]}`||"";
+					model.Nation=`${row["__EMPTY_2"]}`||"";
 					model.Birthdate=row["__EMPTY_3"]||new Data();
 					model.Idno=`${row["__EMPTY_4"]}`||"";
 					model.IdnoEndDate=row["__EMPTY_5"]||new Data();
-					model.Nation=`${row["__EMPTY_6"]}`||"";
-					model.NativePlace=`${row["__EMPTY_7"]}`||"";
+					model.NativePlace=`${row["__EMPTY_6"]}`||"";
+					model.Mobile=`${row["__EMPTY_7"]}`||"";
 					model.Address=`${row["__EMPTY_8"]}`||"";
 					model.DriverLicenseType=row["__EMPTY_9"]||"";
 					model.RegistrationDate=row["__EMPTY_10"]||new Data();
 					model.DriverLicenseStartDate=row["__EMPTY_11"]||new Data();
 					model.DriverLicenseEndDate=row["__EMPTY_12"]||new Data();
-					state.ruleForm.DriverList.push(model);
+					rows.push(model);
 				}
+				state.tableData.total=rows.length
+				state.ruleForm.DriverList=rows;
 			}
 		}
 
@@ -323,6 +338,14 @@ export default {
 		const onDelRow = (index:number) => {
 			state.ruleForm.DriverList.splice(index,1)
 		};
+
+		//	分页改变
+		const paginatedData = computed(() => {
+			const start = (state.tableData.param.pageNum - 1) * state.tableData.param.pageSize;
+			const end = start + state.tableData.param.pageSize;
+			const list= state.ruleForm.DriverList.slice(start, end);
+			return list;
+		});
 
 		//	关闭弹窗
 		const closeDialog = () => {
@@ -366,6 +389,7 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
+			paginatedData,
 			onAddRow,
 			onDelRow,
 			onClearRow,

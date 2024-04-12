@@ -104,8 +104,6 @@
 						</el-table>
 						<el-pagination
 							small
-							@size-change="onHandleSizeChange"
-							@current-change="onHandleCurrentChange"
 							class="mt15"
 							:page-sizes="[15, 30]"
 							v-model:current-page="tableData.param.pageNum"
@@ -170,16 +168,10 @@ export default {
 				PartsList:[],
 			},
 			tableData: {
-				data: [],
 				total: 0,
-				loading: false,
-				currentPageFirst: 0,
-				currentPageFinally: 0,
 				param: {
-					keyword: '',
 					pageNum: 1,
 					pageSize: 15,
-					state: -1,
 				},
 			},
 			Files: [],
@@ -209,7 +201,6 @@ export default {
 			state.ruleForm.Kind = kind;
 			try {				
 				state.ruleForm.PartsList=[];
-				state.tableData.data = [];
 				state.isShowDialog = true;
 			} finally {
 				state.isShowDialog = true;
@@ -222,6 +213,8 @@ export default {
 			const reader = new FileReader()
 			reader.readAsArrayBuffer(file)
 			reader.onload = (ev: any) => {
+				const rows=[]
+				const unique = {};
 				let data = ev.target.result
 				const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
 				if(workbook.SheetNames.length==0){
@@ -229,15 +222,13 @@ export default {
 				}
 				const wsname = workbook.SheetNames[0]
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
-				state.tableData.total=list.length
-				const rows=[]
-				for(let i = 1; i < state.tableData.total; i++){
+				for(let i = 1; i < list.length; i++){
 					const row=list[i];
 					const GoodsName=row["__EMPTY"]||"";
-					
-					if(!GoodsName){
+					if(!GoodsName || unique[GoodsName]){
 						continue;
 					}
+					unique[GoodsName] = true
 					const model={};
 					model.IsOnSale=1;
 					model.GoodsName=GoodsName;
@@ -248,8 +239,8 @@ export default {
 					model.ShopPrice=row["__EMPTY_5"]||"";
 					rows.push(model);
 				}
+				state.tableData.total=rows.length
 				state.ruleForm.PartsList=rows;
-				//pageChange();
 			}
 		}
 
@@ -283,29 +274,7 @@ export default {
 			state.isShowDialog = false;
 		};
 
-		//	单页条数修改
-		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.pageSize = val;
-			//pageChange();
-		}
-
-		//	页码修改
-		const onHandleCurrentChange = (val: number) => {
-			state.tableData.param.pageNum = val;
-			//pageChange();
-		}
-
 		//	分页改变
-		const pageChange = () => {
-			state.tableData.data = []
-			state.tableData.currentPageFinally = state.tableData.param.pageSize * state.tableData.param.pageNum
-			state.tableData.currentPageFirst = state.tableData.currentPageFinally - state.tableData.param.pageSize
-			if (state.tableData.currentPageFinally > state.tableData.total){
-				state.tableData.currentPageFinally = state.tableData.total
-			}
-			state.tableData.data = state.ruleForm.PartsList.slice(state.tableData.currentPageFirst, state.tableData.currentPageFinally)
-		}
-
 		const paginatedData = computed(() => {
 			const start = (state.tableData.param.pageNum - 1) * state.tableData.param.pageSize;
 			const end = start + state.tableData.param.pageSize;
@@ -348,9 +317,6 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
-			pageChange,
-			onHandleSizeChange,
-			onHandleCurrentChange,
 			onAddRow,
 			onDelRow,
 			onClearRow,

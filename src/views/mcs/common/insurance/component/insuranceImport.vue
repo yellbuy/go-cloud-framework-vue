@@ -28,7 +28,7 @@
 					<el-col :xs="24" :sm="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
-							:data="ruleForm.InsuranceList"
+							:data="paginatedData"
 							style="width: 100%"
 							:height="proxy.$calcMainHeight(-205)"
 							border
@@ -211,6 +211,16 @@
 								</template>
 							</el-table-column>
 						</el-table>
+						<el-pagination
+							small
+							class="mt15"
+							:page-sizes="[15, 30]"
+							v-model:current-page="tableData.param.pageNum"
+							background
+							v-model:page-size="tableData.param.pageSize"
+							layout="->, total, sizes, prev, pager, next, jumper"
+							:total="tableData.total">
+						</el-pagination>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -256,6 +266,13 @@ export default {
 				Kind: 'info',
 				InsuranceList:[],
 			},
+			tableData: {
+				total: 0,
+				param: {
+					pageNum: 1,
+					pageSize: 15,
+				},
+			},
 			Files: [],
 		});
 
@@ -294,6 +311,8 @@ export default {
 			const reader = new FileReader()
 			reader.readAsArrayBuffer(file)
 			reader.onload = (ev: any) => {
+				const rows=[]
+				const unique = {};
 				let data = ev.target.result
 				const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
 				if(workbook.SheetNames.length==0){
@@ -301,26 +320,14 @@ export default {
 				}
 				const wsname = workbook.SheetNames[0]
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
-				console.log("get xlsx data：",list)
-				let num = 0
-				if(!list.length||list.length<2){
-					num = 0
-				}else if (list.length>100){
-					num = 100;
-				}else{
-					num = list.length;
-				}
-				state.ruleForm.InsuranceList=[];
-				const rows=[]
-				for(let i=1;i<num;i++){
+				for(let i = 1; i < list.length; i++){
 					const row=list[i];
 					const VehicleNumber=row["__EMPTY"]||"";
-					
-					if(!VehicleNumber){
+					if(!VehicleNumber || unique[VehicleNumber]){
 						continue;
 					}
+					unique[VehicleNumber] = true
 					const model={};
-
 					model.VehicleNumber=VehicleNumber;
 					model.StartTime=row["__EMPTY_1"]||new Data();
 					model.EndTime=row["__EMPTY_2"]||new Data();
@@ -339,6 +346,7 @@ export default {
 					model.TaxFee=row["__EMPTY_14"]||"";
 					rows.push(model);
 				}
+				state.tableData.total=rows.length
 				state.ruleForm.InsuranceList=rows;
 			}
 		}
@@ -365,6 +373,14 @@ export default {
 		const onDelRow = (index:number) => {
 			state.ruleForm.InsuranceList.splice(index,1)
 		};
+
+		//	分页改变
+		const paginatedData = computed(() => {
+			const start = (state.tableData.param.pageNum - 1) * state.tableData.param.pageSize;
+			const end = start + state.tableData.param.pageSize;
+			const list= state.ruleForm.InsuranceList.slice(start, end);
+			return list;
+		});
 
 		//	关闭弹窗
 		const closeDialog = () => {
@@ -409,6 +425,7 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
+			paginatedData,
 			onAddRow,
 			onDelRow,
 			onClearRow,

@@ -28,73 +28,94 @@
 					<el-col :xs="24" :sm="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
-							:data="ruleForm.DriverList"
+							:data="paginatedData"
 							style="width: 100%"
 							:height="proxy.$calcMainHeight(-205)"
 							border
 							stripe
-							highlight-current-row
-						>
-							<el-table-column prop="CompanyName" label="客户名称" width="120" fixed>
+							highlight-current-row>
+							<el-table-column prop="CompanyName" label="客户名称" width="100" fixed>
 								<template #default="scope">
-									<el-input v-model="scope.row.CompanyName" ></el-input> 
+									<el-input
+										v-model="scope.row.CompanyName"
+										style="width: 100%"
+										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="CompanyAlias" label="客户简称" width="80" fixed>
 								<template #default="scope">
-									<el-input v-model="scope.row.CompanyAlias" ></el-input> 
+									<el-input
+										v-model="scope.row.CompanyAlias"
+										style="width: 100%"
+										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Idno" label="证件号码" width="120">
+							<el-table-column prop="Idno" label="证件号码" width="160">
 								<template #default="scope">
-									<el-input v-model="scope.row.Idno" ></el-input> 
+									<el-input
+										v-model="scope.row.Idno"
+										style="width: 100%"
+										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Address" label="地址" width="120">
+							<el-table-column prop="Address" label="地址">
 								<template #default="scope">
-									<el-input v-model="scope.row.Address" ></el-input> 
+									<el-input
+										v-model="scope.row.Address"
+										style="width: 100%"
+										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="BusinessScope" label="经营范围" width="120">
 								<template #default="scope">
-									<el-input v-model="scope.row.BusinessScope" ></el-input> 
+									<el-input
+										v-model="scope.row.BusinessScope"
+										style="width: 100%"
+										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="TaxpayerKind" label="纳税人类型" width="120">
+							<el-table-column prop="TaxpayerKind" label="纳税人类型" width="100">
 								<template #default="scope">
-									<el-input v-model="scope.row.TaxpayerKind" ></el-input> 
+									<el-input
+										v-model="scope.row.TaxpayerKind"
+										style="width: 100%"
+										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="BusinessStartTime" label="营业期限" width="120">
+							<el-table-column prop="BusinessStartTime" label="营业开始日期" width="120">
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.BusinessStartTime"
 										style="width: 100%"
 										type="date"
-										placeholder="起始日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+										placeholder="请选择时间"
+										format="YYYY-MM-DD"></el-date-picker>
 								</template>
 							</el-table-column>
-							<el-table-column prop="BusinessEndTime" label="至" width="120">
+							<el-table-column prop="BusinessEndTime" label="营业结束日期" width="120">
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.BusinessEndTime"
 										style="width: 100%"
 										type="date"
 										placeholder="到期日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+										format="YYYY-MM-DD"></el-date-picker>
 								</template>
 							</el-table-column>
-							<el-table-column prop="Linkman" label="联系人" width="80">
+							<el-table-column prop="Linkman" label="联系人" width="100">
 								<template #default="scope">
-									<el-input v-model="scope.row.Linkman" ></el-input> 
+									<el-input
+										v-model="scope.row.Linkman"
+										style="width: 100%"
+										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="Tel" label="联系电话" width="100">
+							<el-table-column prop="Tel" label="联系电话" width="120">
 								<template #default="scope">
-									<el-input v-model="scope.row.Tel" ></el-input> 
+									<el-input
+										v-model="scope.row.Tel"
+										style="width: 100%"
+										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
 							
@@ -111,6 +132,16 @@
 								</template>
 							</el-table-column>
 						</el-table>
+						<el-pagination
+							small
+							class="mt15"
+							:page-sizes="[15, 30]"
+							v-model:current-page="tableData.param.pageNum"
+							background
+							v-model:page-size="tableData.param.pageSize"
+							layout="->, total, sizes, prev, pager, next, jumper"
+							:total="tableData.total">
+						</el-pagination>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -134,7 +165,7 @@ import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
-	name: 'freightEdit',
+	name: 'companyImport',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
@@ -142,29 +173,27 @@ export default {
 		
 		const store = useStore();
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
 		
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
+			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
-			//表单
+			//	表单
 			ruleForm: {
 				Kind: 'info',
-				DriverList:[],
+				CompanyList:[],
 			},
-			
+			tableData: {
+				total: 0,
+				param: {
+					pageNum: 1,
+					pageSize: 15,
+				},
+			},
 			dialogVisible: false,
 
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
@@ -194,20 +223,21 @@ export default {
 			state.ruleForm.Kind = kind;
 			try {				
 				
-				state.ruleForm.DriverList=[];
+				state.ruleForm.CompanyList=[];
 				state.isShowDialog = true;
 			} finally {
 				state.isShowDialog = true;
 			}
 		}
 
-
-		//导入地址
+		//	导入功能
 		const onImportXlsx = (e: any) => {
 			const file = e.raw
 			const reader = new FileReader()
 			reader.readAsArrayBuffer(file)
 			reader.onload = (ev: any) => {
+				const rows=[]
+				const unique = {};
 				let data = ev.target.result
 				const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
 				if(workbook.SheetNames.length==0){
@@ -215,52 +245,63 @@ export default {
 				}
 				const wsname = workbook.SheetNames[0]
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
-				console.log("get xlsx data：",list)
-				if(!list.length||list.length<1){
-					return;
-				}
-				state.ruleForm.DriverList=[];
-				for(let i=0;i<list.length;i++){
+				for(let i = 1; i < list.length; i++){
 					const row=list[i];
-					const name=row["*客户名称"]||"";
-					console.log(name)
-					if(!name){
+					const CompanyName=row["__EMPTY"]||"";
+					if(!CompanyName || unique[CompanyName]){
 						continue;
 					}
+					unique[CompanyName] = true
 					const model={};
-					model.CompanyName=name+"";
-					model.CompanyAlias=`${row["简称"]}`||"";
-					model.Idno=`${row["*证件号码"]}`||"";
-					model.Address=`${row["地址"]}`||"";
-					model.BusinessScope=`${row["经营范围"]}`||"";
-					model.TaxpayerKind=`${row["纳税人类型"]}`||""; 
-					model.BusinessStartTime=row["*经营期限开始"]||new Date();
-					model.BusinessEndTime=row["*经营期限至"]||new Date();
-					model.Linkman= `${row["联系人"]}`||""; 
-					model.Tel= `${row["*联系电话"]}`||"";
+					model.CompanyName=CompanyName;
+					model.CompanyAlias=row["__EMPTY_1"]||"";
+					model.Idno=row["__EMPTY_2"]||"";
+					model.Address=row["__EMPTY_3"]||"";
+					model.BusinessScope=row["__EMPTY_4"]||"";
+					model.TaxpayerKind=row["__EMPTY_5"]||"";
+					model.BusinessStartTime=row["__EMPTY_6"]||new Date();
+					model.BusinessEndTime=row["__EMPTY_7"]||new Date();
+					model.Linkman=row["__EMPTY_8"]||"";
+					model.Tel=row["__EMPTY_9"]||"";
 					model.State=1;
 					model.AuditState=1;
-					state.ruleForm.DriverList.push(model);
+					rows.push(model);
 				}
+				state.tableData.total=rows.length
+				state.ruleForm.CompanyList=rows;
 			}
 		}
 
+		//	导入列表新增记录
 		const onAddRow = () => {
-		 	state.ruleForm.DriverList=[{},...state.ruleForm.DriverList]
+		 	state.ruleForm.CompanyList=[{},...state.ruleForm.CompanyList]
 		};
+
+		//	导入列表清空记录
 		const onClearRow = () => {
-		 	state.ruleForm.DriverList=[]
+		 	state.ruleForm.CompanyList=[]
 		};
 		// 下载导入模板
 		const onDownloadTpl = async () => {
 			var a = document.createElement('a');
 			a.href = import.meta.env.VITE_URL+`/static/download/erp/company_${state.ruleForm.Kind}.xlsx`;
-			a.download = '模板_'+state.ruleForm.Kind + '_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.download = '客户管理模板_'+state.ruleForm.Kind + '_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
 			a.click();
 		};
+
+		//	导入列表删除单条记录
 		const onDelRow = (index:number) => {
-			state.ruleForm.DriverList.splice(index,1)
+			state.ruleForm.CompanyList.splice(index,1)
 		};
+
+		//	分页改变
+		const paginatedData = computed(() => {
+			const start = (state.tableData.param.pageNum - 1) * state.tableData.param.pageSize;
+			const end = start + state.tableData.param.pageSize;
+			const list= state.ruleForm.CompanyList.slice(start, end);
+			return list;
+		});
+
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
@@ -268,23 +309,13 @@ export default {
 			state.isShowDialog = false;
 		};
 
-		const onLoadTable = () => {
-			proxy.$parent.onGetTableData();
-		};
-		
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
-		// 提交
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
 					try {
-						const res = await proxy.$api.erp.company.saveMulti(state.ruleForm.Kind, state.ruleForm.DriverList);
+						const res = await proxy.$api.erp.company.saveMulti(state.ruleForm.Kind, state.ruleForm.CompanyList);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -303,22 +334,23 @@ export default {
 			});
 		};
 
+		//	时间格式
 		const { dateFormatYMD } = commonFunction();
+
 		// 页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
+			paginatedData,
 			onAddRow,
 			onDelRow,
 			onClearRow,
 			onDownloadTpl,
 			onImportXlsx,
-			onModelEdit,
-			showImage,
 			dateFormatYMD,
 			getUserInfos,
 			rules,
@@ -329,16 +361,3 @@ export default {
 	},
 };
 </script>
-<style scoped lang="scss">
-.el-select {
-	width: 100%;
-}
-.el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-</style>
