@@ -221,13 +221,13 @@ export default {
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
 				for(let i = 1; i < list.length; i++){
 					const row=list[i];
-					const Name=row["__EMPTY"]||"";
-					if(!Name || unique[Name]){
+					const name=row["__EMPTY"]||"";
+					if(!name || unique[name]){
 						continue;
 					}
-					unique[Name] = true
+					unique[name] = true
 					const model={};
-					model.Name=Name;
+					model.Name=name;
 					model.No=String(row["__EMPTY_1"]||"");
 					model.Qty=row["__EMPTY_2"]||"";
 					model.Price=row["__EMPTY_3"]||"";

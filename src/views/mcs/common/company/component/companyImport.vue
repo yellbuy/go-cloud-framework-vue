@@ -247,13 +247,13 @@ export default {
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
 				for(let i = 1; i < list.length; i++){
 					const row=list[i];
-					const CompanyName=row["__EMPTY"]||"";
-					if(!CompanyName || unique[CompanyName]){
+					const companyName=row["__EMPTY"]||"";
+					if(!companyName || unique[companyName]){
 						continue;
 					}
-					unique[CompanyName] = true
+					unique[companyName] = true
 					const model={};
-					model.CompanyName=CompanyName;
+					model.CompanyName=companyName;
 					model.CompanyAlias=row["__EMPTY_1"]||"";
 					model.Idno=row["__EMPTY_2"]||"";
 					model.Address=row["__EMPTY_3"]||"";

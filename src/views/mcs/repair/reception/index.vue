@@ -36,38 +36,16 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-			>
+				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="BillNo" label="流水号" width="110" fixed></el-table-column>
 				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
 				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="EndTime" label="完成时间" :formatter="dateFormatYMDHM" width="120" show-overflow-tooltip>
-					<!-- <template #default="scope">
-						<span v-if="scope.row.EndTime > '1990-01-01'">{{ scope.row.EndTime }}</span>
-					</template> -->
-				</el-table-column>
+				<el-table-column prop="EndTime" label="完成时间" :formatter="dateFormatYMDHM" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Brand" label="车辆品牌" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="VehicleType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Mileage" label="公里数" width="70" align="right"  show-overflow-tooltip></el-table-column>
-				<!-- <el-table-column label="外部车" width="70" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.IsExternal"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
-							:active-text="$t('message.action.yes')"
-							:inactive-text="$t('message.action.no')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
-					</template>
-				</el-table-column> -->
 				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>				
 				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip></el-table-column>
 				<el-table-column label="是否开单" width="80" align="center" show-overflow-tooltip>
@@ -81,12 +59,10 @@
 							:active-text="$t('pages.mcs.action.has_billed')"
 							:inactive-text="$t('pages.mcs.action.not_billing')"
 							:active-value="1"
-							:inactive-value="0"
-						/>
+							:inactive-value="0"/>
 						<el-tag type="danger" effect="plain" v-else>{{ $t('pages.mcs.action.has_finished') }}</el-tag>
 						<el-tag type="success" effect="plain" v-if="!scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('pages.mcs.action.not_billing') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else-if="scope.row.State==1" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('pages.mcs.action.has_billed') }}</el-tag>
-						
 					</template>
 				</el-table-column>
 				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
@@ -117,8 +93,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
+				:total="tableData.total">
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />

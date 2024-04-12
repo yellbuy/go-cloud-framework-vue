@@ -224,14 +224,14 @@ export default {
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
 				for(let i = 1; i < list.length; i++){
 					const row=list[i];
-					const GoodsName=row["__EMPTY"]||"";
-					if(!GoodsName || unique[GoodsName]){
+					const goodsName=row["__EMPTY"]||"";
+					if(!goodsName || unique[goodsName]){
 						continue;
 					}
-					unique[GoodsName] = true
+					unique[goodsName] = true
 					const model={};
 					model.IsOnSale=1;
-					model.GoodsName=GoodsName;
+					model.GoodsName=goodsName;
 					model.BrandName=row["__EMPTY_1"]||"";
 					model.GoodsUnit=row["__EMPTY_2"]||"";
 					model.GoodsAlisa=row["__EMPTY_3"]||""

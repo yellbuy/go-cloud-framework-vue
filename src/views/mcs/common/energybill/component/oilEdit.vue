@@ -398,6 +398,7 @@ export default {
 					if(!vehicleNumber || unique[vehicleNumber]){
 						continue;
 					}
+					unique[vehicleNumber] = true
 					const model={};
 					model.VehicleNumber=vehicleNumber;
 					model.Volume21=row["__EMPTY_3"]||0;

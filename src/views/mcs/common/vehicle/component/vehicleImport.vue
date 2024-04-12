@@ -290,13 +290,13 @@ export default {
 				console.log("测试", list)
 				for(let i = 1; i < list.length; i++){
 					const row=list[i];
-					const VehicleNumber=row["__EMPTY"]||"";
-					if(!VehicleNumber || unique[VehicleNumber]){
+					const vehicleNumber=row["__EMPTY"]||"";
+					if(!vehicleNumber || unique[vehicleNumber]){
 						continue;
 					}
-					unique[VehicleNumber] = true
+					unique[vehicleNumber] = true
 					const model={};
-					model.VehicleNumber=VehicleNumber;
+					model.VehicleNumber=vehicleNumber;
 					model.VehicleType=row["__EMPTY_1"]||"";
 					model.Shipper=row["__EMPTY_3"]||"";
 					if(model.Shipper){
