@@ -36,8 +36,7 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-			>
+				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="60" fixed />
 				<el-table-column prop="Name" label="平台名称" width="300" show-overflow-tooltip="true" fixed></el-table-column>
 				<el-table-column prop="Volume" label="面积" width="100" align="right" show-overflow-tooltip="true"></el-table-column>
@@ -52,8 +51,7 @@
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
-							:inactive-value="0"
-						/>
+							:inactive-value="0"/>
 						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
@@ -83,8 +81,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
+				:total="tableData.total">
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />

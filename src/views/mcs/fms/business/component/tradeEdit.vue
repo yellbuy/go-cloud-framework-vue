@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="450px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="25%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">货物名称*</el-divider>
 				<el-row :gutter="20">
@@ -13,10 +13,6 @@
 								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-select
 								v-model="ruleForm.GoodsCategoryId"
@@ -26,10 +22,6 @@
 								<el-option v-for="(item, index) in goodsTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
 						<el-form-item label="产品名称" prop="GoodsId">
 							<el-select
 								v-model="ruleForm.GoodsId"
@@ -39,10 +31,6 @@
 								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
 						<el-form-item label="计划量" prop="PlanWeight">
 							<el-input-number
 								v-model.number="ruleForm.PlanWeight"
@@ -54,23 +42,14 @@
 								step="1">
 							</el-input-number>
 						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
 						<el-form-item label="开始日期" prop="SenderPlanTime">
 							<el-date-picker
 								v-model="ruleForm.SenderPlanTime"
 								style="width: 100%"
 								type="date"
 								placeholder="日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
+								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
 						<el-form-item label="结束日期" prop="ReceiverPlanTime">
 							<el-date-picker
 								v-model="ruleForm.ReceiverPlanTime"
@@ -105,21 +84,15 @@ export default {
 	name: 'tradeEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
+
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
 		
 		const state = reactive({
 			isShowDialog: false,
@@ -153,7 +126,9 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -229,15 +204,9 @@ export default {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
-		};
-
-		const onLoadTable = () => {
 			proxy.$parent.onMainGetTableData();
 		};
-		const onCategorySelect=async (id:string)=>{
-			loadGoodsList(id);
-		}
+
 		const loadGoodsCategory = async () => {
 			const goodsTypeRes = await proxy.$api.common.category.getHierarchyDataList("product", 0, 2, {pageSize:10000});
 			if (goodsTypeRes.errcode == 0) {
@@ -246,6 +215,7 @@ export default {
 				console.log("error:",goodsTypeRes.errmsg)
 			}
 		};
+
 		const loadGoodsList=async(categoryId:string="0")=>{
 			const goodsRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000,categoryId:categoryId});
 			if (goodsRes.errcode == 0) {
@@ -254,12 +224,7 @@ export default {
 				console.log("error:",goodsRes.errmsg)
 			}
 		}
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
+	
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
@@ -289,18 +254,16 @@ export default {
 		};
 
 		const { dateFormatYMD } = commonFunction();
+
 		// 页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
 			GetByIdRow,
-			onModelEdit,
-			onCategorySelect,
-			showImage,
 			dateFormatYMD,
 			getUserInfos,
 			rules,

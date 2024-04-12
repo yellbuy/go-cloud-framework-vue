@@ -41,14 +41,11 @@
 						:height="proxy.$calcMainHeight(-75)"
 						border
 						stripe
-						highlight-current-row
-					>
+						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" fixed />
 						<el-table-column prop="BillNo" label="年月" width="80" fixed></el-table-column>
 						<el-table-column prop="CreateBy" label="录入人" width="80"></el-table-column>
 						<el-table-column prop="CreateTime" label="录入时间" width="120" :formatter="dateFormatYMDHM"  show-overflow-tooltip></el-table-column>
-						<!-- <el-table-column prop="UpdateBy" label="更新人" width="80"></el-table-column>
-						<el-table-column prop="UpdateTime" label="更新时间" width="160" align="right" :formatter="dateFormatHM"  show-overflow-tooltip></el-table-column> -->
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 							<template #default="scope">
 								<el-button text bg type="primary" @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -72,8 +69,7 @@
 						background
 						v-model:page-size="mainTableData.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="mainTableData.total"
-					>
+						:total="mainTableData.total">
 					</el-pagination>
 				</el-card>
 				</pane>
@@ -90,19 +86,17 @@
 											class="box-item"
 											effect="dark"
 											:content="$t('message.action.reset')"
-											placement="top-start"
-											><el-button type="info" style="margin-left: 10px;" @click="onChildResetSearch">
+											placement="top-start"><el-button type="info" style="margin-left: 10px;" @click="onChildResetSearch">
 												<el-icon>
 													<RefreshLeft />
 												</el-icon>
 											</el-button>
 										</el-tooltip>
 										<el-tooltip
-												class="box-item"
-												effect="dark"
-												:content="$t('message.action.search')"
-												placement="top-start"
-											>	
+											class="box-item"
+											effect="dark"
+											:content="$t('message.action.search')"
+											placement="top-start">	
 											<el-button type="info" @click="onChildQuery()">
 												<el-icon>
 													<Search />
@@ -110,11 +104,10 @@
 											</el-button>
 										</el-tooltip>
 										<el-tooltip
-												class="box-item"
-												effect="dark"
-												:content="$t('message.action.add')"
-												placement="top-start"
-											>	
+											class="box-item"
+											effect="dark"
+											:content="$t('message.action.add')"
+											placement="top-start">	
 											<el-button type="primary" @click="onChildOpenAddDlg(0, false)" v-auth:[moduleKey]="'btn.ChildAdd'">
 												<el-icon>
 													<CirclePlusFilled />
@@ -136,9 +129,7 @@
 						border
 						stripe
 						selectable
-						highlight-current-row
-					>
-						<!-- <el-table-column type="selection" width="55" align="center" fixed /> -->
+						highlight-current-row>
 						<el-table-column prop="VehicleNumber" label="车牌号" width="85" fixed>
 						</el-table-column>
 						<el-table-column prop="Volume" label="累计加油" width="85">
@@ -175,8 +166,7 @@
 						background
 						v-model:page-size="childTableData.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="childTableData.total"
-					>
+						:total="childTableData.total">
 					</el-pagination>
 					</el-card>
 				</pane>

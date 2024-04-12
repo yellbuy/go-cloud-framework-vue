@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-warehouse-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="450px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="25%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">仓储收入*</el-divider>
 				<el-row :gutter="20">
@@ -14,23 +14,6 @@
 								<el-option v-for="(item, index) in businessBillList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
-						<el-form-item label="日期" prop="BillTime">
-							<el-date-picker
-								v-model="ruleForm.BillTime"
-								style="width: 100%"
-								type="date"
-								placeholder="日期"
-								format="YYYY-MM-DD">
-							</el-date-picker>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId">
 							<el-select
 								v-model="ruleForm.CustomerId"
@@ -40,10 +23,15 @@
 								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
+						<el-form-item label="日期" prop="BillTime">
+							<el-date-picker
+								v-model="ruleForm.BillTime"
+								style="width: 100%"
+								type="date"
+								placeholder="日期"
+								format="YYYY-MM-DD">
+							</el-date-picker>
+						</el-form-item>
 						<el-form-item label="收入" prop="Amount">
 							<el-input-number
 								v-model="ruleForm.Amount"
@@ -57,10 +45,6 @@
 								step="1">
 							</el-input-number>
 						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
 						<el-form-item label="面积" prop="Volume">
 							<el-input-number
 								v-model="ruleForm.Volume"
@@ -99,9 +83,9 @@ export default {
 	name: 'warehouseEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
-		
 		
 		const state = reactive({
 			isShowDialog: false,
@@ -179,10 +163,8 @@ export default {
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {
-
 				loadsiteName()
 				loadCustomerName()
-
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
@@ -289,8 +271,10 @@ export default {
 
 
 		const { dateFormatYMD } = commonFunction();
+
 		// 页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,

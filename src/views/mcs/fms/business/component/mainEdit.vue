@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-main-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="800px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">铁运收入*</el-divider>
 				<el-row :gutter="20">
@@ -15,21 +15,6 @@
 								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="日期" prop="BillTime">
-							<el-date-picker
-								v-model="ruleForm.BillTime"
-								style="width: 100%"
-								type="date"
-								placeholder="日期"
-								format="YYYY-MM-DD">
-							</el-date-picker>
-						</el-form-item>
-					</el-col>	
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-select
 								v-model="ruleForm.GoodsCategoryId"
@@ -39,22 +24,6 @@
 								<el-option v-for="(item, index) in goodsCategoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="产品名称" prop="GoodsId">
-							<el-select
-								v-model="ruleForm.GoodsId"
-								style="width: 100%"
-								filterable
-								placeholder="请选择"
-								@change = "loadAddressList">
-								<el-option v-for="(item,index) in goodsNameList" :key="index" :label="item.GoodsName" :value="item.Id"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="计划吨位" prop="PlanWeight">
 							<el-input-number
 								v-model="ruleForm.PlanWeight"
@@ -67,22 +36,6 @@
 								step="1">
 							</el-input-number>
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="实际吨位" prop="Weight">
-							<el-input-number
-								v-model="ruleForm.Weight"
-								style="width: 100%"
-								:controls="true"
-								precision="2"
-								placeholder="请输入"
-								min="0"
-								max="1000000000"
-								step="1">
-							</el-input-number>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
 						<el-form-item label="列数" prop="VehicleCount">
 							<el-input-number
 								v-model="ruleForm.VehicleCount"
@@ -98,10 +51,47 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12"  class="mb20">
+						<el-form-item label="日期" prop="BillTime">
+							<el-date-picker
+								v-model="ruleForm.BillTime"
+								style="width: 100%"
+								type="date"
+								placeholder="日期"
+								format="YYYY-MM-DD">
+							</el-date-picker>
+						</el-form-item>
+						<el-form-item label="产品名称" prop="GoodsId">
+							<el-select
+								v-model="ruleForm.GoodsId"
+								style="width: 100%"
+								filterable
+								placeholder="请选择"
+								@change = "loadAddressList">
+								<el-option v-for="(item,index) in goodsNameList" :key="index" :label="item.GoodsName" :value="item.Id"> </el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="实际吨位" prop="Weight">
+							<el-input-number
+								v-model="ruleForm.Weight"
+								style="width: 100%"
+								:controls="true"
+								precision="2"
+								placeholder="请输入"
+								min="0"
+								max="1000000000"
+								step="1">
+							</el-input-number>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="20">
+					<el-col :xs="24" class="mb20">
 						<el-form-item label="备注" prop="Remark">
 							<el-input
 								v-model="ruleForm.Remark"
 								style="width: 100%"
+								type="textarea"
+								:rows="3"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
@@ -208,7 +198,9 @@ export default {
 			senderAddressList: [],
 			receiverAddressList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -325,11 +317,6 @@ export default {
 			}
 		}
 
-		//清空产品名
-		const clearGoodsName = async() => {
-			state.ruleForm.GoodsId = ""; 
-		}
-
 		//加载产品名称
 		const loadgoodsName = async () => {
 			const goodsNameRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000, categoryId:state.ruleForm.GoodsCategoryId});
@@ -339,7 +326,6 @@ export default {
 				console.log("error:",goodsNameRes.errmsg)
 			}
 		}
-
 
 		//加载地址列表
 		const loadAddressList = async () => {
@@ -366,13 +352,6 @@ export default {
 			state.isShowDialog = false;
 		};
 
-
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
@@ -414,7 +393,6 @@ export default {
 			openDialog,
 			closeDialog,
 			getByIdRow,
-			onModelEdit,
 			dateFormatYMD,
 			getUserInfos,
 			rules,
@@ -424,7 +402,6 @@ export default {
 			loadGoodsCategory,
 			loadgoodsName,
 			loadAddressList,
-			clearGoodsName,
 			...toRefs(state),
 		};
 	},

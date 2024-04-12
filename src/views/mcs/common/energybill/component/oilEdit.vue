@@ -9,11 +9,9 @@
 							<el-date-picker
 								v-model="ruleForm.BillTime"
 								type="month"
-								placeholder="请选择"
-								/>
+								placeholder="请选择"/>
 						</el-form-item>
 					</el-col>
-					
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="备注" prop="Remark">
 							<el-input v-model="ruleForm.Remark" ></el-input> 
@@ -43,17 +41,16 @@
 						</el-button>
 					</el-col>
 				</el-row>	
-				<el-row :gutter="20" v-if="!ruleForm.Id || ruleForm.Id == '0'">
+				<el-row :gutter="20" v-if="!ruleForm.Id || ruleForm.Id == 0">
 					<el-col :xs="24" :sm="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
-							:data="ruleForm.EnergyBillLines"
+							:data="paginatedData"
 							style="width: 100%"
-							:height="proxy.$calcMainHeight(-205)"
+							:height="proxy.$calcMainHeight(-285)"
 							border
 							stripe
-							highlight-current-row
-						>
+							highlight-current-row>
 							<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed>
 								<template #default="scope">
 									<el-input v-model="scope.row.VehicleNumber" ></el-input> 
@@ -237,6 +234,16 @@
 								</template>
 							</el-table-column>
 						</el-table>
+						<el-pagination
+							small
+							class="mt15"
+							:page-sizes="[15, 30]"
+							v-model:current-page="tableData.param.pageNum"
+							background
+							v-model:page-size="tableData.param.pageSize"
+							layout="->, total, sizes, prev, pager, next, jumper"
+							:total="tableData.total">
+						</el-pagination>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -261,17 +268,19 @@ import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
-	name: 'freightEdit',
+	name: 'oilEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
+
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
+
 		//显示表格图片
 		const showImage = (Files: string) => {
 			let fileUrl = '';
@@ -294,6 +303,13 @@ export default {
 				BillTime: '',
 				EnergyBillLines:[],
 			},
+			tableData: {
+				total: 0,
+				param: {
+					pageNum: 1,
+					pageSize: 15,
+				},
+			},
 			
 			dialogVisible: false,
 
@@ -303,7 +319,9 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -358,6 +376,8 @@ export default {
 			const reader = new FileReader()
 			reader.readAsArrayBuffer(file)
 			reader.onload = (ev: any) => {
+				const rows=[]
+				const unique = {};
 				let data = ev.target.result
 				const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
 				if(workbook.SheetNames.length==0){
@@ -365,11 +385,9 @@ export default {
 				}
 				const wsname = workbook.SheetNames[0]
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
-				console.log("get xlsx data：",list)
 				if(!list.length||list.length<5){
 					return;
 				}
-				state.ruleForm.EnergyBillLines=[];
 				for(var i=3;i<list.length;i++){
 					const row=list[i];
 					const name=row["加油明细台账"]||"";
@@ -377,7 +395,7 @@ export default {
 						break;
 					}
 					const vehicleNumber=row["__EMPTY"]||"";
-					if(!vehicleNumber){
+					if(!vehicleNumber || unique[vehicleNumber]){
 						continue;
 					}
 					const model={};
@@ -415,17 +433,22 @@ export default {
 					model.Volume20=row["__EMPTY_36"]||0;
 					model.Volume=row["__EMPTY_40"]||0;
 					model.Amount=row["__EMPTY_41"]||0;
-					state.ruleForm.EnergyBillLines.push(model);
+					rows.push(model);
 				}
+				state.tableData.total=rows.length
+				state.ruleForm.EnergyBillLines=rows;
+				console.log("测试", state.ruleForm.EnergyBillLines);
 			}
 		}
 
 		const onAddRow = () => {
 		 	state.ruleForm.EnergyBillLines=[{},...state.ruleForm.EnergyBillLines]
 		};
+
 		const onClearRow = () => {
 		 	state.ruleForm.EnergyBillLines=[]
 		};
+
 		// 下载导入模板
 		const onDownloadTpl = async () => {
 			var a = document.createElement('a');
@@ -433,27 +456,27 @@ export default {
 			a.download = '加油台账模板_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
 			a.click();
 		};
+
 		const onDelRow = (index:number) => {
 			state.ruleForm.EnergyBillLines.splice(index,1)
 		};
+
+		//	分页改变
+		const paginatedData = computed(() => {
+			const start = (state.tableData.param.pageNum - 1) * state.tableData.param.pageSize;
+			const end = start + state.tableData.param.pageSize;
+			const list= state.ruleForm.EnergyBillLines.slice(start, end);
+			return list;
+		});
+
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
-		};
-
-		const onLoadTable = () => {
 			proxy.$parent.onMainGetTableData();
 		};
-		
-		//修改按钮
-		const onModelEdit = (item: object) => {
 			
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
@@ -480,6 +503,7 @@ export default {
 				}
 			});
 		};
+
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
 				rawFile.type !== 'image/jpeg' &&
@@ -498,15 +522,18 @@ export default {
 			}
 			return true;
 		};
+
 		const { dateFormatYMD } = commonFunction();
+
 		// 页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
+			paginatedData,
 			onAddRow,
 			onDelRow,
 			onClearRow,
@@ -514,7 +541,6 @@ export default {
 			onImportXlsx,
 			GetByIdRow,
 			onBeforeImageUpload,
-			onModelEdit,
 			showImage,
 			dateFormatYMD,
 			getUserInfos,

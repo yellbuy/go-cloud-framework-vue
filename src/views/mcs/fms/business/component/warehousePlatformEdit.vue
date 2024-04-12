@@ -1,9 +1,10 @@
 <template>
 	<div class="system-edit-main-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="25%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
+				<el-divider content-position="left">平台信息*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12"  class="mb20">
+					<el-col :xs="24" class="mb20">
 						<el-form-item label="平台名称" prop="Name">
 							<el-input
 								v-model="ruleForm.Name"
@@ -11,8 +12,6 @@
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="面积" prop="Volume">
 							<el-input-number
 								v-model="ruleForm.Volume"
@@ -26,17 +25,17 @@
 								step="1">
 							</el-input-number>
 						</el-form-item>
-					</el-col>
-				</el-row>
-					<el-col :xs="24"  class="mb20">
 						<el-form-item label="备注" prop="Remark">
 							<el-input
 								v-model="ruleForm.Remark"
 								style="width: 100%"
+								type="textarea"
+								:rows="4"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 					</el-col>
+				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -59,14 +58,16 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
 
-	name: 'mainEdit',
+	name: 'warehousePlatformEdit',
 
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
 		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
+		
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
 		});
@@ -92,7 +93,9 @@ export default {
 			dialogVisible: false,
 			saveState: false,
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -117,9 +120,6 @@ export default {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
-
-			// loadSenderAddressList(),
-			// loadReceiverAddressList(),
 			try {
 				state.disable = disable;
 				if (id && id != '0' && disable == true) {
@@ -153,7 +153,6 @@ export default {
 			}
 		}
 
-
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
@@ -161,13 +160,6 @@ export default {
 			state.isShowDialog = false;
 		};
 
-
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
@@ -209,7 +201,6 @@ export default {
 			openDialog,
 			closeDialog,
 			GetByIdRow,
-			onModelEdit,
 			dateFormatYMD,
 			getUserInfos,
 			rules,
