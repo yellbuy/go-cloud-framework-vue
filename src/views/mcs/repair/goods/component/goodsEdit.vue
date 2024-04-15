@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="45%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" class="mb20">
@@ -57,7 +57,8 @@
 								style="width: 100%"
 								min="0"
 								max="10000"
-								precision="2"></el-input-number> 
+								precision="2"
+								placeholder="请选择"></el-input-number> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" class="mb20">

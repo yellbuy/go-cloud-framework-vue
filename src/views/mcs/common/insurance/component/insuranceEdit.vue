@@ -4,63 +4,19 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="150px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="8" class="mb20">
 						<el-form-item label="车牌号" prop="VehicleNumber">
 							<el-input
 								v-model="ruleForm.VehicleNumber"
 								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
-					</el-col>
-                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="保险生效日期" prop="StartTime" required>
-							<el-date-picker
-								v-model="ruleForm.StartTime"
-								style="width: 100%"
-								type="date"
-								placeholder="请选择日期"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="保险结束日期" prop="EndTime"  required>
-							<el-date-picker
-								v-model="ruleForm.EndTime"
-								style="width: 100%"
-								type="date"
-								placeholder="请选择日期"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
-					</el-col>
-                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="保险公司" prop="CompanyName">
 							<el-input
 								v-model="ruleForm.CompanyName"
 								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
-					</el-col>
-                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="保单号" prop="No">
-							<el-input
-								v-model="ruleForm.No"
-								style="width: 100%"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
-                    </el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="购买日期" prop="BillTime">
-							<el-date-picker
-								v-model="ruleForm.BillTime"
-								style="width: 100%"
-								type="date"
-								placeholder="请选择日期"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
-                    </el-col>
-                </el-row>
-				<el-row :gutter="20">    
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="交强险保额(元)" prop="CompulsoryAmount">
 							<el-input-number
 								v-model="ruleForm.CompulsoryAmount"
@@ -70,43 +26,14 @@
 								max="100000000"
 								placeholder="请输入"></el-input-number> 
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="交强险购买费用(元)" prop="CompulsoryFee">
-							<el-input-number
-								v-model="ruleForm.CompulsoryFee"
-								style="width: 100%"
-								min="0"
-								step="100"
-								max="100000000"
-								placeholder="请输入"></el-input-number> 
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20"> 
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="交强险生效日期" prop="CompulsoryStartDate">
 							<el-date-picker
 								v-model="ruleForm.CompulsoryStartDate"
 								style="width: 100%"
 								type="date"
-								placeholder="请选择日期"
+								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="交强险结束日期" prop="CompulsoryEndDate" >
-							<el-date-picker
-								v-model="ruleForm.CompulsoryEndDate"
-								style="width: 100%"
-								type="date"
-								placeholder="请选择日期"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20"> 
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="商业险保额(元)" prop="CommercialAmount">
 							<el-input-number
 								v-model="ruleForm.CommercialAmount"
@@ -116,8 +43,56 @@
 								max="100000000"
 								placeholder="请输入"></el-input-number> 
 						</el-form-item>
+						<el-form-item label="商业险生效日期" prop="CommercialStartDate">
+							<el-date-picker
+								v-model="ruleForm.CommercialStartDate"
+								style="width: 100%"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+						<el-form-item label="车船税费用(元)" prop="TaxFee">
+							<el-input-number
+								v-model="ruleForm.TaxFee"
+								style="width: 100%"
+								min="0"
+								step="100"
+								max="100000000"
+								placeholder="请输入"></el-input-number> 
+						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="8" class="mb20">
+						<el-form-item label="保险生效日期" prop="StartTime" required>
+							<el-date-picker
+								v-model="ruleForm.StartTime"
+								style="width: 100%"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+						<el-form-item label="保单号" prop="No">
+							<el-input
+								v-model="ruleForm.No"
+								style="width: 100%"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+						<el-form-item label="交强险购买费用(元)" prop="CompulsoryFee">
+							<el-input-number
+								v-model="ruleForm.CompulsoryFee"
+								style="width: 100%"
+								min="0"
+								step="100"
+								max="100000000"
+								placeholder="请输入"></el-input-number> 
+						</el-form-item>
+						<el-form-item label="交强险结束日期" prop="CompulsoryEndDate" >
+							<el-date-picker
+								v-model="ruleForm.CompulsoryEndDate"
+								style="width: 100%"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
 						<el-form-item label="商业险购买费用(元)" prop="CommercialFee">
 							<el-input-number
 								v-model="ruleForm.CommercialFee"
@@ -127,40 +102,31 @@
 								max="100000000"
 								placeholder="请输入"></el-input-number> 
 						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="20"> 
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="商业险生效日期" prop="CommercialStartDate">
-							<el-date-picker
-								v-model="ruleForm.CommercialStartDate"
-								style="width: 100%"
-								type="date"
-								placeholder="请选择日期"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="商业险结束日期" prop="CommercialEndDate">
 							<el-date-picker
 								v-model="ruleForm.CommercialEndDate"
 								style="width: 100%"
 								type="date"
-								placeholder="请选择日期"
+								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row :gutter="20"> 
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车船税费用(元)" prop="TaxFee">
-							<el-input-number
-								v-model="ruleForm.TaxFee"
+					<el-col :xs="24" :sm="8" class="mb20">
+						<el-form-item label="保险结束日期" prop="EndTime"  required>
+							<el-date-picker
+								v-model="ruleForm.EndTime"
 								style="width: 100%"
-								min="0"
-								step="100"
-								max="100000000"
-								placeholder="请输入"></el-input-number> 
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+						<el-form-item label="购买日期" prop="BillTime">
+							<el-date-picker
+								v-model="ruleForm.BillTime"
+								style="width: 100%"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>

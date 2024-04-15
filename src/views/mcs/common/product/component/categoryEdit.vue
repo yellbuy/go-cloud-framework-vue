@@ -1,36 +1,32 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="800px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20"> 
 					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="类别名称" prop="Name">
 							<el-input
 								v-model="ruleForm.Name"
-								style="width: 200px"
-								placeholder="请输入类别名称"/>
+								style="width: 100%"
+								placeholder="请输入"/>
+						</el-form-item>
+						<el-form-item label="排序号" prop="Order">
+							<el-input-number
+								v-model.number="ruleForm.Order"
+								size="small"
+								style="width: 100%"
+								controls-position="right"
+								placeholder="请输入"
+								@change="handleChange"/>
 						</el-form-item>
 					</el-col>
-                    <el-col :xs="24" :sm="12" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="图标" prop="GoodsImg">
 							<el-input
 								v-model="ruleForm.GoodsImg"
-								style="width: 200px"
-								placeholder=""/>
+								style="width: 100%"
+								placeholder="请输入"/>
 						</el-form-item>
-					</el-col>
-                </el-row>
-                <el-row :gutter="20">
-					<el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="排序号" prop="Order">
-						<el-input-number
-    						v-model.number="ruleForm.Order"
-							size="small"
-							style="width: 200px"
-    						controls-position="right"
-    						@change="handleChange"/></el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="状态" prop="SupplierState">
 							<el-switch
 								v-model.number="ruleForm.SupplierState"
@@ -42,9 +38,9 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" class="mb12">
+					<el-col :xs="24" class="mb12">
 						<el-form-item label="封面图" prop="GoodsPics">
-							<div style="width: 50%">
+							<div style="width: 100%">
 								<el-upload
 									class="upload-demo"
 									:action="uploadURL"
