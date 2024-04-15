@@ -8,7 +8,7 @@
 						<el-form-item label="客户名称" prop="CustomerId" >
 							<el-select
 								v-model="ruleForm.CustomerId"
-								style="width: 200px"
+								style="width: 100%"
 								filterable
 								placeholder="请选择"
 								@change="onFormSelected">
@@ -19,7 +19,8 @@
 					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="业务类型" prop="WaybillMode">
 							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.WaybillMode">
+								<el-radio-group
+									v-model="ruleForm.WaybillMode">
 									<el-radio :label="1">固定</el-radio>
 									<el-radio :label="2">临配</el-radio>
 									<el-radio :label="10">其他</el-radio>
@@ -27,28 +28,13 @@
 							</div>
 						</el-form-item>
 					</el-col>
-					<!-- <el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="单价" prop="Price">
-							<el-input
-								v-model.number="ruleForm.Price"
-								style="width: 200px"
-								placeholder="请输入"
-								type="number"
-								min="0"
-								max="1000000000"
-								step="1"
-								controls-position="right">
-								<template #append>元</template>
-							</el-input>
-						</el-form-item>
-					</el-col> -->
 					</el-row>
 					<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-select
 								v-model="ruleForm.GoodsCategoryId"
-								style="width: 200px"
+								style="width: 100%"
 								filterable
 								placeholder="请选择"
 								@change="onCategorySelect">
@@ -60,7 +46,7 @@
 						<el-form-item label="产品名称" prop="GoodsId">
 							<el-select
 								v-model="ruleForm.GoodsId"
-								style="width: 200px"
+								style="width: 100%"
 								filterable
 								placeholder="请选择"
 								@change="onFormSelected">
@@ -72,23 +58,21 @@
 						<el-form-item label="计划量" prop="PlanWeight">
 							<el-input-number
 								v-model.number="ruleForm.PlanWeight"
-								style="width: 120px"
+								style="width: 100%"
 								:controls="true"
 								:precision="ruleForm.Mode==2?0:2"
 								placeholder="请输入"
 								min="0"
 								max="1000000000"
 								step="1">
-								<template #append>吨</template>
 							</el-input-number>
-							<span class="ml5" v-if="ruleForm.Mode==1">吨</span>
-							<span class="ml5" v-else-if="ruleForm.Mode==2">台班</span>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="单位" prop="Mode">
 							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.Mode">
+								<el-radio-group
+									v-model="ruleForm.Mode">
 									<el-radio :label="1">吨</el-radio>
 									<el-radio :label="2">台班</el-radio>
 								</el-radio-group>
@@ -102,7 +86,7 @@
 						<el-form-item label="发货地点" prop="SenderAddress">
 							<el-select
 								v-model="ruleForm.SenderAddress"
-								style="width: 200px"
+								style="width: 100%"
 								filterable
 								allow-create
 								default-first-option
@@ -116,7 +100,7 @@
 						<el-form-item label="收货地点" prop="ReceiverAddress">
 							<el-select
 								v-model="ruleForm.ReceiverAddress" 
-								style="width: 200px"
+								style="width: 100%"
 								filterable
 								allow-create
 								default-first-option
@@ -132,7 +116,7 @@
 						<el-form-item label="要求发货时间" prop="SenderPlanTime">
 							<el-date-picker
 								v-model="ruleForm.SenderPlanTime"
-								style="width: 200px"
+								style="width: 100%"
 								type="datetime"
 								placeholder="要求发货时间"
 								format="YYYY-MM-DD HH:mm"
@@ -143,16 +127,13 @@
 						<el-form-item label="要求收货时间" prop="ReceiverPlanTime">
 							<el-date-picker
 								v-model="ruleForm.ReceiverPlanTime"
-								style="width: 200px"
+								style="width: 100%"
 								type="datetime"
 								placeholder="要求收货时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
+								format="YYYY-MM-DD HH:mm"></el-date-picker>
 						</el-form-item>
 					</el-col>
-					
 				</el-row>
-				
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -182,7 +163,6 @@ export default {
 		
 		const store = useStore();
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
 		//显示表格图片
@@ -316,24 +296,6 @@ export default {
 				}else{
 					console.log("error:",resCustomers.errmsg)
 				}
-				// const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				// if (resTruckTypes.errcode == 0) {
-				// 	state.truckTypeList = resTruckTypes.data;
-				// }else{
-				// 	console.log("error:",resTruckTypes.errmsg)
-				// }
-				// const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				// if (resPlateColors.errcode == 0) {
-				// 	state.plateColorList = resPlateColors.data;
-				// }else{
-				// 	console.log("error:",resPlateColors.errmsg)
-				// }
-				// const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				// if (resEnergyTypes.errcode == 0) {
-				// 	state.energyTypeList = resEnergyTypes.data;
-				// } else {
-				// 	console.log("error:",resEnergyTypes.errmsg)
-				// }
 			
 				state.disable = disable;
 				if (id && id != '0') {

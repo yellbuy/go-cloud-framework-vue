@@ -34,7 +34,7 @@
 								v-model="ruleForm.VehicleType"
 								style="width: 100%"
 								placeholder="请选择">
-								<el-option v-for="item in vehicleTypeList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+								<el-option v-for="(item, index) in vehicleTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="电话" prop="Phone">
@@ -58,7 +58,7 @@
 								v-model="ruleForm.Brand"
 								style="width: 100%"
 								filterable placeholder="请选择">
-								<el-option v-for="item in brandList" :key="item.Id" :label="item.Name" :value="item.Name"> </el-option>
+								<el-option v-for="(item, index) in brandList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="公里数" prop="Mileage">
@@ -188,7 +188,7 @@ export default {
 				Name: '',
 				Kind: 'info',
 				VehicleNumber: '',
-				CompanyId: '',
+				CompanyId: '0',
 				IsExternal:0,
 				VehicleType: '',
 				EnergyType: '',
