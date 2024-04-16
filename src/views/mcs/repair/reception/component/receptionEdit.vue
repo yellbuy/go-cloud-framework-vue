@@ -8,19 +8,16 @@
 						<el-form-item label="车牌号" prop="VehicleNumber">
 							<el-input
 								v-model="ruleForm.VehicleNumber"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 						<el-form-item label="联系人" prop="Linkman">
 							<el-input
 								v-model="ruleForm.Linkman"
-								style="width: 100%"
 								placeholder="请输入"></el-input>
 						</el-form-item>
 						<el-form-item label="客户名称" prop="CompanyId">
 							<el-select
 								v-model="ruleForm.CustomerId"
-								style="width: 100%"
 								filterable
 								placeholder="请选择"
 								@change = "loadAddressList">
@@ -32,7 +29,6 @@
 						<el-form-item label="车辆类型" prop="VehicleType">
 							<el-select
 								v-model="ruleForm.VehicleType"
-								style="width: 100%"
 								placeholder="请选择">
 								<el-option v-for="(item, index) in vehicleTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
@@ -40,13 +36,11 @@
 						<el-form-item label="电话" prop="Phone">
 							<el-input
 								v-model="ruleForm.Phone"
-								style="width: 100%"
 								placeholder="请输入"></el-input>
 						</el-form-item>
 						<el-form-item label="到厂时间" prop="StartTime" required>
 							<el-date-picker
 								v-model="ruleForm.StartTime"
-								style="width: 100%"
 								type="datetime"
 								placeholder="请选择时间"
 								format="YYYY-MM-DD HH:mm"></el-date-picker>
@@ -56,7 +50,6 @@
 						<el-form-item label="车辆品牌" prop="Brand">
 							<el-select
 								v-model="ruleForm.Brand"
-								style="width: 100%"
 								filterable placeholder="请选择">
 								<el-option v-for="(item, index) in brandList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
@@ -64,14 +57,12 @@
 						<el-form-item label="公里数" prop="Mileage">
 							<el-input-number
 								v-model="ruleForm.Mileage"
-								style="width: 100%"
 								:min="0"
 								placeholder="请输入"></el-input-number> 
 						</el-form-item>
 						<el-form-item label="出厂时间" prop="EndTime">
 							<el-date-picker
 								v-model="ruleForm.EndTime"
-								style="width: 100%"
 								type="datetime"
 								placeholder="请选择时间"
 								format="YYYY-MM-DD HH:mm"></el-date-picker>
@@ -83,7 +74,6 @@
 						<el-form-item label="外观缺陷" prop="SurfaceRemark" >
 							<el-input
 								v-model="ruleForm.SurfaceRemark"
-								style="width: 100%"
 								:rows="2"
 								type="textarea"
 								placeholder="请输入"/>
@@ -91,7 +81,6 @@
 						<el-form-item label="故障描述" prop="FaultRemark" >
 							<el-input
 								v-model="ruleForm.FaultRemark"
-								style="width: 100%"
 								:rows="2"
 								type="textarea"
 								placeholder="请输入"/>
@@ -99,7 +88,6 @@
 						<el-form-item label="备注" prop="Remark" >
 							<el-input
 								v-model="ruleForm.Remark"
-								style="width: 100%"
 								:rows="2"
 								type="textarea"
 								placeholder="请输入"/>
@@ -459,28 +447,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-select {
+.el-select .el-date-picker .el-input .el-input-number{
 	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
 }
 </style>

@@ -8,7 +8,6 @@
 						<el-form-item label="客户名称" prop="CustomerId">
 							<el-select
 								v-model="ruleForm.CustomerId"
-								style="width: 100%"
 								filterable
 								placeholder="请选择"
 								@change = "loadAddressList">
@@ -18,7 +17,6 @@
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-select
 								v-model="ruleForm.GoodsCategoryId"
-								style="width: 100%"
 								filterable
 								placeholder="请选择">
 								<el-option v-for="(item, index) in goodsCategoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
@@ -27,7 +25,6 @@
 						<el-form-item label="计划吨位" prop="PlanWeight">
 							<el-input-number
 								v-model="ruleForm.PlanWeight"
-								style="width: 100%"
 								:controls="true"
 								precision="2"
 								placeholder="请输入"
@@ -39,7 +36,6 @@
 						<el-form-item label="列数" prop="VehicleCount">
 							<el-input-number
 								v-model="ruleForm.VehicleCount"
-								style="width: 100%"
 								placeholder="请输入"
 								:controls="true"
 								precision="0"
@@ -54,7 +50,6 @@
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
-								style="width: 100%"
 								type="date"
 								placeholder="日期"
 								format="YYYY-MM-DD">
@@ -63,7 +58,6 @@
 						<el-form-item label="产品名称" prop="GoodsId">
 							<el-select
 								v-model="ruleForm.GoodsId"
-								style="width: 100%"
 								filterable
 								placeholder="请选择"
 								@change = "loadAddressList">
@@ -73,7 +67,6 @@
 						<el-form-item label="实际吨位" prop="Weight">
 							<el-input-number
 								v-model="ruleForm.Weight"
-								style="width: 100%"
 								:controls="true"
 								precision="2"
 								placeholder="请输入"
@@ -89,7 +82,6 @@
 						<el-form-item label="备注" prop="Remark">
 							<el-input
 								v-model="ruleForm.Remark"
-								style="width: 100%"
 								type="textarea"
 								:rows="3"
 								placeholder="请输入">
@@ -103,7 +95,6 @@
 						<el-form-item label="发货站" prop="SenderAddress">
 							<el-select
 								v-model="ruleForm.SenderAddress"
-								style="width: 100%"
 								filterable="true"
 								allow-create
 								default-first-option
@@ -115,7 +106,6 @@
 						<el-form-item label="到达地" prop="ReceiverAddress">
 							<el-select
 								v-model="ruleForm.ReceiverAddress"
-								style="width: 100%"
 								filterable="true"
 								allow-create
 								default-first-option
@@ -407,3 +397,8 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number{
+	width: 100%;
+}
+</style>

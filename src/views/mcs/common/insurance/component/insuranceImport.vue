@@ -29,7 +29,6 @@
 						<el-table
 							ref="mainTableRef"
 							:data="paginatedData"
-							style="width: 100%"
 							:height="proxy.$calcMainHeight(-205)"
 							border
 							stripe
@@ -38,7 +37,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.VehicleNumber"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -46,7 +44,6 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.StartTime"
-										style="width: 100%"
 										type="date"
 										placeholder="请选择日期"
 										format="YYYY-MM-DD"></el-date-picker>
@@ -56,7 +53,6 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.EndTime"
-										style="width: 100%"
 										type="date"
 										placeholder="请选择日期"
 										format="YYYY-MM-DD"></el-date-picker>
@@ -66,7 +62,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.CompanyName"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -74,7 +69,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.No"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -82,7 +76,6 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.BillTime"
-										style="width: 100%"
 										type="date"
 										placeholder="请选择日期"
 										format="YYYY-MM-DD"></el-date-picker>
@@ -92,7 +85,6 @@
 								<template #default="scope">
 									<el-input-number
 										v-model="scope.row.CompulsoryAmount"
-										style="width: 100%"
 										placeholder="请输入"
 										:controls="true"
 										precision="2"
@@ -106,7 +98,6 @@
 								<template #default="scope">
 									<el-input-number
 										v-model="scope.row.CompulsoryFee"
-										style="width: 100%"
 										placeholder="请输入"
 										:controls="true"
 										precision="2"
@@ -120,7 +111,6 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.CompulsoryStartDate"
-										style="width: 100%"
 										type="date"
 										placeholder="请选择日期"
 										format="YYYY-MM-DD"></el-date-picker>
@@ -130,7 +120,6 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.CompulsoryEndDate"
-										style="width: 100%"
 										type="date"
 										placeholder="请选择日期"
 										format="YYYY-MM-DD"></el-date-picker>
@@ -140,7 +129,6 @@
 								<template #default="scope">
 									<el-input-number
 										v-model="scope.row.CommercialAmount"
-										style="width: 100%"
 										placeholder="请输入"
 										:controls="true"
 										precision="2"
@@ -154,7 +142,6 @@
 								<template #default="scope">
 									<el-input-number
 										v-model="scope.row.CommercialFee"
-										style="width: 100%"
 										placeholder="请输入"
 										:controls="true"
 										precision="2"
@@ -168,7 +155,6 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.CommercialStartDate"
-										style="width: 100%"
 										type="date"
 										placeholder="请选择日期"
 										format="YYYY-MM-DD"></el-date-picker>
@@ -178,7 +164,6 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.CommercialEndDate"
-										style="width: 100%"
 										type="date"
 										placeholder="请选择日期"
 										format="YYYY-MM-DD"></el-date-picker>
@@ -188,7 +173,6 @@
 								<template #default="scope">
 									<el-input-number
 										v-model="scope.row.TaxFee"
-										style="width: 100%"
 										placeholder="请输入"
 										:controls="true"
 										precision="2"
@@ -441,3 +425,8 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number {
+	width: 100%;
+}
+</style>

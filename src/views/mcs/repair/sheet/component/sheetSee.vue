@@ -96,7 +96,7 @@
 				</el-form>
 			</el-card>
 			<el-divider content-position="left">项目列表*</el-divider>
-			<el-table :data="ruleForm.VehicleProjectList" v-loading="projectTableData.loading" style="width: 100%"
+			<el-table :data="ruleForm.VehicleProjectList" v-loading="projectTableData.loading"
 				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
@@ -108,8 +108,7 @@
 							style="width: 80px;"
     						controls-position="right"
     						@change="handleChange"
-							disabled
-  						/>
+							disabled/>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Price" label="单价" width="90">
@@ -120,8 +119,7 @@
 							style="width: 80px;"
     						controls-position="right"
     						@change="handleChange"
-							disabled
-  						/>
+							disabled/>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed></el-table-column>
@@ -133,16 +131,9 @@
 						</el-input>
 					</template>
 				</el-table-column>
-				<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
-					<template #default="scope">
-						<el-button text bg type="danger" @click="onProjectDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
-							{{ $t('message.action.delete') }}
-						</el-button>
-					</template>
-				</el-table-column> -->
 			</el-table>
 			<el-divider content-position="left">配件列表*</el-divider>
-			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading" style="width: 100%"
+			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading"
 				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="商品名称" width="120" show-overflow-tooltip fixed></el-table-column>
@@ -507,8 +498,7 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				//state.ruleForm.VehicleProjectList=[];
-				//state.ruleForm.VehicleGoodsList=[];
+
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -629,29 +619,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-select {
+.el-select .el-date-picker .el-input .el-input-number {
 	width: 100%;
-}
-
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
 }
 </style>

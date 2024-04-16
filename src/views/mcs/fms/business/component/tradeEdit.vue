@@ -8,7 +8,6 @@
 						<el-form-item label="供应商" prop="CustomerId" >
 							<el-select
 								v-model="ruleForm.CustomerId"
-								style="width: 100%"
 								filterable placeholder="请选择">
 								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
 							</el-select>
@@ -16,7 +15,6 @@
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-select
 								v-model="ruleForm.GoodsCategoryId"
-								style="width: 100%"
 								filterable
 								placeholder="请选择">
 								<el-option v-for="(item, index) in goodsTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
@@ -25,7 +23,6 @@
 						<el-form-item label="产品名称" prop="GoodsId">
 							<el-select
 								v-model="ruleForm.GoodsId"
-								style="width: 100%"
 								placeholder="请选择"
 								@change="onFormSelected">
 								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
@@ -34,7 +31,6 @@
 						<el-form-item label="计划量" prop="PlanWeight">
 							<el-input-number
 								v-model.number="ruleForm.PlanWeight"
-								style="width: 100%"
 								placeholder="请输入"
 								type="number"
 								min="0"
@@ -45,7 +41,6 @@
 						<el-form-item label="开始日期" prop="SenderPlanTime">
 							<el-date-picker
 								v-model="ruleForm.SenderPlanTime"
-								style="width: 100%"
 								type="date"
 								placeholder="日期"
 								format="YYYY-MM-DD"></el-date-picker>
@@ -53,7 +48,6 @@
 						<el-form-item label="结束日期" prop="ReceiverPlanTime">
 							<el-date-picker
 								v-model="ruleForm.ReceiverPlanTime"
-								style="width: 100%"
 								type="date"
 								placeholder="日期"
 								format="YYYY-MM-DD"
@@ -274,3 +268,8 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number{
+	width: 100%;
+}
+</style>

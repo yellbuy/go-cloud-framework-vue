@@ -7,13 +7,11 @@
 						<el-form-item label="项目名称" prop="Name">
 							<el-input
 								v-model="ruleForm.Name"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 						<el-form-item label="预估工时" prop="Qty">
 							<el-input-number
 								v-model.number="ruleForm.Qty"
-								style="width: 100%"
 								placeholder="请输入"
 								:controls="true"
 								precision="0"
@@ -25,7 +23,6 @@
 						<el-form-item label="是否启用" prop="No">
 							<el-switch
 								v-model="ruleForm.State"
-								style="width: 100%"
 								:active-icon="Check"
 								:inactive-icon="Close"
 								:active-value="1"
@@ -37,13 +34,11 @@
 						<el-form-item label="项目编号" prop="No">
 							<el-input
 								v-model="ruleForm.No"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 						<el-form-item label="工时单价" prop="Price">
 							<el-input-number
 								v-model="ruleForm.Price"
-								style="width: 100%"
 								placeholder="请输入"
 								:controls="true"
 								precision="2"
@@ -291,3 +286,8 @@ export default {
 	methods: {},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number{
+	width: 100%;
+}
+</style>

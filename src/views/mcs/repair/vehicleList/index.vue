@@ -25,18 +25,6 @@
 							</el-icon>
 							&#8197;{{ $t('message.action.export') }}
 						</el-button>
-						<el-button type="primary" @click="onOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
-							<el-icon>
-								<CirclePlusFilled />
-							</el-icon>
-							&#8197;{{ $t('message.action.add') }}
-						</el-button>
-						<el-button type="primary" @click="onOpenImportDlg" v-auth:[moduleKey]="'btn.Add'">
-							<el-icon>
-								<CirclePlusFilled />
-							</el-icon>
-							&#8197;{{ $t('message.action.import') }}
-						</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
 				</el-form>
@@ -101,28 +89,9 @@
 				<el-table-column prop="Mileage" label="公里数" width="70" align="right"></el-table-column>
 				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column label="有效" width="70" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.State"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'state', scope.row.Id, scope.row.State)"
-							:active-text="$t('message.action.enable')"
-							:inactive-text="$t('message.action.disable')"
-							:active-value="1"
-							:inactive-value="0"/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
-					</template>
-				</el-table-column>
 				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
-							{{ $t('message.action.edit') }}
-						</el-button>
 						<el-button text bg type="primary" @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" v-auth:[moduleKey]="'btn.ChildMap'">
 							{{ $t('message.action.location') }}
 						</el-button>
@@ -131,9 +100,6 @@
 						</el-button>
 						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.see') }}
-						</el-button>
-						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
-							{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
 				</el-table-column>
@@ -154,23 +120,20 @@
 		<editDlg ref="editDlgRef" />
 		<childMapDlg ref="childMapDlgRef" />
 		<energyStatDlg ref="energyStatDlgRef" />
-		<importDlg ref="importDlgRef" />
 	</div>
 </template>
 
 <script lang="ts">
-import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import childMapDlg from '../waybill/component/vehicleMap.vue';
-import editDlg from './component/vehicleEdit.vue';
-import energyStatDlg from './component/vehicleEnergyStat.vue';
-import importDlg from './component/vehicleImport.vue';
+import editDlg from './component/vehicleListEdit.vue';
+import energyStatDlg from './component/vehicleListEnergyStat.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'vehicleInfo',
-	components: { editDlg,childMapDlg,energyStatDlg,importDlg },
+	name: 'vehicleListInfo',
+	components: { editDlg,childMapDlg,energyStatDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -181,7 +144,6 @@ export default {
 		const editDlgRef = ref();
 		const childMapDlgRef=ref();
 		const energyStatDlgRef=ref();
-		const importDlgRef=ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -244,10 +206,7 @@ export default {
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-		// 打开导入弹窗
-		const onOpenImportDlg = () => {
-			importDlgRef.value.openDialog(state.kind);
-		};
+
 		// 打开地图
 		const onChildOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
 			childMapDlgRef.value.openDialog(vehicleNumber, ishow);
@@ -256,24 +215,7 @@ export default {
 		const onEnergyOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
 			energyStatDlgRef.value.openDialog(vehicleNumber, ishow);
 		};
-		// 删除用户
-		const onModelDel = (Id: string) => {
-			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(async () => {
-				try {
-					const res = await proxy.$api.erp.vehicle.delete(Id);
-					if (res.errcode == 0) {
-						onGetTableData();
-					}
-				} finally {
-					state.tableData.loading = false;
-				}
-				return false;
-			});
-		};
+
 
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
@@ -295,17 +237,14 @@ export default {
 		return {
 			proxy,
 			editDlgRef,
-			importDlgRef,
 			childMapDlgRef,
 			energyStatDlgRef,
 			onGetTableData,
 			onGetXlsData,
 			onResetSearch,
 			onOpenEditDlg,
-			onOpenImportDlg,
 			onChildOpenMapDlg,
 			onEnergyOpenMapDlg,
-			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			dateFormatYMDHM,
@@ -314,6 +253,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped lang="scss">
-</style>./component/vehicleEnergeStat.vue

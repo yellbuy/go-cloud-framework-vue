@@ -7,7 +7,6 @@
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
-								style="width: 100%"
 								type="date"
 								placeholder="日期"
 								format="YYYY-MM-DD">
@@ -16,7 +15,6 @@
 						<el-form-item label="重量" prop="Weight">
 							<el-input-number
 								v-model="ruleForm.Weight"
-								style="width: 100%"
 								:precision="2"
 								step="1"
 								min="0"
@@ -217,3 +215,8 @@ export default {
 	methods: {},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number{
+	width: 100%;
+}
+</style>

@@ -7,7 +7,6 @@
 						<el-form-item label="车型名称" prop="Name" required>
 							<el-input
 								v-model="ruleForm.Name"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input> 
 						</el-form-item>
@@ -15,7 +14,6 @@
 							<el-input-number
 								v-model="ruleForm.WheelShaftQty"
 								size="small"
-								style="width: 100%"
 								controls-position="right"
 								placeholder="请输入"
 								@change="handleChange"/>
@@ -26,7 +24,6 @@
 								:min="1"
     							:max="10"
 								size="small"
-								style="width: 100%"
 								controls-position="right"
 								placeholder="请输入"
 								@change="handleChange"/>
@@ -47,7 +44,6 @@
 								:min="1"
     							:max="10"
 								size="small"
-								style="width: 100%"
 								controls-position="right"
 								placeholder="请输入"
 								@change="handleChange"/>
@@ -56,7 +52,6 @@
 							<el-input-number
 								v-model="ruleForm.Order"
 								size="small"
-								style="width: 100%"
 								controls-position="right"
 								placeholder="请输入"
 								@change="handleChange"/>
@@ -68,7 +63,6 @@
 						<el-form-item label="备注" prop="Remark" >
 							<el-input
 							v-model="ruleForm.Remark"
-							style="width: 100%"
 							:rows="3"
 							type="textarea"
 							placeholder="请输入"/>
@@ -78,7 +72,7 @@
 				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
 						<el-form-item label="车型图片" prop="Files">
-							<div style="width: 100%">
+							<div >
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
@@ -426,28 +420,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-select {
+.el-select .el-date-picker .el-input .el-input-number {
 	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
 }
 </style>

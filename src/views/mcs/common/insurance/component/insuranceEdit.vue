@@ -8,19 +8,16 @@
 						<el-form-item label="车牌号" prop="VehicleNumber">
 							<el-input
 								v-model="ruleForm.VehicleNumber"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 						<el-form-item label="保险公司" prop="CompanyName">
 							<el-input
 								v-model="ruleForm.CompanyName"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 						<el-form-item label="交强险保额(元)" prop="CompulsoryAmount">
 							<el-input-number
 								v-model="ruleForm.CompulsoryAmount"
-								style="width: 100%"
 								min="0"
 								step="100"
 								max="100000000"
@@ -29,7 +26,6 @@
 						<el-form-item label="交强险生效日期" prop="CompulsoryStartDate">
 							<el-date-picker
 								v-model="ruleForm.CompulsoryStartDate"
-								style="width: 100%"
 								type="date"
 								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
@@ -37,7 +33,6 @@
 						<el-form-item label="商业险保额(元)" prop="CommercialAmount">
 							<el-input-number
 								v-model="ruleForm.CommercialAmount"
-								style="width: 100%"
 								min="0"
 								step="100"
 								max="100000000"
@@ -46,7 +41,6 @@
 						<el-form-item label="商业险生效日期" prop="CommercialStartDate">
 							<el-date-picker
 								v-model="ruleForm.CommercialStartDate"
-								style="width: 100%"
 								type="date"
 								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
@@ -54,7 +48,6 @@
 						<el-form-item label="车船税费用(元)" prop="TaxFee">
 							<el-input-number
 								v-model="ruleForm.TaxFee"
-								style="width: 100%"
 								min="0"
 								step="100"
 								max="100000000"
@@ -65,7 +58,6 @@
 						<el-form-item label="保险生效日期" prop="StartTime" required>
 							<el-date-picker
 								v-model="ruleForm.StartTime"
-								style="width: 100%"
 								type="date"
 								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
@@ -73,13 +65,11 @@
 						<el-form-item label="保单号" prop="No">
 							<el-input
 								v-model="ruleForm.No"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 						<el-form-item label="交强险购买费用(元)" prop="CompulsoryFee">
 							<el-input-number
 								v-model="ruleForm.CompulsoryFee"
-								style="width: 100%"
 								min="0"
 								step="100"
 								max="100000000"
@@ -88,7 +78,6 @@
 						<el-form-item label="交强险结束日期" prop="CompulsoryEndDate" >
 							<el-date-picker
 								v-model="ruleForm.CompulsoryEndDate"
-								style="width: 100%"
 								type="date"
 								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
@@ -96,7 +85,6 @@
 						<el-form-item label="商业险购买费用(元)" prop="CommercialFee">
 							<el-input-number
 								v-model="ruleForm.CommercialFee"
-								style="width: 100%"
 								min="0"
 								step="100"
 								max="100000000"
@@ -105,7 +93,6 @@
 						<el-form-item label="商业险结束日期" prop="CommercialEndDate">
 							<el-date-picker
 								v-model="ruleForm.CommercialEndDate"
-								style="width: 100%"
 								type="date"
 								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
@@ -115,7 +102,6 @@
 						<el-form-item label="保险结束日期" prop="EndTime"  required>
 							<el-date-picker
 								v-model="ruleForm.EndTime"
-								style="width: 100%"
 								type="date"
 								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
@@ -123,7 +109,6 @@
 						<el-form-item label="购买日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
-								style="width: 100%"
 								type="date"
 								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
@@ -153,7 +138,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" class="mb12">
 						<el-form-item label="商业险图片" prop="Files1">
-							<div style="width: 100%">
+							<div >
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="onSuccessFile1" :file-list="FilesList1" :limit="10" :on-remove="onRemove1"
@@ -172,7 +157,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" class="mb12">
 						<el-form-item label="车船税图片" prop="Files2">
-							<div style="width: 100%">
+							<div >
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="onSuccessFile2" :file-list="FilesList2" :limit="10" :on-remove="onRemove2"
@@ -686,3 +671,8 @@ export default {
 	methods: {},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number {
+	width: 100%;
+}
+</style>

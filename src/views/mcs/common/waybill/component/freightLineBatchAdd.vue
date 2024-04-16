@@ -9,35 +9,23 @@
 					:titles="['可用车辆', '分配车辆']"
 					:button-texts="['移除','分配']"
 					:props="{ key: 'Id', label: 'VehicleNumber', disabled: 'state'}"
-					:data="allTruckList"
-				>
-				<template #default="{ option }">
-					<el-tag v-if="option.IsExternal" type="primary">外</el-tag><el-tag v-else type="success">内</el-tag><span class="ml2">{{ option.VehicleNumber }}</span>
-				</template>
-				<template #left-footer>
-					<el-select
-					v-model="isExternal"
-						class="m-2 p10"
-						placeholder="车辆类型"
-						@change="onIsExternalChange"
-					>
-						<el-option
-						label="所有"
-						:value="-1"
-						/>
-						<el-option
-						label="内部车"
-						:value="0"
-						/>
-						<el-option
-						label="外部车"
-						:value="1"
-						/>
-					</el-select>
-				</template>
-			</el-transfer>
+					:data="allTruckList">
+					<template #default="{ option }">
+						<el-tag v-if="option.IsExternal" type="primary">外</el-tag><el-tag v-else type="success">内</el-tag><span class="ml2">{{ option.VehicleNumber }}</span>
+					</template>
+					<template #left-footer>
+						<el-select
+							v-model="isExternal"
+							class="m-2 p10"
+							placeholder="车辆类型"
+							@change="onIsExternalChange">
+							<el-option label="所有" :value="-1"/>
+							<el-option label="内部车" :value="0"/>
+							<el-option label="外部车" :value="1"/>
+						</el-select>
+					</template>
+				</el-transfer>
 			</div>
-			
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
@@ -69,7 +57,6 @@ export default {
 		
 		const store = useStore();
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
 		
@@ -178,7 +165,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-select {
+.el-select .el-date-picker .el-input .el-input-number {
 	width: 100%;
 }
 </style>

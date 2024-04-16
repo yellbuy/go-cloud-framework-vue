@@ -11,6 +11,7 @@ export default {
 		repair_reception:'repair reception',
 		repair_sheet:'repair sheet',
 		repair_project:'repair project',
+		vehicle_list: 'repair vehicle list',
 		maintenance_sheet:"maintenance sheet",
 		repair_goods:'repair goods',
 		main_business_account:'main business account',

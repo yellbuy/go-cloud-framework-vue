@@ -6,45 +6,55 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="车牌号" prop="VehicleNumber">
-							<el-input v-model="ruleForm.VehicleNumber" placeholder="请输入车牌号码"></el-input> 
+							<el-input
+								v-model="ruleForm.VehicleNumber"
+								placeholder="请输入">
+							</el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="起始时间" prop="StartTime">
-							<!-- <el-input v-model="ruleForm.StartTime" placeholder="请选择起始时间"></el-input>  -->
 							<el-date-picker
-										v-model="ruleForm.StartTime"
-										type="datetime"
-										placeholder="请选择起始时间"
-										format="YYYY-MM-DD HH:mm"
-									></el-date-picker>
+								v-model="ruleForm.StartTime"
+								type="datetime"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD HH:mm">
+							</el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="至" prop="EndTime"  required>
 							<el-date-picker
-										v-model="ruleForm.EndTime"
-										type="datetime"
-										placeholder="请选择结束时间"
-										format="YYYY-MM-DD HH:mm"
-									></el-date-picker>
+								v-model="ruleForm.EndTime"
+								type="datetime"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD HH:mm">
+							</el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="已行驶里程数" prop="Mileage">
-							<el-input v-model.number="ruleForm.Mileage" placeholder="请输入里程数"></el-input> 
+							<el-input
+								v-model.number="ruleForm.Mileage"
+								placeholder="请输入"></el-input> 
 						</el-form-item>
 					</el-col>					
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="燃油消耗率" prop="FuelConsumptionRate">
-							<el-input v-model.number="ruleForm.FuelConsumptionRate" placeholder="请输入燃油消耗率"></el-input> 
+							<el-input
+								v-model.number="ruleForm.FuelConsumptionRate"
+								placeholder="请输入">
+							</el-input> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="所属单位" prop="CompanyName">
-							<el-input v-model="ruleForm.CompanyName" placeholder="请输入所属单位"></el-input> 
+							<el-input
+								v-model="ruleForm.CompanyName"
+								placeholder="请输入">
+							</el-input> 
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -347,28 +357,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-select {
+.el-select .el-date-picker .el-input .el-input-number {
 	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
 }
 </style>
