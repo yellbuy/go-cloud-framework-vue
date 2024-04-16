@@ -12,13 +12,13 @@
             <div>
               <dv-decoration-3 style="width: 100%;" />
             <div class="block-left-content">
-              <mainBusinessBoard />
+              <barMainBusinessBoard />
             </div>
             <div class="block-left-content">
-              <mainBusinessBoard />
+              <barTradeBoard />
             </div>
             <div class="block-left-content">
-              <mainBusinessBoard />
+              <barWarehouseBoard />
             </div>
             <div class="block-left-content">
               <mainBusinessBoard />
@@ -60,12 +60,14 @@
 </template>
 
 <script lang="ts">
+import barMainBusinessBoard from "./barMainBusinessBoard.vue";
+import barTradeBoard from "./barTradeBoard.vue";
+import barWarehouseBoard from "./barWarehouseBoard.vue";
 import cards from "./cards.vue";
 import centerBottom from "./centerBottom.vue";
 import centerTop from "./centerTop.vue";
 import digitalFlop from "./digitalFlop.vue";
 import leftTop from "./leftTop.vue";
-import mainBusinessBoard from "./mainBusinessBoard.vue";
 import noticeList from "./noticeList.vue";
 import rankingBoard from "./rankingBoard.vue";
 import roseChart from "./roseChart.vue";
@@ -88,7 +90,9 @@ export default {
     roseChart,
     waterLevelChart,
     scrollBoard,
-    mainBusinessBoard,
+    barMainBusinessBoard,
+    barTradeBoard,
+    barWarehouseBoard,
     cards,
     scrollBoardAmount,
   },
