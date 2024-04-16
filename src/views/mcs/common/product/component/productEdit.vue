@@ -1,25 +1,22 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="50%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="产品名称" prop="GoodsName">
 							<el-input
 								v-model="ruleForm.GoodsName"
-								placeholder="请输入商品名称"></el-input> 
+								style="width: 100%"
+								placeholder="请输入">
+							</el-input> 
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="产品编码" prop="GoodsSn">
-							<el-input
-								v-model="ruleForm.GoodsSn"
-								placeholder="请输入商品编号"></el-input> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="产品单位" prop="GoodsUnit">
-							<el-select v-model="ruleForm.GoodsUnit" class="m-2" placeholder="请输入货品单位" size="small">
+							<el-select
+								v-model="ruleForm.GoodsUnit"
+								class="m-2"
+								placeholder="请选择"
+								size="small">
     							<el-option
 									v-for="item in goodsUnitList"
 									:key="item.Id"
@@ -27,17 +24,29 @@
 									:value="item.Name"/>
   							</el-select>
 						</el-form-item>
-					</el-col>					
-				</el-row>
-				<el-row>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="助记符" prop="Piny">
-							<el-input v-model="ruleForm.Piny" placeholder="助记符"></el-input> 
+							<el-input
+								v-model="ruleForm.Piny"
+								style="width: 100%"
+								placeholder="请输入">
+							</el-input> 
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					</el-col>					
+					<el-col :xs="24" :sm="12" class="mb20">
+						<el-form-item label="产品编码" prop="GoodsSn">
+							<el-input
+								v-model="ruleForm.GoodsSn"
+								style="width: 100%"
+								placeholder="请输入">
+							</el-input> 
+						</el-form-item>
 						<el-form-item label="产品类别" prop="CategoryId">
-							<el-select v-model="ruleForm.CategoryId" class="m-2" placeholder="请输入产品类" size="small">
+							<el-select
+								v-model="ruleForm.CategoryId"
+								style="width: 100%"
+								class="m-2"
+								placeholder="请选择"
+								size="small">
     							<el-option
 									v-for="item in CategoryList"
 									:key="item.Id"
@@ -45,10 +54,6 @@
 									:value="item.Id"/>
   							</el-select>
 						</el-form-item>
-					</el-col>	
-				</el-row>
-				<el-row>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="状态" prop="SupplierState">
 							<el-switch
 								v-model="ruleForm.SupplierState"
@@ -77,13 +82,14 @@
 							</div> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
+					<el-col :xs="24" class="mb20">		
 						<el-form-item label="备注" prop="SellerNote" >
 							<el-input
 								v-model="ruleForm.SellerNote"
+								style="width: 100%"
 								:rows="3"
 								type="textarea"
-								placeholder="请输入备注"/>
+								placeholder="请输入"/>
 						</el-form-item>
 					</el-col>
 				</el-row> 
@@ -348,23 +354,6 @@ export default {
 			proxy.$parent.onGetTableData();
 		};
 
-		//	修改按钮
-		const onModelEdit = (item: object) => {
-			state.tableItem = item;
-			console.log(state.tableItem.Files);
-			if (state.tableItem.Files != '') {
-				state.Files = item.Files.split(',');
-				state.FilesList = [];
-				for (let i = 0; i < state.Files.length; i++) {
-					let image = { url: '' };
-					image.url = state.httpsText + state.Files[i];
-					state.FilesList.push(image);
-				}
-			}
-			state.saveState = false;
-			state.dialogVisible = true;
-		};
-
 		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
@@ -430,7 +419,6 @@ export default {
 			onPreview,
 			onRemove,
 			onBeforeImageUpload,
-			onModelEdit,
 			showImage,
 			dateFormatYMD,
 			getUserInfos,

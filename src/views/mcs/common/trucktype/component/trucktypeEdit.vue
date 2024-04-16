@@ -1,72 +1,65 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="70%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="车型名称" prop="Name" required>
-							<el-input v-model="ruleForm.Name" placeholder="请输入车辆类型名称"></el-input> 
+							<el-input
+								v-model="ruleForm.Name"
+								style="width: 100%"
+								placeholder="请输入">
+							</el-input> 
 						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="状态" prop="State">
-							<el-switch
-						v-model="ruleForm.State"
-    					active-text="有效"
-    					inactive-text="无效"
-						:active-value="1"
-						:inactive-value="0"
-						/>				
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="轮轴数" prop="WheelShaftQty">
 							<el-input-number
 								v-model="ruleForm.WheelShaftQty"
 								size="small"
-								style="width: 130px;"
+								style="width: 100%"
 								controls-position="right"
-								@change="handleChange"
-							/>
+								placeholder="请输入"
+								@change="handleChange"/>
 						</el-form-item>
-					</el-col>					
-				</el-row>
-				<el-row>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="标准总重(吨)" prop="TotalWeight">
-							<el-input-number
-								v-model="ruleForm.TotalWeight"
-								:min="1"
-    							:max="10"
-								size="small"
-								style="width: 130px;"
-								controls-position="right"
-								@change="handleChange"
-							/>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="标准皮重(吨)" prop="TruckWeight">
 							<el-input-number
 								v-model="ruleForm.TruckWeight"
 								:min="1"
     							:max="10"
 								size="small"
-								style="width:130px;"
+								style="width: 100%"
 								controls-position="right"
-								@change="handleChange"
-							/>
+								placeholder="请输入"
+								@change="handleChange"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+					<el-col :xs="24" :sm="12" class="mb20">
+						<el-form-item label="状态" prop="State">
+							<el-switch
+								v-model="ruleForm.State"
+								active-text="有效"
+								inactive-text="无效"
+								:active-value="1"
+								:inactive-value="0"/>				
+						</el-form-item>
+						<el-form-item label="标准总重(吨)" prop="TotalWeight">
+							<el-input-number
+								v-model="ruleForm.TotalWeight"
+								:min="1"
+    							:max="10"
+								size="small"
+								style="width: 100%"
+								controls-position="right"
+								placeholder="请输入"
+								@change="handleChange"/>
+						</el-form-item>
 						<el-form-item label="排序" prop="Order">
 							<el-input-number
 								v-model="ruleForm.Order"
 								size="small"
-								style="width: 130px;"
+								style="width: 100%"
 								controls-position="right"
-								@change="handleChange"
-							/>
+								placeholder="请输入"
+								@change="handleChange"/>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -75,16 +68,17 @@
 						<el-form-item label="备注" prop="Remark" >
 							<el-input
 							v-model="ruleForm.Remark"
+							style="width: 100%"
 							:rows="3"
 							type="textarea"
-							placeholder="请输入备注"/>
+							placeholder="请输入"/>
 					</el-form-item>
 					</el-col>
 				</el-row>	
 				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
 						<el-form-item label="车型图片" prop="Files">
-							<div style="width: 50%">
+							<div style="width: 100%">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
@@ -153,7 +147,6 @@ export default {
 		};
 		const store = useStore();
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
 		//显示表格图片
@@ -187,7 +180,6 @@ export default {
 				State: 1,
 				WheelShaftQty:'',
 				TotalWeight:'',
-				//WeightUnit:'',
 				Remark:'',
 				Order:0,
                 TruckWeight:'',
@@ -245,18 +237,6 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
-				//  const WeightUnit = await proxy.$api.common.commondata.getConcreteDataListByScope('weight_unit', 0, 2);
-				//  if (WeightUnit.errcode == 0) {
-				//  	state.WeightUnitList = WeightUnit.data;
-				//  }else{
-				//  	console.log("error:",WeightUnit.errmsg)
-				//  }
-				// const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_unit', 0, 2);
-				// if (goodsUnits.errcode == 0) {
-				// 	state.goodsUnitList = goodsUnits.data;
-				// }else{
-				// 	console.log("error:",goodsUnits.errmsg)
-				// }
 				state.disable = disable;
 				if (disable) {
 					state.title = t('message.action.see');
@@ -326,7 +306,6 @@ export default {
 			} else {
 				//下载文件
 				state.dialogVisible = false;
-				// openWindow(fileurl, { target: "_self" });
 				window.open(fileurl, '_self');
 			}
 		};
