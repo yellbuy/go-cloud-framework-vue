@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="1000px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-divider content-position="left">基本信息*</el-divider>
 			<el-card shadow="hover">
 				<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="："
@@ -8,54 +8,99 @@
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="维修单号" prop="BillNo">
-								<el-input v-model="ruleForm.BillNo" autofocus placeholder="系统自动生成" maxlength="100" disabled
-									clearable></el-input>
+								<el-input
+									v-model="ruleForm.BillNo"
+									autofocus
+									placeholder="系统自动生成"
+									maxlength="100"
+									disabled
+									clearable>
+								</el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="车牌号" prop="VehicleNumber">
-								<el-input v-model="ruleForm.VehicleNumber" placeholder=""  clearable ></el-input>
+								<el-input
+									v-model="ruleForm.VehicleNumber"
+									placeholder="请输入"
+									clearable >
+								</el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="车辆品牌" prop="Brand">
-								<el-input v-model="ruleForm.Brand" placeholder=""  clearable ></el-input>
+								<el-input
+									v-model="ruleForm.Brand"
+									placeholder="请输入"
+									clearable>
+								</el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="车型" prop="VehicleType">
-								<el-input v-model="ruleForm.VehicleType" autofocus placeholder=""  maxlength="100"
-									clearable></el-input>
+								<el-input
+									v-model="ruleForm.VehicleType"
+									autofocus
+									placeholder="请输入"
+									maxlength="100"
+									clearable>
+								</el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="客户名称" prop="CompanyName">
-								<el-input v-model="ruleForm.CompanyName" placeholder=""  clearable ></el-input>
+								<el-input
+									v-model="ruleForm.CompanyName"
+									placeholder="请输入"
+									clearable>
+								</el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="公里数" prop="Mileage">
-								<el-input v-model.number="ruleForm.Mileage" placeholder=""  clearable ></el-input>
+								<el-input-number
+									v-model.number="ruleForm.Mileage"
+									:controls="true"
+									precision="0"
+									placeholder="请输入"
+									min="0"
+									max="1000000000"
+									step="1">
+								</el-input-number>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="到厂次数" prop="VehicleTag">
-								<el-input v-model="ruleForm.VehicleTag" autofocus placeholder=""  maxlength="100" disabled
-									clearable></el-input>
+								<el-input
+									v-model="ruleForm.VehicleTag"
+									autofocus
+									placeholder="请输入"
+									maxlength="100"
+									disabled
+									clearable>
+								</el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="联系人" prop="Linkman">
-								<el-input v-model="ruleForm.Linkman" placeholder=""  clearable ></el-input>
+								<el-input
+									v-model="ruleForm.Linkman"
+									placeholder="请输入"
+									clearable>
+								</el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="联系电话" prop="Phone">
-								<el-input v-model="ruleForm.Phone" placeholder=""  clearable ></el-input>
+								<el-input
+									v-model="ruleForm.Phone"
+									placeholder="请输入"
+									clearable>
+								</el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -72,8 +117,12 @@
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="进厂时间" prop="StartTime" required>
-								<el-date-picker v-model="ruleForm.StartTime" type="datetime" placeholder=""
-									format="YYYY-MM-DD HH:mm" ></el-date-picker>
+								<el-date-picker
+									v-model="ruleForm.StartTime"
+									type="datetime"
+									placeholder="请选择时间"
+									format="YYYY-MM-DD HH:mm" >
+								</el-date-picker>
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -89,13 +138,21 @@
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="完工时间" prop="EndTime" required>
-								<el-date-picker v-model="ruleForm.EndTime" type="datetime" placeholder="请选择完工时间"
-									format="YYYY-MM-DD HH:mm"></el-date-picker>
+								<el-date-picker
+									v-model="ruleForm.EndTime"
+									type="datetime"
+									placeholder="请选择时间"
+									format="YYYY-MM-DD HH:mm">
+								</el-date-picker>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="备注" prop="Remark">
-								<el-input v-model="ruleForm.Remark" autofocus placeholder="" maxlength="100"
+								<el-input
+									v-model="ruleForm.Remark"
+									autofocus
+									placeholder="请输入"
+									maxlength="100"
 									clearable></el-input>
 							</el-form-item>
 						</el-col>
@@ -117,39 +174,39 @@
 			</div>
 			<el-table :data="ruleForm.VehicleProjectList" v-loading="projectTableData.loading"
 				:height="200" border stripe highlight-current-row>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Name" label="项目名称" width="240" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Qty" label="预估工时" width="80">
+				<el-table-column type="index" label="序号" align="right" width="60" fixed />
+				<el-table-column prop="Name" label="项目名称" width="200" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Qty" label="预估工时" width="120">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Qty"
 							size="small"
-							style="width: 80px;"
     						controls-position="right"
-    						@change="handleChange"
-  						/>
+    						@change="handleChange"/>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Price" label="单价" width="90">
+				<el-table-column prop="Price" label="单价" width="120">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Price"
 							size="small"
-							style="width: 80px;"
     						controls-position="right"
-    						@change="handleChange"
-  						/>
+    						@change="handleChange"/>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed>
+				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip>
 					<template #default="scope">
 						{{ totalPrice(scope.row) }}
 					</template>
 				</el-table-column>
-				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Content" label="服务内容" width="150" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
 					<template #default="scope">
-						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
+						<el-input
+							v-model="scope.row.Remark"
+							autofocus
+							placeholder="请输入"
+							maxlength="100"
 							clearable>
 						</el-input>
 					</template>
@@ -159,12 +216,6 @@
 						<el-button text bg type="danger" @click="onProjectDel(scope.$index)" v-auth:[moduleKey]="'btn.Del'">
 							{{ $t('message.action.delete') }}
 						</el-button>
-						<!-- <el-button type="primary" @click="onAddWorkerOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
-							<el-icon>
-								<CirclePlusFilled />
-							</el-icon>
-							&#8197;{{ $t('message.action.dispatchWorkers') }}
-						</el-button> -->
 					</template>
 				</el-table-column>
 			</el-table>
@@ -183,39 +234,38 @@
 			</div>
 			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading"
 				:height="200" border stripe highlight-current-row>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="配件名称" width="240" show-overflow-tooltip fixed></el-table-column>
-				
-				<el-table-column prop="Qty" label="预估工时" width="80">
+				<el-table-column type="index" label="序号" align="right" width="60" fixed />
+				<el-table-column prop="GoodsName" label="配件名称" width="200" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Qty" label="预估工时" width="120">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Qty"
 							size="small"
-							style="width: 80px;"
     						controls-position="right"
-    						@change="handleChange"
-  						/>
+    						@change="handleChange"/>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Price" label="单价" width="90">
+				<el-table-column prop="Price" label="单价" width="120">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Price"
 							size="small"
-							style="width: 80px;"
     						controls-position="right"
-    						@change="handleChange"
-  						/>
+    						@change="handleChange"/>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed>
+				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip>
 					<template #default="scope">
 						{{ totalPrice(scope.row) }}
 					</template>
 				</el-table-column>
 				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
 					<template #default="scope">
-						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
+						<el-input
+							v-model="scope.row.Remark"
+							autofocus
+							placeholder="请输入"
+							maxlength="100"
 							clearable>
 						</el-input>
 					</template>
@@ -238,7 +288,6 @@
 				</span>
 			</template>
 		</el-dialog>
-
 	</div>
 	<editDlg ref="editDlgRef" />
 	<addDlg ref="addDlgRef" />

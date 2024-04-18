@@ -29,7 +29,6 @@
 					<el-form-item></el-form-item>
 				</el-form>
 			</div>
-		
 			<el-table
 				:data="tableData.data"
 				v-loading="tableData.loading"
@@ -37,8 +36,7 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-			>
+				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="BillNo" label="维修单号" width="110" fixed></el-table-column>
 				<el-table-column label="是否委外" width="120" show-overflow-tooltip>
@@ -52,8 +50,7 @@
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
-							:inactive-value="0"
-						/>
+							:inactive-value="0"/>
 						<el-tag type="success" effect="plain" v-if="scope.row.IsExternal" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>

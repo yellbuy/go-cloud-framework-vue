@@ -343,7 +343,7 @@ export default {
 						state.ruleForm.Pics = state.Files.join(',');
 					}
 					try {
-						const res = await proxy.$api.erp.truck_type.save(state.ruleForm);
+						const res = await proxy.$api.erp.trucktype.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();

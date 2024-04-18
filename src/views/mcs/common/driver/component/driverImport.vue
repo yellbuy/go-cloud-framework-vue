@@ -290,16 +290,16 @@ export default {
 					}
 
 					model.Nation=`${row["__EMPTY_2"]}`||"";
-					model.Birthdate=row["__EMPTY_3"]||new Data();
+					model.Birthdate=row["__EMPTY_3"]||"";
 					model.Idno=`${row["__EMPTY_4"]}`||"";
-					model.IdnoEndDate=row["__EMPTY_5"]||new Data();
+					model.IdnoEndDate=row["__EMPTY_5"]||"";
 					model.NativePlace=`${row["__EMPTY_6"]}`||"";
 					model.Mobile=`${row["__EMPTY_7"]}`||"";
 					model.Address=`${row["__EMPTY_8"]}`||"";
 					model.DriverLicenseType=row["__EMPTY_9"]||"";
-					model.RegistrationDate=row["__EMPTY_10"]||new Data();
-					model.DriverLicenseStartDate=row["__EMPTY_11"]||new Data();
-					model.DriverLicenseEndDate=row["__EMPTY_12"]||new Data();
+					model.RegistrationDate=row["__EMPTY_10"]||"";
+					model.DriverLicenseStartDate=row["__EMPTY_11"]||"";
+					model.DriverLicenseEndDate=row["__EMPTY_12"]||"";
 					rows.push(model);
 				}
 				state.tableData.total=rows.length

@@ -296,6 +296,7 @@ export default {
 			reader.readAsArrayBuffer(file)
 			reader.onload = (ev: any) => {
 				const rows=[]
+				const tip=[]
 				const unique = {};
 				let data = ev.target.result
 				const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
@@ -313,25 +314,34 @@ export default {
 					unique[vehicleNumber] = true
 					const model={};
 					model.VehicleNumber=vehicleNumber;
-					model.StartTime=row["__EMPTY_1"]||new Data();
-					model.EndTime=row["__EMPTY_2"]||new Data();
+					model.StartTime=row["__EMPTY_1"]||row["__EMPTY_8"]||"";
+					model.EndTime=row["__EMPTY_2"]||row["__EMPTY_9"]||"";
 					model.CompanyName=row["__EMPTY_3"]||"";
 					model.No=String(row["__EMPTY_4"]||"");
-
-					model.BillTime=row["__EMPTY_5"]||new Data();
+					model.BillTime=row["__EMPTY_5"]||"";
 					model.CompulsoryAmount=row["__EMPTY_6"]||"";
 					model.CompulsoryFee=row["__EMPTY_7"]||"";
-					model.CompulsoryStartDate=row["__EMPTY_8"]||new Data();
-					model.CompulsoryEndDate=row["__EMPTY_9"]||new Data();
+					model.CompulsoryStartDate=row["__EMPTY_8"]||"";
+					model.CompulsoryEndDate=row["__EMPTY_9"]||"";
 					model.CommercialAmount=row["__EMPTY_10"]||"";
 					model.CommercialFee=row["__EMPTY_11"]||"";
-					model.CommercialStartDate=row["__EMPTY_12"]||new Data();
-					model.CommercialEndDate=row["__EMPTY_13"]||new Data();
+					model.CommercialStartDate=row["__EMPTY_12"]||"";
+					model.CommercialEndDate=row["__EMPTY_13"]||"";
 					model.TaxFee=row["__EMPTY_14"]||"";
+					if(model.CompulsoryStartDate=="" || model.CompulsoryEndDate==""){
+						tip.push(vehicleNumber)
+					}
 					rows.push(model);
+					console.log("测试", model)
 				}
-				state.tableData.total=rows.length
-				state.ruleForm.InsuranceList=rows;
+				if(tip.length>0){
+					alert("车牌：（"+tip+"）交强险时间为空，导入失败！")
+				}else{
+					state.tableData.total=rows.length
+					state.ruleForm.InsuranceList=rows;
+				}
+
+
 			}
 		}
 

@@ -77,8 +77,7 @@
 						<el-tooltip v-if="scope.row.InsuranceState > 0"
 							class="box-item"
 							effect="dark"
-							placement="top"
-						>
+							placement="top">
 						<template #content>保险：{{ scope.row.InsuranceStartDate.substr(0,10) }} 至 {{ scope.row.InsuranceEndDate.substr(0,10) }}
 						</template>
 						<el-tag :type="scope.row.InsuranceState == 2?'success':'warning'" class="mr4" round effect="dark" >险</el-tag>

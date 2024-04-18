@@ -179,7 +179,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.truck_type.getListByScope("info", 0, 0, state.tableData.param);
+				const res = await proxy.$api.erp.trucktype.getListByScope("info", 0, 0, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -203,7 +203,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.truck_type.delete(Id);
+					const res = await proxy.$api.erp.trucktype.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}

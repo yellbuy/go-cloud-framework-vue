@@ -73,7 +73,7 @@
 				<el-divider content-position="left">驾照信息*</el-divider>
 				<el-row :gutter="20">
 					<el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="驾照类型" prop="DriverLicenseType" required>
+						<el-form-item label="驾照类型" prop="DriverLicenseType">
 							<el-select
 								v-model="ruleForm.DriverLicenseType"
 								filterable="true"
@@ -83,7 +83,7 @@
 								<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="item"> </el-option>
 							</el-select> 
 						</el-form-item>
-						<el-form-item label="驾照生效日期" prop="DriverLicenseStartDate" required>
+						<el-form-item label="驾照生效日期" prop="DriverLicenseStartDate">
 							<el-date-picker
 								v-model="ruleForm.DriverLicenseStartDate"
 								type="date"
@@ -92,14 +92,14 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="驾照登记日期" prop="RegistrationDate"  required>
+						<el-form-item label="驾照登记日期" prop="RegistrationDate">
 							<el-date-picker
 								v-model="ruleForm.RegistrationDate"
 								type="date"
 								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
-						<el-form-item label="驾照截止日期" prop="DriverLicenseEndDate"  required>
+						<el-form-item label="驾照截止日期" prop="DriverLicenseEndDate">
 							<el-date-picker
 								v-model="ruleForm.DriverLicenseEndDate"
 								type="date"
