@@ -296,9 +296,9 @@ export default {
 						model.IsExternal=0
 					}
 					model.Linkman=row["__EMPTY_4"]||"";
-					model.Phone=row["__EMPTY_5"]||""; //转字符串
+					model.Phone=String(row["__EMPTY_5"]||""); //转字符串
 					model.Driver=row["__EMPTY_6"]||"";
-					model.DriverMobile=row["__EMPTY_7"]||""; //转字符串
+					model.DriverMobile=String(row["__EMPTY_7"]||""); //转字符串
 					model.DrivingLicense=row["__EMPTY_8"]||"";
 					model.DrivingLicenseStartDate=row["__EMPTY_9"]||new Date();
 					model.DrivingLicenseEndDate=row["__EMPTY_10"]||new Date();
