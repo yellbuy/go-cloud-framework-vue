@@ -1,14 +1,17 @@
 <template>
   <div class="scroll-board">
     <div class="chart-name">
-      铁运业务分析
+      <div>铁运业务分析 </div>
+      <div>
+        <dv-button @click="onChangeInvertal" border="Border1" color="#f3d19e" font-color="#e18a3b" style="z-index: 999999;text-decoration:underline">{{getModeName}}</dv-button>
+      </div>
     </div>
     <dv-charts :option="option" style="width: 100%; height:240px;margin-top:-40px"/>
   </div>
 </template>
 
 <script lang="ts">
-import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 export default {
   name: "mainBusinessTimeStat",
    setup() {
@@ -17,6 +20,7 @@ export default {
     // console.log("res：",res)
     const state = reactive({
       timeMode:'day',
+      data:{},
       option:{
         legend: {
           data: [
@@ -102,37 +106,62 @@ export default {
         ],
       }
 		});
-    const setData=(data:never[])=>{
-      const list=[];
-      data.forEach(v=>{
-        list.push(v?v:0)
-      })
-      console.log("list:",list)
-      return list
+    const setData=()=>{
+      if(state.timeMode=="day") {
+            state.option.xAxis.data=state.data.day.Name||[]
+            state.option.series[0].data=state.data.day.PlanWeight||[]
+            state.option.series[1].data=state.data.day.Weight||[]
+        }
+        else if(state.timeMode=="month") {
+            state.option.xAxis.data=state.data.month.Name||[]
+            state.option.series[0].data=state.data.month.PlanWeight||[]
+            state.option.series[1].data=state.data.month.Weight||[]
+        }
+        else if(state.timeMode=="year") {
+            state.option.xAxis.data=state.data.year.Name||[]
+            state.option.series[0].data=state.data.year.PlanWeight||[]
+            state.option.series[1].data=state.data.year.Weight||[]
+        }
+    }
+    const getModeName = computed(() => {
+			if(state.timeMode=="month"){
+        return "月";
+      } else if(state.timeMode=="year"){
+        return "年";
+      } else {
+        return "日"
+      }
+		});
+    const onChangeInvertal=()=>{
+      if(state.timeMode=="day"){
+        state.timeMode="month";
+      } else if(state.timeMode=="month"){
+        state.timeMode="year";
+      } else{
+        state.timeMode="day";
+      }
+      setData();
     }
     // 页面加载时
 		onMounted(async () => {
       
       const res = await proxy.$api.erp.businessBillLine.getTimeStatListByScope("main_business", 0, 0);
       if(res.errcode==0){
-        if(state.timeMode=="day") {
-            state.option.xAxis.data=res.data.day.Name||[]
-            state.option.series[0].data=res.data.day.PlanWeight||[]
-            state.option.series[1].data=res.data.day.Weight||[]
-        }
-        
+        state.data=res.data;
+        setData();
       }		
       setInterval(async () => {
         const res = await proxy.$api.erp.businessBillLine.getTimeStatListByScope("main_business", 0, 0);
         if(res.errcode==0){
-            state.option.xAxis.data=res.data.day.Name||[]
-            state.option.series[0].data=res.data.day.PlanWeight||[]
-            state.option.series[1].data=res.data.day.Weight||[]
+          state.data=res.data;
+          setData();
         }
       }, 60000);
 				
 		});
     return {
+      getModeName,
+      onChangeInvertal,
       ...toRefs(state)
     }
   },
@@ -152,6 +181,8 @@ export default {
     margin-left: 10px;
     text-align: left;
     font-size: 18px;
+    display: flex;
+    justify-content:space-between;
   }
 }
 </style>
