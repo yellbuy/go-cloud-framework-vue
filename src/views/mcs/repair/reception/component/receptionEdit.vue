@@ -30,7 +30,7 @@
 							<el-select
 								v-model="ruleForm.VehicleType"
 								placeholder="请选择">
-								<el-option v-for="(item, index) in vehicleTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in vehicleTypeList" :key="index" :label="item.Name" :value="item.Name"> </el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="电话" prop="Phone">
@@ -51,7 +51,7 @@
 							<el-select
 								v-model="ruleForm.Brand"
 								filterable placeholder="请选择">
-								<el-option v-for="(item, index) in brandList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in brandList" :key="index" :label="item.Name" :value="item.Name"> </el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="公里数" prop="Mileage">
