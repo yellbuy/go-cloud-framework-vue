@@ -39,20 +39,10 @@
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
 				<el-table-column prop="VehicleType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column label="外部车" width="70" show-overflow-tooltip>
+				<el-table-column label="外部车" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-switch
-							v-model="scope.row.IsExternal"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
-							@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
-							:active-text="$t('message.action.yes')"
-							:inactive-text="$t('message.action.no')"
-							:active-value="1"
-							:inactive-value="0"/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-if="scope.row.IsExternal==0">{{ $t('message.action.no') }}</el-tag>
+						<el-tag type="warning" effect="plain" v-else-if="scope.row.IsExternal==1">{{ $t('message.action.yes') }}</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip>
@@ -65,8 +55,7 @@
 						<el-tooltip v-if="scope.row.InsuranceState > 0"
 							class="box-item"
 							effect="dark"
-							placement="top"
-						>
+							placement="top">
 						<template #content>保险：{{ scope.row.InsuranceStartDate.substr(0,10) }} 至 {{ scope.row.InsuranceEndDate.substr(0,10) }}
 						</template>
 						<el-tag :type="scope.row.InsuranceState == 2?'success':'warning'" class="mr4" round effect="dark" >险</el-tag>
@@ -126,7 +115,7 @@
 <script lang="ts">
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import childMapDlg from '../waybill/component/vehicleMap.vue';
+import childMapDlg from '/@/views/mcs/common/waybill/component/vehicleMap.vue';
 import editDlg from './component/vehicleListEdit.vue';
 import energyStatDlg from './component/vehicleListEnergyStat.vue';
 import commonFunction from '/@/utils/commonFunction';
