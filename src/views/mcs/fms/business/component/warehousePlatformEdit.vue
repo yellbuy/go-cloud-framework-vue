@@ -8,14 +8,12 @@
 						<el-form-item label="平台名称" prop="Name">
 							<el-input
 								v-model="ruleForm.Name"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 						<el-form-item label="面积" prop="Volume">
 							<el-input-number
 								v-model="ruleForm.Volume"
-								style="width: 100%"
 								:controls="true"
 								precision="2"
 								placeholder="请输入"
@@ -28,7 +26,6 @@
 						<el-form-item label="备注" prop="Remark">
 							<el-input
 								v-model="ruleForm.Remark"
-								style="width: 100%"
 								type="textarea"
 								:rows="4"
 								placeholder="请输入">
@@ -211,3 +208,8 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number{
+	width: 100%;
+}
+</style>

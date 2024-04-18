@@ -8,7 +8,6 @@
 						<el-form-item label="平台名称" prop="BusinessBillId" >
 							<el-select
 								v-model="ruleForm.BusinessBillId"
-								style="width: 100%"
 								filterable
 								placeholder="请选择">
 								<el-option v-for="(item, index) in businessBillList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
@@ -17,7 +16,6 @@
 						<el-form-item label="客户名称" prop="CustomerId">
 							<el-select
 								v-model="ruleForm.CustomerId"
-								style="width: 100%"
 								filterable
 								placeholder="请选择">
 								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
@@ -26,7 +24,6 @@
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
-								style="width: 100%"
 								type="date"
 								placeholder="日期"
 								format="YYYY-MM-DD">
@@ -36,7 +33,6 @@
 							<el-input-number
 								v-model="ruleForm.Amount"
 								:controls="true"
-								style="width: 100%"
 								placeholder="请输入"
 								type="number"
 								precision="2"
@@ -48,7 +44,6 @@
 						<el-form-item label="面积" prop="Volume">
 							<el-input-number
 								v-model="ruleForm.Volume"
-								style="width: 100%"
 								:controls="true"
 								precision="2"
 								placeholder="请输入"
@@ -290,3 +285,8 @@ export default {
 	}
 }
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number{
+	width: 100%;
+}
+</style>

@@ -8,28 +8,24 @@
 						><el-form-item label="客户名称：" prop="CompanyName">
 							<el-input
 								v-model="ruleForm.CompanyName"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 						<el-form-item label="证件号码：" prop="Idno">
 							<el-input
 								v-model="ruleForm.Idno"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 						<el-form-item label="经营范围：" prop="BusinessScope">
 							<el-input
 								v-model="ruleForm.BusinessScope"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 						<el-form-item label="经营起始日期：" prop="BusinessStartTime">
 							<el-date-picker
 								v-model="ruleForm.BusinessStartTime"
-								style="width: 100%"
 								type="date"
 								placeholder="选择时间"
 								format="YYYY-MM-DD">
@@ -40,30 +36,26 @@
 						<el-form-item label="简称：" prop="CompanyAlias">
 							<el-input
 								v-model="ruleForm.CompanyAlias"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 						<el-form-item label="地址：" prop="Address">
 							<el-input
 								v-model="ruleForm.Address"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 						<el-form-item label="纳税人类型：" prop="TaxpayerKind">
 							<el-input
 								v-model="ruleForm.TaxpayerKind"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 						<el-form-item label="经营结束日期" prop="BusinessEndTime">
 							<el-date-picker
 								v-model="ruleForm.BusinessEndTime"
-								style="width: 100%"
 								type="date"
-								placeholder="选择时间"
+								placeholder="请选择时间"
 								format="YYYY-MM-DD">
 							</el-date-picker>
 						</el-form-item>
@@ -75,14 +67,12 @@
 						<el-form-item label="网站：" prop="WebSite">
 							<el-input
 								v-model="ruleForm.WebSite"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 						<el-form-item label="Email：" prop="Email">
 							<el-input
 								v-model="ruleForm.Email"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
@@ -91,14 +81,12 @@
 						<el-form-item label="企业邮箱：" prop="Im">
 							<el-input
 								v-model="ruleForm.Im"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
 						<el-form-item label="传真：" prop="Fax">
 							<el-input
 								v-model="ruleForm.Fax"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
@@ -110,7 +98,6 @@
 						<el-form-item label="联系人：" prop="Linkman">
 							<el-input
 								v-model="ruleForm.Linkman"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
@@ -119,7 +106,6 @@
 						<el-form-item label="电话：" prop="Tel">
 							<el-input
 								v-model="ruleForm.Tel"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input>
 						</el-form-item>
@@ -389,3 +375,8 @@ export default {
 	methods: {},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number {
+	width: 100%;
+}
+</style>

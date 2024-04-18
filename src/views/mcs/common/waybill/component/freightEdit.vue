@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="800px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">货物名称*</el-divider>
 				<el-row :gutter="20">
@@ -8,7 +8,6 @@
 						<el-form-item label="客户名称" prop="CustomerId" >
 							<el-select
 								v-model="ruleForm.CustomerId"
-								style="width: 100%"
 								filterable
 								placeholder="请选择"
 								@change="onFormSelected">
@@ -34,7 +33,6 @@
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-select
 								v-model="ruleForm.GoodsCategoryId"
-								style="width: 100%"
 								filterable
 								placeholder="请选择"
 								@change="onCategorySelect">
@@ -46,7 +44,6 @@
 						<el-form-item label="产品名称" prop="GoodsId">
 							<el-select
 								v-model="ruleForm.GoodsId"
-								style="width: 100%"
 								filterable
 								placeholder="请选择"
 								@change="onFormSelected">
@@ -58,7 +55,6 @@
 						<el-form-item label="计划量" prop="PlanWeight">
 							<el-input-number
 								v-model.number="ruleForm.PlanWeight"
-								style="width: 100%"
 								:controls="true"
 								:precision="ruleForm.Mode==2?0:2"
 								placeholder="请输入"
@@ -73,7 +69,7 @@
 							<div mb-2 flex items-center>
 								<el-radio-group
 									v-model="ruleForm.Mode">
-									<el-radio :label="1">吨</el-radio>
+									<el-radio :label="1">吨&nbsp&nbsp&nbsp</el-radio>
 									<el-radio :label="2">台班</el-radio>
 								</el-radio-group>
 							</div>
@@ -86,13 +82,13 @@
 						<el-form-item label="发货地点" prop="SenderAddress">
 							<el-select
 								v-model="ruleForm.SenderAddress"
-								style="width: 100%"
 								filterable
 								allow-create
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入或选择">
-								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item"> </el-option>
+								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item">
+								</el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -100,13 +96,13 @@
 						<el-form-item label="收货地点" prop="ReceiverAddress">
 							<el-select
 								v-model="ruleForm.ReceiverAddress" 
-								style="width: 100%"
 								filterable
 								allow-create
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入或选择">
-								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item"> </el-option>
+								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item">
+								</el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -116,21 +112,20 @@
 						<el-form-item label="要求发货时间" prop="SenderPlanTime">
 							<el-date-picker
 								v-model="ruleForm.SenderPlanTime"
-								style="width: 100%"
 								type="datetime"
 								placeholder="要求发货时间"
-								format="YYYY-MM-DD HH:mm"
-							></el-date-picker>
+								format="YYYY-MM-DD HH:mm">
+							</el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" class="mb20">
 						<el-form-item label="要求收货时间" prop="ReceiverPlanTime">
 							<el-date-picker
 								v-model="ruleForm.ReceiverPlanTime"
-								style="width: 100%"
 								type="datetime"
 								placeholder="要求收货时间"
-								format="YYYY-MM-DD HH:mm"></el-date-picker>
+								format="YYYY-MM-DD HH:mm">
+							</el-date-picker>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -185,9 +180,10 @@ export default {
 				Name: '',
 				Kind: 'info',
 				CustomerId:"",
-				GoodsCategoryId: '0',
-				Mode:1,
-				GoodsId:"",
+				GoodsCategoryId: '',
+				WaybillMode: 1,
+				Mode: 1,
+				GoodsId: "",
 				VehicleNumber: '',
 				IsExternal:0,
 				VehicleType: '',
@@ -438,3 +434,8 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number{
+	width: 100%;
+}
+</style>

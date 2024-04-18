@@ -6,14 +6,14 @@
 					<el-input v-model="ruleForm.Title"></el-input>
 				</el-form-item>
 				<el-form-item label="日期" prop="BalanceTime">
-					<el-date-picker style="width: 100%" v-model="ruleForm.BalanceTime" type="date" placeholder="开始日期"
+					<el-date-picker v-model="ruleForm.BalanceTime" type="date" placeholder="开始日期"
 					format="YYYY-MM-DD" ></el-date-picker>
 				</el-form-item>																			
 				<el-form-item label="备注" prop="Remark">
 					<el-input v-model="ruleForm.Remark" type="textarea"></el-input>
 				</el-form-item>
 			</el-form>
-			<el-table :data="tableData.data" style="width: 100%" v-loading="tableData.loading" row-key="Parentid"
+			<el-table :data="tableData.data" v-loading="tableData.loading" row-key="Parentid"
 				default-expand-all
 				:tree-props="{ children: 'Children'}" border stripe
 				highlight-current-row>
@@ -230,3 +230,8 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number {
+	width: 100%;
+}
+</style>

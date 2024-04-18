@@ -29,7 +29,6 @@
 						<el-table
 							ref="mainTableRef"
 							:data="paginatedData"
-							style="width: 100%"
 							:height="proxy.$calcMainHeight(-205)"
 							border
 							stripe
@@ -38,7 +37,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Name"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -46,7 +44,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.No"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -54,7 +51,6 @@
 								<template #default="scope">
 									<el-input-number
 										v-model="scope.row.Qty"
-										style="width: 100%"
 										placeholder="请输入"
 										:controls="true"
 										precision="0"
@@ -68,7 +64,6 @@
 								<template #default="scope">
 									<el-input-number
 										v-model="scope.row.Price"
-										style="width: 100%"
 										placeholder="请输入"
 										:controls="true"
 										precision="2"
@@ -82,7 +77,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Content"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -90,7 +84,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Remark"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -331,3 +324,8 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number{
+	width: 100%;
+}
+</style>

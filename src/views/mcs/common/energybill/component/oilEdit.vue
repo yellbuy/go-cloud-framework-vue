@@ -9,12 +9,15 @@
 							<el-date-picker
 								v-model="ruleForm.BillTime"
 								type="month"
-								placeholder="请选择"/>
+								placeholder="请选择时间"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="备注" prop="Remark">
-							<el-input v-model="ruleForm.Remark" ></el-input> 
+							<el-input
+								v-model="ruleForm.Remark"
+								placeholder="请输入">
+							</el-input> 
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -46,7 +49,6 @@
 						<el-table
 							ref="mainTableRef"
 							:data="paginatedData"
-							style="width: 100%"
 							:height="proxy.$calcMainHeight(-285)"
 							border
 							stripe
@@ -554,28 +556,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-select {
+.el-select .el-date-picker .el-input .el-input-number {
 	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
 }
 </style>

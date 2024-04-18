@@ -39,7 +39,6 @@
 			<el-table 
 				:data="tableData.data"
 				v-loading="tableData.loading"
-				style="width: 100%"
 				border
 				stripe
 				highlight-current-row
@@ -423,9 +422,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-select {
+.el-select .el-date-picker .el-input .el-input-number {
 	width: 100%;
 }
+
 .avatar-uploader .el-upload {
 	border: 1px dashed #d9d9d9;
 	border-radius: 6px;

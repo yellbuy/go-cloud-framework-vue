@@ -29,7 +29,7 @@
 						<el-table
 							ref="mainTableRef"
 							:data="paginatedData"
-							style="width: 100%"
+							
 							:height="proxy.$calcMainHeight(-205)"
 							border
 							stripe
@@ -38,7 +38,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.VehicleNumber"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -52,7 +51,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Shipper"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -60,7 +58,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.VehicleType"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -68,7 +65,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Linkman"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -76,7 +72,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Phone"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -84,7 +79,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Driver"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -92,7 +86,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.DriverMobile"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -100,7 +93,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.DrivingLicense"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -126,7 +118,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.TransportLicense"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -429,3 +420,8 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number {
+	width: 100%;
+}
+</style>

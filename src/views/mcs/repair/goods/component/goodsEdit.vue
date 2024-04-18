@@ -7,14 +7,12 @@
 						<el-form-item label="商品名称" prop="GoodsName">
 							<el-input
 								v-model="ruleForm.GoodsName"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 						<el-form-item label="商品类别" prop="GoodsBrief">
 							<el-select
 								v-model="ruleForm.GoodsAlisa"
 								filterable
-								style="width: 100%"
 								placeholder="请选择">
 								<el-option v-for="(item, index) in categoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
@@ -22,7 +20,6 @@
 						<el-form-item label="是否启用" prop="IsOnSale">
 							<el-switch
 								v-model="ruleForm.IsOnSale"
-								style="width: 100%"
 								:active-icon="Check"
 								:inactive-icon="Close"
 								:active-value="1"
@@ -34,7 +31,6 @@
 						<el-form-item label="计量单位" prop="GoodsUnit">
 							<el-select
 								v-model="ruleForm.GoodsUnit"
-								style="width: 100%"
 								filterable
 								class="m-2"
 								placeholder="请输入"
@@ -46,7 +42,6 @@
 							<el-select
 								v-model="ruleForm.ProviderName"
 								filterable
-								style="width: 100%"
 								placeholder="请选择">
 								<el-option v-for="(item, index) in providerList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
@@ -54,7 +49,6 @@
 						<el-form-item label="基准价格" prop="ShopPrice">
 							<el-input-number
 								v-model="ruleForm.ShopPrice"
-								style="width: 100%"
 								min="0"
 								max="10000"
 								precision="2"
@@ -89,7 +83,6 @@
 						<el-form-item label="备注" prop="SellerNote" >
 							<el-input
 								v-model="ruleForm.SellerNote"
-								style="width: 100%"
 								:rows="3"
 								type="textarea"
 								placeholder="请输入"/>
@@ -432,3 +425,8 @@ export default {
 	methods: {},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number{
+	width: 100%;
+}
+</style>

@@ -7,7 +7,6 @@
 						<el-form-item label="产品名称" prop="GoodsName">
 							<el-input
 								v-model="ruleForm.GoodsName"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input> 
 						</el-form-item>
@@ -27,7 +26,6 @@
 						<el-form-item label="助记符" prop="Piny">
 							<el-input
 								v-model="ruleForm.Piny"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input> 
 						</el-form-item>
@@ -36,14 +34,12 @@
 						<el-form-item label="产品编码" prop="GoodsSn">
 							<el-input
 								v-model="ruleForm.GoodsSn"
-								style="width: 100%"
 								placeholder="请输入">
 							</el-input> 
 						</el-form-item>
 						<el-form-item label="产品类别" prop="CategoryId">
 							<el-select
 								v-model="ruleForm.CategoryId"
-								style="width: 100%"
 								class="m-2"
 								placeholder="请选择"
 								size="small">
@@ -86,7 +82,7 @@
 						<el-form-item label="备注" prop="SellerNote" >
 							<el-input
 								v-model="ruleForm.SellerNote"
-								style="width: 100%"
+								
 								:rows="3"
 								type="textarea"
 								placeholder="请输入"/>
@@ -438,3 +434,8 @@ export default {
 	methods: {},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number {
+	width: 100%;
+}
+</style>

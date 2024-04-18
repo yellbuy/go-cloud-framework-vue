@@ -38,7 +38,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.CompanyName"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -46,7 +45,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.CompanyAlias"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -54,7 +52,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Idno"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -62,7 +59,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Address"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -70,7 +66,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.BusinessScope"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -78,7 +73,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.TaxpayerKind"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -86,7 +80,6 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.BusinessStartTime"
-										style="width: 100%"
 										type="date"
 										placeholder="请选择时间"
 										format="YYYY-MM-DD"></el-date-picker>
@@ -96,7 +89,6 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.BusinessEndTime"
-										style="width: 100%"
 										type="date"
 										placeholder="到期日期"
 										format="YYYY-MM-DD"></el-date-picker>
@@ -106,7 +98,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Linkman"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -114,7 +105,6 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Tel"
-										style="width: 100%"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
@@ -361,3 +351,8 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number {
+	width: 100%;
+}
+</style>

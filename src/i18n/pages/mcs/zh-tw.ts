@@ -12,6 +12,7 @@ export default {
 		repair_sheet:'维修单管理',
 		repair_project:'项目管理',
 		repair_goods:'配件管理',
+		vehicle_list: '车辆列表',
 		maintenance_sheet:"保养管理",
 		main_business_account:'主营收支科目',
 		warehouse_account:'仓储收支科目',

@@ -7,14 +7,12 @@
 						<el-form-item label="类别名称" prop="Name">
 							<el-input
 								v-model="ruleForm.Name"
-								style="width: 100%"
 								placeholder="请输入"/>
 						</el-form-item>
 						<el-form-item label="排序号" prop="Order">
 							<el-input-number
 								v-model.number="ruleForm.Order"
 								size="small"
-								style="width: 100%"
 								controls-position="right"
 								placeholder="请输入"
 								@change="handleChange"/>
@@ -24,7 +22,6 @@
 						<el-form-item label="图标" prop="GoodsImg">
 							<el-input
 								v-model="ruleForm.GoodsImg"
-								style="width: 100%"
 								placeholder="请输入"/>
 						</el-form-item>
 						<el-form-item label="状态" prop="SupplierState">
@@ -40,7 +37,7 @@
 				<el-row :gutter="20">
 					<el-col :xs="24" class="mb12">
 						<el-form-item label="封面图" prop="GoodsPics">
-							<div style="width: 100%">
+							<div >
 								<el-upload
 									class="upload-demo"
 									:action="uploadURL"
@@ -365,3 +362,8 @@ export default {
 	methods: {},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number {
+	width: 100%;
+}
+</style>

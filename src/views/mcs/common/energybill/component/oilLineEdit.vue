@@ -464,28 +464,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-select {
+.el-select .el-date-picker .el-input .el-input-number {
 	width: 100%;
-}
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
 }
 </style>

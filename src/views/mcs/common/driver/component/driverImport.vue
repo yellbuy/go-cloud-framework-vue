@@ -29,7 +29,6 @@
 						<el-table
 							ref="mainTableRef"
 							:data="paginatedData"
-							style="width: 100%"
 							:height="proxy.$calcMainHeight(-205)"
 							border
 							stripe
@@ -43,7 +42,6 @@
 								<template #default="scope">
 									<el-select
 										v-model="scope.row.Gender"
-										style="width: 100%"
 										filterable="true"
 										default-first-option="true"
 										:reserve-keyword="false"
@@ -56,7 +54,6 @@
 								<template #default="scope">
 									<el-select
 										v-model="scope.row.Nation"
-										style="width: 100%"
 										filterable="true"
 										default-first-option="true"
 										:reserve-keyword="false"
@@ -69,9 +66,8 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.Birthdate"
-										style="width: 100%"
 										type="date"
-										placeholder="选择日期"
+										placeholder="请选择时间"
 										format="YYYY-MM-DD"
 									></el-date-picker>
 								</template>
@@ -85,9 +81,8 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.IdnoEndDate"
-										style="width: 100%"
 										type="date"
-										placeholder="选择日期"
+										placeholder="请选择时间"
 										format="YYYY-MM-DD"
 									></el-date-picker>
 								</template>
@@ -111,7 +106,6 @@
 								<template #default="scope">
 									<el-select
 										v-model="scope.row.DriverLicenseType"
-										style="width: 100%"
 										filterable="true"
 										default-first-option="true"
 										:reserve-keyword="false"
@@ -124,33 +118,30 @@
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.RegistrationDate"
-										style="width: 100%"
 										type="date"
-										placeholder="选择日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+										placeholder="请选择时间"
+										format="YYYY-MM-DD">
+									</el-date-picker>
 								</template>
 							</el-table-column>
 							<el-table-column prop="DriverLicenseStartDate" label="驾照生效日期" width="120">
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.DriverLicenseStartDate"
-										style="width: 100%"
 										type="date"
-										placeholder="选择日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+										placeholder="请选择时间"
+										format="YYYY-MM-DD">
+									</el-date-picker>
 								</template>
 							</el-table-column>
 							<el-table-column prop="DriverLicenseEndDate" label="驾照截止日期" width="120">
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.DriverLicenseEndDate"
-										style="width: 100%"
 										type="date"
-										placeholder="选择日期"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+										placeholder="请选择时间"
+										format="YYYY-MM-DD">
+									</el-date-picker>
 								</template>
 							</el-table-column>
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
@@ -405,3 +396,8 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number {
+	width: 100%;
+}
+</style>

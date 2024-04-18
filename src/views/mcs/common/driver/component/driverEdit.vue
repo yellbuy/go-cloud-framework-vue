@@ -8,25 +8,21 @@
 						<el-form-item label="姓名" prop="Name" required>
 							<el-input
 								v-model="ruleForm.Name"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 						<el-form-item label="手机号码" prop="Mobile" required>
 							<el-input
 								v-model="ruleForm.Mobile"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 						<el-form-item label="身份证号码" prop="Idno" required>
 							<el-input
 								v-model="ruleForm.Idno"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 						<el-form-item label="民族" prop="Nation">
 							<el-select
 								v-model="ruleForm.Nation"
-								style="width: 100%"
 								filterable="true"
 								default-first-option="true"
 								:reserve-keyword="false"
@@ -47,23 +43,20 @@
 						<el-form-item label="出生日期" prop="Birthdate" required>
 							<el-date-picker
 								v-model="ruleForm.Birthdate"
-								style="width: 100%"
 								type="date"
-								placeholder="选择日期"
+								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 						<el-form-item label="身份证截止日期" prop="IdnoEndDate"  required>
 							<el-date-picker
 								v-model="ruleForm.IdnoEndDate"
-								style="width: 100%"
 								type="date"
-								placeholder="选择日期"
+								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 						<el-form-item label="籍贯" prop="NativePlace">
 							<el-input
 								v-model="ruleForm.NativePlace"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 					</el-col>
@@ -73,7 +66,6 @@
 						<el-form-item label="家庭地址" prop="Address">
 							<el-input
 								v-model="ruleForm.Address"
-								style="width: 100%"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 					</el-col>
@@ -84,7 +76,6 @@
 						<el-form-item label="驾照类型" prop="DriverLicenseType" required>
 							<el-select
 								v-model="ruleForm.DriverLicenseType"
-								style="width: 100%"
 								filterable="true"
 								default-first-option="true"
 								:reserve-keyword="false"
@@ -95,9 +86,8 @@
 						<el-form-item label="驾照生效日期" prop="DriverLicenseStartDate" required>
 							<el-date-picker
 								v-model="ruleForm.DriverLicenseStartDate"
-								style="width: 100%"
 								type="date"
-								placeholder="选择日期"
+								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 					</el-col>
@@ -105,17 +95,15 @@
 						<el-form-item label="驾照登记日期" prop="RegistrationDate"  required>
 							<el-date-picker
 								v-model="ruleForm.RegistrationDate"
-								style="width: 100%"
 								type="date"
-								placeholder="选择日期"
+								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 						<el-form-item label="驾照截止日期" prop="DriverLicenseEndDate"  required>
 							<el-date-picker
 								v-model="ruleForm.DriverLicenseEndDate"
-								style="width: 100%"
 								type="date"
-								placeholder="选择日期"
+								placeholder="请选择时间"
 								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 					</el-col>				
@@ -400,3 +388,8 @@ export default {
 	methods: {},
 };
 </script>
+<style scoped lang="scss">
+.el-select .el-date-picker .el-input .el-input-number {
+	width: 100%;
+}
+</style>

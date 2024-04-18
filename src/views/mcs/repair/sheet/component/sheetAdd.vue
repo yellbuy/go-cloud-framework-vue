@@ -67,9 +67,7 @@
     							active-text="维修中"
     							inactive-text="保养"
 								:active-value="1"
-								:inactive-value="10"
-								
-							/>				
+								:inactive-value="10"/>				
 						</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -117,7 +115,7 @@
 					</el-form-item>
 				</el-form>
 			</div>
-			<el-table :data="ruleForm.VehicleProjectList" v-loading="projectTableData.loading" style="width: 100%"
+			<el-table :data="ruleForm.VehicleProjectList" v-loading="projectTableData.loading"
 				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Name" label="项目名称" width="240" show-overflow-tooltip fixed></el-table-column>
@@ -183,7 +181,7 @@
 					</el-form-item>
 				</el-form>
 			</div>
-			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading" style="width: 100%"
+			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading"
 				:height="200" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="配件名称" width="240" show-overflow-tooltip fixed></el-table-column>
@@ -692,29 +690,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-select {
+.el-select .el-date-picker .el-input .el-input-number {
 	width: 100%;
-}
-
-.avatar-uploader .el-upload {
-	border: 1px dashed #d9d9d9;
-	border-radius: 6px;
-	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-	border-color: var(--el-color-primary);
-}
-
-.avatar-uploader-icon {
-	font-size: 28px;
-	color: #8c939d;
-	width: 100px;
-	height: 100px;
-	text-align: center;
-	padding: 40px;
 }
 </style>
