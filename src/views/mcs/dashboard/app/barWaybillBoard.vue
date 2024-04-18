@@ -1,7 +1,7 @@
 <template>
   <div class="scroll-board">
     <div class="chart-name">
-      <div>仓储业务分析 </div>
+      <div>公路运量分析 </div>
       <div>
         <dv-button @click="onChangeInvertal" border="Border1" color="#f3d19e" font-color="#e18a3b" style="z-index: 999999;text-decoration:underline">{{getModeName}}</dv-button>
       </div>
@@ -25,11 +25,11 @@ export default {
         legend: {
           data: [
             {
-              name: "收入",
+              name: "计划量",
               color: "#00baff",
             },
             {
-              name: "面积",
+              name: "完成量",
               color: "#ff5ca9",
             }
           ],
@@ -77,7 +77,7 @@ export default {
         },
         series: [
           {
-            name: "收入",
+            name: "计划量",
             data: [0],
             // data: model.planValueList,
             //data: state[state.timeMode].planValueList,
@@ -87,7 +87,7 @@ export default {
             },
           },
           {
-            name: "面积",
+            name: "完成量",
            data:  [0],
              //data: model.finishValueList,
             //data: state[state.timeMode].finishValueList,
@@ -109,18 +109,18 @@ export default {
     const setData=()=>{
       if(state.timeMode=="day") {
             state.option.xAxis.data=state.data.day.Name||[]
-            state.option.series[0].data=state.data.day.Amount||[]
-            state.option.series[1].data=state.data.day.Volume||[]
+            state.option.series[0].data=state.data.day.PlanWeight||[]
+            state.option.series[1].data=state.data.day.Weight||[]
         }
         else if(state.timeMode=="month") {
             state.option.xAxis.data=state.data.month.Name||[]
-            state.option.series[0].data=state.data.month.Amount||[]
-            state.option.series[1].data=state.data.month.Volume||[]
+            state.option.series[0].data=state.data.month.PlanWeight||[]
+            state.option.series[1].data=state.data.month.Weight||[]
         }
         else if(state.timeMode=="year") {
             state.option.xAxis.data=state.data.year.Name||[]
-            state.option.series[0].data=state.data.year.Amount||[]
-            state.option.series[1].data=state.data.year.Volume||[]
+            state.option.series[0].data=state.data.year.PlanWeight||[]
+            state.option.series[1].data=state.data.year.Weight||[]
         }
     }
     const getModeName = computed(() => {
@@ -145,13 +145,13 @@ export default {
     // 页面加载时
 		onMounted(async () => {
       
-      const res = await proxy.$api.erp.businessBillLine.getTimeStatListByScope("warehouse", 0, 0);
+      const res = await proxy.$api.erp.waybill.getTimeStatListByScope("freight", 0, 0);
       if(res.errcode==0){
         state.data=res.data;
         setData();
       }		
       setInterval(async () => {
-        const res = await proxy.$api.erp.businessBillLine.getTimeStatListByScope("warehouse", 0, 0);
+        const res = await proxy.$api.erp.waybill.getTimeStatListByScope("freight", 0, 0);
         if(res.errcode==0){
           state.data=res.data;
           setData();
