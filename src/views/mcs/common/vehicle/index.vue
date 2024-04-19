@@ -63,8 +63,8 @@
 							:inactive-text="$t('message.action.no')"
 							:active-value="1"
 							:inactive-value="0"/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.yes') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.no') }}</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip>
@@ -128,7 +128,7 @@
 						<el-button text bg type="primary" @click="onEnergyOpenMapDlg(scope.row.VehicleNumber, true)" v-auth:[moduleKey]="'btn.ChildEnergy'">
 							{{ $t('message.action.statistics') }}
 						</el-button>
-						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)">
 							{{ $t('message.action.see') }}
 						</el-button>
 						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">

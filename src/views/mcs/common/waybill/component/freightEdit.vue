@@ -180,7 +180,7 @@ export default {
 				Name: '',
 				Kind: 'info',
 				CustomerId:"",
-				GoodsCategoryId: '',
+				GoodsCategoryId: "0",
 				WaybillMode: 1,
 				Mode: 1,
 				GoodsId: "",

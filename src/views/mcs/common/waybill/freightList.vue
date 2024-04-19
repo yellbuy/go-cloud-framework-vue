@@ -9,7 +9,6 @@
 									<el-input placeholder="输入关键字查询" style="width:100px" v-model="mainTableData.param.keyword"> </el-input>
 								</el-form-item>
 								<el-form-item>
-									
 									<el-button type="info" @click="onMainResetSearch">
 										<el-icon>
 											<RefreshLeft />
@@ -89,6 +88,7 @@
 					<el-pagination
 						small
 						@size-change="onMainHandleSizeChange"
+						@current-change="onMainHandleCurrentChange"
 						class="mt15"
 						:page-sizes="[10, 20, 30, 50, 100]"
 						v-model:current-page="mainTableData.param.pageNum"

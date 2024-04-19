@@ -37,9 +37,11 @@
 				border
 				stripe
 				highlight-current-row>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="BillNo" label="维修单号" width="110" fixed></el-table-column>
-				<el-table-column label="是否委外" width="120" show-overflow-tooltip>
+				<el-table-column type="index" label="序号" align="right" width="60" fixed />
+				<el-table-column prop="BillNo" label="维修单号" width="120" fixed></el-table-column>
+				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
+				<el-table-column prop="Brand" label="车辆品牌" width="100" fixed></el-table-column>
+				<el-table-column label="是否委外" width="80" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.IsExternal"
@@ -65,13 +67,11 @@
 				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="BillTime" label="开单时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
-				<el-table-column prop="Brand" label="车辆品牌" width="100" fixed></el-table-column>
 				<el-table-column  prop="VehicleType" label="车型" width="120" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>
+				<el-table-column prop="Linkman" label="联系人" width="100"></el-table-column>
 				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column  prop="ExamState" label="维修类型" width="120" show-overflow-tooltip>
+				<el-table-column  prop="ExamState" label="维修类型" show-overflow-tooltip>
 					<template #default="scope">
 						<div>{{examList[scope.row.ExamState] }}</div>
 					</template>
