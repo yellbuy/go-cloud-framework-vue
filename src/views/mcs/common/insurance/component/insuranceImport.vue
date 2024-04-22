@@ -332,7 +332,6 @@ export default {
 						tip.push(vehicleNumber)
 					}
 					rows.push(model);
-					console.log("测试", model)
 				}
 				if(tip.length>0){
 					alert("车牌：（"+tip+"）交强险时间为空，导入失败！")
