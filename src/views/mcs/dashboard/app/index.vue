@@ -33,12 +33,7 @@
             <center-bottom></center-bottom>
           </dv-border-box-12>
           <dv-border-box-12 style="width:20%;height:auto">
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有车', value: 355},{name: '已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#32c5e9', '#96bfff','#e062ae', '#fb7293', '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '外租车', value: 2189},{name: '今日调配', value: 210}],colors: ['#32c5e9', '#96bfff','#e062ae', '#fb7293', '#e690d1'],unit: '辆',showValue: true}" style="height:100px" />
-            </div>
+            <capshuleVehicleCountStat/>
             <div style="margin:12px">
               <dv-capsule-chart :config="{data:[{name: '自有货运车', value: 48},{name: '当日已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
             </div>
@@ -67,6 +62,7 @@ import barMainBusinessBoard from "./barMainBusinessBoard.vue";
 import barTradeBoard from "./barTradeBoard.vue";
 import barWarehouseBoard from "./barWarehouseBoard.vue";
 import barWaybillBoard from "./barWaybillBoard.vue";
+import capshuleVehicleCountStat from "./capshuleVehicleCountStat.vue";
 import cards from "./cards.vue";
 import centerBottom from "./centerBottom.vue";
 import centerTop from "./centerTop.vue";
@@ -98,6 +94,7 @@ export default {
     barMainBusinessBoard,
     barTradeBoard,
     barWarehouseBoard,
+    capshuleVehicleCountStat,
     cards,
     scrollBoardAmount,
   },
