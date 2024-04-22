@@ -41,15 +41,20 @@ export default {
       
       const res = await proxy.$api.erp.vehicle.getCountStat("info", 0, 0);
       if(res.errcode==0){
-        state.configInternal.data[0].value=res.data.VechileCount;
-        state.configInternal.data[1].value=res.data.VechileRunningCount;
-        state.configInternal.data[2].value=res.data.VechileStopCount;
+        state.configInternal.data[0].value=res.data.VehicleCount;
+        state.configInternal.data[1].value=res.data.VehicleRunningCount;
+        state.configInternal.data[2].value=res.data.VehicleStopCount;
+        state.configExternal.data[0].value=res.data.VehicleExternalCount; //外部车总数
+        state.configExternal.data[1].value=res.data.VehicleTempCount; //临配车出车数
       }		
       setInterval(async () => {
         const res = await proxy.$api.erp.vehicle.getCountStat("info", 0, 0);
         if(res.errcode==0){
-          state.configExternal.data[0].value=res.data.VechileExternalCount; //外部车总数
-          state.configExternal.data[1].value=res.data.VechileTempCount; //临配车出车数
+          state.configInternal.data[0].value=res.data.VehicleCount;
+          state.configInternal.data[1].value=res.data.VehicleRunningCount;
+          state.configInternal.data[2].value=res.data.VehicleStopCount;
+          state.configExternal.data[0].value=res.data.VehicleExternalCount; //外部车总数
+          state.configExternal.data[1].value=res.data.VehicleTempCount; //临配车出车数
         }
       }, 60000);
 				

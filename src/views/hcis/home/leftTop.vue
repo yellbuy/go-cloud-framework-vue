@@ -3,9 +3,9 @@
     <div>
       <p>
         <span style="color:white;font-size: 16pt;margin-right: 16px;">{{statData.DateTitle}}运量情况</span> 
-        共<span style="color:lightblue;font-size: 12pt;margin-left:4px;margin-right:4px">{{statData.VechileCount}}</span>
-        出<span style="color:lightgreen;font-size: 12pt;margin-left:4px;margin-right:4px">{{statData.VechileRunningCount}}</span>
-        停<span style="color:lightsalmon;font-size: 12pt;margin-left:4px">{{statData.VechileStopCount}}</span>
+        共<span style="color:lightblue;font-size: 12pt;margin-left:4px;margin-right:4px">{{statData.VehicleCount}}</span>
+        出<span style="color:lightgreen;font-size: 12pt;margin-left:4px;margin-right:4px">{{statData.VehicleRunningCount}}</span>
+        停<span style="color:lightsalmon;font-size: 12pt;margin-left:4px">{{statData.VehicleStopCount}}</span>
       </p>
     </div>
     <div style="margin-top:12px">
@@ -24,7 +24,7 @@
     <div style="margin-top:12px">
       <p>
         <span style="color:white;font-size: 16pt;margin-right: 16px;">{{statData.DateTitle}}临配用车情况</span> 
-        共<span style="color:lightblue;font-size: 12pt;margin-left:4px;margin-right:4px">{{statData.VechileTempCount}}</span>
+        共<span style="color:lightblue;font-size: 12pt;margin-left:4px;margin-right:4px">{{statData.VehicleTempCount}}</span>
       </p>
     </div>
     <div style="margin-top:12px">
@@ -55,10 +55,10 @@ export default {
 		const state = reactive({
 			statData:{
         DateTitle:'',
-        VechileCount:0,
-        VechileRunningCount:0,
-        VechileStopCount:0,
-        VechileTempCount:0,
+        VehicleCount:0,
+        VehicleRunningCount:0,
+        VehicleStopCount:0,
+        VehicleTempCount:0,
         FixedCompanyStatList:[],
         TempCompanyStatList:[]
       }
