@@ -226,10 +226,7 @@ const createDataSource:any = ()=>{
 			dataField: 'ReceiverNetWeight',
 			dataType: 'number',
 			summaryType: 'sum',
-			format: {
-				type: 'largeNumber',
-				precision: 2
-			},
+			format: ",##0.###",
 			area: 'data',
 		}, {
 			caption: '车数',
