@@ -100,19 +100,19 @@ import zhCnMessages from "devextreme/localization/messages/zh.json";
 locale(navigator.language);
 		
  import {
-	DxAdaptiveLayout,
-	DxChart,
-	DxCommonSeriesSettings,
-	DxSize,
-	DxTooltip
+DxAdaptiveLayout,
+DxChart,
+DxCommonSeriesSettings,
+DxSize,
+DxTooltip
 } from 'devextreme-vue/chart';
 
 import {
-	DxExport,
-	DxFieldChooser,
-	DxFieldPanel,
-	DxHeaderFilter,
-	DxPivotGrid
+DxExport,
+DxFieldChooser,
+DxFieldPanel,
+DxHeaderFilter,
+DxPivotGrid
 } from 'devextreme-vue/pivot-grid';
 import DxToolbar, { DxItem } from 'devextreme-vue/toolbar';
 import CustomStore from 'devextreme/data/custom_store';
@@ -182,37 +182,37 @@ const createDataSource:any = ()=>{
 		fields: [{
 			caption: '产品',
 			width: 120,
-			dataField: 'GoodsName',
+			dataField: 'WaybillGoodsName',
 			area: 'row',
 			sortBySummaryField: 'Total',
 		}, {
 			caption: '规格',
-			dataField: 'GoodsSkuName',
+			dataField: 'WaybillGoodsSkuName',
 			width: 150,
 			area: 'row',
 		},{
 			caption: "类别",
-			dataField: "GoodsCategoryName",
+			dataField: "WaybillGoodsCategoryName",
 			expanded: true,
 			area: "filter"
 		},{
 			caption: "客户",
-			dataField: "CustomerName",
+			dataField: "WaybillCustomerName",
 			expanded: true,
 			area: "filter"
 		},{
 			caption: "发货地",
-			dataField: "SenderName",
+			dataField: "WaybillSenderName",
 			expanded: true,
 			area: "filter"
 		},{
 			caption: "收货地",
-			dataField: "ReceiverName",
+			dataField: "WaybillReceiverName",
 			expanded: true,
 			area: "filter"
 		},{
 			caption: "公司",
-			dataField: "CompanyName",
+			dataField: "WaybillCompanyName",
 			expanded: true,
 			area: "filter"
 		}, {
@@ -226,7 +226,10 @@ const createDataSource:any = ()=>{
 			dataField: 'ReceiverNetWeight',
 			dataType: 'number',
 			summaryType: 'sum',
-			//format: 'currency',
+			format: {
+				type: 'largeNumber',
+				precision: 2
+			},
 			area: 'data',
 		}, {
 			caption: '车数',
