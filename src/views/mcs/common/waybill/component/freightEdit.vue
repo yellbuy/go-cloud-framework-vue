@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="45%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">货物名称*</el-divider>
 				<el-row :gutter="20">
@@ -71,6 +71,7 @@
 									v-model="ruleForm.Mode">
 									<el-radio :label="1">吨&nbsp&nbsp&nbsp</el-radio>
 									<el-radio :label="2">台班</el-radio>
+									<el-radio :label="3">月&nbsp&nbsp&nbsp</el-radio>
 								</el-radio-group>
 							</div>
 						</el-form-item>

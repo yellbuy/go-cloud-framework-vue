@@ -1,29 +1,17 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="55%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="8" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车牌号" prop="VehicleNumber">
 							<el-input
 								v-model="ruleForm.VehicleNumber"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
-						<el-form-item label="车辆类型" prop="VehicleType">
-							<el-select
-								v-model="ruleForm.VehicleType"
-								placeholder="请选择">
-								<el-option v-for="(item, index) in truckTypeList" :key="index" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="车辆识别号" prop="Vin">
-							<el-input
-								v-model="ruleForm.Vin"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车辆类别" prop="IsExternal">
 							<div mb-2 flex items-center>
 								<el-radio-group
@@ -33,71 +21,119 @@
 								</el-radio-group>
 							</div>
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="相关方" prop="Shipper">
+							<el-select
+								v-model="ruleForm.Shipper"
+								filterable
+								placeholder="请选择">
+								<el-option v-for="(item, index) in shipperList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="车辆类型" prop="VehicleType">
+							<el-select
+								v-model="ruleForm.VehicleType"
+								filterable
+								placeholder="请选择">
+								<el-option v-for="(item, index) in truckTypeList" :key="index" :label="item.Name" :value="item.Name"> </el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车牌颜色" prop="PlateColor">
 							<el-select
 								v-model="ruleForm.PlateColor"
+								filterable
 								placeholder="请选择">
 								<el-option v-for="(item, index) in plateColorList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
 							</el-select>
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="动力类型" prop="EnergyType">
+							<el-select
+								v-model="ruleForm.EnergyType"
+								filterable
+								placeholder="请选择">
+								<el-option v-for="(item, index) in energyTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="车辆识别号" prop="Vin">
+							<el-input
+								v-model="ruleForm.Vin"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="发动机号" prop="EngineNumber">
 							<el-input
 								v-model="ruleForm.EngineNumber"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
-						<el-form-item label="相关方" prop="Shipper">
-							<el-select
-								v-model="ruleForm.Shipper"
-								placeholder="请选择">
-								<el-option v-for="(item, index) in shipperList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="动力类型" prop="EnergyType">
-							<el-select
-								v-model="ruleForm.EnergyType"
-								placeholder="请选择">
-								<el-option v-for="(item, index) in energyTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
 				</el-row>
 				<el-divider content-position="left">联系人信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="8" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="联系人" prop="Linkman"> 
 							<el-input
 								v-model="ruleForm.Linkman"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="电话" prop="Phone"> 
+							<el-input
+								v-model="ruleForm.Phone"
+								placeholder="请输入"></el-input> 
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="司机姓名" prop="Driver"> 
 							<el-input
 								v-model="ruleForm.Driver"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
-						<el-form-item label="电话" prop="Phone"> 
-							<el-input
-								v-model="ruleForm.Phone"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="司机电话" prop="DriverMobile"> 
 							<el-input
 								v-model="ruleForm.DriverMobile"
 								placeholder="请输入"></el-input>
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20"></el-col>
 				</el-row>
 				<el-divider content-position="left">行驶证信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="8" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="行驶证号" prop="DrivingLicense">
 							<el-input
 								v-model="ruleForm.DrivingLicense"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="生效日期" prop="DrivingLicenseStartDate">
+							<el-date-picker
+								v-model="ruleForm.DrivingLicenseStartDate"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD"></el-date-picker>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="登记日期" prop="RegistrationDate">
 							<el-date-picker
 								v-model="ruleForm.RegistrationDate"
@@ -106,14 +142,7 @@
 								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
-						<el-form-item label="生效日期" prop="DrivingLicenseStartDate">
-							<el-date-picker
-								v-model="ruleForm.DrivingLicenseStartDate"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="结束日期" prop="DrivingLicenseEndDate">
 							<el-date-picker
 								v-model="ruleForm.DrivingLicenseEndDate"
@@ -123,8 +152,8 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" class="mb12">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
 						<el-form-item label="证件图片" prop="Files">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
@@ -145,15 +174,15 @@
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">道路运输证信息*</el-divider>
-				<el-row :gutter="20">	
-					<el-col :xs="24" :sm="8" class="mb20">
+				<el-row :gutter="0">	
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="道路运输证" prop="TransportLicense">
 							<el-input
 								v-model="ruleForm.TransportLicense"
 								placeholder="请输入"></el-input> 
 						</el-form-item>
 					</el-col>				
-					<el-col :xs="24" :sm="8" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="生效日期" prop="TransportLicenseStartDate">
 							<el-date-picker
 								v-model="ruleForm.TransportLicenseStartDate"
@@ -162,7 +191,7 @@
 								format="YYYY-MM-DD"></el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="结束日期" prop="TransportLicenseEndDate" >
 							<el-date-picker
 								v-model="ruleForm.TransportLicenseEndDate"
@@ -172,8 +201,8 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="20">	
-					<el-col :xs="24" :sm="24" class="mb12">
+				<el-row :gutter="0">	
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
 						<el-form-item label="证件图片" prop="Files1">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
@@ -577,6 +606,6 @@ export default {
 </script>
 <style scoped lang="scss">
 .el-select .el-date-picker .el-input .el-input-number {
-	width: 100%;
+	width: 100% !important;
 }
 </style>
