@@ -33,6 +33,7 @@
 							border
 							stripe
 							highlight-current-row>
+							<el-table-column type="index" label="序号" width="60" align="right" fixed />
 							<el-table-column prop="VehicleNumber" label="车牌号" width="100" align="left" fixed="left">
 								<template #default="scope">
 									<el-input
@@ -307,7 +308,7 @@ export default {
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
 				for(let i = 1; i < list.length; i++){
 					const row=list[i];
-					const vehicleNumber=row["__EMPTY"]||"";
+					const vehicleNumber=String(row["__EMPTY"]||"");
 					if(!vehicleNumber || unique[vehicleNumber]){
 						continue;
 					}
@@ -316,23 +317,24 @@ export default {
 					model.VehicleNumber=vehicleNumber;
 					model.StartTime=row["__EMPTY_1"]||row["__EMPTY_8"]||"";
 					model.EndTime=row["__EMPTY_2"]||row["__EMPTY_9"]||"";
-					model.CompanyName=row["__EMPTY_3"]||"";
+					model.CompanyName=String(row["__EMPTY_3"]||"");
 					model.No=String(row["__EMPTY_4"]||"");
 					model.BillTime=row["__EMPTY_5"]||"";
-					model.CompulsoryAmount=row["__EMPTY_6"]||"";
-					model.CompulsoryFee=row["__EMPTY_7"]||"";
+					model.CompulsoryAmount=Number.parseFloat(row["__EMPTY_6"]||0.00);
+					model.CompulsoryFee=Number.parseFloat(row["__EMPTY_7"]||0.00);
 					model.CompulsoryStartDate=row["__EMPTY_8"]||"";
 					model.CompulsoryEndDate=row["__EMPTY_9"]||"";
-					model.CommercialAmount=row["__EMPTY_10"]||"";
-					model.CommercialFee=row["__EMPTY_11"]||"";
+					model.CommercialAmount=Number.parseFloat(row["__EMPTY_10"]||0.00);
+					model.CommercialFee=Number.parseFloat(row["__EMPTY_11"]||0.00);
 					model.CommercialStartDate=row["__EMPTY_12"]||"";
 					model.CommercialEndDate=row["__EMPTY_13"]||"";
-					model.TaxFee=row["__EMPTY_14"]||"";
+					model.TaxFee=Number.parseFloat(row["__EMPTY_14"]||0.00);
 					if(model.CompulsoryStartDate=="" || model.CompulsoryEndDate==""){
 						tip.push(vehicleNumber)
 					}
 					rows.push(model);
 				}
+				console.log("测试", rows)
 				if(tip.length>0){
 					alert("车牌：（"+tip+"）交强险时间为空，导入失败！")
 				}else{
