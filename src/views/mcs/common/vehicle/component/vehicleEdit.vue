@@ -50,7 +50,7 @@
 								v-model="ruleForm.PlateColor"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in plateColorList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in plateColorList" :key="index" :label="item.Name" :value="item.Name"> </el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>

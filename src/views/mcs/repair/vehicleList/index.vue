@@ -87,7 +87,7 @@
 						<el-button text bg type="primary" @click="onEnergyOpenMapDlg(scope.row.VehicleNumber, true)" v-auth:[moduleKey]="'btn.ChildEnergy'">
 							{{ $t('message.action.statistics') }}
 						</el-button>
-						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)">
 							{{ $t('message.action.see') }}
 						</el-button>
 					</template>
