@@ -59,12 +59,12 @@
 				<el-table-column prop="DriverLicenseType" label="驾照类型" width="120" align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="IdnoEndDate" label="驾照截止日" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Tname" label="所属公司" width="200"  align="left" show-overflow-tooltip></el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)">
 							{{ $t('message.action.see') }}
 						</el-button>
 						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
@@ -72,7 +72,6 @@
 						</el-button>
 					</template>
 				</el-table-column>
-
 			</el-table>
 			<el-pagination
 				small
@@ -208,6 +207,8 @@ export default {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
+
+
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();

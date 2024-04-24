@@ -51,7 +51,7 @@
 								<el-button text bg type="primary" @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 									{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button text bg type="primary" @click="onMainOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+								<el-button text bg type="primary" @click="onMainOpenEditDlg(scope.row.Id, true)">
 									{{ $t('message.action.see') }}
 								</el-button>
 								<el-button text bg type="danger" @click="onMainDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
@@ -147,7 +147,7 @@
 								<el-button text bg type="primary" @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ChildEdit'">
 									{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button text bg type="primary" @click="onChildOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.ChildEdit'">
+								<el-button text bg type="primary" @click="onChildOpenEditDlg(scope.row.Id, true)">
 									{{ $t('message.action.see') }}
 								</el-button>
 								<el-button text bg type="danger" @click="onChildDel(scope.row.Id)" v-auth:[moduleKey]="'btn.ChildDel'">

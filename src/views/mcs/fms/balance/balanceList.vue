@@ -13,8 +13,7 @@
 							range-separator="到"
 							start-placeholder="开始时间"
 							end-placeholder="结束时间"
-							value-format="YYYY-MM-DD HH:mm:ss"
-						/>
+							value-format="YYYY-MM-DD HH:mm:ss"/>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -47,31 +46,11 @@
 				border
 				stripe
 				highlight-current-row
-				lazy
-			>
+				lazy>
 				<el-table-column type="index" width="50" label="序号" fixed show-overflow-tooltip />
 				<el-table-column prop="BalanceTime" width="140" label="日期" :formatter="dateFormatYMDHM"  show-overflow-tooltip />
 				<el-table-column prop="No" width="240" label="流水号" show-overflow-tooltip />
 				<el-table-column prop="Title" width="240" label="标题" show-overflow-tooltip />
-				<!-- <el-table-column prop="State" label="状态" width="80" align="center" show-overflow-tooltip>
-					<template #default="scope">
-						<el-switch
-							v-model="scope.row.State"
-							inline-prompt
-							:width="46"
-							v-auth:[moduleKey]="'btn.CategoryEdit'"
-							@change="proxy.$api.common.table.updateById('common_category', 'State', scope.row.Id, scope.row.State)"
-							:active-text="$t('message.action.enable')"
-							:inactive-text="$t('message.action.disable')"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{
-							$t('message.action.enable')
-						}}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{ $t('message.action.disable') }}</el-tag>
-					</template>
-				</el-table-column> -->
 				<el-table-column prop="BalanceRecharge" label="总收入" show-overflow-tooltip />
 				<el-table-column prop="BalanceExpend" label="总支出" show-overflow-tooltip />
 				<el-table-column prop="BalanceMoney" label="余额" show-overflow-tooltip />
@@ -103,8 +82,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
+				:total="tableData.total">
 			</el-pagination>
 		</el-card>
 		<balanceEdit ref="balanceEditRef" />
