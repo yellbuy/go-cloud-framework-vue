@@ -40,8 +40,7 @@
 						:height="proxy.$calcMainHeight(-75)"
 						border
 						stripe
-						highlight-current-row
-					>
+						highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="60" fixed />
 						<el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column>
 						<el-table-column prop="GoodsName" label="货物" width="100"></el-table-column>
@@ -73,7 +72,7 @@
 											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 												<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
 											</el-dropdown-item>
-											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, true)">
 												<el-text >{{ $t('message.action.see') }}</el-text>
 											</el-dropdown-item>
 											<el-dropdown-item divided @click="onMainDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
@@ -95,8 +94,7 @@
 						background
 						v-model:page-size="mainTableData.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="mainTableData.total"
-					>
+						:total="mainTableData.total">
 					</el-pagination>
 				</el-card>
 				</pane>
@@ -114,8 +112,7 @@
 										class="box-item"
 										effect="dark"
 										:content="$t('message.action.reset')"
-										placement="top-start"
-									><el-button type="info" style="margin-left: 10px;" @click="onChildResetSearch">
+										placement="top-start"><el-button type="info" style="margin-left: 10px;" @click="onChildResetSearch">
 										<el-icon>
 											<RefreshLeft />
 										</el-icon>
@@ -125,8 +122,7 @@
 										class="box-item"
 										effect="dark"
 										:content="$t('message.action.search')"
-										placement="top-start"
-									>	
+										placement="top-start">	
 									<el-button type="info" @click="onChildQuery()">
 										<el-icon>
 											<Search />
@@ -137,8 +133,7 @@
 										class="box-item"
 										effect="dark"
 										:content="$t('message.action.add')"
-										placement="top-start"
-									>	
+										placement="top-start">	
 									<el-button type="primary" @click="onChildOpenAddDlg(0, false)" v-auth:[moduleKey]="'btn.ChildAdd'">
 										<el-icon>
 											<CirclePlusFilled />
@@ -148,7 +143,6 @@
 							</el-button-group>
 								</el-form-item>
 								<el-form-item>
-									
 									</el-form-item>
 							</el-form>
 						</div>
@@ -161,8 +155,7 @@
 						border
 						stripe
 						selectable
-						highlight-current-row
-					>
+						highlight-current-row>
 						<el-table-column type="selection" width="55" align="center" fixed />
 						<el-table-column type="expand" fixed>
 							<template #default="props">
@@ -188,13 +181,11 @@
 									:active-text="$t('message.action.yes')"
 									:inactive-text="$t('message.action.no')"
 									:active-value="1"
-									:inactive-value="0"
-								/>
+									:inactive-value="0"/>
 								<el-tag type="success" effect="plain" v-if="scope.row.FinishState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
 								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
 							</template>
 						</el-table-column>
-						
 						<el-table-column prop="WaybillGoodsName" label="货物" width="100"></el-table-column>
 						<el-table-column prop="WaybillCustomerName" label="客户" width="120" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="WaybillSenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
@@ -209,7 +200,7 @@
 											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ChildEdit'">
 												<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
 											</el-dropdown-item>
-											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.ChildEdit'">
+											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, true)">
 												<el-text  >{{ $t('message.action.see') }}</el-text>
 											</el-dropdown-item>
 											<el-dropdown-item @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" divided v-auth:[moduleKey]="'btn.ChildMap'">
@@ -234,8 +225,7 @@
 						background
 						v-model:page-size="childTableData.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="childTableData.total"
-					>
+						:total="childTableData.total">
 					</el-pagination>
 					</el-card>
 				</pane>

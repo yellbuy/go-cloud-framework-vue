@@ -42,8 +42,7 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-			>
+				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="50" fixed />
 				<el-table-column prop="BusinessBillName" label="平台" width="120" fixed></el-table-column>
 				<el-table-column prop="CustomerName" label="客户名称" width="300" show-overflow-tooltip></el-table-column>
@@ -51,8 +50,6 @@
 				<el-table-column prop="Volume" label="出租面积" width="80" align="right" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="BusinessBillVolume" label="平台面积" width="80" align="right" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="BillTime" label="日期" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
-				
-				
 				<el-table-column label="有效" align="center" width="80">
 					<template #default="scope">
 						<el-switch
@@ -64,8 +61,7 @@
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
-							:inactive-value="0"
-						/>
+							:inactive-value="0"/>
 						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
@@ -76,7 +72,7 @@
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 							{{ $t('message.action.edit') }}
 						</el-button>
-						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)" v-auth:[moduleKey]="'btn.Edit'">
+						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)">
 							{{ $t('message.action.see') }}
 						</el-button>
 						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
@@ -95,8 +91,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
+				:total="tableData.total">
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />

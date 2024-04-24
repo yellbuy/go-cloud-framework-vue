@@ -131,7 +131,7 @@
 						<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)">
 							{{ $t('message.action.see') }}
 						</el-button>
-						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+						<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'" >
 							{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
@@ -284,6 +284,15 @@ export default {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
+
+		const updateShowColumn = () => {
+			const buttons = document.querySelectorAll('.operate').length;
+			console.log("测试", buttons);
+			if (buttons !== 0) {
+				state.showColumn = true;
+			}
+		}
+
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
@@ -313,6 +322,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped lang="scss">
-</style>./component/vehicleEnergeStat.vue
