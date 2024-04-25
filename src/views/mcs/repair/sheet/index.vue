@@ -206,7 +206,7 @@ export default {
 			printDlgRef.value.onPrintJs(id);
 		};
 		// 删除用户
-		const onModelDel = (Id: string) => {
+		const onModelDel = (id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
@@ -237,7 +237,7 @@ export default {
 		// 页面跳转
 		const routerPath= ()=>{
 			//console.log(router)
-			router.push('/admin/mcs/repair/sheet/0/0');
+			router.push(`/admin/mcs/repair/${state.kind}/${state.scopeMode}/${state.scopeValue}`);
 		}
 		// 页面加载时
 		onMounted(() => {
