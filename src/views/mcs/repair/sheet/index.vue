@@ -213,7 +213,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.vehicle.delete(Id);
+					const res = await proxy.$api.erp.vehicle.delete(id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
