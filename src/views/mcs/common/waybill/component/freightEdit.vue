@@ -69,9 +69,10 @@
 							<div mb-2 flex items-center>
 								<el-radio-group
 									v-model="ruleForm.Mode">
-									<el-radio :label="1">吨&nbsp&nbsp&nbsp</el-radio>
+									<el-radio :label="1">吨</el-radio>
 									<el-radio :label="2">台班</el-radio>
-									<el-radio :label="3">月&nbsp&nbsp&nbsp</el-radio>
+									<el-radio :label="3">月</el-radio>
+									<el-radio :label="3">队用</el-radio>
 								</el-radio-group>
 							</div>
 						</el-form-item>

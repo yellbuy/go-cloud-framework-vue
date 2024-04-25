@@ -44,9 +44,9 @@
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
 						<el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column>
 						<el-table-column prop="GoodsName" label="品名" width="120"></el-table-column>
-						<el-table-column prop="GoodsCategoryName" label="品类" width="120"></el-table-column>
+						<el-table-column prop="GoodsCategoryName" label="品类" width="110"></el-table-column>
 						<el-table-column prop="CustomerName" label="供应商" width="180" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="PlanWeight" label="完成情况" width="80" align="center">
+						<el-table-column prop="PlanWeight" label="完成情况" width="120" align="center">
 							<template #default="scope">
 								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
 							</template>
