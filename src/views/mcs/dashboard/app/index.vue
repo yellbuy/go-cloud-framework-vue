@@ -90,7 +90,7 @@
             <notice-list></notice-list>
             <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
-              <dv-decoration-3 style="width: 100%;" />
+              <!-- <dv-decoration-3 style="width: 100%;" /> -->
               <!-- <div class="block-left-content">
                 <barWaybillBoard />
               </div> -->
