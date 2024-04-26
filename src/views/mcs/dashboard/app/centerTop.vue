@@ -5,32 +5,29 @@
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="unit">计划</div>
-              <dv-digital-flop
+              <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.YearPlanWeight],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
-                style="width: 100%; height: 24px;"
               />
               <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
-              <dv-digital-flop
+              <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.YearExecWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                style="width: 100%; height: 24px"
               />
               <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
-              <dv-digital-flop
+              <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.YearBalanceWeight],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
-                style="width: 100%; height: 24px"
               />
               <div class="unit">吨</div>
             </div>
           
             <div class="digital-flop-item">
               <div class="unit">完成情况</div>
-              <dv-water-level-pond style="width:100%;height:80px" :config="{ data: [statData.YearPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
+              <dv-water-level-pond class="digital-flop-item-round" :config="{ data: [statData.YearPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
             </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
@@ -41,31 +38,29 @@
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="unit">计划</div>
-              <dv-digital-flop
+              <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.MonthPlanWeight],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
-                style="width: 100%; height: 24px"
               />
               <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
-              <dv-digital-flop
+              <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.MonthExecWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                style="width: 100%; height: 24px"
               />
               <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
-              <dv-digital-flop
+              <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.MonthBalanceWeight],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
-                style="width: 100%; height: 24px"
               />
               <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成情况</div>
-              <dv-water-level-pond style="width:100%;height:80px" :config="{ data: [statData.MonthPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
+              <dv-water-level-pond class="digital-flop-item-round" :config="{ data: [statData.MonthPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
+              
             </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
@@ -76,31 +71,28 @@
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="unit">计划</div>
-              <dv-digital-flop
+              <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.DayPlanWeight],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
-                style="width: 100%; height: 24px"
               />
               <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
-              <dv-digital-flop
+              <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.DayExecWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                style="width: 100%; height: 24px"
               />
               <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
-              <dv-digital-flop
+              <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.DayBalanceWeight],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
-                style="width: 100%; height: 24px"
               />
               <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成情况</div>
-              <dv-water-level-pond style="width:100%;height:80px" :config="{ data: [statData.DayPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
+              <dv-water-level-pond class="digital-flop-item-round" :config="{ data: [statData.DayPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
             </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
@@ -197,6 +189,15 @@ export default {
       flex-direction: column;
       border-left: 3px solid rgb(6, 30, 93);
       border-right: 3px solid rgb(6, 30, 93);
+      .digital-flop-item-digital {
+        width:100%;
+        height:24px;
+      }
+      .digital-flop-item-round{
+        width:100px;
+        height:80px;
+        margin:auto;
+      }
     }
 
     
