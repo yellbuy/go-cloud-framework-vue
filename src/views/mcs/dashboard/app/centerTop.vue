@@ -27,7 +27,37 @@
           
             <div class="digital-flop-item">
               <div class="unit">完成情况</div>
-              <dv-water-level-pond class="digital-flop-item-round" :config="{ data: [statData.YearPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
+              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.YearPercent,lineDash: [10, 2]}" />
+              <!-- <dv-charts class="digital-flop-item-progress" :option="{
+                  title: {
+                    text: '完成情况',
+                    offset:[0,-30],
+                    style: {
+                      fontSize:14,
+                      fill: '#fff'
+                    }
+                  },
+                  series: [
+                    {
+                      type: 'gauge',
+                      data: [ { name: 'itemA', value: statData.YearPercent } ],
+                      center: ['50%', '55%'],
+                      axisLabel: {
+                        formatter: '{value}%',
+                        style: {
+                          fill: '#fff'
+                        }
+                      },
+                      axisTick: {
+                        style: {
+                          stroke: '#fff'
+                        }
+                      },
+                      animationCurve: 'easeInOutBack'
+                    }
+                  ]
+                }" /> -->
+              <!-- <dv-water-level-pond class="digital-flop-item-progress" :config="{ data: [statData.YearPercent], shape: 'round', waveHeight: 5, waveNum: 5}" /> -->
             </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
@@ -59,7 +89,8 @@
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成情况</div>
-              <dv-water-level-pond class="digital-flop-item-round" :config="{ data: [statData.MonthPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
+              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.MonthPercent,lineDash: [10, 2]}" />
+              <!-- <dv-water-level-pond class="digital-flop-item-progress" :config="{ data: [statData.MonthPercent], shape: 'round', waveHeight: 5, waveNum: 5}" /> -->
               
             </div>
           </div>
@@ -92,7 +123,8 @@
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成情况</div>
-              <dv-water-level-pond class="digital-flop-item-round" :config="{ data: [statData.DayPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
+              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.DayPercent,lineDash: [10, 2]}" />
+              <!-- <dv-water-level-pond class="digital-flop-item-progress" :config="{ data: [statData.DayPercent], shape: 'round', waveHeight: 5, waveNum: 5}" /> -->
             </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
@@ -193,10 +225,10 @@ export default {
         width:100%;
         height:24px;
       }
-      .digital-flop-item-round{
-        width:100px;
-        height:80px;
-        margin:auto;
+      .digital-flop-item-progress{
+        width:90%;
+        height:40px;
+        margin:auto
       }
     }
 
@@ -210,7 +242,7 @@ export default {
       text-align: center;
       font-size: 20px;
       padding-top:10px;
-      margin-bottom: 10px;
+      margin-bottom: 0px;
     }
 
   .unit {
