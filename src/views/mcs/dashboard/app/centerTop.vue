@@ -27,6 +27,11 @@
               />
               <div class="unit">吨</div>
             </div>
+          
+            <div class="digital-flop-item">
+              <div class="unit">完成情况</div>
+              <dv-water-level-pond style="width:100%;height:80px" :config="{ data: [statData.YearPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
+            </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
         <dv-decoration-2 />
@@ -57,6 +62,10 @@
                 style="width: 100%; height: 24px"
               />
               <div class="unit">吨</div>
+            </div>
+            <div class="digital-flop-item">
+              <div class="unit">完成情况</div>
+              <dv-water-level-pond style="width:100%;height:80px" :config="{ data: [statData.MonthPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
             </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
@@ -89,28 +98,22 @@
               />
               <div class="unit">吨</div>
             </div>
+            <div class="digital-flop-item">
+              <div class="unit">完成情况</div>
+              <dv-water-level-pond style="width:100%;height:80px" :config="{ data: [statData.DayPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
+            </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
         <dv-decoration-2 />
       </div>
-      <div class="digital-container">
+      <!-- <div class="digital-container">
         <div class="flex-row" style="padding-top:6px !important;padding-bottom:6px !important">
-          <div class="digital-flop-item">
-            <div class="unit">年计划完成情况</div>
-            <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [statData.YearPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
-          </div>
-          <div class="digital-flop-item">
-            <div class="unit">月计划完成情况</div>
-            <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [statData.MonthPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
-          </div>
-          <div class="digital-flop-item">
-            <div class="unit">日计划完成情况</div>
-            <dv-water-level-pond style="width:100%;height:160px" :config="{ data: [statData.DayPercent], shape: 'round', waveHeight: 5, waveNum: 5}" />
-          </div>
-            <!-- <Decoration2 style="width:200px; height:5px;" /> -->
+          
+          
+          
           <dv-decoration-2 />
         </div>
-      </div>
+      </div> -->
   </div>
 </template>
 
@@ -166,6 +169,52 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+  .digital-container {
+    margin:10px 10px -7px;
+    background-color: rgba(6, 30, 93, 0.5);
 
+    .dv-decoration-2 {
+      position: absolute;
+      width: 95%;
+      left: 2.5%;
+      height: 5px;
+      bottom: 0px;
+    }
+
+    .flex-row {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    .digital-flop-item {
+      width: 25%;
+      padding:10px;
+      text-align: center;
+      flex-direction: column;
+      border-left: 3px solid rgb(6, 30, 93);
+      border-right: 3px solid rgb(6, 30, 93);
+    }
+
+    
+  }
+  .digital-title {
+      // display: flex;
+      // flex-direction: column;
+      // justify-content: center;
+      // align-items: center;
+      text-align: center;
+      font-size: 20px;
+      padding-top:10px;
+      margin-bottom: 10px;
+    }
+
+  .unit {
+    margin-left: 10px;
+    box-sizing: border-box;
+    padding-bottom: 8px;
+  }
 </style>

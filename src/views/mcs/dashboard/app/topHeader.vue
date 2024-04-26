@@ -4,9 +4,9 @@
     <dv-decoration-5 class="header-center-decoration" />
     <dv-decoration-8 class="header-right-decoration" :reverse="true" />
     <div class="center-title">汉风管控系统 </div>
-    <div style="position:absolute;top:10px;right:10px">
+    <!-- <div style="position:absolute;top:10px;right:10px">
       <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px">全屏</dv-button>
-    </div>
+    </div> -->
   </div>
 </template>
 

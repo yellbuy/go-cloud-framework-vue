@@ -1,6 +1,6 @@
 <template>
   <div id="noticeList">
-    <dv-scroll-board :config="{header: ['通告内容','发布日期'],data:list,columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" />
+    <dv-scroll-board :config="{header: ['通告内容','发布日期'],data:list,columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:100px;margin-top:16px" />
   </div>
 </template>
 
