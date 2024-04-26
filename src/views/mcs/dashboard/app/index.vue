@@ -36,7 +36,7 @@
                 <barTradeBoard />
               </div>
               <div class="block-left-content">
-                <barWarehouseBoard />
+                <barWarehouseRateBoard />
               </div>
               <div class="block-left-content">
                 <mainBusinessBoard />
@@ -99,7 +99,7 @@
                 <barTradeBoard />
               </div>
               <div class="block-left-content">
-                <barWarehouseBoard />
+                <barWarehouseRateBoard />
               </div>
               <div class="block-left-content">
                 <mainBusinessBoard />
@@ -136,7 +136,7 @@
   import { reactive, toRefs } from 'vue';
 import barMainBusinessBoard from "./barMainBusinessBoard.vue";
 import barTradeBoard from "./barTradeBoard.vue";
-import barWarehouseBoard from "./barWarehouseBoard.vue";
+import barWarehouseRateBoard from "./barWarehouseRateBoard.vue";
 import barWaybillBoard from "./barWaybillBoard.vue";
 import capshuleVehicleCountStat from "./capshuleVehicleCountStat.vue";
 import cards from "./cards.vue";
@@ -168,7 +168,7 @@ export default {
     barWaybillBoard,
     barMainBusinessBoard,
     barTradeBoard,
-    barWarehouseBoard,
+    barWarehouseRateBoard,
     capshuleVehicleCountStat,
     cards,
     scrollBoardAmount,
