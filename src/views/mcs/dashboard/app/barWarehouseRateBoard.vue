@@ -24,10 +24,10 @@ export default {
       option:{
         legend: {
           data: [
-            // {
-            //   name: "出租率",
-            //   color: "#00baff",
-            // },
+            {
+              name: "面积",
+              color: "#00baff",
+            },
             {
               name: "出租率",
               color: "#ff5ca9",
@@ -76,16 +76,16 @@ export default {
           },
         },
         series: [
-          // {
-          //   name: "出租率",
-          //   data: [0],
-          //   // data: model.planValueList,
-          //   //data: state[state.timeMode].planValueList,
-          //   type: "bar",
-          //   barStyle: {
-          //     fill: "rgba(0, 186, 255, 0.8)",
-          //   },
-          // },
+          {
+            name: "面积",
+            data: [0],
+            // data: model.planValueList,
+            //data: state[state.timeMode].planValueList,
+            type: "bar",
+            barStyle: {
+              fill: "rgba(0, 186, 255, 0.8)",
+            },
+          },
           {
             name: "出租率",
            data:  [0],
@@ -109,18 +109,18 @@ export default {
     const setData=()=>{
       if(state.timeMode=="day") {
             state.option.xAxis.data=state.data.day.Name||[]
-            state.option.series[0].data=state.data.day.VolumeRate||[]
-            // state.option.series[1].data=state.data.day.Volume||[]
+            state.option.series[0].data=state.data.day.Volume||[]
+            state.option.series[1].data=state.data.day.VolumeRate||[]
         }
         else if(state.timeMode=="month") {
             state.option.xAxis.data=state.data.month.Name||[]
-            state.option.series[0].data=state.data.month.VolumeRate||[]
-            // state.option.series[1].data=state.data.month.Volume||[]
+            state.option.series[0].data=state.data.month.Volume||[]
+            state.option.series[1].data=state.data.month.VolumeRate||[]
         }
         else if(state.timeMode=="year") {
             state.option.xAxis.data=state.data.year.Name||[]
-            state.option.series[0].data=state.data.year.VolumeRate||[]
-            // state.option.series[1].data=state.data.year.Volume||[]
+            state.option.series[0].data=state.data.year.Volume||[]
+            state.option.series[1].data=state.data.year.VolumeRate||[]
         }
     }
     const getModeName = computed(() => {
