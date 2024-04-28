@@ -8,6 +8,7 @@ export default {
 		user: '用户管理',
 		org: '组织管理',
 		tenant: '公司管理',
+		subUnit: '下级单位',
 		registerUser:'用户注册',
 		registerTenant:'租户注册',
 	},

@@ -4,7 +4,7 @@
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="80px" :inline="true">
 					<el-form-item label="关键字：">
-						<el-input  placeholder="请输入关键字模糊查询" v-model="tableData.param.username"> </el-input>
+						<el-input  placeholder="请输入关键字模糊查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info"  @click="onResetSearch">
@@ -92,18 +92,15 @@
 </template>
 
 <script lang="ts">
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Session, Local } from '/@/utils/storage';
-import { resetRoute } from '/@/router/index';
 import { useRouter } from 'vue-router';
+import tenantEdit from './component/tenantEdit.vue';
+import { resetRoute } from '/@/router/index';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect,onMounted, ref, computed,getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import tenantEdit from './component/tenantEdit.vue';
-import other from '/@/utils/other';
-import { initFrontEndControlRoutes } from '/@/router/frontEnd';
-import { initBackEndControlRoutes } from '/@/router/backEnd';
+import { Session } from '/@/utils/storage';
 
 export default {
 	name: 'baseCommonTenants',
@@ -122,7 +119,7 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
-					username:"",
+					keyword:"",
 					name:"",
 					pageNum: 1,
 					pageSize: 20,
@@ -134,7 +131,7 @@ export default {
 		})
 		//重置查询条件
 		const onResetSearch=()=>{
-			state.tableData.param.username="";
+			state.tableData.param.keyword="";
 			state.tableData.param.name="";
 			onGetTableData(true)
 		}

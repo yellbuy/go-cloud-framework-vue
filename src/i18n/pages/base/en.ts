@@ -8,6 +8,7 @@ export default {
 		user: 'systemUser',
 		org: 'systemOrg',
 		tenant: 'systemTenant',
+		subUnit: 'subordinate unit',
 		registerUser:'register user',
 		registerTenant:'register tenant',
 	},

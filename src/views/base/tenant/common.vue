@@ -4,7 +4,7 @@
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="80px" :inline="true">
 					<el-form-item label="关键字：">
-						<el-input  placeholder="请输入关键字模糊查询" v-model="tableData.param.username"> </el-input>
+						<el-input  placeholder="请输入关键字模糊查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info"  @click="onResetSearch">
@@ -147,7 +147,7 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
-					username:"",
+					keyword:"",
 					name:"",
 					pageNum: 1,
 					pageSize: 20,
@@ -159,7 +159,7 @@ export default {
 		})
 		//重置查询条件
 		const onResetSearch=()=>{
-			state.tableData.param.username="";
+			state.tableData.param.keyword="";
 			state.tableData.param.name="";
 			onGetTableData(true)
 		}
