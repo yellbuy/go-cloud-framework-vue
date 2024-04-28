@@ -10,13 +10,16 @@
 										placeholder="输入关键字查询"
 										v-model="mainTableData.param.keyword"/>
 								</el-form-item>
-								<el-form-item label="要求发货时间" style="width:280px; white-space: nowrap;">
+								<el-form-item label="发货时间" style="width:300px; white-space: nowrap;">
 									<el-date-picker
-										v-model="mainTableData.param.timeRange"
+										v-model="timeRange"
 										type="daterange"
+										unlink-panels
 										range-separator="至"
-										start-placeholder="开始日期"
-										end-placeholder="结束日期"/>
+										start-placeholder="开始时间"
+										end-placeholder="结束时间"
+										format="YYYY-MM-DD"
+										date-format="YYYY/MM/DD"/>
 								</el-form-item>
 								<el-form-item>
 									<el-button type="info" @click="onMainResetSearch">
@@ -281,13 +284,15 @@ export default {
 			scopeMode,
 			scopeValue,
 			mainCurrentRow:null,
+			timeRange: [],
 			mainTableData: {
 				data: [],
 				total: 0,
 				loading: false,
 				param: {
 					keyword: '',
-					timeRange: [],
+					sendPlanStartTime: "",
+					sendPlanEndTime: "",
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -332,7 +337,11 @@ export default {
 
 		// 初始化表格数据
 		const onMainGetTableData = async (gotoFirstPage: boolean = false) => {
-			console.log("测试", state.mainTableData.param.timeRange)
+			if (state.timeRange && state.timeRange.length>1) {
+				state.mainTableData.param.sendPlanStartTime = state.timeRange[0]
+				state.mainTableData.param.sendPlanEndTime = state.timeRange[1]
+				console.log("测试", state.mainTableData.param.sendPlanStartTime)
+			}
 			if (gotoFirstPage) {
 				state.mainTableData.param.pageNum = 1;
 			}
