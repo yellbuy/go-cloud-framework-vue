@@ -299,11 +299,11 @@ export default {
 					model.Phone=String(row["__EMPTY_5"]||""); //转字符串
 					model.Driver=row["__EMPTY_6"]||"";
 					model.DriverMobile=String(row["__EMPTY_7"]||""); //转字符串
-					model.DrivingLicense=row["__EMPTY_8"]||"";
+					model.DrivingLicense=String(row["__EMPTY_8"]||"");
 					model.DrivingLicenseStartDate=row["__EMPTY_9"]||new Date();
 					model.DrivingLicenseEndDate=row["__EMPTY_10"]||new Date();
 					model.RegistrationDate=new Date();
-					model.TransportLicense=row["__EMPTY_11"]||"";
+					model.TransportLicense=String(row["__EMPTY_11"]||"");
 					model.TransportLicenseStartDate=row["__EMPTY_12"]||new Date();
 					model.TransportLicenseEndDate=row["__EMPTY_13"]||new Date();
 					rows.push(model);
