@@ -5,8 +5,18 @@
 					<el-card shadow="hover">
 						<div class="">
 							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="70px" :inline="true">
-								<el-form-item label="关键字">
-									<el-input placeholder="输入关键字查询" style="width:100px" v-model="mainTableData.param.keyword"> </el-input>
+								<el-form-item label="关键字" style="width:200px">
+									<el-input
+										placeholder="输入关键字查询"
+										v-model="mainTableData.param.keyword"/>
+								</el-form-item>
+								<el-form-item label="要求发货时间" style="width:280px; white-space: nowrap;">
+									<el-date-picker
+										v-model="mainTableData.param.timeRange"
+										type="daterange"
+										range-separator="至"
+										start-placeholder="开始日期"
+										end-placeholder="结束日期"/>
 								</el-form-item>
 								<el-form-item>
 									<el-button type="info" @click="onMainResetSearch">
@@ -277,6 +287,7 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
+					timeRange: [],
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -321,6 +332,7 @@ export default {
 
 		// 初始化表格数据
 		const onMainGetTableData = async (gotoFirstPage: boolean = false) => {
+			console.log("测试", state.mainTableData.param.timeRange)
 			if (gotoFirstPage) {
 				state.mainTableData.param.pageNum = 1;
 			}
