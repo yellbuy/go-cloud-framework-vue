@@ -340,7 +340,6 @@ export default {
 			if (state.timeRange && state.timeRange.length>1) {
 				state.mainTableData.param.sendPlanStartTime = state.timeRange[0]
 				state.mainTableData.param.sendPlanEndTime = state.timeRange[1]
-				console.log("测试", state.mainTableData.param.sendPlanStartTime)
 			}
 			if (gotoFirstPage) {
 				state.mainTableData.param.pageNum = 1;
