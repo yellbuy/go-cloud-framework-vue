@@ -529,7 +529,7 @@ export default {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.CompanyCategoryList = tableData.data;
 					try {
-						const res = await proxy.$api.erp.company.save(state.ruleForm);
+						const res = await proxy.$api.erp.company.saveAndTenant(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -542,29 +542,6 @@ export default {
 					} finally {
 						state.loading = false;
 					}
-					return false;
-					// state.ruleForm.CompanyCategoryList = tableData.data;
-					// request({
-					// 	url: url,
-					// 	method: 'post',
-					// 	data: state.ruleForm,
-					// })
-					// 	.then((res) => {
-					// 		state.loading = false;
-					// 		if (res.errcode == 0) {
-					// 			if (isCloseDlg) {
-					// 				closeDialog();
-					// 			} else {
-					// 				tableData.data = [];
-					// 				proxy.$refs.ruleFormRef.resetFields();
-					// 				(state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' }), (tableData.data = []);
-					// 				state.ruleForm.Id = 0;
-					// 			}
-					// 		}
-					// 	})
-					// 	.catch(() => {
-					// 		state.loading = false;
-					// 	});
 					return false;
 				} else {
 					return false;

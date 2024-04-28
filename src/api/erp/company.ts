@@ -45,6 +45,19 @@ export default {
         const url = `/v1/admin/erp/company/${data.Id}`;
         return await http.post(url, data);
     },
+    /**
+     * 新增或更新
+     * @param data 信息
+     * @returns 返回接口数据
+     */
+    saveAndTenant: async (data: object) => {
+        if (!data.Id || data.Id == "0") {
+            const url = `/v1/admin/erp/companyandtenant`;
+            return await http.post(url, data);
+        }
+        const url = `/v1/admin/erp/companyandtenant/${data.Id}`;
+        return await http.post(url, data);
+    },
 
     /**
      * 批量保存

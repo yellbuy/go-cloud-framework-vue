@@ -187,16 +187,15 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import { reactive, toRefs, onMounted, getCurrentInstance, computed, ref, toRaw, markRaw } from 'vue';
+import { Plus } from '@element-plus/icons-vue';
+import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
-import { Plus, ZoomIn, Download, Delete } from '@element-plus/icons-vue';
-import { getPageCategoryList } from '../../../../api/common/category';
-import commonFunction from '/@/utils/commonFunction';
-import { Session } from '/@/utils/storage';
-import { useStore } from '/@/store/index';
 import { useRoute } from 'vue-router';
+import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
+import request from '/@/utils/request';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'companyEdit',
 	setup() {
@@ -496,7 +495,7 @@ export default {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.CompanyCategoryList = tableData.data;
 					try {
-						await proxy.$api.erp.company.save(state.ruleForm);
+						await proxy.$api.erp.company.saveAndTenant(state.ruleForm);
 					} finally {
 						state.loading = false;
 					}
