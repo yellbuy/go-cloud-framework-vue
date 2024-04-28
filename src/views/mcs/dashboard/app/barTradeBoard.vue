@@ -6,7 +6,7 @@
         <dv-button @click="onChangeInvertal" border="Border1" color="#f3d19e" font-color="#e18a3b" style="z-index: 999999;text-decoration:underline">{{getModeName}}</dv-button>
       </div>
     </div>
-    <dv-charts :option="option" style="width: 100%; height:200px;margin-top:-50px"/>
+    <dv-charts :option="option" style="width: 100%; height:180px;margin-top:-50px"/>
   </div>
 </template>
 
