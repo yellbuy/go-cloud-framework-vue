@@ -177,7 +177,8 @@
 	</div>
 </template>
 <script lang="ts">
-import { ElMessage, UploadProps } from 'element-plus';
+import { ElMessage, UploadProps, ElMessageBox } from 'element-plus';
+import type { Action } from 'element-plus'
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as XLSX from "xlsx"; //引入
@@ -265,51 +266,45 @@ export default {
 
 		//	导入功能
 		const onImportXlsx = (e: any) => {
-			const file = e.raw
+			const unique = {}
+			const rows = []
+			const tip = []
+			const tip2 = []
 			const reader = new FileReader()
-			reader.readAsArrayBuffer(file)
+			reader.readAsArrayBuffer(e.raw)
 			reader.onload = (ev: any) => {
-				const rows=[]
-				const unique = {};
-				let data = ev.target.result
-				const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
+				const workbook = XLSX.read(ev.target.result, { type: 'binary', cellDates: true })
 				if(workbook.SheetNames.length==0){
 					return;
 				}
-				const wsname = workbook.SheetNames[0]
-				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
-				console.log("测试", list)
-				for(let i = 1; i < list.length; i++){
-					const row=list[i];
-					const vehicleNumber=row["__EMPTY"]||"";
-					if(!vehicleNumber || unique[vehicleNumber]){
+				const list = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: ["Index", "VehicleNumber", 
+					"VehicleType", "IsExternal", "Shipper", "Linkman", "Phone", "Driver", "DriverMobile", "DrivingLicense", "DrivingLicenseStartDate", 
+					"DrivingLicenseEndDate", "TransportLicense", "TransportLicenseStartDate", "TransportLicenseEndDate"], range: 2, dateNF: 'yyyy-mm-dd'})
+				// 将时间调整为00点00分00秒
+				list.forEach(item => {
+					item.DrivingLicenseStartDate.setHours(24, 0, 0, 0);
+					item.DrivingLicenseEndDate.setHours(24, 0, 0, 0);
+					item.TransportLicenseStartDate.setHours(24, 0, 0, 0);
+					item.TransportLicenseEndDate.setHours(24, 0, 0, 0);
+				});
+				for (let i=0; i<list.length; i++) {
+					if(!list[i]["VehicleNumber"]){
+						continue;
+					}else if (unique[list[i]["VehicleNumber"]]) {
+						tip.push(list[i]["Index"])
+						tip2.push(unique[list[i]["VehicleNumber"]])
 						continue;
 					}
-					unique[vehicleNumber] = true
-					const model={};
-					model.VehicleNumber=vehicleNumber;
-					model.VehicleType=row["__EMPTY_1"]||"";
-					model.Shipper=row["__EMPTY_3"]||"";
-					if(model.Shipper){
-						model.IsExternal=1
-					}else{
-						model.IsExternal=0
-					}
-					model.Linkman=row["__EMPTY_4"]||"";
-					model.Phone=String(row["__EMPTY_5"]||""); //转字符串
-					model.Driver=row["__EMPTY_6"]||"";
-					model.DriverMobile=String(row["__EMPTY_7"]||""); //转字符串
-					model.DrivingLicense=String(row["__EMPTY_8"]||"");
-					model.DrivingLicenseStartDate=row["__EMPTY_9"]||new Date();
-					model.DrivingLicenseEndDate=row["__EMPTY_10"]||new Date();
-					model.RegistrationDate=new Date();
-					model.TransportLicense=String(row["__EMPTY_11"]||"");
-					model.TransportLicenseStartDate=row["__EMPTY_12"]||new Date();
-					model.TransportLicenseEndDate=row["__EMPTY_13"]||new Date();
-					rows.push(model);
+					unique[list[i]["VehicleNumber"]] = list[i]["Index"]
+					rows.push(list[i])
 				}
-				state.tableData.total=rows.length
-				state.ruleForm.VehicleList=rows;
+				if (tip || tip2) {
+					ElMessageBox.alert('导入Excel序号为（' + tip + '）的记录，与已导入序号（' + tip2 + '）的记录车牌号存在重复没有被导入，避免数据丢失，请检查修改表格数据后重新导入！', '提醒', {
+						confirmButtonText: '我已知晓',
+						})
+				}
+				state.ruleForm.VehicleList = rows
+				state.tableData.total = rows.length
 			}
 		}
 
@@ -425,3 +420,5 @@ export default {
 	width: 100%;
 }
 </style>
+
+
