@@ -268,43 +268,61 @@ export default {
 		const onImportXlsx = (e: any) => {
 			const unique = {}
 			const rows = []
-			const tip = []
-			const tip2 = []
+			const tip = [[], []]
 			const reader = new FileReader()
 			reader.readAsArrayBuffer(e.raw)
 			reader.onload = (ev: any) => {
 				const workbook = XLSX.read(ev.target.result, { type: 'binary', cellDates: true })
-				if(workbook.SheetNames.length==0){
+				if(workbook.SheetNames.length < 1){
 					return;
 				}
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: ["Index", "VehicleNumber", 
 					"VehicleType", "IsExternal", "Shipper", "Linkman", "Phone", "Driver", "DriverMobile", "DrivingLicense", "DrivingLicenseStartDate", 
-					"DrivingLicenseEndDate", "TransportLicense", "TransportLicenseStartDate", "TransportLicenseEndDate"], range: 2, dateNF: 'yyyy-mm-dd'})
-				// 将时间调整为00点00分00秒
+					"DrivingLicenseEndDate", "TransportLicense", "TransportLicenseStartDate", "TransportLicenseEndDate"], range: 2})
 				list.forEach(item => {
+					item.Index = parseInt(item.Index)
+					item.VehicleNumber = String(item.VehicleNumber)
+					item.VehicleType = String(item.VehicleType)
+					if(item.Shipper){
+						item.IsExternal = parseInt(1)
+					}else{
+						item.IsExternal = parseInt(0)
+					}
+					item.Shipper = String(item.Shipper)
+					item.Linkman = String(item.Linkman)
+					item.Phone = String(item.Phone)
+					item.Driver = String(item.Driver)
+					item.DriverMobile = String(item.DriverMobile)
+					item.DrivingLicense = String(item.DrivingLicense)
 					item.DrivingLicenseStartDate.setHours(24, 0, 0, 0);
 					item.DrivingLicenseEndDate.setHours(24, 0, 0, 0);
+					item.TransportLicense = String(item.TransportLicense)
 					item.TransportLicenseStartDate.setHours(24, 0, 0, 0);
 					item.TransportLicenseEndDate.setHours(24, 0, 0, 0);
-				});
-				for (let i=0; i<list.length; i++) {
-					if(!list[i]["VehicleNumber"]){
-						continue;
-					}else if (unique[list[i]["VehicleNumber"]]) {
-						tip.push(list[i]["Index"])
-						tip2.push(unique[list[i]["VehicleNumber"]])
-						continue;
+					if (item.VehicleNumber == "") {
+						tip[0].push(item.Index)
 					}
-					unique[list[i]["VehicleNumber"]] = list[i]["Index"]
-					rows.push(list[i])
-				}
-				if (tip || tip2) {
-					ElMessageBox.alert('导入Excel序号为（' + tip + '）的记录，与已导入序号（' + tip2 + '）的记录车牌号存在重复没有被导入，避免数据丢失，请检查修改表格数据后重新导入！', '提醒', {
-						confirmButtonText: '我已知晓',
+					if (unique[item.VehicleNumber]) {
+						tip[1].push(item.Index)
+						tip[1].push(unique[item.VehicleNumber])
+					}else {
+						unique[item.VehicleNumber] = item.Index
+						rows.push(item)
+					}
+				});
+				if (tip[0].length > 0) {
+					ElMessageBox.alert('原因是Excel序号为（' + tip[0] + '）的车牌号为空，请检查修改表格数据后重新导入！', '导入失败', {
+						confirmButtonText: '确定',
 						})
+				} else if (tip[1].length > 0) {
+					ElMessageBox.alert('原因是Excel序号为（' + tip[1] + '）的车牌号存在重复，请检查修改表格数据后重新导入！', '导入失败', {
+						confirmButtonText: '确定',
+						})
+				} else {
+					state.ruleForm.VehicleList = rows
+					state.tableData.total = rows.length
 				}
-				state.ruleForm.VehicleList = rows
-				state.tableData.total = rows.length
+
 			}
 		}
 

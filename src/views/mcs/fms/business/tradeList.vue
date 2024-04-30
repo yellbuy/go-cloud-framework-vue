@@ -8,6 +8,17 @@
 								<el-form-item label="关键字">
 									<el-input placeholder="输入关键字查询" style="width:100px" v-model="mainTableData.param.keyword"> </el-input>
 								</el-form-item>
+								<el-form-item label="开始日期" style="width:300px; white-space: nowrap;">
+									<el-date-picker
+										v-model="timeRange"
+										type="daterange"
+										unlink-panels
+										range-separator="至"
+										start-placeholder="开始时间"
+										end-placeholder="结束时间"
+										format="YYYY-MM-DD"
+										date-format="YYYY/MM/DD"/>
+								</el-form-item>
 								<el-form-item>
 									<el-button type="info" @click="onMainResetSearch">
 										<el-icon>
@@ -218,6 +229,7 @@ export default {
 			kind,
 			scopeMode,
 			scopeValue,
+			timeRange: [],
 			mainCurrentRow:null,
 			mainTableData: {
 				data: [],
@@ -237,6 +249,8 @@ export default {
 				isTodayAll:1, //查询今日所有任务详情
 				param: {
 					keyword: '',
+					startTime: '',
+					endTime: '',
 					businessBillId:'0',
 					pageNum: 1,
 					pageSize: 20,
@@ -269,6 +283,10 @@ export default {
 
 		// 初始化表格数据
 		const onMainGetTableData = async (gotoFirstPage: boolean = false) => {
+			if (state.timeRange && state.timeRange.length>1) {
+				state.mainTableData.param.startTime = state.timeRange[0]
+				state.mainTableData.param.endTime = state.timeRange[1]
+			}
 			if (gotoFirstPage) {
 				state.mainTableData.param.pageNum = 1;
 			}

@@ -6,6 +6,17 @@
 					<el-form-item label="关键字：">
 						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
+					<el-form-item label="日期" style="width:300px; white-space: nowrap;">
+						<el-date-picker
+							v-model="timeRange"
+							type="daterange"
+							unlink-panels
+							range-separator="至"
+							start-placeholder="开始时间"
+							end-placeholder="结束时间"
+							format="YYYY-MM-DD"
+							date-format="YYYY/MM/DD"/>
+					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
 							<el-icon>
@@ -121,12 +132,15 @@ export default {
 			kind,
 			scopeMode,
 			scopeValue,
+			timeRange: [],
 			tableData: {
 				data: [],
 				total: 0,
 				loading: false,
 				param: {
 					keyword: '',
+					startTime: '',
+					endTime: '',
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -146,6 +160,10 @@ export default {
 
 		//关联查询平台名称
 		const onGetTableDtoData = async (gotoFirstPage: boolean = false) => {
+			if (state.timeRange && state.timeRange.length>1) {
+				state.tableData.param.startTime = state.timeRange[0]
+				state.tableData.param.endTime = state.timeRange[1]
+			}
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}

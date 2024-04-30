@@ -6,6 +6,17 @@
 					<el-form-item label="关键字：">
 						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
+					<el-form-item label="日期" style="width:300px; white-space: nowrap;">
+						<el-date-picker
+							v-model="timeRange"
+							type="daterange"
+							unlink-panels
+							range-separator="至"
+							start-placeholder="开始时间"
+							end-placeholder="结束时间"
+							format="YYYY-MM-DD"
+							date-format="YYYY/MM/DD"/>
+					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
 							<el-icon>
@@ -36,8 +47,7 @@
 				:height="proxy.$calcMainHeight(-75)"
 				border
 				stripe
-				highlight-current-row
-			>
+				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="50" fixed />
 				<el-table-column prop="BillNo" label="流水单号" width="120" show-overflow-tooltip="true" fixed></el-table-column>
 				<el-table-column prop="GoodsName" label="产品名称" width="120" show-overflow-tooltip="true" fixed></el-table-column>
@@ -46,8 +56,7 @@
 				<el-table-column prop="ReceiverAddress" label="到达地" width="200" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column prop="Weight" label="实际吨位" width="80" align="right" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column prop="VehicleCount" label="列数" width="80" align="right" show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="BillTime" label="日期" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip="true"></el-table-column>		
-				
+				<el-table-column prop="BillTime" label="日期" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="有效" width="80" align="center">
 					<template #default="scope">
 						<el-switch
@@ -59,8 +68,7 @@
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
-							:inactive-value="0"
-						/>
+							:inactive-value="0"/>
 						<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
@@ -90,8 +98,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
+				:total="tableData.total">
 			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
@@ -104,7 +111,6 @@ import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from '
 import { useRoute } from 'vue-router';
 import editDlg from './component/mainEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
-
 export default {
 	name: 'businessMainList',
 	components: { editDlg },
@@ -121,19 +127,22 @@ export default {
 			kind,
 			scopeMode,
 			scopeValue,
+			timeRange: [new Date(), new Date()],
 			tableData: {
 				data: [],
 				total: 3,
 				loading: false,
 				param: {
 					keyword: '',
+					startTime: '',
+					endTime: '',
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
 				},
 			},
-			
 		});
+
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});
@@ -145,11 +154,18 @@ export default {
 
 		// 查询表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
+			if (state.timeRange && state.timeRange.length>1) {
+				state.tableData.param.startTime = state.timeRange[0]
+				state.tableData.param.endTime = state.timeRange[1]
+				state.tableData.param.startTime.setHours(24, 0, 0, 0);
+				state.tableData.param.endTime.setHours(24, 0, 0, 0);
+			}
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
 			state.tableData.loading = true;
 			try {
+				
 				const res = await proxy.$api.erp.businessBillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
@@ -218,6 +234,3 @@ export default {
 };
 		
 </script>
-
-<style scoped lang="scss">
-</style>

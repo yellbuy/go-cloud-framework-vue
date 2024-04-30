@@ -256,54 +256,66 @@ export default {
 			}
 		}
 
-		//	导入功能
-		const onImportXlsx = (e: any) => {
-			const file = e.raw
+				//	导入功能
+				const onImportXlsx = (e: any) => {
+			const unique = {}
+			const rows = []
+			const tip = [[], []]
 			const reader = new FileReader()
-			reader.readAsArrayBuffer(file)
+			reader.readAsArrayBuffer(e.raw)
 			reader.onload = (ev: any) => {
-				const rows=[]
-				const unique = {};
-				let data = ev.target.result
-				const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
-				if(workbook.SheetNames.length==0){
+				const workbook = XLSX.read(ev.target.result, { type: 'binary', cellDates: true })
+				if(workbook.SheetNames.length < 1){
 					return;
 				}
-				const wsname = workbook.SheetNames[0]
-				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
-				for(let i = 1; i < list.length; i++){
-					const row=list[i];
-					const name=row["__EMPTY"]||"";
-					if(!name || unique[name]){
-						continue;
-					}
-					unique[name] = true
-					const model={};
-					model.Name=name;
-					model.Gender=row["__EMPTY_1"]||"";
-					if (model.Gender = "男") {
-						model.Gender = 1
-					}else if(model.Gender = "女") {
-						model.Gender = 2
+				const list = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: ["Index", "Name", "Gender", "Nation", 
+				"Birthdate", "Idno", "IdnoEndDate", "NativePlace", "Mobile", "Address", "DriverLicenseType", "RegistrationDate", 
+				"DriverLicenseStartDate", "DriverLicenseEndDate"], range: 2})
+				list.forEach(item => {
+					item.Index = parseInt(item.Index)
+					item.Name = String(item.Name)
+					if (item.Gender = "男") {
+						item.Gender = parseInt(1)
+					}else if(item.Gender = "女") {
+						item.Gender = parseInt(2)
 					}else{
-						model.Gender = 0
+						item.Gender = parseInt(0)
 					}
-
-					model.Nation=`${row["__EMPTY_2"]}`||"";
-					model.Birthdate=row["__EMPTY_3"]||"";
-					model.Idno=`${row["__EMPTY_4"]}`||"";
-					model.IdnoEndDate=row["__EMPTY_5"]||"";
-					model.NativePlace=`${row["__EMPTY_6"]}`||"";
-					model.Mobile=`${row["__EMPTY_7"]}`||"";
-					model.Address=`${row["__EMPTY_8"]}`||"";
-					model.DriverLicenseType=row["__EMPTY_9"]||"";
-					model.RegistrationDate=row["__EMPTY_10"]||"";
-					model.DriverLicenseStartDate=row["__EMPTY_11"]||"";
-					model.DriverLicenseEndDate=row["__EMPTY_12"]||"";
-					rows.push(model);
+					item.Nation = String(item.Nation)
+					item.Birthdate.setHours(24, 0, 0, 0);
+					item.Idno = String(item.Idno)
+					item.IdnoEndDate.setHours(24, 0, 0, 0);
+					item.NativePlace = String(item.NativePlace)
+					item.Mobile = String(item.Mobile)
+					item.Address = String(item.Address)
+					item.DriverLicenseType = String(item.DriverLicenseType)
+					item.RegistrationDate.setHours(24, 0, 0, 0);
+					item.DriverLicenseStartDate.setHours(24, 0, 0, 0);
+					item.DriverLicenseEndDate.setHours(24, 0, 0, 0);
+					if (item.Idno == "") {
+						tip[0].push(item.Index)
+					}
+					if (unique[item.Idno]) {
+						tip[1].push(item.Index)
+						tip[1].push(unique[item.Idno])
+					}else {
+						unique[item.Idno] = item.Index
+						rows.push(item)
+					}
+				});
+				if (tip[0].length > 0) {
+					ElMessageBox.alert('原因是Excel序号为（' + tip[0] + '）的身份证号为空，请检查修改表格数据后重新导入！', '导入失败', {
+						confirmButtonText: '确定',
+						})
+				} else if (tip[1].length > 0) {
+					ElMessageBox.alert('原因是Excel序号为（' + tip[1] + '）的身份证号存在重复，请检查修改表格数据后重新导入！', '导入失败', {
+						confirmButtonText: '确定',
+						})
+				} else {
+					state.ruleForm.DriverList = rows
+					state.tableData.total = rows.length
 				}
-				state.tableData.total=rows.length
-				state.ruleForm.DriverList=rows;
+
 			}
 		}
 
