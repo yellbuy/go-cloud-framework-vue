@@ -14,8 +14,7 @@
 							range-separator="至"
 							start-placeholder="开始时间"
 							end-placeholder="结束时间"
-							format="YYYY-MM-DD"
-							date-format="YYYY/MM/DD"/>
+							format="YYYY-MM-DD" />
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -109,6 +108,7 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
+import dayjs from 'dayjs';
 import editDlg from './component/mainEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
@@ -154,11 +154,9 @@ export default {
 
 		// 查询表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			if (state.timeRange && state.timeRange.length>1) {
-				state.tableData.param.startTime = state.timeRange[0]
-				state.tableData.param.endTime = state.timeRange[1]
-				state.tableData.param.startTime.setHours(24, 0, 0, 0);
-				state.tableData.param.endTime.setHours(24, 0, 0, 0);
+			if (state.timeRange && state.timeRange.length > 1) {
+				state.tableData.param.startTime = dayjs(state.timeRange[0]).set('hour', 8).set('minute', 0).set('second', 0);
+				state.tableData.param.endTime = dayjs(state.timeRange[1]).set('hour', 32).set('minute', 0).set('second', 0);
 			}
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
@@ -213,6 +211,7 @@ export default {
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
+
 		});
 
 		const { dateFormatYMD,dateFormatYMDHM } = commonFunction();
