@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
-			<div style="height: 400px;width:100%" id="mainChart" ref="mainChart"></div>
+			<div style="height: 400px;width:100%" id="mainChart" ref="mainChart" />
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.close') }}</el-button>
@@ -22,19 +22,23 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
-	name: 'vehicleEdit',
+	name: 'vehicleEnergyEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const homeBarRef = ref();
+
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
+
 		const store = useStore();
+
 		const mainChart = ref()
+
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
+		
+		//	显示表格图片
 		const showImage = (Files: string) => {
 			let fileUrl = '';
 			let filList = Files.split(',');
@@ -47,7 +51,7 @@ export default {
 			title: '油耗统计',
 			vehicleNumber:'',
 			loading: false,
-			disable: true, //是否禁用
+			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
 			dialogVisible: false,
 			charts: {
@@ -63,7 +67,7 @@ export default {
 		const token = Session.get('token');
 		
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (vehicleNumber: string, id: string, disable: boolean) => {
 			state.vehicleNumber=vehicleNumber;
 			state.title=vehicleNumber;
@@ -91,7 +95,7 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		// 关闭弹窗
+		//	关闭弹窗
 		const closeDialog = () => {
 			state.loading = false;
 			state.isShowDialog = false;
@@ -116,7 +120,8 @@ export default {
 			}
 			return true;
 		};
-		// 柱状图
+
+		//	柱状图
 		const initBarChart = async () => {
 			await getByIdRow(state.vehicleNumber)
 			const mainChart=document.querySelector('#mainChart');
@@ -248,11 +253,13 @@ export default {
 				],
 			};
 			myChart.setOption(option);
-			//state.myCharts.push(state.global.homeCharThree);
 		};
+
 		const { dateFormatYMD } = commonFunction();
-		// 页面加载时
+
+		//	页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,

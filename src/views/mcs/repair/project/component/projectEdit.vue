@@ -2,13 +2,24 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="项目名称" prop="Name">
 							<el-input
 								v-model="ruleForm.Name"
-								placeholder="请输入"></el-input> 
+								placeholder="请输入" /> 
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="项目编号" prop="No">
+							<el-input
+								v-model="ruleForm.No"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="预估工时" prop="Qty">
 							<el-input-number
 								v-model.number="ruleForm.Qty"
@@ -18,24 +29,10 @@
 								min="0"
 								max="1000000000"
 								step="1"
-								oninput="this.value = this.value.replace(/[^0-9]/g, '')"></el-input-number> 
+								oninput="this.value = this.value.replace(/[^0-9]/g, '')" /> 
 						</el-form-item>
-						<el-form-item label="是否启用" prop="No">
-							<el-switch
-								v-model="ruleForm.State"
-								:active-icon="Check"
-								:inactive-icon="Close"
-								:active-value="1"
-								:inactive-value="0"
-								inline-prompt/>				
-						</el-form-item>
-					</el-col>	
-					<el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="项目编号" prop="No">
-							<el-input
-								v-model="ruleForm.No"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="工时单价" prop="Price">
 							<el-input-number
 								v-model="ruleForm.Price"
@@ -45,25 +42,42 @@
 								min="0"
 								max="1000000000"
 								step="1"
-								oninput="this.value = this.value.replace(/[^0-9]/g, '')"></el-input-number> 
+								oninput="this.value = this.value.replace(/[^0-9]/g, '')" /> 
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row>
-					<el-col :xs="24" :sm="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="是否启用" prop="No">
+							<el-switch
+								v-model="ruleForm.State"
+								:active-icon="Check"
+								:inactive-icon="Close"
+								:active-value="1"
+								:inactive-value="0"
+								inline-prompt />				
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="服务内容" prop="Content" >
 							<el-input
 								v-model="ruleForm.Content"
 								:rows="3"
 								type="textarea"
-								placeholder="请输入"/>
+								placeholder="请输入" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="备注" prop="Remark" >
 							<el-input
 								v-model="ruleForm.Remark"
 								:rows="3"
 								type="textarea"
-								placeholder="请输入"/>
+								placeholder="请输入" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -114,8 +128,8 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
-			//表单
+			disable: true, //	是否禁用
+			//	表单
 			ruleForm: {
 				Id: '0',				
 				Kind: 'repair',
@@ -173,7 +187,6 @@ export default {
 		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
@@ -222,7 +235,6 @@ export default {
 		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;

@@ -37,14 +37,14 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Name"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="No" label="项目编号" width="200" align="center">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.No"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Qty" label="预估工时" width="180" align="center">
@@ -57,7 +57,7 @@
 										min="0"
 										max="1000000000"
 										step="1"
-										oninput="this.value = this.value.replace(/[^0-9]/g, '')"></el-input-number>
+										oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="Price" label="工时单价" width="180" align="left">
@@ -70,21 +70,21 @@
 										min="0"
 										max="1000000000"
 										step="1"
-										oninput="this.value = this.value.replace(/[^0-9]/g, '')"></el-input-number>
+										oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="Content" label="服务内容" width="300" align="left">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Content"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Remark" label="备注" align="center">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Remark"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
@@ -108,8 +108,7 @@
 							background
 							v-model:page-size="tableData.param.pageSize"
 							layout="->, total, sizes, prev, pager, next, jumper"
-							:total="tableData.total">
-						</el-pagination>
+							:total="tableData.total" />
 					</el-col>
 				</el-row>
 			</el-form>
@@ -138,7 +137,6 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
 
@@ -147,7 +145,6 @@ export default {
 			return store.state.userInfos.userInfos;
 		});
 
-		
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),

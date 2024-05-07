@@ -356,7 +356,6 @@ export default {
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.DrivingLicensePics = "";
 			state.TransportLicensePics = "";
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {
 				const resShippers = await proxy.$api.erp.company.getListByScope("shipper", 0, 2, {pageSize:1000000});
@@ -401,7 +400,6 @@ export default {
 		const getRowById = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.vehicle.getById(Id);
-				console.log("测试测试", res)
 				if (res.errcode != 0) {
 					return;
 				}
@@ -428,7 +426,6 @@ export default {
 		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.loading = false;
 			state.isShowDialog = false;
 			proxy.$parent.onGetTableData();
@@ -550,7 +547,6 @@ export default {
 		const onRemoveDrivingLicensePic = (file: UploadFile) => {
 			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.DrivingLicensePicList.length; i++) {
-				console.log("删除文件",state.DrivingLicensePicList[i],removeUrl)
 				if (state.DrivingLicensePicList[i] == removeUrl) {
 					state.DrivingLicensePicList.splice(i, 1);
 				}
@@ -561,7 +557,6 @@ export default {
 		const onRemoveTransportLicensePic = (file: UploadFile) => {
 			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.TransportLicensePicList.length; i++) {
-				console.log("删除文件",state.TransportLicensePicList[i],removeUrl)
 				if (state.TransportLicensePicList[i] == removeUrl) {
 					state.TransportLicensePicList.splice(i, 1);
 				}

@@ -37,35 +37,35 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.GoodsName"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="BrandName" label="规格型号">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.BrandName"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="GoodsUnit" label="计量单位" width="120">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.GoodsUnit"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Birthdate" label="部位" width="120">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Birthdate"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="GoodsAlisa" label="类别" width="200">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.GoodsAlisa"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="ShopPrice" label="基准价格" width="180">
@@ -78,8 +78,7 @@
 										min="0"
 										max="1000000000"
 										step="1"
-										oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-									</el-input-number>
+										oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 								</template>
 							</el-table-column>
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
@@ -103,8 +102,7 @@
 							background
 							v-model:page-size="tableData.param.pageSize"
 							layout="->, total, sizes, prev, pager, next, jumper"
-							:total="tableData.total">
-						</el-pagination>
+							:total="tableData.total" />
 					</el-col>
 				</el-row>
 			</el-form>
@@ -133,7 +131,6 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
 
@@ -190,7 +187,6 @@ export default {
 		//	打开弹窗
 		const openDialog = async (kind: string) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {				
 				state.ruleForm.PartsList=[];

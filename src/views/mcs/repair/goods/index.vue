@@ -4,7 +4,7 @@
 				<div class="">
 					<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="关键字：">
-						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
+						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword" />
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -43,13 +43,13 @@
 				border
 				stripe
 				highlight-current-row>
-				<el-table-column type="index" label="序号" width="60" align="right" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="GoodsName" label="名称" width="200" align="left" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="BrandName" label="规格型号" width="200" align="left" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="GoodsUnit" label="计量单位" width="80" align="left" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Birthdate" label="部位" width="80" align="left" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="GoodsAlisa" label="类别" width="120" align="left" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="ShopPrice" label="基准价格" width="100" align="right" show-overflow-tooltip></el-table-column>
+				<el-table-column type="index" label="序号" width="60" align="right" show-overflow-tooltip fixed />
+				<el-table-column prop="GoodsName" label="名称" width="200" align="left" show-overflow-tooltip fixed />
+				<el-table-column prop="BrandName" label="规格型号" width="200" align="left" show-overflow-tooltip />
+				<el-table-column prop="GoodsUnit" label="计量单位" width="80" align="left" show-overflow-tooltip />
+				<el-table-column prop="Birthdate" label="部位" width="80" align="left" show-overflow-tooltip />
+				<el-table-column prop="GoodsAlisa" label="类别" width="120" align="left" show-overflow-tooltip />
+				<el-table-column prop="ShopPrice" label="基准价格" width="100" align="right" show-overflow-tooltip />
 				<el-table-column label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -61,7 +61,7 @@
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
-							:inactive-value="0"/>
+							:inactive-value="0" />
 						<el-tag type="success" effect="plain" v-if="scope.row.IsOnSale" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
@@ -76,7 +76,7 @@
 							:min-scale="0.2"
 							:preview-src-list="imgUrlList(scope.row.GoodsPics)"
 							fit="cover"
-							:preview-teleported="true"/>			
+							:preview-teleported="true" />			
 					</template>
 				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
@@ -104,8 +104,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total">
-			</el-pagination>
+				:total="tableData.total" />
 		</el-card>
 		<editDlg ref="editDlgRef" />
 		<importDlg ref="importDlgRef" />
@@ -125,13 +124,21 @@ export default {
 	components: { editDlg, importDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const route = useRoute();
+
 		const kind = "repair";
+
 		const scopeMode = route.params.scopeMode || 0;
+
 		const scopeValue = route.params.scopeValue || 0;
+
 		const moduleKey = `api_${kind}_goods`;
+
 		const editDlgRef = ref();
+
 		const importDlgRef = ref();
+
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -150,6 +157,7 @@ export default {
 			},
 			httpsText: import.meta.env.VITE_URL as any,
 		});
+
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});
@@ -173,7 +181,6 @@ export default {
 				}
 				state.tableData.data = res.data;
 				state.tableData.total = res.total;
-				console.log("测试：。。。", state.tableData.data)
 			} finally {
 				state.tableData.loading = false;
 			}
@@ -266,6 +273,7 @@ export default {
 			return url
 
 		}
+		
 		return {
 			proxy,
 			editDlgRef,
