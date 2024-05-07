@@ -177,14 +177,14 @@
 	</div>
 </template>
 <script lang="ts">
-import { ElMessage, UploadProps, ElMessageBox } from 'element-plus';
-import type { Action } from 'element-plus'
+import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as XLSX from "xlsx"; //引入
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
+import dayjs from 'dayjs';
 export default {
 	name: 'vehicleImport',
 	setup() {
@@ -244,7 +244,6 @@ export default {
 		//	打开弹窗
 		const openDialog = async (kind: string, ) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {				
 				
@@ -273,23 +272,19 @@ export default {
 				list.forEach(item => {
 					item.Index = parseInt(item.Index)
 					item.VehicleNumber = String(item.VehicleNumber)
-					item.VehicleType = String(item.VehicleType)
 					if(item.Shipper){
 						item.IsExternal = parseInt(1)
 					}else{
 						item.IsExternal = parseInt(0)
 					}
-					item.Shipper = String(item.Shipper)
-					item.Linkman = String(item.Linkman)
 					item.Phone = String(item.Phone)
-					item.Driver = String(item.Driver)
 					item.DriverMobile = String(item.DriverMobile)
 					item.DrivingLicense = String(item.DrivingLicense)
-					item.DrivingLicenseStartDate.setHours(24, 0, 0, 0);
-					item.DrivingLicenseEndDate.setHours(24, 0, 0, 0);
+					item.DrivingLicenseStartDate = dayjs(item.DrivingLicenseStartDate)
+					item.DrivingLicenseEndDate = dayjs(item.DrivingLicenseEndDate)
 					item.TransportLicense = String(item.TransportLicense)
-					item.TransportLicenseStartDate.setHours(24, 0, 0, 0);
-					item.TransportLicenseEndDate.setHours(24, 0, 0, 0);
+					item.TransportLicenseStartDate = dayjs(item.TransportLicenseStartDate)
+					item.TransportLicenseEndDate = dayjs(item.TransportLicenseEndDate)
 					if (item.VehicleNumber == "") {
 						tip[0].push(item.Index)
 					}
