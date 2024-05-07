@@ -11,7 +11,7 @@
 								filterable
 								placeholder="请选择"
 								@change = "loadAddressList">
-								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -21,8 +21,7 @@
 								v-model="ruleForm.BillTime"
 								type="date"
 								placeholder="日期"
-								format="YYYY-MM-DD">
-							</el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -33,7 +32,7 @@
 								v-model="ruleForm.GoodsCategoryId"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in goodsCategoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in goodsCategoryList" :key="index" :label="item.Name" :value="item.Id" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -44,7 +43,7 @@
 								filterable
 								placeholder="请选择"
 								@change = "loadAddressList">
-								<el-option v-for="(item,index) in goodsNameList" :key="index" :label="item.GoodsName" :value="item.Id"> </el-option>
+								<el-option v-for="(item,index) in goodsNameList" :key="index" :label="item.GoodsName" :value="item.Id" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -59,8 +58,7 @@
 								placeholder="请输入"
 								min="0"
 								max="1000000000"
-								step="1">
-							</el-input-number>
+								step="1" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
@@ -72,8 +70,7 @@
 								placeholder="请输入"
 								min="0"
 								max="1000000000"
-								step="1">
-							</el-input-number>
+								step="1" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -88,8 +85,7 @@
 								min="0"
 								max="1000000000"
 								step="1"
-								oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-							</el-input-number>
+								oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -100,8 +96,7 @@
 								v-model="ruleForm.Remark"
 								type="textarea"
 								:rows="3"
-								placeholder="请输入">
-							</el-input>
+								placeholder="请输入" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -116,7 +111,7 @@
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入并选择">
-								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item"> </el-option>
+								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -131,7 +126,7 @@
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入并选择">
-								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item"> </el-option>
+								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item" />
 							</el-select>
 						</el-form-item>
 					</el-col>
