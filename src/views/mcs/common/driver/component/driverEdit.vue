@@ -3,35 +3,15 @@
 		<el-dialog :title="title" v-model="isShowDialog" width="45%" destroy-on-close :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="姓名" prop="Name" required>
 							<el-input
 								v-model="ruleForm.Name"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
-						<el-form-item label="手机号码" prop="Mobile" required>
-							<el-input
-								v-model="ruleForm.Mobile"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
-						<el-form-item label="身份证号码" prop="Idno" required>
-							<el-input
-								v-model="ruleForm.Idno"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
-						<el-form-item label="民族" prop="Nation">
-							<el-select
-								v-model="ruleForm.Nation"
-								filterable="true"
-								default-first-option="true"
-								:reserve-keyword="false"
-								placeholder="请选择">
-								<el-option v-for="(item,index) in NationList" :key="index" :label="item" :value="item"> </el-option>
-							</el-select> 
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="性别" prop="Gender" required>
 							<div mb-2 flex items-center>
 								<el-radio-group v-model="ruleForm.Gender">
@@ -40,39 +20,77 @@
 								</el-radio-group>
 							</div>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="手机号码" prop="Mobile" required>
+							<el-input
+								v-model="ruleForm.Mobile"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="出生日期" prop="Birthdate" required>
 							<el-date-picker
 								v-model="ruleForm.Birthdate"
 								type="date"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="身份证号码" prop="Idno" required>
+							<el-input
+								v-model="ruleForm.Idno"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="身份证截止日期" prop="IdnoEndDate"  required>
 							<el-date-picker
 								v-model="ruleForm.IdnoEndDate"
 								type="date"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
-						<el-form-item label="籍贯" prop="NativePlace">
-							<el-input
-								v-model="ruleForm.NativePlace"
-								placeholder="请输入"></el-input> 
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="20">
-					<el-col class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="民族" prop="Nation">
+							<el-select
+								v-model="ruleForm.Nation"
+								filterable="true"
+								default-first-option="true"
+								:reserve-keyword="false"
+								placeholder="请选择">
+								<el-option v-for="(item,index) in NationList" :key="index" :label="item" :value="item" />
+							</el-select> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="籍贯" prop="NativePlace">
+							<el-input
+								v-model="ruleForm.NativePlace"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="家庭地址" prop="Address">
 							<el-input
 								v-model="ruleForm.Address"
-								placeholder="请输入"></el-input> 
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">驾照信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="驾照类型" prop="DriverLicenseType">
 							<el-select
 								v-model="ruleForm.DriverLicenseType"
@@ -80,31 +98,37 @@
 								default-first-option="true"
 								:reserve-keyword="false"
 								placeholder="请选择">
-								<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="item"> </el-option>
+								<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="item" />
 							</el-select> 
 						</el-form-item>
-						<el-form-item label="驾照生效日期" prop="DriverLicenseStartDate">
-							<el-date-picker
-								v-model="ruleForm.DriverLicenseStartDate"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="驾照登记日期" prop="RegistrationDate">
 							<el-date-picker
 								v-model="ruleForm.RegistrationDate"
 								type="date"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="驾照生效日期" prop="DriverLicenseStartDate">
+							<el-date-picker
+								v-model="ruleForm.DriverLicenseStartDate"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="驾照截止日期" prop="DriverLicenseEndDate">
 							<el-date-picker
 								v-model="ruleForm.DriverLicenseEndDate"
 								type="date"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>				
 				</el-row>	
@@ -135,7 +159,6 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 
 		const store = useStore();
 
@@ -278,7 +301,6 @@ export default {
 		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
@@ -324,7 +346,6 @@ export default {
 		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;

@@ -2,7 +2,7 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
-				<el-row :gutter="20">
+				<el-row :gutter="0">
 					<el-col :xs="2" :sm="1" class="mb20">
 						<el-upload ref="uploadRef" class="upload-demo" :before-upload="
 								() => {return false;}" :auto-upload="false" :on-change="onImportXlsx" :show-file-list="false">
@@ -24,8 +24,8 @@
 						</el-button>
 					</el-col>
 				</el-row>	
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
 							:data="paginatedData"
@@ -191,21 +191,12 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
 
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
 		});
-
-		//	显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
 		
 		const state = reactive({
 			isShowDialog: false,
@@ -386,25 +377,6 @@ export default {
 			});
 		};
 
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
-
 		const { dateFormatYMD } = commonFunction();
 
 		// 页面加载时
@@ -421,8 +393,6 @@ export default {
 			onClearRow,
 			onDownloadTpl,
 			onImportXlsx,
-			onBeforeImageUpload,
-			showImage,
 			dateFormatYMD,
 			getUserInfos,
 			rules,

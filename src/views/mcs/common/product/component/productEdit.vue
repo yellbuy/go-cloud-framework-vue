@@ -2,14 +2,25 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="产品名称" prop="GoodsName">
 							<el-input
 								v-model="ruleForm.GoodsName"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="产品编码" prop="GoodsSn">
+							<el-input
+								v-model="ruleForm.GoodsSn"
 								placeholder="请输入">
 							</el-input> 
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="产品单位" prop="GoodsUnit">
 							<el-select
 								v-model="ruleForm.GoodsUnit"
@@ -23,20 +34,8 @@
 									:value="item.Name"/>
   							</el-select>
 						</el-form-item>
-						<el-form-item label="助记符" prop="Piny">
-							<el-input
-								v-model="ruleForm.Piny"
-								placeholder="请输入">
-							</el-input> 
-						</el-form-item>
-					</el-col>					
-					<el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="产品编码" prop="GoodsSn">
-							<el-input
-								v-model="ruleForm.GoodsSn"
-								placeholder="请输入">
-							</el-input> 
-						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="产品类别" prop="CategoryId">
 							<el-select
 								v-model="ruleForm.CategoryId"
@@ -50,6 +49,17 @@
 									:value="item.Id"/>
   							</el-select>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="助记符" prop="Piny">
+							<el-input
+								v-model="ruleForm.Piny"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="状态" prop="SupplierState">
 							<el-switch
 								v-model="ruleForm.SupplierState"
@@ -59,7 +69,9 @@
 								:inactive-value="0"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="商品图片" prop="Files">
 							<div style="width: 50%">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
@@ -78,11 +90,12 @@
 							</div> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" class="mb20">		
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">	
 						<el-form-item label="备注" prop="SellerNote" >
 							<el-input
 								v-model="ruleForm.SellerNote"
-								
 								:rows="3"
 								type="textarea"
 								placeholder="请输入"/>
@@ -121,18 +134,14 @@ export default {
 
 		const { t } = useI18n();
 
-		console.log("message.action.add:",t('message.action.add'))
 		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
-			console.log('触发图片上传');
 			state.Files.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			console.log(state.FilesList);
 		};
 
 		const onRemove = (file: UploadFile) => {
-			console.log(file);
 			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.Files.length; i++) {
 				if (state.Files[i] == removeUrl) {
@@ -338,15 +347,10 @@ export default {
 		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
-		};
-
-		const onLoadTable = () => {
 			proxy.$parent.onGetTableData();
 		};
 
@@ -409,7 +413,6 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
 			GetByIdRow,
 			onSuccessFile,
 			onPreview,

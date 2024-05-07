@@ -3,14 +3,17 @@
 		<el-dialog :title="title" v-model="isShowDialog" width="25%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">平台信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="平台名称" prop="Name">
 							<el-input
 								v-model="ruleForm.Name"
-								placeholder="请输入">
-							</el-input>
+								placeholder="请输入" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="面积" prop="Volume">
 							<el-input-number
 								v-model="ruleForm.Volume"
@@ -20,16 +23,18 @@
 								type="number"
 								min="0"
 								max="1000000000"
-								step="1">
-							</el-input-number>
+								step="1" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="备注" prop="Remark">
 							<el-input
 								v-model="ruleForm.Remark"
 								type="textarea"
 								:rows="4"
-								placeholder="请输入">
-							</el-input>
+								placeholder="请输入" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -61,7 +66,6 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
 		
@@ -73,8 +77,8 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
-			//表单
+			disable: true, //	是否禁用
+			//	表单
 			ruleForm: {
 				Id:0,
 				Kind:'warehouse_plateform',
@@ -86,7 +90,6 @@ export default {
 				IsExternal:0,
 				State:1,
 			},
-			
 			dialogVisible: false,
 			saveState: false,
 		});
@@ -112,7 +115,7 @@ export default {
 			],
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
 			console.log('类型', kind);
@@ -150,14 +153,14 @@ export default {
 			}
 		}
 
-		// 关闭弹窗
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
 			state.isShowDialog = false;
 		};
 
-		// 提交
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -184,12 +187,11 @@ export default {
 			});
 		};
 		
-
-		//时间格式
+		//	时间格式
 		const { dateFormatYMD } = commonFunction();
 
 
-		// 页面加载时
+		//	页面加载时
 		onMounted(() => {});
 
 		return {

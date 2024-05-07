@@ -2,7 +2,7 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
-				<el-row :gutter="20">
+				<el-row :gutter="0">
 					<el-col :xs="2" :sm="1" class="mb20">
 						<el-upload ref="uploadRef" class="upload-demo" :before-upload="
 								() => {return false;}" :auto-upload="false" :on-change="onImportXlsx" :show-file-list="false">
@@ -24,8 +24,8 @@
 						</el-button>
 					</el-col>
 				</el-row>	
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
 							:data="paginatedData"
@@ -35,7 +35,7 @@
 							highlight-current-row>
 							<el-table-column prop="Name" label="姓名" width="100" fixed>
 								<template #default="scope">
-									<el-input v-model="scope.row.Name" ></el-input> 
+									<el-input v-model="scope.row.Name" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Gender" label="性别" width="80">
@@ -46,7 +46,7 @@
 										default-first-option="true"
 										:reserve-keyword="false"
 										placeholder="请选择">
-										<el-option v-for="(item,index) in GenderList" :key="index" :label="item" :value="index+1"></el-option>
+										<el-option v-for="(item,index) in GenderList" :key="index" :label="item" :value="index+1" />
 									</el-select> 
 								</template>
 							</el-table-column>
@@ -58,7 +58,7 @@
 										default-first-option="true"
 										:reserve-keyword="false"
 										placeholder="请选择">
-										<el-option v-for="(item,index) in NationList" :key="index" :label="item" :value="index"></el-option>
+										<el-option v-for="(item,index) in NationList" :key="index" :label="item" :value="index" />
 									</el-select> 
 								</template>
 							</el-table-column>
@@ -68,13 +68,12 @@
 										v-model="scope.row.Birthdate"
 										type="date"
 										placeholder="请选择时间"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="Idno" label="身份证号码" width="160">
 								<template #default="scope">
-									<el-input v-model="scope.row.Idno" ></el-input> 
+									<el-input v-model="scope.row.Idno" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="IdnoEndDate" label="身份证截止日期" width="120">
@@ -83,23 +82,22 @@
 										v-model="scope.row.IdnoEndDate"
 										type="date"
 										placeholder="请选择时间"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="NativePlace" label="籍贯" width="200">
 								<template #default="scope">
-									<el-input v-model="scope.row.NativePlace" ></el-input> 
+									<el-input v-model="scope.row.NativePlace" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Mobile" label="手机号" width="120">
 								<template #default="scope">
-									<el-input v-model="scope.row.Mobile" ></el-input> 
+									<el-input v-model="scope.row.Mobile" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Address" label="家庭地址" width="400">
 								<template #default="scope">
-									<el-input v-model="scope.row.Address" ></el-input> 
+									<el-input v-model="scope.row.Address" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="DriverLicenseType" label="驾照类型" width="100">
@@ -110,7 +108,7 @@
 										default-first-option="true"
 										:reserve-keyword="false"
 										placeholder="请选择">
-										<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="index"></el-option>
+										<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="index" />
 									</el-select> 
 								</template>
 							</el-table-column>
@@ -120,8 +118,7 @@
 										v-model="scope.row.RegistrationDate"
 										type="date"
 										placeholder="请选择时间"
-										format="YYYY-MM-DD">
-									</el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="DriverLicenseStartDate" label="驾照生效日期" width="120">
@@ -130,8 +127,7 @@
 										v-model="scope.row.DriverLicenseStartDate"
 										type="date"
 										placeholder="请选择时间"
-										format="YYYY-MM-DD">
-									</el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="DriverLicenseEndDate" label="驾照截止日期" width="120">
@@ -140,8 +136,7 @@
 										v-model="scope.row.DriverLicenseEndDate"
 										type="date"
 										placeholder="请选择时间"
-										format="YYYY-MM-DD">
-									</el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
@@ -165,8 +160,7 @@
 							background
 							v-model:page-size="tableData.param.pageSize"
 							layout="->, total, sizes, prev, pager, next, jumper"
-							:total="tableData.total">
-						</el-pagination>
+							:total="tableData.total" />
 					</el-col>
 				</el-row>
 			</el-form>
@@ -195,7 +189,6 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
 		
@@ -246,7 +239,6 @@ export default {
 		//	打开弹窗
 		const openDialog = async (kind: string, ) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {				
 				state.ruleForm.DriverList=[];

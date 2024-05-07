@@ -3,121 +3,157 @@
 		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="150px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="8" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车牌号" prop="VehicleNumber">
 							<el-input
 								v-model="ruleForm.VehicleNumber"
-								placeholder="请输入"></el-input> 
+								placeholder="请输入" /> 
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="保险生效日期" prop="StartTime" required>
+							<el-date-picker
+								v-model="ruleForm.StartTime"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="保险结束日期" prop="EndTime"  required>
+							<el-date-picker
+								v-model="ruleForm.EndTime"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="保险公司" prop="CompanyName">
 							<el-input
 								v-model="ruleForm.CompanyName"
-								placeholder="请输入"></el-input> 
+								placeholder="请输入" /> 
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="保单号" prop="No">
+							<el-input
+								v-model="ruleForm.No"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="购买日期" prop="BillTime">
+							<el-date-picker
+								v-model="ruleForm.BillTime"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="交强险保额(元)" prop="CompulsoryAmount">
 							<el-input-number
 								v-model="ruleForm.CompulsoryAmount"
 								min="0"
 								step="100"
 								max="100000000"
-								placeholder="请输入"></el-input-number> 
-						</el-form-item>
-						<el-form-item label="交强险生效日期" prop="CompulsoryStartDate">
-							<el-date-picker
-								v-model="ruleForm.CompulsoryStartDate"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
-						<el-form-item label="商业险保额(元)" prop="CommercialAmount">
-							<el-input-number
-								v-model="ruleForm.CommercialAmount"
-								min="0"
-								step="100"
-								max="100000000"
-								placeholder="请输入"></el-input-number> 
-						</el-form-item>
-						<el-form-item label="商业险生效日期" prop="CommercialStartDate">
-							<el-date-picker
-								v-model="ruleForm.CommercialStartDate"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
-						<el-form-item label="车船税费用(元)" prop="TaxFee">
-							<el-input-number
-								v-model="ruleForm.TaxFee"
-								min="0"
-								step="100"
-								max="100000000"
-								placeholder="请输入"></el-input-number> 
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
-						<el-form-item label="保险生效日期" prop="StartTime" required>
-							<el-date-picker
-								v-model="ruleForm.StartTime"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
-						<el-form-item label="保单号" prop="No">
-							<el-input
-								v-model="ruleForm.No"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="交强险购买费用(元)" prop="CompulsoryFee">
 							<el-input-number
 								v-model="ruleForm.CompulsoryFee"
 								min="0"
 								step="100"
 								max="100000000"
-								placeholder="请输入"></el-input-number> 
+								placeholder="请输入" /> 
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="交强险生效日期" prop="CompulsoryStartDate">
+							<el-date-picker
+								v-model="ruleForm.CompulsoryStartDate"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="交强险结束日期" prop="CompulsoryEndDate" >
 							<el-date-picker
 								v-model="ruleForm.CompulsoryEndDate"
 								type="date"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="商业险保额(元)" prop="CommercialAmount">
+							<el-input-number
+								v-model="ruleForm.CommercialAmount"
+								min="0"
+								step="100"
+								max="100000000"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="商业险购买费用(元)" prop="CommercialFee">
 							<el-input-number
 								v-model="ruleForm.CommercialFee"
 								min="0"
 								step="100"
 								max="100000000"
-								placeholder="请输入"></el-input-number> 
+								placeholder="请输入" /> 
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="商业险生效日期" prop="CommercialStartDate">
+							<el-date-picker
+								v-model="ruleForm.CommercialStartDate"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="商业险结束日期" prop="CommercialEndDate">
 							<el-date-picker
 								v-model="ruleForm.CommercialEndDate"
 								type="date"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
-						<el-form-item label="保险结束日期" prop="EndTime"  required>
-							<el-date-picker
-								v-model="ruleForm.EndTime"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
-						</el-form-item>
-						<el-form-item label="购买日期" prop="BillTime">
-							<el-date-picker
-								v-model="ruleForm.BillTime"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="车船税费用(元)" prop="TaxFee">
+							<el-input-number
+								v-model="ruleForm.TaxFee"
+								min="0"
+								step="100"
+								max="100000000"
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">保单上传*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" class="mb12">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="交强险图片" prop="Files">
 							<div style="width: 50%">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
@@ -136,7 +172,7 @@
 							</div> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" class="mb12">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="商业险图片" prop="Files1">
 							<div >
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
@@ -155,7 +191,7 @@
 							</div> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" class="mb12">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车船税图片" prop="Files2">
 							<div >
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
@@ -212,7 +248,6 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 
 		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
@@ -226,28 +261,23 @@ export default {
 
 		//	文件列表更新
 		const onSuccessFile1 = (file: UploadFile) => {
-			console.log('触发图片上传');
 			state.Files1.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
 			state.FilesList1.push(image);
-			console.log(state.FilesList1);
 		};
 
 		//	文件列表更新
 		const onSuccessFile2 = (file: UploadFile) => {
-			console.log('触发图片上传');
 			state.Files2.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
 			state.FilesList2.push(image);
-			console.log(state.FilesList2);
 		};
 
 		const onRemove = (file: UploadFile) => {
 			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.Files.length; i++) {
-				console.log("删除文件",state.Files[i],removeUrl)
 				if (state.Files[i] == removeUrl) {
 					state.Files.splice(i, 1);
 				}
@@ -255,7 +285,6 @@ export default {
 		};
 
 		const onRemove1 = (file: UploadFile) => {
-			console.log(file);
 			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.Files1.length; i++) {
 				if (state.Files1[i] == removeUrl) {
@@ -265,7 +294,6 @@ export default {
 		};
 
 		const onRemove2 = (file: UploadFile) => {
-			console.log(file);
 			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.Files2.length; i++) {
 				if (state.Files2[i] == removeUrl) {
@@ -456,7 +484,6 @@ export default {
 			state.Files = [];
 			state.Files1 = [];
 			state.Files2 = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Files1: '', Files2: '',Kind: kind, StartTime: '' };
 			try {
@@ -524,7 +551,6 @@ export default {
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '',Files1: '',Files2: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;

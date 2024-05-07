@@ -117,7 +117,7 @@ import editDlg from './component/warehouseEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'businessWarehouseList',
+	name: 'warehouseList',
 	components: { editDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;

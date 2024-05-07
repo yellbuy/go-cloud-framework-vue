@@ -112,7 +112,7 @@ import dayjs from 'dayjs';
 import editDlg from './component/mainEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
-	name: 'businessMainList',
+	name: 'warehouseList',
 	components: { editDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;

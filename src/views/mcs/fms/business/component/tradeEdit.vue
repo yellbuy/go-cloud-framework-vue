@@ -3,31 +3,43 @@
 		<el-dialog :title="title" v-model="isShowDialog" width="25%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">货物名称*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="供应商" prop="CustomerId" >
 							<el-select
 								v-model="ruleForm.CustomerId"
 								filterable placeholder="请选择">
-								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id"> </el-option>
+								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id" />
 							</el-select>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-select
 								v-model="ruleForm.GoodsCategoryId"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in goodsTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in goodsTypeList" :key="index" :label="item.Name" :value="item.Id" />
 							</el-select>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="产品名称" prop="GoodsId">
 							<el-select
 								v-model="ruleForm.GoodsId"
 								placeholder="请选择"
 								@change="onFormSelected">
-								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id"> </el-option>
+								<el-option v-for="item in goodsList" :key="item.Id" :label="item.GoodsName" :value="item.Id" />
 							</el-select>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="计划量" prop="PlanWeight">
 							<el-input-number
 								v-model.number="ruleForm.PlanWeight"
@@ -35,23 +47,29 @@
 								type="number"
 								min="0"
 								max="1000000000"
-								step="1">
-							</el-input-number>
+								step="1" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="开始日期" prop="SenderPlanTime">
 							<el-date-picker
 								v-model="ruleForm.SenderPlanTime"
 								type="date"
 								placeholder="日期"
-								format="YYYY-MM-DD"></el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="结束日期" prop="ReceiverPlanTime">
 							<el-date-picker
 								v-model="ruleForm.ReceiverPlanTime"
 								type="date"
 								placeholder="日期"
-								format="YYYY-MM-DD"
-							></el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -80,7 +98,6 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
 
@@ -92,15 +109,14 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
+			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
-			//表单
+			//	表单
 			ruleForm: {
 				Id: 0,
 				Name: '',
 				Kind: 'trade',
 				CustomerId:"",
-				
 				GoodsCategoryId: '',
 				GoodsId:"",
 			},
@@ -149,7 +165,7 @@ export default {
 			],
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
 			console.log('类型', kind);
@@ -193,7 +209,7 @@ export default {
 			}
 		}
 
-		// 关闭弹窗
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
@@ -219,7 +235,7 @@ export default {
 			}
 		}
 	
-		// 提交
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
