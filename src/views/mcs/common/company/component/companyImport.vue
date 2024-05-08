@@ -210,7 +210,6 @@ export default {
 		// 打开弹窗
 		const openDialog = async (kind: string, ) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {				
 				

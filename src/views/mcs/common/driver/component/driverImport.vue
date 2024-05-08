@@ -248,8 +248,8 @@ export default {
 			}
 		}
 
-				//	导入功能
-				const onImportXlsx = (e: any) => {
+		//	导入功能
+		const onImportXlsx = (e: any) => {
 			const unique = {}
 			const rows = []
 			const tip = [[], []]
@@ -265,7 +265,6 @@ export default {
 				"DriverLicenseStartDate", "DriverLicenseEndDate"], range: 2})
 				list.forEach(item => {
 					item.Index = parseInt(item.Index)
-					item.Name = String(item.Name)
 					if (item.Gender = "男") {
 						item.Gender = parseInt(1)
 					}else if(item.Gender = "女") {
@@ -273,17 +272,13 @@ export default {
 					}else{
 						item.Gender = parseInt(0)
 					}
-					item.Nation = String(item.Nation)
-					item.Birthdate.setHours(24, 0, 0, 0);
+					item.Birthdate = dayjs(item.Birthdate).add(2,"hour")
 					item.Idno = String(item.Idno)
-					item.IdnoEndDate.setHours(24, 0, 0, 0);
-					item.NativePlace = String(item.NativePlace)
+					item.IdnoEndDate = dayjs(item.IdnoEndDate).add(2,"hour")
 					item.Mobile = String(item.Mobile)
-					item.Address = String(item.Address)
-					item.DriverLicenseType = String(item.DriverLicenseType)
-					item.RegistrationDate.setHours(24, 0, 0, 0);
-					item.DriverLicenseStartDate.setHours(24, 0, 0, 0);
-					item.DriverLicenseEndDate.setHours(24, 0, 0, 0);
+					item.RegistrationDate = dayjs(item.RegistrationDate).add(2,"hour")
+					item.DriverLicenseStartDate = dayjs(item.DriverLicenseStartDate).add(2,"hour")
+					item.DriverLicenseEndDate = dayjs(item.DriverLicenseEndDate).add(2,"hour")
 					if (item.Idno == "") {
 						tip[0].push(item.Index)
 					}
