@@ -1,76 +1,95 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="55%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="8" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车牌号" prop="VehicleNumber">
-							<el-input
-								v-model="ruleForm.VehicleNumber"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
-						<el-form-item label="联系人" prop="Linkman">
-							<el-input
-								v-model="ruleForm.Linkman"
-								placeholder="请输入"></el-input>
-						</el-form-item>
-						<el-form-item label="客户名称" prop="CompanyId">
 							<el-select
-								v-model="ruleForm.CustomerId"
+								v-model="ruleForm.VehicleNumber"
 								filterable
 								placeholder="请选择"
-								@change = "loadAddressList">
-								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
+								@change = "upDateVehicleInfo">
+								<el-option v-for="(item, index) in vehicleList" :key="index" :label="item.VehicleNumber" :value="item.VehicleNumber" />
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车辆类型" prop="VehicleType">
 							<el-select
 								v-model="ruleForm.VehicleType"
 								placeholder="请选择">
-								<el-option v-for="(item, index) in vehicleTypeList" :key="index" :label="item.Name" :value="item.Name"> </el-option>
+								<el-option v-for="(item, index) in vehicleTypeList" :key="index" :label="item.Name" :value="item.Name" />
 							</el-select>
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="车辆品牌" prop="Brand">
+							<el-select
+								v-model="ruleForm.Brand"
+								filterable placeholder="请选择">
+								<el-option v-for="(item, index) in brandList" :key="index" :label="item.Name" :value="item.Name" />
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="联系人" prop="Linkman">
+							<el-input
+								v-model="ruleForm.Linkman"
+								placeholder="请输入" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="电话" prop="Phone">
 							<el-input
 								v-model="ruleForm.Phone"
-								placeholder="请输入"></el-input>
+								placeholder="请输入" />
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="公里数" prop="Mileage">
+							<el-input-number
+								v-model="ruleForm.Mileage"
+								:min="0"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="客户名称" prop="CompanyId">
+							<el-select
+								v-model="ruleForm.CustomerId"
+								filterable
+								placeholder="请选择">
+								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id" />
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="到厂时间" prop="StartTime" required>
 							<el-date-picker
 								v-model="ruleForm.StartTime"
 								type="datetime"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD HH:mm"></el-date-picker>
+								format="YYYY-MM-DD HH:mm" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
-						<el-form-item label="车辆品牌" prop="Brand">
-							<el-select
-								v-model="ruleForm.Brand"
-								filterable placeholder="请选择">
-								<el-option v-for="(item, index) in brandList" :key="index" :label="item.Name" :value="item.Name"> </el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="公里数" prop="Mileage">
-							<el-input-number
-								v-model="ruleForm.Mileage"
-								:min="0"
-								placeholder="请输入"></el-input-number> 
-						</el-form-item>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="出厂时间" prop="EndTime">
 							<el-date-picker
 								v-model="ruleForm.EndTime"
 								type="datetime"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD HH:mm"></el-date-picker>
+								format="YYYY-MM-DD HH:mm" />
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row>
-					<el-col :xs="24" :sm="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="外观缺陷" prop="SurfaceRemark" >
 							<el-input
 								v-model="ruleForm.SurfaceRemark"
@@ -78,6 +97,10 @@
 								type="textarea"
 								placeholder="请输入"/>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="故障描述" prop="FaultRemark" >
 							<el-input
 								v-model="ruleForm.FaultRemark"
@@ -85,6 +108,10 @@
 								type="textarea"
 								placeholder="请输入"/>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="备注" prop="Remark" >
 							<el-input
 								v-model="ruleForm.Remark"
@@ -110,7 +137,6 @@
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -121,39 +147,14 @@ export default {
 	name: 'receptionEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
-		//文件列表更新
-		const onSuccessFile = (file: UploadFile) => {
-			console.log('触发图片上传');
-			state.Files.push(file.data.src);
-			let image = { url: '' };
-			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
-			console.log(state.FilesList);
-		};
-		const onRemove = (file: UploadFile) => {
-			console.log(file);
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
-			for (let i = 0; i < state.Files.length; i++) {
-				if (state.Files[i] == removeUrl) {
-					state.Files.splice(i, 1);
-				}
-			}
-		};
+
 		const store = useStore();
+
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
-		
 		
 		const tableData = reactive({
 			data: [],
@@ -168,9 +169,9 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
+			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
-			//表单
+			//	表单
 			ruleForm: {
 				Id: 0,
 				Name: '',
@@ -209,8 +210,11 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 			companyNameList: [],
+			vehicleList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -282,11 +286,11 @@ export default {
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
 				loadCustomerName();
+				loadVehicle();
 				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
 				if (resTruckTypes.errcode == 0) {
 					state.vehicleTypeList = resTruckTypes.data;
@@ -313,6 +317,7 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+
 		const getByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.vehicle.getById(Id);
@@ -327,36 +332,17 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
-		};
-
-		const onLoadTable = () => {
 			proxy.$parent.onGetTableData();
 		};
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			state.tableItem = item;
-			console.log(state.tableItem.Files);
-			if (state.tableItem.Files != '') {
-				state.Files = item.Files.split(',');
-				state.FilesList = [];
-				for (let i = 0; i < state.Files.length; i++) {
-					let image = { url: '' };
-					image.url = state.httpsText + state.Files[i];
-					state.FilesList.push(image);
-				}
-			}
-			state.saveState = false;
-			state.dialogVisible = true;
-		};		
+	
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
@@ -384,7 +370,7 @@ export default {
 			});
 		};
 
-		//加载客户名称列表
+		//	加载客户名称列表
 		const loadCustomerName = async () => {
 			const CustomerNameRes = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
 			if (CustomerNameRes.errcode == 0) {
@@ -394,40 +380,43 @@ export default {
 			}
 		}
 
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
+		//	加载车辆列表
+		const loadVehicle = async () => {
+			const VehicleRes = await proxy.$api.erp.vehicle.getListByScope('info', 0, 2, {pageSize:1000000});
+			if (VehicleRes.errcode == 0) {
+				state.vehicleList = VehicleRes.data;
+			}else{
+				console.log("error:",VehicleRes.errmsg)
 			}
-			return true;
-		};
+		}
+
+		//	动态更新车辆信息
+		const upDateVehicleInfo = async () => {
+			const selectedVehicle = state.vehicleList.find(item => item.VehicleNumber === state.ruleForm.VehicleNumber);
+			if (selectedVehicle) {
+				state.ruleForm.VehicleType = selectedVehicle.VehicleType
+				state.ruleForm.PlateColor = selectedVehicle.PlateColor
+				state.ruleForm.Linkman = selectedVehicle.Linkman
+				state.ruleForm.Phone = selectedVehicle.Phone
+				state.ruleForm.Mileage = selectedVehicle.Mileage
+			}
+		}
+
+		//	时间格式
 		const { dateFormatYMD } = commonFunction();
-		// 页面加载时
+		//	页面加载时
+
 		onMounted(() => {});
+		
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
 			getByIdRow,
-			onSuccessFile,
-			onRemove,
-			onBeforeImageUpload,
 			loadCustomerName,
-			onModelEdit,
-			showImage,
+			loadVehicle,
+			upDateVehicleInfo,
 			dateFormatYMD,
 			getUserInfos,
 			tableData,

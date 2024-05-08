@@ -2,13 +2,24 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-row :gutter="20"> 
-					<el-col :xs="24" :sm="12" class="mb20">
+				<el-row :gutter="0"> 
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="类别名称" prop="Name">
 							<el-input
 								v-model="ruleForm.Name"
 								placeholder="请输入"/>
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="图标" prop="GoodsImg">
+							<el-input
+								v-model="ruleForm.GoodsImg"
+								placeholder="请输入"/>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0"> 
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="排序号" prop="Order">
 							<el-input-number
 								v-model.number="ruleForm.Order"
@@ -18,12 +29,7 @@
 								@change="handleChange"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="图标" prop="GoodsImg">
-							<el-input
-								v-model="ruleForm.GoodsImg"
-								placeholder="请输入"/>
-						</el-form-item>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="状态" prop="SupplierState">
 							<el-switch
 								v-model.number="ruleForm.SupplierState"
@@ -34,10 +40,10 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb12">
+				<el-row :gutter="0"> 
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="封面图" prop="GoodsPics">
-							<div >
+							<div>
 								<el-upload
 									class="upload-demo"
 									:action="uploadURL"
@@ -88,7 +94,6 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 
 		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
@@ -198,7 +203,6 @@ export default {
 		//	打开弹窗
 		const openDialog = async (kind: string, id: string,parentid:string, disable: boolean) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
@@ -279,7 +283,6 @@ export default {
 		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;

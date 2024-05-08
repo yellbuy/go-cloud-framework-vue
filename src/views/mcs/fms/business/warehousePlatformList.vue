@@ -96,7 +96,7 @@ import editDlg from './component/warehousePlatformEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 
 export default {
-	name: 'businessMainList',
+	name: 'warehousePlatformList',
 	components: { editDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;

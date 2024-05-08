@@ -1,113 +1,123 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" v-loading="loading" :disabled="disable">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" class="mb20"
-						><el-form-item label="客户名称：" prop="CompanyName">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="客户名称" prop="CompanyName">
 							<el-input
 								v-model="ruleForm.CompanyName"
-								placeholder="请输入">
-							</el-input>
+								placeholder="请输入" />
 						</el-form-item>
-						<el-form-item label="证件号码：" prop="Idno">
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="证件号码" prop="Idno">
 							<el-input
 								v-model="ruleForm.Idno"
-								placeholder="请输入">
-							</el-input>
+								placeholder="请输入" />
 						</el-form-item>
-						<el-form-item label="经营范围：" prop="BusinessScope">
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="简称" prop="CompanyAlias">
+							<el-input
+								v-model="ruleForm.CompanyAlias"
+								placeholder="请输入" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="地址" prop="Address">
+							<el-input
+								v-model="ruleForm.Address"
+								placeholder="请输入" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="经营范围" prop="BusinessScope">
 							<el-input
 								v-model="ruleForm.BusinessScope"
-								placeholder="请输入">
-							</el-input>
+								placeholder="请输入" />
 						</el-form-item>
-						<el-form-item label="经营起始日期：" prop="BusinessStartTime">
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="纳税人类型" prop="TaxpayerKind">
+							<el-input
+								v-model="ruleForm.TaxpayerKind"
+								placeholder="请输入" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="经营起始日期" prop="BusinessStartTime">
 							<el-date-picker
 								v-model="ruleForm.BusinessStartTime"
 								type="date"
 								placeholder="选择时间"
-								format="YYYY-MM-DD">
-							</el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="简称：" prop="CompanyAlias">
-							<el-input
-								v-model="ruleForm.CompanyAlias"
-								placeholder="请输入">
-							</el-input>
-						</el-form-item>
-						<el-form-item label="地址：" prop="Address">
-							<el-input
-								v-model="ruleForm.Address"
-								placeholder="请输入">
-							</el-input>
-						</el-form-item>
-						<el-form-item label="纳税人类型：" prop="TaxpayerKind">
-							<el-input
-								v-model="ruleForm.TaxpayerKind"
-								placeholder="请输入">
-							</el-input>
-						</el-form-item>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="经营结束日期" prop="BusinessEndTime">
 							<el-date-picker
 								v-model="ruleForm.BusinessEndTime"
 								type="date"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD">
-							</el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">扩展信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="网站：" prop="WebSite">
-							<el-input
-								v-model="ruleForm.WebSite"
-								placeholder="请输入">
-							</el-input>
-						</el-form-item>
-						<el-form-item label="Email：" prop="Email">
-							<el-input
-								v-model="ruleForm.Email"
-								placeholder="请输入">
-							</el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="企业邮箱：" prop="Im">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="企业邮箱" prop="Im">
 							<el-input
 								v-model="ruleForm.Im"
-								placeholder="请输入">
-							</el-input>
+								placeholder="请输入" />
 						</el-form-item>
-						<el-form-item label="传真：" prop="Fax">
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="传真" prop="Fax">
 							<el-input
 								v-model="ruleForm.Fax"
-								placeholder="请输入">
-							</el-input>
+								placeholder="请输入" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="Email" prop="Email">
+							<el-input
+								v-model="ruleForm.Email"
+								placeholder="请输入" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="网站" prop="WebSite">
+							<el-input
+								v-model="ruleForm.WebSite"
+								placeholder="请输入" />
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">联系人信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="联系人：" prop="Linkman">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="联系人" prop="Linkman">
 							<el-input
 								v-model="ruleForm.Linkman"
-								placeholder="请输入">
-							</el-input>
+								placeholder="请输入" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="电话：" prop="Tel">
 							<el-input
 								v-model="ruleForm.Tel"
-								placeholder="请输入">
-							</el-input>
+								placeholder="请输入" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -137,11 +147,13 @@ export default {
 	setup() {
 
 		const store = useStore();
+
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
 		});
 
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
 
 		//	资质表格
@@ -201,7 +213,9 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -241,6 +255,7 @@ export default {
 				},
 			],
 		});
+
 		const categoryRules = reactive({
 			Name: [
 				{
@@ -271,10 +286,10 @@ export default {
 				},
 			],
 		});
-		// 打开弹窗
+
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
@@ -296,6 +311,7 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+
 		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.company.getById(Id);
@@ -308,10 +324,10 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+
 		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;
@@ -348,8 +364,10 @@ export default {
 		};
 
 		const { dateFormatYMD } = commonFunction();
+		
 		//	页面加载时
 		onMounted(() => {});
+
 		return {
 			proxy,
 			t,

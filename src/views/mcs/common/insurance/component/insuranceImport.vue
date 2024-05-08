@@ -2,7 +2,7 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
-				<el-row :gutter="20">
+				<el-row :gutter="0">
 					<el-col :xs="1" :sm="1" class="mb20">
 						<el-upload ref="uploadRef" class="upload-demo" :before-upload="
 								() => {return false;}" :auto-upload="false" :on-change="onImportXlsx" :show-file-list="false">
@@ -24,8 +24,8 @@
 						</el-button>
 					</el-col>
 				</el-row>	
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
 							:data="paginatedData"
@@ -38,7 +38,7 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.VehicleNumber"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="StartTime" label="保险生效日期" width="120" align="center">
@@ -47,7 +47,7 @@
 										v-model="scope.row.StartTime"
 										type="date"
 										placeholder="请选择日期"
-										format="YYYY-MM-DD"></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="EndTime" label="保险结束日期" width="120" align="center">
@@ -56,21 +56,21 @@
 										v-model="scope.row.EndTime"
 										type="date"
 										placeholder="请选择日期"
-										format="YYYY-MM-DD"></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="CompanyName" label="保险公司" width="180" align="left">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.CompanyName"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="No" label="保单号" width="180" align="left">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.No"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="BillTime" label="购买日期" width="120" align="center">
@@ -79,7 +79,7 @@
 										v-model="scope.row.BillTime"
 										type="date"
 										placeholder="请选择日期"
-										format="YYYY-MM-DD"></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="CompulsoryAmount" label="交强险保额" width="180" align="right">
@@ -92,7 +92,7 @@
 										min="0"
 										max="1000000000"
 										step="1"
-										oninput="this.value = this.value.replace(/[^0-9]/g, '')"></el-input-number>
+										oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="CompulsoryFee" label="交强险购买费用" width="180" align="right">
@@ -105,7 +105,7 @@
 										min="0"
 										max="1000000000"
 										step="1"
-										oninput="this.value = this.value.replace(/[^0-9]/g, '')"></el-input-number>
+										oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="CompulsoryStartDate" label="交强险生效日期" width="120" align="center">
@@ -114,7 +114,7 @@
 										v-model="scope.row.CompulsoryStartDate"
 										type="date"
 										placeholder="请选择日期"
-										format="YYYY-MM-DD"></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="CompulsoryEndDate" label="交强险结束日期" width="120" align="center">
@@ -123,7 +123,7 @@
 										v-model="scope.row.CompulsoryEndDate"
 										type="date"
 										placeholder="请选择日期"
-										format="YYYY-MM-DD"></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="CommercialAmount" label="商业险保额" width="180" align="right">
@@ -136,7 +136,7 @@
 										min="0"
 										max="1000000000"
 										step="1"
-										oninput="this.value = this.value.replace(/[^0-9]/g, '')"></el-input-number>
+										oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="CommercialFee" label="商业险购买费用" width="180" align="right">
@@ -149,7 +149,7 @@
 										min="0"
 										max="1000000000"
 										step="1"
-										oninput="this.value = this.value.replace(/[^0-9]/g, '')"></el-input-number>
+										oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="CommercialStartDate" label="商业险起始日期" width="120" align="center">
@@ -158,7 +158,7 @@
 										v-model="scope.row.CommercialStartDate"
 										type="date"
 										placeholder="请选择日期"
-										format="YYYY-MM-DD"></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="CommercialEndDate" label="商业险结束日期" width="120" align="center">
@@ -167,7 +167,7 @@
 										v-model="scope.row.CommercialEndDate"
 										type="date"
 										placeholder="请选择日期"
-										format="YYYY-MM-DD"></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="TaxFee" label="车船税费用" width="180" align="right">
@@ -180,7 +180,7 @@
 										min="0"
 										max="1000000000"
 										step="1"
-										oninput="this.value = this.value.replace(/[^0-9]/g, '')"></el-input-number>
+										oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 								</template>
 							</el-table-column>
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
@@ -204,8 +204,7 @@
 							background
 							v-model:page-size="tableData.param.pageSize"
 							layout="->, total, sizes, prev, pager, next, jumper"
-							:total="tableData.total">
-						</el-pagination>
+							:total="tableData.total" />
 					</el-col>
 				</el-row>
 			</el-form>
@@ -234,7 +233,6 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
 
@@ -279,7 +277,6 @@ export default {
 		//	打开弹窗
 		const openDialog = async (kind: string) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {				
 				
@@ -334,7 +331,6 @@ export default {
 					}
 					rows.push(model);
 				}
-				console.log("测试", rows)
 				if(tip.length>0){
 					alert("车牌：（"+tip+"）交强险时间为空，导入失败！")
 				}else{

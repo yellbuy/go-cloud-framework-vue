@@ -1,29 +1,17 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="55%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="8" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车牌号" prop="VehicleNumber">
 							<el-input
 								v-model="ruleForm.VehicleNumber"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
-						<el-form-item label="车辆类型" prop="VehicleType">
-							<el-select
-								v-model="ruleForm.VehicleType"
-								placeholder="请选择">
-								<el-option v-for="(item, index) in truckTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="车辆识别号" prop="Vin">
-							<el-input
-								v-model="ruleForm.Vin"
-								placeholder="请输入"></el-input> 
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车辆类别" prop="IsExternal">
 							<div mb-2 flex items-center>
 								<el-radio-group
@@ -33,98 +21,139 @@
 								</el-radio-group>
 							</div>
 						</el-form-item>
-						<el-form-item label="车牌颜色" prop="PlateColor">
-							<el-select
-								v-model="ruleForm.PlateColor"
-								placeholder="请选择">
-								<el-option v-for="(item, index) in plateColorList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="发动机号" prop="EngineNumber">
-							<el-input
-								v-model="ruleForm.EngineNumber"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="相关方" prop="Shipper">
 							<el-select
 								v-model="ruleForm.Shipper"
+								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in shipperList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in shipperList" :key="index" :label="item.CompanyName" :value="item.Id" />
 							</el-select>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="车辆类型" prop="VehicleType">
+							<el-select
+								v-model="ruleForm.VehicleType"
+								filterable
+								placeholder="请选择">
+								<el-option v-for="(item, index) in truckTypeList" :key="index" :label="item.Name" :value="item.Name" />
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="车牌颜色" prop="PlateColor">
+							<el-select
+								v-model="ruleForm.PlateColor"
+								filterable
+								placeholder="请选择">
+								<el-option v-for="(item, index) in plateColorList" :key="index" :label="item.Name" :value="item.Name" />
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="动力类型" prop="EnergyType">
 							<el-select
 								v-model="ruleForm.EnergyType"
+								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in energyTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in energyTypeList" :key="index" :label="item.Name" :value="item.Id" />
 							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="车辆识别号" prop="Vin">
+							<el-input
+								v-model="ruleForm.Vin"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="发动机号" prop="EngineNumber">
+							<el-input
+								v-model="ruleForm.EngineNumber"
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">联系人信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="8" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="联系人" prop="Linkman"> 
 							<el-input
 								v-model="ruleForm.Linkman"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
-						<el-form-item label="司机姓名" prop="Driver"> 
-							<el-input
-								v-model="ruleForm.Driver"
-								placeholder="请输入"></el-input> 
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="电话" prop="Phone"> 
 							<el-input
 								v-model="ruleForm.Phone"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
-						<el-form-item label="司机电话" prop="DriverMobile"> 
-							<el-input
-								v-model="ruleForm.DriverMobile"
-								placeholder="请输入"></el-input>
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
 				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="司机姓名" prop="Driver"> 
+							<el-input
+								v-model="ruleForm.Driver"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="司机电话" prop="DriverMobile"> 
+							<el-input
+								v-model="ruleForm.DriverMobile"
+								placeholder="请输入" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20"></el-col>
+				</el-row>
 				<el-divider content-position="left">行驶证信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="8" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="行驶证号" prop="DrivingLicense">
 							<el-input
 								v-model="ruleForm.DrivingLicense"
-								placeholder="请输入"></el-input> 
-						</el-form-item>
-						<el-form-item label="登记日期" prop="RegistrationDate">
-							<el-date-picker
-								v-model="ruleForm.RegistrationDate"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="生效日期" prop="DrivingLicenseStartDate">
 							<el-date-picker
 								v-model="ruleForm.DrivingLicenseStartDate"
 								type="date"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="登记日期" prop="RegistrationDate">
+							<el-date-picker
+								v-model="ruleForm.RegistrationDate"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="结束日期" prop="DrivingLicenseEndDate">
 							<el-date-picker
 								v-model="ruleForm.DrivingLicenseEndDate"
 								type="date"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" class="mb12">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
 						<el-form-item label="证件图片" prop="Files">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
@@ -145,35 +174,35 @@
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">道路运输证信息*</el-divider>
-				<el-row :gutter="20">	
-					<el-col :xs="24" :sm="8" class="mb20">
+				<el-row :gutter="0">	
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="道路运输证" prop="TransportLicense">
 							<el-input
 								v-model="ruleForm.TransportLicense"
-								placeholder="请输入"></el-input> 
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>				
-					<el-col :xs="24" :sm="8" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="生效日期" prop="TransportLicenseStartDate">
 							<el-date-picker
 								v-model="ruleForm.TransportLicenseStartDate"
 								type="date"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="8" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="结束日期" prop="TransportLicenseEndDate" >
 							<el-date-picker
 								v-model="ruleForm.TransportLicenseEndDate"
 								type="date"
 								placeholder="请选择时间"
-								format="YYYY-MM-DD"></el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="20">	
-					<el-col :xs="24" :sm="24" class="mb12">
+				<el-row :gutter="0">	
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
 						<el-form-item label="证件图片" prop="Files1">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
@@ -219,12 +248,11 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
-	name: 'vehicleEdit',
+	name: 'vehicleListEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 
 		const store = useStore();
 
@@ -328,7 +356,6 @@ export default {
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.DrivingLicensePics = "";
 			state.TransportLicensePics = "";
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {
 				const resShippers = await proxy.$api.erp.company.getListByScope("shipper", 0, 2, {pageSize:1000000});
@@ -373,7 +400,6 @@ export default {
 		const getRowById = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.vehicle.getById(Id);
-				console.log("测试测试", res)
 				if (res.errcode != 0) {
 					return;
 				}
@@ -400,7 +426,6 @@ export default {
 		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.loading = false;
 			state.isShowDialog = false;
 			proxy.$parent.onGetTableData();
@@ -522,7 +547,6 @@ export default {
 		const onRemoveDrivingLicensePic = (file: UploadFile) => {
 			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.DrivingLicensePicList.length; i++) {
-				console.log("删除文件",state.DrivingLicensePicList[i],removeUrl)
 				if (state.DrivingLicensePicList[i] == removeUrl) {
 					state.DrivingLicensePicList.splice(i, 1);
 				}
@@ -533,7 +557,6 @@ export default {
 		const onRemoveTransportLicensePic = (file: UploadFile) => {
 			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.TransportLicensePicList.length; i++) {
-				console.log("删除文件",state.TransportLicensePicList[i],removeUrl)
 				if (state.TransportLicensePicList[i] == removeUrl) {
 					state.TransportLicensePicList.splice(i, 1);
 				}

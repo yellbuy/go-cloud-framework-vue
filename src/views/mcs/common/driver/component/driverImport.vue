@@ -2,7 +2,7 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
-				<el-row :gutter="20">
+				<el-row :gutter="0">
 					<el-col :xs="2" :sm="1" class="mb20">
 						<el-upload ref="uploadRef" class="upload-demo" :before-upload="
 								() => {return false;}" :auto-upload="false" :on-change="onImportXlsx" :show-file-list="false">
@@ -24,8 +24,8 @@
 						</el-button>
 					</el-col>
 				</el-row>	
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
 							:data="paginatedData"
@@ -35,7 +35,7 @@
 							highlight-current-row>
 							<el-table-column prop="Name" label="姓名" width="100" fixed>
 								<template #default="scope">
-									<el-input v-model="scope.row.Name" ></el-input> 
+									<el-input v-model="scope.row.Name" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Gender" label="性别" width="80">
@@ -46,7 +46,7 @@
 										default-first-option="true"
 										:reserve-keyword="false"
 										placeholder="请选择">
-										<el-option v-for="(item,index) in GenderList" :key="index" :label="item" :value="index+1"></el-option>
+										<el-option v-for="(item,index) in GenderList" :key="index" :label="item" :value="index+1" />
 									</el-select> 
 								</template>
 							</el-table-column>
@@ -58,7 +58,7 @@
 										default-first-option="true"
 										:reserve-keyword="false"
 										placeholder="请选择">
-										<el-option v-for="(item,index) in NationList" :key="index" :label="item" :value="index"></el-option>
+										<el-option v-for="(item,index) in NationList" :key="index" :label="item" :value="index" />
 									</el-select> 
 								</template>
 							</el-table-column>
@@ -68,13 +68,12 @@
 										v-model="scope.row.Birthdate"
 										type="date"
 										placeholder="请选择时间"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="Idno" label="身份证号码" width="160">
 								<template #default="scope">
-									<el-input v-model="scope.row.Idno" ></el-input> 
+									<el-input v-model="scope.row.Idno" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="IdnoEndDate" label="身份证截止日期" width="120">
@@ -83,23 +82,22 @@
 										v-model="scope.row.IdnoEndDate"
 										type="date"
 										placeholder="请选择时间"
-										format="YYYY-MM-DD"
-									></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="NativePlace" label="籍贯" width="200">
 								<template #default="scope">
-									<el-input v-model="scope.row.NativePlace" ></el-input> 
+									<el-input v-model="scope.row.NativePlace" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Mobile" label="手机号" width="120">
 								<template #default="scope">
-									<el-input v-model="scope.row.Mobile" ></el-input> 
+									<el-input v-model="scope.row.Mobile" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Address" label="家庭地址" width="400">
 								<template #default="scope">
-									<el-input v-model="scope.row.Address" ></el-input> 
+									<el-input v-model="scope.row.Address" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="DriverLicenseType" label="驾照类型" width="100">
@@ -110,7 +108,7 @@
 										default-first-option="true"
 										:reserve-keyword="false"
 										placeholder="请选择">
-										<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="index"></el-option>
+										<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="index" />
 									</el-select> 
 								</template>
 							</el-table-column>
@@ -120,8 +118,7 @@
 										v-model="scope.row.RegistrationDate"
 										type="date"
 										placeholder="请选择时间"
-										format="YYYY-MM-DD">
-									</el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="DriverLicenseStartDate" label="驾照生效日期" width="120">
@@ -130,8 +127,7 @@
 										v-model="scope.row.DriverLicenseStartDate"
 										type="date"
 										placeholder="请选择时间"
-										format="YYYY-MM-DD">
-									</el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="DriverLicenseEndDate" label="驾照截止日期" width="120">
@@ -140,8 +136,7 @@
 										v-model="scope.row.DriverLicenseEndDate"
 										type="date"
 										placeholder="请选择时间"
-										format="YYYY-MM-DD">
-									</el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
@@ -165,8 +160,7 @@
 							background
 							v-model:page-size="tableData.param.pageSize"
 							layout="->, total, sizes, prev, pager, next, jumper"
-							:total="tableData.total">
-						</el-pagination>
+							:total="tableData.total" />
 					</el-col>
 				</el-row>
 			</el-form>
@@ -195,7 +189,6 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
 		
@@ -246,7 +239,6 @@ export default {
 		//	打开弹窗
 		const openDialog = async (kind: string, ) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {				
 				state.ruleForm.DriverList=[];
@@ -256,54 +248,66 @@ export default {
 			}
 		}
 
-		//	导入功能
-		const onImportXlsx = (e: any) => {
-			const file = e.raw
+				//	导入功能
+				const onImportXlsx = (e: any) => {
+			const unique = {}
+			const rows = []
+			const tip = [[], []]
 			const reader = new FileReader()
-			reader.readAsArrayBuffer(file)
+			reader.readAsArrayBuffer(e.raw)
 			reader.onload = (ev: any) => {
-				const rows=[]
-				const unique = {};
-				let data = ev.target.result
-				const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
-				if(workbook.SheetNames.length==0){
+				const workbook = XLSX.read(ev.target.result, { type: 'binary', cellDates: true })
+				if(workbook.SheetNames.length < 1){
 					return;
 				}
-				const wsname = workbook.SheetNames[0]
-				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
-				for(let i = 1; i < list.length; i++){
-					const row=list[i];
-					const name=row["__EMPTY"]||"";
-					if(!name || unique[name]){
-						continue;
-					}
-					unique[name] = true
-					const model={};
-					model.Name=name;
-					model.Gender=row["__EMPTY_1"]||"";
-					if (model.Gender = "男") {
-						model.Gender = 1
-					}else if(model.Gender = "女") {
-						model.Gender = 2
+				const list = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: ["Index", "Name", "Gender", "Nation", 
+				"Birthdate", "Idno", "IdnoEndDate", "NativePlace", "Mobile", "Address", "DriverLicenseType", "RegistrationDate", 
+				"DriverLicenseStartDate", "DriverLicenseEndDate"], range: 2})
+				list.forEach(item => {
+					item.Index = parseInt(item.Index)
+					item.Name = String(item.Name)
+					if (item.Gender = "男") {
+						item.Gender = parseInt(1)
+					}else if(item.Gender = "女") {
+						item.Gender = parseInt(2)
 					}else{
-						model.Gender = 0
+						item.Gender = parseInt(0)
 					}
-
-					model.Nation=`${row["__EMPTY_2"]}`||"";
-					model.Birthdate=row["__EMPTY_3"]||"";
-					model.Idno=`${row["__EMPTY_4"]}`||"";
-					model.IdnoEndDate=row["__EMPTY_5"]||"";
-					model.NativePlace=`${row["__EMPTY_6"]}`||"";
-					model.Mobile=`${row["__EMPTY_7"]}`||"";
-					model.Address=`${row["__EMPTY_8"]}`||"";
-					model.DriverLicenseType=row["__EMPTY_9"]||"";
-					model.RegistrationDate=row["__EMPTY_10"]||"";
-					model.DriverLicenseStartDate=row["__EMPTY_11"]||"";
-					model.DriverLicenseEndDate=row["__EMPTY_12"]||"";
-					rows.push(model);
+					item.Nation = String(item.Nation)
+					item.Birthdate.setHours(24, 0, 0, 0);
+					item.Idno = String(item.Idno)
+					item.IdnoEndDate.setHours(24, 0, 0, 0);
+					item.NativePlace = String(item.NativePlace)
+					item.Mobile = String(item.Mobile)
+					item.Address = String(item.Address)
+					item.DriverLicenseType = String(item.DriverLicenseType)
+					item.RegistrationDate.setHours(24, 0, 0, 0);
+					item.DriverLicenseStartDate.setHours(24, 0, 0, 0);
+					item.DriverLicenseEndDate.setHours(24, 0, 0, 0);
+					if (item.Idno == "") {
+						tip[0].push(item.Index)
+					}
+					if (unique[item.Idno]) {
+						tip[1].push(item.Index)
+						tip[1].push(unique[item.Idno])
+					}else {
+						unique[item.Idno] = item.Index
+						rows.push(item)
+					}
+				});
+				if (tip[0].length > 0) {
+					ElMessageBox.alert('原因是Excel序号为（' + tip[0] + '）的身份证号为空，请检查修改表格数据后重新导入！', '导入失败', {
+						confirmButtonText: '确定',
+						})
+				} else if (tip[1].length > 0) {
+					ElMessageBox.alert('原因是Excel序号为（' + tip[1] + '）的身份证号存在重复，请检查修改表格数据后重新导入！', '导入失败', {
+						confirmButtonText: '确定',
+						})
+				} else {
+					state.ruleForm.DriverList = rows
+					state.tableData.total = rows.length
 				}
-				state.tableData.total=rows.length
-				state.ruleForm.DriverList=rows;
+
 			}
 		}
 

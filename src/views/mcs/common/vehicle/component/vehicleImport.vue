@@ -2,7 +2,7 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
-				<el-row :gutter="20">
+				<el-row :gutter="0">
 					<el-col :xs="2" :sm="1" class="mb20">
 						<el-upload ref="uploadRef" class="upload-demo" :before-upload="
 								() => {return false;}" :auto-upload="false" :on-change="onImportXlsx" :show-file-list="false">
@@ -24,8 +24,8 @@
 						</el-button>
 					</el-col>
 				</el-row>	
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
 							:data="paginatedData"
@@ -177,34 +177,26 @@
 	</div>
 </template>
 <script lang="ts">
-import { ElMessage, UploadProps } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as XLSX from "xlsx"; //引入
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
+import dayjs from 'dayjs';
 export default {
 	name: 'vehicleImport',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
 
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
 		});
-
-		//	显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
 		
 		const state = reactive({
 			isShowDialog: false,
@@ -252,7 +244,6 @@ export default {
 		//	打开弹窗
 		const openDialog = async (kind: string, ) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			try {				
 				
@@ -265,51 +256,59 @@ export default {
 
 		//	导入功能
 		const onImportXlsx = (e: any) => {
-			const file = e.raw
+			const unique = {}
+			const rows = []
+			const tip = [[], []]
 			const reader = new FileReader()
-			reader.readAsArrayBuffer(file)
+			reader.readAsArrayBuffer(e.raw)
 			reader.onload = (ev: any) => {
-				const rows=[]
-				const unique = {};
-				let data = ev.target.result
-				const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
-				if(workbook.SheetNames.length==0){
+				const workbook = XLSX.read(ev.target.result, { type: 'binary', cellDates: true })
+				if(workbook.SheetNames.length < 1){
 					return;
 				}
-				const wsname = workbook.SheetNames[0]
-				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
-				console.log("测试", list)
-				for(let i = 1; i < list.length; i++){
-					const row=list[i];
-					const vehicleNumber=row["__EMPTY"]||"";
-					if(!vehicleNumber || unique[vehicleNumber]){
-						continue;
-					}
-					unique[vehicleNumber] = true
-					const model={};
-					model.VehicleNumber=vehicleNumber;
-					model.VehicleType=row["__EMPTY_1"]||"";
-					model.Shipper=row["__EMPTY_3"]||"";
-					if(model.Shipper){
-						model.IsExternal=1
+				const list = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: ["Index", "VehicleNumber", 
+					"VehicleType", "IsExternal", "Shipper", "Linkman", "Phone", "Driver", "DriverMobile", "DrivingLicense", "DrivingLicenseStartDate", 
+					"DrivingLicenseEndDate", "TransportLicense", "TransportLicenseStartDate", "TransportLicenseEndDate"], range: 2})
+				list.forEach(item => {
+					item.Index = parseInt(item.Index)
+					item.VehicleNumber = String(item.VehicleNumber)
+					if(item.Shipper){
+						item.IsExternal = parseInt(1)
 					}else{
-						model.IsExternal=0
+						item.IsExternal = parseInt(0)
 					}
-					model.Linkman=row["__EMPTY_4"]||"";
-					model.Phone=String(row["__EMPTY_5"]||""); //转字符串
-					model.Driver=row["__EMPTY_6"]||"";
-					model.DriverMobile=String(row["__EMPTY_7"]||""); //转字符串
-					model.DrivingLicense=String(row["__EMPTY_8"]||"");
-					model.DrivingLicenseStartDate=row["__EMPTY_9"]||new Date();
-					model.DrivingLicenseEndDate=row["__EMPTY_10"]||new Date();
-					model.RegistrationDate=new Date();
-					model.TransportLicense=String(row["__EMPTY_11"]||"");
-					model.TransportLicenseStartDate=row["__EMPTY_12"]||new Date();
-					model.TransportLicenseEndDate=row["__EMPTY_13"]||new Date();
-					rows.push(model);
+					item.Phone = String(item.Phone)
+					item.DriverMobile = String(item.DriverMobile)
+					item.DrivingLicense = String(item.DrivingLicense)
+					item.DrivingLicenseStartDate = dayjs(item.DrivingLicenseStartDate)
+					item.DrivingLicenseEndDate = dayjs(item.DrivingLicenseEndDate)
+					item.TransportLicense = String(item.TransportLicense)
+					item.TransportLicenseStartDate = dayjs(item.TransportLicenseStartDate)
+					item.TransportLicenseEndDate = dayjs(item.TransportLicenseEndDate)
+					if (item.VehicleNumber == "") {
+						tip[0].push(item.Index)
+					}
+					if (unique[item.VehicleNumber]) {
+						tip[1].push(item.Index)
+						tip[1].push(unique[item.VehicleNumber])
+					}else {
+						unique[item.VehicleNumber] = item.Index
+						rows.push(item)
+					}
+				});
+				if (tip[0].length > 0) {
+					ElMessageBox.alert('原因是Excel序号为（' + tip[0] + '）的车牌号为空，请检查修改表格数据后重新导入！', '导入失败', {
+						confirmButtonText: '确定',
+						})
+				} else if (tip[1].length > 0) {
+					ElMessageBox.alert('原因是Excel序号为（' + tip[1] + '）的车牌号存在重复，请检查修改表格数据后重新导入！', '导入失败', {
+						confirmButtonText: '确定',
+						})
+				} else {
+					state.ruleForm.VehicleList = rows
+					state.tableData.total = rows.length
 				}
-				state.tableData.total=rows.length
-				state.ruleForm.VehicleList=rows;
+
 			}
 		}
 
@@ -373,25 +372,6 @@ export default {
 			});
 		};
 
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
-
 		const { dateFormatYMD } = commonFunction();
 
 		// 页面加载时
@@ -408,8 +388,6 @@ export default {
 			onClearRow,
 			onDownloadTpl,
 			onImportXlsx,
-			onBeforeImageUpload,
-			showImage,
 			dateFormatYMD,
 			getUserInfos,
 			rules,
@@ -425,3 +403,5 @@ export default {
 	width: 100%;
 }
 </style>
+
+

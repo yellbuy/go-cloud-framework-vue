@@ -3,32 +3,43 @@
 		<el-dialog :title="title" v-model="isShowDialog" width="25%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">仓储收入*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="平台名称" prop="BusinessBillId" >
 							<el-select
 								v-model="ruleForm.BusinessBillId"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in businessBillList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in businessBillList" :key="index" :label="item.Name" :value="item.Id" />
 							</el-select>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId">
 							<el-select
 								v-model="ruleForm.CustomerId"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id" />
 							</el-select>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
 								type="date"
 								placeholder="日期"
-								format="YYYY-MM-DD">
-							</el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="收入" prop="Amount">
 							<el-input-number
 								v-model="ruleForm.Amount"
@@ -38,9 +49,12 @@
 								precision="2"
 								min="0"
 								max="1000000000"
-								step="1">
-							</el-input-number>
+								step="1" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="面积" prop="Volume">
 							<el-input-number
 								v-model="ruleForm.Volume"
@@ -50,8 +64,7 @@
 								type="number"
 								min="0"
 								max="1000000000"
-								step="1">
-							</el-input-number>
+								step="1" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -80,14 +93,13 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
-			//表单
+			disable: true, //	是否禁用
+			//	表单
 			ruleForm: {
 				Id: 0,
 				Kind: 'warehouse',
@@ -110,7 +122,7 @@ export default {
 
 		const token = Session.get('token');
 
-		//必填项标识
+		//	必填项标识
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -152,7 +164,7 @@ export default {
 			],
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
 			console.log('类型', kind);
@@ -177,7 +189,6 @@ export default {
 			}
 		}
 
-
 		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.businessBillLine.getById(Id);
@@ -191,15 +202,14 @@ export default {
 			}
 		}
 
-		// 关闭弹窗
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
 			state.isShowDialog = false;
 		};
 
-
-		//加载平台名称
+		//	加载平台名称
 		const loadsiteName = async () =>{
 			const siteNameRes = await proxy.$api.erp.businessBill.getListByScope('warehouse_plateform', 0, 0);
 			if (siteNameRes.errcode == 0) {
@@ -209,7 +219,7 @@ export default {
 			}
 		}
 
-		//加载客户名称列表
+		//	加载客户名称列表
 		const loadCustomerName = async () => {
 			const CustomerNameRes = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
 			if (CustomerNameRes.errcode == 0) {
@@ -219,14 +229,13 @@ export default {
 			}
 		}
 
-		// 选中客户后，加载最近的运单信息
+		//	选中客户后，加载最近的运单信息
 		const loadList = async (customerId:number|string) => {
 			
 			if(!customerId||customerId=="0"){
 				state.tableList=[];
 				return;
 			}
-			console.log(customerId)
 			const res = await proxy.$api.erp.businessBillLine.getListByScope('product', 0, 0,{customerId:customerId});
 			if (res.errcode != 0) {
 				return;
@@ -235,7 +244,7 @@ export default {
 		};
 
 	
-		// 保存按钮
+		//	保存按钮
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -262,12 +271,9 @@ export default {
 			});
 		};
 
-
-
-
 		const { dateFormatYMD } = commonFunction();
 
-		// 页面加载时
+		//	页面加载时
 		onMounted(() => {});
 
 		return {

@@ -4,7 +4,7 @@
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="关键字：">
-						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
+						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword" />
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -37,8 +37,8 @@
 				stripe
 				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
-				<el-table-column prop="VehicleType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed />
+				<el-table-column prop="VehicleType" label="车辆类型" width="120" show-overflow-tooltip />
 				<el-table-column label="外部车" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="danger" effect="plain" v-if="scope.row.IsExternal==0">{{ $t('message.action.no') }}</el-tag>
@@ -56,29 +56,25 @@
 							class="box-item"
 							effect="dark"
 							placement="top">
-						<template #content>保险：{{ scope.row.InsuranceStartDate.substr(0,10) }} 至 {{ scope.row.InsuranceEndDate.substr(0,10) }}
-						</template>
-						<el-tag :type="scope.row.InsuranceState == 2?'success':'warning'" class="mr4" round effect="dark" >险</el-tag>
+							<template #content>保险：{{ scope.row.InsuranceStartDate.substr(0,10) }} 至 {{ scope.row.InsuranceEndDate.substr(0,10) }}</template>
+							<el-tag :type="scope.row.InsuranceState == 2?'success':'warning'" class="mr4" round effect="dark" >险</el-tag>
 						</el-tooltip>
 						<el-tag type="danger" class="mr4" round effect="dark" v-else >险</el-tag>
-						<el-tooltip v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2"
-							class="box-item"
-							effect="dark"
-							placement="top">
-						<template #content>行驶证：{{ scope.row.DrivingLicenseStartDate.substr(0,10) }} 至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
-							<br />
-							道路运输许可证：{{ scope.row.TransportLicenseStartDate.substr(0,10) }} 至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
-						</template>
-						<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseStat < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
+						<el-tooltip v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2" class="box-item" effect="dark" placement="top">
+							<template #content>行驶证：{{ scope.row.DrivingLicenseStartDate.substr(0,10) }} 至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
+								<br />
+								道路运输许可证：{{ scope.row.TransportLicenseStartDate.substr(0,10) }} 至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
+							</template>
+							<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseStat < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
 						</el-tooltip>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Driver" label="司机" width="80" show-overflow-tooltip></el-table-column>				
-				<el-table-column prop="DriverMobile" label="电话" width="100"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Mileage" label="公里数" width="70" align="right"></el-table-column>
-				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Driver" label="司机" width="80" show-overflow-tooltip />				
+				<el-table-column prop="DriverMobile" label="电话" width="100"  show-overflow-tooltip />
+				<el-table-column prop="Mileage" label="公里数" width="70" align="right" />
+				<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip />
+				<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip />
+				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip />
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" v-auth:[moduleKey]="'btn.ChildMap'">
@@ -103,8 +99,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total">
-			</el-pagination>
+				:total="tableData.total" />
 		</el-card>
 		<editDlg ref="editDlgRef" />
 		<childMapDlg ref="childMapDlgRef" />
@@ -125,14 +120,23 @@ export default {
 	components: { editDlg,childMapDlg,energyStatDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const route = useRoute();
+
 		const kind = route.params.kind||'info';
+
 		const scopeMode = route.params.scopeMode || 0;
+
 		const scopeValue = route.params.scopeValue || 0;
+
 		const moduleKey = `api_commoninfo_vehicle`;
+
 		const editDlgRef = ref();
+
 		const childMapDlgRef=ref();
+
 		const energyStatDlgRef=ref();
+
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -151,16 +155,18 @@ export default {
 			},
 			
 		});
+
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});
-		//重置查询条件
+
+		//	重置查询条件
 		const onResetSearch = () => {
 			state.tableData.param.keyword = '';
 			onGetTableData(true);
 		};
 
-		// 查询表格数据
+		//	查询表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
@@ -177,6 +183,7 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
+
 		// 导出表格数据
 		const onGetXlsData = async () => {
 			const res = await proxy.$api.erp.vehicle.exportXlsByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
@@ -200,22 +207,24 @@ export default {
 		const onChildOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
 			childMapDlgRef.value.openDialog(vehicleNumber, ishow);
 		};
+
 		// 打开燃油统计
 		const onEnergyOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
 			energyStatDlgRef.value.openDialog(vehicleNumber, ishow);
 		};
-
 
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
 			onGetTableData();
 		};
+
 		// 分页改变
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
+		
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();

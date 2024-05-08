@@ -1,25 +1,27 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="25%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="20%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-row :gutter="20">
-					<el-col :sm="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="日期" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
 								type="date"
 								placeholder="日期"
-								format="YYYY-MM-DD">
-							</el-date-picker>
+								format="YYYY-MM-DD" />
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="重量" prop="Weight">
 							<el-input-number
 								v-model="ruleForm.Weight"
 								:precision="2"
 								step="1"
 								min="0"
-								max="10000">
-							</el-input-number> 
+								max="10000" /> 
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -50,7 +52,6 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 
 		const store = useStore();
 
@@ -109,7 +110,7 @@ export default {
 			
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string, businessBillId:string, disable: boolean) => {
 			state.Files = [];
 			console.log('类型', kind);
@@ -151,7 +152,7 @@ export default {
 			}
 		};
 
-		// 关闭弹窗
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
@@ -159,7 +160,7 @@ export default {
 			proxy.$parent.onMainGetTableData();
 		};
 
-		// 提交
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -189,7 +190,7 @@ export default {
 
 		const { dateFormatYMD } = commonFunction();
 
-		// 页面加载时
+		//	页面加载时
 		onMounted(() => {});
 
 		return {

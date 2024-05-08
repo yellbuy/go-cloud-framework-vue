@@ -8,6 +8,16 @@
 								<el-form-item label="关键字">
 									<el-input placeholder="输入关键字查询" style="width:100px" v-model="mainTableData.param.keyword"> </el-input>
 								</el-form-item>
+								<el-form-item label="开始日期" style="width:300px; white-space: nowrap;">
+									<el-date-picker
+										v-model="timeRange"
+										type="daterange"
+										unlink-panels
+										range-separator="至"
+										start-placeholder="开始时间"
+										end-placeholder="结束时间"
+										format="YYYY-MM-DD" />
+								</el-form-item>
 								<el-form-item>
 									<el-button type="info" @click="onMainResetSearch">
 										<el-icon>
@@ -53,7 +63,6 @@
 						</el-table-column>
 						<el-table-column prop="SenderPlanTime" label="开始时间" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="ReceiverPlanTime" label="结束时间" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
-						<!-- <el-table-column prop="Amount" label="收入" width="120" align="right"></el-table-column> -->
 						<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope"> 
@@ -195,6 +204,7 @@ import { Pane, Splitpanes } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
+import dayjs from 'dayjs';
 import editMainDlg from './component/tradeEdit.vue';
 import editChildDlg from './component/tradeLineEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
@@ -218,6 +228,7 @@ export default {
 			kind,
 			scopeMode,
 			scopeValue,
+			timeRange: [new Date(), new Date()],
 			mainCurrentRow:null,
 			mainTableData: {
 				data: [],
@@ -225,6 +236,8 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
+					startTime: '',
+					endTime: '',
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -269,6 +282,10 @@ export default {
 
 		// 初始化表格数据
 		const onMainGetTableData = async (gotoFirstPage: boolean = false) => {
+			if (state.timeRange && state.timeRange.length > 1) {
+				state.mainTableData.param.startTime = dayjs(state.timeRange[0]).set('hour', 8).set('minute', 0).set('second', 0);
+				state.mainTableData.param.endTime = dayjs(state.timeRange[1]).set('hour', 32).set('minute', 0).set('second', 0);
+			}
 			if (gotoFirstPage) {
 				state.mainTableData.param.pageNum = 1;
 			}

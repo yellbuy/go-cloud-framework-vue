@@ -3,25 +3,53 @@
 		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">铁运收入*</el-divider>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12"  class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId">
 							<el-select
 								v-model="ruleForm.CustomerId"
 								filterable
 								placeholder="请选择"
 								@change = "loadAddressList">
-								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id" />
 							</el-select>
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
+						<el-form-item label="日期" prop="BillTime">
+							<el-date-picker
+								v-model="ruleForm.BillTime"
+								type="date"
+								placeholder="日期"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-select
 								v-model="ruleForm.GoodsCategoryId"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in goodsCategoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in goodsCategoryList" :key="index" :label="item.Name" :value="item.Id" />
 							</el-select>
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
+						<el-form-item label="产品名称" prop="GoodsId">
+							<el-select
+								v-model="ruleForm.GoodsId"
+								filterable
+								placeholder="请选择"
+								@change = "loadAddressList">
+								<el-option v-for="(item,index) in goodsNameList" :key="index" :label="item.GoodsName" :value="item.Id" />
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
 						<el-form-item label="计划吨位" prop="PlanWeight">
 							<el-input-number
 								v-model="ruleForm.PlanWeight"
@@ -30,9 +58,24 @@
 								placeholder="请输入"
 								min="0"
 								max="1000000000"
-								step="1">
-							</el-input-number>
+								step="1" />
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
+						<el-form-item label="实际吨位" prop="Weight">
+							<el-input-number
+								v-model="ruleForm.Weight"
+								:controls="true"
+								precision="2"
+								placeholder="请输入"
+								min="0"
+								max="1000000000"
+								step="1" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
 						<el-form-item label="列数" prop="VehicleCount">
 							<el-input-number
 								v-model="ruleForm.VehicleCount"
@@ -42,56 +85,24 @@
 								min="0"
 								max="1000000000"
 								step="1"
-								oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-							</el-input-number>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12"  class="mb20">
-						<el-form-item label="日期" prop="BillTime">
-							<el-date-picker
-								v-model="ruleForm.BillTime"
-								type="date"
-								placeholder="日期"
-								format="YYYY-MM-DD">
-							</el-date-picker>
-						</el-form-item>
-						<el-form-item label="产品名称" prop="GoodsId">
-							<el-select
-								v-model="ruleForm.GoodsId"
-								filterable
-								placeholder="请选择"
-								@change = "loadAddressList">
-								<el-option v-for="(item,index) in goodsNameList" :key="index" :label="item.GoodsName" :value="item.Id"> </el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="实际吨位" prop="Weight">
-							<el-input-number
-								v-model="ruleForm.Weight"
-								:controls="true"
-								precision="2"
-								placeholder="请输入"
-								min="0"
-								max="1000000000"
-								step="1">
-							</el-input-number>
+								oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="20">
-					<el-col :xs="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="备注" prop="Remark">
 							<el-input
 								v-model="ruleForm.Remark"
 								type="textarea"
 								:rows="3"
-								placeholder="请输入">
-							</el-input>
+								placeholder="请输入" />
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">收发货信息*</el-divider>
-				<el-row :gutter="20">
-					<el-col class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="发货站" prop="SenderAddress">
 							<el-select
 								v-model="ruleForm.SenderAddress"
@@ -100,9 +111,13 @@
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入并选择">
-								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item"> </el-option>
+								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item" />
 							</el-select>
 						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="到达地" prop="ReceiverAddress">
 							<el-select
 								v-model="ruleForm.ReceiverAddress"
@@ -111,12 +126,11 @@
 								default-first-option
 								:reserve-keyword="false"
 								placeholder="请输入并选择">
-								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item"> </el-option>
+								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item" />
 							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -143,10 +157,11 @@ export default {
 
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
+
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
 		});
@@ -155,8 +170,8 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
-			//表单
+			disable: true, //	是否禁用
+			//	表单
 			ruleForm: {
 				Id:0,
 				Kind:'main_business',
@@ -245,7 +260,7 @@ export default {
 			],
 		});
 		
-		// 打开弹窗
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
 			console.log('类型', kind);
@@ -287,7 +302,7 @@ export default {
 			}
 		}
 
-		//加载客户名称列表
+		//	加载客户名称列表
 		const loadCustomerName = async () => {
 			const CustomerNameRes = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
 			if (CustomerNameRes.errcode == 0) {
@@ -297,7 +312,7 @@ export default {
 			}
 		}
 
-		//加载产品类型
+		//	加载产品类型
 		const loadGoodsCategory = async () => {
 			const GoodsCategoryRes = await proxy.$api.common.category.getHierarchyDataList("product", 0, 2, {pageSize:10000});
 			if (GoodsCategoryRes.errcode == 0) {
@@ -307,7 +322,7 @@ export default {
 			}
 		}
 
-		//加载产品名称
+		//	加载产品名称
 		const loadgoodsName = async () => {
 			const goodsNameRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000, categoryId:state.ruleForm.GoodsCategoryId});
 			if (goodsNameRes.errcode == 0) {
@@ -317,7 +332,7 @@ export default {
 			}
 		}
 
-		//加载地址列表
+		//	加载地址列表
 		const loadAddressList = async () => {
 			state.senderAddressList=[];
 			state.receiverAddressList=[];
@@ -335,14 +350,14 @@ export default {
 		}
 
 
-		// 关闭弹窗
+		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
 			state.isShowDialog = false;
 		};
 
-		// 提交
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -370,11 +385,11 @@ export default {
 		};
 		
 
-		//时间格式
+		//	时间格式
 		const { dateFormatYMD } = commonFunction();
 
 
-		// 页面加载时
+		//	页面加载时
 		onMounted(() => {});
 
 		return {

@@ -1,85 +1,80 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="1000px" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-divider content-position="left">基本信息*</el-divider>
 			<el-card shadow="hover">
-				<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="："
-					v-loading="loading">
-					<el-row :gutter="20">
+				<el-form ef="ruleFormRef" :model="ruleForm" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading">
+					<el-row :gutter="0">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="维修单号" prop="BillNo">
 								<el-input
 									v-model="ruleForm.BillNo"
 									autofocus
-									placeholder="请输入"
+									placeholder="系统自动生成"
 									maxlength="100"
 									disabled
-									clearable>
-								</el-input>
+									clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="车牌号" prop="VehicleNumber">
 								<el-input
 									v-model="ruleForm.VehicleNumber"
-									placeholder="请输入" 
-									clearable disabled>
-								</el-input>
+									placeholder="请输入"
+									clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="车辆品牌" prop="Brand">
 								<el-input
 									v-model="ruleForm.Brand"
-									placeholder="请输入" 
-									clearable
-									disabled>
-								</el-input>
+									placeholder="请输入"
+									clearable />
 							</el-form-item>
 						</el-col>
 					</el-row>
-					<el-row :gutter="20">
+					<el-row :gutter="0">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="车型" prop="VehicleType">
-								<el-select
+								<el-input
 									v-model="ruleForm.VehicleType"
-									placeholder="请选择"
-									disabled>
-									<el-option v-for="(item, index) in truckTypeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
-								</el-select>
+									autofocus
+									placeholder="请输入"
+									maxlength="100"
+									clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="客户名称" prop="CompanyName">
 								<el-input
 									v-model="ruleForm.CompanyName"
-									placeholder="请输入" 
-									clearable
-									disabled>
-								</el-input>
+									placeholder="请输入"
+									clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="公里数" prop="Mileage">
-								<el-input
+								<el-input-number
 									v-model.number="ruleForm.Mileage"
-									placeholder="请输入" 
-									clearable
-									disabled></el-input>
+									:controls="true"
+									precision="0"
+									placeholder="请输入"
+									min="0"
+									max="1000000000"
+									step="1" />
 							</el-form-item>
 						</el-col>
 					</el-row>
-					<el-row :gutter="20">
+					<el-row :gutter="0">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-							<el-form-item label="到厂次数" prop="SiteId">
+							<el-form-item label="到厂次数" prop="VehicleTag">
 								<el-input
-									v-model="ruleForm.SiteId"
+									v-model="ruleForm.VehicleTag"
 									autofocus
 									placeholder="请输入"
 									maxlength="100"
 									disabled
-									clearable>
-								</el-input>
+									clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -87,9 +82,7 @@
 								<el-input
 									v-model="ruleForm.Linkman"
 									placeholder="请输入"
-									clearable
-									disabled>
-								</el-input>
+									clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -97,23 +90,20 @@
 								<el-input
 									v-model="ruleForm.Phone"
 									placeholder="请输入"
-									clearable
-									disabled>
-								</el-input>
+									clearable />
 							</el-form-item>
 						</el-col>
 					</el-row>
-					<el-row :gutter="20">
+					<el-row :gutter="0">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="维修类型" prop="ExamState">
-							<el-switch
-								v-model="ruleForm.ExamState"
-    							active-text="维修中"
-    							inactive-text="保养"
-								:active-value="1"
-								:inactive-value="10"
-								disabled/>				
-						</el-form-item>
+								<el-switch
+									v-model="ruleForm.ExamState"
+									active-text="维修中"
+									inactive-text="保养"
+									:active-value="1"
+									:inactive-value="10" />				
+							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 							<el-form-item label="进厂时间" prop="StartTime" required>
@@ -121,15 +111,13 @@
 									v-model="ruleForm.StartTime"
 									type="datetime"
 									placeholder="请选择时间"
-									disabled
-									format="YYYY-MM-DD HH:mm" >
-								</el-date-picker>
+									format="YYYY-MM-DD HH:mm" />
 							</el-form-item>
 						</el-col>
 					</el-row>
-					<el-row :gutter="20">
+					<el-row :gutter="0">
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-							<el-form-item label="是否完工" prop="State">
+							<el-form-item label="状态" prop="State">
 								<el-select v-model="ruleForm.State" class="m-2" placeholder="请选择">
 									<el-option :label="'未开单'" :value="0" />
 									<el-option :label="'已开单'" :value="1" />
@@ -143,8 +131,7 @@
 									v-model="ruleForm.EndTime"
 									type="datetime"
 									placeholder="请选择时间"
-									format="YYYY-MM-DD HH:mm">
-								</el-date-picker>
+									format="YYYY-MM-DD HH:mm" />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -154,7 +141,7 @@
 									autofocus
 									placeholder="请输入"
 									maxlength="100"
-									clearable></el-input>
+									clearable />
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -175,39 +162,38 @@
 			</div>
 			<el-table :data="ruleForm.VehicleProjectList" v-loading="projectTableData.loading"
 				:height="200" border stripe highlight-current-row>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Qty" label="工时" width="80">
+				<el-table-column type="index" label="序号" align="right" width="60" fixed />
+				<el-table-column prop="Name" label="项目名称" width="200" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Qty" label="预估工时" width="120">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Qty"
 							size="small"
-							style="width: 80px;"
-    						controls-position="right"
-    						@change="handleChange"/>
+    						controls-position="right" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="Price" label="单价" width="90">
+				<el-table-column prop="Price" label="单价" width="120">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Price"
 							size="small"
-							style="width: 80px;"
-    						controls-position="right"
-    						@change="handleChange"/>
+    						controls-position="right" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed>
+				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip>
 					<template #default="scope">
-						{{ calcAmount(scope.row) }}
+						{{ totalPrice(scope.row) }}
 					</template>
 				</el-table-column>
+				<el-table-column prop="Content" label="服务内容" width="150" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
 					<template #default="scope">
-						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
-							clearable>
-						</el-input>
+						<el-input
+							v-model="scope.row.Remark"
+							autofocus
+							placeholder="请输入"
+							maxlength="100"
+							clearable />
 					</template>
 				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(80)" fixed="right">
@@ -233,29 +219,27 @@
 			</div>
 			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading"
 				:height="200" border stripe highlight-current-row>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="配件名称" width="240" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Qty" label="数量" width="80">
+				<el-table-column type="index" label="序号" align="right" width="60" fixed />
+				<el-table-column prop="GoodsName" label="配件名称" width="200" show-overflow-tooltip fixed />
+				<el-table-column prop="Qty" label="预估工时" width="120">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Qty"
 							size="small"
-    						controls-position="right"
-    						@change="handleChange"/>
+    						controls-position="right" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="Price" label="单价" width="90">
+				<el-table-column prop="Price" label="单价" width="120">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Price"
 							size="small"
-    						controls-position="right"
-    						@change="handleChange"/>
+    						controls-position="right" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed>
+				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip>
 					<template #default="scope">
-						{{ calcAmount(scope.row) }}
+						{{ totalPrice(scope.row) }}
 					</template>
 				</el-table-column>
 				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
@@ -265,8 +249,7 @@
 							autofocus
 							placeholder="请输入"
 							maxlength="100"
-							clearable>
-						</el-input>
+							clearable />
 					</template>
 				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(80)" fixed="right">
@@ -280,7 +263,8 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button text bg type="primary" @click="onSubmit(true)"
+						v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 							$t('message.action.save')
 						}}</el-button>
 				</span>
@@ -308,46 +292,22 @@ export default {
 	components: { editDlg, addDlg, addWorkerDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
+
 		const editDlgRef = ref();
+
 		const addDlgRef = ref();
+
 		const addWorkerDlgRef = ref();
+
 		const kind = "repair";
-		console.log("message.action.add:", t('message.action.add'))
-		//文件列表更新
-		const onSuccessFile = (file: UploadFile) => {
-			console.log('触发图片上传');
-			state.Files.push(file.data.src);
-			let image = { url: '' };
-			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
-			console.log(state.FilesList);
-		};
-		const onRemove = (file: UploadFile) => {
-			console.log(file);
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
-			for (let i = 0; i < state.Files.length; i++) {
-				if (state.Files[i] == removeUrl) {
-					state.Files.splice(i, 1);
-				}
-			}
-		};
+
 		const store = useStore();
+
 		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
-
-		const handleChange = (value: number) => {
-  		//console.log(value)
-		}
 
 		const tableData = reactive({
 			data: [],
@@ -357,18 +317,20 @@ export default {
 				pageSize: 10000,
 			},
 		});
+
 		// 打开弹窗
 		const onOpenDlg = (id: string, ishow: boolean) => {
-			console.log("弹框", editDlgRef)
 			addDlgRef.value.openDialog(state.kind, id, ishow);
 		};
+
 		const onAddOpenDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
+
 		const onAddWorkerOpenDlg = (id: string, ishow: boolean) => {
-			console.log("派单")
 			addWorkerDlgRef.value.openDialog(state.kind, id, ishow);
 		};
+
 		// 删除用户
 		const onProjectDel = (index:number) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
@@ -380,6 +342,7 @@ export default {
 				return true;
 			});
 		}; 
+
 		// 删除用户
 		const onGoodsDel = (index:number) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
@@ -391,14 +354,16 @@ export default {
 				return true;
 			});
 		};
+
 		const moduleKey = `api_repair_sheet`;
+
 		const state = reactive({
 			moduleKey: moduleKey,
 			isShowDialog: false,
 			kind,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //是否禁用
+			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
 			tableData: {
 				data: [],
@@ -411,7 +376,7 @@ export default {
 					state: -1,
 				},
 			},
-			//表单
+			//	表单
 			ruleForm: {
 				Id: 0,
 				Name: '',
@@ -433,8 +398,8 @@ export default {
 				EndTime: '',
 				Content:'',
 				SellerNote:'',
-				VehicleProjectList:[], // 项目列表
-				VehicleGoodsList:[], //配件列表
+				VehicleProjectList:[], //	项目列表
+				VehicleGoodsList:[], //	配件列表
 			},
 			tableItem: {
 				Id: '0',
@@ -476,7 +441,9 @@ export default {
 				},
 			},
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -558,18 +525,10 @@ export default {
 				},
 			],
 		});
-		const saveProject = (list: never[]) => {
-			const items=list.map(val=>{return {Id:"0",ProjectId:val.Id,Name:val.Name,Content:val.Content,Qty:val.Qty,Price:val.Price,Remark:val.Remark,Amount:val.Amount}});
-			state.ruleForm.VehicleProjectList=[...state.ruleForm.VehicleProjectList,...items]
-		}
-		const saveGoods = (list: never[]) => {
-			const items=list.map(val=>{return {Id:"0",GoodsId:val.Id,GoodsSn:val.GoodsSn,GoodsName:val.GoodsName,Qty:1,Price:val.ShopPrice,SellerNote:val.SellerNote,Amount:val.Amount}});
-			state.ruleForm.VehicleGoodsList=[...state.ruleForm.VehicleGoodsList,...items]
-		}
-		// 打开弹窗
+
+		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
@@ -599,6 +558,7 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+
 		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.vehicle.getById(Id,true);
@@ -610,35 +570,17 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		// 关闭弹窗
+
+		//	关闭弹窗
 		const closeDialog = () => {
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			onLoadTable();
-		};
-
-		const onLoadTable = () => {
 			proxy.$parent.onGetTableData();
 		};
-		//修改按钮
-		const onModelEdit = (item: object) => {
-			state.tableItem = item;
-			console.log(state.tableItem.Files);
-			if (state.tableItem.Files != '') {
-				state.Files = item.Files.split(',');
-				state.FilesList = [];
-				for (let i = 0; i < state.Files.length; i++) {
-					let image = { url: '' };
-					image.url = state.httpsText + state.Files[i];
-					state.FilesList.push(image);
-				}
-			}
-			state.saveState = false;
-			state.dialogVisible = true;
-		};
-		// 提交
+
+		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
@@ -675,26 +617,10 @@ export default {
 				}
 			});
 		};
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
+
 		const { dateFormatYMD } = commonFunction();
- 		// 总价
+
+ 		//	总价
 		const calcAmount = (row)=>{
 			if (row.Price && row.Qty) {
         		return row.Price * row.Qty;
@@ -702,22 +628,17 @@ export default {
         		return 0; // 如果没有提供单价或数量则不进行计算并将总价格设置为空字符串
       		}
 		};
+
 		// 页面加载时
 		onMounted(() => {
-
 		});
+
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
-			onLoadTable,
 			GetByIdRow,
-			onSuccessFile,
-			onRemove,
-			onBeforeImageUpload,
-			onModelEdit,
-			showImage,
 			dateFormatYMD,
 			getUserInfos,
 			rules,
@@ -728,12 +649,9 @@ export default {
 			editDlgRef,
 			addDlgRef,
 			addWorkerDlgRef,
-			saveProject,
-			saveGoods,
 			onProjectDel,
 			onGoodsDel,
 			onAddWorkerOpenDlg,
-			handleChange,
 			calcAmount,
 			...toRefs(state),
 		};

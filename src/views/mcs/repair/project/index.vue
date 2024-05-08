@@ -4,7 +4,7 @@
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="关键字：">
-						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
+						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword" />
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -44,11 +44,11 @@
 				stripe
 				highlight-current-row>
 				<el-table-column type="index" label="序号" width="60" align="right" fixed/>
-				<el-table-column prop="Name" label="项目名称" width="200" align="left" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="No" label="项目编号" width="200" align="left" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Qty" label="预估工时" width="100" align="right"></el-table-column>
-				<el-table-column prop="Price" label="工时单价" width="100" align="right"></el-table-column>
-				<el-table-column prop="Content" label="服务内容" width="300" align="left" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Name" label="项目名称" width="200" align="left" show-overflow-tooltip fixed />
+				<el-table-column prop="No" label="项目编号" width="200" align="left" show-overflow-tooltip />
+				<el-table-column prop="Qty" label="预估工时" width="100" align="right" />
+				<el-table-column prop="Price" label="工时单价" width="100" align="right" />
+				<el-table-column prop="Content" label="服务内容" width="300" align="left" show-overflow-tooltip />
 				<el-table-column label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
@@ -65,7 +65,7 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Remark" label="备注" align="left" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Remark" label="备注" align="left" show-overflow-tooltip />
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -90,8 +90,7 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total">
-			</el-pagination>
+				:total="tableData.total" />
 		</el-card>
 		<editDlg ref="editDlgRef" />
 		<importDlg ref="importDlgRef" />
@@ -111,13 +110,21 @@ export default {
 	components: { editDlg, importDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const route = useRoute();
+
 		const kind = "repair";
+
 		const scopeMode = route.params.scopeMode || 0;
+
 		const scopeValue = route.params.scopeValue || 0;
+
 		const moduleKey = `api_${kind}_project`;
+
 		const editDlgRef = ref();
+
 		const importDlgRef = ref();
+
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -135,6 +142,7 @@ export default {
 				},
 			},
 		});
+		
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});

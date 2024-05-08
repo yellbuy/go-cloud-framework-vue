@@ -10,13 +10,16 @@
 										placeholder="输入关键字查询"
 										v-model="mainTableData.param.keyword"/>
 								</el-form-item>
-								<el-form-item label="要求发货时间" style="width:280px; white-space: nowrap;">
+								<el-form-item label="发货时间" style="width:300px; white-space: nowrap;">
 									<el-date-picker
-										v-model="mainTableData.param.timeRange"
+										v-model="timeRange"
 										type="daterange"
+										unlink-panels
 										range-separator="至"
-										start-placeholder="开始日期"
-										end-placeholder="结束日期"/>
+										start-placeholder="开始时间"
+										end-placeholder="结束时间"
+										format="YYYY-MM-DD"
+										date-format="YYYY/MM/DD"/>
 								</el-form-item>
 								<el-form-item>
 									<el-button type="info" @click="onMainResetSearch">
@@ -51,7 +54,7 @@
 						border
 						stripe
 						highlight-current-row>
-					<el-table-column type="index" label="序号" align="right" width="60" fixed />
+						<el-table-column type="index" label="序号" align="right" width="60" fixed />
 						<el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column>
 						<el-table-column prop="GoodsName" label="货物" width="100"></el-table-column>
 						<el-table-column prop="CustomerName" label="客户" width="120" show-overflow-tooltip></el-table-column>
@@ -129,10 +132,10 @@
 									</el-button>
 								</el-tooltip>
 								<el-tooltip
-										class="box-item"
-										effect="dark"
-										:content="$t('message.action.search')"
-										placement="top-start">	
+									class="box-item"
+									effect="dark"
+									:content="$t('message.action.search')"
+									placement="top-start">	
 									<el-button type="info" @click="onChildQuery()">
 										<el-icon>
 											<Search />
@@ -140,10 +143,10 @@
 									</el-button>
 								</el-tooltip>
 								<el-tooltip
-										class="box-item"
-										effect="dark"
-										:content="$t('message.action.add')"
-										placement="top-start">	
+									class="box-item"
+									effect="dark"
+									:content="$t('message.action.add')"
+									placement="top-start">	
 									<el-button type="primary" @click="onChildOpenAddDlg(0, false)" v-auth:[moduleKey]="'btn.ChildAdd'">
 										<el-icon>
 											<CirclePlusFilled />
@@ -281,13 +284,15 @@ export default {
 			scopeMode,
 			scopeValue,
 			mainCurrentRow:null,
+			timeRange: [],
 			mainTableData: {
 				data: [],
 				total: 0,
 				loading: false,
 				param: {
 					keyword: '',
-					timeRange: [],
+					sendPlanStartTime: "",
+					sendPlanEndTime: "",
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -310,7 +315,8 @@ export default {
 		state.mainTableData.param.pageIndex = computed(() => {
 			return state.mainTableData.param.pageNum - 1;
 		});
-		//重置查询条件
+
+		//	重置查询条件
 		const onMainResetSearch = () => {
 			state.mainTableData.param.keyword = '';
 			onMainGetTableData(true);
@@ -330,9 +336,12 @@ export default {
 			onChildGetTableData(true)
 		}
 
-		// 初始化表格数据
+		//	初始化表格数据
 		const onMainGetTableData = async (gotoFirstPage: boolean = false) => {
-			console.log("测试", state.mainTableData.param.timeRange)
+			if (state.timeRange && state.timeRange.length>1) {
+				state.mainTableData.param.sendPlanStartTime = state.timeRange[0]
+				state.mainTableData.param.sendPlanEndTime = state.timeRange[1]
+			}
 			if (gotoFirstPage) {
 				state.mainTableData.param.pageNum = 1;
 			}
@@ -348,7 +357,8 @@ export default {
 				state.mainTableData.loading = false;
 			}
 		};
-		// 打开弹窗
+
+		//	打开弹窗
 		const onMainCopy = async (id: string, ishow: boolean) => {
 			state.mainTableData.loading = true;
 			try {
@@ -361,11 +371,11 @@ export default {
 			}
 			return false;
 		};
-		// 打开弹窗
+		//	打开弹窗
 		const onMainOpenEditDlg = (id: string, ishow: boolean) => {
 			editMainDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-		// 删除用户
+		//	删除用户
 		const onMainDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -384,12 +394,13 @@ export default {
 			});
 		};
 
-		// 分页改变
+		//	分页改变
 		const onMainHandleSizeChange = (val: number) => {
 			state.mainTableData.param.pageSize = val;
 			onMainGetTableData();
 		};
-		// 分页改变
+
+		//	分页改变
 		const onMainHandleCurrentChange = (val: number) => {
 			state.mainTableData.param.pageNum = val;
 			onMainGetTableData();
@@ -398,7 +409,8 @@ export default {
 		state.childTableData.param.pageIndex = computed(() => {
 			return state.childTableData.param.pageNum - 1;
 		});
-		//重置查询条件
+
+		//	重置查询条件
 		const onChildResetSearch = () => {
 			state.childTableData.param.keyword = '';
 			state.childTableData.param.isTodayAll=state.childTableData.isTodayAll
@@ -428,7 +440,8 @@ export default {
 				state.childTableData.loading = false;
 			}
 		};
-		// 打开弹窗
+
+		//	打开弹窗
 		const onChildOpenAddDlg = (id: string, ishow: boolean) => {
 			if(!state.mainCurrentRow){
 				ElMessage.warning('请选择任务单再添加车辆');
@@ -436,15 +449,18 @@ export default {
 			}
 			batchAddLineDlgRef.value.openDialog(state.kind, state.mainCurrentRow.Id, ishow);
 		};
-		// 打开弹窗
+
+		//	打开弹窗
 		const onChildOpenEditDlg = (id: string, ishow: boolean) => {
 			editChildDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-		// 打开地图
+
+		//	打开地图
 		const onChildOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
 			childMapDlgRef.value.openDialog(vehicleNumber, ishow);
 		};
-		// 删除用户
+
+		//	删除用户
 		const onChildDel = (id: string,waybillId:string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -464,18 +480,19 @@ export default {
 			});
 		};
 
-		// 分页改变
+		//	分页改变
 		const onChildHandleSizeChange = (val: number) => {
 			state.childTableData.param.pageSize = val;
 			onChildGetTableData();
 		};
-		// 分页改变
+
+		//	分页改变
 		const onChildHandleCurrentChange = (val: number) => {
 			state.childTableData.param.pageNum = val;
 			onChildGetTableData();
 		};
 
-		// 页面加载时
+		//	页面加载时
 		onMounted(() => {
 			onMainGetTableData();
 			onChildGetTableData();

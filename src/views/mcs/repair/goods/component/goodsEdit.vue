@@ -2,21 +2,51 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="商品名称" prop="GoodsName">
 							<el-input
 								v-model="ruleForm.GoodsName"
-								placeholder="请输入"></el-input> 
+								placeholder="请输入" /> 
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="计量单位" prop="GoodsUnit">
+							<el-select
+								v-model="ruleForm.GoodsUnit"
+								filterable
+								class="m-2"
+								placeholder="请选择"
+								size="small">
+    							<el-option v-for="item in goodsUnitList" :key="item.Id" :label="item.Name" :value="item.Name" />
+  							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="商品类别" prop="GoodsBrief">
 							<el-select
 								v-model="ruleForm.GoodsAlisa"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in categoryList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+								<el-option v-for="(item, index) in categoryList" :key="index" :label="item.Name" :value="item.Id" />
 							</el-select>
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="供应商" prop="ProviderName">
+							<el-select
+								v-model="ruleForm.ProviderName"
+								filterable
+								placeholder="请选择">
+								<el-option v-for="(item, index) in providerList" :key="index" :label="item.Name" :value="item.Id" />
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="是否启用" prop="IsOnSale">
 							<el-switch
 								v-model="ruleForm.IsOnSale"
@@ -24,45 +54,35 @@
 								:inactive-icon="Close"
 								:active-value="1"
 								:inactive-value="0"
-								inline-prompt/>				
+								inline-prompt />				
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" class="mb20">
-						<el-form-item label="计量单位" prop="GoodsUnit">
-							<el-select
-								v-model="ruleForm.GoodsUnit"
-								filterable
-								class="m-2"
-								placeholder="请输入"
-								size="small">
-    							<el-option v-for="item in goodsUnitList" :key="item.Id" :label="item.Name" :value="item.Name"/>
-  							</el-select>
-						</el-form-item>
-						<el-form-item label="供应商" prop="ProviderName">
-							<el-select
-								v-model="ruleForm.ProviderName"
-								filterable
-								placeholder="请选择">
-								<el-option v-for="(item, index) in providerList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
-							</el-select>
-						</el-form-item>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="基准价格" prop="ShopPrice">
 							<el-input-number
 								v-model="ruleForm.ShopPrice"
 								min="0"
 								max="10000"
 								precision="2"
-								placeholder="请选择"></el-input-number> 
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" class="mb20">
-
-					</el-col>
 				</el-row>
-				<el-row>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">	
+						<el-form-item label="备注" prop="SellerNote" >
+							<el-input
+								v-model="ruleForm.SellerNote"
+								:rows="3"
+								type="textarea"
+								placeholder="请输入" />
+					</el-form-item>
+					</el-col>
+				</el-row> 
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">	
 						<el-form-item label="商品图片" prop="Files">
-							<div style="width: 50%">
+							<div style="width: 100%">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
@@ -79,16 +99,7 @@
 							</div> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">		
-						<el-form-item label="备注" prop="SellerNote" >
-							<el-input
-								v-model="ruleForm.SellerNote"
-								:rows="3"
-								type="textarea"
-								placeholder="请输入"/>
-					</el-form-item>
-					</el-col>
-				</el-row> 
+				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -120,19 +131,15 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 		
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 
 		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
-			console.log('触发图片上传');
 			state.Files.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			console.log(state.FilesList);
 		};
 
 		const onRemove = (file: UploadFile) => {
-			console.log(file);
 			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.Files.length; i++) {
 				if (state.Files[i] == removeUrl) {
@@ -233,7 +240,6 @@ export default {
 		//	打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
@@ -334,7 +340,6 @@ export default {
 		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			console.log('关闭页面表单', state.ruleForm);
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;

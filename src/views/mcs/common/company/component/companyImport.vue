@@ -2,7 +2,7 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
-				<el-row :gutter="20">
+				<el-row :gutter="0">
 					<el-col :xs="2" :sm="1" class="mb20">
 						<el-upload ref="uploadRef" class="upload-demo" :before-upload="
 								() => {return false;}" :auto-upload="false" :on-change="onImportXlsx" :show-file-list="false">
@@ -24,8 +24,8 @@
 						</el-button>
 					</el-col>
 				</el-row>	
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="24" class="mb20">
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-table
 							ref="mainTableRef"
 							:data="paginatedData"
@@ -38,42 +38,42 @@
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.CompanyName"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="CompanyAlias" label="客户简称" width="80" fixed>
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.CompanyAlias"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Idno" label="证件号码" width="160">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Idno"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Address" label="地址">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Address"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="BusinessScope" label="经营范围" width="120">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.BusinessScope"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="TaxpayerKind" label="纳税人类型" width="100">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.TaxpayerKind"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="BusinessStartTime" label="营业开始日期" width="120">
@@ -82,7 +82,7 @@
 										v-model="scope.row.BusinessStartTime"
 										type="date"
 										placeholder="请选择时间"
-										format="YYYY-MM-DD"></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="BusinessEndTime" label="营业结束日期" width="120">
@@ -91,24 +91,23 @@
 										v-model="scope.row.BusinessEndTime"
 										type="date"
 										placeholder="到期日期"
-										format="YYYY-MM-DD"></el-date-picker>
+										format="YYYY-MM-DD" />
 								</template>
 							</el-table-column>
 							<el-table-column prop="Linkman" label="联系人" width="100">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Linkman"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column prop="Tel" label="联系电话" width="120">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.Tel"
-										placeholder="请输入"></el-input> 
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
-							
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
 								<template #header>
 									<el-button bg type="primary" @click="onAddRow()">
@@ -130,8 +129,7 @@
 							background
 							v-model:page-size="tableData.param.pageSize"
 							layout="->, total, sizes, prev, pager, next, jumper"
-							:total="tableData.total">
-						</el-pagination>
+							:total="tableData.total" />
 					</el-col>
 				</el-row>
 			</el-form>
@@ -158,10 +156,11 @@ export default {
 	name: 'companyImport',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+
 		const { t } = useI18n();
-		console.log("message.action.add:",t('message.action.add'))
 		
 		const store = useStore();
+
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
 		});
@@ -192,7 +191,9 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
+
 		const token = Session.get('token');
+
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -271,6 +272,7 @@ export default {
 		const onClearRow = () => {
 		 	state.ruleForm.CompanyList=[]
 		};
+		
 		// 下载导入模板
 		const onDownloadTpl = async () => {
 			var a = document.createElement('a');
