@@ -266,9 +266,11 @@ export default {
 				if(workbook.SheetNames.length < 1){
 					return;
 				}
+
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: ["Index", "VehicleNumber", 
 					"VehicleType", "IsExternal", "Shipper", "Linkman", "Phone", "Driver", "DriverMobile", "DrivingLicense", "DrivingLicenseStartDate", 
 					"DrivingLicenseEndDate", "TransportLicense", "TransportLicenseStartDate", "TransportLicenseEndDate"], range: 2})
+					
 				list.forEach(item => {
 					item.Index = parseInt(item.Index)
 					item.VehicleNumber = String(item.VehicleNumber)
@@ -280,11 +282,12 @@ export default {
 					item.Phone = String(item.Phone)
 					item.DriverMobile = String(item.DriverMobile)
 					item.DrivingLicense = String(item.DrivingLicense)
-					item.DrivingLicenseStartDate = dayjs(item.DrivingLicenseStartDate)
-					item.DrivingLicenseEndDate = dayjs(item.DrivingLicenseEndDate)
+					item.DrivingLicenseStartDate = dayjs(item.DrivingLicenseStartDate).add(2,"hour")
+					item.DrivingLicenseEndDate = dayjs(item.DrivingLicenseEndDate).add(2,"hour")
 					item.TransportLicense = String(item.TransportLicense)
-					item.TransportLicenseStartDate = dayjs(item.TransportLicenseStartDate)
-					item.TransportLicenseEndDate = dayjs(item.TransportLicenseEndDate)
+					item.TransportLicenseStartDate = dayjs(item.TransportLicenseStartDate).add(2,"hour")
+					item.TransportLicenseEndDate = dayjs(item.TransportLicenseEndDate).add(2,"hour")
+					console.log("测试", item)
 					if (item.VehicleNumber == "") {
 						tip[0].push(item.Index)
 					}
@@ -294,6 +297,7 @@ export default {
 					}else {
 						unique[item.VehicleNumber] = item.Index
 						rows.push(item)
+						
 					}
 				});
 				if (tip[0].length > 0) {
