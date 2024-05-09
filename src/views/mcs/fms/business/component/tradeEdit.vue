@@ -118,7 +118,7 @@ export default {
 				Name: '',
 				Kind: 'trade',
 				CustomerId: '',
-				GoodsCategoryId: '0',
+				GoodsCategoryId: '',
 				GoodsId: '',
 			},
 			
@@ -243,6 +243,9 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.BillTime = state.ruleForm.SenderPlanTime;
+					if (state.ruleForm.GoodsCategoryId === ''){
+						state.ruleForm.GoodsCategoryId = "0";
+					}
 					try {
 						const res = await proxy.$api.erp.businessBill.save(state.ruleForm);
 						if (res.errcode == 0) {
