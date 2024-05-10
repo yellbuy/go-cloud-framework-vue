@@ -8,7 +8,8 @@
 						<el-form-item label="供应商" prop="CustomerId" >
 							<el-select
 								v-model="ruleForm.CustomerId"
-								filterable placeholder="请选择">
+								filterable
+								placeholder="请选择">
 								<el-option v-for="item in customerList" :key="item.Id" :label="item.CompanyName" :value="item.Id" />
 							</el-select>
 						</el-form-item>
@@ -113,12 +114,12 @@ export default {
 			baseUrl: import.meta.env.VITE_API_URL,
 			//	表单
 			ruleForm: {
-				Id: 0,
+				Id: '',
 				Name: '',
 				Kind: 'trade',
-				CustomerId:"",
+				CustomerId: '',
 				GoodsCategoryId: '',
-				GoodsId:"",
+				GoodsId: '',
 			},
 			
 			dialogVisible: false,
@@ -241,7 +242,10 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
-					state.ruleForm.BillTime=state.ruleForm.SenderPlanTime;
+					state.ruleForm.BillTime = state.ruleForm.SenderPlanTime;
+					if (state.ruleForm.GoodsCategoryId === ''){
+						state.ruleForm.GoodsCategoryId = "0";
+					}
 					try {
 						const res = await proxy.$api.erp.businessBill.save(state.ruleForm);
 						if (res.errcode == 0) {

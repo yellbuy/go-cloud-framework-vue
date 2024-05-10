@@ -88,6 +88,7 @@
 					<el-pagination
 						small
 						@size-change="onMainHandleSizeChange"
+						@current-change="onMainHandleCurrentChange"
 						class="mt15"
 						:page-sizes="[10, 20, 30, 50, 100]"
 						v-model:current-page="mainTableData.param.pageNum"
