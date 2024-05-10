@@ -35,6 +35,7 @@ export default {
 		energy_bill_line:'油耗详情',
 		chart:'图表',
 		dashboard:'大屏展示',
+		external_dashboard:'外部大屏',
 		waybill_stat:'运力分析',
 	},
 	field: {

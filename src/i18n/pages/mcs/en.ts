@@ -34,6 +34,7 @@ export default {
 		energy_bill_line:'energy bill line',
 		chart:'chart',
 		dashboard:'dashboard',
+		external_dashboard:'external dashboard',
 		waybill_stat:'waybill DA',
 	},
 	field:{
