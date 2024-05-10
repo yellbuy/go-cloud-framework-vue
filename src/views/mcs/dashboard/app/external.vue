@@ -72,7 +72,7 @@
         </div>
         <div class="main-rows">
           <dv-border-box-12 style="width:67%;height:auto;padding:2px">
-            <center-top></center-top>
+            <digital-weight-stat></digital-weight-stat>
             <!-- <dv-decoration-3 style="width: 100%;" /> -->
             <div class="main-rows">
               <div class="block-left-content">
@@ -153,7 +153,7 @@ import topHeader from "./topHeader.vue";
 import waterLevelChart from "./waterLevelChart.vue";
 
 export default {
-  name: "DataView",
+  name: "ExternalDashboard",
   components: {
     topHeader,
     leftTop,

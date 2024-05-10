@@ -1,135 +1,41 @@
 <template>
   <div id="centerTop">
     <div class="digital-container">
-        <div class="digital-title">年运量（公路）</div>
+        <div class="digital-title">年 运 力 数 据 汇 总</div>
         <div class="flex-row">
             <div class="digital-flop-item">
-              <div class="unit">计划</div>
+              <div class="unit">公路运量</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.YearPlanWeight],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.WaybillWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
               <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
-              <div class="unit">完成</div>
+              <div class="unit">公路运单</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.YearExecWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.WaybillCount],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
+              />
+              <div class="unit">条</div>
+            </div> 
+            <div class="digital-flop-item">
+              <div class="unit">铁路运量</div>
+              <dv-digital-flop class="digital-flop-item-digital"
+                :config="{number:[statData.MainBusinessWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
               <div class="unit">吨</div>
-            </div>
+            </div> 
             <div class="digital-flop-item">
-              <div class="unit">超/欠</div>
+              <div class="unit">贸易运量</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.YearBalanceWeight],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.TradeWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
               <div class="unit">吨</div>
-            </div>
-          
-            <div class="digital-flop-item">
-              <div class="unit">完成情况</div>
-              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.YearPercent,lineDash: [10, 2]}" />
-              <!-- <dv-charts class="digital-flop-item-progress" :option="{
-                  title: {
-                    text: '完成情况',
-                    offset:[0,-30],
-                    style: {
-                      fontSize:14,
-                      fill: '#fff'
-                    }
-                  },
-                  series: [
-                    {
-                      type: 'gauge',
-                      data: [ { name: 'itemA', value: statData.YearPercent } ],
-                      center: ['50%', '55%'],
-                      axisLabel: {
-                        formatter: '{value}%',
-                        style: {
-                          fill: '#fff'
-                        }
-                      },
-                      axisTick: {
-                        style: {
-                          stroke: '#fff'
-                        }
-                      },
-                      animationCurve: 'easeInOutBack'
-                    }
-                  ]
-                }" /> -->
-              <!-- <dv-water-level-pond class="digital-flop-item-progress" :config="{ data: [statData.YearPercent], shape: 'round', waveHeight: 5, waveNum: 5}" /> -->
-            </div>
+            </div>    
+                  
           </div>
-          <!-- <Decoration2 style="width:200px; height:5px;" /> -->
         <dv-decoration-2 />
       </div>
-      <div class="digital-container">
-        <div class="digital-title">月运量（公路）</div>
-        <div class="flex-row">
-            <div class="digital-flop-item">
-              <div class="unit">计划</div>
-              <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.MonthPlanWeight],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
-              />
-              <div class="unit">吨</div>
-            </div>
-            <div class="digital-flop-item">
-              <div class="unit">完成</div>
-              <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.MonthExecWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-              />
-              <div class="unit">吨</div>
-            </div>
-            <div class="digital-flop-item">
-              <div class="unit">超/欠</div>
-              <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.MonthBalanceWeight],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
-              />
-              <div class="unit">吨</div>
-            </div>
-            <div class="digital-flop-item">
-              <div class="unit">完成情况</div>
-              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.MonthPercent,lineDash: [10, 2]}" />
-              <!-- <dv-water-level-pond class="digital-flop-item-progress" :config="{ data: [statData.MonthPercent], shape: 'round', waveHeight: 5, waveNum: 5}" /> -->
-              
-            </div>
-          </div>
-          <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-        <dv-decoration-2 />
-      </div>
-      <div class="digital-container">
-        <div class="digital-title">日运量（公路）</div>
-        <div class="flex-row">
-            <div class="digital-flop-item">
-              <div class="unit">计划</div>
-              <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.DayPlanWeight],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
-              />
-              <div class="unit">吨</div>
-            </div>
-            <div class="digital-flop-item">
-              <div class="unit">完成</div>
-              <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.DayExecWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-              />
-              <div class="unit">吨</div>
-            </div>
-            <div class="digital-flop-item">
-              <div class="unit">超/欠</div>
-              <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.DayBalanceWeight],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
-              />
-              <div class="unit">吨</div>
-            </div>
-            <div class="digital-flop-item">
-              <div class="unit">完成情况</div>
-              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.DayPercent,lineDash: [10, 2]}" />
-              <!-- <dv-water-level-pond class="digital-flop-item-progress" :config="{ data: [statData.DayPercent], shape: 'round', waveHeight: 5, waveNum: 5}" /> -->
-            </div>
-          </div>
-          <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-        <dv-decoration-2 />
-      </div>
+      
       <!-- <div class="digital-container">
         <div class="flex-row" style="padding-top:6px !important;padding-bottom:6px !important">
           
@@ -142,6 +48,7 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs';
 import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 export default {
@@ -152,21 +59,10 @@ export default {
 		const { t } = useI18n();
 		const state = reactive({
 			statData:{
-        YearPlanWeight :0, //年计划量
-        YearExecWeight:0, //年已执行量
-        YearBalanceWeight:0, //年运量差额
-        YearBalanceWeightString:"0",  //年运量差额
-        YearPercent:0, //年计划百分比
-        MonthPlanWeight:0, //月计划量
-        MonthExecWeight:0, //月已执行量
-        MonthBalanceWeight:0, //月运量差额
-        MonthBalanceWeightString:"0",  //月运量差额
-        MonthPercent:0, //月计划百分比
-        DayPlanWeight:0,//日计划量
-        DayExecWeight:0, //日已执行量
-        DayBalanceWeight:0, //日运量差额
-        DayBalanceWeightString:"0",  //日运量差额
-        DayPercent:0, //日计划百分比
+        WaybillWeight:0, //公路年已执行重量
+        WaybillCount:0, //公路年已执行记录
+        MainBusinessWeight:0, //铁路年已执行重量
+        TradeWeight:0, //贸易年已执行重量
       }
 		});
 		
@@ -175,13 +71,38 @@ export default {
 		onMounted(async () => {
       const res = await proxy.$api.erp.waybill.getDashboardPlanStatByScope(0, 0);
       if(res.errcode==0){
-        state.statData=res.data;
+        state.statData.WaybillWeight=res.data.YearExecWeight;
+        state.statData.WaybillCount=res.data.YearCount;
+      }	
+      const now = dayjs();
+      const startTime=now.startOf('year').format(); 
+      const endTime=now.endOf('year').format(); 
+      //铁运年度运量
+      const mainBusinessRes = await proxy.$api.erp.businessBill.getWeightStatByScope("main_business", 0, 0,{startTime,endTime});
+      if(mainBusinessRes.errcode==0){
+        state.statData.MainBusinessWeight=mainBusinessRes.data.Weight;
       }		
+      //贸易年度运量
+      const tradeRes = await proxy.$api.erp.businessBill.getWeightStatByScope("trade", 0, 0,{startTime,endTime});
+      if(tradeRes.errcode==0){
+        state.statData.TradeWeight=tradeRes.data.Weight;
+      }	
       setInterval(async () => {
         const res = await proxy.$api.erp.waybill.getDashboardPlanStatByScope(0, 0);
         if(res.errcode==0){
-          state.statData=res.data;
+          state.statData.WaybillWeight=res.data.YearExecWeight;
+          state.statData.WaybillCount=res.data.YearCount;
         }		
+        //铁运年度运量
+        const mainBusinessRes = await proxy.$api.erp.businessBill.getWeightStatByScope("main_business", 0, 0,{startTime,endTime});
+        if(mainBusinessRes.errcode==0){
+          state.statData.MainBusinessWeight=mainBusinessRes.data.Weight;
+        }		
+        //贸易年度运量
+        const tradeRes = await proxy.$api.erp.businessBill.getWeightStatByScope("trade", 0, 0,{startTime,endTime});
+        if(tradeRes.errcode==0){
+          state.statData.TradeWeight=tradeRes.data.Weight;
+        }	
       }, 60000);
 				
 		});
@@ -239,6 +160,7 @@ export default {
       // flex-direction: column;
       // justify-content: center;
       // align-items: center;
+      color:lightgray;
       text-align: center;
       font-size: 20px;
       padding-top:10px;
