@@ -168,7 +168,6 @@ export default {
     }
 
   .unit {
-    margin-left: 10px;
     box-sizing: border-box;
     padding-bottom: 8px;
   }
