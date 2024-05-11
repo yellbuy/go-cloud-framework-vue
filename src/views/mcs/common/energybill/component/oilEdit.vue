@@ -268,6 +268,7 @@ import * as XLSX from "xlsx"; //引入
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
+import { Console } from 'console';
 export default {
 	name: 'oilEdit',
 	setup() {
@@ -377,10 +378,11 @@ export default {
 				}
 				const wsname = workbook.SheetNames[0]
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[wsname])
+				console.log("测试", list)
 				if(!list.length||list.length<5){
 					return;
 				}
-				for(var i=3;i<list.length;i++){
+				for(var i=2;i<list.length;i++){
 					const row=list[i];
 					const name=row["加油明细台账"]||"";
 					if(name=="合计"){
@@ -393,40 +395,39 @@ export default {
 					unique[vehicleNumber] = true
 					const model={};
 					model.VehicleNumber=vehicleNumber;
-					model.Mileage=row["__EMPTY_3"]||0;
-					model.Volume21=row["__EMPTY_4"]||0;
-					model.Volume22=row["__EMPTY_5"]||0;
-					model.Volume23=row["__EMPTY_6"]||0;
-					model.Volume24=row["__EMPTY_7"]||0;
-					model.Volume25=row["__EMPTY_8"]||0;
-					model.Volume26=row["__EMPTY_9"]||0;
-					model.Volume27=row["__EMPTY_10"]||0;
-					model.Volume28=row["__EMPTY_11"]||0;
-					model.Volume29=row["__EMPTY_12"]||0;
-					model.Volume30=row["__EMPTY_13"]||0;
-					model.Volume31=row["__EMPTY_14"]||0;
-					model.Volume01=row["__EMPTY_18"]||0;
-					model.Volume02=row["__EMPTY_19"]||0;
-					model.Volume03=row["__EMPTY_20"]||0;
-					model.Volume04=row["__EMPTY_21"]||0;
-					model.Volume05=row["__EMPTY_22"]||0;
-					model.Volume06=row["__EMPTY_23"]||0;
-					model.Volume07=row["__EMPTY_24"]||0;
-					model.Volume08=row["__EMPTY_25"]||0;
-					model.Volume09=row["__EMPTY_26"]||0;
-					model.Volume10=row["__EMPTY_27"]||0;
-					model.Volume11=row["__EMPTY_28"]||0;
-					model.Volume12=row["__EMPTY_29"]||0;
-					model.Volume13=row["__EMPTY_30"]||0;
-					model.Volume14=row["__EMPTY_31"]||0;
-					model.Volume15=row["__EMPTY_32"]||0;
-					model.Volume16=row["__EMPTY_33"]||0;
-					model.Volume17=row["__EMPTY_34"]||0;
-					model.Volume18=row["__EMPTY_35"]||0;
-					model.Volume19=row["__EMPTY_36"]||0;
-					model.Volume20=row["__EMPTY_37"]||0;
-					model.Volume=row["__EMPTY_41"]||0;
-					model.Amount=row["__EMPTY_42"]||0;
+					model.Mileage=row["__EMPTY_1"]||0;
+					model.Volume21=row["__EMPTY_2"]||0;
+					model.Volume22=row["__EMPTY_3"]||0;
+					model.Volume23=row["__EMPTY_4"]||0;
+					model.Volume24=row["__EMPTY_5"]||0;
+					model.Volume25=row["__EMPTY_6"]||0;
+					model.Volume26=row["__EMPTY_7"]||0;
+					model.Volume27=row["__EMPTY_8"]||0;
+					model.Volume28=row["__EMPTY_9"]||0;
+					model.Volume29=row["__EMPTY_10"]||0;
+					model.Volume30=row["__EMPTY_11"]||0;
+					model.Volume31=row["__EMPTY_12"]||0;
+					model.Volume01=row["__EMPTY_13"]||0;
+					model.Volume02=row["__EMPTY_14"]||0;
+					model.Volume03=row["__EMPTY_15"]||0;
+					model.Volume04=row["__EMPTY_16"]||0;
+					model.Volume05=row["__EMPTY_17"]||0;
+					model.Volume06=row["__EMPTY_18"]||0;
+					model.Volume07=row["__EMPTY_19"]||0;
+					model.Volume08=row["__EMPTY_20"]||0;
+					model.Volume09=row["__EMPTY_21"]||0;
+					model.Volume10=row["__EMPTY_22"]||0;
+					model.Volume11=row["__EMPTY_23"]||0;
+					model.Volume12=row["__EMPTY_24"]||0;
+					model.Volume13=row["__EMPTY_25"]||0;
+					model.Volume14=row["__EMPTY_26"]||0;
+					model.Volume15=row["__EMPTY_27"]||0;
+					model.Volume16=row["__EMPTY_28"]||0;
+					model.Volume17=row["__EMPTY_29"]||0;
+					model.Volume18=row["__EMPTY_30"]||0;
+					model.Volume19=row["__EMPTY_31"]||0;
+					model.Volume20=row["__EMPTY_32"]||0;
+					model.Amount=row["__EMPTY_33"]||0;
 					rows.push(model);
 				}
 				state.tableData.total=rows.length
