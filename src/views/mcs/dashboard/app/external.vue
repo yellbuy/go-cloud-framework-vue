@@ -19,7 +19,14 @@
                 <barMainBusinessBoard />
               </div>
             </div>
-            
+            <div class="main-rows">
+              <div class="block-left-content">
+                <rankWaybillCompany :chartHeight="300"/>
+              </div>
+              <div class="block-left-content">
+                <rankWaybillCustomer :chartHeight="300"/>
+              </div>
+            </div>
             <!-- <center-bottom></center-bottom> -->
           </dv-border-box-12>
           <dv-border-box-12 style="width:33%;height:auto;padding:12px">
@@ -31,16 +38,16 @@
               <!-- <div class="block-left-content">
                 <barWaybillBoard />
               </div> -->
-              
+<!--               
               <div class="block-left-content">
                 <barTradeBoard />
               </div>
               <div class="block-left-content">
-                <barWarehouseRateBoard />
+                <barWarehouseRateBoard chartHeight="300px"/>
               </div>
               <div class="block-left-content">
                 <mainBusinessBoard />
-              </div>
+              </div> -->
           </div>
           </dv-border-box-12>
           
@@ -82,7 +89,14 @@
                 <barMainBusinessBoard />
               </div>
             </div>
-            
+            <div class="main-rows">
+              <div class="block-left-content">
+                <rankWaybillCompany :chartHeight="300"/>
+              </div>
+              <div class="block-left-content">
+                <rankWaybillCustomer :chartHeight="300"/>
+              </div>
+            </div>
             <!-- <center-bottom></center-bottom> -->
           </dv-border-box-12>
           <dv-border-box-12 style="width:33%;height:auto;padding:12px">
@@ -95,15 +109,15 @@
                 <barWaybillBoard />
               </div> -->
               
-              <div class="block-left-content">
-                <barTradeBoard />
+              <!-- <div class="block-left-content">
+                <barTradeBoard :chartHeight="300"/>
               </div>
               <div class="block-left-content">
-                <barWarehouseRateBoard />
-              </div>
-              <div class="block-left-content">
+                <barWarehouseRateBoard :chartHeight="300"/>
+              </div> -->
+              <!-- <div class="block-left-content">
                 <mainBusinessBoard />
-              </div>
+              </div> -->
           </div>
           </dv-border-box-12>
           
@@ -146,6 +160,8 @@ import digitalWeightStat from "./digitalWeightStat.vue";
 import leftTop from "./leftTop.vue";
 import noticeList from "./noticeList.vue";
 import rankingBoard from "./rankingBoard.vue";
+import rankWaybillCompany from "./rankWaybillCompany.vue";
+import rankWaybillCustomer from "./rankWaybillCustomer.vue";
 import roseChart from "./roseChart.vue";
 import scrollBoard from "./scrollBoard.vue";
 import scrollBoardAmount from "./scrollBoardAmount.vue";
@@ -162,6 +178,8 @@ export default {
     noticeList,
     digitalFlop,
     rankingBoard,
+    rankWaybillCompany,
+    rankWaybillCustomer,
     roseChart,
     waterLevelChart,
     scrollBoard,

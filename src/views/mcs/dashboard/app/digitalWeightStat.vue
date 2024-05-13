@@ -78,7 +78,7 @@ export default {
       const startTime=now.startOf('year').format(); 
       const endTime=now.endOf('year').format(); 
       //铁运年度运量
-      const mainBusinessRes = await proxy.$api.erp.businessBill.getWeightStatByScope("main_business", 0, 0,{startTime,endTime});
+      const mainBusinessRes = await proxy.$api.erp.businessBillLine.getWeightStatByScope("main_business", 0, 0,{startTime,endTime});
       if(mainBusinessRes.errcode==0){
         state.statData.MainBusinessWeight=mainBusinessRes.data.Weight;
       }		
@@ -94,7 +94,7 @@ export default {
           state.statData.WaybillCount=res.data.YearCount;
         }		
         //铁运年度运量
-        const mainBusinessRes = await proxy.$api.erp.businessBill.getWeightStatByScope("main_business", 0, 0,{startTime,endTime});
+        const mainBusinessRes = await proxy.$api.erp.businessBillLine.getWeightStatByScope("main_business", 0, 0,{startTime,endTime});
         if(mainBusinessRes.errcode==0){
           state.statData.MainBusinessWeight=mainBusinessRes.data.Weight;
         }		

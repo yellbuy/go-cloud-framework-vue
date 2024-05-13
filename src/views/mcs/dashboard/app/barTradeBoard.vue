@@ -6,19 +6,27 @@
         <dv-button @click="onChangeInvertal" border="Border1" color="#f3d19e" font-color="#e18a3b" style="z-index: 999999;text-decoration:underline">{{getModeName}}</dv-button>
       </div>
     </div>
-    <dv-charts :option="option" style="width: 100%; height:180px;margin-top:-50px"/>
+    <dv-charts :option="option" style="width: 100%; margin-top:-50px" :style="{height:chartHeight+'px'}"/>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 export default {
-  name: "mainBusinessTimeStat",
-   setup() {
+  name: "tradeTimeStat",
+  props: {
+		chartHeight: {
+			type: Number,
+			default: () => 180,
+		},
+	},
+   setup(props, { emit }) {
+    console.log("props:",props)
     const { proxy } = getCurrentInstance() as any;
     // const res = proxy.$api.erp.businessBillLine.getTimeStatListByScope("main_business", 0, 0);
     // console.log("res：",res)
     const state = reactive({
+      chartHeight:props.chartHeight||180,
       timeMode:'day',
       planData:{},
       finishData:{},

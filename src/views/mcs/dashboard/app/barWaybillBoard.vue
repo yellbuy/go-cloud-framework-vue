@@ -13,7 +13,7 @@
 <script lang="ts">
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 export default {
-  name: "mainBusinessTimeStat",
+  name: "waybillTimeStat",
    setup() {
     const { proxy } = getCurrentInstance() as any;
     // const res = proxy.$api.erp.businessBillLine.getTimeStatListByScope("main_business", 0, 0);
