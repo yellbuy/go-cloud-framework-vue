@@ -56,6 +56,22 @@
 						<el-table-column prop="GoodsName" label="品名" width="120"></el-table-column>
 						<el-table-column prop="GoodsCategoryName" label="品类" width="110"></el-table-column>
 						<el-table-column prop="CustomerName" label="供应商" width="180" show-overflow-tooltip></el-table-column>
+						<el-table-column label="结束" width="70" align="center" show-overflow-tooltip>
+							<template #default="scope">
+								<el-switch
+									v-model="scope.row.AuditState"
+									inline-prompt
+									:width="46"
+									v-auth:[moduleKey]="'btn.Edit'"
+									@change="proxy.$api.common.table.updateById('erp_business_bill', 'audit_state', scope.row.Id, scope.row.AuditState)"
+									:active-text="$t('message.action.yes')"
+									:inactive-text="$t('message.action.no')"
+									:active-value="1"
+									:inactive-value="0"/>
+								<el-tag type="success" effect="plain" v-if="scope.row.AuditState" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.yes') }}</el-tag>
+								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.no') }}</el-tag>
+							</template>
+						</el-table-column>
 						<el-table-column prop="PlanWeight" label="完成情况" width="120" align="center">
 							<template #default="scope">
 								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
@@ -200,12 +216,12 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Pane, Splitpanes } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import dayjs from 'dayjs';
 import editMainDlg from './component/tradeEdit.vue';
 import editChildDlg from './component/tradeLineEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
