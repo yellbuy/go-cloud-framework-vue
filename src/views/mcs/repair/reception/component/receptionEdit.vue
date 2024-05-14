@@ -62,10 +62,10 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="客户名称" prop="CompanyId">
 							<el-select
-								v-model="ruleForm.CustomerId"
+								v-model="ruleForm.CompanyName"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.Id" />
+								<el-option v-for="(item, index) in companyNameList" :key="index" :label="item.CompanyName" :value="item.CompanyName" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -177,7 +177,7 @@ export default {
 				Name: '',
 				Kind: 'info',
 				VehicleNumber: '',
-				CompanyId: '0',
+				CompanyName: '',
 				IsExternal:0,
 				VehicleType: '',
 				EnergyType: '',
