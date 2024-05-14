@@ -61,11 +61,10 @@ export default {
   padding: 0 15px;
 
   .ranking-board-title {
-    font-weight: bold;
-    height: 50px;
+    height: 40px;
     display: flex;
     align-items: center;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .dv-scroll-ranking-board {

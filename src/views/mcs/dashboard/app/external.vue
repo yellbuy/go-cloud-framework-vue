@@ -34,7 +34,7 @@
             <notice-list></notice-list>
             <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
-              <dv-decoration-3 style="width: 100%;" />
+              <vehicle-list></vehicle-list>
               <!-- <div class="block-left-content">
                 <barWaybillBoard />
               </div> -->
@@ -102,6 +102,7 @@
           <dv-border-box-12 style="width:33%;height:auto;padding:12px">
             <left-top></left-top>
             <notice-list></notice-list>
+            <vehicle-list></vehicle-list>
             <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
               <!-- <dv-decoration-3 style="width: 100%;" /> -->
@@ -166,6 +167,7 @@ import roseChart from "./roseChart.vue";
 import scrollBoard from "./scrollBoard.vue";
 import scrollBoardAmount from "./scrollBoardAmount.vue";
 import topHeader from "./topHeader.vue";
+import vehicleList from "./vehicleList.vue";
 import waterLevelChart from "./waterLevelChart.vue";
 
 export default {
@@ -176,6 +178,7 @@ export default {
     digitalWeightStat,
     centerBottom,
     noticeList,
+    vehicleList,
     digitalFlop,
     rankingBoard,
     rankWaybillCompany,

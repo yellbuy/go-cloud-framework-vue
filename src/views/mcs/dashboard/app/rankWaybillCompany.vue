@@ -1,7 +1,7 @@
 <template>
   <div id="ranking-board">
     <div class="ranking-board-title">公司运量统计</div>
-    <dv-scroll-ranking-board :config="config" unit="吨" :rowNum="5"  style="width:95%;height:600px !important"/>
+    <dv-scroll-ranking-board :config="config" unit="吨" :rowNum="5"  style="width:95%;height:300px"/>
   </div>
 </template>
 
@@ -62,11 +62,10 @@ export default {
   padding: 0 15px;
 
   .ranking-board-title {
-    font-weight: bold;
-    height: 50px;
+    height: 40px;
     display: flex;
     align-items: center;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .dv-scroll-ranking-board {
