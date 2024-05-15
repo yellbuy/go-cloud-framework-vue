@@ -4,32 +4,48 @@
         <div class="digital-title">年 运 力 数 据 汇 总</div>
         <div class="flex-row">
             <div class="digital-flop-item">
+              <dv-border-box-10>
               <div class="unit">公路运量</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+                <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.WaybillWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
               <div class="unit">吨</div>
+            </dv-border-box-10>
             </div>
             <div class="digital-flop-item">
-              <div class="unit">公路运单</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+              <dv-border-box-10 >
+                <div class="unit">公路运单</div>
+                <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.WaybillCount],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
+              
               <div class="unit">条</div>
+              </dv-border-box-10>
+              
             </div> 
+           
             <div class="digital-flop-item">
+              <dv-border-box-10 >
               <div class="unit">铁路运量</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+             
+                <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.MainBusinessWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
+             
+              
               <div class="unit">吨</div>
+            </dv-border-box-10>
             </div> 
+          
             <div class="digital-flop-item">
+              <dv-border-box-10>
               <div class="unit">贸易运量</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+                <dv-digital-flop class="digital-flop-item-digital"
                 :config="{number:[statData.TradeWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
+             
               <div class="unit">吨</div>
+              </dv-border-box-10>
             </div>    
                   
           </div>

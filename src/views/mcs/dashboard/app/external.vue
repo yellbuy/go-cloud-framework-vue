@@ -30,8 +30,9 @@
             <!-- <center-bottom></center-bottom> -->
           </dv-border-box-12>
           <dv-border-box-12 style="width:33%;height:auto;padding:12px">
-            <left-top></left-top>
-            <notice-list></notice-list>
+            <!-- <left-top></left-top>
+            <notice-list></notice-list> -->
+            <ringGoodsStat/>
             <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
               <vehicle-list></vehicle-list>
@@ -100,8 +101,9 @@
             <!-- <center-bottom></center-bottom> -->
           </dv-border-box-12>
           <dv-border-box-12 style="width:33%;height:auto;padding:12px">
-            <left-top></left-top>
-            <notice-list></notice-list>
+            <!-- <left-top></left-top>
+            <notice-list></notice-list> -->
+            <ringGoodsStat/>
             <vehicle-list></vehicle-list>
             <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
@@ -160,6 +162,7 @@ import digitalFlop from "./digitalFlop.vue";
 import digitalWeightStat from "./digitalWeightStat.vue";
 import leftTop from "./leftTop.vue";
 import noticeList from "./noticeList.vue";
+import ringGoodsStat from "./ringGoodsStat.vue";
 import rankingBoard from "./rankingBoard.vue";
 import rankWaybillCompany from "./rankWaybillCompany.vue";
 import rankWaybillCustomer from "./rankWaybillCustomer.vue";
@@ -178,6 +181,7 @@ export default {
     digitalWeightStat,
     centerBottom,
     noticeList,
+    ringGoodsStat,
     vehicleList,
     digitalFlop,
     rankingBoard,

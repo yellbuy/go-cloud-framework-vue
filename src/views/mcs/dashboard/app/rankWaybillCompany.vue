@@ -37,8 +37,7 @@ export default {
         if(res.errcode==0){
           state.config.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight}});
         }	
-      }, 60000);
-				
+      }, 60000);	
 		});
 		return {
 			t,

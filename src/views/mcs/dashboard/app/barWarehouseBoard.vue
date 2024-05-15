@@ -164,7 +164,9 @@ export default {
           setData();
         }
       }, 60000);
-				
+      setInterval(async () => {
+        onChangeInvertal();
+      }, 5000);
 		});
     return {
       getModeName,
