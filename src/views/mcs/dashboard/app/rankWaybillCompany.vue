@@ -1,7 +1,7 @@
 <template>
   <div id="ranking-board">
     <div class="ranking-board-title">公司运量统计</div>
-    <dv-scroll-ranking-board :config="config" unit="吨" :rowNum="5"  style="width:95%;height:300px"/>
+    <dv-scroll-ranking-board :config="config" style="width:95%;height:300px"/>
   </div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
 		const { t } = useI18n();
 		const state = reactive({config:{
 			data:[],
+      rowNum:4,
       unit: '吨',
 		}});
 		

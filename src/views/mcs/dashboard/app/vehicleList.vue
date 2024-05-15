@@ -3,11 +3,11 @@
     <dv-scroll-board :config="{header: ['车牌号码','司机电话','定位'],
     align: ['center','center','center','center'],
     data:list,
-    columnWidth:[50,120,150],index: true,rowNum:10,carousel: 'page',
+    columnWidth:[50,120,150],index: true,rowNum:15,waitTime:5000,carousel: 'page',
       headerBGC: '#1981f6',
         headerHeight: 30,
         oddRowBGC: 'rgba(0, 44, 81, 0.8)',
-        evenRowBGC: 'rgba(10, 29, 50, 0.8)'}" style="width:100%;height:300px;margin-top:10px" @click="onClick"/>
+        evenRowBGC: 'rgba(10, 29, 50, 0.8)'}" style="width:100%;height:450px;margin-top:10px" @click="onClick"/>
         <childMapDlg ref="childMapDlgRef" />
   </div>
 </template>
@@ -39,7 +39,7 @@ export default {
       const res = await proxy.$api.erp.vehicle.getListByScope("info", 0, 0, {pageSize:1000,isExternal:0});
 				if (res.errcode == 0) {
           state.list=res.data.map((val:any)=>{
-          return [val.VehicleNumber, val.DriverMobile,">"]
+          return [val.VehicleNumber, val.DriverMobile,"<span style='color:lightgray'>〉</span>"]
         })
 				}
      
@@ -47,7 +47,7 @@ export default {
         const res = await proxy.$api.erp.vehicle.getListByScope("info", 0, 0, {pageSize:1000,isExternal:0});
 				if (res.errcode == 0) {
           state.list=res.data.map((val:any)=>{
-          return [val.VehicleNumber, val.DriverMobile,">"]
+          return [val.VehicleNumber, val.DriverMobile,"<span style='color:dardgray'>〉</span>"]
         })
 				}
       }, 300000);

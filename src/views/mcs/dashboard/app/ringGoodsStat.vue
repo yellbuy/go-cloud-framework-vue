@@ -3,7 +3,7 @@
     <div class="cc-main-container">
       <div class="cc-header">产品占比分析</div>
       <div class="ccmc-middle">
-        <dv-active-ring-chart  :config="config" style="width:360px;height:360px;margin-left:auto;margin-right:auto;"/>
+        <dv-active-ring-chart  :config="config" style="width:240px;height:240px;margin-left:auto;margin-right:auto;"/>
       </div>
      
       <!-- <LabelTag :config="labelConfig" /> -->
@@ -48,14 +48,14 @@ export default {
     config() {
       return {
         //data: this.centerList,
-        data: [{name:'渣砂',value:1000},{name:'碎石',value:1200},{name:'混凝土',value:3600},{name:'渣钢',value:1800}],
+        data: [{name:'渣砂',value:1000000},{name:'碎石',value:1200000},{name:'混凝土',value:3600000},{name:'渣钢',value:1800000}],
         color: ["#00baff", "#3de7c9", "#ffc530", "#469f4b", "#00ff5a", "#c93de7", "#30ffc5", "#9f464b"],
-        lineWidth: 56,
-        radius: '70%',
+        lineWidth: 36,
+        radius: '75%',
         digitalFlopUnit:'吨',
-        activeRadius: "80%",
+        activeRadius: "85%",
         digitalFlopStyle: {
-          fontSize: 24
+          fontSize: 20
         },
         showOriginValue: true
       };
