@@ -4,77 +4,85 @@
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="center-flex">
-                <dv-border-box-10 style="background-image:url('./img/bg_dashboard_digital.png');width:100%;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
-                  <div class="digital-flop-item-title"><b>公路运量</b></div>
+                <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                  <div class="digital-flop-item-title"><b>产品一</b></div>
                   <div style="margin-top:10px;">
                     <dv-digital-flop class="digital-flop-item-digital"
-                    :config="{number:[statData.WaybillWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#eebe77',fontWeight: 'bold',fontSize:20}}"
+                    :config="{number:[statData.WaybillWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
                   />
                 </div>
-              </dv-border-box-10>
+              </dv-border-box-2>
               </div>
              
             </div>
             <div class="digital-flop-item">
                 <div class="center-flex">
-                  <dv-border-box-10 style="background-image:url('./img/bg_dashboard_digital.png');width:100%;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
-                    <!-- <div class="unit">公路运单</div>
-                    <dv-digital-flop class="digital-flop-item-digital"
-                    :config="{number:[statData.WaybillCount],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                  />
-                  
-                  <div class="unit">条</div> -->
-                  <div class="digital-flop-item-title"><b>公路运单</b></div>
+                  <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+               
+                  <div class="digital-flop-item-title"><b>产品二</b></div>
                   <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[statData.WaybillCount],content: '{nt} 单',style:{fill: '#eebe77',fontWeight: 'bold',fontSize:20}}"
+                      :config="{number:[statData.WaybillCount],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
                     />
                   </div> 
-                  </dv-border-box-10>
+                  </dv-border-box-2>
                 </div>
             </div> 
                   
+            <div class="digital-flop-item">
+                <div class="center-flex">
+                  <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+               
+                  <div class="digital-flop-item-title"><b>产品三</b></div>
+                  <div style="margin-top:10px;">
+                      <dv-digital-flop class="digital-flop-item-digital"
+                      :config="{number:[statData.WaybillCount],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                    />
+                  </div> 
+                  </dv-border-box-2>
+                </div>
+            </div> 
           </div>
           <div class="flex-row">
             <div class="digital-flop-item">
               <div class="center-flex">
-                <dv-border-box-10 style="background-image:url('./img/bg_dashboard_digital.png');width:100%;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
-          
-                  <div class="digital-flop-item-title"><b>铁路运量</b></div>
-                  <!-- <div class="unit">公路运量</div>
-                  <dv-digital-flop class="digital-flop-item-digital"
-                  :config="{number:[statData.WaybillWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                /> -->
-                <!-- <div class="unit">吨</div> -->
-                <div style="margin-top:10px;">
-            
-                  <dv-digital-flop class="digital-flop-item-digital"
-                  :config="{number:[statData.MainBusinessWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#eebe77',fontWeight: 'bold',fontSize:20}}"
-                />
+                <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                  <div class="digital-flop-item-title"><b>产品四</b></div>
+                  <div style="margin-top:10px;">
+                    <dv-digital-flop class="digital-flop-item-digital"
+                    :config="{number:[statData.WaybillWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                  />
+                </div>
+              </dv-border-box-2>
               </div>
-
-              </dv-border-box-10>
+             
             </div>
+            <div class="digital-flop-item">
+              <div class="center-flex">
+                <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                  <div class="digital-flop-item-title"><b>产品五</b></div>
+                  <div style="margin-top:10px;">
+                    <dv-digital-flop class="digital-flop-item-digital"
+                    :config="{number:[statData.WaybillWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                  />
+                </div>
+              </dv-border-box-2>
+              </div>
+             
             </div>
             <div class="digital-flop-item">
                 <div class="center-flex">
-                  <dv-border-box-10 style="background-image:url('./img/bg_dashboard_digital.png');width:100%;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
-                    <!-- <div class="unit">公路运单</div>
-                    <dv-digital-flop class="digital-flop-item-digital"
-                    :config="{number:[statData.WaybillCount],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
-                  />
-                  
-                  <div class="unit">条</div> -->
-                  <div class="digital-flop-item-title"><b>贸易运量</b></div>
+                  <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+               
+                  <div class="digital-flop-item-title"><b>产品六</b></div>
                   <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[statData.TradeWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#eebe77',fontWeight: 'bold',fontSize:20}}"
+                      :config="{number:[statData.WaybillCount],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
                     />
                   </div> 
-                  </dv-border-box-10>
+                  </dv-border-box-2>
                 </div>
             </div> 
-           
           </div>
         <dv-decoration-2 />
       </div>
@@ -172,7 +180,7 @@ export default {
       text-align:center;
     }
     .digital-flop-item {
-      width: 50%;
+      width: 33%;
       padding:6px;
       margin-right:auto;
       text-align: center;
@@ -182,7 +190,7 @@ export default {
       // border-right: 3px solid rgb(6, 30, 93);
       .digital-flop-item-title {
         font-family: 'LiSu';
-        font-size:20px;
+        font-size:16px;
         padding-top:10px;
         text-align:center;
         color:#e3dc0f

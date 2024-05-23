@@ -55,7 +55,7 @@
 		"vxe-table-plugin-element": "4.0.2",
 		"wangeditor": "^4.7.15",
 		"xe-utils": "3.5.26",
-		"@kjgl77/datav-vue3":"^1.7.2"
+		"@kjgl77/datav-vue3":"^1.7.3"
 		
 	},
 	"devDependencies": {

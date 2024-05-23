@@ -8,68 +8,77 @@
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
         <div class="main-rows">
-          <dv-border-box-12 style="width:67%;height:auto;padding:2px 2px">
-            <digital-weight-stat></digital-weight-stat>
+          
+          <div style="width:33%;">
+            
+            <div style="height:auto;padding:0px;">
+              <digital-weight-stat></digital-weight-stat>
+            </div>
+            <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
+              <digital-goods-stat></digital-goods-stat>
+            </dv-border-box-9> -->
+            <div style="height:auto;padding:0px;">
+              <digital-goods-stat></digital-goods-stat>
+            </div>
             <!-- <dv-decoration-3 style="width: 100%;" /> -->
-            <div class="main-rows">
-              <div class="block-left-content">
-                <barWaybillBoard />
-              </div>
-              <div class="block-left-content">
-                <barMainBusinessBoard />
-              </div>
+            <div>
+              <barWeightBoard />
             </div>
-            <div class="main-rows">
-              <div class="block-left-content">
-                <rankWaybillCompany :chartHeight="300"/>
+          </div>
+          <dv-border-box-12 style="width:67%;height:auto;padding:30px">
+            <!-- <ringGoodsStat/> -->
+            <!-- <div style="width:100%;height:400px;background-image:url('./img/map_sichuan.png');background-repeat: no-repeat;background-size: cover;background-position: center;"></div> -->
+            
+            <div style="width:100%;" >
+
+              
+              <div style="position: absolute;left:30px;top:30px;">
+                <dv-capsule-chart style="width:25rem;height:12rem"  :config="{data: [
+                  {
+                    name: '一公司',
+                    value: 167
+                  },
+                  {
+                    name: '二公司',
+                    value: 123
+                  },
+                  {
+                    name: '汉盛物流',
+                    value: 98
+                  },
+                  {
+                    name: '汉佳物流',
+                    value: 180
+                  }
+                ],
+                colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
+                unit: '万吨',
+                showValue:true,
+                fontSize:16,
+                labelNum: 8,
+              }"  />
               </div>
-              <div class="block-left-content">
-                <rankWaybillCustomer :chartHeight="300"/>
-              </div>
+              <dv-flyline-chart :config="mapConfig" :dev="true" style="width:100%;height:540px;" />
             </div>
-            <!-- <center-bottom></center-bottom> -->
-          </dv-border-box-12>
-          <dv-border-box-12 style="width:33%;height:auto;padding:12px">
-            <!-- <left-top></left-top>
-            <notice-list></notice-list> -->
-            <ringGoodsStat/>
+            
+            
             <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
-              <vehicle-list></vehicle-list>
-              <!-- <div class="block-left-content">
-                <barWaybillBoard />
-              </div> -->
-<!--               
-              <div class="block-left-content">
-                <barTradeBoard />
-              </div>
-              <div class="block-left-content">
-                <barWarehouseRateBoard chartHeight="300px"/>
-              </div>
-              <div class="block-left-content">
-                <mainBusinessBoard />
-              </div> -->
+              
           </div>
           </dv-border-box-12>
+        </div>
+        <div class="main-rows">
           
-          <!-- <dv-border-box-12 style="width:20%;height:auto">
-            <capshuleVehicleCountStat/>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有货运车', value: 48},{name: '当日已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有乘用车', value: 255},{name: '当日已出车', value: 201},{name: '停驶中', value: 24}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '工程机械车', value: 34},{name: '装载机', value: 24},{name: '挖掘机', value: 2}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有货运车', value: 48},{name: '当日已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '其他特种车', value: 48},{name: '搅拌罐车', value: 19},{name: '当日已出车', value: 10}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-          </dv-border-box-12> -->
+          <div style="width:33%;">
+            <rankWaybillCompany :chartHeight="200"/>
+          </div>
+          <div style="width:34%;">
+            <rankWaybillCustomer :chartHeight="200"/>
+          </div>
+          <div style="width:33%;">
+            <vehicle-list></vehicle-list>
+          </div>
         </div>
         
       </dv-full-screen-container>
@@ -79,72 +88,82 @@
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
         <div class="main-rows">
-          <dv-border-box-12 style="width:67%;height:auto;padding:2px">
-            <digital-weight-stat></digital-weight-stat>
+          
+          <div style="width:33%;">
+            
+            <div style="height:auto;padding:0px;">
+              <digital-weight-stat></digital-weight-stat>
+            </div>
+            <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
+              <digital-goods-stat></digital-goods-stat>
+            </dv-border-box-9> -->
+            <div style="height:auto;padding:0px;">
+              <digital-goods-stat></digital-goods-stat>
+            </div>
             <!-- <dv-decoration-3 style="width: 100%;" /> -->
-            <div class="main-rows">
-              <div class="block-left-content">
-                <barWaybillBoard />
-              </div>
-              <div class="block-left-content">
-                <barMainBusinessBoard />
-              </div>
+            <div>
+              <barWeightBoard />
             </div>
-            <div class="main-rows">
-              <div class="block-left-content">
-                <rankWaybillCompany :chartHeight="300"/>
+          </div>
+          <dv-border-box-12 style="width:67%;height:auto;padding:30px">
+            <!-- <ringGoodsStat/> -->
+            <!-- <div style="width:100%;height:400px;background-image:url('./img/map_sichuan.png');background-repeat: no-repeat;background-size: cover;background-position: center;"></div> -->
+            
+            <div style="width:100%;" >
+
+              
+              <div style="position: absolute;left:30px;top:30px;">
+                <dv-capsule-chart style="width:25rem;height:12rem"  :config="{data: [
+                  {
+                    name: '一公司',
+                    value: 167
+                  },
+                  {
+                    name: '二公司',
+                    value: 123
+                  },
+                  {
+                    name: '汉盛物流',
+                    value: 98
+                  },
+                  {
+                    name: '汉佳物流',
+                    value: 180
+                  }
+                ],
+                colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
+                unit: '万吨',
+                showValue:true,
+                fontSize:16,
+                labelNum: 8,
+              }"  />
               </div>
-              <div class="block-left-content">
-                <rankWaybillCustomer :chartHeight="300"/>
-              </div>
+              <dv-flyline-chart :config="mapConfig" :dev="true" style="width:100%;height:540px;" />
             </div>
-            <!-- <center-bottom></center-bottom> -->
-          </dv-border-box-12>
-          <dv-border-box-12 style="width:33%;height:auto;padding:12px">
-            <!-- <left-top></left-top>
-            <notice-list></notice-list> -->
-            <ringGoodsStat/>
-            <vehicle-list></vehicle-list>
+            
+            
             <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
-              <!-- <dv-decoration-3 style="width: 100%;" /> -->
-              <!-- <div class="block-left-content">
-                <barWaybillBoard />
-              </div> -->
               
-              <!-- <div class="block-left-content">
-                <barTradeBoard :chartHeight="300"/>
-              </div>
-              <div class="block-left-content">
-                <barWarehouseRateBoard :chartHeight="300"/>
-              </div> -->
-              <!-- <div class="block-left-content">
-                <mainBusinessBoard />
-              </div> -->
           </div>
           </dv-border-box-12>
-          
-          <!-- <dv-border-box-12 style="width:20%;height:auto">
-            <capshuleVehicleCountStat/>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有货运车', value: 48},{name: '当日已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有乘用车', value: 255},{name: '当日已出车', value: 201},{name: '停驶中', value: 24}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '工程机械车', value: 34},{name: '装载机', value: 24},{name: '挖掘机', value: 2}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有货运车', value: 48},{name: '当日已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '其他特种车', value: 48},{name: '搅拌罐车', value: 19},{name: '当日已出车', value: 10}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-          </dv-border-box-12> -->
         </div>
-        
+        <div class="main-rows">
+          
+          <div style="width:33%;">
+            <rankWaybillCompany :chartHeight="300"/>
+          </div>
+          <div style="width:34%;">
+            <rankWaybillCustomer :chartHeight="300"/>
+          </div>
+          <div style="width:33%;height:auto;">
+            <vehicle-list></vehicle-list>
+          </div>
+          
+        </div>
+        <!-- </div> 结束 -->
       </div>
+      
     </div>
   </div>
 </template>
@@ -155,23 +174,26 @@ import barMainBusinessBoard from "./barMainBusinessBoard.vue";
 import barTradeBoard from "./barTradeBoard.vue";
 import barWarehouseRateBoard from "./barWarehouseRateBoard.vue";
 import barWaybillBoard from "./barWaybillBoard.vue";
+import barWeightBoard from "./barWeightBoard.vue";
 import capshuleVehicleCountStat from "./capshuleVehicleCountStat.vue";
 import cards from "./cards.vue";
 import centerBottom from "./centerBottom.vue";
 import digitalFlop from "./digitalFlop.vue";
+import digitalGoodsStat from "./digitalGoodsStat.vue";
 import digitalWeightStat from "./digitalWeightStat.vue";
 import leftTop from "./leftTop.vue";
 import noticeList from "./noticeList.vue";
-import ringGoodsStat from "./ringGoodsStat.vue";
 import rankingBoard from "./rankingBoard.vue";
 import rankWaybillCompany from "./rankWaybillCompany.vue";
 import rankWaybillCustomer from "./rankWaybillCustomer.vue";
+import ringGoodsStat from "./ringGoodsStat.vue";
 import roseChart from "./roseChart.vue";
 import scrollBoard from "./scrollBoard.vue";
 import scrollBoardAmount from "./scrollBoardAmount.vue";
 import topHeader from "./topHeader.vue";
 import vehicleList from "./vehicleList.vue";
 import waterLevelChart from "./waterLevelChart.vue";
+import mapImg from "/@/assets/img/map_sichuan.png";
 
 export default {
   name: "ExternalDashboard",
@@ -179,6 +201,7 @@ export default {
     topHeader,
     leftTop,
     digitalWeightStat,
+    digitalGoodsStat,
     centerBottom,
     noticeList,
     ringGoodsStat,
@@ -191,6 +214,7 @@ export default {
     waterLevelChart,
     scrollBoard,
     barWaybillBoard,
+    barWeightBoard,
     barMainBusinessBoard,
     barTradeBoard,
     barWarehouseRateBoard,
@@ -201,6 +225,29 @@ export default {
   setup() {
     const state: any = reactive({
         isFullScreen:false,// 是否全屏
+        mapConfig:{
+          bgImgUrl:mapImg,
+          k: 0.5,
+          centerPoint: [0.31, 0.78],
+          points: [
+          {
+            position: [0.31, 0.78],
+            text: '攀枝花',
+          },{
+            position: [0.42, 0.58],
+            text: '西昌',
+          },{
+            position: [0.36, 0.70],
+            text: '米易',
+          },{
+            position: [0.6, 0.35],
+            text: '成都',
+          },{
+            position: [0.62, 0.12],
+            text: '江油',
+          }
+        ]
+        },
     })
     const onFullScreen = () => {
 			//admin/dashboard/app/fullScreen
@@ -244,7 +291,7 @@ export default {
   .block-left-right-content {
     flex: 1;
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .block-top-bottom-content {
