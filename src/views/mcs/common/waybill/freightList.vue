@@ -200,7 +200,7 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="WaybillGoodsName" label="货物" width="100"></el-table-column>
-						<el-table-column prop="WaybillCustomerName" label="客户" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="WaybillCompanyName" label="公司" width="120" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="WaybillSenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="WaybillReceiverAddress" label="收货地址" width="120" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="WaybillBillNo" label="单号" width="110"></el-table-column>

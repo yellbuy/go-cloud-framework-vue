@@ -17,6 +17,7 @@
 								v-model="ruleForm.StartTime"
 								type="date"
 								placeholder="请选择时间"
+								@change="onStartTimeChange"
 								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
@@ -26,6 +27,7 @@
 								v-model="ruleForm.EndTime"
 								type="date"
 								placeholder="请选择时间"
+								@change="onEndTimeChange"
 								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
@@ -430,6 +432,15 @@ export default {
 			FilesList2: [],
 		});
 
+		const onStartTimeChange=(val: [Date, null | Date])=>{
+			state.ruleForm.CompulsoryStartDate=val
+			state.ruleForm.CommercialStartDate=val
+		}
+		const onEndTimeChange=(val: [Date, null | Date])=>{
+			state.ruleForm.CompulsoryEndDate=val
+			state.ruleForm.CommercialEndDate=val
+		}
+
 		const token = Session.get('token');
 
 		const rules = reactive({
@@ -672,6 +683,8 @@ export default {
 			onRemove,
 			onRemove1,
 			onRemove2,
+			onStartTimeChange,
+			onEndTimeChange,
 			onBeforeImageUpload,
 			onBeforeImageUpload1,
 			onBeforeImageUpload2,
