@@ -4,20 +4,20 @@
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="center-flex">
-                <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                   <div class="digital-flop-item-title"><b>产品一</b></div>
                   <div style="margin-top:10px;">
                     <dv-digital-flop class="digital-flop-item-digital"
                     :config="{number:[statData.WaybillWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
                   />
                 </div>
-              </dv-border-box-2>
+              </div>
               </div>
              
             </div>
             <div class="digital-flop-item">
                 <div class="center-flex">
-                  <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                  <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                
                   <div class="digital-flop-item-title"><b>产品二</b></div>
                   <div style="margin-top:10px;">
@@ -25,13 +25,13 @@
                       :config="{number:[statData.WaybillCount],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
                     />
                   </div> 
-                  </dv-border-box-2>
+                  </div>
                 </div>
             </div> 
                   
             <div class="digital-flop-item">
                 <div class="center-flex">
-                  <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                  <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                
                   <div class="digital-flop-item-title"><b>产品三</b></div>
                   <div style="margin-top:10px;">
@@ -39,40 +39,40 @@
                       :config="{number:[statData.WaybillCount],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
                     />
                   </div> 
-                  </dv-border-box-2>
+                  </div>
                 </div>
             </div> 
           </div>
           <div class="flex-row">
             <div class="digital-flop-item">
               <div class="center-flex">
-                <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                   <div class="digital-flop-item-title"><b>产品四</b></div>
                   <div style="margin-top:10px;">
                     <dv-digital-flop class="digital-flop-item-digital"
                     :config="{number:[statData.WaybillWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
                   />
                 </div>
-              </dv-border-box-2>
+              </div>
               </div>
              
             </div>
             <div class="digital-flop-item">
               <div class="center-flex">
-                <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                   <div class="digital-flop-item-title"><b>产品五</b></div>
                   <div style="margin-top:10px;">
                     <dv-digital-flop class="digital-flop-item-digital"
                     :config="{number:[statData.WaybillWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
                   />
                 </div>
-              </dv-border-box-2>
+              </div>
               </div>
              
             </div>
             <div class="digital-flop-item">
                 <div class="center-flex">
-                  <dv-border-box-2 style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                  <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                
                   <div class="digital-flop-item-title"><b>产品六</b></div>
                   <div style="margin-top:10px;">
@@ -80,7 +80,7 @@
                       :config="{number:[statData.WaybillCount],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
                     />
                   </div> 
-                  </dv-border-box-2>
+                  </div>
                 </div>
             </div> 
           </div>
