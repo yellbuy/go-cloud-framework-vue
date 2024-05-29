@@ -1,8 +1,8 @@
 <template>
   <div id="map-board">
     <div style="width:100%;" >
-      <div style="position: absolute;left:30px;top:30px;">
-        <dv-conical-column-chart :config="conicalConfig" style="width:25rem;height:12rem;" />
+      <div style="position: absolute;left:20px;top:20px;">
+        <dv-conical-column-chart :config="conicalConfig" style="width:33rem;height:12rem;" />
       </div> 
     <!-- <div style="position: absolute;left:30px;top:30px;">
       <dv-capsule-chart style="width:25rem;height:12rem"  :config="capsuleConfig"  />
@@ -35,8 +35,9 @@ export default {
         columnColor:'rgba(204, 102, 153, 0.6)',
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
         unit: '万吨',
+        sort:false,
         showValue:true,
-        fontSize:16,
+        fontSize:12,
         labelNum: 8,
       },
       capsuleConfig:{
@@ -80,14 +81,14 @@ export default {
       const startTime=now.startOf('year').format(); 
       const endTime=now.endOf('year').format(); 
 
-      const res = await proxy.$api.erp.waybill.getCompanyStatListByScope("freight",0, 0,{limit:30,startTime:startTime,endTime:endTime});
+      const res = await proxy.$api.erp.waybill.getCompanyStatListByScope("freight",0, 0,{limit:6,startTime:startTime,endTime:endTime});
       if(res.errcode==0){
-        state.conicalConfig.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight.toFixed(2)}});
+        state.conicalConfig.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight}});
       }	
       setInterval(async () => {
-        const res = await proxy.$api.erp.waybill.getCompanyStatListByScope("freight",0, 0,{limit:30,startTime:startTime,endTime:endTime});
+        const res = await proxy.$api.erp.waybill.getCompanyStatListByScope("freight",0, 0,{limit:6,startTime:startTime,endTime:endTime});
         if(res.errcode==0){
-          state.conicalConfig.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight.toFixed(2)}});
+          state.conicalConfig.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight}});
         }	
       }, 60000);	
 		});

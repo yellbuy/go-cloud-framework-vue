@@ -6,11 +6,11 @@
     <dv-scroll-board :config="{header: [],
     align: ['center','center','center','center'],
     data:list,
-    columnWidth:[50,120,150],index: true,rowNum:4,waitTime:5000,carousel: 'page',
+    columnWidth:[50,120,150],index: true,rowNum:5,waitTime:5000,carousel: 'page',
       headerBGC: '#337ecc',
         headerHeight: 10,
         oddRowBGC: 'rgba(0, 44, 81, 0.8)',
-        evenRowBGC: 'rgba(10, 29, 50, 0.8)'}" style="width:100%;height:160px;" @click="onClick"/>
+        evenRowBGC: 'rgba(10, 29, 50, 0.8)'}" style="width:100%;height:180px;" @click="onClick"/>
         <childMapDlg ref="childMapDlgRef" />
       
   </div>

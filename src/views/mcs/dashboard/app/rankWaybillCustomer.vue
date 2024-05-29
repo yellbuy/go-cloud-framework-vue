@@ -1,7 +1,7 @@
 <template>
   <div id="ranking-board">
     <div class="ranking-board-title">客户运量统计</div>
-    <dv-scroll-ranking-board :config="config" style="width:95%;height:300px"/>
+    <dv-scroll-ranking-board :config="config" style="width:95%;height:200px"/>
   </div>
 </template>
 
@@ -17,13 +17,13 @@ export default {
 		const { t } = useI18n();
 		const state = reactive({config:{
       data:[],
-      rowNum:4,
+      rowNum:3,
+      sort:false,
       color:'#F56C6C',
       textColor:'#fde2e2',
       unit: '万吨',
       valueFormatter ({ value }) {
-        value=(value/10000.0).toFixed(2)
-        return value+' 万吨'
+        return ' '+value+' 万吨'
       }
 		}});
 		
@@ -36,13 +36,13 @@ export default {
 
       const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:30,startTime:startTime,endTime:endTime});
       if(res.errcode==0){
-        state.config.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight.toFixed(2)}});
+        state.config.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight}});
         console.log("state.config.data:",state.config.data)
       }	
       setInterval(async () => {
         const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:30,startTime:startTime,endTime:endTime});
         if(res.errcode==0){
-          state.config.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight.toFixed(2)}});
+          state.config.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight}});
         }	
       }, 60000);
 				
@@ -80,7 +80,7 @@ export default {
     flex: 1;
   }
   .row-item{
-    height:50px !important;
+    height:45px !important;
   }
 }
 </style>

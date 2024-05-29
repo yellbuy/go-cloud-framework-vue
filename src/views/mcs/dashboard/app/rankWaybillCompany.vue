@@ -1,7 +1,7 @@
 <template>
   <div id="ranking-board">
     <div class="ranking-board-title">公司运量统计</div>
-    <dv-scroll-ranking-board :config="config" style="width:95%;height:300px"/>
+    <dv-scroll-ranking-board :config="config" style="width:95%;height:200px"/>
   </div>
 </template>
 
@@ -17,13 +17,13 @@ export default {
 		const { t } = useI18n();
 		const state = reactive({config:{
 			data:[],
-      rowNum:4,
+      rowNum:3,
+      sort:false,
       color:'#E6A23C',
       textColor:'#faecd8',
       unit: '万吨',
       valueFormatter ({ value }) {
-        value=(value).toFixed(2)
-        return value+' 万吨'
+        return  ' '+value+' 万吨'
       }
 		}});
 		
@@ -79,7 +79,7 @@ export default {
     flex: 1;
   }
   .row-item{
-    height:50px !important;
+    height:45px !important;
   }
 }
 </style>
