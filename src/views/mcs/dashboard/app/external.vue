@@ -10,7 +10,7 @@
         <div class="main-rows">
           <div style="width:33%;margin-top:-12px;margin-bottom:8px;">
             <dv-border-box1>
-              <div style="height:auto;padding:0px;">
+              <div style="height:auto;padding:10px;margin-top:10px;">
                 <digital-weight-stat></digital-weight-stat>
               </div>
               <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
@@ -41,9 +41,7 @@
           <div style="width:33%;height:auto;">
             <rankWaybillCustomer :chartHeight="300"/>
           </div>
-          
         </div>
-        
       </dv-full-screen-container>
       <div v-else>
         <top-header />
@@ -53,7 +51,7 @@
         <div class="main-rows">
           <div style="width:33%;margin-top:-12px;margin-bottom:8px;">
             <dv-border-box1>
-              <div style="height:auto;padding:0px;">
+              <div style="height:auto;padding:10px;">
                 <digital-weight-stat></digital-weight-stat>
               </div>
               <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
