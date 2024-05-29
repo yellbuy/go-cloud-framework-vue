@@ -36,13 +36,13 @@ export default {
 
       const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:30,startTime:startTime,endTime:endTime});
       if(res.errcode==0){
-        state.config.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight}});
+        state.config.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight.toFixed(2)}});
         console.log("state.config.data:",state.config.data)
       }	
       setInterval(async () => {
         const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:30,startTime:startTime,endTime:endTime});
         if(res.errcode==0){
-          state.config.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight}});
+          state.config.data=res.data.map((val:any)=>{return {name:val.Name,value:val.Weight.toFixed(2)}});
         }	
       }, 60000);
 				

@@ -22,7 +22,7 @@ export default {
       textColor:'#faecd8',
       unit: '万吨',
       valueFormatter ({ value }) {
-        value=(value/10000.0).toFixed(2)
+        value=(value).toFixed(2)
         return value+' 万吨'
       }
 		}});

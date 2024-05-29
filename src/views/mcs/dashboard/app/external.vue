@@ -26,59 +26,22 @@
             </div>
           </div>
           <dv-border-box-12 style="width:67%;height:auto;padding:30px">
-            <!-- <ringGoodsStat/> -->
-            <!-- <div style="width:100%;height:400px;background-image:url('./img/map_sichuan.png');background-repeat: no-repeat;background-size: cover;background-position: center;"></div> -->
-            
-            <div style="width:100%;" >
-
-              
-              <div style="position: absolute;left:30px;top:30px;">
-                <dv-capsule-chart style="width:25rem;height:12rem"  :config="{data: [
-                  {
-                    name: '一公司',
-                    value: 167
-                  },
-                  {
-                    name: '二公司',
-                    value: 123
-                  },
-                  {
-                    name: '汉盛物流',
-                    value: 98
-                  },
-                  {
-                    name: '汉佳物流',
-                    value: 180
-                  }
-                ],
-                colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
-                unit: '万吨',
-                showValue:true,
-                fontSize:16,
-                labelNum: 8,
-              }"  />
-              </div>
-              <dv-flyline-chart :config="mapConfig" :dev="true" style="width:100%;height:540px;" />
-            </div>
-            
-            
-            <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
-            <div>
-              
-          </div>
+            <mapSichuan />
           </dv-border-box-12>
         </div>
         <div class="main-rows">
           
           <div style="width:33%;">
-            <rankWaybillCompany :chartHeight="200"/>
+            <rankWaybillCompany :chartHeight="300"/>
           </div>
           <div style="width:34%;">
-            <rankWaybillCustomer :chartHeight="200"/>
-          </div>
-          <div style="width:33%;">
             <vehicle-list></vehicle-list>
+            
           </div>
+          <div style="width:33%;height:auto;">
+            <rankWaybillCustomer :chartHeight="300"/>
+          </div>
+          
         </div>
         
       </dv-full-screen-container>
@@ -106,73 +69,7 @@
             </div>
           </div>
           <dv-border-box-12 style="width:67%;height:auto;padding:30px">
-            <!-- <ringGoodsStat/> -->
-            <!-- <div style="width:100%;height:400px;background-image:url('./img/map_sichuan.png');background-repeat: no-repeat;background-size: cover;background-position: center;"></div> -->
-            
-            <div style="width:100%;" >
-
-              
-              <div style="position: absolute;left:30px;top:30px;">
-                <dv-conical-column-chart :config="{data: [
-                  {
-                    name: '一公司',
-                    value: 167
-                  },
-                  {
-                    name: '二公司',
-                    value: 123
-                  },
-                  {
-                    name: '汉盛物流',
-                    value: 98
-                  },
-                  {
-                    name: '汉佳物流',
-                    value: 180
-                  }
-                ],
-                //textColor:'#e062ae',
-                columnColor:'rgba(204, 102, 153, 0.6)',
-                colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
-                unit: '万吨',
-                showValue:true,
-                fontSize:16,
-                labelNum: 8,
-              }" style="width:25rem;height:12rem;" />
-
-                <!-- <dv-capsule-chart style="width:25rem;height:12rem"  :config="{data: [
-                  {
-                    name: '一公司',
-                    value: 167
-                  },
-                  {
-                    name: '二公司',
-                    value: 123
-                  },
-                  {
-                    name: '汉盛物流',
-                    value: 98
-                  },
-                  {
-                    name: '汉佳物流',
-                    value: 180
-                  }
-                ],
-                colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
-                unit: '万吨',
-                showValue:true,
-                fontSize:16,
-                labelNum: 8,
-              }"  />-->
-              </div> 
-              <dv-flyline-chart :config="mapConfig" :dev="true" style="width:100%;height:540px;" />
-            </div>
-            
-            
-            <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
-            <div>
-              
-          </div>
+            <mapSichuan />
           </dv-border-box-12>
         </div>
         <div class="main-rows">
@@ -210,6 +107,7 @@ import digitalFlop from "./digitalFlop.vue";
 import digitalGoodsStat from "./digitalGoodsStat.vue";
 import digitalWeightStat from "./digitalWeightStat.vue";
 import leftTop from "./leftTop.vue";
+import mapSichuan from "./mapSichuan.vue";
 import noticeList from "./noticeList.vue";
 import rankingBoard from "./rankingBoard.vue";
 import rankWaybillCompany from "./rankWaybillCompany.vue";
@@ -221,7 +119,6 @@ import scrollBoardAmount from "./scrollBoardAmount.vue";
 import topHeader from "./topHeader.vue";
 import vehicleList from "./vehicleList.vue";
 import waterLevelChart from "./waterLevelChart.vue";
-import mapImg from "/@/assets/img/map_sichuan.png";
 
 export default {
   name: "ExternalDashboard",
@@ -241,6 +138,7 @@ export default {
     roseChart,
     waterLevelChart,
     scrollBoard,
+    mapSichuan,
     barWaybillBoard,
     barWeightBoard,
     barMainBusinessBoard,
@@ -253,29 +151,7 @@ export default {
   setup() {
     const state: any = reactive({
         isFullScreen:false,// 是否全屏
-        mapConfig:{
-          bgImgUrl:mapImg,
-          k: 0.5,
-          centerPoint: [0.31, 0.78],
-          points: [
-          {
-            position: [0.31, 0.78],
-            text: '攀枝花',
-          },{
-            position: [0.42, 0.58],
-            text: '西昌',
-          },{
-            position: [0.36, 0.70],
-            text: '米易',
-          },{
-            position: [0.6, 0.35],
-            text: '成都',
-          },{
-            position: [0.62, 0.12],
-            text: '江油',
-          }
-        ]
-        },
+        
     })
     const onFullScreen = () => {
 			//admin/dashboard/app/fullScreen

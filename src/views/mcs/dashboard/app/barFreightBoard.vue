@@ -1,12 +1,12 @@
 <template>
   <div class="scroll-board">
     <div class="chart-name">
-      <div style="font-family: 'LiSu';">运力分析（万吨） </div>
+      <div>运量分析 </div>
       <div>
         <dv-button @click="onChangeInvertal" border="Border1" color="#f3d19e" font-color="#e18a3b" style="z-index: 999999;text-decoration:underline">{{getModeName}}</dv-button>
       </div>
     </div>
-    <dv-charts :option="option" style="width: 100%; height:230px;margin-top:-50px"/>
+    <dv-charts :option="option" style="width: 100%; height:210px;margin-top:-50px"/>
   </div>
 </template>
 
@@ -20,25 +20,21 @@ export default {
     // console.log("res：",res)
     const state = reactive({
       timeMode:'day',
-      freightData:{},
-      mainBusinessData:{},
+      data:{},
       option:{
         legend: {
           data: [
             {
-              name: "公路运量",
-              color: "#b3e19d",
+              name: "计划量",
+              color: "#00baff",
             },
             {
-              name: "铁路运量",
-              color: "#fab6b6",
+              name: "完成量",
+              color: "#ff5ca9",
             }
           ],
           textStyle: {
             fill: "#fff",
-          },
-          title:{
-            show:true
           },
         },
         xAxis: {
@@ -62,7 +58,6 @@ export default {
         yAxis: {
           type: 'log',  
           data: "value",
-          min:0,
           splitLine: {
             show: true,
           },
@@ -82,40 +77,21 @@ export default {
         },
         series: [
           {
-            name: "公路运量",
+            name: "计划量",
             data: [0],
-            label: {
-              show: true,
-              formatter: '{value}'
-            },
             // data: model.planValueList,
             //data: state[state.timeMode].planValueList,
             type: "bar",
-            shapeType: 'leftEchelon',
-            gradient: {
-              color: ['#b3e19d', '#e1f3d8']
+            barStyle: {
+              fill: "rgba(0, 186, 255, 0.8)",
             },
-            // barStyle: {
-            //   fill: "#529b2e",
-            // },
           },
           {
-            name: "铁路运量",
+            name: "完成量",
            data:  [0],
-           label: {
-            show: true,
-            formatter: '{value}'
-          },
              //data: model.finishValueList,
             //data: state[state.timeMode].finishValueList,
-            type: "bar",
-            shapeType: 'rightEchelon',
-            gradient: {
-              color: ['#fab6b6', '#fde2e2']
-            },
-            // barStyle: {
-            //   fill: "#ff5ca9",
-            // },
+            type: "line",
             lineStyle: {
               stroke: "#ff5ca9",
             },
@@ -132,19 +108,19 @@ export default {
 		});
     const setData=()=>{
       if(state.timeMode=="day") {
-            state.option.xAxis.data=state.freightData.day.Name||[]
-            state.option.series[0].data=state.freightData.day.PlanWeight||[]
-            state.option.series[1].data=state.mainBusinessData.day.Weight||[]
+            state.option.xAxis.data=state.data.day.Name||[]
+            state.option.series[0].data=state.data.day.PlanWeight||[]
+            state.option.series[1].data=state.data.day.Weight||[]
         }
         else if(state.timeMode=="month") {
-            state.option.xAxis.data=state.freightData.month.Name||[]
-            state.option.series[0].data=state.freightData.month.PlanWeight||[]
-            state.option.series[1].data=state.mainBusinessData.month.Weight||[]
+            state.option.xAxis.data=state.data.month.Name||[]
+            state.option.series[0].data=state.data.month.PlanWeight||[]
+            state.option.series[1].data=state.data.month.Weight||[]
         }
         else if(state.timeMode=="year") {
-            state.option.xAxis.data=state.freightData.year.Name||[]
-            state.option.series[0].data=state.freightData.year.PlanWeight||[]
-            state.option.series[1].data=state.mainBusinessData.year.Weight||[]
+            state.option.xAxis.data=state.data.year.Name||[]
+            state.option.series[0].data=state.data.year.PlanWeight||[]
+            state.option.series[1].data=state.data.year.Weight||[]
         }
     }
     const getModeName = computed(() => {
@@ -168,26 +144,22 @@ export default {
     }
     // 页面加载时
 		onMounted(async () => {
-      const res1 = await proxy.$api.erp.waybill.getTimeStatListByScope("freight", 0, 0);
-      if(res1.errcode==0){
-        state.freightData=res1.data;
+      
+      const res = await proxy.$api.erp.waybill.getTimeStatListByScope("freight", 0, 0);
+      if(res.errcode==0){
+        state.data=res.data;
+        setData();
       }		
-      const res2 = await proxy.$api.erp.businessBillLine.getTimeStatListByScope("main_business", 0, 0);
-      if(res2.errcode==0){
-        state.mainBusinessData=res2.data;
-      }
-      setData();		
       setInterval(async () => {
-        const res1 = await proxy.$api.erp.waybill.getTimeStatListByScope("freight", 0, 0);
-        if(res1.errcode==0){
-          state.freightData=res1.data;
-        }		
-        const res2 = await proxy.$api.erp.businessBillLine.getTimeStatListByScope("main_business", 0, 0);
-        if(res2.errcode==0){
-          state.mainBusinessData=res2.data;
+        const res = await proxy.$api.erp.waybill.getTimeStatListByScope("freight", 0, 0);
+        if(res.errcode==0){
+          state.data=res.data;
+          setData();
         }
-        setData();	
       }, 60000);
+      setInterval(async () => {
+        onChangeInvertal();
+      }, 10000);
 		});
     return {
       getModeName,
