@@ -18,7 +18,13 @@ export default {
 		const state = reactive({config:{
       data:[],
       rowNum:4,
-      unit: '吨',
+      color:'#F56C6C',
+      textColor:'#fde2e2',
+      unit: '万吨',
+      valueFormatter ({ value }) {
+        value=(value/10000.0).toFixed(2)
+        return value+' 万吨'
+      }
 		}});
 		
 		
@@ -65,6 +71,7 @@ export default {
   .ranking-board-title {
     height: 40px;
     display: flex;
+    font-family: 'LiSu';
     align-items: center;
     font-size: 18px;
   }

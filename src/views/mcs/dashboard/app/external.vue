@@ -113,7 +113,34 @@
 
               
               <div style="position: absolute;left:30px;top:30px;">
-                <dv-capsule-chart style="width:25rem;height:12rem"  :config="{data: [
+                <dv-conical-column-chart :config="{data: [
+                  {
+                    name: '一公司',
+                    value: 167
+                  },
+                  {
+                    name: '二公司',
+                    value: 123
+                  },
+                  {
+                    name: '汉盛物流',
+                    value: 98
+                  },
+                  {
+                    name: '汉佳物流',
+                    value: 180
+                  }
+                ],
+                //textColor:'#e062ae',
+                columnColor:'rgba(204, 102, 153, 0.6)',
+                colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
+                unit: '万吨',
+                showValue:true,
+                fontSize:16,
+                labelNum: 8,
+              }" style="width:25rem;height:12rem;" />
+
+                <!-- <dv-capsule-chart style="width:25rem;height:12rem"  :config="{data: [
                   {
                     name: '一公司',
                     value: 167
@@ -136,8 +163,8 @@
                 showValue:true,
                 fontSize:16,
                 labelNum: 8,
-              }"  />
-              </div>
+              }"  />-->
+              </div> 
               <dv-flyline-chart :config="mapConfig" :dev="true" style="width:100%;height:540px;" />
             </div>
             
@@ -154,10 +181,11 @@
             <rankWaybillCompany :chartHeight="300"/>
           </div>
           <div style="width:34%;">
-            <rankWaybillCustomer :chartHeight="300"/>
+            <vehicle-list></vehicle-list>
+            
           </div>
           <div style="width:33%;height:auto;">
-            <vehicle-list></vehicle-list>
+            <rankWaybillCustomer :chartHeight="300"/>
           </div>
           
         </div>

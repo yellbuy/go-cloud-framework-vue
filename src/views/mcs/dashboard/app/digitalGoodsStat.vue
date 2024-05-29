@@ -4,7 +4,7 @@
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="center-flex">
-                <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                <div style="background-image:url('./img/bg_dashboard_digital_2.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                   <div class="digital-flop-item-title"><b>产品一</b></div>
                   <div style="margin-top:10px;">
                     <dv-digital-flop class="digital-flop-item-digital"
@@ -17,7 +17,7 @@
             </div>
             <div class="digital-flop-item">
                 <div class="center-flex">
-                  <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                  <div style="background-image:url('./img/bg_dashboard_digital_2.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                
                   <div class="digital-flop-item-title"><b>产品二</b></div>
                   <div style="margin-top:10px;">
@@ -31,7 +31,7 @@
                   
             <div class="digital-flop-item">
                 <div class="center-flex">
-                  <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                  <div style="background-image:url('./img/bg_dashboard_digital_2.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                
                   <div class="digital-flop-item-title"><b>产品三</b></div>
                   <div style="margin-top:10px;">
@@ -46,7 +46,7 @@
           <div class="flex-row">
             <div class="digital-flop-item">
               <div class="center-flex">
-                <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                <div style="background-image:url('./img/bg_dashboard_digital_2.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                   <div class="digital-flop-item-title"><b>产品四</b></div>
                   <div style="margin-top:10px;">
                     <dv-digital-flop class="digital-flop-item-digital"
@@ -59,7 +59,7 @@
             </div>
             <div class="digital-flop-item">
               <div class="center-flex">
-                <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                <div style="background-image:url('./img/bg_dashboard_digital_2.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                   <div class="digital-flop-item-title"><b>产品五</b></div>
                   <div style="margin-top:10px;">
                     <dv-digital-flop class="digital-flop-item-digital"
@@ -72,7 +72,7 @@
             </div>
             <div class="digital-flop-item">
                 <div class="center-flex">
-                  <div style="background-image:url('./img/bg_dashboard_digital.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                  <div style="background-image:url('./img/bg_dashboard_digital_2.png');width:150px;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                
                   <div class="digital-flop-item-title"><b>产品六</b></div>
                   <div style="margin-top:10px;">
@@ -191,7 +191,7 @@ export default {
       .digital-flop-item-title {
         font-family: 'LiSu';
         font-size:16px;
-        padding-top:10px;
+        padding-top:6px;
         text-align:center;
         color:#e3dc0f
       }
