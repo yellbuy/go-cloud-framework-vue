@@ -69,15 +69,15 @@ export default {
 
 <style lang="less" scoped>
 #ranking-board-vehicle {
-  width: 95%;
+  width: 100%;
   box-shadow: 0 0 3px blue;
   display: flex;
   flex-direction: column;
   background-color: rgba(6, 30, 93, 0.5);
   border-top: 2px solid rgba(1, 153, 209, 0.5);
   box-sizing: border-box;
-  margin-right: 30px;
-  margin-left:10px;
+  margin-right: 20px;
+  margin-left:0px;
   padding: 0 15px;
 
   .ranking-board-title {

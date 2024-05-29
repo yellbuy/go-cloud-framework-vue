@@ -76,7 +76,6 @@
             </div> 
            
           </div>
-        <dv-decoration-2 />
       </div>
   </div>
 </template>

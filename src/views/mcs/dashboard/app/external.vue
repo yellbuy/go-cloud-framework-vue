@@ -8,22 +8,22 @@
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
         <div class="main-rows">
-          
-          <div style="width:33%;">
-            
-            <div style="height:auto;padding:0px;">
-              <digital-weight-stat></digital-weight-stat>
-            </div>
-            <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
-              <digital-goods-stat></digital-goods-stat>
-            </dv-border-box-9> -->
-            <div style="height:auto;padding:0px;">
-              <digital-goods-stat></digital-goods-stat>
-            </div>
-            <!-- <dv-decoration-3 style="width: 100%;" /> -->
-            <div>
-              <barWeightBoard />
-            </div>
+          <div style="width:33%;margin-top:-12px;margin-bottom:8px;">
+            <dv-border-box1>
+              <div style="height:auto;padding:0px;">
+                <digital-weight-stat></digital-weight-stat>
+              </div>
+              <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
+                <digital-goods-stat></digital-goods-stat>
+              </dv-border-box-9> -->
+              <div style="height:auto;padding:0px;">
+                <digital-goods-stat></digital-goods-stat>
+              </div>
+              <!-- <dv-decoration-3 style="width: 100%;" /> -->
+              <div>
+                <barWeightBoard />
+              </div>
+            </dv-border-box1>
           </div>
           <dv-border-box-12 style="width:67%;height:auto;padding:30px">
             <mapSichuan />
@@ -51,22 +51,22 @@
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
         <div class="main-rows">
-          
-          <div style="width:33%;">
-            
-            <div style="height:auto;padding:0px;">
-              <digital-weight-stat></digital-weight-stat>
-            </div>
-            <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
-              <digital-goods-stat></digital-goods-stat>
-            </dv-border-box-9> -->
-            <div style="height:auto;padding:0px;">
-              <digital-goods-stat></digital-goods-stat>
-            </div>
-            <!-- <dv-decoration-3 style="width: 100%;" /> -->
-            <div>
-              <barWeightBoard />
-            </div>
+          <div style="width:33%;margin-top:-12px;margin-bottom:8px;">
+            <dv-border-box1>
+              <div style="height:auto;padding:0px;">
+                <digital-weight-stat></digital-weight-stat>
+              </div>
+              <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
+                <digital-goods-stat></digital-goods-stat>
+              </dv-border-box-9> -->
+              <div style="height:auto;padding:0px;">
+                <digital-goods-stat></digital-goods-stat>
+              </div>
+              <!-- <dv-decoration-3 style="width: 100%;" /> -->
+              <div>
+                <barWeightBoard />
+              </div>
+            </dv-border-box1>
           </div>
           <dv-border-box-12 style="width:67%;height:auto;padding:30px">
             <mapSichuan />
