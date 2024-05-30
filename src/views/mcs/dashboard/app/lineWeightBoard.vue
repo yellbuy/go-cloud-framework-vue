@@ -6,7 +6,7 @@
         <dv-button @click="onChangeInvertal" border="Border1" color="#f3d19e" font-color="#e18a3b" style="z-index: 999999;text-decoration:underline">{{getModeName}}</dv-button>
       </div>
     </div>
-    <dv-charts :option="option" style="width: 100%; height:200px;margin-top:-50px;"/>
+    <dv-charts :option="option" style="width: 100%; height:240px;margin-top:-50px;"/>
   </div>
 </template>
 
@@ -27,11 +27,11 @@ export default {
           data: [
             {
               name: "公路运量",
-              color: "#b3e19d",
+              color: "rgba(251, 114, 147, 1)",
             },
             {
               name: "铁路运量",
-              color: "#fab6b6",
+              color: "#b3e19d",
             }
           ],
           textStyle: {
@@ -86,43 +86,60 @@ export default {
             data: [0],
             label: {
               show: true,
+              style: {
+                fill: "#eee",
+                //fontSize:12
+              },
               formatter: '{value}'
             },
-            // data: model.planValueList,
-            //data: state[state.timeMode].planValueList,
-            type: "bar",
-            shapeType: 'leftEchelon',
-            gradient: {
-              color: ['#b3e19d', '#e1f3d8']
+            type: "line",
+            //smooth: true,
+            lineArea: {
+              show: true,
+              gradient: ['rgba(251, 114, 147, 1)', 'rgba(251, 114, 147, 0)']
             },
-            // barStyle: {
-            //   fill: "#529b2e",
+            lineStyle: {
+              stroke: 'rgba(251, 114, 147, 1)',
+              lineDash: [1, 1]
+            },
+            linePoint: {
+              radius: 6,
+              style: {
+                stroke: 'rgba(251, 114, 147, 1)'
+              }
+            },
+            
+            // lineStyle: {
+            //   stroke: "#b3e19d",
+            //   lineWidth: 2
+            // },
+            // linePoint: {
+            //   radius: 6,
+            //   style: {
+            //     fill: "#b3e19d",
+            //     stroke: "transparent",
+            //   },
             // },
           },
           {
             name: "铁路运量",
-           data:  [0],
-           label: {
-            show: true,
-            formatter: '{value}'
-          },
-             //data: model.finishValueList,
-            //data: state[state.timeMode].finishValueList,
-            type: "bar",
-            shapeType: 'rightEchelon',
-            gradient: {
-              color: ['#fab6b6', '#fde2e2']
+            data:  [0],
+            label: {
+              show: true,
+              style: {
+                fill: "#eee",
+                },
+              formatter: '{value}'
             },
-            // barStyle: {
-            //   fill: "#ff5ca9",
-            // },
+            type: "line",
             lineStyle: {
-              stroke: "#ff5ca9",
+              stroke: "#b3e19d",
+              lineWidth: 2
             },
             linePoint: {
-              radius: 4,
+              radius: 6,
               style: {
-                fill: "#ff5ca9",
+                fill: "#b3e19d",
                 stroke: "transparent",
               },
             },

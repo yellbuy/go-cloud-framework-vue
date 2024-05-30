@@ -8,48 +8,7 @@
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
         <div class="main-rows">
-          <div style="width:33%;margin-top:-12px;margin-bottom:8px;">
-            <dv-border-box1>
-              <div style="height:auto;padding:10px;margin-top:10px;">
-                <digital-weight-stat></digital-weight-stat>
-              </div>
-              <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
-                <digital-goods-stat></digital-goods-stat>
-              </dv-border-box-9> -->
-              <div style="height:auto;padding:0px;">
-                <digital-goods-stat></digital-goods-stat>
-              </div>
-              <!-- <dv-decoration-3 style="width: 100%;" /> -->
-              <div>
-                <barWeightBoard />
-              </div>
-            </dv-border-box1>
-          </div>
-          <dv-border-box-12 style="width:67%;height:auto;padding:30px">
-            <mapSichuan />
-          </dv-border-box-12>
-        </div>
-        <div class="main-rows">
-          
-          <div style="width:33%;">
-            <rankWaybillCompany :chartHeight="300"/>
-          </div>
-          <div style="width:34%;">
-            <vehicle-list></vehicle-list>
-            
-          </div>
-          <div style="width:33%;height:auto;">
-            <rankWaybillCustomer :chartHeight="300"/>
-          </div>
-        </div>
-      </dv-full-screen-container>
-      <div v-else>
-        <top-header />
-        <div style="position:absolute;top:10px;right:10px">
-          <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
-        </div>
-        <div class="main-rows">
-          <div style="width:33%;margin-top:-12px;margin-bottom:8px;">
+          <div style="width:33%;margin-top:-2px;margin-bottom:-2px;">
             <dv-border-box1>
               <div style="height:auto;padding:10px;">
                 <digital-weight-stat></digital-weight-stat>
@@ -62,7 +21,7 @@
               </div>
               <!-- <dv-decoration-3 style="width: 100%;" /> -->
               <div>
-                <barWeightBoard />
+                <lineWeightBoard />
               </div>
             </dv-border-box1>
           </div>
@@ -73,14 +32,56 @@
         <div class="main-rows">
           
           <div style="width:33%;">
-            <rankWaybillCompany :chartHeight="300"/>
+            <barWaybillCompany :chartHeight="300"/>
           </div>
           <div style="width:34%;">
             <vehicle-list></vehicle-list>
             
           </div>
           <div style="width:33%;height:auto;">
-            <rankWaybillCustomer :chartHeight="300"/>
+            <barWaybillCustomer :chartHeight="300"/>
+          </div>
+          
+        </div>
+      </dv-full-screen-container>
+      <div v-else>
+        <top-header />
+        <div style="position:absolute;top:10px;right:10px">
+          <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
+        </div>
+        <div class="main-rows">
+          <div style="width:33%;margin-top:-2px;margin-bottom:-2px;">
+            <dv-border-box1>
+              <div style="height:auto;padding:10px;">
+                <digital-weight-stat></digital-weight-stat>
+              </div>
+              <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
+                <digital-goods-stat></digital-goods-stat>
+              </dv-border-box-9> -->
+              <div style="height:auto;padding:0px;">
+                <digital-goods-stat></digital-goods-stat>
+              </div>
+              <!-- <dv-decoration-3 style="width: 100%;" /> -->
+              <div>
+                <lineWeightBoard />
+              </div>
+            </dv-border-box1>
+          </div>
+          <dv-border-box-12 style="width:67%;height:auto;padding:30px">
+            <mapSichuan />
+          </dv-border-box-12>
+        </div>
+        <div class="main-rows">
+          
+          <div style="width:33%;">
+            <barWaybillCompany :chartHeight="300"/>
+          </div>
+          <div style="width:34%;">
+            <vehicle-list></vehicle-list>
+            
+          </div>
+          <div style="width:33%;height:auto;">
+            <barWaybillCustomer :chartHeight="300"/>
           </div>
           
         </div>
@@ -97,7 +98,8 @@ import barMainBusinessBoard from "./barMainBusinessBoard.vue";
 import barTradeBoard from "./barTradeBoard.vue";
 import barWarehouseRateBoard from "./barWarehouseRateBoard.vue";
 import barWaybillBoard from "./barWaybillBoard.vue";
-import barWeightBoard from "./barWeightBoard.vue";
+import barWaybillCompany from "./barWaybillCompany.vue";
+import barWaybillCustomer from "./barWaybillCustomer.vue";
 import capshuleVehicleCountStat from "./capshuleVehicleCountStat.vue";
 import cards from "./cards.vue";
 import centerBottom from "./centerBottom.vue";
@@ -105,11 +107,11 @@ import digitalFlop from "./digitalFlop.vue";
 import digitalGoodsStat from "./digitalGoodsStat.vue";
 import digitalWeightStat from "./digitalWeightStat.vue";
 import leftTop from "./leftTop.vue";
+import lineWeightBoard from "./lineWeightBoard.vue";
 import mapSichuan from "./mapSichuan.vue";
 import noticeList from "./noticeList.vue";
 import rankingBoard from "./rankingBoard.vue";
 import rankWaybillCompany from "./rankWaybillCompany.vue";
-import rankWaybillCustomer from "./rankWaybillCustomer.vue";
 import ringGoodsStat from "./ringGoodsStat.vue";
 import roseChart from "./roseChart.vue";
 import scrollBoard from "./scrollBoard.vue";
@@ -131,14 +133,15 @@ export default {
     vehicleList,
     digitalFlop,
     rankingBoard,
+    barWaybillCompany,
     rankWaybillCompany,
-    rankWaybillCustomer,
+    barWaybillCustomer,
     roseChart,
     waterLevelChart,
     scrollBoard,
     mapSichuan,
     barWaybillBoard,
-    barWeightBoard,
+    lineWeightBoard,
     barMainBusinessBoard,
     barTradeBoard,
     barWarehouseRateBoard,
