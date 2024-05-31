@@ -15,7 +15,7 @@ export default {
     let state = reactive({
       xAxisData: [0],
       yAxisData: [0],
-      yAxisData1: [0],
+      yAxisSideData: [0],
       echart: ref(),
     })
     const echartInit = () => {
@@ -114,64 +114,75 @@ export default {
           },
           
         },
-        series: [
-          {
-            data: state.yAxisData,
-            stack: 'zs',
-            type: 'bar',
-            barMaxWidth: 'auto',
-            barWidth: 40,
-            label:{
-              show: true,
-              textStyle: {
-                color: '#ddd',
-              },
-              position:'top'
+        series: [{
+          name: 'a',
+          tooltip: {
+              show: false
+          },
+          type: 'bar',
+          barWidth: 30,
+          label:{
+            show: true,
+            textStyle: {
+              color: '#ddd',
             },
-            itemStyle: {
-              color: {
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                type: 'linear',
-                global: false,
-                colorStops: [
-                  {
+            position:'top',
+            distance:8
+          },
+          itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                      offset: 0,
+                      color: "#0B4EC3" // 0% 处的颜色
+                  }, {
+                      offset: 0.6,
+                      color: "#138CEB" // 60% 处的颜色
+                  }, {
+                      offset: 1,
+                      color: "#17AAFE" // 100% 处的颜色
+                  }], false)
+              }
+          },
+          data: state.yAxisData,
+          barGap: 0
+      }, {
+          type: 'bar',
+          barWidth: 10,
+          itemStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
                     offset: 0,
-                    color: '#9d96f5',
-                  },
-                  {
+                    color: "#09337C" // 0% 处的颜色
+                }, {
+                    offset: 0.6,
+                    color: "#0761C0" // 60% 处的颜色
+                }, {
                     offset: 1,
-                    color: '#8378ea',
-                  },
-                ],
+                    color: "#0575DE" // 100% 处的颜色
+                }], false)
+              }
+          },
+          barGap: 0,
+          data: state.yAxisSideData
+          }, {
+              name: 'b',
+              tooltip: {
+                  show: false
               },
-            },
-          },
-
-          //下面的立体,控制颜色是color第一个
-          {
-            data: state.yAxisData,
-            type: 'pictorialBar',
-            barMaxWidth: '20',
-            symbol: 'diamond',
-            symbolOffset: [0, '50%'],
-            symbolSize: [40, 6],
-            zlevel: 2,
-          },
-          //上面的立体,控制颜色是color第二个
-          {
-            data: state.yAxisData,
-            type: 'pictorialBar',
-            barMaxWidth: '20',
-            symbolPosition: 'end',
-            symbol: 'diamond',
-            symbolOffset: [0, '-50%'],
-            symbolSize: [40, 6],
-            zlevel: 2,
-          },
-        ],
+              type: 'pictorialBar',
+              itemStyle: {
+                  borderWidth: 2,
+                  borderColor: '#0571D5',
+                  color: '#1779E0'
+              },
+              symbol: 'path://M 0,0 l 120,0 l -30,60 l -120,0 z',
+              symbolSize: ['40', '8'],
+              symbolOffset: ['0', '-8'],
+              //symbolRotate: -5,
+              symbolPosition: 'end',
+              data: state.yAxisData,
+              z: 3
+          }]
       }
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option)
@@ -187,8 +198,7 @@ export default {
       if(res.errcode==0){
         state.xAxisData=res.data.map((val:any)=>{return val.Name});
         state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-        console.log("state.xAxisData",state.xAxisData)
-        console.log("state.yAxisData",state.yAxisData)
+        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+12});
         echartInit();
       }	
       setInterval(async () => {
@@ -196,6 +206,7 @@ export default {
         if(res.errcode==0){
           state.xAxisData=res.data.map((val:any)=>{return val.Name});
           state.yAxisData=res.data.map((val:any)=>{return val.Weight});
+          state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+12});
           echartInit();
         }	
       }, 60000);
