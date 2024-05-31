@@ -194,7 +194,7 @@ export default {
       const startTime=now.startOf('year').format(); 
       const endTime=now.endOf('year').format(); 
 
-      const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:4,startTime:startTime,endTime:endTime});
+      const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:5,startTime:startTime,endTime:endTime});
       if(res.errcode==0){
         state.xAxisData=res.data.map((val:any)=>{return val.Name});
         state.yAxisData=res.data.map((val:any)=>{return val.Weight});
@@ -202,7 +202,7 @@ export default {
         echartInit();
       }	
       setInterval(async () => {
-        const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:4,startTime:startTime,endTime:endTime});
+        const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:5,startTime:startTime,endTime:endTime});
         if(res.errcode==0){
           state.xAxisData=res.data.map((val:any)=>{return val.Name});
           state.yAxisData=res.data.map((val:any)=>{return val.Weight});
