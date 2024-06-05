@@ -1,7 +1,7 @@
 <template>
 	<div class="base-freight-container">
 			<splitpanes class="default-theme" @resize="paneSize = $event[0].size" style="height: 100%">
-				<pane :size="55">
+				<pane :size="60">
 					<el-card shadow="hover">
 						<div class="">
 							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="60px" :inline="true">
