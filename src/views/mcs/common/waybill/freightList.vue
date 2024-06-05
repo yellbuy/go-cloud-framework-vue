@@ -4,13 +4,13 @@
 				<pane :size="55">
 					<el-card shadow="hover">
 						<div class="">
-							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="70px" :inline="true">
-								<el-form-item label="关键字" style="width:200px">
+							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="60px" :inline="true">
+								<el-form-item label="关键字" style="width:160px">
 									<el-input
 										placeholder="输入关键字查询"
 										v-model="mainTableData.param.keyword"/>
 								</el-form-item>
-								<el-form-item label="发货时间" style="width:300px; white-space: nowrap;">
+								<el-form-item label="发货时间" style="width:250px; white-space: nowrap;" >
 									<el-date-picker
 										v-model="timeRange"
 										type="daterange"
@@ -111,7 +111,7 @@
 					</el-pagination>
 				</el-card>
 				</pane>
-				<pane :size="45">
+				<pane :size="40">
 					<el-card shadow="hover">
 						<div class="">
 							<el-form ref="searchFormRef" :model="childTableData.param" label-suffix="：" label-width="60px" :inline="true">
@@ -199,7 +199,7 @@
 								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="WaybillGoodsName" label="货物" width="100"></el-table-column>
+						<el-table-column prop="VehicleTypeName" label="车型" width="80"></el-table-column>
 						<el-table-column prop="WaybillCompanyName" label="公司" width="120" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="WaybillSenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="WaybillReceiverAddress" label="收货地址" width="120" show-overflow-tooltip></el-table-column>
