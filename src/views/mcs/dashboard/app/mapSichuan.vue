@@ -1,8 +1,9 @@
 <template>
   <div id="map-board">
     <div style="width:100%;" >
-      <div style="position: absolute;left:20px;top:20px;">
-        <dv-conical-column-chart :config="conicalConfig" style="width:33rem;height:12rem;" />
+      <div style="position: absolute;left:-20px;top:-20px;">
+        <dv-active-ring-chart :config="conicalConfig" style="width:26rem;height:26rem;"/>
+        <!-- <dv-conical-column-chart :config="conicalConfig" style="width:33rem;height:12rem;" /> -->
       </div> 
     <!-- <div style="position: absolute;left:30px;top:30px;">
       <dv-capsule-chart style="width:25rem;height:12rem"  :config="capsuleConfig"  />
@@ -31,18 +32,27 @@ export default {
 		const { t } = useI18n();
 		const state = reactive({
       conicalConfig:{
+        lineWidth: 40,
+        showOriginValue:false,
+        digitalFlopStyle: {
+          fontSize: 16,
+          fill: 'pink',
+        },
         data:[],
         columnColor:'rgba(204, 102, 153, 0.6)',
+        color: ['#E6A23C','#F56C6C','#67C23A','#e062ae', '#e690d1', '#32c5e9', '#fb7293'],
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
         unit: '万吨',
+        //digitalFlopUnit:'万吨',
         sort:false,
         showValue:true,
         fontSize:12,
+        numToFixed:2,
         labelNum: 8,
       },
       capsuleConfig:{
         data:[],
-        colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
+        colors: ['#E6A23C','#F56C6C','#67C23A','#e062ae', '#e690d1', '#32c5e9', '#fb7293'],
         unit: '万吨',
         showValue:true,
         fontSize:16,
@@ -61,8 +71,14 @@ export default {
             position: [0.42, 0.58],
             text: '西昌',
           },{
-            position: [0.36, 0.70],
+            position: [0.38, 0.68],
+            text: '永郎',
+          },{
+            position: [0.36, 0.71],
             text: '米易',
+          },{
+            position: [0.59, 0.32],
+            text: '青白江',
           },{
             position: [0.6, 0.35],
             text: '成都',
