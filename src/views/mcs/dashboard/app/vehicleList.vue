@@ -4,9 +4,9 @@
       <div class="ranking-board-title">车辆信息</div>
     </div>
     <dv-scroll-board :config="{header: [],
-    align: ['center','center','center','center'],
+    align: ['center','center','center','center','right'],
     data:list,
-    columnWidth:[50,120,150],index: true,rowNum:5,waitTime:5000,carousel: 'page',
+    columnWidth:[50,90,90,180],index: true,rowNum:5,waitTime:5000,carousel: 'page',
       headerBGC: '#337ecc',
         headerHeight: 10,
         oddRowBGC: 'rgba(0, 44, 81, 0.8)',
@@ -41,19 +41,23 @@ export default {
 		// 页面加载时
 		onMounted(async () => {
       const res = await proxy.$api.erp.vehicle.getListByScope("info", 0, 0, {pageSize:1000,isExternal:0});
-				if (res.errcode == 0) {
-          state.list=res.data.map((val:any)=>{
-          return [val.VehicleNumber, val.DriverMobile,"<span style='color:lightgray'>〉</span>"]
+			if (res.errcode == 0) {
+          state.list=res.data.filter((val:any)=>{
+            return val.VehicleType=='四桥货车' || val.VehicleType=='六桥货车'
+          }).map((val:any)=>{
+          return [val.VehicleNumber, val.VehicleType, val.DriverMobile,"<span style='color:lightgray'>〉</span>"]
         })
-				}
+			}
      
       setInterval(async () => {
         const res = await proxy.$api.erp.vehicle.getListByScope("info", 0, 0, {pageSize:1000,isExternal:0});
-				if (res.errcode == 0) {
-          state.list=res.data.map((val:any)=>{
-          return [val.VehicleNumber, val.DriverMobile,"<span style='color:dardgray'>〉</span>"]
-        })
-				}
+        if (res.errcode == 0) {
+            state.list=res.data.filter((val:any)=>{
+              return val.VehicleType=='四桥货车' || val.VehicleType=='六桥货车'
+            }).map((val:any)=>{
+            return [val.VehicleNumber, val.VehicleType, val.DriverMobile,"<span style='color:lightgray'>〉</span>"]
+          })
+        }
       }, 300000);
 				
 		});
