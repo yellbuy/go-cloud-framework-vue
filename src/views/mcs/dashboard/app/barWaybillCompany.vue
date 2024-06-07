@@ -1,7 +1,7 @@
 <template>
   <div id="ranking-board">
     <div class="ranking-board-title">公司运量统计</div>
-    <div ref="echart" class="echartDiv" style="width:95%;height:160px"></div>
+    <div ref="echart" class="echartDiv" style="width:95%;height:180px"></div>
   </div>
 </template>
 
@@ -201,7 +201,7 @@ export default {
       if(res.errcode==0){
         state.xAxisData=res.data.map((val:any)=>{return val.Name});
         state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+24});
+        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+20});
         echartInit();
       }	
       setInterval(async () => {

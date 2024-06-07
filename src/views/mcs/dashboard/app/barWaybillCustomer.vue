@@ -1,7 +1,7 @@
 <template>
   <div id="ranking-board">
     <div class="ranking-board-title">客户运量统计</div>
-    <div ref="echart" class="echartDiv" style="width:95%;height:160px"></div>
+    <div ref="echart" class="echartDiv" style="width:95%;height:180px"></div>
   </div>
 </template>
 

@@ -25,21 +25,38 @@
               </div>
             </dv-border-box1>
           </div>
-          <dv-border-box-12 style="width:67%;height:auto;padding:30px">
-            <mapSichuan />
+          <dv-border-box-12 style="width:67%;height:auto;">
+            <div style="flex: 1; display: flex; flex-direction: row;">
+              <div style="width:60%;height:auto;padding:20px">
+                <div>
+                  <mapSichuan />
+                </div>
+                <div>
+                  <rankLineList></rankLineList>
+                </div>
+              </div>
+              <div style="width:40%;height:auto;padding:20px 20px 0px 0px">
+                <div>
+                  <pieGoods />
+                </div>
+                <div>
+                  <pieGoods />
+                </div>
+              </div>
+            </div>
+            
           </dv-border-box-12>
         </div>
         <div class="main-rows">
           
           <div style="width:33%;">
-            <barWaybillCompany :chartHeight="300"/>
+            <barWaybillCompany :chartHeight="320"/>
           </div>
           <div style="width:34%;">
-            <vehicle-list></vehicle-list>
-            
+            <rankVehicleList></rankVehicleList>
           </div>
           <div style="width:33%;height:auto;">
-            <barWaybillCustomer :chartHeight="300"/>
+            <barWaybillCustomer :chartHeight="320"/>
           </div>
           
         </div>
@@ -67,21 +84,39 @@
               </div>
             </dv-border-box1>
           </div>
-          <dv-border-box-12 style="width:67%;height:auto;padding:30px">
-            <mapSichuan />
+          <dv-border-box-12 style="width:67%;height:auto;">
+            <div style="flex: 1; display: flex; flex-direction: row;">
+              <div style="width:60%;height:auto;padding:20px">
+                <div>
+                  <mapSichuan />
+                </div>
+                <div>
+                  <rankLineList></rankLineList>
+                </div>
+              </div>
+              <div style="width:40%;height:auto;padding:20px 20px 0px 0px">
+                <div>
+                  <pieGoods />
+                </div>
+                <div>
+                  <pieVehicleType />
+                </div>
+              </div>
+            </div>
+            
           </dv-border-box-12>
         </div>
         <div class="main-rows">
           
           <div style="width:33%;">
-            <barWaybillCompany :chartHeight="300"/>
+            <barWaybillCompany :chartHeight="320"/>
           </div>
           <div style="width:34%;">
-            <vehicle-list></vehicle-list>
+            <rankVehicleList></rankVehicleList>
             
           </div>
           <div style="width:33%;height:auto;">
-            <barWaybillCustomer :chartHeight="300"/>
+            <barWaybillCustomer :chartHeight="320"/>
           </div>
           
         </div>
@@ -110,14 +145,17 @@ import leftTop from "./leftTop.vue";
 import lineWeightBoard from "./lineWeightBoard.vue";
 import mapSichuan from "./mapSichuan.vue";
 import noticeList from "./noticeList.vue";
+import pieGoods from "./pieGoods.vue";
+import pieVehicleType from "./pieVehicleType.vue";
 import rankingBoard from "./rankingBoard.vue";
+import rankLineList from "./rankLineList.vue";
+import rankVehicleList from "./rankVehicleList.vue";
 import rankWaybillCompany from "./rankWaybillCompany.vue";
 import ringGoodsStat from "./ringGoodsStat.vue";
 import roseChart from "./roseChart.vue";
 import scrollBoard from "./scrollBoard.vue";
 import scrollBoardAmount from "./scrollBoardAmount.vue";
 import topHeader from "./topHeader.vue";
-import vehicleList from "./vehicleList.vue";
 import waterLevelChart from "./waterLevelChart.vue";
 
 export default {
@@ -129,8 +167,11 @@ export default {
     digitalGoodsStat,
     centerBottom,
     noticeList,
+    pieGoods,
+    pieVehicleType,
     ringGoodsStat,
-    vehicleList,
+    rankVehicleList,
+    rankLineList,
     digitalFlop,
     rankingBoard,
     barWaybillCompany,
@@ -217,10 +258,10 @@ export default {
   .block-left-content {
     flex: 1;
     display: flex;
+    flex-direction: column;
     width:100%;
     margin-top:10px;
     background-color:rgba(6, 30, 93, 0.5);
-    flex-direction: column;
   }
 }
 

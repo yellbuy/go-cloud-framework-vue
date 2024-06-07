@@ -170,7 +170,7 @@ import roseChart from "./roseChart.vue";
 import scrollBoard from "./scrollBoard.vue";
 import scrollBoardAmount from "./scrollBoardAmount.vue";
 import topHeader from "./topHeader.vue";
-import vehicleList from "./vehicleList.vue";
+import vehicleList from "./rankVehicleList.vue";
 import waterLevelChart from "./waterLevelChart.vue";
 
 export default {

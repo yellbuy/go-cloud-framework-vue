@@ -1,14 +1,14 @@
 <template>
   <div id="map-board">
     <div style="width:100%;" >
-      <div style="position: absolute;left:-20px;top:-20px;">
-        <dv-active-ring-chart :config="conicalConfig" style="width:26rem;height:26rem;"/>
+      <div style="position: absolute;left:-30px;top:-30px;">
+        <dv-active-ring-chart :config="conicalConfig" style="width:20rem;height:20rem;"/>
         <!-- <dv-conical-column-chart :config="conicalConfig" style="width:33rem;height:12rem;" /> -->
       </div> 
     <!-- <div style="position: absolute;left:30px;top:30px;">
       <dv-capsule-chart style="width:25rem;height:12rem"  :config="capsuleConfig"  />
     </div> -->
-    <dv-flyline-chart :config="mapConfig" :dev="true" style="width:100%;height:540px;" />
+    <dv-flyline-chart :config="mapConfig" :dev="true" style="width:100%;height:350px;" />
     </div>
 
 
