@@ -1,14 +1,14 @@
 <template>
   <div id="map-board">
     <div style="width:100%;" >
-      <div style="position: absolute;left:-30px;top:-30px;">
-        <dv-active-ring-chart :config="conicalConfig" style="width:20rem;height:20rem;"/>
+      <div style="position: absolute;left:-20px;top:-20px;">
+        <dv-active-ring-chart :config="conicalConfig" style="width:18rem;height:18rem;"/>
         <!-- <dv-conical-column-chart :config="conicalConfig" style="width:33rem;height:12rem;" /> -->
       </div> 
     <!-- <div style="position: absolute;left:30px;top:30px;">
       <dv-capsule-chart style="width:25rem;height:12rem"  :config="capsuleConfig"  />
     </div> -->
-    <dv-flyline-chart :config="mapConfig" :dev="true" style="width:100%;height:350px;" />
+    <dv-flyline-chart :config="mapConfig" :dev="true" style="width:100%;height:300px;" />
     </div>
 
 
@@ -46,7 +46,7 @@ export default {
         //digitalFlopUnit:'万吨',
         sort:false,
         showValue:true,
-        fontSize:12,
+        fontSize:10,
         numToFixed:2,
         labelNum: 8,
       },
@@ -74,10 +74,10 @@ export default {
             position: [0.38, 0.68],
             text: '永郎',
           },{
-            position: [0.36, 0.71],
+            position: [0.36, 0.72],
             text: '米易',
           },{
-            position: [0.59, 0.32],
+            position: [0.59, 0.31],
             text: '青白江',
           },{
             position: [0.6, 0.35],
