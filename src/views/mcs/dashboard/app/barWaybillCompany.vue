@@ -201,7 +201,7 @@ export default {
       if(res.errcode==0){
         state.xAxisData=res.data.map((val:any)=>{return val.Name});
         state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+20});
+        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+18});
         echartInit();
       }	
       setInterval(async () => {
@@ -209,7 +209,7 @@ export default {
         if(res.errcode==0){
           state.xAxisData=res.data.map((val:any)=>{return val.Name});
           state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-          state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+20});
+          state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+18});
           echartInit();
         }	
       }, 60000);
