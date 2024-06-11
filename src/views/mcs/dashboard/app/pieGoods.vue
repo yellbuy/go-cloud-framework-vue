@@ -13,9 +13,7 @@ export default {
   setup() {
     const { proxy } = getCurrentInstance() as any;
     let state = reactive({
-      xAxisData: [0],
-      yAxisData: [0],
-      yAxisSideData: [0],
+      data: [],
       echart: ref(),
     })
     const echartInit = () => {
@@ -59,16 +57,7 @@ export default {
           itemStyle: {
             borderRadius: 5
           },
-          data: [
-            { value: 30, name: '矿渣砂' },
-            { value: 28, name: '矿渣碎石' },
-            { value: 26, name: '渣铁' },
-            { value: 24, name: '渣钢' },
-            { value: 22, name: 'rose 5' },
-            { value: 20, name: 'rose 6' },
-            { value: 18, name: 'rose 7' },
-            { value: 16, name: 'rose 8' }
-          ]
+          data: state.data
         }
       ]
     };
@@ -82,19 +71,16 @@ export default {
       const startTime=now.startOf('year').format(); 
       const endTime=now.endOf('year').format(); 
 
-      const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:5,startTime:startTime,endTime:endTime});
+      const res = await proxy.$api.erp.waybill.getGoodsNameStatListByScope("freight",0, 0,{limit:8,startTime:startTime,endTime:endTime});
       if(res.errcode==0){
-        state.xAxisData=res.data.map((val:any)=>{return val.Name});
-        state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+12});
+        state.data=res.data.map((val:any)=>{return {value:val.Weight,name:val.Name}});
         echartInit();
       }	
+      
       setInterval(async () => {
-        const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:5,startTime:startTime,endTime:endTime});
+        const res = await proxy.$api.erp.waybill.getGoodsNameStatListByScope("freight",0, 0,{limit:8,startTime:startTime,endTime:endTime});
         if(res.errcode==0){
-          state.xAxisData=res.data.map((val:any)=>{return val.Name});
-          state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-          state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+12});
+          state.data=res.data.map((val:any)=>{return {value:val.Weight,name:val.Name}});
           echartInit();
         }	
       }, 5000);

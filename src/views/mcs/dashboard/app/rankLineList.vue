@@ -4,9 +4,9 @@
       <div class="ranking-board-title">今日线路</div>
     </div>
     <dv-scroll-board :config="{header: [],
-    align: ['right','center','center','center','right'],
+    align: ['right','left','left','center','left'],
     data:list,
-    columnWidth:[50,180,50,180],index: true,rowNum:8,waitTime:2000,
+    columnWidth:[50,300,80,40,80],index: true,rowNum:8,waitTime:2000,
       headerBGC: '#337ecc',
         headerHeight: 10,
         oddRowBGC: 'rgba(0, 44, 81, 0.8)',
@@ -17,6 +17,7 @@
 </template>
 
 <script lang="ts" scoped>
+import dayjs from 'dayjs';
 import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import childMapDlg from '../../common/waybill/component/vehicleMap.vue';
@@ -40,22 +41,21 @@ export default {
     }
 		// 页面加载时
 		onMounted(async () => {
-      const res = await proxy.$api.erp.vehicle.getListByScope("info", 0, 0, {pageSize:1000,isExternal:0});
+      const now = dayjs();
+      const startTime=now.startOf('day').format(); 
+      const endTime=now.endOf('day').format(); 
+      const res = await proxy.$api.erp.waybill.getCustomerlineListByScope("freight", 0, 0, {pageSize:50,startTime:startTime,endTime:endTime});
 			if (res.errcode == 0) {
-          state.list=res.data.filter((val:any)=>{
-            return val.VehicleType=='四桥货车' || val.VehicleType=='六桥货车'
-          }).map((val:any)=>{
-          return ["<span style='color:orange'>环业公司</span>","<span style='color:lightgray'>〉</span>", "<span style='color:orange'>瑞钢</span>"]
+          state.list=res.data.map((val:any)=>{
+            return [`<span style='color:orange'>${val.CustomerName}</span>`,`<span style='color:orange'>${val.SenderAddress}</span>`,`<span style='color:lightgray'>〉</span>`, `<span style='color:orange'>${val.ReceiverAddress}</span>`]
         })
 			}
      
       setInterval(async () => {
-        const res = await proxy.$api.erp.vehicle.getListByScope("info", 0, 0, {pageSize:1000,isExternal:0});
+        const res = await proxy.$api.erp.waybill.getCustomerlineListByScope("freight", 0, 0, {pageSize:50,startTime:startTime,endTime:endTime});
         if (res.errcode == 0) {
-            state.list=res.data.filter((val:any)=>{
-              return val.VehicleType=='四桥货车' || val.VehicleType=='六桥货车'
-            }).map((val:any)=>{
-              return ["<span style='color:orange'>环业公司</span>","<span style='color:lightgray'>〉</span>", "<span style='color:orange'>瑞钢</span>"]
+            state.list=res.data.map((val:any)=>{
+            return [`<span style='color:orange'>${val.CustomerName}</span>`,`<span style='color:orange'>${val.SenderAddress}</span>`,`<span style='color:lightgray'>〉</span>`, `<span style='color:orange'>${val.ReceiverAddress}</span>`]
           })
         }
       }, 300000);

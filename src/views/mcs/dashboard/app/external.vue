@@ -40,7 +40,7 @@
                   <pieGoods />
                 </div>
                 <div>
-                  <pieGoods />
+                  <pieVehicleType />
                 </div>
               </div>
             </div>

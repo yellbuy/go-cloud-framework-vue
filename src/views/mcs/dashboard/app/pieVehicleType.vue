@@ -6,16 +6,13 @@
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs';
 import * as echarts from 'echarts';
 import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 export default {
   setup() {
     const { proxy } = getCurrentInstance() as any;
     let state = reactive({
-      xAxisData: [0],
-      yAxisData: [0],
-      yAxisSideData: [0],
+      data: [],
       echart: ref(),
     })
     let myChart:any
@@ -60,16 +57,7 @@ export default {
           itemStyle: {
             borderRadius: 5
           },
-          data: [
-            { value: 24, name: '四桥货车' },
-            { value: 48, name: '六桥货车' },
-            { value: 10, name: '装载机' },
-            { value: 24, name: 'rose 4' },
-            { value: 22, name: 'rose 5' },
-            { value: 26, name: 'rose 6' },
-            { value: 17, name: 'rose 7' },
-            { value: 15, name: 'rose 8' }
-          ]
+          data: state.data
         }
       ]
     };
@@ -79,25 +67,16 @@ export default {
 
     //挂载
     onMounted(async () => {
-      const now = dayjs();
-      const startTime=now.startOf('year').format(); 
-      const endTime=now.endOf('year').format(); 
 
-      const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:5,startTime:startTime,endTime:endTime});
+      const res = await proxy.$api.erp.vehicle.getVehicleTypeStat("info",0, 0,{limit:10});
       if(res.errcode==0){
-        state.xAxisData=res.data.map((val:any)=>{return val.Name});
-        state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+12});
+        state.data=res.data.map((val:any)=>{return {value:val.VehicleCount,name:val.Name}});
         echartInit();
       }	
       setInterval(async () => {
-        //myChart.showLoading();
-        //myChart.
-        const res = await proxy.$api.erp.waybill.getCustomerStatListByScope("freight",0, 0,{limit:5,startTime:startTime,endTime:endTime});
+        const res = await proxy.$api.erp.vehicle.getVehicleTypeStat("info",0, 0,{limit:10});
         if(res.errcode==0){
-          state.xAxisData=res.data.map((val:any)=>{return val.Name});
-          state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-          state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+12});
+          state.data=res.data.map((val:any)=>{return {value:val.VehicleCount,name:val.Name}});
           echartInit();
         }	
       }, 5000);
