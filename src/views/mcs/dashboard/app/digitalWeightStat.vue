@@ -49,7 +49,7 @@
                 <div style="margin-top:10px;">
             
                   <dv-digital-flop class="digital-flop-item-digital"
-                  :config="{number:[statData.MainBusinessWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:20}}"
+                  :config="{number:[statData.MainBusinessWeight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:20}}"
                 />
               </div>
 
@@ -68,7 +68,7 @@
                   <div class="digital-flop-item-title"><b>贸易运量</b></div>
                   <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[statData.TradeWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:20}}"
+                      :config="{number:[statData.TradeWeight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:20}}"
                     />
                   </div> 
                   </div>
