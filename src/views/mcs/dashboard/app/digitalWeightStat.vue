@@ -8,7 +8,7 @@
                   <div class="digital-flop-item-title"><b>公路运量</b></div>
                   <div style="margin-top:10px;">
                     <dv-digital-flop class="digital-flop-item-digital"
-                    :config="{number:[statData.WaybillWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:20}}"
+                    :config="{number:[statData.WaybillWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:20}}"
                   />
                 </div>
               </div>
@@ -20,14 +20,14 @@
                   <div style="background-image:url('./img/bg_dashboard_digital_1.png');width:100%;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                     <!-- <div class="unit">公路运单</div>
                     <dv-digital-flop class="digital-flop-item-digital"
-                    :config="{number:[statData.WaybillCount],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
+                    :config="{number:[statData.WaybillCount],style:{fill: '#e3dc0f',fontSize:20}}"
                   />
                   
                   <div class="unit">条</div> -->
                   <div class="digital-flop-item-title"><b>公路运单</b></div>
                   <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[statData.WaybillCount],content: '{nt} 单',style:{fill: '#fff',fontWeight: 'bold',fontSize:20}}"
+                      :config="{number:[statData.WaybillCount],content: '{nt} 单',style:{fill: '#fff',fontSize:20}}"
                     />
                   </div> 
                   </div>
@@ -43,13 +43,13 @@
                   <div class="digital-flop-item-title"><b>铁路运量</b></div>
                   <!-- <div class="unit">公路运量</div>
                   <dv-digital-flop class="digital-flop-item-digital"
-                  :config="{number:[statData.WaybillWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
+                  :config="{number:[statData.WaybillWeight],style:{fill: '#e3dc0f',fontSize:20}}"
                 /> -->
                 <!-- <div class="unit">吨</div> -->
                 <div style="margin-top:10px;">
             
                   <dv-digital-flop class="digital-flop-item-digital"
-                  :config="{number:[statData.MainBusinessWeight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:20}}"
+                  :config="{number:[statData.MainBusinessWeight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:20}}"
                 />
               </div>
 
@@ -61,14 +61,14 @@
                   <div style="background-image:url('./img/bg_dashboard_digital_1.png');width:100%;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                     <!-- <div class="unit">公路运单</div>
                     <dv-digital-flop class="digital-flop-item-digital"
-                    :config="{number:[statData.WaybillCount],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
+                    :config="{number:[statData.WaybillCount],style:{fill: '#e3dc0f',fontSize:20}}"
                   />
                   
                   <div class="unit">条</div> -->
                   <div class="digital-flop-item-title"><b>贸易运量</b></div>
                   <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[statData.TradeWeight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:20}}"
+                      :config="{number:[statData.TradeWeight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:20}}"
                     />
                   </div> 
                   </div>

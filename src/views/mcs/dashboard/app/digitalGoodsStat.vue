@@ -9,7 +9,7 @@
                     <div class="digital-flop-item-title"><b>{{list[0].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[0].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[0].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
@@ -23,7 +23,7 @@
                     <div class="digital-flop-item-title"><b>{{list[1].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[1].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[1].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
@@ -38,7 +38,7 @@
                     <div class="digital-flop-item-title"><b>{{list[2].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[2].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[2].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
@@ -54,7 +54,7 @@
                     <div class="digital-flop-item-title"><b>{{list[3].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[3].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[3].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
@@ -68,7 +68,7 @@
                     <div class="digital-flop-item-title"><b>{{list[4].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[4].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[4].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
@@ -82,7 +82,7 @@
                     <div class="digital-flop-item-title"><b>{{list[5].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[5].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[5].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
@@ -100,7 +100,7 @@
                     <div class="digital-flop-item-title"><b>{{list[6].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[6].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[6].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
@@ -114,7 +114,7 @@
                     <div class="digital-flop-item-title"><b>{{list[7].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[7].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[7].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
@@ -129,7 +129,7 @@
                     <div class="digital-flop-item-title"><b>{{list[8].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[8].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[8].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
@@ -145,7 +145,7 @@
                     <div class="digital-flop-item-title"><b>{{list[9].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[9].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[9].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
@@ -159,7 +159,7 @@
                     <div class="digital-flop-item-title"><b>{{list[10].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[10].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[10].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
@@ -173,7 +173,7 @@
                     <div class="digital-flop-item-title"><b>{{list[11].Name}}</b></div>
                     <div style="margin-top:10px;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[list[11].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontWeight: 'bold',fontSize:14}}"
+                      :config="{number:[list[11].Weight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:14}}"
                       />
                     </div>
                   </div>
