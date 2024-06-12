@@ -1,7 +1,7 @@
 <template>
   <div id="ranking-board">
     <div class="ranking-board-title">公司运量统计</div>
-    <div ref="echart" class="echartDiv" style="width:95%;height:180px"></div>
+    <div ref="echart" class="echartDiv"></div>
   </div>
 </template>
 
@@ -24,8 +24,12 @@ export default {
       var option = {
         tooltip: {
           trigger: 'axis',
+          backgroundColor: 'rgba(50,50,50,0.7)',
           axisPointer: {
             type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+          },
+          textStyle: {
+            color: '#eee',
           },
           formatter: function (parms) {
             var str =
@@ -37,7 +41,7 @@ export default {
           },
         },
         textStyle: {
-          color: '#ddd',
+          color: '#eee',
         },
         color: ['#fb7293', '#ffdb5c'],
         grid: {
@@ -85,7 +89,7 @@ export default {
           // },
           axisLabel: {
             interval:'auto',
-            show: true,
+            show: false,
             margin: 16, //刻度标签与轴线之间的距离。
             textStyle: {
               color: '#ddd',
@@ -119,7 +123,7 @@ export default {
         series: [{
           name: 'a',
           tooltip: {
-              show: false
+              show: true
           },
           type: 'bar',
           barWidth: 30,
@@ -201,7 +205,7 @@ export default {
       if(res.errcode==0){
         state.xAxisData=res.data.map((val:any)=>{return val.Name});
         state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+18});
+        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+14});
         echartInit();
       }	
       setInterval(async () => {
@@ -209,7 +213,7 @@ export default {
         if(res.errcode==0){
           state.xAxisData=res.data.map((val:any)=>{return val.Name});
           state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-          state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+18});
+          state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+14});
           echartInit();
         }	
       }, 60000);
@@ -226,5 +230,7 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
+  height:180px;
+  padding-bottom:10px;
 }
 </style>
