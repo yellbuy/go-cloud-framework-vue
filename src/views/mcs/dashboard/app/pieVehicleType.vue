@@ -16,13 +16,17 @@ export default {
       echart: ref(),
     })
     let myChart:any
-    const echartInit = () => {
-      myChart = echarts.init(state.echart, 'dark')
+    const setChartOption = (chart:any) =>  {
       // 指定图表的配置项和数据
       var option = {
       tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)'
+          backgroundColor: 'rgba(50,50,50,0.7)',
+          formatter: '{b} : {c}辆 ({d}%)',
+          textStyle: {
+            color: '#eee'
+          },
+        //formatter: '{a} <br/>{b} : {c} ({d}%)'
       },
       // legend: {
       //   left: 'center',
@@ -62,29 +66,52 @@ export default {
       ]
     };
       // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option)
+      chart.setOption(option)
     }
 
     //挂载
     onMounted(async () => {
-
+      myChart = echarts.init(state.echart, 'dark')
       const res = await proxy.$api.erp.vehicle.getVehicleTypeStat("info",0, 0,{limit:10});
       if(res.errcode==0){
         state.data=res.data.map((val:any)=>{return {value:val.VehicleCount,name:val.Name}});
-        echartInit();
+        setChartOption(myChart);
       }	
       setInterval(async () => {
         const res = await proxy.$api.erp.vehicle.getVehicleTypeStat("info",0, 0,{limit:10});
         if(res.errcode==0){
           state.data=res.data.map((val:any)=>{return {value:val.VehicleCount,name:val.Name}});
-          echartInit();
+          setChartOption(myChart);
         }	
       }, 5000);
+
+      let currentIndex = -1;
+      setInterval(function() {
+        var dataLen = state.data.length;
+        // 取消之前高亮的图形
+        myChart.dispatchAction({
+          type: 'downplay',
+          seriesIndex: 0,
+          dataIndex: currentIndex
+        });
+        currentIndex = (currentIndex + 1) % dataLen;
+        // 高亮当前图形
+        myChart.dispatchAction({
+          type: 'highlight',
+          seriesIndex: 0,
+          dataIndex: currentIndex
+        });
+        // 显示 tooltip
+        myChart.dispatchAction({
+          type: 'showTip',
+          seriesIndex: 0,
+          dataIndex: currentIndex
+        });
+      }, 1000);
     })
 
     return {
       ...toRefs(state),
-      echartInit,
     }
   },
 }
