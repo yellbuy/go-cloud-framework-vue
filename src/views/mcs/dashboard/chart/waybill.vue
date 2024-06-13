@@ -141,7 +141,8 @@ const createDataSource:any = ()=>{
         const startTime=dayjs(startDate).format("YYYY-MM-DD")
 		const endTime=dayjs(endDate).format("YYYY-MM-DD")
 		const res = await proxy.$api.erp.waybillLine.getStatListByScope(kind,scopeMode,scopeValue,{startTime,endTime})
-		return  res.data||[]
+		const data=  res.data||[]
+		return data;
     }});
 	
 	const dataSource = new PivotGridDataSource({
@@ -189,7 +190,12 @@ const createDataSource:any = ()=>{
 			caption: '规格',
 			dataField: 'WaybillGoodsSkuName',
 			width: 150,
-			area: 'row',
+			area: 'filter',
+		},{
+			caption: "单位",
+			dataField: "WaybillModeName",
+			expanded: true,
+			area: "filter"
 		},{
 			caption: "类别",
 			dataField: "WaybillGoodsCategoryName",
@@ -222,7 +228,7 @@ const createDataSource:any = ()=>{
 			area: 'column',
 			visible: true,
 		}, {
-			caption: '运量（吨）',
+			caption: '运量',
 			dataField: 'ReceiverNetWeight',
 			dataType: 'number',
 			summaryType: 'sum',

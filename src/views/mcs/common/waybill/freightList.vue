@@ -351,6 +351,7 @@ export default {
 				if (res.errcode != 0) {
 					return;
 				}
+				
 				state.mainTableData.data = res.data;
 				state.mainTableData.total = res.total;
 			} finally {
