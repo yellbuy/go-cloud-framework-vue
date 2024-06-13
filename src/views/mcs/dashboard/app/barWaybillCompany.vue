@@ -1,6 +1,6 @@
 <template>
   <div id="ranking-board">
-    <div class="ranking-board-title">公司运量统计</div>
+    <div class="company-board-title">公司运量统计</div>
     <div ref="echart" class="echartDiv"></div>
   </div>
 </template>
@@ -232,5 +232,13 @@ export default {
   width: 100%;
   height:180px;
   padding-bottom:10px;
+}
+.company-board-title{
+  margin-top: 10px;
+  height: 40px;
+  font-family: 'LiSu';
+  font-weight: bold;
+  text-align: left;
+  font-size: 18px;
 }
 </style>

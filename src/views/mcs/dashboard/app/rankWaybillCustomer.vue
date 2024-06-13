@@ -1,6 +1,6 @@
 <template>
   <div id="ranking-board">
-    <div class="ranking-board-title">客户运量统计</div>
+    <div class="customer-board-title">客户运量统计</div>
     <dv-scroll-ranking-board :config="config" style="width:95%;height:200px"/>
   </div>
 </template>
@@ -58,9 +58,9 @@ export default {
 <style lang="less">
 #ranking-board {
   width: 95%;
-  box-shadow: 0 0 3px blue;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 0 3px blue;
   background-color: rgba(6, 30, 93, 0.5);
   border-top: 2px solid rgba(1, 153, 209, 0.5);
   box-sizing: border-box;
@@ -68,11 +68,10 @@ export default {
   margin-left:10px;
   padding: 0 15px;
 
-  .ranking-board-title {
+  .customer-board-title {
     height: 40px;
-    display: flex;
     font-family: 'LiSu';
-    align-items: center;
+    text-align:right;
     font-size: 18px;
   }
 

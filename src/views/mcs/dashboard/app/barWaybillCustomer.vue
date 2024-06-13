@@ -1,6 +1,6 @@
 <template>
   <div id="ranking-board">
-    <div class="ranking-board-title">客户运量统计</div>
+    <div class="customer-board-title" style="text-align: right">客户运量统计</div>
     <div ref="echart" class="echartDiv"></div>
   </div>
 </template>
@@ -229,5 +229,13 @@ export default {
   width: 100%;
   height:180px;
   padding-bottom:10px;
+}
+.customer-board-title{
+  margin-top: 10px;
+  height: 40px;
+  font-family: 'LiSu';
+  font-weight: bold;
+  text-align: center;
+  font-size: 18px;
 }
 </style>

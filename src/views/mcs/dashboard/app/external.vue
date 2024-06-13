@@ -53,7 +53,7 @@
             <barWaybillCompany :chartHeight="320"/>
           </div>
           <div style="width:34%;">
-            <rankVehicleList></rankVehicleList>
+            <digitalVehicleStat></digitalVehicleStat>
           </div>
           <div style="width:33%;height:auto;">
             <barWaybillCustomer :chartHeight="320"/>
@@ -112,8 +112,7 @@
             <barWaybillCompany :chartHeight="320"/>
           </div>
           <div style="width:34%;">
-            <rankVehicleList></rankVehicleList>
-            
+            <digitalVehicleStat></digitalVehicleStat>
           </div>
           <div style="width:33%;height:auto;">
             <barWaybillCustomer :chartHeight="320"/>
@@ -140,6 +139,7 @@ import cards from "./cards.vue";
 import centerBottom from "./centerBottom.vue";
 import digitalFlop from "./digitalFlop.vue";
 import digitalGoodsStat from "./digitalGoodsStat.vue";
+import digitalVehicleStat from "./digitalVehicleStat.vue";
 import digitalWeightStat from "./digitalWeightStat.vue";
 import leftTop from "./leftTop.vue";
 import lineWeightBoard from "./lineWeightBoard.vue";
@@ -165,6 +165,7 @@ export default {
     leftTop,
     digitalWeightStat,
     digitalGoodsStat,
+    digitalVehicleStat,
     centerBottom,
     noticeList,
     pieGoods,
