@@ -60,7 +60,7 @@ export default {
 }
 </script>
  
-<style lang='scss' scoped>
+<style lang='scss'>
 #vehicle-board{
     box-shadow: 0 0 3px blue;
     background-color: rgba(6, 30, 93, 0.5);
