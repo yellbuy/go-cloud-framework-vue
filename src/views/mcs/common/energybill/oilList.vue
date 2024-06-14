@@ -44,7 +44,7 @@
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" fixed />
 						<el-table-column prop="BillNo" label="年月" width="80" fixed></el-table-column>
-						<el-table-column prop="CreateBy" label="录入人" width="80"></el-table-column>
+						<el-table-column prop="CreateBy" label="录入人" width="100"></el-table-column>
 						<el-table-column prop="CreateTime" label="录入时间" width="120" :formatter="dateFormatYMDHM"  show-overflow-tooltip></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 							<template #default="scope">
