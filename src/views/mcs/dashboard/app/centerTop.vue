@@ -1,33 +1,30 @@
 <template>
   <div id="centerTop">
-    <div class="digital-container">
+    <div class="waybill-digital-container">
         <div class="digital-title">年运量（公路）</div>
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="unit">计划</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.YearPlanWeight],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.YearPlanWeight],content: '{nt} 万吨',style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
               />
-              <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.YearExecWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.YearExecWeight],content: '{nt} 万吨',style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
-              <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.YearBalanceWeight],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.YearBalanceWeight],content: '{nt} 万吨',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
               />
-              <div class="unit">吨</div>
             </div>
           
             <div class="digital-flop-item">
               <div class="unit">完成情况</div>
-              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.YearPercent,lineDash: [10, 2]}" />
+              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.YearPercent,localGradient:true,colors: ['#01c4f9', '#c135ff'],lineDash: [5, 1]}" />
               <!-- <dv-charts class="digital-flop-item-progress" :option="{
                   title: {
                     text: '完成情况',
@@ -63,33 +60,30 @@
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
         <dv-decoration-2 />
       </div>
-      <div class="digital-container">
+      <div class="waybill-digital-container">
         <div class="digital-title">月运量（公路）</div>
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="unit">计划</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.MonthPlanWeight],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.MonthPlanWeight],content: '{nt} 万吨',style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
               />
-              <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.MonthExecWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.MonthExecWeight],content: '{nt} 万吨',style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
-              <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.MonthBalanceWeight],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.MonthBalanceWeight],content: '{nt} 万吨',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
               />
-              <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成情况</div>
-              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.MonthPercent,lineDash: [10, 2]}" />
+              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.MonthPercent,localGradient:true,colors: ['#01c4f9', '#c135ff'],lineDash: [5, 1]}" />
               <!-- <dv-water-level-pond class="digital-flop-item-progress" :config="{ data: [statData.MonthPercent], shape: 'round', waveHeight: 5, waveNum: 5}" /> -->
               
             </div>
@@ -97,40 +91,37 @@
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
         <dv-decoration-2 />
       </div>
-      <div class="digital-container">
+      <div class="waybill-digital-container">
         <div class="digital-title">日运量（公路）</div>
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="unit">计划</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.DayPlanWeight],style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.DayPlanWeight],content: '{nt} 万吨',style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
               />
-              <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.DayExecWeight],style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.DayExecWeight],content: '{nt} 万吨',style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
-              <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
               <dv-digital-flop class="digital-flop-item-digital"
-                :config="{number:[statData.DayBalanceWeight],style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.DayBalanceWeight],content: '{nt} 万吨',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
               />
-              <div class="unit">吨</div>
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成情况</div>
-              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.DayPercent,lineDash: [10, 2]}" />
+              <dv-percent-pond class="digital-flop-item-progress" :config="{value: statData.DayPercent,localGradient:true,colors: ['#01c4f9', '#c135ff'],lineDash: [5, 1]}" />
               <!-- <dv-water-level-pond class="digital-flop-item-progress" :config="{ data: [statData.DayPercent], shape: 'round', waveHeight: 5, waveNum: 5}" /> -->
             </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
         <dv-decoration-2 />
       </div>
-      <!-- <div class="digital-container">
+      <!-- <div class="waybill-digital-container">
         <div class="flex-row" style="padding-top:6px !important;padding-bottom:6px !important">
           
           
@@ -194,7 +185,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .digital-container {
+  .dv-percent-pond text{
+    font-size: 18px !important;
+  }
+  .waybill-digital-container {
     margin:10px 10px -7px;
     background-color: rgba(6, 30, 93, 0.5);
 
@@ -216,7 +210,7 @@ export default {
     }
     .digital-flop-item {
       width: 25%;
-      padding:10px;
+      padding:4px;
       text-align: center;
       flex-direction: column;
       border-left: 3px solid rgb(6, 30, 93);
@@ -227,9 +221,11 @@ export default {
       }
       .digital-flop-item-progress{
         width:90%;
-        height:40px;
-        margin:auto
+        height:30px;
+        font-size:14pt;
+        margin:auto;
       }
+      
     }
 
     
@@ -239,8 +235,9 @@ export default {
       // flex-direction: column;
       // justify-content: center;
       // align-items: center;
+      font-size:18pt;
+      font-family: 'LiSu';
       text-align: center;
-      font-size: 20px;
       padding-top:10px;
       margin-bottom: 0px;
     }

@@ -8,70 +8,15 @@
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
         <div class="main-rows">
-          <dv-border-box-12 style="width:67%;height:auto;padding:2px 2px">
-            <center-top></center-top>
-            <!-- <dv-decoration-3 style="width: 100%;" /> -->
-            <div class="main-rows">
-              <div class="block-left-content">
-                <barWaybillBoard />
-              </div>
-              <div class="block-left-content">
-                <barMainBusinessBoard />
-              </div>
-            </div>
-            
-            <!-- <center-bottom></center-bottom> -->
-          </dv-border-box-12>
-          <dv-border-box-12 style="width:33%;height:auto;padding:12px">
-            <tbWaybillStat></tbWaybillStat>
-            <notice-list></notice-list>
-            <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
+          <dv-border-box-1 style="width:30%;height:auto;padding:0px 2px">
             <div>
-              <dv-decoration-3 style="width: 100%;" />
-              <!-- <div class="block-left-content">
-                <barWaybillBoard />
-              </div> -->
-              
-              <div class="block-left-content">
-                <barTradeBoard />
-              </div>
-              <div class="block-left-content">
-                <barWarehouseRateBoard />
-              </div>
-              <div class="block-left-content">
-                <mainBusinessBoard />
-              </div>
-          </div>
-          </dv-border-box-12>
-          
-          <!-- <dv-border-box-12 style="width:20%;height:auto">
-            <capshuleVehicleCountStat/>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有货运车', value: 48},{name: '当日已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
+              <tbWaybillStat></tbWaybillStat>
             </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有乘用车', value: 255},{name: '当日已出车', value: 201},{name: '停驶中', value: 24}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
+            <div>
+              <notice-list></notice-list>
             </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '工程机械车', value: 34},{name: '装载机', value: 24},{name: '挖掘机', value: 2}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有货运车', value: 48},{name: '当日已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '其他特种车', value: 48},{name: '搅拌罐车', value: 19},{name: '当日已出车', value: 10}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-          </dv-border-box-12> -->
-        </div>
-        
-      </dv-full-screen-container>
-      <div v-else>
-        <top-header />
-        <div style="position:absolute;top:10px;right:10px">
-          <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
-        </div>
-        <div class="main-rows">
-          <dv-border-box-12 style="width:67%;height:auto;padding:2px">
+          </dv-border-box-1>
+          <dv-border-box-12 style="width:40%;height:auto;padding:2px">
             <center-top></center-top>
             <!-- <dv-decoration-3 style="width: 100%;" /> -->
             <div class="main-rows">
@@ -85,9 +30,8 @@
             
             <!-- <center-bottom></center-bottom> -->
           </dv-border-box-12>
-          <dv-border-box-12 style="width:33%;height:auto;padding:12px">
-            <tbWaybillStat></tbWaybillStat>
-            <notice-list></notice-list>
+          <dv-border-box-12 style="width:30%;height:auto;padding:12px">
+            
             <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
               <!-- <dv-decoration-3 style="width: 100%;" /> -->
@@ -106,27 +50,59 @@
               </div>
           </div>
           </dv-border-box-12>
-          
-          <!-- <dv-border-box-12 style="width:20%;height:auto">
-            <capshuleVehicleCountStat/>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有货运车', value: 48},{name: '当日已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有乘用车', value: 255},{name: '当日已出车', value: 201},{name: '停驶中', value: 24}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '工程机械车', value: 34},{name: '装载机', value: 24},{name: '挖掘机', value: 2}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '自有货运车', value: 48},{name: '当日已出车', value: 39},{name: '停驶中', value: 9}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-            <div style="margin:12px">
-              <dv-capsule-chart :config="{data:[{name: '其他特种车', value: 48},{name: '搅拌罐车', value: 19},{name: '当日已出车', value: 10}],colors: ['#fb7293','#32c5e9', '#96bfff','#e062ae',  '#e690d1'],unit: '辆',showValue: true}" style="height:150px" />
-            </div>
-          </dv-border-box-12> -->
         </div>
         
+      </dv-full-screen-container>
+      <div v-else>
+        <top-header />
+        <div style="position:absolute;top:10px;right:10px">
+          <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
+        </div>
+        <div class="main-rows">
+          <dv-border-box-1 style="width:30%;height:auto;padding:0px 2px">
+            <div>
+              <tbWaybillStat></tbWaybillStat>
+            </div>
+            <div>
+              <notice-list></notice-list>
+            </div>
+          </dv-border-box-1>
+          <dv-border-box-12 style="width:40%;height:auto;padding:2px">
+            <center-top></center-top>
+            <!-- <dv-decoration-3 style="width: 100%;" /> -->
+            <div class="main-rows">
+              <div class="block-left-content">
+                <barWaybillBoard />
+              </div>
+              <div class="block-left-content">
+                <barMainBusinessBoard />
+              </div>
+            </div>
+            
+            <!-- <center-bottom></center-bottom> -->
+          </dv-border-box-12>
+          <dv-border-box-12 style="width:30%;height:auto;padding:12px">
+            
+            <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
+            <div>
+              <!-- <dv-decoration-3 style="width: 100%;" /> -->
+              <!-- <div class="block-left-content">
+                <barWaybillBoard />
+              </div> -->
+              
+              <div class="block-left-content">
+                <barTradeBoard />
+              </div>
+              <div class="block-left-content">
+                <barWarehouseRateBoard />
+              </div>
+              <div class="block-left-content">
+                <mainBusinessBoard />
+              </div>
+          </div>
+          </dv-border-box-12>
+        </div>
+        <!-- 全屏结束 -->
       </div>
     </div>
   </div>

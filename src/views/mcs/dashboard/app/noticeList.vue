@@ -1,8 +1,8 @@
 <template>
   <div id="noticeList">
     <dv-scroll-board :config="{header: ['通告内容','发布日期'],
-    align: ['center','left','center'],
-    data:list,columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:120px;margin-top:16px" />
+    align: ['center','left','center'],headerBGC: '#337ecc',
+    data:list,columnWidth:[40,360,110],index: true,rowNum:6,headerHeight:30}" class="noticeList-board" />
   </div>
 </template>
 
@@ -49,5 +49,11 @@ export default {
 </script>
 
 <style lang="less">
-
+#noticeList{
+  margin:0px 12px;
+  .noticeList-board{
+    width:100%;
+    height:36vh;
+  }
+}
 </style>
