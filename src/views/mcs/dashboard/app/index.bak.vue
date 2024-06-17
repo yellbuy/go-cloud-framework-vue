@@ -67,7 +67,7 @@ import cards from "./cards.vue";
 import centerBottom from "./centerBottom.vue";
 import centerTop from "./centerTop.vue";
 import digitalFlop from "./digitalFlop.vue";
-import leftTop from "./leftTop.vue";
+import leftTop from "./tbWaybillStat.vue";
 import noticeList from "./noticeList.vue";
 import rankingBoard from "./rankingBoard.vue";
 import roseChart from "./roseChart.vue";

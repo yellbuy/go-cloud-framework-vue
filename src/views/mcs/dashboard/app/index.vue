@@ -23,7 +23,7 @@
             <!-- <center-bottom></center-bottom> -->
           </dv-border-box-12>
           <dv-border-box-12 style="width:33%;height:auto;padding:12px">
-            <left-top></left-top>
+            <tbWaybillStat></tbWaybillStat>
             <notice-list></notice-list>
             <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
@@ -86,7 +86,7 @@
             <!-- <center-bottom></center-bottom> -->
           </dv-border-box-12>
           <dv-border-box-12 style="width:33%;height:auto;padding:12px">
-            <left-top></left-top>
+            <tbWaybillStat></tbWaybillStat>
             <notice-list></notice-list>
             <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
@@ -143,12 +143,12 @@ import cards from "./cards.vue";
 import centerBottom from "./centerBottom.vue";
 import centerTop from "./centerTop.vue";
 import digitalFlop from "./digitalFlop.vue";
-import leftTop from "./leftTop.vue";
 import noticeList from "./noticeList.vue";
 import rankingBoard from "./rankingBoard.vue";
 import roseChart from "./roseChart.vue";
 import scrollBoard from "./scrollBoard.vue";
 import scrollBoardAmount from "./scrollBoardAmount.vue";
+import tbWaybillStat from "./tbWaybillStat.vue";
 import topHeader from "./topHeader.vue";
 import waterLevelChart from "./waterLevelChart.vue";
 
@@ -156,7 +156,7 @@ export default {
   name: "DataView",
   components: {
     topHeader,
-    leftTop,
+    tbWaybillStat,
     centerTop,
     centerBottom,
     noticeList,

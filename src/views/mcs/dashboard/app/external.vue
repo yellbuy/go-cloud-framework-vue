@@ -141,7 +141,7 @@ import digitalFlop from "./digitalFlop.vue";
 import digitalGoodsStat from "./digitalGoodsStat.vue";
 import digitalVehicleStat from "./digitalVehicleStat.vue";
 import digitalWeightStat from "./digitalWeightStat.vue";
-import leftTop from "./leftTop.vue";
+import leftTop from "./tbWaybillStat.vue";
 import lineWeightBoard from "./lineWeightBoard.vue";
 import mapSichuan from "./mapSichuan.vue";
 import noticeList from "./noticeList.vue";

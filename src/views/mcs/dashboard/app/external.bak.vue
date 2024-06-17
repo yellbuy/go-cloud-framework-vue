@@ -160,7 +160,7 @@ import cards from "./cards.vue";
 import centerBottom from "./centerBottom.vue";
 import digitalFlop from "./digitalFlop.vue";
 import digitalWeightStat from "./digitalWeightStat.vue";
-import leftTop from "./leftTop.vue";
+import leftTop from "./tbWaybillStat.vue";
 import noticeList from "./noticeList.vue";
 import ringGoodsStat from "./ringGoodsStat.vue";
 import rankingBoard from "./rankingBoard.vue";
