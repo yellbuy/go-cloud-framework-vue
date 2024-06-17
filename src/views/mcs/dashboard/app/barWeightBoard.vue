@@ -1,12 +1,12 @@
 <template>
-  <div class="scroll-board">
+  <div class="weight-scroll-board">
     <div class="chart-name">
       <div style="font-family: 'LiSu';">运力分析（万吨） </div>
       <div>
         <dv-button @click="onChangeInvertal" border="Border1" color="#f3d19e" font-color="#e18a3b" style="z-index: 999999;text-decoration:underline">{{getModeName}}</dv-button>
       </div>
     </div>
-    <dv-charts :option="option" style="width: 100%; height:200px;margin-top:-50px;"/>
+    <dv-charts :option="option" class="weight-scroll-board-chart"/>
   </div>
 </template>
 
@@ -199,11 +199,10 @@ export default {
 </script>
 
 <style lang="less">
-.scroll-board {
+.weight-scroll-board {
   //position: relative;
   padding: 8px;
   box-sizing: border-box;
-  height: 100%;
   //top:-50px;
 
   .chart-name {
@@ -213,6 +212,11 @@ export default {
     font-size: 18px;
     display: flex;
     justify-content:space-between;
+  }
+  .weight-scroll-board-chart{
+    width: 100%; 
+    height:20vh;
+    margin-top:-50px;
   }
 }
 </style>

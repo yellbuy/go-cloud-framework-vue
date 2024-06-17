@@ -120,7 +120,7 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: 240px;
+  height: 28vh;
 }
 #pie-board {
   width: 100%;

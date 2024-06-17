@@ -3,18 +3,18 @@
     <div class="vehicle-board-title">车辆状态统计</div>
     <div class="vehicle-board-container">
       <div class="number-container">
-        <div style="width:50%;margin:80px 20px 20px 60px;">
+        <div style="width:50%;margin:20px 20px 20px 80px;padding-left:20px">
           <dv-button border="Border1" color="#4c8045" >共 <span style="color:white;font-size:18px;">{{statData.VehicleCount}}</span> 辆</dv-button>
         </div>
-        <div style="width:50%;margin:80px 60px 20px 20px;">
+        <div style="width:50%;margin:20px 80px 20px 20px;padding-right:20px">
           <dv-button border="Border1" color="#c8161d" >出 <span style="color:white;font-size:18px;">{{statData.VehicleRunningCount}}</span> 辆</dv-button>
         </div>
       </div>
-      <div class="number-container" style="margin-top:30px;">
-        <div style="width:50%;margin:80px 20px 20px 60px;">
+      <div class="number-container" style="margin-top:20px;">
+        <div style="width:50%;margin:20px 20px 20px 80px;padding-left:20px">
           <dv-button border="Border1" color="#a6559d" >停 <span style="color:white;font-size:18px;">{{statData.VehicleStopCount}}</span> 辆</dv-button>
         </div>
-        <div style="width:50%;margin:80px 60px 20px 20px;">
+        <div style="width:50%;margin:20px 80px 20px 20px;padding-right:20px">
           <dv-button border="Border1" color="#e18a3b" >临 <span style="color:white;font-size:18px;">{{statData.VehicleTempCount}}</span> 辆</dv-button>
         </div>
       </div>
@@ -77,7 +77,7 @@ export default {
   }
   .vehicle-board-container {
     width: 100%;
-    height:170px;
+    height:16vh;
     margin-bottom:10px;
     margin-left:3px;
     background-image:url('./img/bg_panel.png');

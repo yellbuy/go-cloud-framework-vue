@@ -8,7 +8,7 @@
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
         <div class="main-rows">
-          <div style="width:33%;margin-top:-2px;margin-bottom:-2px;">
+          <div style="width:34%;margin-top:-2px;margin-bottom:-2px;">
             <dv-border-box1>
               <div style="height:auto;padding:10px;">
                 <digital-weight-stat></digital-weight-stat>
@@ -25,7 +25,7 @@
               </div>
             </dv-border-box1>
           </div>
-          <dv-border-box-12 style="width:67%;height:auto;">
+          <dv-border-box-12 style="width:66%;height:auto;">
             <div style="flex: 1; display: flex; flex-direction: row;">
               <div style="width:60%;height:auto;padding:20px">
                 <div>
@@ -49,10 +49,10 @@
         </div>
         <div class="main-rows">
           
-          <div style="width:33%;">
+          <div style="width:34%;">
             <barWaybillCompany :chartHeight="320"/>
           </div>
-          <div style="width:34%;">
+          <div style="width:33%;">
             <digitalVehicleStat></digitalVehicleStat>
           </div>
           <div style="width:33%;height:auto;">
@@ -67,7 +67,7 @@
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
         <div class="main-rows">
-          <div style="width:33%;margin-top:-2px;margin-bottom:-2px;">
+          <div style="width:34%;margin-top:-2px;margin-bottom:-2px;">
             <dv-border-box1>
               <div style="height:auto;padding:10px;">
                 <digital-weight-stat></digital-weight-stat>
@@ -84,7 +84,7 @@
               </div>
             </dv-border-box1>
           </div>
-          <dv-border-box-12 style="width:67%;height:auto;">
+          <dv-border-box-12 style="width:66%;height:auto;">
             <div style="flex: 1; display: flex; flex-direction: row;">
               <div style="width:60%;height:auto;padding:20px">
                 <div>
@@ -108,10 +108,10 @@
         </div>
         <div class="main-rows">
           
-          <div style="width:33%;">
+          <div style="width:34%;">
             <barWaybillCompany :chartHeight="320"/>
           </div>
-          <div style="width:34%;">
+          <div style="width:33%;">
             <digitalVehicleStat></digitalVehicleStat>
           </div>
           <div style="width:33%;height:auto;">

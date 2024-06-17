@@ -172,7 +172,7 @@ export default {
     }
     .digital-flop-item {
       width: 50%;
-      padding:6px;
+      padding:6px 6px 0px 6px;
       margin-right:auto;
       text-align: center;
       flex-direction: column;
@@ -192,7 +192,7 @@ export default {
       }
       .digital-flop-item-progress{
         width:90%;
-        height:40px;
+        height:30px;
         margin:auto
       }
     }

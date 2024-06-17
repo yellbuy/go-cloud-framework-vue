@@ -257,7 +257,7 @@ export default {
     }
     .digital-flop-item {
       width: 33%;
-      padding:6px;
+      padding:0px 6px 0px 6px;
       margin-right:auto;
       text-align: center;
       flex-direction: column;
