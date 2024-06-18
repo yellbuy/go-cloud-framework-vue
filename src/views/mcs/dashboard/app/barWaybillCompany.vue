@@ -205,7 +205,7 @@ export default {
       if(res.errcode==0){
         state.xAxisData=res.data.map((val:any)=>{return val.Name});
         state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+14});
+        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+16});
         echartInit();
       }	
       setInterval(async () => {
@@ -213,7 +213,7 @@ export default {
         if(res.errcode==0){
           state.xAxisData=res.data.map((val:any)=>{return val.Name});
           state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-          state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+14});
+          state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+16});
           echartInit();
         }	
       }, 60000);
@@ -230,7 +230,7 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height:16vh;
+  height:18vh;
   padding-bottom:1vh;
 }
 .company-board-title{

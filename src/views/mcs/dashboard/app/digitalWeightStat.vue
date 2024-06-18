@@ -8,7 +8,7 @@
                   <div class="digital-flop-item-title"><b>公路运量</b></div>
                   <div style="margin-top:10px;">
                     <dv-digital-flop class="digital-flop-item-digital"
-                    :config="{number:[statData.WaybillWeight/10000.0],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:20}}"
+                    :config="{number:[statData.WaybillWeight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:20}}"
                   />
                 </div>
               </div>
