@@ -68,8 +68,8 @@ export default {
     box-sizing: border-box;
     
   .vehicle-board-title{
-    margin-top:10px;
-    height: 40px;
+    margin-top:1vh;
+    height: 4vh;
     font-family: 'LiSu';
     font-weight: bold;
     text-align: center;
@@ -78,7 +78,7 @@ export default {
   .vehicle-board-container {
     width: 100%;
     height:16vh;
-    margin-bottom:10px;
+    margin-bottom:1vh;
     margin-left:3px;
     background-image:url('./img/bg_panel.png');
     background-repeat: no-repeat;

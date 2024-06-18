@@ -27,7 +27,7 @@
           </div>
           <dv-border-box-12 style="width:66%;height:auto;">
             <div style="flex: 1; display: flex; flex-direction: row;">
-              <div style="width:60%;height:auto;padding:20px">
+              <div style="width:60%;height:auto;padding:10px">
                 <div>
                   <mapSichuan />
                 </div>
@@ -86,7 +86,7 @@
           </div>
           <dv-border-box-12 style="width:66%;height:auto;">
             <div style="flex: 1; display: flex; flex-direction: row;">
-              <div style="width:60%;height:auto;padding:20px">
+              <div style="width:60%;height:auto;padding:10px">
                 <div>
                   <mapSichuan />
                 </div>
@@ -141,7 +141,6 @@ import digitalFlop from "./digitalFlop.vue";
 import digitalGoodsStat from "./digitalGoodsStat.vue";
 import digitalVehicleStat from "./digitalVehicleStat.vue";
 import digitalWeightStat from "./digitalWeightStat.vue";
-import leftTop from "./tbWaybillStat.vue";
 import lineWeightBoard from "./lineWeightBoard.vue";
 import mapSichuan from "./mapSichuan.vue";
 import noticeList from "./noticeList.vue";
@@ -155,6 +154,7 @@ import ringGoodsStat from "./ringGoodsStat.vue";
 import roseChart from "./roseChart.vue";
 import scrollBoard from "./scrollBoard.vue";
 import scrollBoardAmount from "./scrollBoardAmount.vue";
+import leftTop from "./tbWaybillStat.vue";
 import topHeader from "./topHeader.vue";
 import waterLevelChart from "./waterLevelChart.vue";
 

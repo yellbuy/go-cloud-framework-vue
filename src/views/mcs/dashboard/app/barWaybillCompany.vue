@@ -231,11 +231,11 @@ export default {
 .echartDiv {
   width: 100%;
   height:16vh;
-  padding-bottom:10px;
+  padding-bottom:1vh;
 }
 .company-board-title{
-  margin-top: 10px;
-  height: 40px;
+  margin-top: 1vh;
+  height: 4vh;
   font-family: 'LiSu';
   font-weight: bold;
   text-align: left;

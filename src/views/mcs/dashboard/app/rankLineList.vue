@@ -10,7 +10,7 @@
       headerBGC: '#337ecc',
         headerHeight: 10,
         oddRowBGC: 'rgba(0, 44, 81, 0.8)',
-        evenRowBGC: 'rgba(10, 29, 50, 0.8)'}" style="width:100%;height:23vh;" @click="onClick"/>
+        evenRowBGC: 'rgba(10, 29, 50, 0.8)'}" style="width:100%;height:19vh;" @click="onClick"/>
         <childMapDlg ref="childMapDlgRef" />
       
   </div>
@@ -82,10 +82,10 @@ export default {
   box-sizing: border-box;
   margin-right: 20px;
   margin-left:0px;
-  padding: 0 15px;
+  padding: 0 15px 0px 15px;
 
   .ranking-board-title {
-    height: 40px;
+    height: 4vh;
     display: flex;
     font-family: 'LiSu';
     align-items: center;
