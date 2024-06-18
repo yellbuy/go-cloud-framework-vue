@@ -6,7 +6,7 @@
         <dv-button @click="onChangeInvertal" border="Border1" color="#f3d19e" font-color="#e18a3b" style="z-index: 999999;text-decoration:underline">{{getModeName}}</dv-button>
       </div>
     </div>
-    <dv-charts :option="option" style="width: 100%; margin-top:-50px" :style="{height:chartHeight+'px'}"/>
+    <dv-charts :option="option" style="width: 100%; margin-top:-6vh" :style="{height:chartHeight+'vh'}"/>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
   props: {
 		chartHeight: {
 			type: Number,
-			default: () => 180,
+			default: () => 22,
 		},
 	},
    setup(props, { emit }) {
@@ -26,7 +26,7 @@ export default {
     // const res = proxy.$api.erp.businessBillLine.getTimeStatListByScope("main_business", 0, 0);
     // console.log("res：",res)
     const state = reactive({
-      chartHeight:props.chartHeight||180,
+      chartHeight:props.chartHeight||22,
       timeMode:'day',
       planData:{},
       finishData:{},
@@ -189,7 +189,7 @@ export default {
 <style lang="less">
 .scroll-board {
   //position: relative;
-  padding: 8px;
+  padding: 1vh;
   box-sizing: border-box;
   height: 100%;
   //top:-50px;

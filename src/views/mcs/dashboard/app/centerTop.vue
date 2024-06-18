@@ -5,19 +5,19 @@
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="unit">计划</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+              <dv-digital-flop class="digital-flop-item-value"
                 :config="{number:[statData.YearPlanWeight],content: '{nt} 万吨',style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+              <dv-digital-flop class="digital-flop-item-value"
                 :config="{number:[statData.YearExecWeight],content: '{nt} 万吨',style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+              <dv-digital-flop class="digital-flop-item-value"
                 :config="{number:[statData.YearBalanceWeight],content: '{nt} 万吨',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
@@ -58,26 +58,25 @@
             </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-        <dv-decoration-2 />
       </div>
       <div class="waybill-digital-container">
         <div class="digital-title">月运量（公路）</div>
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="unit">计划</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+              <dv-digital-flop class="digital-flop-item-value"
                 :config="{number:[statData.MonthPlanWeight],content: '{nt} 万吨',style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+              <dv-digital-flop class="digital-flop-item-value"
                 :config="{number:[statData.MonthExecWeight],content: '{nt} 万吨',style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+              <dv-digital-flop class="digital-flop-item-value"
                 :config="{number:[statData.MonthBalanceWeight],content: '{nt} 万吨',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
@@ -89,26 +88,25 @@
             </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-        <dv-decoration-2 />
       </div>
       <div class="waybill-digital-container">
         <div class="digital-title">日运量（公路）</div>
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="unit">计划</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+              <dv-digital-flop class="digital-flop-item-value"
                 :config="{number:[statData.DayPlanWeight],content: '{nt} 万吨',style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+              <dv-digital-flop class="digital-flop-item-value"
                 :config="{number:[statData.DayExecWeight],content: '{nt} 万吨',style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
-              <dv-digital-flop class="digital-flop-item-digital"
+              <dv-digital-flop class="digital-flop-item-value"
                 :config="{number:[statData.DayBalanceWeight],content: '{nt} 万吨',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
@@ -119,7 +117,6 @@
             </div>
           </div>
           <!-- <Decoration2 style="width:200px; height:5px;" /> -->
-        <dv-decoration-2 />
       </div>
       <!-- <div class="waybill-digital-container">
         <div class="flex-row" style="padding-top:6px !important;padding-bottom:6px !important">
@@ -189,14 +186,14 @@ export default {
     font-size: 18px !important;
   }
   .waybill-digital-container {
-    margin:10px 10px -7px;
+    margin:2vh 2vh -1vh;
     background-color: rgba(6, 30, 93, 0.5);
 
     .dv-decoration-2 {
       position: absolute;
       width: 95%;
       left: 2.5%;
-      height: 5px;
+      height: 1vh;
       bottom: 0px;
     }
 
@@ -210,18 +207,18 @@ export default {
     }
     .digital-flop-item {
       width: 25%;
-      padding:4px;
+      padding:1vh;
       text-align: center;
       flex-direction: column;
       border-left: 3px solid rgb(6, 30, 93);
       border-right: 3px solid rgb(6, 30, 93);
-      .digital-flop-item-digital {
+      .digital-flop-item-value {
         width:100%;
-        height:24px;
+        height:4vh;
       }
       .digital-flop-item-progress{
         width:90%;
-        height:30px;
+        height:4vh;
         font-size:14pt;
         margin:auto;
       }

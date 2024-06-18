@@ -166,6 +166,16 @@ export default {
 };
 </script>
 
-<style lang="less">
-
+<style lang="less" scoped>
+.digital-title {
+      // display: flex;
+      // flex-direction: column;
+      // justify-content: center;
+      // align-items: center;
+      font-size:18pt;
+      font-family: 'LiSu';
+      text-align: center;
+      padding-top:10px;
+      margin-bottom: 0px;
+    }
 </style>

@@ -2,7 +2,7 @@
   <div id="noticeList">
     <dv-scroll-board :config="{header: ['通告内容','发布日期'],
     align: ['center','left','center'],headerBGC: '#337ecc',
-    data:list,columnWidth:[40,360,110],index: true,rowNum:6,headerHeight:30}" class="noticeList-board" />
+    data:list,columnWidth:[50,360,120],index: true,rowNum:5,headerHeight:30}" class="noticeList-board" />
   </div>
 </template>
 
@@ -50,10 +50,10 @@ export default {
 
 <style lang="less">
 #noticeList{
-  margin:0px 12px;
+  margin:0px 2vh;
   .noticeList-board{
     width:100%;
-    height:36vh;
+    height:32vh;
   }
 }
 </style>
