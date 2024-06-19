@@ -35,7 +35,7 @@ export default {
             var str =
               parms[0].axisValue +
               '</br>' +
-              (parms[0].value-12).toFixed(2) +
+              (parms[0].value).toFixed(2) +
               ' 万吨'
             return str
           },
