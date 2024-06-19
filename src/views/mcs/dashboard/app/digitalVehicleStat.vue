@@ -83,7 +83,6 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    
   }
   .number-container {
     font-weight: bold;
