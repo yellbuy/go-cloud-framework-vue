@@ -120,7 +120,7 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: 26vh;
+  height: 28vh;
 }
 #pie-board {
   width: 100%;
@@ -130,7 +130,8 @@ export default {
   background-color: rgba(6, 30, 93, 0.5);
   border-top: 2px solid rgba(1, 153, 209, 0.5);
   box-sizing: border-box;
-  margin-bottom: 2vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
 
   .pie-board-title {
     height: 5vh;

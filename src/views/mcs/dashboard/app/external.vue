@@ -27,15 +27,15 @@
           </div>
           <dv-border-box-12 style="width:66%;height:auto;">
             <div style="flex: 1; display: flex; flex-direction: row;">
-              <div style="width:60%;height:auto;padding:10px">
+              <div style="width:60%;height:auto;padding:1vh">
                 <div>
                   <mapSichuan />
                 </div>
-                <div>
+                <div style="padding-left:4px;">
                   <rankLineList></rankLineList>
                 </div>
               </div>
-              <div style="width:40%;height:auto;padding:20px 20px 0px 0px">
+              <div style="width:40%;height:auto;padding:1vh 2vh 0px 0px">
                 <div>
                   <pieGoods />
                 </div>
@@ -86,15 +86,15 @@
           </div>
           <dv-border-box-12 style="width:66%;height:auto;">
             <div style="flex: 1; display: flex; flex-direction: row;">
-              <div style="width:60%;height:auto;padding:10px">
+              <div style="width:60%;height:auto;padding:1vh">
                 <div>
                   <mapSichuan />
                 </div>
-                <div>
+                <div style="padding-left:4px;">
                   <rankLineList></rankLineList>
                 </div>
               </div>
-              <div style="width:40%;height:auto;padding:20px 20px 0px 0px">
+              <div style="width:40%;height:auto;padding:1vh 2vh 0px 0px">
                 <div>
                   <pieGoods />
                 </div>

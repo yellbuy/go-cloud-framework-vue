@@ -10,7 +10,7 @@
       headerBGC: '#337ecc',
         headerHeight: 10,
         oddRowBGC: 'rgba(0, 44, 81, 0.8)',
-        evenRowBGC: 'rgba(10, 29, 50, 0.8)'}" style="width:100%;height:20vh;" @click="onClick"/>
+        evenRowBGC: 'rgba(10, 29, 50, 0.8)'}" style="width:100%;height:23vh;" @click="onClick"/>
         <childMapDlg ref="childMapDlgRef" />
       
   </div>
@@ -94,9 +94,6 @@ export default {
 
   .dv-scroll-ranking-board {
     flex: 1;
-  }
-  .row-item{
-    height:40px !important;
   }
 }
 </style>

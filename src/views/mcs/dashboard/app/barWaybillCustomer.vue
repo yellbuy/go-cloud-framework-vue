@@ -227,7 +227,7 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height:18vh;
+  height:20vh;
   padding-bottom:1vh;
 }
 .customer-board-title{
