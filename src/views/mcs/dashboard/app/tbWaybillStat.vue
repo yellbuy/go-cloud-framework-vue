@@ -174,12 +174,12 @@ export default {
 		
 		// 页面加载时
 		onMounted(async () => {
-      const res = await proxy.$api.erp.waybill.getDashboardWeightStatByScope(0, 0);
+      const res = await proxy.$api.erp.waybill.getDashboardWeightStatByScope(0, 0,{mode:1});
       if(res.errcode==0){
         state.statData=res.data;
       }		
       setInterval(async () => {
-        const res = await proxy.$api.erp.waybill.getDashboardWeightStatByScope(0, 0);
+        const res = await proxy.$api.erp.waybill.getDashboardWeightStatByScope(0, 0,{mode:1});
         if(res.errcode==0){
           state.statData=res.data;
         }		
