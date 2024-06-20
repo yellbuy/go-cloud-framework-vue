@@ -33,8 +33,14 @@
 			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%"  
 				:height="proxy.$calcMainHeight(-75)" @cell-click="onCellClick"
 				border stripe highlight-current-row>
-				<el-table-column type="index" label="序号" align="right" width="70" fixed/>
-				<el-table-column prop="Id" label="标识" width="150" align="right"></el-table-column>
+				<el-table-column type="index" label="序号" align="right" width="70" fixed/>		
+				
+				<el-table-column prop="Title" label="标题" show-overflow-tooltip width="200" >
+					<template #default="scope">
+						<el-text tag="ins" class="title-link">{{scope.row.Title}}</el-text>
+						<!-- <SvgIcon name="fa fa-angle-right"/><span class="title-link ml5">{{scope.row.Title}}</span> -->
+					</template>
+				</el-table-column>
 				<el-table-column prop="ImgUrl" label="封面图" width="60" align="center">
 					<template #default="scope">
 						<el-image v-if="scope.row.ImgUrl" lazy preview-teleported
@@ -50,12 +56,6 @@
 									</div>
 								</template>
 						</el-image>
-					</template>
-				</el-table-column>
-				<el-table-column prop="Title" label="标题" width="200" >
-					<template #default="scope">
-						<el-text tag="ins" class="title-link">{{scope.row.Title}}</el-text>
-						<!-- <SvgIcon name="fa fa-angle-right"/><span class="title-link ml5">{{scope.row.Title}}</span> -->
 					</template>
 				</el-table-column>
 				<!-- <el-table-column prop="SpecialName" label="所属专题" width="180" ></el-table-column> -->
@@ -148,6 +148,7 @@
 						</el-button>
 					</template>
 				</el-table-column>
+				<el-table-column prop="Id" label="标识" width="150" align="right"></el-table-column>
 			</el-table>
 			<el-pagination
 				small

@@ -2,7 +2,7 @@
   <div id="tbWaybillStat">
     <div>
       <p>
-        <span class="tbWaybillStat-title">{{statData.DateTitle}}生产完成情况</span> 
+        <span class="tbWaybillStat-title">{{statData.DateTitle}}生产完成情况</span> <br/>
         共<span style="color:lightblue;font-size: 16pt;margin-left:4px;margin-right:4px">{{statData.VehicleCount}}</span>
         出<span style="color:lightgreen;font-size: 16pt;margin-left:4px;margin-right:4px">{{statData.VehicleRunningCount}}</span>
         停<span style="color:lightsalmon;font-size: 16pt;margin-left:4px">{{statData.VehicleStopCount}}</span>
@@ -63,7 +63,7 @@
     </table>
     <div style="margin-top:8px">
       <p>
-        <span class="tbWaybillStat-title">{{statData.DateTitle}}临配用车情况</span> 
+        <span class="tbWaybillStat-title">{{statData.DateTitle}}临配用车情况</span> <br/>
         共<span style="color:lightblue;font-size: 16pt;margin-left:4px;margin-right:4px">{{statData.VehicleTempCount}}</span>
       </p>
     </div>
@@ -202,8 +202,8 @@ export default {
   .tbWaybillStat-title{
     font-family: 'LiSu';
     color:white;
-    font-size: 20pt;
-    margin-right: 16px;
+    font-size: 18pt;
+    margin-right: 12px;
   }
   .tbWaybillStat-sub-title{
     font-family: 'LiSu';

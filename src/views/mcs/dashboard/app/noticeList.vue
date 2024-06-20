@@ -27,7 +27,7 @@ export default {
         return;
       }
       state.list=res.data.map((val:any)=>{
-        return [val.Title, val.PublishTime.substr(0,10)]
+        return [`<span title='${val.Title}'>${val.Title}</span>`, val.PublishTime.substr(0,10)]
       })
       setInterval(async () => {
         const res = await proxy.$api.cms.article.getList("notice", 2, {state:1,pageNum: 1,pageSize: 10});
@@ -35,7 +35,7 @@ export default {
           return;
         }
         state.list=res.data.map((val:any)=>{
-          return [val.Title, val.PublishTime.substr(0,10)]
+          return [`<span title='${val.Title}'>${val.Title}</span>`, val.PublishTime.substr(0,10)]
         })	
       }, 300000);
 				
