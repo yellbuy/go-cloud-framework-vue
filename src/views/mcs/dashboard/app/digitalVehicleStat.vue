@@ -77,7 +77,7 @@ export default {
   }
   .vehicle-board-container {
     width: 100%;
-    height:19vh;
+    height:20vh;
     margin-bottom:1vh;
     margin-left:4px;
     background-repeat: no-repeat;

@@ -8,9 +8,9 @@
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
         <div class="main-rows">
-          <div style="width:34%;margin-top:-2px;margin-bottom:-2px;">
+          <div style="width:34%;margin-top:0vh;margin-bottom:0vh;">
             <dv-border-box1>
-              <div style="height:auto;padding:10px;">
+              <div style="height:auto;padding:1vh 0 0 0;">
                 <digital-weight-stat></digital-weight-stat>
               </div>
               <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
@@ -67,9 +67,9 @@
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
         <div class="main-rows">
-          <div style="width:34%;margin-top:-2px;margin-bottom:-2px;">
+          <div style="width:34%;margin-top:0vh;margin-bottom:0vh;">
             <dv-border-box1>
-              <div style="height:auto;padding:10px;">
+              <div style="height:auto;padding:1vh 0 0 0;">
                 <digital-weight-stat></digital-weight-stat>
               </div>
               <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">

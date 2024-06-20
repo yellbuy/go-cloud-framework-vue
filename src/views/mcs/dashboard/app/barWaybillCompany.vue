@@ -230,7 +230,7 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {  
   width: 100%;
-  height:20vh;
+  height:21vh;
   padding-bottom:1vh;
 }
 .company-board-title{

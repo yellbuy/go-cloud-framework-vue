@@ -6,7 +6,7 @@
               <div class="center-flex">
                 <div style="background-image:url('./img/bg_dashboard_digital_1.png');width:100%;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                   <div class="digital-flop-item-title"><b>公路运量</b></div>
-                  <div style="margin-top:10px;">
+                  <div>
                     <dv-digital-flop class="digital-flop-item-digital"
                     :config="{number:[statData.WaybillWeight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:20}}"
                   />
@@ -25,7 +25,7 @@
                   
                   <div class="unit">条</div> -->
                   <div class="digital-flop-item-title"><b>公路运单</b></div>
-                  <div style="margin-top:10px;">
+                  <div>
                       <dv-digital-flop class="digital-flop-item-digital"
                       :config="{number:[statData.WaybillCount],content: '{nt} 单',style:{fill: '#fff',fontSize:20}}"
                     />
@@ -46,7 +46,7 @@
                   :config="{number:[statData.WaybillWeight],style:{fill: '#e3dc0f',fontSize:20}}"
                 /> -->
                 <!-- <div class="unit">吨</div> -->
-                <div style="margin-top:10px;">
+                <div>
             
                   <dv-digital-flop class="digital-flop-item-digital"
                   :config="{number:[statData.MainBusinessWeight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:20}}"
@@ -66,7 +66,7 @@
                   
                   <div class="unit">条</div> -->
                   <div class="digital-flop-item-title"><b>贸易运量</b></div>
-                  <div style="margin-top:10px;">
+                  <div>
                       <dv-digital-flop class="digital-flop-item-digital"
                       :config="{number:[statData.TradeWeight],toFixed: 2,content: '{nt} 万吨',style:{fill: '#fff',fontSize:20}}"
                     />
@@ -150,14 +150,14 @@ export default {
 <style lang="less" scoped>
   .digital-container {
     
-    margin:10px 10px -7px;
+    margin:1vh 2vh 0vh;
     background-color: rgba(6, 30, 93, 0.5);
 
     .dv-decoration-2 {
       position: absolute;
       width: 95%;
       left: 2.5%;
-      height: 5px;
+      height: 2vh;
       bottom: 0px;
     }
 
@@ -172,7 +172,7 @@ export default {
     }
     .digital-flop-item {
       width: 50%;
-      padding:6px 6px 0px 6px;
+      padding:1vh 2vh 0px 2vh;
       margin-right:auto;
       text-align: center;
       flex-direction: column;
@@ -182,38 +182,27 @@ export default {
       .digital-flop-item-title {
         font-family: 'LiSu';
         font-size:20px;
-        padding-top:2px;
+        padding-top:1vh;
         text-align:center;
         color:#e3dc0f
       }
       .digital-flop-item-digital {
         width:100%;
-        height:24px;
+        height:4vh;
       }
       .digital-flop-item-progress{
         width:90%;
-        height:30px;
+        height:6vh;
         margin:auto
       }
     }
 
     
   }
-  .digital-title {
-      // display: flex;
-      // flex-direction: column;
-      // justify-content: center;
-      // align-items: center;
-      color:lightgray;
-      text-align: center;
-      font-size: 20px;
-      padding-top:10px;
-      margin-bottom: 0px;
-    }
 
   .unit {
     box-sizing: border-box;
-    padding-bottom: 8px;
+    padding-bottom: 2vh;
   }
   .center-flex {
     display: flex;
