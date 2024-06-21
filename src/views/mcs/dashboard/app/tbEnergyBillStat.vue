@@ -9,7 +9,7 @@
       <tr>
         <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 0 && statData.FixedCompanyStatList[0].CompanyName || "-"}}</td>
         <td class="td-right">
-          <marquee class="pt5">{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 0 && statData.FixedCompanyStatList[0].ComanyStat || ""}}</marquee>
+          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 0 && statData.FixedCompanyStatList[0].ComanyStat || ""}}
           <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
           <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
         </td>
@@ -20,7 +20,7 @@
       <tr>
         <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 1 && statData.FixedCompanyStatList[1].CompanyName|| "-"}}</td>
         <td class="td-right">
-          <marquee class="pt5">{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 1 && statData.FixedCompanyStatList[1].ComanyStat || ""}}</marquee>
+          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 1 && statData.FixedCompanyStatList[1].ComanyStat || ""}}
           <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
           <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
         </td>
@@ -28,7 +28,7 @@
       <tr>
         <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 2 && statData.FixedCompanyStatList[2].CompanyName|| "-"}}</td>
         <td class="td-right">
-          <marquee class="pt5">{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 2 && statData.FixedCompanyStatList[2].ComanyStat || ""}}</marquee>
+          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 2 && statData.FixedCompanyStatList[2].ComanyStat || ""}}
           <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
           <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
         </td>
@@ -36,7 +36,7 @@
       <tr>
         <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 3 && statData.FixedCompanyStatList[3].CompanyName || "-"}}</td>
         <td class="td-right">
-          <marquee class="pt5">{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 3 && statData.FixedCompanyStatList[3].ComanyStat || ""}}</marquee>
+          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 3 && statData.FixedCompanyStatList[3].ComanyStat || ""}}
           <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
           <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
         </td>
@@ -44,7 +44,7 @@
       <tr>
         <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 4 && statData.FixedCompanyStatList[4].CompanyName || "-"}}</td>
         <td class="td-right">
-          <marquee class="pt5">{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 4 && statData.FixedCompanyStatList[4].ComanyStat || ""}}</marquee>
+          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 4 && statData.FixedCompanyStatList[4].ComanyStat || ""}}
           <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
           <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
         </td>
@@ -52,7 +52,7 @@
       <tr>
         <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 5 && statData.FixedCompanyStatList[5].CompanyName || "-"}}</td>
         <td class="td-right">
-          <marquee class="pt5">{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 5 && statData.FixedCompanyStatList[5].ComanyStat || ""}}</marquee>
+          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 5 && statData.FixedCompanyStatList[5].ComanyStat || ""}}
           <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
           <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
         </td>
