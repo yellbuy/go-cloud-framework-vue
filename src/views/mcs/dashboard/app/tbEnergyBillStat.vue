@@ -1,17 +1,14 @@
 <template>
-  <div id="tbWaybillStat">
+  <div id="tbEnergyBillStat">
     <div>
       <p>
-        <span class="tbWaybillStat-title">{{statData.DateTitle}}生产完成情况</span> <br/>
-        共<span style="color:lightblue;font-size: 16pt;margin-left:4px;margin-right:4px">{{statData.VehicleCount}}</span>
-        出<span style="color:lightgreen;font-size: 16pt;margin-left:4px;margin-right:4px">{{statData.VehicleRunningCount}}</span>
-        停<span style="color:lightsalmon;font-size: 16pt;margin-left:4px">{{statData.VehicleStopCount}}</span>
+        <span class="tbEnergyBillStat-title">公司年度油耗情况</span>
       </p>
     </div>
     <div style="margin-top:4px">
-      <span class="tbWaybillStat-sub-title">主要业务完成情况</span>
+      <span class="tbEnergyBillStat-sub-title">主要业务完成情况</span>
     </div>
-    <table class="tbWaybillStat-table">
+    <table class="tbEnergyBillStat-table">
       <tr>
         <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 0 && statData.FixedCompanyStatList[0].CompanyName || "-"}}</td>
         <td class="td-right">
@@ -63,14 +60,14 @@
     </table>
     <div style="margin-top:8px">
       <p>
-        <span class="tbWaybillStat-title">{{statData.DateTitle}}临配用车情况</span> <br/>
+        <span class="tbEnergyBillStat-title">{{statData.DateTitle}}临配用车情况</span> <br/>
         共<span style="color:lightblue;font-size: 16pt;margin-left:4px;margin-right:4px">{{statData.VehicleTempCount}}</span>
       </p>
     </div>
     <div style="margin-top:4px">
-      <span class="tbWaybillStat-sub-title">临配用车情况</span>
+      <span class="tbEnergyBillStat-sub-title">临配用车情况</span>
     </div>
-    <table class="tbWaybillStat-table">
+    <table class="tbEnergyBillStat-table">
       <tr>
         <td class="td-left" >{{statData.TempCompanyStatList && statData.TempCompanyStatList.length > 0 && statData.TempCompanyStatList[0].CompanyName || "-"}}</td>
         <td class="td-right">
@@ -202,23 +199,23 @@ export default {
 </script>
 
 <style lang="less">
-#tbWaybillStat{
+#tbEnergyBillStat{
   text-align: left;
   padding:20px;
 
-  .tbWaybillStat-title{
+  .tbEnergyBillStat-title{
     font-family: 'LiSu';
     color:white;
     font-size: 18pt;
     margin-right: 12px;
   }
-  .tbWaybillStat-sub-title{
+  .tbEnergyBillStat-sub-title{
     font-family: 'LiSu';
     color:lightgray;
     font-size: 16pt;
     margin-right: 4px;
   }
-  .tbWaybillStat-table{
+  .tbEnergyBillStat-table{
     width:100%;
     margin-top:6px;
     border-collapse:collapse;
