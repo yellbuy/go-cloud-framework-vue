@@ -4,55 +4,6 @@
       
       <dv-full-screen-container v-if="isFullScreen">
         <top-header />
-        <div style="position:absolute;top:10px;right:10px">
-          <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
-        </div>
-        <div class="main-rows">
-          <dv-border-box-1 style="width:30%;height:auto;padding:0px 2px">
-            <div>
-              <tbWaybillStat></tbWaybillStat>
-            </div>
-            <div>
-              <notice-list></notice-list>
-            </div>
-          </dv-border-box-1>
-          <dv-border-box-12 style="width:40%;height:auto;padding:2px">
-            <center-top></center-top>
-            <center-bottom></center-bottom>
-            <!-- <dv-decoration-3 style="width: 100%;" /> -->
-            
-            <!-- <center-bottom></center-bottom> -->
-          </dv-border-box-12>
-          <dv-border-box-12 style="width:30%;height:auto;padding:0px 2px">
-            
-            <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
-            <div>
-              <!-- <dv-decoration-3 style="width: 100%;" /> -->
-              <!-- <div class="block-left-content">
-                <barWaybillBoard />
-              </div> -->
-              <div class="block-left-content">
-                <barWaybillBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <barMainBusinessBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <barTradeBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <barWarehouseRateBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <mainBusinessBoard :chartHeight="22"/>
-              </div>
-          </div>
-          </dv-border-box-12>
-        </div>
-        
-      </dv-full-screen-container>
-      <div v-else>
-        <top-header />
         <div style="position:absolute;top:10px;left:10px">
           <dv-button @click="onChangeScreen" border="Border4" color="#a6559d" style="margin:10px;z-index:99999999;">{{screenIndex==0?'大屏一':'大屏二'}}</dv-button>
         </div>   
@@ -60,7 +11,7 @@
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
         <div class="main-rows" v-if="screenIndex==0">
-          <dv-border-box-1 style="width:30%;padding:0px 2px">
+          <dv-border-box-1 style="width:30%;padding:0px 0.5vh">
             <div>
               <tbWaybillStat :timeMode="1"></tbWaybillStat>
             </div>
@@ -68,7 +19,7 @@
               <notice-list></notice-list>
             </div>
           </dv-border-box-1>
-          <dv-border-box-12 style="width:40%;padding:2px">
+          <dv-border-box-12 style="width:40%;padding:0.5vh">
             <center-top></center-top>
             <center-bottom></center-bottom>
             <!-- <dv-decoration-3 style="width: 100%;" /> -->
@@ -102,7 +53,7 @@
           </dv-border-box-12>
         </div>
         <div class="main-rows" v-else>
-          <dv-border-box-1 style="width:30%;padding:0px 2px">
+          <dv-border-box-1 style="width:30%;padding:0px 0.5vh">
             <div>
               <tbWaybillStat :timeMode="2"></tbWaybillStat>
             </div>
@@ -110,16 +61,111 @@
               <notice-list></notice-list>
             </div>
           </dv-border-box-1>
-          <dv-border-box-12 style="width:40%;padding:2px">
+          <dv-border-box-12 style="width:40%;height:auto;padding:0.5vh">
             <!-- 本年 -->
-            <tbEnergyBillStat :timeMode="7"></tbEnergyBillStat>
-            <!-- 本月 -->
-            <tbEnergyBillStat :timeMode="3"></tbEnergyBillStat>
+            <div>
+              <tbEnergyBillStat :timeMode="7"></tbEnergyBillStat>
+            </div>
+            <div>
+              <tbEnergyBillStat :timeMode="3"></tbEnergyBillStat>
+            </div>
+          </dv-border-box-12>
+          <dv-border-box-12 style="width:30%;padding:0px 0.5vh">
+            
+            <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
+            <div>
+              <!-- <dv-decoration-3 style="width: 100%;" /> -->
+              <!-- <div class="block-left-content">
+                <barWaybillBoard />
+              </div> -->
+              <div class="block-left-content">
+                <barWaybillBoard :chartHeight="22"/>
+              </div>
+              <div class="block-left-content">
+                <barMainBusinessBoard :chartHeight="22"/>
+              </div>
+              <div class="block-left-content">
+                <barTradeBoard :chartHeight="22"/>
+              </div>
+              <div class="block-left-content">
+                <barWarehouseRateBoard :chartHeight="22"/>
+              </div>
+              <div class="block-left-content">
+                <mainBusinessBoard :chartHeight="22"/>
+              </div>
+          </div>
+          </dv-border-box-12>
+        </div>       
+      </dv-full-screen-container>
+      <div v-else>
+        <top-header />
+        <div style="position:absolute;top:10px;left:10px">
+          <dv-button @click="onChangeScreen" border="Border4" color="#a6559d" style="margin:10px;z-index:99999999;">{{screenIndex==0?'大屏一':'大屏二'}}</dv-button>
+        </div>   
+        <div style="position:absolute;top:10px;right:10px">
+          <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
+        </div>
+        <div class="main-rows" v-if="screenIndex==0">
+          <dv-border-box-1 style="width:30%;padding:0px 0.5vh">
+            <div>
+              <tbWaybillStat :timeMode="1"></tbWaybillStat>
+            </div>
+            <div>
+              <notice-list></notice-list>
+            </div>
+          </dv-border-box-1>
+          <dv-border-box-12 style="width:40%;padding:0.5vh">
+            <center-top></center-top>
+            <center-bottom></center-bottom>
             <!-- <dv-decoration-3 style="width: 100%;" /> -->
             
             <!-- <center-bottom></center-bottom> -->
           </dv-border-box-12>
           <dv-border-box-12 style="width:30%;padding:0px 2px">
+            
+            <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
+            <div>
+              <!-- <dv-decoration-3 style="width: 100%;" /> -->
+              <!-- <div class="block-left-content">
+                <barWaybillBoard />
+              </div> -->
+              <div class="block-left-content">
+                <barWaybillBoard :chartHeight="22"/>
+              </div>
+              <div class="block-left-content">
+                <barMainBusinessBoard :chartHeight="22"/>
+              </div>
+              <div class="block-left-content">
+                <barTradeBoard :chartHeight="22"/>
+              </div>
+              <div class="block-left-content">
+                <barWarehouseRateBoard :chartHeight="22"/>
+              </div>
+              <div class="block-left-content">
+                <mainBusinessBoard :chartHeight="22"/>
+              </div>
+          </div>
+          </dv-border-box-12>
+        </div>
+        <div class="main-rows" v-else>
+          <dv-border-box-1 style="width:30%;padding:0px 0.5vh">
+            <div>
+              <tbWaybillStat :timeMode="2"></tbWaybillStat>
+            </div>
+            <div>
+              <notice-list></notice-list>
+            </div>
+          </dv-border-box-1>
+          <dv-border-box-12 style="width:40%;height:auto;padding:0.5vh">
+            <!-- 本年 -->
+            <div>
+              <tbEnergyBillStat :timeMode="7"></tbEnergyBillStat>
+            </div>
+            <div>
+              <tbEnergyBillStat :timeMode="3"></tbEnergyBillStat>
+            </div>
+          </dv-border-box-12>
+          <dv-border-box-12 style="width:30%;padding:0px 0.5vh">
             
             <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
             <div>
@@ -162,6 +208,7 @@ import cards from "./cards.vue";
 import centerBottom from "./centerBottom.vue";
 import centerTop from "./centerTop.vue";
 import digitalFlop from "./digitalFlop.vue";
+import lineEnergyBoard from "./lineEnergyBoard.vue";
 import noticeList from "./noticeList.vue";
 import rankingBoard from "./rankingBoard.vue";
 import roseChart from "./roseChart.vue";
@@ -178,6 +225,7 @@ export default {
     topHeader,
     tbWaybillStat,
     tbEnergyBillStat,
+    lineEnergyBoard,
     centerTop,
     centerBottom,
     noticeList,

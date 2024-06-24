@@ -7,9 +7,9 @@
     </div>
     <table class="tbEnergyBillStat-table">
       <tr>
-        <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 0 && statData.FixedCompanyStatList[0].CompanyName || "-"}}</td>
+        <td class="td-left">{{timeMode==7?'年度':'月度'}}合计</td>
         <td class="td-right">
-          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 0 && statData.FixedCompanyStatList[0].ComanyStat || ""}}
+          油耗金额：{{stat.Amount}} 元 | 油耗总量：{{stat.Volume}} 升
           <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
           <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
         </td>
@@ -18,43 +18,63 @@
         <td class="td-left" colspan="2">分公司油耗情况</td>
       </tr>
       <tr>
-        <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 1 && statData.FixedCompanyStatList[1].CompanyName|| "-"}}</td>
-        <td class="td-right">
-          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 1 && statData.FixedCompanyStatList[1].ComanyStat || ""}}
+        <td class="td-left" >{{list && list.length > 0 && list[0].CompanyName|| "-"}}</td>
+        <td class="td-right" v-if="list && list.length > 0">
+          油耗合计：{{list[0].Volume}} 升 | 百公里油耗：{{list[0].ConsumptionRate.toFixed(1)}} 升
           <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
           <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
         </td>
-      </tr>
-      <tr>
-        <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 2 && statData.FixedCompanyStatList[2].CompanyName|| "-"}}</td>
-        <td class="td-right">
-          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 2 && statData.FixedCompanyStatList[2].ComanyStat || ""}}
-          <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
-          <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
+        <td class="td-right" v-else>
         </td>
       </tr>
       <tr>
-        <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 3 && statData.FixedCompanyStatList[3].CompanyName || "-"}}</td>
-        <td class="td-right">
-          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 3 && statData.FixedCompanyStatList[3].ComanyStat || ""}}
+        <td class="td-left" >{{list && list.length > 1 && list[1].CompanyName|| "-"}}</td>
+        <td class="td-right" v-if="list && list.length > 1">
+          油耗合计：{{list[1].Volume}} 升 | 百公里油耗：{{list[1].ConsumptionRate.toFixed(1)}} 升
           <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
           <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
         </td>
-      </tr>
-      <tr>
-        <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 4 && statData.FixedCompanyStatList[4].CompanyName || "-"}}</td>
-        <td class="td-right">
-          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 4 && statData.FixedCompanyStatList[4].ComanyStat || ""}}
-          <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
-          <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
+        <td class="td-right" v-else>
         </td>
       </tr>
       <tr>
-        <td class="td-left" >{{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 5 && statData.FixedCompanyStatList[5].CompanyName || "-"}}</td>
-        <td class="td-right">
-          {{statData.FixedCompanyStatList && statData.FixedCompanyStatList.length > 5 && statData.FixedCompanyStatList[5].ComanyStat || ""}}
+        <td class="td-left" >{{list && list.length > 2 && list[2].CompanyName|| "-"}}</td>
+        <td class="td-right" v-if="list && list.length > 2">
+          油耗合计：{{list[2].Volume}} 升 | 百公里油耗：{{list[2].ConsumptionRate.toFixed(1)}} 升
           <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
           <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
+        </td>
+        <td class="td-right" v-else>
+        </td>
+      </tr>
+      <tr>
+        <td class="td-left" >{{list && list.length > 3 && list[3].CompanyName|| "-"}}</td>
+        <td class="td-right" v-if="list && list.length > 3">
+          油耗合计：{{list[3].Volume}} 升 | 百公里油耗：{{list[3].ConsumptionRate.toFixed(1)}} 升
+          <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
+          <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
+        </td>
+        <td class="td-right" v-else>
+        </td>
+      </tr>
+      <tr>
+        <td class="td-left" >{{list && list.length > 4 && list[4].CompanyName|| "-"}}</td>
+        <td class="td-right" v-if="list && list.length > 4">
+          油耗合计：{{list[4].Volume}} 升 | 百公里油耗：{{list[4].ConsumptionRate.toFixed(1)}} 升
+          <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
+          <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
+        </td>
+        <td class="td-right" v-else>
+        </td>
+      </tr>
+      <tr>
+        <td class="td-left" >{{list && list.length > 5 && list[5].CompanyName|| "-"}}</td>
+        <td class="td-right" v-if="list && list.length > 5">
+          油耗合计：{{list[5].Volume}} 升 | 百公里油耗：{{list[5].ConsumptionRate.toFixed(1)}} 升
+          <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
+          <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
+        </td>
+        <td class="td-right" v-else>
         </td>
       </tr>
     </table>
@@ -79,28 +99,32 @@ export default {
 		const { t } = useI18n();
     const timeMode=props.timeMode || 1;
 		const state = reactive({
-			statData:{
-        DateTitle:'',
-        VehicleCount:0,
-        VehicleRunningCount:0,
-        VehicleStopCount:0,
-        VehicleTempCount:0,
-        FixedCompanyStatList:[],
-        TempCompanyStatList:[]
+      stat:{
+
+      },
+			list:{
       }
 		});
 		
 		
 		// 页面加载时
 		onMounted(async () => {
-      const res = await proxy.$api.erp.waybill.getDashboardWeightStatByScope(0, 0,{mode:1,timeMode:timeMode});
+      const res = await proxy.$api.erp.energyBillLine.getTotalStat('oil',0, 0,{timeMode:timeMode});
       if(res.errcode==0){
-        state.statData=res.data;
+        state.stat=res.data;
+      }		
+      const resList = await proxy.$api.erp.energyBillLine.getStatListForCompany('oil',0, 0,{limit:6,timeMode:timeMode});
+      if(resList.errcode==0){
+        state.list=resList.data;
       }		
       setInterval(async () => {
-        const res = await proxy.$api.erp.waybill.getDashboardWeightStatByScope(0, 0,{mode:1,timeMode:timeMode});
+        const res = await proxy.$api.erp.energyBillLine.getTotalStat('oil',0, 0,{timeMode:timeMode});
         if(res.errcode==0){
-          state.statData=res.data;
+          state.stat=res.data;
+        }		
+        const resList = await proxy.$api.erp.energyBillLine.getStatListForCompany('oil',0, 0,{limit:6,timeMode:timeMode});
+        if(resList.errcode==0){
+          state.list=resList.data;
         }		
       }, 60000);
 				
@@ -116,7 +140,7 @@ export default {
 <style lang="less">
 #tbEnergyBillStat{
   text-align: left;
-  padding:20px;
+  padding:4vh;
 
   .tbEnergyBillStat-title{
     font-family: 'LiSu';
@@ -132,18 +156,19 @@ export default {
   }
   .tbEnergyBillStat-table{
     width:100%;
-    margin-top:6px;
+    margin-top:1vh;
     border-collapse:collapse;
     td {
       border: 1px solid grey;
-      padding: 0px 4px;
+      padding: 0.5vh 4px;
     }
     td.td-left {
-      width:50%;
-      padding: 3px 4px;
+      width:34%;
+      padding: 0.5vh 4px;
     }
     td.td-right {
-      width:50%;
+      width:67%;
+      padding: 0.5vh 4px;
       color:yellow
     }
   }
