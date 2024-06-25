@@ -156,9 +156,16 @@ import { useI18n } from 'vue-i18n';
 export default {
 	name: 'dashboardLeftTop',
 	components: {  },
-	setup() {
+  props:{
+		timeMode:{
+			default:1
+		},
+
+	},
+	setup(props, { emit }) {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
+    const timeMode=props.timeMode || 1;
 		const state = reactive({
 			statData:{
         DateTitle:'',
@@ -174,12 +181,12 @@ export default {
 		
 		// 页面加载时
 		onMounted(async () => {
-      const res = await proxy.$api.erp.waybill.getDashboardWeightStatByScope(0, 0,{mode:1});
+      const res = await proxy.$api.erp.waybill.getDashboardWeightStatByScope(0, 0,{mode:1,timeMode:timeMode});
       if(res.errcode==0){
         state.statData=res.data;
       }		
       setInterval(async () => {
-        const res = await proxy.$api.erp.waybill.getDashboardWeightStatByScope(0, 0,{mode:1});
+        const res = await proxy.$api.erp.waybill.getDashboardWeightStatByScope(0, 0,{mode:1,timeMode:timeMode});
         if(res.errcode==0){
           state.statData=res.data;
         }		

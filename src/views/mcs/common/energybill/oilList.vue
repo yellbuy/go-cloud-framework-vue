@@ -134,8 +134,8 @@
 						</el-table-column>
 						<el-table-column prop="Volume" label="累计加油" width="85">
 						</el-table-column>
-						<el-table-column prop="Price" label="平均单价" width="85">
-						</el-table-column>
+						<!-- <el-table-column prop="Price" label="平均单价" width="85">
+						</el-table-column> -->
 						<el-table-column prop="Amount" label="合计金额" width="85">
 						</el-table-column>
 						<el-table-column prop="Mileage" label="累计里程" width="85">
