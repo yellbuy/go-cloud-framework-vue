@@ -47,7 +47,7 @@ export default {
      * @param params 要传的参数值
      * @returns 返回接口数据
      */
-    getTimeStatList: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+    getTimeStatListByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
         const url = `/v1/admin/erp/energybillline/timestat/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },

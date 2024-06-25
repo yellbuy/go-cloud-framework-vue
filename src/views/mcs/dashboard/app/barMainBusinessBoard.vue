@@ -1,9 +1,9 @@
 <template>
   <div class="scroll-board">
     <div class="chart-name">
-      <div>铁运业务分析 </div>
+      <div style="font-family: 'LiSu';font-size:16px">铁运业务分析 </div>
       <div>
-        <dv-button @click="onChangeInvertal" border="Border1" color="#f3d19e" font-color="#e18a3b" style="z-index: 999999;text-decoration:underline">{{getModeName}}</dv-button>
+        <dv-button @click="onChangeInvertal" border="Border1" :fontSize="10" color="#f3d19e" font-color="#e18a3b" style="z-index: 999999;text-decoration:underline">{{getModeName}}</dv-button>
       </div>
     </div>
     <dv-charts :option="option" style="width: 100%; margin-top:-6vh" :style="{height:chartHeight+'vh'}"/>
@@ -65,18 +65,23 @@ export default {
         yAxis: {
           type: 'log',  
           data: "value",
+          min:0,
           splitLine: {
+            stroke: '#d4d4d4',
+            lineWidth: 1,
             show: true,
           },
           axisLine: {
             style: {
-              stroke: "#999",
+              stroke: "#333",
             },
           },
           axisLabel: {
             style: {
               fill: "#999",
+              fontSize: 10,
             },
+            show:false,
           },
           axisTick: {
             show: true,
@@ -180,14 +185,13 @@ export default {
 <style lang="less">
 .scroll-board {
   //position: relative;
-  padding: 1vh;
   box-sizing: border-box;
   height: 100%;
   //top:-50px;
 
   .chart-name {
     // position: absolute;
-    margin-left: 10px;
+    margin-left: 6px;
     text-align: left;
     font-size: 18px;
     display: flex;

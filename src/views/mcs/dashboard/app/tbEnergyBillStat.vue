@@ -140,7 +140,7 @@ export default {
 <style lang="less">
 #tbEnergyBillStat{
   text-align: left;
-  padding:4vh;
+  padding:2vh;
 
   .tbEnergyBillStat-title{
     font-family: 'LiSu';

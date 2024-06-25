@@ -1,7 +1,7 @@
 <template>
   <div class="line-energy-board">
     <div class="chart-name">
-      <div style="font-family: 'LiSu';">油耗分析（万吨） </div>
+      <div style="font-family: 'LiSu';font-size: 24px;">油耗分析 </div>
       <div>
         <dv-button @click="onChangeInvertal" border="Border1" color="#f3d19e" font-color="#e18a3b" style="z-index: 999999;text-decoration:underline">{{getModeName}}</dv-button>
       </div>
@@ -184,15 +184,16 @@ export default {
     }
     // 页面加载时
 		onMounted(async () => {
-      const res1 = await proxy.$api.erp.waybill.getTimeStatListByScope("freight", 0, 0);
-      if(res1.errcode==0){
-        state.energyData=res1.data;
+      const res = await proxy.$api.erp.energyBillLine.getTimeStatListByScope("oil", 0, 0);
+      if(res.errcode==0){
+        console.log("res.data:",res.data)
+        state.energyData=res.data;
       }		
       setData();		
       setInterval(async () => {
-        const res1 = await proxy.$api.erp.waybill.getTimeStatListByScope("freight", 0, 0);
-        if(res1.errcode==0){
-          state.energyData=res1.data;
+        const res = await proxy.$api.erp.energyBillLine.getTimeStatListByScope("oil", 0, 0);
+        if(res.errcode==0){
+          state.energyData=res.data;
         }		
         setData();	
       }, 60000);
@@ -228,7 +229,7 @@ export default {
   .line-energy-board-chart{
     width: 100%; 
     //height:240px;
-    height:29vh;
+    height:40vh;
     //height:calc(~"70vh - 420px") !important;
     margin-top:-5vh;
   }

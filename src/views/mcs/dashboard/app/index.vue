@@ -26,30 +26,28 @@
             
             <!-- <center-bottom></center-bottom> -->
           </dv-border-box-12>
-          <dv-border-box-12 style="width:30%;padding:0px 2px">
-            
-            <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
+          <dv-border-box-12 style="width:30%;padding:0px 2px;height:auto;">
             <div>
-              <!-- <dv-decoration-3 style="width: 100%;" /> -->
-              <!-- <div class="block-left-content">
-                <barWaybillBoard />
-              </div> -->
-              <div class="block-left-content">
-                <barWaybillBoard :chartHeight="22"/>
+              <tbVehicleStat></tbVehicleStat>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center">
+                <div>
+                  <div class="block-left-content">
+                    <barWaybillBoard :chartHeight="30"/>
+                  </div>
+                  <div class="block-left-content">
+                    <barMainBusinessBoard :chartHeight="30"/>
+                  </div>
+                </div>
+                <div>
+                  <div class="block-left-content">
+                    <barTradeBoard :chartHeight="30"/>
+                  </div>
+                  <div class="block-left-content">
+                    <barWarehouseRateBoard :chartHeight="30"/>
+                  </div>
+                </div>
               </div>
-              <div class="block-left-content">
-                <barMainBusinessBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <barTradeBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <barWarehouseRateBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <mainBusinessBoard :chartHeight="22"/>
-              </div>
-          </div>
           </dv-border-box-12>
         </div>
         <div class="main-rows" v-else>
@@ -61,12 +59,13 @@
               <notice-list></notice-list>
             </div>
           </dv-border-box-1>
-          <dv-border-box-12 style="width:40%;height:auto;padding:0.5vh">
-            <!-- 本年 -->
+          <dv-border-box-12 style="width:40%;height:auto;padding:0.5vh">           
             <div>
+               <!-- 本年 -->
               <tbEnergyBillStat :timeMode="7"></tbEnergyBillStat>
             </div>
             <div>
+               <!-- 本月 -->
               <tbEnergyBillStat :timeMode="3"></tbEnergyBillStat>
             </div>
           </dv-border-box-12>
@@ -79,23 +78,12 @@
                 <barWaybillBoard />
               </div> -->
               <div class="block-left-content">
-                <barWaybillBoard :chartHeight="22"/>
+                <lineEnergyBoard :chartHeight="22"/>
               </div>
-              <div class="block-left-content">
-                <barMainBusinessBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <barTradeBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <barWarehouseRateBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <mainBusinessBoard :chartHeight="22"/>
-              </div>
+              
           </div>
           </dv-border-box-12>
-        </div>       
+        </div>   
       </dv-full-screen-container>
       <div v-else>
         <top-header />
@@ -121,30 +109,28 @@
             
             <!-- <center-bottom></center-bottom> -->
           </dv-border-box-12>
-          <dv-border-box-12 style="width:30%;padding:0px 2px">
-            
-            <!-- <dv-scroll-board :config="{header: ['通告内容','通知时间'],data:[['关于XXXX下达加强安全管理的通知1','2023-03-15'],['关于XXXX下达加强安全管理的通知2','2023-03-14'],['关于XXXX下达加强安全管理的通知3','2023-03-13'],['关于XXXX下达加强安全管理的通知4','2023-03-12'],['关于XXXX下达加强安全管理的通知5','2023-03-11'],['关于XXXX下达加强安全管理的通知6','2023-03-10']],columnWidth:[50,330,120],index: true,rowNum:3}" style="width:100%;height:200px;margin-top:16px" /> -->
+          <dv-border-box-12 style="width:30%;padding:0px 2px;height:auto;">
             <div>
-              <!-- <dv-decoration-3 style="width: 100%;" /> -->
-              <!-- <div class="block-left-content">
-                <barWaybillBoard />
-              </div> -->
-              <div class="block-left-content">
-                <barWaybillBoard :chartHeight="22"/>
+              <tbVehicleStat></tbVehicleStat>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center">
+                <div>
+                  <div class="block-left-content">
+                    <barWaybillBoard :chartHeight="30"/>
+                  </div>
+                  <div class="block-left-content">
+                    <barMainBusinessBoard :chartHeight="30"/>
+                  </div>
+                </div>
+                <div>
+                  <div class="block-left-content">
+                    <barTradeBoard :chartHeight="30"/>
+                  </div>
+                  <div class="block-left-content">
+                    <barWarehouseRateBoard :chartHeight="30"/>
+                  </div>
+                </div>
               </div>
-              <div class="block-left-content">
-                <barMainBusinessBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <barTradeBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <barWarehouseRateBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <mainBusinessBoard :chartHeight="22"/>
-              </div>
-          </div>
           </dv-border-box-12>
         </div>
         <div class="main-rows" v-else>
@@ -156,12 +142,13 @@
               <notice-list></notice-list>
             </div>
           </dv-border-box-1>
-          <dv-border-box-12 style="width:40%;height:auto;padding:0.5vh">
-            <!-- 本年 -->
+          <dv-border-box-12 style="width:40%;height:auto;padding:0.5vh">           
             <div>
+               <!-- 本年 -->
               <tbEnergyBillStat :timeMode="7"></tbEnergyBillStat>
             </div>
             <div>
+               <!-- 本月 -->
               <tbEnergyBillStat :timeMode="3"></tbEnergyBillStat>
             </div>
           </dv-border-box-12>
@@ -174,20 +161,9 @@
                 <barWaybillBoard />
               </div> -->
               <div class="block-left-content">
-                <barWaybillBoard :chartHeight="22"/>
+                <lineEnergyBoard :chartHeight="22"/>
               </div>
-              <div class="block-left-content">
-                <barMainBusinessBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <barTradeBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <barWarehouseRateBoard :chartHeight="22"/>
-              </div>
-              <div class="block-left-content">
-                <mainBusinessBoard :chartHeight="22"/>
-              </div>
+              
           </div>
           </dv-border-box-12>
         </div>
@@ -215,6 +191,7 @@ import roseChart from "./roseChart.vue";
 import scrollBoard from "./scrollBoard.vue";
 import scrollBoardAmount from "./scrollBoardAmount.vue";
 import tbEnergyBillStat from "./tbEnergyBillStat.vue";
+import tbVehicleStat from "./tbVehicleStat.vue";
 import tbWaybillStat from "./tbWaybillStat.vue";
 import topHeader from "./topHeader.vue";
 import waterLevelChart from "./waterLevelChart.vue";
@@ -223,6 +200,7 @@ export default {
   name: "DataView",
   components: {
     topHeader,
+    tbVehicleStat,
     tbWaybillStat,
     tbEnergyBillStat,
     lineEnergyBoard,
