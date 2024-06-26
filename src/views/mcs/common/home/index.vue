@@ -101,7 +101,6 @@ import { CountUp } from 'countup.js';
 import * as echarts from 'echarts';
 import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { activitiesList, environmentList, topCardItemList } from './mock';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
 export default {
