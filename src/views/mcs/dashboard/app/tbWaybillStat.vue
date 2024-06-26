@@ -120,33 +120,6 @@
         </td>
       </tr>
     </table>
-
-    <table style="width:100%">
-      <tr v-for="(val,index) in statData.TempCompanyStatList" :key="index">
-        <td style="width:25% !important">{{val.CompanyName}}</td>
-        <td style="width:75% !important;color:#e1f3d8">
-          <marquee class="pt5">{{val.ComanyStat}}</marquee>
-          <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
-          <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
-        </td>
-      </tr>
-      <tr v-for="(val,index) in statData.TempCompanyStatList" :key="index">
-        <td style="width:25% !important">{{val.CompanyName}}</td>
-        <td style="width:75% !important;color:#e1f3d8">
-          <marquee class="pt5">{{val.ComanyStat}}</marquee>
-          <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
-          <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
-        </td>
-      </tr>
-      <tr v-for="(val,index) in statData.TempCompanyStatList" :key="index">
-        <td style="width:25% !important">{{val.CompanyName}}</td>
-        <td style="width:75% !important;color:#e1f3d8">
-          <marquee class="pt5">{{val.ComanyStat}}</marquee>
-          <!-- <div class="marquee-text">渣钢渣铁 900 吨；瑞钢钢坯 1200 吨</div> -->
-          <!-- <dv-scroll-board :config="{ rowNum:1,waitTime:5000,oddRowBGC:'#030409',evenRowBGC:'#030409',data: [['渣钢渣铁 900 吨'], ['瑞钢钢坯 1200 吨']] }" style="height:24px;font-size: 10pt;" /> -->
-        </td>
-      </tr>
-    </table>
   </div>
 </template>
 
