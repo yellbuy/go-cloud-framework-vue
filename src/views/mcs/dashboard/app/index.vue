@@ -76,7 +76,9 @@
               <div class="block-left-content">
                 <lineEnergyBoard :chartHeight="22"/>
               </div>
-              
+              <div class="block-left-content">
+                <lineRepairBoard :chartHeight="22"/>
+              </div>
           </div>
           </dv-border-box-12>
         </div>
@@ -155,7 +157,9 @@
               <div class="block-left-content">
                 <lineEnergyBoard :chartHeight="22"/>
               </div>
-              
+              <div class="block-left-content">
+                <lineRepairBoard :chartHeight="22"/>
+              </div>
           </div>
           </dv-border-box-12>
         </div>
@@ -177,6 +181,7 @@ import centerBottom from "./centerBottom.vue";
 import centerTop from "./centerTop.vue";
 import digitalFlop from "./digitalFlop.vue";
 import lineEnergyBoard from "./lineEnergyBoard.vue";
+import lineRepairBoard from "./lineRepairBoard.vue";
 import noticeList from "./noticeList.vue";
 import rankingBoard from "./rankingBoard.vue";
 import roseChart from "./roseChart.vue";
@@ -196,6 +201,7 @@ export default {
     tbWaybillStat,
     tbEnergyBillStat,
     lineEnergyBoard,
+    lineRepairBoard,
     centerTop,
     centerBottom,
     noticeList,
