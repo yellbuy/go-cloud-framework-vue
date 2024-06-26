@@ -1,141 +1,165 @@
 <template>
 	<div class="home-container">
-		<el-row :gutter="15">
-			<el-col :sm="6" class="mb15">
+		<!-- <el-row :gutter="15">
+			<el-col class="mb15">
 				<div class="home-card-item home-card-first">
 					<div class="flex-margin flex">
-						
 						<img :src="getUserInfos.avatar" />
 						<div class="home-card-first-right ml15">
 							<div class="flex-margin">
 								<div class="home-card-first-right-title">
-									{{ currentTime }}，{{ getUserInfos.realname || getUserInfos.username }}！
+									{{ currentTime }}，{{ getUserInfos.username === '' ? 'test' : getUserInfos.realname || getUserInfos.username }}！
 								</div>
-								<div class="home-card-first-right-msg mt5">{{ getUserInfos.username === 'admin' ? '超级管理员' : '普通用户' }}</div>
+								<div class="home-card-first-right-msg mt5">{{ getUserInfos.isAdmin ? '超级管理员' : '普通用户' }}</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</el-col>
-			<el-col :sm="6" class="mb15" v-for="(v, k) in topCardItemList" :key="k">
-				<div class="home-card-item home-card-item-box" :style="{ background: v.color }">
-					<div class="home-card-item-flex">
-						<div class="home-card-item-title pb3">{{ v.title }}</div>
-						<div class="home-card-item-title-num pb6" :id="`titleNum${k + 1}`"></div>
-						<div class="home-card-item-tip pb3">{{ v.tip }}</div>
-						<div class="home-card-item-tip-num" :id="`tipNum${k + 1}`"></div>
-					</div>
-					<i :class="v.icon" :style="{ color: v.iconColor }"></i>
+		</el-row> -->
+		<el-row :gutter="15">
+			<el-col class="mb15">
+				<div class="home-card-item home-card-first">
+					首页界面开发调整中.......
 				</div>
 			</el-col>
 		</el-row>
-		<el-row :gutter="15">
-			<el-col :xs="24" :sm="14" :md="14" :lg="16" :xl="16" class="mb15">
-				<el-card shadow="hover" :header="$t('message.card.title1')">
-					<div style="height: 200px" ref="homeLaboratoryRef"></div>
-				</el-card>
+		<el-row :gutter="15" style="display: flex; flex-direction: row;">
+			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
+				<div class="" style=" background-color: brown; width: 100%; height: 100px; border-radius:10px;">{{vehicleWarning.count}}
+				</div>
 			</el-col>
-			<el-col :xs="24" :sm="10" :md="10" :lg="8" :xl="8">
-				<el-card shadow="hover" :header="$t('message.card.title2')">
-					<div class="home-monitor">
-						<div class="flex-warp">
-							<div class="flex-warp-item" v-for="(v, k) in environmentList" :key="k">
-								<div class="flex-warp-item-box">
-									<i :class="v.icon" :style="{ color: v.iconColor }"></i>
-									<span class="pl5">{{ v.label }}</span>
-									<div class="mt10">{{ v.value }}</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</el-card>
+			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
+				<div class="" style=" background-color: green; width: 100%; height: 100px; border-radius:10px;">{{driverWarning.count}}
+				</div>
+			</el-col>
+			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
+				<div class="" style=" background-color: orange; width: 100%; height: 100px; border-radius:10px;">{{vehicleInsuranceWarning.count}}
+				</div>
 			</el-col>
 		</el-row>
-		<el-row :gutter="15">
-			<el-col :xs="24" :sm="14" :md="14" :lg="16" :xl="16" class="home-warning-media">
-				<el-card shadow="hover" :header="$t('message.card.title3')" class="home-warning-card">
-					<el-table :data="tableData.data" style="width: 100%" stripe>
-						<el-table-column prop="date" :label="$t('message.table.th1')"></el-table-column>
-						<el-table-column prop="name" :label="$t('message.table.th2')"></el-table-column>
-						<el-table-column prop="address" :label="$t('message.table.th3')"></el-table-column>
-					</el-table>
-				</el-card>
+		<el-row :gutter="15" style="display: flex; flex-direction: row;">
+			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
+				<el-table
+					:data="vehicleWarning.list"
+					v-loading="vehicleWarning.loading"
+					:height="proxy.$calcMainHeight(-75)"
+					border
+					stripe
+					highlight-current-row>
+					<el-table-column type="index" label="序号" align="right" width="70" fixed />
+					<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="100" fixed />
+				</el-table>
+				<el-pagination
+					small
+					@size-change="(val) => onHandleSizeChange(val, 1)"
+					@current-change="(val) => onHandleCurrentChange(val, 1)"
+					class="mt15"
+					:page-sizes="[10, 20, 30, 50, 100]"
+					v-model:current-page="vehicleWarning.param.pageNum"
+					background
+					v-model:page-size="vehicleWarning.param.pageSize"
+					layout="->, total, sizes, prev, pager, next, jumper"
+					:total="vehicleWarning.count" />
 			</el-col>
-			<el-col :xs="24" :sm="10" :md="10" :lg="8" :xl="8" class="home-dynamic-media">
-				<el-card shadow="hover" :header="$t('message.card.title4')">
-					<div class="home-dynamic">
-						<el-scrollbar>
-							<div class="home-dynamic-item" v-for="(v, k) in activitiesList" :key="k">
-								<div class="home-dynamic-item-left">
-									<div class="home-dynamic-item-left-time1 mb5">{{ v.time1 }}</div>
-									<div class="home-dynamic-item-left-time2">{{ v.time2 }}</div>
-								</div>
-								<div class="home-dynamic-item-line">
-									<i class="iconfont icon-fangkuang"></i>
-								</div>
-								<div class="home-dynamic-item-right">
-									<div class="home-dynamic-item-right-title mb5">
-										<SvgIcon name="ele-Comment" />
-										<span>{{ v.title }}</span>
-									</div>
-									<div class="home-dynamic-item-right-label">{{ v.label }}</div>
-								</div>
-							</div>
-						</el-scrollbar>
-					</div>
-				</el-card>
+			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
+				<el-table
+					:data="driverWarning.list"
+					v-loading="driverWarning.loading"
+					:height="proxy.$calcMainHeight(-75)"
+					border
+					stripe
+					highlight-current-row>
+					<el-table-column type="index" label="序号" align="right" width="70" fixed />
+					<el-table-column prop="Name" label="姓名" width="100" align="left" show-overflow-tooltip fixed></el-table-column>
+				</el-table>
+				<el-pagination
+					small
+					@size-change="(val) => onHandleSizeChange(val, 2)"
+					@current-change="(val) => onHandleCurrentChange(val, 2)"
+					class="mt15"
+					:page-sizes="[10, 20, 30, 50, 100]"
+					v-model:current-page="driverWarning.param.pageNum"
+					background
+					v-model:page-size="driverWarning.param.pageSize"
+					layout="->, total, sizes, prev, pager, next, jumper"
+					:total="driverWarning.count" />
 			</el-col>
-		</el-row>
-		<el-row>
-			<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mt15">
-				<el-card shadow="hover" :header="$t('message.card.title5')">
-					<div style="height: 200px" ref="homeOvertimeRef"></div>
-				</el-card>
+			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
+				<el-table
+					:data="vehicleInsuranceWarning.list"
+					v-loading="vehicleInsuranceWarning.loading"
+					:height="proxy.$calcMainHeight(-75)"
+					border
+					stripe
+					highlight-current-row>
+					<el-table-column type="index" label="序号" align="right" width="70" fixed />
+					<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="100" fixed />
+				</el-table>
+				<el-pagination
+					small
+					@size-change="(val) => onHandleSizeChange(val, 3)"
+					@current-change="(val) => onHandleCurrentChange(val, 3)"
+					class="mt15"
+					:page-sizes="[10, 20, 30, 50, 100]"
+					v-model:current-page="vehicleInsuranceWarning.param.pageNum"
+					background
+					v-model:page-size="vehicleInsuranceWarning.param.pageSize"
+					layout="->, total, sizes, prev, pager, next, jumper"
+					:total="vehicleInsuranceWarning.count" />
 			</el-col>
 		</el-row>
 	</div>
 </template>
 
 <script lang="ts">
-import { CountUp } from 'countup.js';
-import * as echarts from 'echarts';
 import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { activitiesList, environmentList, topCardItemList } from './mock';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
 export default {
 	name: 'admin',
 	setup() {
+		const { proxy } = getCurrentInstance() as any;
 		const router = useRouter();
 		console.debug("router：",router.currentRoute.value)
-		//console.debug("route:",$route)
-		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
 		const state = reactive({
-			topCardItemList,
-			environmentList,
-			activitiesList,
-			tableData: {
-				data: [
-					{
-						date: '2016-05-02',
-						name: '1号实验室',
-						address: '烟感2.1%OBS/M',
-					},
-					{
-						date: '2016-05-04',
-						name: '2号实验室',
-						address: '温度30℃',
-					},
-					{
-						date: '2016-05-01',
-						name: '3号实验室',
-						address: '湿度57%RH',
-					},
-				],
-			},
+			kind:'info',
 			myCharts: [],
+			vehicleWarning: {
+				loading: false,
+				count:0,
+				list:[],
+				param: {
+					state: -1,
+					isExternal: -1,
+					pageNum: 1,
+					pageSize: 20,
+				}
+			},
+			driverWarning:{
+				loading: false,
+				count:0,
+				list:[],
+				param: {
+					state: -1,
+					isExternal: -1,
+					pageNum: 1,
+					pageSize: 20,
+				}
+			},
+			vehicleInsuranceWarning:{
+				loading: false,
+				count:0,
+				list:[],
+				param: {
+					state: -1,
+					isExternal: -1,
+					pageNum: 1,
+					pageSize: 20,
+				}
+			},
 		});
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
@@ -145,155 +169,87 @@ export default {
 		const currentTime = computed(() => {
 			return formatAxis(new Date());
 		});
-		// 初始化数字滚动
-		const initNumCountUp = () => {
-			nextTick(() => {
-				new CountUp('titleNum1', Math.random() * 10000).start();
-				new CountUp('titleNum2', Math.random() * 10000).start();
-				new CountUp('titleNum3', Math.random() * 10000).start();
-				new CountUp('tipNum1', Math.random() * 1000).start();
-				new CountUp('tipNum2', Math.random() * 1000).start();
-				new CountUp('tipNum3', Math.random() * 1000).start();
-			});
+		
+		// 车辆证件超期预警统计
+		const GetVehicleWarningData = async () => {
+			try {
+				const resVehicleWarning = await proxy.$api.erp.vehicle.getVehicleWarning(state.kind, 0, 0, state.vehicleWarning.param);
+				if (resVehicleWarning.errcode == 0) {
+					state.vehicleWarning.count = resVehicleWarning.total
+					state.vehicleWarning.list = resVehicleWarning.data
+				}else{
+					console.log("error:",resVehicleWarning.errmsg)
+				}
+			}finally {
+				state.vehicleWarning.loading = false;
+			}
+		}
+
+		// 司机驾驶证超期预警统计
+		const GetDriverWarningData = async () => {
+			try {
+				const resDriverWarning = await proxy.$api.erp.driver.getDriverWarning(state.kind, 0, 0, state.driverWarning.param);
+				if (resDriverWarning.errcode == 0) {
+					state.driverWarning.count = resDriverWarning.total
+					state.driverWarning.list = resDriverWarning.data
+				}else{
+					console.log("error:",resDriverWarning.errmsg)
+				}
+			}finally {
+				state.driverWarning.loading = false;
+			}
+		}
+
+		// 车辆保险超期预警统计
+		const GetVehicleInsuranceWarningData = async () => {
+			try {
+				const resVehicleInsuranceWarning = await proxy.$api.erp.vehicleinsurance.getVehicleInsuranceWarning(state.kind, 0, 0, state.vehicleInsuranceWarning.param);
+				if (resVehicleInsuranceWarning.errcode == 0) {
+					state.vehicleInsuranceWarning.count = resVehicleInsuranceWarning.total
+					state.vehicleInsuranceWarning.list = resVehicleInsuranceWarning.data
+				}else{
+					console.log("error:",resVehicleInsuranceWarning.errmsg)
+				}
+			}finally {
+				state.vehicleInsuranceWarning.loading = false;
+			}
+		}
+
+		//	分页改变
+		const onHandleSizeChange = (val: number, index: number) => {
+			switch (index){
+				case 1:
+					state.vehicleWarning.param.pageSize = val;
+					GetVehicleWarningData();
+					break;
+				case 2:
+					state.driverWarning.param.pageSize = val;
+					GetDriverWarningData();
+					break;
+				case 3:
+					state.vehicleInsuranceWarning.param.pageSize = val;
+					GetVehicleInsuranceWarningData();
+					break;
+			}
 		};
-		// 商品销售情
-		const initHomeLaboratory = () => {
-			const myChart = echarts.init(proxy.$refs.homeLaboratoryRef);
-			const option = {
-				grid: {
-					top: 50,
-					right: 20,
-					bottom: 30,
-					left: 30,
-				},
-				tooltip: {
-					trigger: 'axis',
-				},
-				legend: {
-					data: ['预购队列', '最新成交价'],
-					right: 13,
-				},
-				color: [
-					'#63caff',
-					'#49beff',
-					'#03387a',
-					'#03387a',
-					'#03387a',
-					'#6c93ee',
-					'#a9abff',
-					'#f7a23f',
-					'#27bae7',
-					'#ff6d9d',
-					'#cb79ff',
-					'#f95b5a',
-					'#ccaf27',
-					'#38b99c',
-					'#93d0ff',
-					'#bd74e0',
-					'#fd77da',
-					'#dea700',
-				],
-				xAxis: {
-					data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-				},
-				yAxis: [
-					{
-						type: 'value',
-						name: '价格',
-					},
-				],
-				series: [
-					{
-						name: '预购队列',
-						type: 'bar',
-						data: [200, 85, 112, 275, 305, 415, 441, 405, 275, 305, 415, 441],
-						itemStyle: {
-							barBorderRadius: [4, 4, 0, 0],
-							color: {
-								x: 0,
-								y: 0,
-								x2: 0,
-								y2: 1,
-								type: 'linear',
-								global: false,
-								colorStops: [
-									{
-										offset: 0,
-										color: '#0b9eff',
-									},
-									{
-										offset: 1,
-										color: '#63caff',
-									},
-								],
-							},
-						},
-					},
-					{
-						name: '最新成交价',
-						type: 'line',
-						data: [50, 85, 22, 155, 170, 25, 224, 245, 285, 300, 415, 641],
-						itemStyle: {
-							color: '#febb50',
-						},
-					},
-				],
-			};
-			myChart.setOption(option);
-			state.myCharts.push(myChart);
+		//	分页改变
+		const onHandleCurrentChange = (val: number, index: number) => {
+			switch (index){
+				case 1:
+					state.vehicleWarning.param.pageNum = val;
+					GetVehicleWarningData();
+					break;
+				case 2:
+					state.driverWarning.param.pageNum = val;
+					GetDriverWarningData();
+					break;
+				case 3:
+					state.vehicleInsuranceWarning.param.pageNum = val;
+					GetVehicleInsuranceWarningData();
+					break;
+			}
 		};
-		// 履约超时预警
-		const initHomeOvertime = () => {
-			const myChart = echarts.init(proxy.$refs.homeOvertimeRef);
-			const option = {
-				grid: {
-					top: 50,
-					right: 20,
-					bottom: 30,
-					left: 30,
-				},
-				tooltip: {
-					trigger: 'axis',
-				},
-				legend: {
-					data: ['订单数量', '超时数量', '在线数量', '预警数量'],
-					right: 13,
-				},
-				xAxis: {
-					data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-				},
-				yAxis: [
-					{
-						type: 'value',
-						name: '数量',
-					},
-				],
-				series: [
-					{
-						name: '订单数量',
-						type: 'bar',
-						data: [5, 20, 36, 10, 10, 20, 11, 13, 10, 9, 17, 19],
-					},
-					{
-						name: '超时数量',
-						type: 'bar',
-						data: [15, 12, 26, 15, 11, 16, 31, 13, 5, 16, 13, 15],
-					},
-					{
-						name: '在线数量',
-						type: 'line',
-						data: [15, 20, 16, 20, 30, 8, 16, 19, 12, 18, 19, 14],
-					},
-					{
-						name: '预警数量',
-						type: 'line',
-						data: [10, 10, 13, 12, 15, 18, 19, 10, 12, 15, 11, 17],
-					},
-				],
-			};
-			myChart.setOption(option);
-			state.myCharts.push(myChart);
-		};
+
 		// 批量设置 echarts resize
 		const initEchartsResizeFun = () => {
 			nextTick(() => {
@@ -302,16 +258,11 @@ export default {
 				}
 			});
 		};
-		// 批量设置 echarts resize
-		const initEchartsResize = () => {
-			window.addEventListener('resize', initEchartsResizeFun);
-		};
 		// 页面加载时
 		onMounted(() => {
-			initNumCountUp();
-			initHomeLaboratory();
-			initHomeOvertime();
-			initEchartsResize();
+			GetVehicleWarningData()
+			GetDriverWarningData()
+			GetVehicleInsuranceWarningData()
 		});
 		// 由于页面缓存原因，keep-alive
 		onActivated(() => {
@@ -325,6 +276,12 @@ export default {
 			}
 		);
 		return {
+			GetVehicleWarningData,
+			GetDriverWarningData,
+			GetVehicleInsuranceWarningData,
+			onHandleSizeChange,
+			onHandleCurrentChange,
+			proxy,
 			getUserInfos,
 			currentTime,
 			...toRefs(state),
