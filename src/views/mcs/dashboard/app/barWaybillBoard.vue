@@ -192,7 +192,8 @@ export default {
 
   .chart-name {
     // position: absolute;
-    margin-left: 6px;
+    margin-left: 1vw;
+    margin-right: 1vw;
     text-align: left;
     font-size: 16px;
     display: flex;

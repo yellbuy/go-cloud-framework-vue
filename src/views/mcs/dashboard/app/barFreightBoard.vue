@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll-board">
+  <div class="waybill-scroll-board">
     <div class="chart-name">
       <div>运量分析 </div>
       <div>
@@ -171,7 +171,7 @@ export default {
 </script>
 
 <style lang="less">
-.scroll-board {
+.waybill-scroll-board {
   //position: relative;
   padding: 8px;
   box-sizing: border-box;

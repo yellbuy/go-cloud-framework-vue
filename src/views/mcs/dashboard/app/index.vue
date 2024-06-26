@@ -31,7 +31,7 @@
               <tbVehicleStat></tbVehicleStat>
             </div>
             <div style="display:flex;align-items:center;justify-content:center">
-                <div>
+                <div style="width:100%">
                   <div class="block-left-content">
                     <barWaybillBoard :chartHeight="30"/>
                   </div>
@@ -39,7 +39,7 @@
                     <barMainBusinessBoard :chartHeight="30"/>
                   </div>
                 </div>
-                <div>
+                <div style="width:100%">
                   <div class="block-left-content">
                     <barTradeBoard :chartHeight="30"/>
                   </div>
@@ -60,14 +60,10 @@
             </div>
           </dv-border-box-1>
           <dv-border-box-12 style="width:40%;height:auto;padding:0.5vh">           
-            <div>
-               <!-- 本年 -->
-              <tbEnergyBillStat :timeMode="7"></tbEnergyBillStat>
-            </div>
-            <div>
-               <!-- 本月 -->
-              <tbEnergyBillStat :timeMode="3"></tbEnergyBillStat>
-            </div>
+            <!-- 本年 -->
+            <tbEnergyBillStat :timeMode="7"></tbEnergyBillStat>
+             <!-- 本月 -->
+             <tbEnergyBillStat :timeMode="3"></tbEnergyBillStat>
           </dv-border-box-12>
           <dv-border-box-12 style="width:30%;padding:0px 0.5vh">
             
@@ -83,7 +79,7 @@
               
           </div>
           </dv-border-box-12>
-        </div>   
+        </div>
       </dv-full-screen-container>
       <div v-else>
         <top-header />
@@ -114,7 +110,7 @@
               <tbVehicleStat></tbVehicleStat>
             </div>
             <div style="display:flex;align-items:center;justify-content:center">
-                <div>
+                <div style="width:100%">
                   <div class="block-left-content">
                     <barWaybillBoard :chartHeight="30"/>
                   </div>
@@ -122,7 +118,7 @@
                     <barMainBusinessBoard :chartHeight="30"/>
                   </div>
                 </div>
-                <div>
+                <div style="width:100%">
                   <div class="block-left-content">
                     <barTradeBoard :chartHeight="30"/>
                   </div>
@@ -143,14 +139,10 @@
             </div>
           </dv-border-box-1>
           <dv-border-box-12 style="width:40%;height:auto;padding:0.5vh">           
-            <div>
-               <!-- 本年 -->
-              <tbEnergyBillStat :timeMode="7"></tbEnergyBillStat>
-            </div>
-            <div>
-               <!-- 本月 -->
-              <tbEnergyBillStat :timeMode="3"></tbEnergyBillStat>
-            </div>
+            <!-- 本年 -->
+            <tbEnergyBillStat :timeMode="7"></tbEnergyBillStat>
+             <!-- 本月 -->
+             <tbEnergyBillStat :timeMode="3"></tbEnergyBillStat>
           </dv-border-box-12>
           <dv-border-box-12 style="width:30%;padding:0px 0.5vh">
             
@@ -294,7 +286,7 @@ export default {
     flex: 1;
     display: flex;
     width:100%;
-    margin-top:10px;
+    margin-top:2vh;
     background-color:rgba(6, 30, 93, 0.5);
     flex-direction: column;
   }
