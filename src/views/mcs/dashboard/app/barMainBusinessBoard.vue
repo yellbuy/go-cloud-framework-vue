@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll-board">
+  <div class="mainbusi-scroll-board">
     <div class="chart-name">
       <div style="font-family: 'LiSu';font-size:16px">铁运业务分析 </div>
       <div>
@@ -183,7 +183,7 @@ export default {
 </script>
 
 <style lang="less">
-.scroll-board {
+.mainbusi-scroll-board {
   //position: relative;
   box-sizing: border-box;
   height: 100%;
@@ -191,7 +191,8 @@ export default {
 
   .chart-name {
     // position: absolute;
-    margin-left: 6px;
+    margin-left: 1vw;
+    margin-right: 1vw;
     text-align: left;
     font-size: 18px;
     display: flex;

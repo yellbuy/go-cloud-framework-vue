@@ -3,37 +3,37 @@
     <table class="tbVehicleStat-table">
       <tr>
         <td class="td-left">
-          自有车 <span class="td-value">355</span> 辆<br/>
-          当日已出车 <span class="td-value">39</span>台<br/>
-          停驶 <span class="td-value">9</span> 台
+          自有车 <span class="td-value">{{stat.InternalCount}}</span> 辆<br/>
+          当日已出车 <span class="td-value">{{stat.InternalRunningCount}}</span>台<br/>
+          停驶 <span class="td-value">{{stat.InternalStopCount}}</span> 台
         </td>
         <td class="td-right">
-          外租车 <span class="td-value">2189</span> 台<br/>
-          今日调派 <span class="td-value">210</span> 台
+          外租车 <span class="td-value">{{stat.ExternalCount}}</span> 台<br/>
+          今日调派 <span class="td-value">{{stat.ExternalRunningCount}}</span> 台
         </td>
       </tr>
       <tr>
         <td class="td-left">
-          自有货车 <span class="td-value">355</span> 辆<br/>
-          当日已出车 <span class="td-value">39</span>台<br/>
-          停驶 <span class="td-value">9</span> 台
+          自有货车 <span class="td-value">{{stat.InternalTruckCount}}</span> 辆<br/>
+          当日已出车 <span class="td-value">{{stat.InternalTruckRunningCount}}</span>台<br/>
+          停驶 <span class="td-value">{{stat.InternalTruckStopCount}}</span> 台
         </td>
         <td class="td-right">
-          自有乘用车 <span class="td-value">355</span> 辆<br/>
-          当日已出车 <span class="td-value">39</span>台<br/>
-          停驶 <span class="td-value">9</span> 台
+          自有乘用车 <span class="td-value">{{stat.InternalBusCount}}</span> 辆<br/>
+          当日已出车 <span class="td-value">{{stat.InternalBusRunningCount}}</span>台<br/>
+          停驶 <span class="td-value">{{stat.InternalBusStopCount}}</span> 台
         </td>
       </tr>
       <tr>
         <td class="td-left">
-          工程机械车 <span class="td-value">355</span> 辆<br/>
-          当日已出车 <span class="td-value">39</span>台<br/>
-          停驶 <span class="td-value">9</span> 台
+          工程机械车 <span class="td-value">{{stat.MachineCount}}</span> 辆<br/>
+          当日已出车 <span class="td-value">{{stat.MachineRunningCount}}</span>台<br/>
+          停驶 <span class="td-value">{{stat.MachineStopCount}}</span> 台
         </td>
         <td class="td-right">
-          搅拌罐车 <span class="td-value">32</span> 辆<br/>
-          当日已出车 <span class="td-value">16</span>台<br/>
-          停驶 <span class="td-value">16</span> 台
+          搅拌罐车 <span class="td-value">{{stat.SpecialCount}}</span> 辆<br/>
+          当日已出车 <span class="td-value">{{stat.SpecialRunningCount}}</span>台<br/>
+          停驶 <span class="td-value">{{stat.SpecialStopCount}}</span> 台
         </td>
       </tr>
     </table>
@@ -60,32 +60,22 @@ export default {
 		const state = reactive({
       stat:{
 
-      },
-			list:{
       }
 		});
 		
 		
 		// 页面加载时
 		onMounted(async () => {
-      // const res = await proxy.$api.erp.VehicleLine.getTotalStat('oil',0, 0,{timeMode:timeMode});
-      // if(res.errcode==0){
-      //   state.stat=res.data;
-      // }		
-      // const resList = await proxy.$api.erp.WaybillLine.getStatListForCompany('oil',0, 0,{limit:6,timeMode:timeMode});
-      // if(resList.errcode==0){
-      //   state.list=resList.data;
-      // }		
-      // setInterval(async () => {
-      //   const res = await proxy.$api.erp.WaybillLine.getTotalStat('oil',0, 0,{timeMode:timeMode});
-      //   if(res.errcode==0){
-      //     state.stat=res.data;
-      //   }		
-      //   const resList = await proxy.$api.erp.WaybillLine.getStatListForCompany('oil',0, 0,{limit:6,timeMode:timeMode});
-      //   if(resList.errcode==0){
-      //     state.list=resList.data;
-      //   }		
-      // }, 60000);
+      const res = await proxy.$api.erp.vehicle.getStateStat('info',0, 0);
+      if(res.errcode==0){
+        state.stat=res.data;
+      }			
+      setInterval(async () => {
+        const res = await proxy.$api.erp.vehicle.getStateStat('info',0, 0);
+        if(res.errcode==0){
+          state.stat=res.data;
+        }		
+      }, 60000);
 				
 		});
 		return {
