@@ -28,7 +28,7 @@
 				</template>
 			</el-input>
 		</el-form-item>
-		<el-form-item class="login-animation-three" v-if="ruleForm.captchaId">
+		<el-form-item class="login-animation-three" v-if="ruleForm.captchaId && isShowCaptcha">
 			<el-row :gutter="15">
 				<el-col :span="16">
 					<el-input
@@ -86,6 +86,7 @@ export default defineComponent({
 		const isDevEnv = process.env.NODE_ENV === 'development';
 		const state = reactive({
 			isShowPassword: false,
+			isShowCaptcha:false,
 			captcha:"", //验证码
 			ruleForm: {
 				username: isDevEnv ? 'admin' : '',
@@ -135,6 +136,7 @@ export default defineComponent({
 				if (res.errcode != 0) {
 					state.ruleForm.code="";
 					onRefreshCaptcha();
+					state.isShowCaptcha=true;
 					if(res.errcode!=100014){
 						state.ruleForm.password="";
 					}
