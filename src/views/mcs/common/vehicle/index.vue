@@ -2,12 +2,42 @@
 	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
 					<el-form-item label="关键字：">
 						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
+					<el-form-item label="任务：">
+						<el-select v-model="tableData.param.waybillState" placeholder="任务状态" style="width: 80px">
+							<el-option label="不限" :value="-1"></el-option>
+							<el-option label="无任务" :value="0"></el-option>
+							<el-option label="有任务" :value="1"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="证件：">
+						<el-select v-model="tableData.param.certState" placeholder="证件状态" style="width: 90px">
+							<el-option label="不限" :value="0"></el-option>
+							<el-option label="正常" :value="1"></el-option>
+							<el-option label="即将到期" :value="2"></el-option>
+							<el-option label="已到期" :value="3"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="保险：">
+						<el-select v-model="tableData.param.insuranceState" placeholder="保险状态" style="width: 90px">
+							<el-option label="不限" :value="0"></el-option>
+							<el-option label="正常" :value="1"></el-option>
+							<el-option label="即将到期" :value="2"></el-option>
+							<el-option label="已到期" :value="3"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="维修：">
+						<el-select v-model="tableData.param.repairState" placeholder="维修状态" style="width: 80px">
+							<el-option label="不限" :value="-1"></el-option>
+							<el-option label="未维修" :value="0"></el-option>
+							<el-option label="维修中" :value="1"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item>
-						<el-button type="info" @click="onResetSearch">
+						<el-button type="info" @click="onResetSearch" style="margin-left:33px;">
 							<el-icon>
 								<RefreshLeft />
 							</el-icon>
@@ -84,14 +114,14 @@
 						</el-tooltip>
 						<el-tag type="danger" class="mr4" round effect="dark" v-else >险</el-tag>
 						<el-tooltip v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2"
-							class="box-item"
-							effect="dark"
-							placement="top">
-						<template #content>行驶证：{{ scope.row.DrivingLicenseStartDate.substr(0,10) }} 至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
-							<br />
-							道路运输许可证：{{ scope.row.TransportLicenseStartDate.substr(0,10) }} 至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
-						</template>
-						<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseStat < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
+								class="box-item"
+								effect="dark"
+								placement="top">
+							<template #content>行驶证：{{ scope.row.DrivingLicenseStartDate.substr(0,10) }} 至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
+								<br />
+								道路运输许可证：{{ scope.row.TransportLicenseStartDate.substr(0,10) }} 至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
+							</template>
+							<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
 						</el-tooltip>
 					</template>
 				</el-table-column>
@@ -192,6 +222,10 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
+					waybillState:-1,
+					repairState:-1,
+					certState:0,
+					insuranceState:0,
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -322,3 +356,8 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.el-form--inline .el-form-item {
+    margin-right: 0px !important;
+}
+</style>

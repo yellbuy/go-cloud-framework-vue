@@ -5,13 +5,15 @@
 				<el-transfer
 					v-model="ruleForm.VehicleIdList"
 					filterable
+					:filter-method="filterMethod"
 					filter-placeholder="搜索"
 					:titles="['可用车辆', '分配车辆']"
 					:button-texts="['移除','分配']"
 					:props="{ key: 'Id', label: 'VehicleNumber', disabled: 'state'}"
 					:data="allTruckList">
 					<template #default="{ option }">
-						<el-tag v-if="option.IsExternal" type="primary">外</el-tag><el-tag v-else type="success">内</el-tag><span class="ml2">{{ option.VehicleNumber }}</span>
+						<el-tag v-if="option.IsExternal" type="primary">外</el-tag><el-tag v-else type="success">内</el-tag>
+						<span class="ml2">{{ option.VehicleNumberExt }}</span>
 					</template>
 					<template #left-footer>
 						<el-select
@@ -107,6 +109,12 @@ export default {
 		const loadVehicleList=async ()=>{
 			const resTrucks = await proxy.$api.erp.vehicle.getValidListByScope('info', 0, 2,{isExternal:state.isExternal});
 			if (resTrucks.errcode == 0) {
+				resTrucks.data.forEach((item,index)=>{
+					item.VehicleNumberExt=item.VehicleNumber
+					if(item.IsExternal && item.Tname){
+						item.VehicleNumberExt=`${item.VehicleNumberExt}[${item.Tname}]`
+					}
+				})
 				state.allTruckList = resTrucks.data;
 			}else{
 				console.log("error:",resTrucks.errmsg)
@@ -116,6 +124,9 @@ export default {
 			state.ruleForm.VehicleIdList=[];
 			state.isExternal=value;
 			await loadVehicleList();
+		}
+		const filterMethod = (query, item) => {
+			return item.VehicleNumberExt.toLowerCase().includes(query.toLowerCase())
 		}
 		// 提交
 		const onSubmit = async (isCloseDlg: boolean) => {
@@ -151,6 +162,7 @@ export default {
 			dateFormatYMD,
 			getUserInfos,
 			token,
+			filterMethod,
 			onSubmit,
 			...toRefs(state),
 		};

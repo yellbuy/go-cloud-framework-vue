@@ -93,7 +93,7 @@
 				@size-change="onHandleSizeChange"
 				@current-change="onHandleCurrentChange"
 				class="mt15"
-				:page-sizes="[10, 20, 30]"
+				:page-sizes="[10, 20, 30,50,100]"
 				v-model:current-page="tableData.param.pageNum"
 				background
 				v-model:page-size="tableData.param.pageSize"
@@ -109,7 +109,7 @@
 <script lang="ts">
 import type { TabsPaneContext } from 'element-plus';
 import { ElMessageBox } from 'element-plus';
-import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import concreteDataEdit from './component/concreteDataEdit.vue';
 export default {
 	name: 'commonConcreteData',
@@ -139,12 +139,13 @@ export default {
 				loading: false,
 				param: {
 					type: commonTypeCode,
-					pageNum: 1,
-					pageSize: 20,
 					name: '',
 				},
 			},
 		});
+		state.tableData.param.pageIndex=computed(()=>{
+			return state.tableData.param.pageNum-1;
+		})
 		// 页面加载时
 		onMounted(() => {
 			onGetConcreteData(true);
