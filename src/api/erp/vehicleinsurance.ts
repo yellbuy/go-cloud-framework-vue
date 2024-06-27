@@ -66,8 +66,8 @@ export default {
      * @param params 要传的参数值
      * @returns 返回接口数据
      */
-    getVehicleInsuranceWarningCount: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
-        const url = `/v1/admin/erp/vehicleinsurance/warning/count/${kind}/${scopeMode}/${scopeValue}`;
+    getVehicleInsuranceWarning: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+        const url = `/v1/admin/erp/vehicleinsurance/warning/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
 }
