@@ -55,7 +55,7 @@ export default {
         {
           name: '车型',
           type: 'pie',
-          radius: [20, 70],
+          radius: [40, 80],
           center: ['50%', '50%'],
           roseType: 'area',
           itemStyle: {

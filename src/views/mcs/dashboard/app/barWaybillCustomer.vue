@@ -46,10 +46,10 @@ export default {
         color: ['#9d96f5', '#96bfff'],
         grid: {
           containLabel: true,
-          left: '1%',
-          top: '2%',
-          bottom: '1%',
-          right: '2%',
+          left: '0.5vw',
+          top: '10vh',
+          bottom: '4vh',
+          right: '0.5vw',
         },
       //   toolbox: {
       //     show : true,
