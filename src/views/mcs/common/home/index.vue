@@ -1,127 +1,169 @@
 <template>
 	<div class="home-container">
-		<!-- <el-row :gutter="15">
-			<el-col class="mb15">
-				<div class="home-card-item home-card-first">
-					<div class="flex-margin flex">
-						<img :src="getUserInfos.avatar" />
-						<div class="home-card-first-right ml15">
-							<div class="flex-margin">
-								<div class="home-card-first-right-title">
-									{{ currentTime }}，{{ getUserInfos.username === '' ? 'test' : getUserInfos.realname || getUserInfos.username }}！
-								</div>
-								<div class="home-card-first-right-msg mt5">{{ getUserInfos.isAdmin ? '超级管理员' : '普通用户' }}</div>
-							</div>
-						</div>
+		<el-row>
+			<el-col style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+				<el-card shadow="hover" style=" background-color: #31A28E; width: 100%; height: 95px; border-radius:15px; margin: 10px;">
+					<div>{{vehicleWarning.count}}
 					</div>
-				</div>
+				</el-card>
+				<el-card shadow="hover" style=" background-color: #029BDD; width: 100%; height: 95px; border-radius:15px; margin: 10px;">
+					<div>{{driverWarning.count}}
+					</div>
+				</el-card>
+				<el-card shadow="hover" style=" background-color: #894DB8; width: 100%; height: 95px; border-radius:15px; margin: 10px;">
+					<div >{{vehicleInsuranceWarning.count}}
+					</div>
+				</el-card>
+				<el-card shadow="hover" style=" background-color: #E35E00; width: 100%; height: 95px; border-radius:15px; margin: 10px;">
+					<div>{{vehicleInsuranceWarning.count}}
+					</div>
+				</el-card>
 			</el-col>
-		</el-row> -->
-		<el-row :gutter="15">
-			<el-col class="mb15">
-				<div class="home-card-item home-card-first">
-					首页界面开发调整中.......
-				</div>
+			<!-- 消息通知 -->
+			<el-col :xs="24" :sm="12">
+				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
+					<template #header>
+						<span>车辆证件超期预警统计</span>
+					</template>
+					<el-table
+						:data="vehicleWarning.list"
+						v-loading="vehicleWarning.loading"
+						height="190px"
+						border
+						stripe
+						highlight-current-row>
+						<el-table-column type="index" label="序号" align="right" width="50" fixed />
+						<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="80" fixed />
+						<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="DrivingLicenseEndDate" label="行驶证结束日期" width="120" :formatter="dateFormatYMD" align="right"></el-table-column>
+						<el-table-column prop="TransportLicenseEndDate" label="运输证结束日期" width="120" :formatter="dateFormatYMD" align="right"></el-table-column>
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(60)" fixed="right">
+							<template #default="scope">
+								<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)">
+									{{ $t('message.action.see') }}
+								</el-button>
+							</template>
+						</el-table-column>
+					</el-table>
+					<el-pagination
+						small
+						@size-change="(val) => onHandleSizeChange(val, 1)"
+						@current-change="(val) => onHandleCurrentChange(val, 1)"
+						class="mt15"
+						:page-sizes="[10, 20, 30, 50, 100]"
+						v-model:current-page="vehicleWarning.param.pageNum"
+						background
+						v-model:page-size="vehicleWarning.param.pageSize"
+						layout="->, total, sizes, prev, pager, next, jumper"
+						:total="vehicleWarning.count" />
+				</el-card>
+			</el-col>
+			<el-col :xs="24" :sm="12">
+				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
+					<template #header>
+						<span>司机证件超期预警统计</span>
+						<span class="personal-info-more">更多</span>
+					</template>
+					<el-table
+						:data="driverWarning.list"
+						v-loading="driverWarning.loading"
+						height="190px"
+						border
+						stripe
+						highlight-current-row>
+						<el-table-column type="index" label="序号" align="right" width="70" fixed />
+						<el-table-column prop="Name" label="姓名" width="100" align="left" show-overflow-tooltip fixed></el-table-column>
+						<el-table-column prop="Gender" label="性别" width="100" align="left" :formatter="formatGender" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="Mobile" label="手机号" width="120" align="right" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="DriverLicenseType" label="驾照类型" width="120" align="left" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="IdnoEndDate" label="驾照截止日" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
+							<template #default="scope">
+								<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)">
+									{{ $t('message.action.see') }}
+								</el-button>
+							</template>
+						</el-table-column>
+					</el-table>
+					<el-pagination
+						small
+						@size-change="(val) => onHandleSizeChange(val, 2)"
+						@current-change="(val) => onHandleCurrentChange(val, 2)"
+						class="mt15"
+						:page-sizes="[10, 20, 30, 50, 100]"
+						v-model:current-page="driverWarning.param.pageNum"
+						background
+						v-model:page-size="driverWarning.param.pageSize"
+						layout="->, total, sizes, prev, pager, next, jumper"
+						:total="driverWarning.count" />
+				</el-card>
+			</el-col>
+			<el-col :xs="24" :sm="12">
+				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
+					<template #header>
+						<span>车辆保险超期预警统计</span>
+						<span class="personal-info-more">更多</span>
+					</template>
+					<el-table
+						:data="vehicleInsuranceWarning.list"
+						v-loading="vehicleInsuranceWarning.loading"
+						height="190px"
+						border
+						stripe
+						highlight-current-row>
+						<el-table-column type="index" label="序号" align="right" width="70" fixed />
+						<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="100" fixed />
+					</el-table>
+					<el-pagination
+						small
+						@size-change="(val) => onHandleSizeChange(val, 3)"
+						@current-change="(val) => onHandleCurrentChange(val, 3)"
+						class="mt15"
+						:page-sizes="[10, 20, 30, 50, 100]"
+						v-model:current-page="vehicleInsuranceWarning.param.pageNum"
+						background
+						v-model:page-size="vehicleInsuranceWarning.param.pageSize"
+						layout="->, total, sizes, prev, pager, next, jumper"
+						:total="vehicleInsuranceWarning.count" />
+				</el-card>
+			</el-col>
+			<el-col :xs="24" :sm="12">
+				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
+					<template #header>
+						<span>站内消息通知</span>
+						<span class="personal-info-more">更多</span>
+					</template>
+					<div class="personal-info-box">
+						<ul class="personal-info-ul">
+							<li v-for="(v, k) in newsInfoList" :key="k" class="personal-info-li">
+								<a :href="v.link" target="_block" class="personal-info-li-title">{{ v.title }}</a>
+							</li>
+						</ul>
+					</div>
+				</el-card>
 			</el-col>
 		</el-row>
+
 		<el-row :gutter="15" style="display: flex; flex-direction: row;">
-			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
-				<div class="" style=" background-color: brown; width: 100%; height: 100px; border-radius:10px;">{{vehicleWarning.count}}
-				</div>
-			</el-col>
-			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
-				<div class="" style=" background-color: green; width: 100%; height: 100px; border-radius:10px;">{{driverWarning.count}}
-				</div>
-			</el-col>
-			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
-				<div class="" style=" background-color: orange; width: 100%; height: 100px; border-radius:10px;">{{vehicleInsuranceWarning.count}}
-				</div>
-			</el-col>
 		</el-row>
-		<el-row :gutter="15" style="display: flex; flex-direction: row;">
-			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
-				<el-table
-					:data="vehicleWarning.list"
-					v-loading="vehicleWarning.loading"
-					:height="proxy.$calcMainHeight(-75)"
-					border
-					stripe
-					highlight-current-row>
-					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="100" fixed />
-				</el-table>
-				<el-pagination
-					small
-					@size-change="(val) => onHandleSizeChange(val, 1)"
-					@current-change="(val) => onHandleCurrentChange(val, 1)"
-					class="mt15"
-					:page-sizes="[10, 20, 30, 50, 100]"
-					v-model:current-page="vehicleWarning.param.pageNum"
-					background
-					v-model:page-size="vehicleWarning.param.pageSize"
-					layout="->, total, sizes, prev, pager, next, jumper"
-					:total="vehicleWarning.count" />
-			</el-col>
-			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
-				<el-table
-					:data="driverWarning.list"
-					v-loading="driverWarning.loading"
-					:height="proxy.$calcMainHeight(-75)"
-					border
-					stripe
-					highlight-current-row>
-					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column prop="Name" label="姓名" width="100" align="left" show-overflow-tooltip fixed></el-table-column>
-				</el-table>
-				<el-pagination
-					small
-					@size-change="(val) => onHandleSizeChange(val, 2)"
-					@current-change="(val) => onHandleCurrentChange(val, 2)"
-					class="mt15"
-					:page-sizes="[10, 20, 30, 50, 100]"
-					v-model:current-page="driverWarning.param.pageNum"
-					background
-					v-model:page-size="driverWarning.param.pageSize"
-					layout="->, total, sizes, prev, pager, next, jumper"
-					:total="driverWarning.count" />
-			</el-col>
-			<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb15">
-				<el-table
-					:data="vehicleInsuranceWarning.list"
-					v-loading="vehicleInsuranceWarning.loading"
-					:height="proxy.$calcMainHeight(-75)"
-					border
-					stripe
-					highlight-current-row>
-					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="100" fixed />
-				</el-table>
-				<el-pagination
-					small
-					@size-change="(val) => onHandleSizeChange(val, 3)"
-					@current-change="(val) => onHandleCurrentChange(val, 3)"
-					class="mt15"
-					:page-sizes="[10, 20, 30, 50, 100]"
-					v-model:current-page="vehicleInsuranceWarning.param.pageNum"
-					background
-					v-model:page-size="vehicleInsuranceWarning.param.pageSize"
-					layout="->, total, sizes, prev, pager, next, jumper"
-					:total="vehicleInsuranceWarning.count" />
-			</el-col>
-		</el-row>
+		<editDlg ref="editDlgRef" />
 	</div>
 </template>
 
 <script lang="ts">
-import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
+import { computed, getCurrentInstance, nextTick, onActivated, onMounted, ref, reactive, toRefs, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
+import commonFunction from '/@/utils/commonFunction';
+import editDlg from '../vehicle/component/vehicleEdit.vue';
 export default {
 	name: 'admin',
+	components: { editDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const router = useRouter();
+		const editDlgRef = ref();
 		console.debug("router：",router.currentRoute.value)
 		const store = useStore();
 		const state = reactive({
@@ -215,6 +257,11 @@ export default {
 			}
 		}
 
+		// 打开编辑弹窗
+		const onOpenEditDlg = (id: string, ishow: boolean) => {
+			editDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+
 		//	分页改变
 		const onHandleSizeChange = (val: number, index: number) => {
 			switch (index){
@@ -275,12 +322,24 @@ export default {
 				initEchartsResizeFun();
 			}
 		);
+
+		//性别展示
+		const formatGender = (row: object) => {
+			return row.Gender === 1 ? '男' : '女'
+		};
+
+		const { dateFormatYMD } = commonFunction();
+
 		return {
 			GetVehicleWarningData,
 			GetDriverWarningData,
 			GetVehicleInsuranceWarningData,
+			onOpenEditDlg,
 			onHandleSizeChange,
 			onHandleCurrentChange,
+			formatGender,
+			dateFormatYMD,
+			editDlgRef,
 			proxy,
 			getUserInfos,
 			currentTime,
@@ -291,6 +350,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.card{
+	display: flex;
+	
+	width: 100%;
+	height: 103px;
+	background: var(--el-text-color-secondary);
+	border-radius: 4px;
+}
 .home-container {
 	overflow-x: hidden;
 	.home-card-item {
