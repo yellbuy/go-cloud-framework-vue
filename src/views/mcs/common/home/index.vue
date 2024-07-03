@@ -2,28 +2,57 @@
 	<div class="home-container">
 		<el-row>
 			<el-col style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
-				<el-card shadow="hover" style=" background-color: #31A28E; width: 100%; height: 95px; border-radius:15px; margin: 10px;">
-					<div>{{vehicleWarning.count}}
-					</div>
+				<el-card shadow="hover" style="background-color: #31A28E; width: 100%; height: 95px; border-radius:15px; margin: 10px; transition: all 0.2s;">
+					<el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">{{vehicleWarning.count}}</el-row>
+							<el-row style="font-size: 15px; color: white;">车辆证件临期超期统计</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-truck" aria-hidden="true" style="font-size: 40px; color: white;" />
+						</el-col>
+					</el-row>
 				</el-card>
 				<el-card shadow="hover" style=" background-color: #029BDD; width: 100%; height: 95px; border-radius:15px; margin: 10px;">
-					<div>{{driverWarning.count}}
-					</div>
+					<el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">{{driverWarning.count}}</el-row>
+							<el-row style="font-size: 15px; color: white;">司机证件临期超期统计</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-address-card" aria-hidden="true" style="font-size: 40px; color: white;" />
+						</el-col>
+					</el-row>
 				</el-card>
 				<el-card shadow="hover" style=" background-color: #894DB8; width: 100%; height: 95px; border-radius:15px; margin: 10px;">
-					<div >{{vehicleInsuranceWarning.count}}
-					</div>
+					<el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">{{vehicleInsuranceWarning.count}}</el-row>
+							<el-row style="font-size: 15px; color: white;">车辆保险临期超期统计</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-file-text" aria-hidden="true" style="font-size: 40px; color: white;" />
+						</el-col>
+					</el-row>
 				</el-card>
 				<el-card shadow="hover" style=" background-color: #E35E00; width: 100%; height: 95px; border-radius:15px; margin: 10px;">
-					<div>{{vehicleInsuranceWarning.count}}
-					</div>
+					<el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">{{notice.count}}</el-row>
+							<el-row style="font-size: 15px; color: white;">3日内站内消息统计</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-volume-up" aria-hidden="true" style="font-size: 40px; color: white;" />
+						</el-col>
+					</el-row>
 				</el-card>
 			</el-col>
 			<!-- 消息通知 -->
 			<el-col :xs="24" :sm="12">
 				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
 					<template #header>
-						<span>车辆证件超期预警统计</span>
+						<span style="font-size: 16px;">车辆证件临期超期列表</span>
+						<span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span>
 					</template>
 					<el-table
 						:data="vehicleWarning.list"
@@ -34,18 +63,36 @@
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
 						<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="80" fixed />
-						<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="DrivingLicenseEndDate" label="行驶证结束日期" width="120" :formatter="dateFormatYMD" align="right"></el-table-column>
-						<el-table-column prop="TransportLicenseEndDate" label="运输证结束日期" width="120" :formatter="dateFormatYMD" align="right"></el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(60)" fixed="right">
+						<el-table-column prop="Driver" label="司机" width="80" show-overflow-tooltip></el-table-column>		
+						<el-table-column label="外部车" width="60" show-overflow-tooltip>
 							<template #default="scope">
-								<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)">
+								<el-switch
+									v-model="scope.row.IsExternal"
+									inline-prompt
+									:width="46"
+									v-auth:[moduleKey]="'btn.Edit'"
+									@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
+									:active-text="$t('message.action.yes')"
+									:inactive-text="$t('message.action.no')"
+									:active-value="1"
+									:inactive-value="0"/>
+								<el-tag type="success" effect="plain" v-if="scope.row.IsExternal" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.yes') }}</el-tag>
+								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.no') }}</el-tag>
+							</template>
+						</el-table-column>
+						<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="DrivingLicenseEndDate" label="行驶证结束日期" width="110" :formatter="dateFormatYMD" align="right"></el-table-column>
+						<el-table-column prop="TransportLicenseEndDate" label="运输证结束日期" width="110" :formatter="dateFormatYMD" align="right"></el-table-column>
+						<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(65)" fixed="right">
+							<template #default="scope">
+								<el-button text bg @click="onVehicleEditDlg(scope.row.Id, true)">
 									{{ $t('message.action.see') }}
 								</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
-					<el-pagination
+					<el-pagination style=""
 						small
 						@size-change="(val) => onHandleSizeChange(val, 1)"
 						@current-change="(val) => onHandleCurrentChange(val, 1)"
@@ -61,8 +108,8 @@
 			<el-col :xs="24" :sm="12">
 				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
 					<template #header>
-						<span>司机证件超期预警统计</span>
-						<span class="personal-info-more">更多</span>
+						<span style="font-size: 16px;">司机证件临期超期列表</span>
+						<span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span>
 					</template>
 					<el-table
 						:data="driverWarning.list"
@@ -71,15 +118,17 @@
 						border
 						stripe
 						highlight-current-row>
-						<el-table-column type="index" label="序号" align="right" width="70" fixed />
-						<el-table-column prop="Name" label="姓名" width="100" align="left" show-overflow-tooltip fixed></el-table-column>
-						<el-table-column prop="Gender" label="性别" width="100" align="left" :formatter="formatGender" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="Mobile" label="手机号" width="120" align="right" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="DriverLicenseType" label="驾照类型" width="120" align="left" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="IdnoEndDate" label="驾照截止日" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
+						<el-table-column type="index" label="序号" align="right" width="50" fixed />
+						<el-table-column prop="Name" label="姓名" width="80" align="left" show-overflow-tooltip fixed></el-table-column>
+						<el-table-column prop="Gender" label="性别" width="50" align="left" :formatter="formatGender" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="Mobile" label="手机号" width="100" align="right" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="IdnoEndDate" label="身份证截止日" width="100" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+						<el-table-column prop="DriverLicenseType" label="驾照类型" width="70" align="left" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="IdnoEndDate" label="驾照截止日" width="100" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+						<el-table-column prop="Tname" label="所属公司"  align="left" show-overflow-tooltip></el-table-column>
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(65)" fixed="right">
 							<template #default="scope">
-								<el-button text bg @click="onOpenEditDlg(scope.row.Id, true)">
+								<el-button text bg @click="onDriverEditDlg(scope.row.Id, true)">
 									{{ $t('message.action.see') }}
 								</el-button>
 							</template>
@@ -101,8 +150,8 @@
 			<el-col :xs="24" :sm="12">
 				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
 					<template #header>
-						<span>车辆保险超期预警统计</span>
-						<span class="personal-info-more">更多</span>
+						<span style="font-size: 16px;">车辆保险临期超期列表</span>
+						<span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span>
 					</template>
 					<el-table
 						:data="vehicleInsuranceWarning.list"
@@ -111,8 +160,20 @@
 						border
 						stripe
 						highlight-current-row>
-						<el-table-column type="index" label="序号" align="right" width="70" fixed />
-						<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="100" fixed />
+						<el-table-column type="index" label="序号" align="right" width="50" fixed />
+						<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="80" fixed />
+						<el-table-column prop="No" label="保险单号" width="100" align="right" show-overflow-tooltip fixed></el-table-column>
+						<el-table-column prop="EndTime" label="保险到期日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
+						<el-table-column prop="CompulsoryEndDate" label="交强险到期日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
+						<el-table-column prop="CommercialEndDate" label="商业险到期日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
+						<el-table-column prop="CompanyName" label="所属公司" align="left" show-overflow-tooltip />
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(65)" fixed="right">
+							<template #default="scope">
+								<el-button text bg @click="onIndexEditDlg(scope.row.Id, true)">
+									{{ $t('message.action.see') }}
+								</el-button>
+							</template>
+						</el-table-column>
 					</el-table>
 					<el-pagination
 						small
@@ -129,24 +190,36 @@
 			</el-col>
 			<el-col :xs="24" :sm="12">
 				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
-					<template #header>
-						<span>站内消息通知</span>
-						<span class="personal-info-more">更多</span>
+					<template #header style="flex: 0 0 auto;">
+						<span style="font-size: 16px;">3日站内消息列表</span>
+						<span style="font-size: 12px; color: gray;">(包括3日内新消息)</span>
 					</template>
-					<div class="personal-info-box">
+					<div class="personal-info-box" style="height: 190px;">
 						<ul class="personal-info-ul">
-							<li v-for="(v, k) in newsInfoList" :key="k" class="personal-info-li">
+							<li v-for="(v, k) in notice.list" :key="k" class="personal-info-li">
 								<a :href="v.link" target="_block" class="personal-info-li-title">{{ v.title }}</a>
 							</li>
 						</ul>
 					</div>
+					<el-pagination
+						small
+						@size-change="(val) => onHandleSizeChange(val, 4)"
+						@current-change="(val) => onHandleCurrentChange(val, 4)"
+						class="mt15"
+						:page-sizes="[10, 20, 30, 50, 100]"
+						v-model:current-page="notice.param.pageNum"
+						background
+						v-model:page-size="notice.param.pageSize"
+						layout="->, total, sizes, prev, pager, next, jumper"
+						:total="notice.count" />
 				</el-card>
 			</el-col>
 		</el-row>
-
 		<el-row :gutter="15" style="display: flex; flex-direction: row;">
 		</el-row>
-		<editDlg ref="editDlgRef" />
+		<vehicleEditDlg ref="vehicleEditDlg" />
+		<driverEditDlg ref="driverEditDlg" />
+		<insuranceEditDlg ref="insuranceEditDlg" />
 	</div>
 </template>
 
@@ -156,14 +229,18 @@ import { useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
 import commonFunction from '/@/utils/commonFunction';
-import editDlg from '../vehicle/component/vehicleEdit.vue';
+import vehicleEditDlg from '../vehicle/component/vehicleEdit.vue';
+import driverEditDlg from '../driver/component/driverEdit.vue';
+import insuranceEditDlg from '../insurance/component/insuranceEdit.vue';
 export default {
 	name: 'admin',
-	components: { editDlg },
+	components: { vehicleEditDlg, driverEditDlg, insuranceEditDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const router = useRouter();
-		const editDlgRef = ref();
+		const vehicleEditDlg = ref();
+		const driverEditDlg = ref();
+		const insuranceEditDlg = ref();
 		console.debug("router：",router.currentRoute.value)
 		const store = useStore();
 		const state = reactive({
@@ -177,7 +254,7 @@ export default {
 					state: -1,
 					isExternal: -1,
 					pageNum: 1,
-					pageSize: 20,
+					pageSize: 10,
 				}
 			},
 			driverWarning:{
@@ -188,7 +265,7 @@ export default {
 					state: -1,
 					isExternal: -1,
 					pageNum: 1,
-					pageSize: 20,
+					pageSize: 10,
 				}
 			},
 			vehicleInsuranceWarning:{
@@ -199,7 +276,18 @@ export default {
 					state: -1,
 					isExternal: -1,
 					pageNum: 1,
-					pageSize: 20,
+					pageSize: 10,
+				}
+			},
+			notice:{
+				loading: false,
+				count:0,
+				list:[],
+				param: {
+					state: -1,
+					isExternal: -1,
+					pageNum: 1,
+					pageSize: 10,
 				}
 			},
 		});
@@ -213,7 +301,7 @@ export default {
 		});
 		
 		// 车辆证件超期预警统计
-		const GetVehicleWarningData = async () => {
+		const getVehicleWarningData = async () => {
 			try {
 				const resVehicleWarning = await proxy.$api.erp.vehicle.getVehicleWarning(state.kind, 0, 0, state.vehicleWarning.param);
 				if (resVehicleWarning.errcode == 0) {
@@ -228,7 +316,7 @@ export default {
 		}
 
 		// 司机驾驶证超期预警统计
-		const GetDriverWarningData = async () => {
+		const getDriverWarningData = async () => {
 			try {
 				const resDriverWarning = await proxy.$api.erp.driver.getDriverWarning(state.kind, 0, 0, state.driverWarning.param);
 				if (resDriverWarning.errcode == 0) {
@@ -243,7 +331,7 @@ export default {
 		}
 
 		// 车辆保险超期预警统计
-		const GetVehicleInsuranceWarningData = async () => {
+		const getVehicleInsuranceWarningData = async () => {
 			try {
 				const resVehicleInsuranceWarning = await proxy.$api.erp.vehicleinsurance.getVehicleInsuranceWarning(state.kind, 0, 0, state.vehicleInsuranceWarning.param);
 				if (resVehicleInsuranceWarning.errcode == 0) {
@@ -257,9 +345,32 @@ export default {
 			}
 		}
 
+		// 站内消息统计
+		const getNoticeData = async () => {
+			try {
+				const resNoticeData = await proxy.$api.cms.article.getThreeDaysListByScope(state.kind, 0, 0, state.notice.param)
+				if (resNoticeData.errcode == 0) {
+					state.notice.count = resNoticeData.total
+					state.notice.list = resNoticeData.data
+				}else{
+					console.log("error:",resNoticeData.errmsg)
+				}
+			}finally {
+				state.notice.loading = false;
+			}
+		}
+
 		// 打开编辑弹窗
-		const onOpenEditDlg = (id: string, ishow: boolean) => {
-			editDlgRef.value.openDialog(state.kind, id, ishow);
+		const onVehicleEditDlg = (id: string, ishow: boolean) => {
+			vehicleEditDlg.value.openDialog(state.kind, id, ishow);
+		};
+		// 打开弹窗
+		const onDriverEditDlg = (id: string, ishow: boolean) => {
+			driverEditDlg.value.openDialog(state.kind, id, ishow);
+		};
+		// 打开弹窗
+		const onIndexEditDlg = (id: string, ishow: boolean) => {
+			insuranceEditDlg.value.openDialog(state.kind, id, ishow);
 		};
 
 		//	分页改变
@@ -267,15 +378,19 @@ export default {
 			switch (index){
 				case 1:
 					state.vehicleWarning.param.pageSize = val;
-					GetVehicleWarningData();
+					getVehicleWarningData();
 					break;
 				case 2:
 					state.driverWarning.param.pageSize = val;
-					GetDriverWarningData();
+					getDriverWarningData();
 					break;
 				case 3:
 					state.vehicleInsuranceWarning.param.pageSize = val;
-					GetVehicleInsuranceWarningData();
+					getVehicleInsuranceWarningData();
+					break;
+				case 4:
+					state.notice.param.pageSize = val;
+					getNoticeData();
 					break;
 			}
 		};
@@ -284,15 +399,19 @@ export default {
 			switch (index){
 				case 1:
 					state.vehicleWarning.param.pageNum = val;
-					GetVehicleWarningData();
+					getVehicleWarningData();
 					break;
 				case 2:
 					state.driverWarning.param.pageNum = val;
-					GetDriverWarningData();
+					getDriverWarningData();
 					break;
 				case 3:
 					state.vehicleInsuranceWarning.param.pageNum = val;
-					GetVehicleInsuranceWarningData();
+					getVehicleInsuranceWarningData();
+					break;
+				case 4:
+					state.notice.param.pageNum = val;
+					getNoticeData();
 					break;
 			}
 		};
@@ -307,9 +426,10 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
-			GetVehicleWarningData()
-			GetDriverWarningData()
-			GetVehicleInsuranceWarningData()
+			getVehicleWarningData()
+			getDriverWarningData()
+			getVehicleInsuranceWarningData()
+			getNoticeData()
 		});
 		// 由于页面缓存原因，keep-alive
 		onActivated(() => {
@@ -331,15 +451,20 @@ export default {
 		const { dateFormatYMD } = commonFunction();
 
 		return {
-			GetVehicleWarningData,
-			GetDriverWarningData,
-			GetVehicleInsuranceWarningData,
-			onOpenEditDlg,
+			getVehicleWarningData,
+			getDriverWarningData,
+			getVehicleInsuranceWarningData,
+			getNoticeData,
+			onVehicleEditDlg,
+			onDriverEditDlg,
+			onIndexEditDlg,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			formatGender,
 			dateFormatYMD,
-			editDlgRef,
+			vehicleEditDlg,
+			driverEditDlg,
+			insuranceEditDlg,
 			proxy,
 			getUserInfos,
 			currentTime,
@@ -350,164 +475,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.card{
-	display: flex;
-	
-	width: 100%;
-	height: 103px;
-	background: var(--el-text-color-secondary);
-	border-radius: 4px;
-}
-.home-container {
-	overflow-x: hidden;
-	.home-card-item {
-		width: 100%;
-		height: 103px;
-		background: var(--el-text-color-secondary);
-		border-radius: 4px;
-		transition: all ease 0.3s;
-		&:hover {
-			box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
-			transition: all ease 0.3s;
-		}
+	.el-card:hover {
+	transform: scale(1.03); 
 	}
-	.home-card-item-box {
-		display: flex;
-		align-items: center;
-		position: relative;
-		overflow: hidden;
-		&:hover {
-			i {
-				right: 0px !important;
-				bottom: 0px !important;
-				transition: all ease 0.3s;
-			}
-		}
-		i {
-			position: absolute;
-			right: -10px;
-			bottom: -10px;
-			font-size: 70px;
-			transform: rotate(-30deg);
-			transition: all ease 0.3s;
-		}
-		.home-card-item-flex {
-			padding: 0 20px;
-			color: var(--color-whites);
-			.home-card-item-title,
-			.home-card-item-tip {
-				font-size: 13px;
-			}
-			.home-card-item-title-num {
-				font-size: 18px;
-			}
-			.home-card-item-tip-num {
-				font-size: 13px;
-			}
-		}
-	}
-	.home-card-first {
-		background: var(--el-color-white);
-		border: 1px solid var(--el-border-color-light, #ebeef5);
-		display: flex;
-		align-items: center;
-		img {
-			width: 60px;
-			height: 60px;
-			border-radius: 100%;
-			border: 2px solid var(--color-primary-light-5);
-		}
-		.home-card-first-right {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			.home-card-first-right-title {
-				color: var(--el-color-black);
-			}
-			.home-card-first-right-msg {
-				font-size: 13px;
-				color: var(--el-text-color-secondary);
-			}
-		}
-	}
-	.home-monitor {
-		height: 200px;
-		.flex-warp-item {
-			width: 50%;
-			height: 100px;
-			display: flex;
-			.flex-warp-item-box {
-				margin: auto;
-				height: auto;
-				text-align: center;
-				color: var(--el-text-color-primary);
-			}
-		}
-	}
-	.home-warning-card {
-		height: 292px;
-		::v-deep(.el-card) {
-			height: 100%;
-		}
-	}
-	.home-dynamic {
-		height: 200px;
-		.home-dynamic-item {
-			display: flex;
-			width: 100%;
-			height: 60px;
-			overflow: hidden;
-			&:first-of-type {
-				.home-dynamic-item-line {
-					i {
-						color: orange !important;
-					}
-				}
-			}
-			.home-dynamic-item-left {
-				text-align: right;
-				.home-dynamic-item-left-time1 {
-				}
-				.home-dynamic-item-left-time2 {
-					font-size: 13px;
-					color: var(--el-text-color-secondary);
-				}
-			}
-			.home-dynamic-item-line {
-				height: 60px;
-				border-right: 2px dashed var(--el-border-color-light, #ebeef5);
-				margin: 0 20px;
-				position: relative;
-				i {
-					color: var(--color-primary);
-					font-size: 12px;
-					position: absolute;
-					top: 1px;
-					left: -6px;
-					transform: rotate(46deg);
-					background: var(--el-color-white);
-				}
-			}
-			.home-dynamic-item-right {
-				flex: 1;
-				.home-dynamic-item-right-title {
-					i {
-						margin-right: 5px;
-						border: 1px solid var(--el-border-color-light, #ebeef5);
-						width: 20px;
-						height: 20px;
-						border-radius: 100%;
-						padding: 3px 2px 2px;
-						text-align: center;
-						color: var(--color-primary);
-					}
-				}
-				.home-dynamic-item-right-label {
-					font-size: 13px;
-					color: var(--el-text-color-secondary);
-				}
-			}
-		}
-	}
-}
 </style>
