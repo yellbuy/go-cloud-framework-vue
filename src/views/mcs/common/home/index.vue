@@ -66,18 +66,8 @@
 						<el-table-column prop="Driver" label="司机" width="80" show-overflow-tooltip></el-table-column>		
 						<el-table-column label="外部车" width="60" show-overflow-tooltip>
 							<template #default="scope">
-								<el-switch
-									v-model="scope.row.IsExternal"
-									inline-prompt
-									:width="46"
-									v-auth:[moduleKey]="'btn.Edit'"
-									@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
-									:active-text="$t('message.action.yes')"
-									:inactive-text="$t('message.action.no')"
-									:active-value="1"
-									:inactive-value="0"/>
-								<el-tag type="success" effect="plain" v-if="scope.row.IsExternal" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.yes') }}</el-tag>
-								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.no') }}</el-tag>
+								<el-tag type="success" effect="plain" v-if="scope.row.IsExternal">{{ $t('message.action.yes') }}</el-tag>
+								<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
 							</template>
 						</el-table-column>
 						<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip></el-table-column>
@@ -299,121 +289,114 @@ export default {
 		const currentTime = computed(() => {
 			return formatAxis(new Date());
 		});
-		
-		// 车辆证件超期预警统计
-		const getVehicleWarningData = async () => {
-			try {
-				const resVehicleWarning = await proxy.$api.erp.vehicle.getVehicleWarning(state.kind, 0, 0, state.vehicleWarning.param);
-				if (resVehicleWarning.errcode == 0) {
-					state.vehicleWarning.count = resVehicleWarning.total
-					state.vehicleWarning.list = resVehicleWarning.data
-				}else{
-					console.log("error:",resVehicleWarning.errmsg)
+
+		const onGetTableData = async (status = 0) => {
+			if(status==0||status==1){
+				// 车辆证件超期预警统计
+				try {
+					const resVehicleWarning = await proxy.$api.erp.vehicle.getVehicleWarning(state.kind, 0, 0, state.vehicleWarning.param);
+					if (resVehicleWarning.errcode == 0) {
+						state.vehicleWarning.count = resVehicleWarning.total
+						state.vehicleWarning.list = resVehicleWarning.data
+					}else{
+						console.log("error:",resVehicleWarning.errmsg)
+					}
+				}finally {
+					state.vehicleWarning.loading = false;
 				}
-			}finally {
-				state.vehicleWarning.loading = false;
+			} 
+			if(status==0||status==2){
+				// 司机驾驶证超期预警统计
+				try {
+					const resDriverWarning = await proxy.$api.erp.driver.getDriverWarning(state.kind, 0, 0, state.driverWarning.param);
+					if (resDriverWarning.errcode == 0) {
+						state.driverWarning.count = resDriverWarning.total
+						state.driverWarning.list = resDriverWarning.data
+					}else{
+						console.log("error:",resDriverWarning.errmsg)
+					}
+				}finally {
+					state.driverWarning.loading = false;
+				}
+			} 
+			if(status==0||status==3) {
+				// 车辆保险超期预警统计
+				try {
+					const resVehicleInsuranceWarning = await proxy.$api.erp.vehicleinsurance.getVehicleInsuranceWarning(state.kind, 0, 0, state.vehicleInsuranceWarning.param);
+					if (resVehicleInsuranceWarning.errcode == 0) {
+						state.vehicleInsuranceWarning.count = resVehicleInsuranceWarning.total
+						state.vehicleInsuranceWarning.list = resVehicleInsuranceWarning.data
+					}else{
+						console.log("error:",resVehicleInsuranceWarning.errmsg)
+					}
+				}finally {
+					state.vehicleInsuranceWarning.loading = false;
+				}
+			}
+			if(status==0||status==4){
+				// 站内消息统计
+				try {
+					const resNoticeData = await proxy.$api.cms.article.getThreeDaysListByScope(state.kind, 0, 0, state.notice.param)
+					if (resNoticeData.errcode == 0) {
+						state.notice.count = resNoticeData.total
+						state.notice.list = resNoticeData.data
+					}else{
+						console.log("error:",resNoticeData.errmsg)
+					}
+				}finally {
+					state.notice.loading = false;
+				}
 			}
 		}
 
-		// 司机驾驶证超期预警统计
-		const getDriverWarningData = async () => {
-			try {
-				const resDriverWarning = await proxy.$api.erp.driver.getDriverWarning(state.kind, 0, 0, state.driverWarning.param);
-				if (resDriverWarning.errcode == 0) {
-					state.driverWarning.count = resDriverWarning.total
-					state.driverWarning.list = resDriverWarning.data
-				}else{
-					console.log("error:",resDriverWarning.errmsg)
-				}
-			}finally {
-				state.driverWarning.loading = false;
-			}
-		}
-
-		// 车辆保险超期预警统计
-		const getVehicleInsuranceWarningData = async () => {
-			try {
-				const resVehicleInsuranceWarning = await proxy.$api.erp.vehicleinsurance.getVehicleInsuranceWarning(state.kind, 0, 0, state.vehicleInsuranceWarning.param);
-				if (resVehicleInsuranceWarning.errcode == 0) {
-					state.vehicleInsuranceWarning.count = resVehicleInsuranceWarning.total
-					state.vehicleInsuranceWarning.list = resVehicleInsuranceWarning.data
-				}else{
-					console.log("error:",resVehicleInsuranceWarning.errmsg)
-				}
-			}finally {
-				state.vehicleInsuranceWarning.loading = false;
-			}
-		}
-
-		// 站内消息统计
-		const getNoticeData = async () => {
-			try {
-				const resNoticeData = await proxy.$api.cms.article.getThreeDaysListByScope(state.kind, 0, 0, state.notice.param)
-				if (resNoticeData.errcode == 0) {
-					state.notice.count = resNoticeData.total
-					state.notice.list = resNoticeData.data
-				}else{
-					console.log("error:",resNoticeData.errmsg)
-				}
-			}finally {
-				state.notice.loading = false;
-			}
-		}
-
-		// 打开编辑弹窗
+		// 打开车辆详情
 		const onVehicleEditDlg = (id: string, ishow: boolean) => {
 			vehicleEditDlg.value.openDialog(state.kind, id, ishow);
 		};
-		// 打开弹窗
+		// 打开司机详情
 		const onDriverEditDlg = (id: string, ishow: boolean) => {
 			driverEditDlg.value.openDialog(state.kind, id, ishow);
 		};
-		// 打开弹窗
+		// 打开保险详情
 		const onIndexEditDlg = (id: string, ishow: boolean) => {
 			insuranceEditDlg.value.openDialog(state.kind, id, ishow);
 		};
 
 		//	分页改变
 		const onHandleSizeChange = (val: number, index: number) => {
-			switch (index){
+			switch(index){
 				case 1:
 					state.vehicleWarning.param.pageSize = val;
-					getVehicleWarningData();
 					break;
 				case 2:
 					state.driverWarning.param.pageSize = val;
-					getDriverWarningData();
 					break;
 				case 3:
 					state.vehicleInsuranceWarning.param.pageSize = val;
-					getVehicleInsuranceWarningData();
 					break;
 				case 4:
 					state.notice.param.pageSize = val;
-					getNoticeData();
 					break;
 			}
+			onGetTableData(index);
 		};
 		//	分页改变
 		const onHandleCurrentChange = (val: number, index: number) => {
-			switch (index){
+			switch(index){
 				case 1:
 					state.vehicleWarning.param.pageNum = val;
-					getVehicleWarningData();
 					break;
 				case 2:
 					state.driverWarning.param.pageNum = val;
-					getDriverWarningData();
 					break;
 				case 3:
 					state.vehicleInsuranceWarning.param.pageNum = val;
-					getVehicleInsuranceWarningData();
 					break;
 				case 4:
 					state.notice.param.pageNum = val;
-					getNoticeData();
 					break;
 			}
+			onGetTableData(index);
 		};
 
 		// 批量设置 echarts resize
@@ -426,10 +409,7 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
-			getVehicleWarningData()
-			getDriverWarningData()
-			getVehicleInsuranceWarningData()
-			getNoticeData()
+			onGetTableData();
 		});
 		// 由于页面缓存原因，keep-alive
 		onActivated(() => {
@@ -451,10 +431,7 @@ export default {
 		const { dateFormatYMD } = commonFunction();
 
 		return {
-			getVehicleWarningData,
-			getDriverWarningData,
-			getVehicleInsuranceWarningData,
-			getNoticeData,
+			onGetTableData,
 			onVehicleEditDlg,
 			onDriverEditDlg,
 			onIndexEditDlg,
