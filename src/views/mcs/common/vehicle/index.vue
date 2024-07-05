@@ -319,14 +319,6 @@ export default {
 			onGetTableData();
 		};
 
-		const updateShowColumn = () => {
-			const buttons = document.querySelectorAll('.operate').length;
-			console.log("测试", buttons);
-			if (buttons !== 0) {
-				state.showColumn = true;
-			}
-		}
-
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();

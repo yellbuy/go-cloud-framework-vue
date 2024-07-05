@@ -2,7 +2,7 @@
 	<div class="home-container">
 		<el-row>
 			<el-col style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
-				<el-card shadow="hover" style="background-color: #31A28E; width: 100%; height: 95px; border-radius:15px; margin: 10px; transition: all 0.2s;">
+				<el-card shadow="hover" style="background-color: #31A28E; width: 100%; height: 90px; border-radius:15px; margin: 10px; transition: all 0.2s;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{vehicleWarning.count}}</el-row>
@@ -13,7 +13,7 @@
 						</el-col>
 					</el-row>
 				</el-card>
-				<el-card shadow="hover" style=" background-color: #029BDD; width: 100%; height: 95px; border-radius:15px; margin: 10px;">
+				<el-card shadow="hover" style=" background-color: #029BDD; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{driverWarning.count}}</el-row>
@@ -24,7 +24,7 @@
 						</el-col>
 					</el-row>
 				</el-card>
-				<el-card shadow="hover" style=" background-color: #894DB8; width: 100%; height: 95px; border-radius:15px; margin: 10px;">
+				<el-card shadow="hover" style=" background-color: #894DB8; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{vehicleInsuranceWarning.count}}</el-row>
@@ -35,10 +35,10 @@
 						</el-col>
 					</el-row>
 				</el-card>
-				<el-card shadow="hover" style=" background-color: #E35E00; width: 100%; height: 95px; border-radius:15px; margin: 10px;">
+				<el-card shadow="hover" style=" background-color: #E35E00; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{notice.count}}</el-row>
+							<el-row style="font-size: 30px; color: white;">{{notice.threeDaysCount}}</el-row>
 							<el-row style="font-size: 15px; color: white;">3日内站内消息统计</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
@@ -71,8 +71,8 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="DrivingLicenseEndDate" label="行驶证结束日期" width="110" :formatter="dateFormatYMD" align="right"></el-table-column>
-						<el-table-column prop="TransportLicenseEndDate" label="运输证结束日期" width="110" :formatter="dateFormatYMD" align="right"></el-table-column>
+						<el-table-column prop="DrivingLicenseEndDate" label="行驶证截止日" width="110" :formatter="dateFormatYMD" align="right"></el-table-column>
+						<el-table-column prop="TransportLicenseEndDate" label="运输证截止日" width="110" :formatter="dateFormatYMD" align="right"></el-table-column>
 						<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(65)" fixed="right">
 							<template #default="scope">
@@ -112,7 +112,7 @@
 						<el-table-column prop="Name" label="姓名" width="80" align="left" show-overflow-tooltip fixed></el-table-column>
 						<el-table-column prop="Gender" label="性别" width="50" align="left" :formatter="formatGender" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="Mobile" label="手机号" width="100" align="right" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="IdnoEndDate" label="身份证截止日" width="100" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+						<el-table-column prop="IdnoEndDate" label="身份截止日" width="100" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 						<el-table-column prop="DriverLicenseType" label="驾照类型" width="70" align="left" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="IdnoEndDate" label="驾照截止日" width="100" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 						<el-table-column prop="Tname" label="所属公司"  align="left" show-overflow-tooltip></el-table-column>
@@ -153,9 +153,9 @@
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
 						<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="80" fixed />
 						<el-table-column prop="No" label="保险单号" width="100" align="right" show-overflow-tooltip fixed></el-table-column>
-						<el-table-column prop="EndTime" label="保险到期日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
-						<el-table-column prop="CompulsoryEndDate" label="交强险到期日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
-						<el-table-column prop="CommercialEndDate" label="商业险到期日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
+						<el-table-column prop="EndTime" label="保险截止日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
+						<el-table-column prop="CompulsoryEndDate" label="交强险截止日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
+						<el-table-column prop="CommercialEndDate" label="商业险截止日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
 						<el-table-column prop="CompanyName" label="所属公司" align="left" show-overflow-tooltip />
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(65)" fixed="right">
 							<template #default="scope">
@@ -181,15 +181,12 @@
 			<el-col :xs="24" :sm="12">
 				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
 					<template #header style="flex: 0 0 auto;">
-						<span style="font-size: 16px;">3日站内消息列表</span>
-						<span style="font-size: 12px; color: gray;">(包括3日内新消息)</span>
+						<span style="font-size: 16px;">消息列表</span>
 					</template>
-					<div class="personal-info-box" style="height: 190px;">
-						<ul class="personal-info-ul">
-							<li v-for="(v, k) in notice.list" :key="k" class="personal-info-li">
-								<a :href="v.link" target="_block" class="personal-info-li-title">{{ v.title }}</a>
-							</li>
-						</ul>
+					<div style="height: 190px; overflow: auto;">
+						<li v-for="(item, index) in notice.list" :key="index" style="padding-bottom: 10px;">
+							<a :href="'/#/article/detail/'+item.Id" target="_block">{{ item.Title }}</a>
+						</li>
 					</div>
 					<el-pagination
 						small
@@ -197,7 +194,7 @@
 						@current-change="(val) => onHandleCurrentChange(val, 4)"
 						class="mt15"
 						:page-sizes="[10, 20, 30, 50, 100]"
-						v-model:current-page="notice.param.pageNum"
+						v-model:current-page="notice.pageNum"
 						background
 						v-model:page-size="notice.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
@@ -215,7 +212,7 @@
 
 <script lang="ts">
 import { computed, getCurrentInstance, nextTick, onActivated, onMounted, ref, reactive, toRefs, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
 import commonFunction from '/@/utils/commonFunction';
@@ -227,6 +224,10 @@ export default {
 	components: { vehicleEditDlg, driverEditDlg, insuranceEditDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+		const route = useRoute();
+		const kind = route.params.kind||'info';
+		const scopeMode = route.params.scopeMode || 0;
+		const scopeValue = route.params.scopeValue || 0;
 		const router = useRouter();
 		const vehicleEditDlg = ref();
 		const driverEditDlg = ref();
@@ -234,7 +235,9 @@ export default {
 		console.debug("router：",router.currentRoute.value)
 		const store = useStore();
 		const state = reactive({
-			kind:'info',
+			kind,
+			scopeMode,
+			scopeValue,
 			myCharts: [],
 			vehicleWarning: {
 				loading: false,
@@ -242,7 +245,6 @@ export default {
 				list:[],
 				param: {
 					state: -1,
-					isExternal: -1,
 					pageNum: 1,
 					pageSize: 10,
 				}
@@ -253,7 +255,6 @@ export default {
 				list:[],
 				param: {
 					state: -1,
-					isExternal: -1,
 					pageNum: 1,
 					pageSize: 10,
 				}
@@ -264,7 +265,6 @@ export default {
 				list:[],
 				param: {
 					state: -1,
-					isExternal: -1,
 					pageNum: 1,
 					pageSize: 10,
 				}
@@ -272,11 +272,12 @@ export default {
 			notice:{
 				loading: false,
 				count:0,
+				threeDaysCount:0,
 				list:[],
+				pageNum:1,
 				param: {
-					state: -1,
-					isExternal: -1,
-					pageNum: 1,
+					state: 1,
+					pageIndex: 0,
 					pageSize: 10,
 				}
 			},
@@ -294,7 +295,7 @@ export default {
 			if(status==0||status==1){
 				// 车辆证件超期预警统计
 				try {
-					const resVehicleWarning = await proxy.$api.erp.vehicle.getVehicleWarning(state.kind, 0, 0, state.vehicleWarning.param);
+					const resVehicleWarning = await proxy.$api.erp.vehicle.getVehicleWarning(state.kind, state.scopeMode, state.scopeValue, state.vehicleWarning.param);
 					if (resVehicleWarning.errcode == 0) {
 						state.vehicleWarning.count = resVehicleWarning.total
 						state.vehicleWarning.list = resVehicleWarning.data
@@ -308,7 +309,7 @@ export default {
 			if(status==0||status==2){
 				// 司机驾驶证超期预警统计
 				try {
-					const resDriverWarning = await proxy.$api.erp.driver.getDriverWarning(state.kind, 0, 0, state.driverWarning.param);
+					const resDriverWarning = await proxy.$api.erp.driver.getDriverWarning(state.kind, state.scopeMode, state.scopeValue, state.driverWarning.param);
 					if (resDriverWarning.errcode == 0) {
 						state.driverWarning.count = resDriverWarning.total
 						state.driverWarning.list = resDriverWarning.data
@@ -322,7 +323,7 @@ export default {
 			if(status==0||status==3) {
 				// 车辆保险超期预警统计
 				try {
-					const resVehicleInsuranceWarning = await proxy.$api.erp.vehicleinsurance.getVehicleInsuranceWarning(state.kind, 0, 0, state.vehicleInsuranceWarning.param);
+					const resVehicleInsuranceWarning = await proxy.$api.erp.vehicleinsurance.getVehicleInsuranceWarning(state.kind, state.scopeMode, state.scopeValue, state.vehicleInsuranceWarning.param);
 					if (resVehicleInsuranceWarning.errcode == 0) {
 						state.vehicleInsuranceWarning.count = resVehicleInsuranceWarning.total
 						state.vehicleInsuranceWarning.list = resVehicleInsuranceWarning.data
@@ -336,12 +337,19 @@ export default {
 			if(status==0||status==4){
 				// 站内消息统计
 				try {
-					const resNoticeData = await proxy.$api.cms.article.getThreeDaysListByScope(state.kind, 0, 0, state.notice.param)
+					const resNoticeData = await proxy.$api.cms.article.getList('notice', 2, state.notice.param)
 					if (resNoticeData.errcode == 0) {
-						state.notice.count = resNoticeData.total
 						state.notice.list = resNoticeData.data
+						state.notice.count = resNoticeData.total
+						console.log("测试",state.notice.list)
 					}else{
 						console.log("error:",resNoticeData.errmsg)
+					}
+					const resNoticeThreeDaysCount = await proxy.$api.cms.article.getThreeDaysCount('notice', 2, state.notice.param)
+					if(resNoticeThreeDaysCount.errcode == 0){
+						state.notice.threeDaysCount = resNoticeThreeDaysCount.data
+					}else{
+						console.log("error:",resNoticeThreeDaysCount.errmsg)
 					}
 				}finally {
 					state.notice.loading = false;
@@ -393,7 +401,8 @@ export default {
 					state.vehicleInsuranceWarning.param.pageNum = val;
 					break;
 				case 4:
-					state.notice.param.pageNum = val;
+					state.notice.pageNum = val;
+					state.notice.param.pageIndex = val -1;
 					break;
 			}
 			onGetTableData(index);
