@@ -28,7 +28,7 @@
 								v-model="ruleForm.Shipper"
 								filterable
 								placeholder="请选择">
-								<el-option v-for="(item, index) in shipperList" :key="index" :label="item.CompanyName" :value="item.Id" />
+								<el-option v-for="(item, index) in shipperList" :key="index" :label="item.CompanyName" :value="item.CompanyName" />
 							</el-select>
 						</el-form-item>
 					</el-col>
