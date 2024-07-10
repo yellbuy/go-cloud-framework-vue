@@ -297,7 +297,6 @@ export default {
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			proxy.$parent.onGetTableData();
 		};
 
 		//	重置查询条件

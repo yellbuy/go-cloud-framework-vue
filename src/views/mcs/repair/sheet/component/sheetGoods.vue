@@ -292,7 +292,6 @@ export default {
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			proxy.$parent.onGetTableData();
 		};
 
 		// 初始化表格数据
