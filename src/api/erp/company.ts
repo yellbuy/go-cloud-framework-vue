@@ -79,6 +79,15 @@ export default {
         return await http.post(url);
     },
     /**
+     * 删除
+     * @param ids 标识，字符串或数组
+     * @returns 返回接口数据
+     */
+    deleteAndTenant: async (id: number | string) => {
+        const url = `/v1/admin/erp/companyandtenant/delete/${id}`;
+        return await http.post(url);
+    },
+    /**
    * 禁用
    * @param ids 标识，字符串或数组
    * @returns 返回接口数据

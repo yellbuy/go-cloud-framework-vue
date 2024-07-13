@@ -168,7 +168,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.company.delete(Id);
+					const res = await proxy.$api.erp.company.deleteAndTenant(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
