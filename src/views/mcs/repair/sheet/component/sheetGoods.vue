@@ -5,7 +5,7 @@
             <div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="关键字：">
-						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword" />
+						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -27,8 +27,10 @@
 							&#8197;{{ $t('message.action.add') }}
 						</el-button>
 					</el-form-item>
+                    
 				</el-form>
 			</div>
+			
 			<el-table 
 				:data="tableData.data"
 				v-loading="tableData.loading"
@@ -40,12 +42,13 @@
 				@selection-change="handleSelectionChange">
 				<el-table-column type="selection" width="55" align="center"/>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="配件名称" width="120" show-overflow-tooltip fixed />
-				<el-table-column prop="GoodsBrief" label="配件类别" width="120" />
-				<el-table-column prop="ProviderName" label="供应商" width="120" />
-				<el-table-column prop="GoodsSpec" label="规格" width="100" />
-				<el-table-column prop="GoodsUnit" label="货品单位" width="80" />
-				<el-table-column prop="ShopPrice" label="预估单价" width="80" />
+				<el-table-column prop="GoodsName" label="配件名称" width="120" show-overflow-tooltip fixed></el-table-column>
+                <!-- <el-table-column prop="GoodsSn" label="编号" width="120" show-overflow-tooltip fixed></el-table-column> -->
+				<el-table-column prop="GoodsBrief" label="配件类别" width="120"></el-table-column>
+				<el-table-column prop="ProviderName" label="供应商" width="120"></el-table-column>
+				<el-table-column prop="GoodsSpec" label="规格" width="100"></el-table-column>
+				<el-table-column prop="GoodsUnit" label="货品单位" width="80"></el-table-column>
+				<el-table-column prop="ShopPrice" label="预估单价" width="80"></el-table-column>
 			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
@@ -56,14 +59,16 @@
 				</span>
 			</template>
 		</el-dialog>
+		
 	</div>
 	<editDlg ref="addDlgRef" />
 	<div>
-		<index ref="page2Data" />
+		<index ref="page2Data"></index>
   </div>
 </template>
 
 <script lang="ts">
+//import { Plus } from '@element-plus/icons-vue';
 import { ElMessage, ElTable, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -76,35 +81,52 @@ export default {
 	name: 'sheetGoods',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
-
 		const { t } = useI18n();
-
 		const addDlgRef = ref();
-
 		const kind = "repair";
-
 		const router =  useRouter();
-
 		const page2Data = ref();
-
+		console.log("message.action.add:",t('message.action.add'))
+		//文件列表更新
+		const onSuccessFile = (file: UploadFile) => {
+			console.log('触发图片上传');
+			state.Files.push(file.data.src);
+			let image = { url: '' };
+			image.url = state.httpsText + file.data.src;
+			// state.FilesList.push(image);
+			console.log(state.FilesList);
+		};
+		const onRemove = (file: UploadFile) => {
+			console.log(file);
+			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
+			for (let i = 0; i < state.Files.length; i++) {
+				if (state.Files[i] == removeUrl) {
+					state.Files.splice(i, 1);
+				}
+			}
+		};
 		const store = useStore();
 		const getUserInfos = computed(() => {
+			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
 			return store.state.userInfos.userInfos;
 		});
-
+		//显示表格图片
+		const showImage = (Files: string) => {
+			let fileUrl = '';
+			let filList = Files.split(',');
+			fileUrl = state.httpsText + filList[0];
+			return fileUrl;
+		};
 		//选择框
 		interface User {
 			date: string
 			name: string
 			address: string
 		};
-
 		const multipleSelection = ref<User[]>([])
-
 		const handleSelectionChange = (val: User[]) => {
   			multipleSelection.value = val
 		};
-
 		const multipleTableRef = ref<InstanceType<typeof ElTable>>()
 			const toggleSelection = (rows?: User[]) => {
   				if (rows) {
@@ -124,16 +146,19 @@ export default {
 				pageSize: 10000,
 			},
 		});
-
+		// 打开弹窗
+		 const onOpenDlg = (id: string, ishow: boolean) => {
+			//console.log("弹框",editDlgRef)
+		 	//editDlgRef.value.openDialog(state.kind, id, ishow);
+		 };
 		const moduleKey = `api_repair_sheet`;
-
 		const state = reactive({
 			moduleKey: moduleKey,
 			isShowDialog: false,
 			kind,
 			title: t('message.action.add'),
 			loading: false,
-			disable: true, //	是否禁用
+			disable: true, //是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
 			tableData: {
 				data: [],
@@ -146,7 +171,7 @@ export default {
 					state: -1,
 				},
 			},
-			//	表单
+			//表单
 			ruleForm: {
 				Id: 0,
 				Name: '',
@@ -186,9 +211,7 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
-
 		const token = Session.get('token');
-
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -264,12 +287,11 @@ export default {
 			],
 		});
 		
-		//	打开弹窗
+		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.isShowDialog = true;
 			onGetTableData();
 		};
-
 		const GetByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.wms.goods.getById(Id);
@@ -281,9 +303,9 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-
 		// 页面跳转
 		const routerPath= ()=>{
+			//console.log(router)
 			router.push('/admin/mcs/repair/goods/0/0');
 		}
 		// 关闭弹窗
@@ -292,8 +314,28 @@ export default {
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
+			//onLoadTable();
 		};
 
+		const onLoadTable = () => {
+			proxy.$parent.onGetTableData();
+		};
+		//修改按钮
+		const onModelEdit = (item: object) => {
+			state.tableItem = item;
+			console.log(state.tableItem.Files);
+			if (state.tableItem.Files != '') {
+				state.Files = item.Files.split(',');
+				state.FilesList = [];
+				for (let i = 0; i < state.Files.length; i++) {
+					let image = { url: '' };
+					image.url = state.httpsText + state.Files[i];
+					state.FilesList.push(image);
+				}
+			}
+			state.saveState = false;
+			state.dialogVisible = true;
+		};	
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
@@ -310,8 +352,7 @@ export default {
 			} finally {
 				state.tableData.loading = false;
 			}
-		};
-
+		};	
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$parent.saveGoods(multipleSelection.value);
@@ -323,23 +364,45 @@ export default {
 			state.tableData.param.keyword = '';
 			onGetTableData(true);
 		};
-
+		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
+			if (
+				rawFile.type !== 'image/jpeg' &&
+				rawFile.type !== 'image/jpg' &&
+				rawFile.type !== 'image/png' &&
+				rawFile.type !== 'image/ico' &&
+				rawFile.type !== 'image/bmp' &&
+				rawFile.type !== 'image/gif' &&
+				rawFile.type !== 'image/svg'
+			) {
+				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
+				return false;
+			} else if (rawFile.size / 1024 / 1024 > 10) {
+				ElMessage.error('图片大小不能超过10MB!');
+				return false;
+			}
+			return true;
+		};
 		const { dateFormatYMD } = commonFunction();
-
 		// 页面加载时
 		onMounted(() => {});
-
 		return {
 			proxy,
 			t,
 			openDialog,
 			closeDialog,
+			onLoadTable,
 			GetByIdRow,
+			onSuccessFile,
+			onRemove,
+			onBeforeImageUpload,
+			onModelEdit,
+			showImage,
 			dateFormatYMD,
 			getUserInfos,
 			rules,
 			token,
 			onSubmit,
+			onOpenDlg,
 			addDlgRef,
 			routerPath,
 			handleSelectionChange,
