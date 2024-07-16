@@ -4,7 +4,7 @@
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
 					<el-form-item label="关键字：">
-						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword" />
+						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -37,11 +37,9 @@
 				border
 				stripe
 				highlight-current-row>
-				<el-table-column type="index" label="序号" align="right" width="60" fixed />
-				<el-table-column prop="BillNo" label="维修单号" width="120" fixed />
-				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed />
-				<el-table-column prop="Brand" label="车辆品牌" width="100" fixed />
-				<el-table-column label="是否委外" width="80" show-overflow-tooltip>
+				<el-table-column type="index" label="序号" align="right" width="70" fixed />
+				<el-table-column prop="BillNo" label="维修单号" width="110" fixed></el-table-column>
+				<el-table-column label="是否委外" width="120" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.IsExternal"
@@ -64,18 +62,21 @@
 						<el-tag type="success" effect="plain" v-else>{{ $t('pages.mcs.action.has_finished') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip />
-				<el-table-column prop="BillTime" label="开单时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip />
-				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip />
-				<el-table-column  prop="VehicleType" label="车型" width="120" show-overflow-tooltip />
-				<el-table-column prop="Linkman" label="联系人" width="100" />
-				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip />
-				<el-table-column  prop="ExamState" label="维修类型" show-overflow-tooltip>
+				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="BillTime" label="开单时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
+				<el-table-column prop="Brand" label="车辆品牌" width="100" fixed></el-table-column>
+				<el-table-column  prop="VehicleType" label="车型" width="120" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>
+				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column  prop="ExamState" label="维修类型" width="120" show-overflow-tooltip>
 					<template #default="scope">
 						<div>{{examList[scope.row.ExamState] }}</div>
 					</template>
 				</el-table-column>
-				<el-table-column prop="EndTime" label="出厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip />
+				<el-table-column prop="EndTime" label="出厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -103,7 +104,9 @@
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total" />
+				:total="tableData.total"
+			>
+			</el-pagination>
 		</el-card>
 		<editDlg ref="editDlgRef" />
 		<addWorkerDlg ref="addWorkerDlgRef" />
@@ -127,27 +130,16 @@ export default {
 	components: { editDlg,printDlg,addWorkerDlg,seeWorkerDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
-
 		const route = useRoute();
-
 		const router =  useRouter();
-
 		const kind = "repair";
-
 		const scopeMode = route.params.scopeMode || 0;
-
 		const scopeValue = route.params.scopeValue || 0;
-
 		const moduleKey = `api_repair_sheet`;
-
 		const editDlgRef = ref();
-
 		const printDlgRef=ref()
-
 		const addWorkerDlgRef = ref();
-
 		const seeWorkerDlgRef = ref();
-
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -172,29 +164,30 @@ export default {
 			}
 			if (res.data.length>0){
 				for(let item of res.data){
+					//console.log("循环数据",item)
 					state.examList[item.Code] =item.Name
 				}
 			}
+			//console.log("数据",state.examList)
 		}
 		
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
 		});
-
-		//	重置查询条件
+		//重置查询条件
 		const onResetSearch = () => {
 			state.tableData.param.keyword = '';
 			onGetTableData(true);
 		};
 
-		//	初始化表格数据
+		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.vehicle.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.vehicle.getListByScope("repair", 0, 0, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -204,26 +197,23 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
-
-		//	打开弹窗
+		// 打开弹窗
 		const onOpenEditDlg = (id: string, ishow: boolean) => {
 			editDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-
-		//	打开弹窗
+		// 打开弹窗
 		const onOpenPrintDlg = (id: string) => {
 			printDlgRef.value.onPrintJs(id);
 		};
-
-		//	删除用户
-		const onModelDel = (id: string) => {
+		// 删除用户
+		const onModelDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.vehicle.delete(id);
+					const res = await proxy.$api.erp.vehicle.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
@@ -234,23 +224,21 @@ export default {
 			});
 		};
 
-		//	分页改变
+		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.pageSize = val;
 			onGetTableData();
 		};
-
-		//	分页改变
+		// 分页改变
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
 		};
-
-		//	页面跳转
+		// 页面跳转
 		const routerPath= ()=>{
-			router.push(`/admin/mcs/repair/${state.kind}/${state.scopeMode}/${state.scopeValue}`);
+			//console.log(router)
+			router.push('/admin/mcs/repair/sheet/0/0');
 		}
-
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
@@ -289,3 +277,7 @@ export default {
 	},
 };
 </script>
+
+<style scoped lang="scss">
+
+</style>
