@@ -164,7 +164,7 @@
 			<div class="mb10">
 				<el-form>
 					<el-form-item>
-						<el-button type="primary" @click="onAddOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
+						<el-button type="primary" @click="onOpenProjectDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -222,7 +222,7 @@
 			<div class="mb10">
 				<el-form>
 					<el-form-item>
-						<el-button type="primary" @click="onOpenDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
+						<el-button type="primary" @click="onOpenGoodsDlg('', false)" v-auth:[moduleKey]="'btn.Add'">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
@@ -287,8 +287,8 @@
 			</template>
 		</el-dialog>
 	</div>
-	<editDlg ref="editDlgRef" />
-	<addDlg ref="addDlgRef" />
+	<editProjectDlg ref="editProjectDlgRef" />
+	<sheetGoodsDlg ref="editGoodsDlgRef" />
 	<addWorkerDlg ref="addWorkerDlgRef" />
 </template>
 
@@ -297,20 +297,20 @@ import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import addWorkerDlg from './sheetAdd.vue';
-import addDlg from './sheetGoods.vue';
-import editDlg from './sheetProject.vue';
+import sheetGoodsDlg from './sheetGoods.vue';
+import editProjectDlg from './sheetProject.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
 	name: 'sheetEdit',
-	components: { editDlg, addDlg, addWorkerDlg},
+	components: { editProjectDlg, sheetGoodsDlg, addWorkerDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();
-		const editDlgRef = ref();
-		const addDlgRef = ref();
+		const editProjectDlgRef = ref();
+		const editGoodsDlgRef = ref();
 		const addWorkerDlgRef = ref();
 		const kind = "repair";
 		console.log("message.action.add:", t('message.action.add'))
@@ -358,12 +358,12 @@ export default {
 			},
 		});
 		// 打开弹窗
-		const onOpenDlg = (id: string, ishow: boolean) => {
-			console.log("弹框", editDlgRef)
-			addDlgRef.value.openDialog(state.kind, id, ishow);
+		const onOpenGoodsDlg = (id: string, ishow: boolean) => {
+			console.log("弹框", editProjectDlgRef)
+			editGoodsDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-		const onAddOpenDlg = (id: string, ishow: boolean) => {
-			editDlgRef.value.openDialog(state.kind, id, ishow);
+		const onOpenProjectDlg = (id: string, ishow: boolean) => {
+			editProjectDlgRef.value.openDialog(state.kind, id, ishow);
 		};
 		const onAddWorkerOpenDlg = (id: string, ishow: boolean) => {
 			console.log("派单")
@@ -723,10 +723,10 @@ export default {
 			rules,
 			token,
 			onSubmit,
-			onOpenDlg,
-			onAddOpenDlg,
-			editDlgRef,
-			addDlgRef,
+			onOpenGoodsDlg,
+			onOpenProjectDlg,
+			editProjectDlgRef,
+			editGoodsDlgRef,
 			addWorkerDlgRef,
 			saveProject,
 			saveGoods,
