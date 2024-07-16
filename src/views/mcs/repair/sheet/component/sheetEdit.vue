@@ -511,6 +511,7 @@ export default {
 
 		const handleChange = (value: number) => {
   		//console.log(value)
+		
 		}
 
 		const tableData = reactive({
@@ -556,11 +557,11 @@ export default {
 			});
 		};
 		const saveProject = (list: never[]) => {
-			const items=list.map(val=>{return {Id:"0",ProjectId:val.Id,Name:val.Name,Content:val.Content,Qty:val.Qty,Price:val.Price,Remark:val.Remark,Amount:val.Amount}});
+			const items=list.map(val=>{return reactive({Id:"0",ProjectId:val.Id,Name:val.Name,Content:val.Content,Qty:val.Qty,Price:val.Price,Remark:val.Remark,Amount:val.Amount})});
 			state.ruleForm.VehicleProjectList=[...state.ruleForm.VehicleProjectList,...items]
 		}
 		const saveGoods = (list: never[]) => {
-			const items=list.map(val=>{return {Id:"0",GoodsId:val.Id,GoodsSn:val.GoodsSn,GoodsName:val.GoodsName,Qty:1,Price:val.ShopPrice,SellerNote:val.SellerNote,Amount:val.Amount}});
+			const items=list.map(val=>{return reactive({Id:"0",GoodsId:val.Id,GoodsSn:val.GoodsSn,GoodsName:val.GoodsName,Qty:1,Price:val.ShopPrice,SellerNote:val.SellerNote,Amount:val.Amount})});
 			state.ruleForm.VehicleGoodsList=[...state.ruleForm.VehicleGoodsList,...items]
 		}
 		// 打开弹窗
