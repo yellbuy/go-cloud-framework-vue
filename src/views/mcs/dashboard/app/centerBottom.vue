@@ -6,19 +6,19 @@
             <div class="digital-flop-item">
               <div class="unit">计划</div>
               <dv-digital-flop class="digital-flop-item-value"
-                :config="{number:[statData.YearPlanWeight],content: '{nt} 万吨',style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.YearPlanWeight],content: '{nt} 万吨',toFixed: 1,style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
               <dv-digital-flop class="digital-flop-item-value"
-                :config="{number:[statData.YearExecWeight],content: '{nt} 万吨',style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.YearExecWeight],content: '{nt} 万吨',toFixed: 1,style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
               <dv-digital-flop class="digital-flop-item-value"
-                :config="{number:[statData.YearBalanceWeight],content: '{nt} 万吨',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.YearBalanceWeight],content: '{nt} 万吨',toFixed: 1,style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
@@ -36,19 +36,19 @@
             <div class="digital-flop-item">
               <div class="unit">计划</div>
               <dv-digital-flop class="digital-flop-item-value"
-                :config="{number:[statData.MonthPlanWeight],content: '{nt} 万吨',style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.MonthPlanWeight],content: '{nt} 万吨',toFixed: 1,style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
               <dv-digital-flop class="digital-flop-item-value"
-                :config="{number:[statData.MonthExecWeight],content: '{nt} 万吨',style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.MonthExecWeight],content: '{nt} 万吨',toFixed: 1,style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
               <dv-digital-flop class="digital-flop-item-value"
-                :config="{number:[statData.MonthBalanceWeight],content: '{nt} 万吨',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.MonthBalanceWeight],content: '{nt} 万吨',toFixed: 1,style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
@@ -66,19 +66,19 @@
             <div class="digital-flop-item">
               <div class="unit">计划</div>
               <dv-digital-flop class="digital-flop-item-value"
-                :config="{number:[statData.DayPlanWeight],content: '{nt} 万吨',style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.DayPlanWeight],content: '{nt} 万吨',toFixed: 1,style:{fill: '#f46827',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">完成</div>
               <dv-digital-flop class="digital-flop-item-value"
-                :config="{number:[statData.DayExecWeight],content: '{nt} 万吨',style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.DayExecWeight],content: '{nt} 万吨',toFixed: 1,style:{fill: '#e3dc0f',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
               <div class="unit">超/欠</div>
               <dv-digital-flop class="digital-flop-item-value"
-                :config="{number:[statData.DayExecWeight],content: '{nt} 万吨',style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
+                :config="{number:[statData.DayExecWeight],content: '{nt} 万吨',toFixed: 1,style:{fill: 'lightgreen',fontWeight: 'bold',fontSize:20}}"
               />
             </div>
             <div class="digital-flop-item">
