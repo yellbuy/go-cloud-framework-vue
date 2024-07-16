@@ -279,13 +279,13 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<div class ="m10">
-				<el-text type="primary" size="large">共：¥ {{ getTotalCost }}</el-text>
-			</div>
 			<template #footer>
 				<span class="dialog-footer">
-					
-					<el-button text bg @click="closeDialog">{{ $t('message.action.close') }}</el-button>
+					<el-text></el-text>
+					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
+					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+							$t('message.action.save')
+						}}</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -298,7 +298,7 @@
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
 import type { VNode } from 'vue';
-import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { computed, getCurrentInstance, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import addWorkerDlg from './sheetAdd.vue';
 import sheetGoodsDlg from './sheetGoods.vue';
@@ -322,7 +322,7 @@ export default {
 			moduleKey: moduleKey,
 			isShowDialog: false,
 			kind,
-			title: t('message.action.see'),
+			title: t('message.action.add'),
 			loading: false,
 			disable: true, //是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
@@ -404,7 +404,7 @@ export default {
 		});
 		const rules = reactive({
 			isShowDialog: false,
-			title: t('message.action.see'),
+			title: t('message.action.add'),
 			VehicleNumber: [
 				{
 					required: true,
@@ -463,8 +463,8 @@ export default {
 			],
 			ExamState: [
 				{
-					message: t('message.validRule.required'),				
 					required: true,
+					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
@@ -485,18 +485,17 @@ export default {
 		});
 		const getTotalCost = computed(() => {
 			const projectTotalCost=state.ruleForm.VehicleProjectList.reduce((prev, curr) => {
-					const value = Number(curr.Amount)
+					const value = Number(curr)
 					if (!Number.isNaN(value)) {
-					return prev + curr.Amount
+					return prev + curr
 					} else {
 					return prev
 					}
 				}, 0)
-			console.log ("projectTotalCost:",projectTotalCost)
 			const goodsTotalCost=state.ruleForm.VehicleGoodsList.reduce((prev, curr) => {
-				const value = Number(curr.Amount)
+				const value = Number(curr)
 				if (!Number.isNaN(value)) {
-				return prev + curr.Amount
+				return prev + curr
 				} else {
 				return prev
 				}
@@ -582,11 +581,11 @@ export default {
 				state.disable = disable;
 				if (id && id != '0') {
 					GetByIdRow(id);
-					state.title = t('message.action.see');
+					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
 					state.ruleForm.IsExternal = 0;
-					state.title = t('message.action.see');
+					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
 			} finally {
@@ -740,8 +739,7 @@ export default {
 			...toRefs(state),
 		};
 	},
-	data() {
-		return {};
+ {
 	},
 	methods: {},
 };

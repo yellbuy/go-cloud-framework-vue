@@ -174,11 +174,15 @@
 				</el-form>
 			</div>
 			<el-table :data="ruleForm.VehicleProjectList" v-loading="projectTableData.loading"
-				:height="200" border stripe highlight-current-row>
+				:height="200" show-summary :summary-method="getAmountSummaries" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Name" label="项目名称" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Qty" label="工时" width="80">
+				<el-table-column prop="Name" label="项目名称" width="200" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Amount" label="应付金额" width="110" align="right" show-overflow-tooltip fixed>
+					<template #default="scope">
+						{{ calcRowAmount(scope.row) }}
+					</template>
+				</el-table-column>
+				<el-table-column prop="Qty" label="工时" width="80" align="right">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Qty"
@@ -188,7 +192,7 @@
     						@change="handleChange"/>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Price" label="单价" width="90">
+				<el-table-column prop="Price" label="单价" width="90" align="right">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Price"
@@ -198,11 +202,8 @@
     						@change="handleChange"/>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed>
-					<template #default="scope">
-						{{ calcAmount(scope.row) }}
-					</template>
-				</el-table-column>
+				
+				<el-table-column prop="Content" label="服务内容" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
 					<template #default="scope">
 						<el-input v-model="scope.row.Remark" autofocus placeholder="" maxlength="100"
@@ -232,10 +233,15 @@
 				</el-form>
 			</div>
 			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading"
-				:height="200" border stripe highlight-current-row>
+				:height="200" show-summary :summary-method="getAmountSummaries" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="GoodsName" label="配件名称" width="240" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Qty" label="数量" width="80">
+				<el-table-column prop="GoodsName" label="配件名称" width="200" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Amount" label="应付金额" width="110" align="right" show-overflow-tooltip fixed>
+					<template #default="scope">
+						{{ calcRowAmount(scope.row) }}
+					</template>
+				</el-table-column>
+				<el-table-column prop="Qty" label="数量" width="80" align="right">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Qty"
@@ -244,7 +250,7 @@
     						@change="handleChange"/>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Price" label="单价" width="90">
+				<el-table-column prop="Price" label="单价" width="90" align="right">
 					<template #default="scope">
 						<el-input-number
     						v-model="scope.row.Price"
@@ -253,11 +259,7 @@
     						@change="handleChange"/>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Amount" label="应付金额" width="120" show-overflow-tooltip fixed>
-					<template #default="scope">
-						{{ calcAmount(scope.row) }}
-					</template>
-				</el-table-column>
+				
 				<el-table-column prop="Remark" label="备注" show-overflow-tooltip>
 					<template #default="scope">
 						<el-input
@@ -277,8 +279,12 @@
 					</template>
 				</el-table-column>
 			</el-table>
+			<div class ="m10">
+				<el-text type="primary" size="large">共：¥ {{ getTotalCost }}</el-text>
+			</div>
 			<template #footer>
 				<span class="dialog-footer">
+					
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
 					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
 							$t('message.action.save')
@@ -293,15 +299,14 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
+import type { VNode } from 'vue';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import addWorkerDlg from './sheetAdd.vue';
 import sheetGoodsDlg from './sheetGoods.vue';
 import editProjectDlg from './sheetProject.vue';
-import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
-import { Session } from '/@/utils/storage';
 
 export default {
 	name: 'sheetEdit',
@@ -313,85 +318,9 @@ export default {
 		const editGoodsDlgRef = ref();
 		const addWorkerDlgRef = ref();
 		const kind = "repair";
-		console.log("message.action.add:", t('message.action.add'))
-		//文件列表更新
-		const onSuccessFile = (file: UploadFile) => {
-			console.log('触发图片上传');
-			state.Files.push(file.data.src);
-			let image = { url: '' };
-			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
-			console.log(state.FilesList);
-		};
-		const onRemove = (file: UploadFile) => {
-			console.log(file);
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
-			for (let i = 0; i < state.Files.length; i++) {
-				if (state.Files[i] == removeUrl) {
-					state.Files.splice(i, 1);
-				}
-			}
-		};
-		const store = useStore();
-		const getUserInfos = computed(() => {
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
-			return store.state.userInfos.userInfos;
-		});
-		//显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
-
-		const handleChange = (value: number) => {
-  		//console.log(value)
-		}
-
-		const tableData = reactive({
-			data: [],
-			loading: false,
-			param: {
-				pageNum: 1,
-				pageSize: 10000,
-			},
-		});
-		// 打开弹窗
-		const onOpenGoodsDlg = (id: string, ishow: boolean) => {
-			console.log("弹框", editProjectDlgRef)
-			editGoodsDlgRef.value.openDialog(state.kind, id, ishow);
-		};
-		const onOpenProjectDlg = (id: string, ishow: boolean) => {
-			editProjectDlgRef.value.openDialog(state.kind, id, ishow);
-		};
-		const onAddWorkerOpenDlg = (id: string, ishow: boolean) => {
-			console.log("派单")
-			addWorkerDlgRef.value.openDialog(state.kind, id, ishow);
-		};
-		// 删除用户
-		const onProjectDel = (index:number) => {
-			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(async () => {
-				state.ruleForm.VehicleProjectList.splice(index,1)
-				return true;
-			});
-		}; 
-		// 删除用户
-		const onGoodsDel = (index:number) => {
-			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(async () => {
-				state.ruleForm.VehicleGoodsList.splice(index,1)
-				return true;
-			});
-		};
+		console.log("message.action.add:", t('message.action.add'))			
 		const moduleKey = `api_repair_sheet`;
+
 		const state = reactive({
 			moduleKey: moduleKey,
 			isShowDialog: false,
@@ -476,7 +405,6 @@ export default {
 				},
 			},
 		});
-		const token = Session.get('token');
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
@@ -538,8 +466,8 @@ export default {
 			],
 			ExamState: [
 				{
+					message: t('message.validRule.required'),				
 					required: true,
-					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
@@ -558,6 +486,75 @@ export default {
 				},
 			],
 		});
+		const getTotalCost = computed(() => {
+			const projectTotalCost=state.ruleForm.VehicleProjectList.reduce((prev, curr) => {
+					const value = Number(curr.Amount)
+					if (!Number.isNaN(value)) {
+					return prev + curr.Amount
+					} else {
+					return prev
+					}
+				}, 0)
+			console.log ("projectTotalCost:",projectTotalCost)
+			const goodsTotalCost=state.ruleForm.VehicleGoodsList.reduce((prev, curr) => {
+				const value = Number(curr.Amount)
+				if (!Number.isNaN(value)) {
+				return prev + curr.Amount
+				} else {
+				return prev
+				}
+			}, 0)
+			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
+			const total = projectTotalCost+goodsTotalCost;
+			return total.toFixed(2);
+		});
+
+		const handleChange = (value: number) => {
+  		//console.log(value)
+		}
+
+		const tableData = reactive({
+			data: [],
+			loading: false,
+			param: {
+				pageNum: 1,
+				pageSize: 10000,
+			},
+		});
+		// 打开弹窗
+		const onOpenGoodsDlg = (id: string, ishow: boolean) => {
+			console.log("弹框", editProjectDlgRef)
+			editGoodsDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		const onOpenProjectDlg = (id: string, ishow: boolean) => {
+			editProjectDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		const onAddWorkerOpenDlg = (id: string, ishow: boolean) => {
+			console.log("派单")
+			addWorkerDlgRef.value.openDialog(state.kind, id, ishow);
+		};
+		// 删除用户
+		const onProjectDel = (index:number) => {
+			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				state.ruleForm.VehicleProjectList.splice(index,1)
+				return true;
+			});
+		}; 
+		// 删除用户
+		const onGoodsDel = (index:number) => {
+			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				state.ruleForm.VehicleGoodsList.splice(index,1)
+				return true;
+			});
+		};
 		const saveProject = (list: never[]) => {
 			const items=list.map(val=>{return {Id:"0",ProjectId:val.Id,Name:val.Name,Content:val.Content,Qty:val.Qty,Price:val.Price,Remark:val.Remark,Amount:val.Amount}});
 			state.ruleForm.VehicleProjectList=[...state.ruleForm.VehicleProjectList,...items]
@@ -647,12 +644,12 @@ export default {
 					try {
 						if(state.ruleForm.VehicleProjectList.length>0){
 							state.ruleForm.VehicleProjectList.forEach(item => {
-								item.Amount = calcAmount(item)
+								item.Amount = calcRowAmount(item)
 							});
 						};
 						if(state.ruleForm.VehicleGoodsList.length>0){
 							state.ruleForm.VehicleGoodsList.forEach(item => {
-								item.Amount = calcAmount(item)
+								item.Amount = calcRowAmount(item)
 							});
 						};
 						const vehicle = await proxy.$api.erp.vehicle.save(state.ruleForm,
@@ -675,32 +672,44 @@ export default {
 				}
 			});
 		};
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
+		
 		const { dateFormatYMD } = commonFunction();
- 		// 总价
-		const calcAmount = (row)=>{
+ 		// 计算行金额
+		const calcRowAmount = (row)=>{
 			if (row.Price && row.Qty) {
         		return row.Price * row.Qty;
       		} else {
         		return 0; // 如果没有提供单价或数量则不进行计算并将总价格设置为空字符串
       		}
+		};
+		const getAmountSummaries = (param: any) => {
+			const { columns, data } = param
+			const sums: (string | VNode)[] = []
+			columns.forEach((column, index) => {
+				if (index === 0) {
+				sums[index] ='合计：'
+				return
+				}
+				if(index!=2){
+					sums[index] ='';
+					return;
+				}
+				const values = data.map((item) => Number(item[column.property]))
+				if (!values.every((value) => Number.isNaN(value))) {
+				sums[index] = `¥ ${values.reduce((prev, curr) => {
+					const value = Number(curr)
+					if (!Number.isNaN(value)) {
+					return prev + curr
+					} else {
+					return prev
+					}
+				}, 0)}`
+				} else {
+				sums[index] = 'N/A'
+				}
+			})
+
+			return sums
 		};
 		// 页面加载时
 		onMounted(() => {
@@ -713,15 +722,10 @@ export default {
 			closeDialog,
 			onLoadTable,
 			GetByIdRow,
-			onSuccessFile,
-			onRemove,
-			onBeforeImageUpload,
 			onModelEdit,
-			showImage,
 			dateFormatYMD,
-			getUserInfos,
+			getTotalCost,
 			rules,
-			token,
 			onSubmit,
 			onOpenGoodsDlg,
 			onOpenProjectDlg,
@@ -734,7 +738,8 @@ export default {
 			onGoodsDel,
 			onAddWorkerOpenDlg,
 			handleChange,
-			calcAmount,
+			calcRowAmount,
+			getAmountSummaries,
 			...toRefs(state),
 		};
 	},
