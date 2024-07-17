@@ -174,7 +174,7 @@
 				</el-form>
 			</div>
 			<el-table :data="ruleForm.VehicleProjectList" v-loading="projectTableData.loading"
-				:height="200" show-summary :summary-method="getAmountSummaries" border stripe highlight-current-row>
+				:height="200" show-summary :summary-method="getProjectAmountSummaries" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="Name" label="项目名称" width="200" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Amount" label="应付金额" width="110" align="right" show-overflow-tooltip fixed>
@@ -233,7 +233,7 @@
 				</el-form>
 			</div>
 			<el-table :data="ruleForm.VehicleGoodsList" v-loading="goodsTableData.loading"
-				:height="200" show-summary :summary-method="getAmountSummaries" border stripe highlight-current-row>
+				:height="200" show-summary :summary-method="getGoodsAmountSummaries" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="GoodsName" label="配件名称" width="200" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Amount" label="应付金额" width="110" align="right" show-overflow-tooltip fixed>
@@ -382,6 +382,8 @@ export default {
 			FilesList: [],
 			truckTypeList: [],
 			examStateList:[],
+			projectTotalCost:0,
+			goodsTotalCost:0,
 			projectTableData: {
 				data: [],
 				total: 0,
@@ -486,32 +488,38 @@ export default {
 				},
 			],
 		});
-		const getTotalCost = computed(() => {
+		
+		const calcTotalCost = () => {
 			const projectTotalCost=state.ruleForm.VehicleProjectList.reduce((prev, curr) => {
-					const value = Number(curr.Amount)
-					if (!Number.isNaN(value)) {
-					return prev + curr.Amount
-					} else {
-					return prev
-					}
-				}, 0)
-			console.log ("projectTotalCost:",projectTotalCost)
-			const goodsTotalCost=state.ruleForm.VehicleGoodsList.reduce((prev, curr) => {
-				const value = Number(curr.Amount)
+				const value = Number(curr.Price)*Number(curr.Qty)
 				if (!Number.isNaN(value)) {
-				return prev + curr.Amount
+					return prev + value
 				} else {
-				return prev
+					return prev
 				}
 			}, 0)
-			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
-			const total = projectTotalCost+goodsTotalCost;
+			console.log ("projectTotalCost:",projectTotalCost)
+			const goodsTotalCost=state.ruleForm.VehicleGoodsList.reduce((prev, curr) => {
+				const value = Number(curr.Price)*Number(curr.Qty)
+				if (!Number.isNaN(value)) {
+					return prev + value
+				} else {
+					return prev
+				}
+			}, 0)
+			state.projectTotalCost=projectTotalCost;
+			state.goodsTotalCost=goodsTotalCost;
+		}
+
+		const getTotalCost = computed(() => {
+			console.log('state.projectTotalCost:', state.projectTotalCost,state.goodsTotalCost);
+			const total = state.projectTotalCost+state.goodsTotalCost;
 			return total.toFixed(2);
 		});
 
 		const handleChange = (value: number) => {
   		//console.log(value)
-		
+		  calcTotalCost();
 		}
 
 		const tableData = reactive({
@@ -534,7 +542,7 @@ export default {
 			console.log("派单")
 			addWorkerDlgRef.value.openDialog(state.kind, id, ishow);
 		};
-		// 删除用户
+		// 删除项目
 		const onProjectDel = (index:number) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -542,10 +550,11 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				state.ruleForm.VehicleProjectList.splice(index,1)
+				calcTotalCost();
 				return true;
 			});
 		}; 
-		// 删除用户
+		// 删除配件
 		const onGoodsDel = (index:number) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -553,16 +562,19 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				state.ruleForm.VehicleGoodsList.splice(index,1)
+				calcTotalCost();
 				return true;
 			});
 		};
 		const saveProject = (list: never[]) => {
 			const items=list.map(val=>{return reactive({Id:"0",ProjectId:val.Id,Name:val.Name,Content:val.Content,Qty:val.Qty,Price:val.Price,Remark:val.Remark,Amount:val.Amount})});
 			state.ruleForm.VehicleProjectList=[...state.ruleForm.VehicleProjectList,...items]
+			calcTotalCost();
 		}
 		const saveGoods = (list: never[]) => {
 			const items=list.map(val=>{return reactive({Id:"0",GoodsId:val.Id,GoodsSn:val.GoodsSn,GoodsName:val.GoodsName,Qty:1,Price:val.ShopPrice,SellerNote:val.SellerNote,Amount:val.Amount})});
 			state.ruleForm.VehicleGoodsList=[...state.ruleForm.VehicleGoodsList,...items]
+			calcTotalCost();
 		}
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
@@ -585,7 +597,7 @@ export default {
 				}
 				state.disable = disable;
 				if (id && id != '0') {
-					GetByIdRow(id);
+					getByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
@@ -597,13 +609,14 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-		const GetByIdRow = async (Id: string) => {
+		const getByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.vehicle.getById(Id,true);
 				if (res.errcode != 0) {
 					return;
 				}
 				state.ruleForm = res.data;
+				calcTotalCost();
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -677,13 +690,13 @@ export default {
 		const { dateFormatYMD } = commonFunction();
  		// 计算行金额
 		const calcRowAmount = (row)=>{
+			let amount=0;
 			if (row.Price && row.Qty) {
-        		return row.Price * row.Qty;
-      		} else {
-        		return 0; // 如果没有提供单价或数量则不进行计算并将总价格设置为空字符串
+        		amount= row.Price * row.Qty;
       		}
+			return amount;
 		};
-		const getAmountSummaries = (param: any) => {
+		const getProjectAmountSummaries = (param: any) => {
 			const { columns, data } = param
 			const sums: (string | VNode)[] = []
 			columns.forEach((column, index) => {
@@ -695,19 +708,50 @@ export default {
 					sums[index] ='';
 					return;
 				}
-				const values = data.map((item) => Number(item[column.property]))
-				if (!values.every((value) => Number.isNaN(value))) {
-				sums[index] = `¥ ${values.reduce((prev, curr) => {
-					const value = Number(curr)
-					if (!Number.isNaN(value)) {
-					return prev + curr
-					} else {
-					return prev
-					}
-				}, 0)}`
-				} else {
-				sums[index] = 'N/A'
+				sums[index] = `¥ ${state.projectTotalCost}`;
+				// const values = data.map((item) => Number(item[column.property]))
+				// if (!values.every((value) => Number.isNaN(value))) {
+				// sums[index] = `¥ ${values.reduce((prev, curr) => {
+				// 	const value = Number(curr)
+				// 	if (!Number.isNaN(value)) {
+				// 	return prev + curr
+				// 	} else {
+				// 	return prev
+				// 	}
+				// }, 0)}`
+				// } else {
+				// sums[index] = 'N/A'
+				// }
+			})
+
+			return sums
+		};
+		const getGoodsAmountSummaries = (param: any) => {
+			const { columns, data } = param
+			const sums: (string | VNode)[] = []
+			columns.forEach((column, index) => {
+				if (index === 0) {
+				sums[index] ='合计：'
+				return
 				}
+				if(index!=2){
+					sums[index] ='';
+					return;
+				}
+				sums[index] = `¥ ${state.goodsTotalCost}`;
+				// const values = data.map((item) => Number(item[column.property]))
+				// if (!values.every((value) => Number.isNaN(value))) {
+				// sums[index] = `¥ ${values.reduce((prev, curr) => {
+				// 	const value = Number(curr)
+				// 	if (!Number.isNaN(value)) {
+				// 	return prev + curr
+				// 	} else {
+				// 	return prev
+				// 	}
+				// }, 0)}`
+				// } else {
+				// sums[index] = 'N/A'
+				// }
 			})
 
 			return sums
@@ -722,7 +766,7 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
-			GetByIdRow,
+			getByIdRow,
 			onModelEdit,
 			dateFormatYMD,
 			getTotalCost,
@@ -740,7 +784,8 @@ export default {
 			onAddWorkerOpenDlg,
 			handleChange,
 			calcRowAmount,
-			getAmountSummaries,
+			getProjectAmountSummaries,
+			getGoodsAmountSummaries,
 			...toRefs(state),
 		};
 	},
