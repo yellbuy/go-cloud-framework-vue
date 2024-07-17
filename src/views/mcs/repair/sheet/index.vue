@@ -135,6 +135,7 @@ export default {
 		const kind = "repair";
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
+		console.log("scope:",scopeMode,scopeValue);
 		const moduleKey = `api_repair_sheet`;
 		const editDlgRef = ref();
 		const printDlgRef=ref()
@@ -187,7 +188,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.vehicle.getListByScope("repair", 0, 0, state.tableData.param);
+				const res = await proxy.$api.erp.vehicle.getListByScope("repair", scopeMode, scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
