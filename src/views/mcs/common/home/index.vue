@@ -152,7 +152,7 @@
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
 						<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="80" fixed />
-						<el-table-column prop="No" label="保险单号" width="100" align="right" show-overflow-tooltip fixed></el-table-column>
+						<el-table-column prop="No" label="保单号" width="200" align="left" show-overflow-tooltip fixed></el-table-column>
 						<el-table-column prop="EndTime" label="保险截止日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
 						<el-table-column prop="CompulsoryEndDate" label="交强险截止日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
 						<el-table-column prop="CommercialEndDate" label="商业险截止日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
@@ -211,14 +211,14 @@
 </template>
 
 <script lang="ts">
-import { computed, getCurrentInstance, nextTick, onActivated, onMounted, ref, reactive, toRefs, watch } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { useStore } from '/@/store/index';
-import { formatAxis } from '/@/utils/formatTime';
-import commonFunction from '/@/utils/commonFunction';
-import vehicleEditDlg from '../vehicle/component/vehicleEdit.vue';
+import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, ref, toRefs, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import driverEditDlg from '../driver/component/driverEdit.vue';
 import insuranceEditDlg from '../insurance/component/insuranceEdit.vue';
+import vehicleEditDlg from '../vehicle/component/vehicleEdit.vue';
+import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
+import { formatAxis } from '/@/utils/formatTime';
 export default {
 	name: 'admin',
 	components: { vehicleEditDlg, driverEditDlg, insuranceEditDlg },

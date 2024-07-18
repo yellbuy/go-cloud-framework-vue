@@ -45,7 +45,7 @@
 				highlight-current-row>
 				<el-table-column type="index" label="序号" width="60" align="right" fixed />
 				<el-table-column prop="VehicleNumber" label="车牌号码" width="80" align="left" show-overflow-tooltip fixed />
-				<el-table-column prop="No" label="保险单号" width="100" align="right" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="No" label="保单号" width="200" align="left" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="BillTime" label="保单日期" width="100" align="center" show-overflow-tooltip :formatter="dateFormatYMD" />
 				<el-table-column prop="StartTime" label="保险生效日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
 				<el-table-column prop="EndTime" label="保险到期日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
