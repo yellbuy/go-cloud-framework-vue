@@ -1,6 +1,6 @@
 <template>
-	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" :before-close="closeDialog">
+	<div class="mcs-freight-line-batchadd">
+		<el-dialog :title="title" v-model="isShowDialog" width="70%" :before-close="closeDialog">
 			<div style="text-align: center;">
 				<el-transfer
 					v-model="ruleForm.VehicleIdList"
@@ -176,8 +176,12 @@ export default {
 	methods: {},
 };
 </script>
-<style scoped lang="scss">
-.el-select .el-date-picker .el-input .el-input-number {
+<style lang="scss">
+.mcs-freight-line-batchadd .el-select .el-date-picker .el-input .el-input-number {
 	width: 100%;
 }
+.mcs-freight-line-batchadd .el-transfer-panel{
+	width:360px !important;
+}
+
 </style>
