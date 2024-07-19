@@ -532,26 +532,33 @@ export default {
 				state.FilesList2 = [];
 				if (state.ruleForm.CommercialPics != "") {
 					for (let i = 0; i < state.Files.length; i++) {
-						let image = { url: '', name: '' };
-						image.url = state.httpsText + state.Files[i];
-						image.name = state.httpsText + state.Files[i];
-						state.FilesList.push(image);
+						if(state.Files[i]){
+							let image = { url: '', name: '' };
+							image.url = state.httpsText + state.Files[i];
+							image.name = state.httpsText + state.Files[i];
+							state.FilesList.push(image);
+						}
+						
 					}
 				}
 				if ( state.ruleForm.CompulsoryPics != "") {
 					for (let i = 0; i < state.Files1.length; i++) {
-						let image = { url: '', name: '' };
-						image.url = state.httpsText + state.Files1[i];
-						image.name = state.httpsText + state.Files1[i];
-						state.FilesList1.push(image);
+						if(state.Files1[i]){
+							let image = { url: '', name: '' };
+							image.url = state.httpsText + state.Files1[i];
+							image.name = state.httpsText + state.Files1[i];
+							state.FilesList1.push(image);
+						}
 					}
 				}
 				if ( state.ruleForm.TaxPics != "") {
 					for (let i = 0; i < state.Files2.length; i++) {
-						let image = { url: '', name: '' };
-						image.url = state.httpsText + state.Files2[i];
-						image.name = state.httpsText + state.Files2[i];
-						state.FilesList2.push(image);
+						if(state.Files2[i]){
+							let image = { url: '', name: '' };
+							image.url = state.httpsText + state.Files2[i];
+							image.name = state.httpsText + state.Files2[i];
+							state.FilesList2.push(image);
+						}
 					}
 				}
 			} finally {

@@ -53,6 +53,20 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
+						<el-form-item label="发货照" prop="SenderPics">
+							<imgList :ids="ruleForm.SenderPics"></imgList>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
+						<el-form-item label="收货照" prop="ReceiverPics">
+							<imgList :ids="ruleForm.ReceiverPics"></imgList>
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -70,12 +84,13 @@
 import { Plus } from '@element-plus/icons-vue';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import imgList from '/@/components/image/index.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-
 export default {
 	name: 'freightLineEdit',
+	components: { imgList },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 
