@@ -37,13 +37,13 @@
 						<el-table-column prop="Name" label="分类名称" show-overflow-tooltip fixed></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="left">
 							<template #default="scope">
-								<el-button text bg type="primary" @click="onOpenCategoryDlg(0, scope.row.Id)" v-auth:[moduleKey]="'btn.Add'">
+								<el-button text bg type="primary" @click="onOpenCategoryDlg(0, scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryAdd'">
 									{{ $t('message.action.add') }}
 								</el-button>
-								<el-button text bg type="primary" @click="onOpenCategoryDlg(scope.row.Id, scope.row.Parentid,false)" v-auth:[moduleKey]="'btn.Edit'">
+								<el-button text bg type="primary" @click="onOpenCategoryDlg(scope.row.Id, scope.row.Parentid,false)" v-auth:[moduleKey]="'btn.CategoryEdit'">
 									{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button text bg type="danger" @click="onCategoryDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+								<el-button text bg type="danger" @click="onCategoryDel(scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryDel'">
 									{{ $t('message.action.delete') }}
 								</el-button>
 							</template>
@@ -170,12 +170,13 @@ export default {
 		const route = useRoute();
 
 		const kind = route.params.kind;
+		const categoryKind=`warehouse_${kind}`;
 
 		const scopeMode = route.params.scopeMode || 0;
 
 		const scopeValue = route.params.scopeValue || 0;
 
-		const moduleKey = `api_wms_goods_${kind}`;
+		const moduleKey = `api_psi_warehouse`;
 
 		const prodDlgRef = ref();
 
@@ -183,6 +184,7 @@ export default {
 
 		const state: any = reactive({
 			moduleKey: moduleKey,
+			categoryKind,
 			kind,
 			scopeMode,
 			scopeValue,
@@ -227,7 +229,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.wms.goods.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.psi.warehouse.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -243,7 +245,7 @@ export default {
 			state.mainTableData.loading = true;
 			state.mainTableData.data = [];
 			try {
-				const res = await proxy.$api.common.category.getHierarchyDataList(state.kind, state.scopeMode, state.scopeValue, state.mainTableData.param);
+				const res = await proxy.$api.common.category.getHierarchyDataList(state.categoryKind, state.scopeMode, state.scopeValue, state.mainTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}

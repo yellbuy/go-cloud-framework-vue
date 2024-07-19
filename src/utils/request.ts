@@ -8,7 +8,7 @@ import { Session } from '/@/utils/storage';
 // let appid = "168763157232222209"//招采系统
 let appid = "30"//汉风物流
 // let appid = "263250626593423361"//健康档案管理
-
+// let appid = "293576751995420673"//进销存
 let appPermissionKey = "ybcloudapi"
 if (appid == "30") { 
 	appPermissionKey = "mcs"
@@ -18,6 +18,8 @@ if (appid == "30") {
 	appPermissionKey = "ims"
 } else if (appid == "263250626593423361") {
 	appPermissionKey = "hcis"
+} else if (appid == "293576751995420673") {
+	appPermissionKey = "psi"
 }
 // 配置新建一个 axios 实例
 const service = axios.create({
@@ -260,7 +262,7 @@ const http = {
 	}
 }
 
-export { appPermissionKey, appid, http, service as request, setAppid };
+export { appid, appPermissionKey, http, service as request, setAppid };
 
 // 导出 axios 实例
 export default service;
