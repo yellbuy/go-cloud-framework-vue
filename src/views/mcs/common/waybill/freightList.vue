@@ -185,7 +185,9 @@
 						</el-table-column>
 						<el-table-column label="结束" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
-								<el-switch
+								<el-tag type="success" effect="plain" v-if="scope.row.FinishState">{{ $t('message.action.yes') }}</el-tag>
+								<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
+								<!-- <el-switch
 									v-model="scope.row.FinishState"
 									inline-prompt
 									:width="46"
@@ -194,9 +196,9 @@
 									:active-text="$t('message.action.yes')"
 									:inactive-text="$t('message.action.no')"
 									:active-value="1"
-									:inactive-value="0"/>
+									:inactive-value="0"/> 
 								<el-tag type="success" effect="plain" v-if="scope.row.FinishState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
-								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
+								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>-->
 							</template>
 						</el-table-column>
 						<el-table-column prop="VehicleTypeName" label="车型" width="80"></el-table-column>
