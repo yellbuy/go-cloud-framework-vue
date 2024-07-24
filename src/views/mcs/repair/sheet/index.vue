@@ -39,7 +39,7 @@
 				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="BillNo" label="维修单号" width="110" fixed></el-table-column>
-				<el-table-column label="是否委外" width="120" show-overflow-tooltip>
+				<el-table-column label="是否委外" width="90" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.IsExternal"

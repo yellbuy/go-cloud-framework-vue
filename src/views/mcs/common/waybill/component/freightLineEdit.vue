@@ -17,7 +17,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发货重量" prop="SenderNetWeight">
+						<el-form-item :label="'发货'+getModeName" prop="SenderNetWeight">
 							<el-input-number v-model="ruleForm.SenderNetWeight" min="0" max="10000" :precision="2" /> 
 						</el-form-item>
 					</el-col>
@@ -39,7 +39,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="卸货重量" prop="ReceiverNetWeight">
+						<el-form-item :label="'卸货'+getModeName" prop="ReceiverNetWeight">
 							<el-input-number v-model="ruleForm.ReceiverNetWeight" min="0" max="10000" :precision="2" /> 
 						</el-form-item>
 					</el-col>
@@ -101,6 +101,30 @@ export default {
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
 		});
+
+		const getModeName=computed(() => {
+		 	const mode= state.ruleForm?.Waybill?.Mode;
+			if(!mode){
+				return ""
+			}
+			// <el-radio :label="1">吨</el-radio>
+			// 						<el-radio :label="2">台班</el-radio>
+			// 						<el-radio :label="3">月</el-radio>
+			// 						<el-radio :label="4">队用</el-radio>
+			if(mode==1){
+				return "(吨)"
+			}
+			if(mode==2){
+				return "(台班)"
+			}
+			if(mode==3){
+				return "(月)"
+			}
+			if(mode==4){
+				return "(队用)"
+			}
+			return ""
+		});
 		
 		const state = reactive({
 			isShowDialog: false,
@@ -127,6 +151,7 @@ export default {
 				WebSite: '',
 				Fax: '',
 				Im: '',
+				Waybill:{Mode:0}
 			},
 			tableItem: {
 				Id: '0',
@@ -196,7 +221,7 @@ export default {
 				}
 				state.disable = disable;
 				if (id && id != '0') {
-					GetByIdRow(id);
+					getByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
@@ -209,7 +234,7 @@ export default {
 			}
 		};
 
-		const GetByIdRow = async (Id: string) => {
+		const getByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.waybillLine.getById(Id);
 				if (res.errcode != 0) {
@@ -270,11 +295,12 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
-			GetByIdRow,
+			getByIdRow,
 			dateFormatYMD,
 			getUserInfos,
 			rules,
 			token,
+			getModeName,
 			onSubmit,
 			...toRefs(state),
 		};
