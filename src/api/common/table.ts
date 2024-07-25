@@ -76,10 +76,37 @@ export default{
 	 * @param val 值
 	 * @returns 返回接口数据
 	 */
-     updateById:async(tableName:string,fieldName:string,id:string,val:any)=>{
+     updateById:async(tableName:string,fieldName:string,id:string,fieldValue:any)=>{
         //对象转换为数组
-        const data=[{Id:id,Value:val}]
+        const data=[{Id:id,Value:fieldValue}]
 		const url=`/v1/admin/table/${tableName}/${fieldName}`;
+		const res= await http.post(url, data,{notifyError:false});
+		if(res.errcode==0){
+			ElMessage({
+				message: '操作成功',
+				grouping: true,
+				type: 'success',
+			})
+		} else {
+			ElMessage({
+				message: `操作失败，请刷新后重试。错误消息：${res.errmsg}`,
+				grouping: true,
+				type: 'error',
+			})
+		}
+	},
+	/**
+	 * 更新表字段
+	 * @param tableName 表名
+	 * @param fieldName 字段名
+	 * @param id 标识
+	 * @param val 值
+	 * @returns 返回接口数据
+	 */
+	updateExtById:async(tableName:string,fieldName:string,id:string,fieldValue:any,savedTimeFieldName:string="",savedUserFieldName:string="")=>{
+        //对象转换为数组
+        const data={ExtValues:[{Id:id,Value:fieldValue}],SavedTimeFieldName:savedTimeFieldName,SavedUserFieldName:savedUserFieldName}
+		const url=`/v3/admin/table/${tableName}/${fieldName}`;
 		const res= await http.post(url, data,{notifyError:false});
 		if(res.errcode==0){
 			ElMessage({

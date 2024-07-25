@@ -183,6 +183,22 @@
 						</el-table-column>
 						<el-table-column prop="VehicleNumber" label="车牌号" width="85" fixed>
 						</el-table-column>
+						<el-table-column label="开始" width="70" align="center" show-overflow-tooltip>
+							<template #default="scope">
+								<el-switch
+									v-model="scope.row.BeginState"
+									inline-prompt
+									:width="46"
+									v-auth:[moduleKey]="'btn.ChildUpdate'"
+									@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'begin_state', scope.row.Id, scope.row.BeginState,'begin_time')"
+									:active-text="$t('message.action.yes')"
+									:inactive-text="$t('message.action.no')"
+									:active-value="1"
+									:inactive-value="0"/> 
+								<el-tag type="success" effect="plain" v-if="scope.row.BeginState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
+								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
+							</template>
+						</el-table-column>
 						<el-table-column label="结束" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tag type="success" effect="plain" v-if="scope.row.FinishState">{{ $t('message.action.yes') }}</el-tag>
