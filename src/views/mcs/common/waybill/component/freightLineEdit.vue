@@ -107,10 +107,6 @@ export default {
 			if(!mode){
 				return ""
 			}
-			// <el-radio :label="1">吨</el-radio>
-			// 						<el-radio :label="2">台班</el-radio>
-			// 						<el-radio :label="3">月</el-radio>
-			// 						<el-radio :label="4">队用</el-radio>
 			if(mode==1){
 				return "(吨)"
 			}
