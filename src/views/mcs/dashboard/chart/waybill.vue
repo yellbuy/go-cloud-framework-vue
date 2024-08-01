@@ -85,7 +85,7 @@
 	  <DxStateStoring
           :enabled="true"
           type="localStorage"
-          storageKey="dashboard-chart-waybill_v1.0"
+          storageKey="dashboard-chart-waybill_v1.1"
         />
 	  <FieldChooser :enabled="true" />
 	  <DxExport :enabled="true" />
@@ -204,6 +204,11 @@ const createDataSource:any = ()=>{
 		},{
 			caption: "客户",
 			dataField: "WaybillCustomerName",
+			expanded: true,
+			area: "filter"
+		},{
+			caption: "车辆",
+			dataField: "VehicleNumber",
 			expanded: true,
 			area: "filter"
 		},{
