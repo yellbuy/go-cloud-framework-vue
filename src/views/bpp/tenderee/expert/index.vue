@@ -9,7 +9,7 @@
 					<el-form-item label="手机号">
 						<el-input placeholder="请输入关键字" v-model="tableData.param.name" style="width: 150px;"/>
 					</el-form-item>
-					<el-form-item label="科室">
+					<el-form-item label="部门">
 							<el-select multiple v-model="tableData.param.kind" placeholder="请选择" style="width: 150px;">
 								<el-option v-for="(item, index) in companyOption" :key="index" :label="item.Name" :value="item.Id" />
 							</el-select>
@@ -48,13 +48,13 @@
 				<el-table-column prop="index" label="专家编号" align="right" width="120" fixed />
 				<el-table-column prop="name" label="专家姓名" width="120" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="phone" label="专家手机号" width="180" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="tel" label="所属科室" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="tel" label="所属部门" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="job" label="职称" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="assessment" label="评审范围" width="300" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="email" label="通信地址" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="primary" @click="onOpenexpertEdit(scope.row)">
+						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row)">
 							<el-icon>
 								<Edit />
 							</el-icon>
@@ -87,13 +87,11 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import expertEdit from './component/expertEdit.vue';
+import { ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import other from '/@/utils/other';
+import expertEdit from './component/expertEdit.vue';
+import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'baseUsers',
 	components: { expertEdit },
@@ -161,7 +159,7 @@ export default {
 			expertEditRef.value.openDialog({}, IsState, parseInt(state.vip));
 		};
 		// 打开修改用户弹窗
-		const onOpenexpertEdit = (row: Object) => {
+		const onOpenEditDlg = (row: Object) => {
 			expertEditRef.value.openDialog(row, IsState);
 		};
 		// 删除用户
@@ -206,7 +204,7 @@ export default {
 			onGetTableData,
 			onResetSearch,
 			onOpenAddUser,
-			onOpenexpertEdit,
+			onOpenEditDlg,
 			onRowDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

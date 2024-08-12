@@ -6,7 +6,7 @@ export default {
 		home:'home',
 		projectManagement:'project management',
 		projectTender:'project tender',
-		parameterTemplate:'parameter template',
+		settingTemplate:'setting template',
 		projectEnd:'project end',
 		supplierManagement:'supplier management',
 		supplierAudit:'supplier audit',

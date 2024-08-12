@@ -6,7 +6,7 @@ export default {
 		home:'首页',
 		projectManagement:'项目管理',
 		projectTender:'招标项目',
-		parameterTemplate:'参数模板',
+		settingTemplate:'参数模板',
 		projectEnd:'已结束项目',
 		supplierManagement:'供应商管理',
 		supplierAudit:'基本信息变更申请',
