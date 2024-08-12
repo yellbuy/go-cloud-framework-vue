@@ -85,18 +85,14 @@ export default {
 				},
 			},
 		});
-		//获取项目品目信息
+		//获取项目专家列表信息
 		const onGetTableData = async (isState: boolean) => {
 			if (isState) {
-				let params = {};
 				state.project = store.state.project.project;
 				state.tableData.data = [];
 				try {
-					params.projectId = store.state.project.projectId;
-					params.state = 1;
-					//重新请求数据
-
-					const res = await proxy.$api.erp.projectcompany.comparisonList(params);
+					//请求获取列表
+					const res = await proxy.$api.erp.project.expertList(state.project);
 					//获取存储的项目数据
 					if (res.errcode != 0) {
 						return;
@@ -117,15 +113,15 @@ export default {
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
-				// try {
-				// 	const res = await proxy.$api.common.enterprise.audit(state.ruleForm);
-				// 	if (res.errcode != 0) {
-				// 		return;
-				// 	}
-				// 	state.ruleForm.AuditState = 0;
-				// } finally {
-				// 	onGetTableData(true);
-				// }
+				try {
+					const res = await proxy.$api.erp.project.expertLeader(state.ruleForm);
+					if (res.errcode != 0) {
+						return;
+					}
+					state.ruleForm.AuditState = 0;
+				} finally {
+					onGetTableData(true);
+				}
 				return false;
 			});
 		};
@@ -140,7 +136,9 @@ export default {
 		};
 
 		// 页面加载时
-		onMounted(() => {});
+		onMounted(() => {
+			// onGetTableData(true)
+		});
 
 		return {
 			proxy,
