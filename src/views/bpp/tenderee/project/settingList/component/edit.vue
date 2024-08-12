@@ -2,14 +2,35 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="130px" v-loading="loading">
+				<!-- <el-form-item label="评审项" prop="Name">
+					<el-input v-model="ruleForm.Name"/>
+				</el-form-item> -->
 				<el-form-item label="评审内容" prop="Content">
 					<el-input v-model="ruleForm.Content"/>
 				</el-form-item>
 				<el-form-item label="评审标准" prop="Standard">
 					<el-input v-model="ruleForm.Standard" type="textarea"/>
 				</el-form-item>
+				
+				
+				<!-- <el-form-item label="评审结果" v-if="ruleForm.Kind == 'zgps'" prop="TechnicalMaxScore">
+					<el-switch
+							v-model="ruleForm.State"
+							inline-prompt
+							active-text="通过"
+							inactive-text="不通过"
+							:active-value="1"
+							:inactive-value="0"
+						/>
+				</el-form-item>				 -->
 				<el-form-item label="最高评分" v-if="ruleForm.Kind != 'zgps'" prop="TechnicalMaxScore">
 					<el-input-number v-model="ruleForm.TechnicalMaxScore" :min="0" controls-position="right" :precision="1" />
+				</el-form-item>
+				<el-form-item label="排序：" prop="Order">
+					<el-input-number v-model="ruleForm.Order" :min="0" :max="10000000" controls-position="right" :precision="0" /> 
+				</el-form-item>
+				<el-form-item label="备注" prop="Remark">
+					<el-input v-model="ruleForm.Remark" type="textarea"/>
 				</el-form-item>
 			</el-form>
 			<template #footer>
@@ -23,9 +44,8 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElMessageBox, ElMessage } from 'element-plus';
 export default {
 	name: 'categoryEdit',
 	setup() {
@@ -38,14 +58,24 @@ export default {
 			ruleForm: {
 				Id: '0',
 				Kind: 'zgps',
+				State:1,
 				Content: '',
 				Standard: '',
+				Order:100,
+				Remark:'',
 				TechnicalMaxScore: 0,
 				SettingType: 1,
 			},
 		});
 
 		const rules = reactive({
+			Name: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
 			Content: [
 				{
 					required: true,
@@ -71,19 +101,21 @@ export default {
 		// 打开弹窗
 		const openDialog = (Type: string, id: string) => {
 			if (id != '0') {
-				GetByIdRow(id);
+				getRowById(id);
 				state.title = t('message.action.edit');
 			} else {
 				state.ruleForm.Id = 0;
+				state.ruleForm.Order=100;
 				state.title = t('message.action.add');
 			}
 			state.ruleForm.Kind = Type;
 			state.isShowDialog = true;
 		};
-		const GetByIdRow = async (Id: string) => {
+		const getRowById = async (Id: string) => {
 			try {
 				const res = await proxy.$api.erp.projectsetting.getById(Id);
 				if (res.errcode != 0) {
+					state.isShowDialog = false;
 					return;
 				}
 				state.ruleForm = res.data;

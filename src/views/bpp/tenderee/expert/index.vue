@@ -3,13 +3,14 @@
 		<el-card shadow="hover">
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
-					<el-form-item label="姓名">
-						<el-input placeholder="请输入关键字" v-model="tableData.param.account" style="width: 150px;"/>
-					</el-form-item>
 					<el-form-item label="手机号">
+						<el-input placeholder="请输入关键字" v-model="tableData.param.mobile" style="width: 150px;"/>
+					</el-form-item>
+					<el-form-item label="姓名">
 						<el-input placeholder="请输入关键字" v-model="tableData.param.name" style="width: 150px;"/>
 					</el-form-item>
-					<el-form-item label="科室">
+					
+					<el-form-item label="部门">
 							<el-select multiple v-model="tableData.param.kind" placeholder="请选择" style="width: 150px;">
 								<el-option v-for="(item, index) in companyOption" :key="index" :label="item.Name" :value="item.Id" />
 							</el-select>
@@ -45,16 +46,17 @@
 				border
 				stripe
 				highlight-current-row>
-				<el-table-column prop="index" label="专家编号" align="right" width="120" fixed />
-				<el-table-column prop="name" label="专家姓名" width="120" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="phone" label="专家手机号" width="180" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="tel" label="所属科室" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="job" label="职称" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="assessment" label="评审范围" width="300" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="email" label="通信地址" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Id" label="专家编号" align="right" width="150" fixed />
+				<el-table-column prop="Mobile" label="专家手机号" width="100" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Name" label="专家姓名" width="80" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="WorkPlace" label="工作单位/科室" width="180" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Position" label="职务" width="110" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Alias" label="职称" width="100" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Remark" label="评审范围" width="300" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Address" label="通信地址" width="150" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="primary" @click="onOpenexpertEdit(scope.row)">
+						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row)">
 							<el-icon>
 								<Edit />
 							</el-icon>
@@ -87,13 +89,11 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import expertEdit from './component/expertEdit.vue';
+import { ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import other from '/@/utils/other';
+import expertEdit from './component/expertEdit.vue';
+import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'baseUsers',
 	components: { expertEdit },
@@ -115,14 +115,14 @@ export default {
 			scopeMode,
 			scopeValue,
 			tableData: {
-				data: [{index:"test123", name:"张三", phone:"13333333333", tel:"骨科", job:"教授", assessment:"测试，测试", email:"123@qq.com"}],
+				data: [],
 				total: 0,
 				loading: false,
 				param: {
-					account: '',
+					isExternal: 1,
 					name: '',
 					current: 1,
-					size: 20,
+					pageSize: 20,
 				},
 			},
 		});
@@ -146,7 +146,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.base.user.getVipList(state.vip, state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.base.user.getList(state.tableData.param);
 				// const res = await proxy.$api.base.user.getList(state.tableData.param);
 				if (res.errcode == 0) {
 					state.tableData.data = res.data;
@@ -161,12 +161,12 @@ export default {
 			expertEditRef.value.openDialog({}, IsState, parseInt(state.vip));
 		};
 		// 打开修改用户弹窗
-		const onOpenexpertEdit = (row: Object) => {
+		const onOpenEditDlg = (row: Object) => {
 			expertEditRef.value.openDialog(row, IsState);
 		};
 		// 删除用户
 		const onRowDel = (row: Object) => {
-			ElMessageBox.confirm(`确定要删除账户“${row.Account}”吗?`, '提示', {
+			ElMessageBox.confirm(`确定要删除账户“${row.Name}”吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
@@ -184,7 +184,7 @@ export default {
 		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.size = val;
+			state.tableData.param.pageSize = val;
 			onGetTableData();
 		};
 		// 分页改变
@@ -194,7 +194,7 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
-			// onGetTableData();
+			onGetTableData();
 		});
 
 		const { dateFormatYMDHM } = commonFunction();
@@ -206,7 +206,7 @@ export default {
 			onGetTableData,
 			onResetSearch,
 			onOpenAddUser,
-			onOpenexpertEdit,
+			onOpenEditDlg,
 			onRowDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

@@ -3,9 +3,9 @@
 		<el-card shadow="hover">
 			<el-tabs v-model="activeName" type="card" class="demo-tabs" @tab-change="tabsName">
 				<el-tab-pane label="资格评审" name="zgps">
-					<el-form :model="jsTableData.param" label-width="60px" :inline="true">
+					<el-form :model="zgTableData.param" label-width="60px" :inline="true">
 						<el-form-item label="名称">
-							<el-input placeholder="请输入名称" v-model="jsTableData.param.name" style="width: 150px;"/>
+							<el-input placeholder="请输入名称" v-model="zgTableData.param.name" style="width: 150px;"/>
 						</el-form-item>
 						<el-form-item>
 							<el-button type="info" @click="onResetSearch">
@@ -14,19 +14,20 @@
 								</el-icon>
 								重置
 							</el-button>
-							<el-button type="info" @click="onGetJsTableData(true)">
+							<el-button type="info" @click="onGetZgTableData(true)">
 								<el-icon>
 									<Search />
 								</el-icon>
 								搜索
 							</el-button>
-							<el-button type="primary" @click="onOpenCommondata(0)">创建</el-button>
+							<el-button type="primary" @click="onOpenEditDlg(0)">创建</el-button>
 						</el-form-item>
 					</el-form>
 					<el-table :data="zgTableData.data" style="width: 100%; margin-top: 10px;" v-loading="zgTableData.loading" :height="proxy.$calcMainHeight(-170)" border stripe highlight-current-row>
 						<el-table-column type="index" label="序号" width="70" align="right" show-overflow-tooltip fixed />
-						<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
-						<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
+						<!-- <el-table-column prop="Name" label="评审项" width="120" show-overflow-tooltip /> -->
+						<el-table-column prop="Content" label="评审内容" width="240" show-overflow-tooltip />
+						<el-table-column prop="Standard" label="评审标准" width="300" show-overflow-tooltip />
 						<el-table-column prop="State" label="评分方式" width="120" show-overflow-tooltip>
 							<template #default="scope">
 								<div v-if="scope.row.State === 0" style="display: flex; align-items: center;">
@@ -39,10 +40,27 @@
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
+						<el-table-column prop="Order" label="排序" width="100" align="center">
+							<template #header>
+								<el-button  type="text" v-if="zgTableData.data" 
+									@click="proxy.$api.common.table.update('erp_project_setting','Order', zgTableData.data||[], 0)" v-auth:[moduleKey]="'btn.Edit'">
+									<el-icon>
+										<Edit />
+									</el-icon>
+									&#8197;排序{{ $t('message.action.update') }}
+								</el-button>
+								<span v-no-auth:[moduleKey]="'btn.Edit'">排序</span>
+							</template>
 							<template #default="scope">
-								<el-button type="primary" @click="onOpenCommondata(scope.row.Id)">编辑</el-button>
-								<el-button text bg type="danger" @click="onRowDel(scope.row)">删除</el-button>
+								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'"> </el-input>
+								<span v-no-auth:[moduleKey]="'btn.Edit'">{{scope.row.Order}}</span>
+							</template>
+						</el-table-column>
+						<el-table-column prop="Remark" label="备注" show-overflow-tooltip />
+						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" show-overflow-tooltip>
+							<template #default="scope">
+								<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id)">编辑</el-button>
+								<el-button text bg type="danger" @click="onRowDel(scope.row.Id)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -62,7 +80,7 @@
 				<el-tab-pane label="技术评审" name="jsps">
 					<el-form :model="jsTableData.param" label-width="60px" :inline="true">
 						<el-form-item label="名称">
-							<el-input placeholder="请输入名称" v-model="zgTableData.param.name" style="width: 150px;"/>
+							<el-input placeholder="请输入名称" v-model="jsTableData.param.name" style="width: 150px;"/>
 						</el-form-item>
 						<el-form-item>
 							<el-button type="info" @click="onResetSearch">
@@ -71,13 +89,13 @@
 								</el-icon>
 								重置
 							</el-button>
-							<el-button type="info" @click="onGetZgTableData(true)">
+							<el-button type="info" @click="onGetJsTableData(true)">
 								<el-icon>
 									<Search />
 								</el-icon>
 								搜索
 							</el-button>
-							<el-button type="primary" @click="onOpenCommondata(0)">创建</el-button>
+							<el-button type="primary" @click="onOpenEditDlg(0)">创建</el-button>
 						</el-form-item>
 					</el-form>
 					<el-table
@@ -89,12 +107,30 @@
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" width="70" align="right" show-overflow-tooltip fixed/>
-						<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
-						<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
-						<el-table-column prop="TechnicalMaxScore" label="最高评分" show-overflow-tooltip />
-						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
+						<el-table-column prop="Content" label="评审内容" width="240" show-overflow-tooltip />
+						<el-table-column prop="Standard" label="评审标准" width="300" show-overflow-tooltip />
+						<el-table-column prop="TechnicalMaxScore" label="最高评分" align="right" width="90" />
+						
+						<el-table-column prop="Order" label="排序" width="100" align="center">
+							<template #header>
+								<el-button  type="text" v-if="jsTableData.data" 
+									@click="proxy.$api.common.table.update('erp_project_setting','Order', jsTableData.data||[], 0)" v-auth:[moduleKey]="'btn.Edit'">
+									<el-icon>
+										<Edit />
+									</el-icon>
+									&#8197;排序{{ $t('message.action.update') }}
+								</el-button>
+								<span v-no-auth:[moduleKey]="'btn.Edit'">排序</span>
+							</template>
 							<template #default="scope">
-								<el-button type="primary" @click="onOpenCommondata(scope.row.Id)">编辑</el-button>
+								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'"> </el-input>
+								<span v-no-auth:[moduleKey]="'btn.Edit'">{{scope.row.Order}}</span>
+							</template>
+						</el-table-column>
+						、<el-table-column prop="Remark" label="备注" show-overflow-tooltip />
+						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" show-overflow-tooltip>
+							<template #default="scope">
+								<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id)">编辑</el-button>
 								<el-button text bg type="danger" @click="onRowDel(scope.row.Id)">删除</el-button>
 							</template>
 						</el-table-column>
@@ -114,28 +150,25 @@
 				</el-tab-pane>
 			</el-tabs>
 		</el-card>
-		<commondataEdit ref="commondataEditRef" />
+		<commondataEdit ref="editDlgRef" />
 	</div>
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, getCurrentInstance } from 'vue';
-import commondataEdit from './component/edit.vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import request from '/@/utils/request';
-import { getPageCategoryList } from '../../../../api/common/category';
-import { Refresh } from '@element-plus/icons-vue';
+import { ElMessageBox } from 'element-plus';
+import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
+import commondataEdit from './component/edit.vue';
 export default {
-	name: 'systemParameter',
+	name: 'bidSettingList',
 	components: { commondataEdit },
 	setup() {
-		const commondataEditRef = ref();
+		const editDlgRef = ref();
 		const route = useRoute();
 		// const activeName = ref('zg');
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = 'api_pro_parameter';
+		const moduleKey = 'tenderee_project_setting';
 		const { proxy } = getCurrentInstance() as any;
 		const state = reactive({
 			moduleKey: moduleKey,
@@ -196,8 +229,8 @@ export default {
 			}
 		};
 		// 打开弹窗
-		const onOpenCommondata = (id: string) => {
-			commondataEditRef.value.openDialog(state.activeName, id);
+		const onOpenEditDlg = (id: string) => {
+			editDlgRef.value.openDialog(state.activeName, id);
 		};
 		const onResetSearch = () => {
 			if (state.activeName == 'zgps') {
@@ -264,7 +297,7 @@ export default {
 				onGetJsTableData();
 			}
 		};
-		const onRowDel = (Id: number) => {
+		const onRowDel = (id: number) => {
 			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
@@ -273,7 +306,7 @@ export default {
 				state.zgTableData.loading = true;
 				state.jsTableData.loading = true;
 				try {
-					const res = await proxy.$api.cms.article.delete(Id);
+					const res = await proxy.$api.erp.projectsetting.delete(id);
 					if (res.errcode == 0) {
 						if (res.errcode == 0) {
 							if (state.activeName == 'zgps') {
@@ -292,8 +325,8 @@ export default {
 			});
 		};
 		return {
-			commondataEditRef,
-			onOpenCommondata,
+			editDlgRef,
+			onOpenEditDlg,
 			onGetJsTableData,
 			onGetZgTableData,
 			onRowDel,

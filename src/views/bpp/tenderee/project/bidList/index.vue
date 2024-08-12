@@ -30,8 +30,8 @@
 				</div>
 				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
-					<el-table-column prop="No" label="招标编号" show-overflow-tooltip fixed/>
-					<el-table-column prop="Kind" label="招标类型" show-overflow-tooltip>
+					<el-table-column prop="No" label="招标编号" width="150" show-overflow-tooltip fixed/>
+					<el-table-column prop="Kind" label="招标类型" width="100">
 						<template #default="scope">
 							<span v-if="scope.row.ProjectType == 1">公开招标</span>
 							<span v-else-if="scope.row.ProjectType == 2">邀请招标</span>
@@ -40,11 +40,12 @@
 							<span v-else-if="scope.row.ProjectType == 5">询价采购</span>
 						</template>
 					</el-table-column>
-					<el-table-column prop="Name" label="招标项目" show-overflow-tooltip/>
-					<el-table-column prop="fanwei" label="招标范围" show-overflow-tooltip/>
-					<el-table-column prop="EndTime" label="报名截止日期" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
-					<el-table-column prop="ReviewTime" label="开标日期" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
-					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(360)" fixed="right">
+					<el-table-column prop="Name" label="招标项目" width="200" show-overflow-tooltip/>
+					
+					<el-table-column prop="EndTime" label="报名截止日期" width="150" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
+					<el-table-column prop="ReviewTime" label="开标日期" width="150"  :formatter="dateFormatYMDHM" show-overflow-tooltip/>
+					<el-table-column prop="fanwei" label="招标范围" width="200" show-overflow-tooltip/>
+					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 						<template #default="scope">
 							<el-button text bg type="info" @click="onProjectSee()">项目详情</el-button>
 							<el-button text bg type="primary" @click="onProjectBidEdit()">项目评选</el-button>

@@ -1,72 +1,75 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="600px">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="120px" v-loading="loading">
 				<el-row :gutter="10">
 					<el-col :span="24" class="mb20">
-						<el-form-item label="专家编号" prop="Account">
-							<el-input v-model="ruleForm.Account" :autofocus="!ruleForm.Id" :readonly="ruleForm.Id > 0" placeholder="请输入" maxlength="50" clearable/>
-						</el-form-item>
-					</el-col>
-					<el-col :span="24" class="mb20">
 						<el-form-item label="专家姓名" prop="Name">
-							<el-input v-model="ruleForm.Name" placeholder="请输入" maxlength="50" clearable/>
+							<el-input v-model="ruleForm.Name" placeholder="请输入" maxlength="32" clearable/>
+						</el-form-item>
+					</el-col>
+					
+					<el-col :span="24" class="mb20">
+						<el-form-item label="专家手机号" prop="Mobile">
+							<el-input v-model="ruleForm.Mobile" placeholder="请输入" maxlength="24" clearable/>
 						</el-form-item>
 					</el-col>
 					<el-col :span="24" class="mb20">
-						<el-form-item label="手机号" prop="Password">
-							<el-input v-model="ruleForm.Password" type="new-password" placeholder="请输入" maxlength="50" clearable/>
-							<p title="" class="color-info-light text-help-info font10" v-if="ruleForm.Id > 0">
-								<SvgIcon name="fa fa-info-circle" /><span>无需修改密码，请保留为空</span>
-							</p>
+						<el-form-item label="性别" prop="Gender">
+							<el-radio-group v-model="ruleForm.Gender">
+								<el-radio :label="1" size="large">男</el-radio>
+								<el-radio :label="2" size="large">女</el-radio>
+							</el-radio-group>
+						</el-form-item>
+					</el-col>
+					
+					<el-col :span="24" class="mb20">
+						<el-form-item label="工作单位/科室" prop="WorkPlace">
+							<el-input v-model="ruleForm.WorkPlace" placeholder="请输入" maxlength="50" clearable/>
 						</el-form-item>
 					</el-col>
 					<el-col :span="24" class="mb20">
-						<el-form-item label="所属科室" prop="PasswordConfirm">
-							<el-input v-model="ruleForm.PasswordConfirm" type="new-password" placeholder="请输入" maxlength="50" clearable/>
+						<el-form-item label="职务" prop="Position">
+							<el-input v-model="ruleForm.Position" placeholder="请输入" maxlength="50" clearable/>
 						</el-form-item>
 					</el-col>
 					<el-col :span="24" class="mb20">
-						<el-form-item label="专家职称" prop="PasswordConfirm">
-							<el-input v-model="ruleForm.PasswordConfirm" type="new-password" placeholder="请输入" maxlength="50" clearable/>
+						<el-form-item label="专家职称" prop="Alias">
+							<el-input v-model="ruleForm.Alias" placeholder="请输入" maxlength="50" clearable/>
 						</el-form-item>
 					</el-col>
 					<el-col :span="24" class="mb20">
-						<el-form-item label="评选范围" prop="PasswordConfirm">
-							<el-input v-model="ruleForm.PasswordConfirm" type="new-password" placeholder="请输入" maxlength="50" clearable/>
+						<el-form-item label="评选范围" prop="Remark">
+							<el-input v-model="ruleForm.Remark" placeholder="请输入" maxlength="50" clearable/>
 						</el-form-item>
 					</el-col>
 					<el-col :span="24" class="mb20">
-						<el-form-item label="通讯地址" prop="PasswordConfirm">
-							<el-input v-model="ruleForm.PasswordConfirm" type="new-password" placeholder="请输入" maxlength="50" clearable/>
+						<el-form-item label="通讯地址" prop="Address">
+							<el-input v-model="ruleForm.Address" placeholder="请输入" maxlength="50" clearable/>
 						</el-form-item>
 					</el-col>
 					<el-col :span="24" class="mb20">
-						<el-form-item label="上传标书：" prop="Files">
+						<el-form-item label="上传签名：" prop="Pics">
 							<div style="width: 50%">
 								<el-upload
-									class="upload-demo"
+									class="avatar-uploader"
 									:action="uploadURL"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:show-file-list="false"
+									:on-progress="onUploadingFile"
 									:on-success="onSuccessFile"
-									:on-preview="onPreview"
-									:on-remove="onRemove"
-									:file-list="FilesList"
-									:accept:="`image/png, image/jpeg,image/bmp,image/jpg,application/pdf,application/docx,application/doc,application/xls,application/xlsx`"
-									multiple
-									show-file-list>
-									<template #default>
-										<el-button>
-											<el-icon class="el-icon--right">
-												<Upload />
-											</el-icon>
-											上传
-										</el-button>
-									</template>
+								>
+									<img v-if="imageUrl" :src="imageUrl" class="avatar" />
+									<el-icon v-if="imageUrl" class="avatar-delete-icon" @click.stop="onRemove"><Delete /></el-icon>
+									<!-- <span v-if="imageUrl" class="el-upload-list__item-actions">										
+										<span  class="el-upload-list__item-delete"
+											@click="onRemove"
+										>
+											<el-icon><Delete /></el-icon>
+										</span>
+									</span> -->
+									<el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
 								</el-upload>
-							</div>
-							<div>
-								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
 							</div>
 						</el-form-item>
 					</el-col>
@@ -82,12 +85,12 @@
 	</div>
 </template>
 <script lang="ts">
-import request from '/@/utils/request';
-import { computed, reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
-import { Session } from '/@/utils/storage';
-import { useStore } from '/@/store/index';
+import { Delete, Plus } from '@element-plus/icons-vue';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
+import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'baseUserEdit',
 	setup() {
@@ -104,46 +107,33 @@ export default {
 			title: t('message.action.add'),
 			loading: false,
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
-			Files: [],
+			Pics: [],
 			homeBaseUrl: import.meta.env.VITE_URL as any,
 			baseUrl: import.meta.env.VITE_API_URL,
-			dialogImageUrl: [],
+			imageUrl: '',
 			dialogTitle: '',
 			dialogVisible: false,
-			FilesList: [],
+			PicsList: [],
 			token: token,
 			ruleForm: {
 				Id: 0,
-				Account: '', // 账户名称
+				Username: '', // 账户名称
 				Name: '', // 用户昵称
 				Code: '',
 				Enable: 1,
 				Order: 100, // 排序
-				Password: '',
-				PasswordConfirm: '',
 				Mobile: '',
 				Tel: '',
-				Email: '',
-				Addrcode: '',
-				RoleIds: '',
-				CheckedRoleList: [],
-				RoleList: [],
-				AllowBackendLogin: 1,
-				AllowFrontendLogin: 1,
-				IsExternal: 0,
+				Email: '',				
+				Address: '',
+				IsExternal: 1,
 				Parentid: '',
-				Vip: 0,
-				department: [], // 部门
 				Gender: 0, // 性别
 			},
-			UParentid: '',
-			deptData: [], // 部门数据
-			userData: [],
-			IsState: route.query.hasParentid,
 		});
 
 		const rules = reactive({
-			Account: [
+			Name: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -156,7 +146,7 @@ export default {
 					trigger: 'change',
 				},
 			],
-			Name: [
+			Gender: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -173,32 +163,28 @@ export default {
 		});
 
 		// 打开弹窗
-		const openDialog = (row: Object, IsState: string, vip: number) => {
+		const openDialog = (row: Object) => {
 			state.loading = false;
-			console.log('vip', vip);
 			const model = JSON.parse(JSON.stringify(row));
 			state.ruleForm = model;
+			state.ruleForm.IsExternal=1;
 			if (row && row.Id > 0) {
 				state.title = t('message.action.edit');
-				state.UParentid = row.Parentid;
+				
 			} else {
 				state.title = t('message.action.add');
 				state.ruleForm.Id = 0;
 				state.ruleForm.Enable = 1;
 				state.ruleForm.Order = 100;
-				state.ruleForm.AllowBackendLogin = 1;
-				state.ruleForm.AllowFrontendLogin = 1;
-				state.UParentid = '';
-				state.ruleForm.Vip = 0;
+				state.ruleForm.Pics="";
 			}
-			if (vip > 0) {
-				state.ruleForm.IsExternal = 1;
-				state.ruleForm.Vip = vip;
+			if(state.ruleForm.Pics!=""){
+				state.imageUrl=state.homeBaseUrl+state.ruleForm.Pics;
+			}else{
+				state.imageUrl=""
 			}
+		
 			state.isShowDialog = true;
-			if (state.IsState) {
-				getLoadData();
-			}
 			// //加载角色数据
 			// onInitRoleData(row.RoleIds || '');
 		};
@@ -216,14 +202,7 @@ export default {
 				if (valid) {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.Order = Number.parseInt(state.ruleForm.Order || 0);
-					state.ruleForm.RoleIds = state.ruleForm.CheckedRoleList.join(',');
-					if (state.UParentid != '') {
-						state.ruleForm.Parentid = state.UParentid;
-					}
-					if (state.ruleForm.Vip > 0) {
-						state.ruleForm.RoleIds = '';
-						state.ruleForm.RoleList = [];
-					}
+					
 					state.loading = true;
 					console.log(state.ruleForm);
 					try {
@@ -234,7 +213,6 @@ export default {
 							} else {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id = 0;
-								state.ruleForm.PasswordConfirm = '';
 							}
 							proxy.$parent.onGetTableData();
 						}
@@ -246,97 +224,23 @@ export default {
 				}
 			});
 		};
-		//加载角色数据
-		const onInitRoleData = async (roleIds: string) => {
-			state.ruleForm.RoleList = [];
-			state.ruleForm.CheckedRoleList = [];
-			const res = await proxy.$api.base.role.getList({ size: 1000000 });
-			if (res.errcode != 0) {
-				return;
-			}
 
-			const roleIdArr = roleIds.split(',');
-			for (const val of res.data) {
-				val.Checked = false;
-				for (const id of roleIdArr) {
-					if (val.Id == id) {
-						state.ruleForm.CheckedRoleList.push(val.Id);
-						val.Checked = true;
-						break;
-					}
-				}
-			}
-			state.ruleForm.RoleList = res.data;
+		const onUploadingFile= (file: UploadFile) => {
+			state.loading=true;
 		};
-
-		// // 初始化部门数据
-		// const initTableData = () => {
-		// 	state.deptData.push({
-		// 		deptName: 'vueNextAdmin',
-		// 		createTime: new Date().toLocaleString(),
-		// 		status: true,
-		// 		sort: Number.parseInt(Math.random()),
-		// 		describe: '顶级部门',
-		// 		id: Math.random(),
-		// 		children: [
-		// 			{
-		// 				deptName: 'IT外包服务',
-		// 				createTime: new Date().toLocaleString(),
-		// 				status: true,
-		// 				sort: Number.parseInt(Math.random()),
-		// 				describe: '总部',
-		// 				id: Math.random(),
-		// 			},
-		// 			{
-		// 				deptName: '资本控股',
-		// 				createTime: new Date().toLocaleString(),
-		// 				status: true,
-		// 				sort: Number.parseInt(Math.random()),
-		// 				describe: '分部',
-		// 				id: Math.random(),
-		// 			},
-		// 		],
-		// 	});
-		// };
-
 		//上传成功
 		const onSuccessFile = (file: UploadFile) => {
-			state.Files.push(file.data.src);
-			const imgPath = { url: state.homeBaseUrl + file.data.src };
-			state.FilesList.push(imgPath);
+			state.loading=false;
+			state.imageUrl=state.homeBaseUrl + file.data.src
+			state.ruleForm.Pics=file.data.src;
 		};
 		//删除上传文件
 		const onRemove = (file: UploadFile) => {
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
-			for (let i = 0; i < state.FilesList.length; i++) {
-				if (state.FilesList[i] == removeUrl) {
-					state.FilesList.splice(i, 1);
-					break;
-				}
-			}
+			state.imageUrl=''
+			state.ruleForm.Pics=''
 		};
 		const imgOnClose = () => {
 			state.dialogVisible = false;
-		};
-
-		const getLoadData = async () => {
-			const res = await proxy.$api.base.user.getList({ current: 1, size: 10000 });
-			if (res.errcode != 0) {
-				return;
-			}
-			let Ustate = false;
-			state.userData = res.data;
-			if (state.UParentid != '') {
-				for (let item of state.userData) {
-					if (item.Id == state.UParentid) {
-						console.log(item.Parentid);
-						Ustate = true;
-					}
-				}
-			}
-			if (!Ustate) {
-				state.UParentid = '';
-			}
 		};
 
 		//预览文件
@@ -349,7 +253,7 @@ export default {
 			let fileurl = uploadFile.url;
 			let fileExtension = '';
 			// 校检文件类型
-			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
+			var imageTypes = ['png', 'jpg', 'jpeg'];
 			if (filename.lastIndexOf('.') > -1) {
 				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
 			}
@@ -360,7 +264,7 @@ export default {
 			});
 			if (isTypeOk) {
 				//预览图片
-				state.dialogImageUrl[0] = fileurl;
+				state.imageUrl[0] = fileurl;
 				state.dialogTitle = filename;
 				state.dialogVisible = true;
 			} else {
@@ -381,7 +285,7 @@ export default {
 			closeDialog,
 			getUserInfos,
 			onCancel,
-			getLoadData,
+			onUploadingFile,
 			onSuccessFile,
 			imgOnClose,
 			onPreview,
@@ -393,3 +297,41 @@ export default {
 	},
 };
 </script>
+<style scoped>
+.avatar-uploader .avatar {
+  width: 240px;
+  height: 90px;
+  display: block;
+}
+</style>
+
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 240px;
+  height: 90px;
+  text-align: center;
+}
+
+.el-icon.avatar-delete-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 90px;
+  height: 90px;
+  text-align: center;
+}
+</style>
