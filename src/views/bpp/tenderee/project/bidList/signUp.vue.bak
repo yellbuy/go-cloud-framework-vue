@@ -1,0 +1,194 @@
+<template>
+	<div class="base-role-container">
+		<div v-if="isSelection">
+			<el-card shadow="hover">
+				<div class="">
+					<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
+						<el-form-item label="比选编号">
+							<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no"> </el-input>
+						</el-form-item>
+						<el-form-item label="比选项目">
+							<el-input placeholder="请输入比选项目查询" v-model="tableData.param.name"> </el-input>
+						</el-form-item>
+						<el-form-item>
+							<el-button type="info" @click="onResetSearch">
+								<el-icon>
+									<RefreshLeft />
+								</el-icon>
+								{{ $t('message.action.reset') }}
+							</el-button>
+							<el-button type="info" @click="onGetTableData(true)">
+								<el-icon>
+									<Search />
+								</el-icon>
+								&#8197;{{ $t('message.action.search') }}
+							</el-button>
+						</el-form-item>
+						<el-form-item></el-form-item>
+					</el-form>
+				</div>
+				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
+					<el-table-column type="index" label="序号" align="right" width="70" fixed />
+					<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip fixed></el-table-column>
+					<!-- <el-table-column prop="LineName" label="包名" show-overflow-tooltip></el-table-column> -->
+					<el-table-column prop="BeginTime" label="开标开始时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="FinishTime" label="开标截止时间" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="LineState" label="状态" show-overflow-tooltip>
+						<template #default="scope">
+							<span v-if="scope.row.LineState == 0">已报名</span>
+							<span v-else-if="scope.row.LineState == 1">已付款</span>
+						</template>
+					</el-table-column>
+					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+						<template #default="scope">
+							<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, true)">
+								<el-icon>
+									<Search />
+								</el-icon>
+								&#8197;{{ $t('message.action.see') }}
+							</el-button>
+							<el-button text bg type="primary" @click="onToSignUp(scope.row.ProjectId, scope.row.CompanyId)" v-auth:[moduleKey]="'btn.quoted'">{{$t('message.action.quotedPrice')}}</el-button>
+						</template>
+					</el-table-column>
+				</el-table>
+				<el-pagination
+					small
+					@size-change="onHandleSizeChange"
+					@current-change="onHandleCurrentChange"
+					class="mt15"
+					:page-sizes="[10, 20, 30, 50, 100]"
+					v-model:current-page="tableData.param.pageNum"
+					background
+					v-model:page-size="tableData.param.size"
+					layout="->, total, sizes, prev, pager, next, jumper"
+					:total="tableData.total">
+				</el-pagination>
+			</el-card>
+		</div>
+		<seeDlg ref="seeDlgRef" />
+		<signUpDlg ref="signUpDlgRef" />
+	</div>
+</template>
+
+<script lang="ts">
+import request from '/@/utils/request';
+import commonFunction from '/@/utils/commonFunction';
+import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
+import { ElMessageBox, ElMessage } from 'element-plus';
+import seeDlg from './component/projectSee.vue';
+import signUpDlg from './component/signUpEdit.vue';
+import { useRoute } from 'vue-router';
+import { useStore } from '/@/store/index';
+export default {
+	name: 'signup',
+	components: { seeDlg, signUpDlg },
+	setup() {
+		const store = useStore();
+		const route = useRoute();
+		const kind = route.params.kind;
+		const scopeMode = route.params.scopeMode || 0;
+		const scopeValue = route.params.scopeValue || 0;
+		const seeDlgRef = ref();
+		const signUpDlgRef = ref();
+		const moduleKey = `api_pro_project_signup`;
+		const { proxy } = getCurrentInstance() as any;
+		const state: any = reactive({
+			moduleKey: moduleKey,
+			kind,
+			scopeMode,
+			scopeValue,
+			tableData: {
+				data: [],
+				total: 0,
+				loading: false,
+				param: {
+					name: '',
+					no: '',
+					pageNum: 1,
+					size: 20,
+					onSelf: 1,
+					companyId: store.state.userInfos.userInfos.tenant.Id,
+				},
+			},
+			isSelection: true,
+		});
+		state.tableData.param.pageIndex = computed(() => {
+			return state.tableData.param.pageNum - 1;
+		});
+		//重置查询条件
+		const onResetSearch = () => {
+			state.tableData.param.name = '';
+			state.tableData.param.no = '';
+			onGetTableData(true);
+		};
+		const onModelSee = (Id: string, state: boolean) => {
+			console.log('是否显示', state);
+			seeDlgRef.value.openDialog(Id, state);
+		};
+		const onToSignUp = (Id: string, companyId: string) => {
+			store.commit('project/getProjectId', Id);
+			store.commit('project/getProjectCompanyId', companyId);
+			state.isSelection = false;
+			signUpDlgRef.value.GetByIdRow();
+		};
+		// 初始化表格数据
+		const onGetTableData = async (gotoFirstPage: boolean = false) => {
+			if (gotoFirstPage) {
+				state.tableData.param.pageNum = 1;
+			}
+			// const res = await proxy.$api.erp.project.signUpList(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+			state.tableData.loading = true;
+			try {
+				state.tableData;
+				const res = await proxy.$api.erp.projectcompany.signUpList(state.tableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.tableData.data = res.data;
+				state.tableData.total = res.total;
+			} finally {
+				state.tableData.loading = false;
+			}
+		};
+
+		// 分页改变
+		const onHandleSizeChange = (val: number) => {
+			state.tableData.param.size = val;
+		};
+		// 分页改变
+		const onHandleCurrentChange = (val: number) => {
+			state.tableData.param.pageNum = val;
+		};
+		// 页面加载时
+		onMounted(() => {
+			onGetTableData();
+		});
+		const isSignUpTime = (model) => {
+			let isTime = false;
+			if (dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.FinishTime) {
+				isTime = true;
+			}
+			return isTime;
+		};
+		const { dateFormatYMDHM, dateFormat } = commonFunction();
+
+		return {
+			proxy,
+			seeDlgRef,
+			signUpDlgRef,
+			onToSignUp,
+			onGetTableData,
+			onResetSearch,
+			onModelSee,
+			onHandleSizeChange,
+			onHandleCurrentChange,
+			dateFormatYMDHM,
+			isSignUpTime,
+			...toRefs(state),
+		};
+	},
+};
+</script>
+
+<style scoped lang="scss">
+</style>

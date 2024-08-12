@@ -1,0 +1,584 @@
+<template>
+	<div class="home-container">
+		<div v-if="tabIndex==0">
+			<el-row :gutter="15" class="mb15">
+			<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="home-warning-media">
+				<el-timeline style="max-width: 600px">
+					<el-timeline-item timestamp="2018-04-12 15:00" placement="top" type="primary">
+					<el-card>
+						<el-descriptions title="售标截止">
+							<el-descriptions-item label="">2018-04-12 15:00</el-descriptions-item>
+						</el-descriptions>
+						<el-divider border-style="dashed" />
+						<el-descriptions title="下载标书" border>
+							<el-descriptions-item label-align="left" width="50%" align="right" label="《标书文件》">
+								<el-link type="primary">下载</el-link>
+							</el-descriptions-item>
+						</el-descriptions>
+						<el-divider border-style="dashed" />
+						<p class="font14"><b>购买资料</b></p>
+						<el-row class="mt10">
+							<el-col :span="16">
+								<el-link type="primary">缴费凭证图片</el-link>
+							</el-col>
+							<el-col :span="8" class="text-right">
+								<el-link type="primary">上传缴费凭证</el-link>
+								<el-link>等待审核</el-link>
+							</el-col>
+						</el-row>
+						<el-divider border-style="dashed" />
+						<p class="font14"><b>支付投标保证金</b></p>
+						<el-row class="mt10">
+							<el-col :span="16">
+								<el-link type="primary">缴费凭证图片</el-link>
+							</el-col>
+							<el-col :span="8" class="text-right">
+								<el-link type="primary">上传缴费凭证</el-link>
+								<el-link>等待审核</el-link>
+							</el-col>
+						</el-row>
+					</el-card>
+					</el-timeline-item>
+					<el-timeline-item timestamp="2024-04-12 15:00" placement="top" type="primary">
+						<p class="font14"><b>投标截止</b></p>
+					</el-timeline-item>
+					<el-timeline-item timestamp="2024-04-12 15:00" placement="top" type="primary">
+						<p class="font14"><b>开始开标</b></p>
+						<el-divider border-style="dashed" />
+						<el-button type="primary" @click="onBeginBid">
+							<SvgIcon name="fa fa-cloud-download" class="mr3"/>参与投标
+						</el-button>
+						<el-divider border-style="dashed" />
+					</el-timeline-item>
+					<el-timeline-item timestamp="">
+						<el-card>
+							<el-descriptions title="开标结束">
+								<el-descriptions-item label="">2024-04-12 18:00</el-descriptions-item>
+							</el-descriptions>
+							
+							<p class="font14 mb10"><b>成交通知</b></p>
+							<p>您好：我公司的[汉风生产管控系统建设] （YJ2023122102538），经评审，现确定由贵公司供应（承揽）。请收到本通知后10个工作日内,到采购单位签订合同，否则，将视为放弃供应（承揽）权利，并扣除投标/议价/竞价保证金。请到采购组织方领取纸质版成交通知书，或联系组织方领取扫描版成交通知书（电子邮件方式）。</p>
+							<p class="text-right">特此通知。</p>
+							<p class="mt10"><el-link type="primary">中标通知书下载</el-link></p>
+						</el-card>
+					</el-timeline-item>
+				</el-timeline>
+				
+			</el-col>
+			<el-col :xs="24" :sm="12" :md="16" :lg="16" :xl="16" class="home-dynamic-media">
+				<el-descriptions title="项目基本信息" size="large" :column="2" border>
+					<el-descriptions-item label="项目编号" label-align="right" align="left" min-width="130px">
+					YJ2024052001015
+					</el-descriptions-item>
+					<el-descriptions-item label="项目名称" label-align="right" align="left" min-width="130px">
+						2024环业SMIS销售管理信息系统运维服务
+					</el-descriptions-item>
+					<el-descriptions-item label="执行策略" label-align="right" align="left">
+						线上采购
+					</el-descriptions-item>
+					<el-descriptions-item label="报价要求" label-align="right" align="left">
+					<el-tag size="small">不含税全年包干价，开具6%增值税专用发票</el-tag>
+					</el-descriptions-item>
+					<el-descriptions-item label="售标截止时间" label-align="right" align="left">
+						2024-05-23 15:10:00
+					</el-descriptions-item>
+					<el-descriptions-item label="投标截止时间" label-align="right" align="left">
+						2024-05-23 15:10:00
+					</el-descriptions-item>
+					<el-descriptions-item label="开标时间" label-align="right" align="left">
+						2024-05-23 15:10:00
+					</el-descriptions-item>
+					<el-descriptions-item label="评标办法" label-align="right" align="left">
+						经评审最低价法
+					</el-descriptions-item>
+					<el-descriptions-item label="项目负责人" label-align="right" align="left">
+						安玲 ( 17380570929 )
+					</el-descriptions-item>
+					<el-descriptions-item label="采购负责人" label-align="right" align="left">
+						刘昕宸 ( 18224488927 )
+					</el-descriptions-item>
+					<el-descriptions-item label="供应商报价模式" label-align="right" align="left" :span="2">
+						一般报价模式
+					</el-descriptions-item>
+					<el-descriptions-item label="投标资格要求" label-align="right" align="left" :span="1">
+						<el-tooltip
+							class="box-item"
+							effect="dark"
+							content="1、具有承揽本项目相关经营资格； 2、具有良好的企业信誉和履约能力。1、具有承揽本项目相关经营资格； 2、具有良好的企业信誉和履约能力。1、具有承揽本项目相关经营资格； 2、具有良好的企业信誉和履约能力。1、具有承揽本项目相关经营资格； 2、具有良好的企业信誉和履约能力。"
+							placement="top-start"
+							>
+							<el-text truncated line-clamp="1" size="default" style="width:90%">1、具有承揽本项目相关经营资格； 2、具有良好的企业信誉和履约能力。</el-text>
+							
+						</el-tooltip>
+						
+					</el-descriptions-item>
+				</el-descriptions>
+				<el-divider border-style="dashed" />
+				<el-descriptions title="标的列表" size="large">
+
+				</el-descriptions>
+				<el-card shadow="hover" header="标的列表">
+					<template #header>
+						<div class="card-header">
+							<el-row>
+								<el-col :span="3">
+									显示更多信息
+								</el-col>
+								<el-col :span="9">
+									<el-switch
+										v-model="isShowMore"
+										inline-prompt
+										active-text="是"
+										inactive-text="否"
+									/>
+								</el-col>
+								<el-col :span="12" class="text-right">
+									<el-button type="primary">
+										<SvgIcon name="fa fa-cloud-download" class="mr3"/>导出标的物
+									</el-button>
+								</el-col>
+							</el-row>
+							
+						</div>
+						</template>
+					<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" stripe highlight-current-row>
+						<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
+						<el-table-column prop="No" label="物资编码"  width="120" show-overflow-tooltip fixed/>
+						
+						<el-table-column prop="Name" label="名称" width="120" show-overflow-tooltip/>
+						<el-table-column v-if="isShowMore" prop="fanwei" label="明细项" width="70"/>
+						
+						<el-table-column v-if="isShowMore" prop="Kind" label="明细项单位" width="90">
+						</el-table-column>
+						<el-table-column v-if="isShowMore" prop="EndTime" label="材质/系列" width="130" show-overflow-tooltip/>
+						<el-table-column v-if="isShowMore" prop="ReviewTime" label="规格/型号" width="130" show-overflow-tooltip/>
+						<el-table-column v-if="isShowMore" prop="State" label="执行标准" width="90"/>
+						<el-table-column v-if="isShowMore" prop="State" label="技术参数" width="90"/>
+						<el-table-column v-if="isShowMore" prop="State" label="计量单位" width="90"/>
+						<el-table-column prop="State" label="采购数量" width="90"/>
+						<el-table-column v-if="isShowMore" prop="State" label="收货/服务/施工地点" width="150"/>
+						<el-table-column v-if="isShowMore" prop="State" label="颜色" width="90"/>
+						<el-table-column v-if="isShowMore" prop="State" label="尺码" width="90"/>
+						<el-table-column prop="State" label="执行开始时间" width="120"/>
+						<el-table-column prop="State" label="执行截止时间" width="120"/>
+						<el-table-column prop="State" label="采购备注" width="90"/>
+					</el-table>
+				</el-card>
+				
+			</el-col>
+		</el-row>
+		<el-divider border-style="dashed" />
+		<el-row>
+			<el-col :span="24" class="text-center">
+				<el-button @click="onGoToList" class="mt20" size="large">
+					<SvgIcon name="fa fa-rotate-left" class="mr3"/>返回
+				</el-button>
+			</el-col>
+		</el-row>
+		
+		</div>
+		<div v-else-if="tabIndex==1">
+			<div class="text-center">
+				<el-steps style="max-width: 720px;margin-left: auto;margin-right:auto;" :active="stepIndex" finish-status="finish" align-center>
+					<el-step title="上传商务文件" />
+					<el-step title="上传技术文件" />
+					<el-step title="上传其他文件" />
+					<el-step title="填写开标一览表" />
+					<el-step title="完成投标" />
+				</el-steps>
+			</div>
+			<el-divider border-style="dashed" />			
+			<el-row>
+				<el-col :span="24" >
+					<div v-if="stepIndex==0">
+						<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+							<el-table-column type="index" label="序号" align="right" width="70" />
+							<el-table-column prop="name" label="商务文件" width="350">
+								
+								<template #default="scope">
+									<el-input
+										v-model="scope.row.name"
+										placeholder="请输入"></el-input> 
+								</template>
+							</el-table-column>
+							
+							<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
+								<template #header>
+									<el-upload
+										ref="uploadRef"
+										class="upload-demo"
+										action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+										accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
+										:show-file-list="false"
+										:auto-upload="true"
+									>
+										<el-button type="primary" @click="submitUpload">
+										上传
+										</el-button>
+									</el-upload>
+								</template>
+								<template #default="scope">
+									<el-row>
+										<el-col :span="8">
+											<el-button text bg  @click="onModelEdit(scope.row.Id, false)">
+												查看
+											</el-button>
+										</el-col>
+										<el-col :span="8">
+											<el-upload
+												ref="uploadRef"
+												class="upload-demo"
+												
+												action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+												accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
+												:show-file-list="false"
+												:auto-upload="true">
+												<el-button text bg type="primary" @click="submitUpload">
+												上传
+												</el-button>
+											</el-upload>
+										</el-col>
+										<el-col :span="8">
+											<el-button text bg type="danger" @click="onPwdChanggeEdit(scope.row.Id, false)">
+												删除
+											</el-button>
+										</el-col>
+									</el-row>
+								</template>
+							</el-table-column>
+						</el-table>
+						<p class="text-center">
+							<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
+						</p>						
+					</div>
+					<div v-else-if="stepIndex==1">
+						<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+							<el-table-column type="index" label="序号" align="right" width="70" />
+							<el-table-column prop="name" label="技术文件" width="350">
+								
+								<template #default="scope">
+									<el-input
+										v-model="scope.row.name"
+										placeholder="请输入"></el-input> 
+								</template>
+							</el-table-column>
+							
+							<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
+								<template #header>
+									<el-upload
+										ref="uploadRef"
+										class="upload-demo"
+										action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+										accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
+										:show-file-list="false"
+										:auto-upload="true"
+									>
+										<el-button type="primary" @click="submitUpload">
+										上传
+										</el-button>
+									</el-upload>
+								</template>
+								<template #default="scope">
+									<el-row>
+										<el-col :span="8">
+											<el-button text bg  @click="onModelEdit(scope.row.Id, false)">
+												查看
+											</el-button>
+										</el-col>
+										<el-col :span="8">
+											<el-upload
+												ref="uploadRef"
+												class="upload-demo"
+												
+												action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+												accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
+												:show-file-list="false"
+												:auto-upload="true">
+												<el-button text bg type="primary" @click="submitUpload">
+												上传
+												</el-button>
+											</el-upload>
+										</el-col>
+										<el-col :span="8">
+											<el-button text bg type="danger" @click="onPwdChanggeEdit(scope.row.Id, false)">
+												删除
+											</el-button>
+										</el-col>
+									</el-row>
+									
+									
+									
+								</template>
+							</el-table-column>
+						</el-table>
+						<p class="text-center">
+							<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
+						</p>						
+					</div>		
+					<div v-else-if="stepIndex==2">
+						<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+							<el-table-column type="index" label="序号" align="right" width="70" />
+							<el-table-column prop="name" label="其他文件" width="350">
+								
+								<template #default="scope">
+									<el-input
+										v-model="scope.row.name"
+										placeholder="请输入"></el-input> 
+								</template>
+							</el-table-column>
+							
+							<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
+								<template #header>
+									<el-upload
+										ref="uploadRef"
+										class="upload-demo"
+										action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+										accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
+										:show-file-list="false"
+										:auto-upload="true"
+									>
+										<el-button type="primary" @click="submitUpload">
+										上传
+										</el-button>
+									</el-upload>
+								</template>
+								<template #default="scope">
+									<el-row>
+										<el-col :span="8">
+											<el-button text bg  @click="onModelEdit(scope.row.Id, false)">
+												查看
+											</el-button>
+										</el-col>
+										<el-col :span="8">
+											<el-upload
+												ref="uploadRef"
+												class="upload-demo"
+												
+												action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+												accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
+												:show-file-list="false"
+												:auto-upload="true">
+												<el-button text bg type="primary" @click="submitUpload">
+												上传
+												</el-button>
+											</el-upload>
+										</el-col>
+										<el-col :span="8">
+											<el-button text bg type="danger" @click="onPwdChanggeEdit(scope.row.Id, false)">
+												删除
+											</el-button>
+										</el-col>
+									</el-row>
+								</template>
+							</el-table-column>
+						</el-table>
+						<p class="text-center">
+							<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
+						</p>					
+					</div>	
+					<div v-else-if="stepIndex==3">
+						<el-table :data="tableData.data" v-loading="tableData.loading" show-summary style="width: 900px;margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
+							<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
+							<el-table-column prop="No" label="物资编码"  width="120" show-overflow-tooltip fixed/>
+							
+							<el-table-column prop="name" label="名称" width="200" show-overflow-tooltip/>
+							<el-table-column prop="fanwei" label="明细项" width="70"/>
+							
+							<el-table-column prop="unit" label="明细项单位" width="90"></el-table-column>
+							<el-table-column prop="amount" label="采购数量" width="90"/>
+							<el-table-column prop="price" label="单价" width="110" >
+								<template #default="scope">
+									<el-input-number v-model="scope.row.price" :min="0" :max="1000000000000" style="width:90px" :step="10" :value-on-clear="0" :precision="2" :controls="false" controls-position="right" /> 
+								</template>	
+							</el-table-column>
+							<el-table-column prop="amount" label="总价" width="110" align="right"/>								
+						</el-table>
+						<div style="width:900px;margin-left:auto;margin-right:auto;" >
+							<div class="mt20 mb10">
+								<el-upload
+										ref="uploadRef"
+										class="upload-demo"
+										action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+										accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
+										:show-file-list="false"
+										:auto-upload="true"
+									>
+										<el-button type="primary" size="default" @click="submitUpload">
+										上传附件
+										</el-button>
+									</el-upload>
+							</div>
+							<div>
+								<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
+							</div>							
+						</div>
+											
+					</div>	
+					<div v-else-if="stepIndex==4">
+						<div class="text-center">
+							<div>
+								<SvgIcon name="fa fa-check-circle" color="green" :size="60" ></SvgIcon>
+							</div>
+							<div class="mt30 mb30">
+								<el-text type="info" size="default">投标文件已上传成功，确认无误后请点击确认提交，开标后数据将无法修改</el-text>	
+							</div>
+						</div>
+					</div>					
+				</el-col>
+			</el-row>
+			<el-divider border-style="dashed" />
+			<el-row>
+				<el-col :span="24" class="text-center mt20">
+					<el-button @click="onGoToList"  size="large">
+						<SvgIcon name="fa fa-rotate-left" class="mr3"/>返回
+					</el-button>
+					<el-button @click="onGoToPrevious" v-if="stepIndex>0" type="primary" size="large">
+						<SvgIcon name="fa fa-arrow-left" class="mr3"/>上一步
+					</el-button>
+					<el-button @click="onGoToNext" type="primary" v-if="stepIndex<4" size="large">
+						<SvgIcon name="fa fa-arrow-right" class="mr3"/>下一步
+					</el-button>
+					<el-button @click="onGoToNext" type="primary" v-if="stepIndex==4" size="large">
+						<SvgIcon name="fa fa-rotate-right" class="mr3"/>确认提交
+					</el-button>
+				</el-col>
+			</el-row>
+		</div>
+		<div v-else>
+
+		</div>
+		
+	</div>
+</template>
+
+<script lang="ts">
+import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from '/@/store/index';
+import { formatAxis } from '/@/utils/formatTime';
+export default {
+	name: 'admin',
+	setup() {
+		const moduleKey = 'api_sys_home_alias';
+		const router = useRouter();
+		console.debug('router：', router.currentRoute.value);
+		//console.debug("route:",$route)
+		const { proxy } = getCurrentInstance() as any;
+		const store = useStore();
+		const state = reactive({
+			moduleKey: moduleKey,
+			isShowMore:false,
+			tenant: {},
+			tabIndex:0,
+			stepIndex:0,
+			tableData: {
+				data: [
+				{
+						date: '2016-05-02 10:00:00',
+						name: '项目一1号标段',
+						address: '烟感2.1%OBS/M',
+					},
+					{
+						date: '2016-05-04 10:00:00',
+						name: '项目二2号标段',
+						address: '温度30℃',
+					},
+					{
+						date: '2016-05-01 10:00:00',
+						name: '项目三3号标段',
+						address: '湿度57%RH',
+					},
+				],
+			},
+			myCharts: [],
+		});
+		const onGotoEdit = () => {
+			router.push(`/bpp/home/tenantEdit/bpp`);
+		};
+		
+		// 获取用户信息 vuex
+		const getUserInfos = computed(() => {
+			return store.state.userInfos.userInfos;
+		});
+		// 当前时间提示语
+		const currentTime = computed(() => {
+			return formatAxis(new Date());
+		});
+
+		const loadTenant = async () => {
+			const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
+			if (res.errcode == 0) {
+				state.tenant = res.data;
+			}
+		};
+
+		// 批量设置 echarts resize
+		const initEchartsResizeFun = () => {
+			nextTick(() => {
+				for (let i = 0; i < state.myCharts.length; i++) {
+					state.myCharts[i].resize();
+				}
+			});
+		};
+		// 批量设置 echarts resize
+		const initEchartsResize = () => {
+			window.addEventListener('resize', initEchartsResizeFun);
+		};
+		//返回
+		const onGoToList=()=>{
+			proxy.$parent.$parent.onModelList(false);
+		}
+		//前一步
+		const onGoToPrevious=()=>{
+			let stepIndex=state.stepIndex-1
+			if(stepIndex<0){
+				stepIndex=0
+			}
+			state.stepIndex=stepIndex
+		}
+		//后一步
+		const onGoToNext=()=>{
+			let stepIndex=state.stepIndex+1
+			if(stepIndex>4){
+				stepIndex=4
+			}
+			state.stepIndex=stepIndex
+		}
+		//参与投标
+		const onBeginBid=()=>{
+			state.tabIndex=1
+		}
+		// 页面加载时
+		onMounted(() => {
+			initEchartsResize();
+			loadTenant();
+		});
+		// 由于页面缓存原因，keep-alive
+		onActivated(() => {
+			initEchartsResizeFun();
+		});
+		// 监听 vuex 中的 tagsview 开启全屏变化，重新 resize 图表，防止不出现/大小不变等
+		watch(
+			() => store.state.tagsViewRoutes.isTagsViewCurrenFull,
+			() => {
+				initEchartsResizeFun();
+			}
+		);
+
+		return {
+			onGotoEdit,
+			onGoToList,
+			onGoToPrevious,
+			onGoToNext,
+			onBeginBid,
+			getUserInfos,
+			currentTime,
+			...toRefs(state),
+		};
+	},
+};
+</script>
+
+<style scoped lang="scss">
+
+</style>
