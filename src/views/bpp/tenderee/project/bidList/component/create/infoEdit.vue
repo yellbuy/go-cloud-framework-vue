@@ -3,17 +3,17 @@
 		<el-row>
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-width="120px" v-loading="loading">
 				<el-row>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 						<el-form-item label="项目编号：" prop="No">
 							<el-input v-model="ruleForm.No"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 						<el-form-item label="项目名称：" prop="Name">
 							<el-input v-model="ruleForm.Name"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 						<el-form-item label="项目方式：" prop="ProjectType">
 							<el-select v-model="ruleForm.ProjectType" placeholder="请选择">
 								<el-option label="公开招标" :value="1" />
@@ -24,33 +24,27 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
-						<el-form-item label="供应商：" prop="ProjectType">
-							<el-select v-model="ruleForm.ProjectType" placeholder="请选择">
-								<el-option label="公开招标" :value="1" />
-								<el-option label="邀请招标" :value="2" />
-								<el-option label="竞争性谈判" :value="3" />
-								<el-option label="单一来源采购" :value="4" />
-								<el-option label="询价采购" :value="5" />
-							</el-select>
-						</el-form-item>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
+						<el-form-item label="资格要求：" prop="Qualification">
+								<el-input v-model="ruleForm.Qualification"/>
+							</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 						<el-form-item label="标书费用(元)：" prop="BidFee">
 							<el-input-number v-model="ruleForm.BidFee" :min="0" controls-position="right" :precision="2" />
 						</el-form-item>
 					</el-col>
-					<!-- <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb12">
+					<!-- <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb16">
 						<el-form-item prop="RemoteState">
 							<el-checkbox v-model="ruleForm.RemoteState" :true-label="1" :false-label="0">视频会议</el-checkbox>
 						</el-form-item>
 					</el-col> -->
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 						<el-form-item label="评选地点：" prop="Location">
 							<el-input v-model="ruleForm.Location"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb16">
 						<el-form-item label="项目内容：" prop="Content">
 							<vue-ueditor-wrap
 								:editor-id="`editor-content`"
@@ -65,7 +59,7 @@
 							</vue-ueditor-wrap>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb16">
 						<el-form-item label="上传标书：" prop="Files">
 							<div style="width: 50%">
 								<el-upload
@@ -94,17 +88,17 @@
 							</div>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 						<el-form-item label="项目包个数" prop="Location">
 							<el-input v-model="ruleForm.Number"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 						<div style="float: right;">
-							<el-button size="small" type="primary" @click="onModelEdit(true)" class="mb12">添加品目</el-button>
+							<el-button size="small" type="primary" @click="onModelEdit(true)" class="mb16">添加品目</el-button>
 						</div>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb16">
 						<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" fixed />
 							<el-table-column prop="Sn" label="品目号" width="120" show-overflow-tooltip/>
@@ -129,27 +123,27 @@
 							</el-table-column>
 						</el-table>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 						<el-form-item label="报名开始时间：" prop="StartTime" required>
 							<el-date-picker v-model="ruleForm.StartTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 						<el-form-item label="报名结束时间：" prop="EndTime" required>
 							<el-date-picker v-model="ruleForm.EndTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
-						<el-form-item label="招标开始时间：" prop="BeginTime" required>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
+						<el-form-item label="投标开始时间：" prop="BeginTime" required>
 							<el-date-picker v-model="ruleForm.BeginTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
-						<el-form-item label="招标结束时间：" prop="FinishTime" required>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
+						<el-form-item label="投标结束时间：" prop="FinishTime" required>
 							<el-date-picker v-model="ruleForm.FinishTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb12">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 						<el-form-item label="评选时间：" prop="ReviewTime" required>
 							<el-date-picker v-model="ruleForm.ReviewTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
 						</el-form-item>
@@ -163,7 +157,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 						<el-form-item prop="AutoSwitchState">
-							<el-checkbox v-model="ruleForm.AutoSwitchState" :true-label="1" :false-label="0">不足三家供应商参与，比选方式转换为院内谈判</el-checkbox>
+							<el-checkbox v-model="ruleForm.AutoSwitchState" :true-label="1" :false-label="0">不足三家供应商参与，比选方式转换为竞争性谈判项目</el-checkbox>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -177,17 +171,15 @@
 
 <script lang="ts">
 import { Upload } from '@element-plus/icons-vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
 import type { UploadFile } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import lineEditDlg from '../projectLineEdit.vue';
-import { useRoute } from 'vue-router';
-import { useStore } from '/@/store/index';
-import { Session } from '/@/utils/storage';
 import editLineListDlg from '../projectLineList.vue';
 import editItemDlg from '../templateEdit.vue';
-import { fa } from 'element-plus/es/locale';
+import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'projectEdit',
 	components: { Upload, lineEditDlg, editItemDlg, editLineListDlg },
