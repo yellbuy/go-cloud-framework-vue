@@ -2,69 +2,67 @@
 	<div>
 		<el-card v-if="isShowPage">
 			<div>
-				<div>
-					<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
-						<el-form-item label="比选编号">
-							<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no" style="width: 150px;"/>
-						</el-form-item>
-						<el-form-item label="比选项目">
-							<el-input placeholder="请输入比选项目查询" v-model="tableData.param.name" style="width: 150px;"/>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="info" @click="onResetSearch">
-								<el-icon>
-									<RefreshLeft />
-								</el-icon>
-								{{ $t('message.action.reset') }}
-							</el-button>
-							<el-button type="info" @click="onGetTableData(true)">
-								<el-icon>
-									<Search />
-								</el-icon>
-								&#8197;{{ $t('message.action.search') }}
-							</el-button>
-							<el-button type="primary" @click="onProjectEdit()">{{ '新建项目立项' }}</el-button>
-						</el-form-item>
-						<el-form-item></el-form-item>
-					</el-form>
-				</div>
-				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
-					<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
-					<el-table-column prop="No" label="招标编号" width="150" show-overflow-tooltip fixed/>
-					<el-table-column prop="Kind" label="招标类型" width="100">
-						<template #default="scope">
-							<span v-if="scope.row.ProjectType == 1">公开招标</span>
-							<span v-else-if="scope.row.ProjectType == 2">邀请招标</span>
-							<span v-else-if="scope.row.ProjectType == 3">竞争性谈判</span>
-							<span v-else-if="scope.row.ProjectType == 4">单一来源采购</span>
-							<span v-else-if="scope.row.ProjectType == 5">询价采购</span>
-						</template>
-					</el-table-column>
-					<el-table-column prop="Name" label="招标项目" width="200" show-overflow-tooltip/>
-					
-					<el-table-column prop="EndTime" label="报名截止日期" width="150" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
-					<el-table-column prop="ReviewTime" label="开标日期" width="150"  :formatter="dateFormatYMDHM" show-overflow-tooltip/>
-					<el-table-column prop="fanwei" label="招标范围" width="200" show-overflow-tooltip/>
-					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
-						<template #default="scope">
-							<el-button text bg type="info" @click="onProjectSee()">项目详情</el-button>
-							<el-button text bg type="primary" @click="onProjectBidEdit()">项目评选</el-button>
-						</template>
-					</el-table-column>
-				</el-table>
-				<el-pagination
-					small
-					@size-change="onHandleSizeChange"
-					@current-change="onHandleCurrentChange"
-					class="mt15"
-					:page-sizes="[10, 20, 30, 50, 100]"
-					v-model:current-page="tableData.param.current"
-					background
-					v-model:page-size="tableData.param.size"
-					layout="->, total, sizes, prev, pager, next, jumper"
-					:total="tableData.total"/>
-				<seeDlg ref="seeDlgRef" />
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
+					<el-form-item label="比选编号">
+						<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no" style="width: 150px;"/>
+					</el-form-item>
+					<el-form-item label="比选项目">
+						<el-input placeholder="请输入比选项目查询" v-model="tableData.param.name" style="width: 150px;"/>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="info" @click="onResetSearch">
+							<el-icon>
+								<RefreshLeft />
+							</el-icon>
+							{{ $t('message.action.reset') }}
+						</el-button>
+						<el-button type="info" @click="onGetTableData(true)">
+							<el-icon>
+								<Search />
+							</el-icon>
+							&#8197;{{ $t('message.action.search') }}
+						</el-button>
+						<el-button type="primary" @click="onProjectEdit()">{{ '新建项目立项' }}</el-button>
+					</el-form-item>
+					<el-form-item></el-form-item>
+				</el-form>
 			</div>
+			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
+				<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
+				<el-table-column prop="No" label="招标编号" width="150" show-overflow-tooltip fixed/>
+				<el-table-column prop="Kind" label="招标类型" width="100">
+					<template #default="scope">
+						<span v-if="scope.row.ProjectType == 1">公开招标</span>
+						<span v-else-if="scope.row.ProjectType == 2">邀请招标</span>
+						<span v-else-if="scope.row.ProjectType == 3">竞争性谈判</span>
+						<span v-else-if="scope.row.ProjectType == 4">单一来源采购</span>
+						<span v-else-if="scope.row.ProjectType == 5">询价采购</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Name" label="招标项目" width="200" show-overflow-tooltip/>
+				
+				<el-table-column prop="EndTime" label="报名截止日期" width="150" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
+				<el-table-column prop="ReviewTime" label="开标日期" width="150"  :formatter="dateFormatYMDHM" show-overflow-tooltip/>
+				<el-table-column prop="fanwei" label="招标范围" width="200" show-overflow-tooltip/>
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+					<template #default="scope">
+						<el-button text bg type="info" @click="onProjectSee()">项目详情</el-button>
+						<el-button text bg type="primary" @click="onProjectBidEdit()">项目评选</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+			<el-pagination
+				small
+				@size-change="onHandleSizeChange"
+				@current-change="onHandleCurrentChange"
+				class="mt15"
+				:page-sizes="[10, 20, 30, 50, 100]"
+				v-model:current-page="tableData.param.current"
+				background
+				v-model:page-size="tableData.param.size"
+				layout="->, total, sizes, prev, pager, next, jumper"
+				:total="tableData.total"/>
+			<seeDlg ref="seeDlgRef" />
 		</el-card>
 		<bidEdit ref="bidEditRef" />
 		<projectEdit ref="projectEditRef"/>
