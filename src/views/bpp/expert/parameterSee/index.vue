@@ -175,73 +175,32 @@ export default {
 		const state = reactive({
 			moduleKey,
 			project: store.state.project.project,
-			project: {},
 			projectLineIndex: '',
 			activeName:"zgps",
 			isShowDialog: false,
-			title: t('message.action.add'),
-			loading: false,
 			token: token,
+			
 			baseUrl: import.meta.env.VITE_API_URL,
-			dialogImageUrl: [],
-			dialogTitle: '',
-			dialogVisible: false,
-			isParameterReview: true,
-			tableData:{
+			zgTableData: {
 				data: [],
 				loading: false,
 				param: {
 					mode: 1,
 					current: 1,
 					size: 20,
-					projectId: 0,
-					categoryId: null,
-					name: '',
-				},
-			},
-			ruleForm: {
-				Id: 0,
-				Kind: '',
-				Name: '',
-				No: '',
-				Sn: '',
-				ProjectType: 1,
-				RemoteState: 0,
-				BidFee: 0,
-				EnsureFee: 0,
-				Location: '',
-				Content: '',
-				Files: '',
-				AutoSwitchState: 0,
-				StartTime: '', //报名开始时间
-				EndTime: '', //报名结束时间
-				BeginTime: '', //投标开始时间
-				FinishTime: '', //投标结束时间
-				ReviewTime: '', //评选时间
-				BidOpenTime: '',
-				ProjectLineList: [],
-				ProjectSettingLineList: [],
-			},
-			zgTableData: {
-				data: [{Content:"测试", Standard:"测试", Standard:"符合通过", State:0}],
-				loading: false,
-				param: {
-					mode: 1,
-					current: 1,
-					size: 20,
-					projectId: 0,
+					projectId: '279082270076182531',
 					categoryId: null,
 					name: '',
 				},
 			},
 			jsTableData: {
-				data: [{Content:"测试999", Standard:"测试999", TechnicalMaxScore:100}],
+				data: [],
 				loading: false,
 				param: {
 					mode: 1,
 					current: 1,
 					size: 20,
-					projectId: 0,
+					projectId: '279082270076182531',
 					categoryId: null,
 					name: '',
 				},
@@ -260,141 +219,14 @@ export default {
 					mode: 1,
 					current: 1,
 					size: 20,
-					projectId: 0,
+					projectId: '279082270076182531',
 					categoryId: null,
 					name: '',
 				},
 			},
-			// tableData: {
-			// 	data: [],
-			// 	loading: false,
-			// 	param: {
-			// 		current: 1,
-			// 		size: 10000,
-			// 	},
-			// },
-			SupplierIds: [],
 			companyOption: [],
-			methodList: [],
-			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
-			Files: [],
-			homeBaseUrl: import.meta.env.VITE_URL as any,
-			FilesList: [],
 		});
-		const startTimeRule = (rule: any, value: any, callback: any) => {
-			switch (rule.field) {
-				case 'StartTime':
-					if (value == '') {
-						callback(new Error('请选择时间'));
-					} else if (value >= state.ruleForm.EndTime) {
-						callback(new Error('报名开始时间应小于报名结束时间'));
-					} else {
-						callback();
-					}
-					break;
-				case 'EndTime':
-					if (value == '') {
-						callback(new Error('请选择时间'));
-					} else if (value <= state.ruleForm.StartTime) {
-						callback(new Error('报名结束时间应大于于报名开始时间'));
-					} else {
-						callback();
-					}
-					break;
-				case 'BeginTime':
-					if (value == '') {
-						callback(new Error('请选择时间'));
-					} else if (value <= state.ruleForm.EndTime) {
-						callback(new Error('招标开始时间应大于报名结束时间'));
-					} else if (value >= state.ruleForm.FinishTime) {
-						callback(new Error('招标开始时间应小于招标结束时间'));
-					} else {
-						callback();
-					}
-					break;
-				case 'FinishTime':
-					if (value == '') {
-						callback(new Error('请选择时间'));
-					} else if (value <= state.ruleForm.BeginTime) {
-						callback(new Error('招标结束时间应大于招标开始时间'));
-					} else {
-						callback();
-					}
-					break;
-				case 'ReviewTime':
-					if (value == '') {
-						callback(new Error('请选择时间'));
-					} else if (value <= state.ruleForm.FinishTime) {
-						callback(new Error('评选时间应大于招标结束时间'));
-					} else {
-						callback();
-					}
-					break;
-			}
-		};
-		const rules = reactive({
-			isShowDialog: false,
-			title: t('message.action.add'),
-			No: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Sn: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Name: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			ProjectType: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Content: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			StartTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
-			EndTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
-			BeginTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
-			FinishTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
-			ReviewTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
-		});
-		//上传成功
-		const onSuccessFile = (file: UploadFile) => {
-			state.Files.push(file.data.src);
-			const imgPath = { url: state.homeBaseUrl + file.data.src };
-			state.FilesList.push(imgPath);
-		};
-		//删除上传文件
-		const onRemove = (file: UploadFile) => {
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
-			for (let i = 0; i < state.FilesList.length; i++) {
-				if (state.FilesList[i] == removeUrl) {
-					state.FilesList.splice(i, 1);
-					break;
-				}
-			}
-		};
-		const imgOnClose = () => {
-			state.dialogVisible = false;
-		};
+
 		const getScore = () => {
 			if (state.jsTableData.data && state.jsTableData.data.length > 0) {
 				state.jjForm.TechnicalScore = 0;
@@ -404,80 +236,33 @@ export default {
 				state.jjForm.TechnicalMaxScore = 100 - state.jjForm.TechnicalScore;
 			}
 		};
-		//预览文件
-		const onPreview = (uploadFile: any) => {
-			// 当格式为图片就预览图片，否则下载文件
-			let filename = uploadFile.name;
-			if (!uploadFile.name || uploadFile.name == '') {
-				filename = uploadFile.url;
-			}
-			let fileurl = uploadFile.url;
-			let fileExtension = '';
-			// 校检文件类型
-			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
-			if (filename.lastIndexOf('.') > -1) {
-				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
-			}
-			const isTypeOk = imageTypes.some((type) => {
-				if (fileExtension && fileExtension.indexOf(type) > -1) {
-					return true;
-				}
-			});
-			if (isTypeOk) {
-				//预览图片
-				state.dialogImageUrl[0] = fileurl;
-				state.dialogTitle = filename;
-				state.dialogVisible = true;
-			} else {
-				//下载文件
-				state.dialogVisible = false;
-				// openWindow(fileurl, { target: "_self" });
-				window.open(fileurl, '_self');
+
+
+		//切换页面标签
+		const tabsName = () => {
+			onLoadTable(true);
+		};
+
+		//刷新表格
+		const onLoadTable = (refresh: boolean) => {
+			if (state.activeName == 'zgps') {
+				onGetZgTableData(refresh);
+			} else if (state.activeName == 'jsps') {
+				onGetJsTableData(refresh);
+			} else if (state.activeNmae == 'jjps'){
+				onGetJjFormData(refresh);
 			}
 		};
 
-		//修改按钮
-		// const onModelEdit = (isadd: boolean, item: object, index: object) => {
-		// 	lineEditDlgRef.value.openDialog(item, isadd, index);
-		// };
-		// 打开弹窗
-		const openPage = async (id: string) => {
-			if (id != '0') {
-				GetByIdRow(id);
-				state.title = t('message.action.edit');
-			} else {
-				state.ruleForm.Id = 0;
-				state.title = t('message.action.add');
-			}
-			// state.ruleForm.Kind = kind;
-			state.isShowDialog = true;
-		};
-
-		//技术表格
-		const onGetJsTableData = async (gotoFirstPage: boolean = false) => {
-			if (gotoFirstPage) {
-				state.jsTableData.param.current = 1;
-			}
-			state.jsTableData.loading = true;
-			try {
-				const res = await proxy.$api.erp.projectsetting.getListByScope(state.scopeMode, state.scopeValue, state.jsTableData.param);
-				if (res.errcode != 0) {
-					return;
-				}
-				state.jsTableData.total = res.total;
-				state.jsTableData.data = res.data;
-			} finally {
-				state.jsTableData.loading = false;
-			}
-		};
-		//查询表格数据
+		//资格评审表格
 		const onGetZgTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.zgTableData.param.current = 1;
 			}
 			state.zgTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectsetting.getListByScope(state.scopeMode, state.scopeValue, state.zgTableData.param);
+				state.zgTableData.param.kind = state.activeName
+				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.zgTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -488,109 +273,49 @@ export default {
 			}
 		};
 
-		//切换页面
-		const tabsName = () => {
-			onLoadTable(true);
-		};
-		//刷新表格
-		const onLoadTable = (refresh: boolean) => {
-			console.log(state.activeName);
-			if (state.activeName == 'zgps') {
-				onGetZgTableData(refresh);
-			} else if (state.activeName == 'jsps') {
-				onGetJsTableData(refresh);
+		//技术表格
+		const onGetJsTableData = async (gotoFirstPage: boolean = false) => {
+			if (gotoFirstPage) {
+				state.jsTableData.param.current = 1;
 			}
-		};
-		const GetByIdRow = async (id: string) => {
+			state.jsTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.project.getById(id);
+				state.jsTableData.param.kind = state.activeName
+				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.jsTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
-				console.log(res);
-				// if (res.data.ProjectLineList) {
-				// 	state.tableData.data = res.data.ProjectLineList;
-				// }
-				state.ruleForm = JSON.parse(JSON.stringify(res.data));
-				if (state.ruleForm.Files != '') {
-					state.Files = res.data.Files.split(',');
-					state.FilesList = [];
-					for (let i = 0; i < state.Files.length; i++) {
-						let image = { url: '', name: '' };
-						image.url = state.homeBaseUrl + state.Files[i];
-						image.name = state.homeBaseUrl + state.Files[i];
-						state.FilesList.push(image);
-					}
-				}
-				if (state.ruleForm.ProjectSettingLineList) {
-					for (let item of state.ruleForm.ProjectSettingLineList) {
-						if (item.Kind == 'zgps') {
-							state.zgTableData.data.push(item);
-						} else if (item.Kind == 'jsps') {
-							state.jsTableData.data.push(item);
-						} else if (item.Kind == 'jjps') {
-							state.jjForm = item;
-						}
-					}
-				}
-
-				// 计算得分
-				getScore();
+				state.jsTableData.total = res.total;
+				state.jsTableData.data = res.data;
 			} finally {
-				state.isShowDialog = true;
+				state.jsTableData.loading = false;
 			}
 		};
-		// 取消
-		const onCancel = () => {
-			state.loading = false;
-			state.isShowDialog = false;
-		};
-		// const onLoadTable = () => {
-		// 	// proxy.$parent.onGetTableData();
-		// };
-		// 新增
-		const onSubmit = () => {
-		};
-		const onModelLineDel = (kind: string, index: number, Id: number) => {
-			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(async () => {
-				if (Id == 0) {
-					if (kind == 'jsps') {
-						state.jsTableData.data.splice(index, 1);
-						getScore();
-					} else if (kind == 'zgps') {
-						state.zgTableData.data.splice(index, 1);
-					}
-				} else {
-					try {
-						const res = await proxy.$api.erp.projectsettingline.delete(Id);
-						if (res.errcode == 0) {
-							if (kind == 'jsps') {
-								state.jsTableData.data.splice(index, 1);
-								getScore();
-							} else if (kind == 'zgps') {
-								state.zgTableData.data.splice(index, 1);
-							}
-						}
-					} finally {
-						return false;
-					}
+
+		//经济表
+		const onGetJjFormData = async (gotoFirstPage: boolean = false) => {
+			if (gotoFirstPage) {
+				state.jjForm.param.current = 1;
+			}
+			state.jjForm.loading = true;
+			try {
+				state.jjForm.param.kind = state.activeName
+				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.jjForm.param);
+				if (res.errcode != 0) {
+					return;
 				}
-			});
+				state.jjForm.PurchasePrice = res.PurchasePrice
+				state.jjForm.ScoreMode = res.ScoreMode
+				state.jjForm.PriceScore = res.PriceScore
+				state.jjForm.PricePercentage = res.PricePercentage
+				state.jjForm.QualificationScore = res.QualificationScore
+				state.jjForm.TechnicalScore = res.TechnicalScore
+				state.jjForm.TechnicalMaxScore = res.TechnicalMaxScore
+			} finally {
+				state.jjForm.loading = false;
+			}
 		};
-		const onOpenItemDialog = (kind: string, isAdd: boolean, item: object, index: number) => {
-			// let model = {};
-			// if (item) {
-			// 	model = JSON.parse(JSON.stringify(item));
-			// }
-			editItemDlgRef.value.openDialog(kind, isAdd, item, false, index);
-		};
-		const onOpenListDialog = (kind: string) => {
-			editLineListDlgRef.value.openDialog(kind, false);
-		};
+
 		const onGetCompanyData = async () => {
 			let param = {
 				current: 1,
@@ -629,34 +354,17 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
-			// onGetCompanyData();
+			onLoadTable(true);
 		});
 		return {
 			proxy,
 			t,
-			openPage,
-			onCancel,
-			onLoadTable,
-			GetByIdRow,
-			onPreview,
-			onSuccessFile,
-			onRemove,
-			imgOnClose,
 			onGetCompanyData,
 			onHandleSizeChange,
 			onHandleCurrentChange,
-			// onModelDel,
-			// onModelEdit,
-			rules,
 			tabsName,
-			// lineEditDlgRef,
 			getUserInfos,
-			onSubmit,
-			onOpenListDialog,
-			onOpenItemDialog,
-			onModelLineDel,
 			getScore,
-			startTimeRule,
 			...toRefs(state),
 		};
 	},
