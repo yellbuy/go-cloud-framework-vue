@@ -65,24 +65,22 @@
 				<seeDlg ref="seeDlgRef" />
 			</div>
 		</el-card>
-		<bidSelectionDlg ref="bidSelectionDlgRef" />
-		<createStepDlg ref="createStepDlgRef"/>
+		<!-- <bidSelectionDlg ref="bidSelectionDlgRef" /> -->
+		<!-- <createStepDlg ref="createStepDlgRef"/> -->
 	</div>
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import seeDlg from './component/projectSee.vue';
-import bidSelectionDlg from './component/bidSelection.vue';
-import createStepDlg from './component/createStep.vue';
+import { ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
+// import bidSelectionDlg from './component/bidSelection.vue';
+// import createStepDlg from './component/createStep.vue';
 import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'project',
-	components: { seeDlg, bidSelectionDlg, createStepDlg },
+	components: {  createStepDlg },
 	setup() {
 		const store = useStore();
 		const route = useRoute();
