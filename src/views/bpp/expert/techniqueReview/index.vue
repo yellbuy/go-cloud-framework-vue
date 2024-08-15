@@ -30,9 +30,9 @@
 					<el-col>
 						<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" fixed />
-							<el-table-column prop="Id" label="评分点" width="120" show-overflow-tooltip/>
-							<el-table-column prop="Name" label="评审标准" show-overflow-tooltip/>
-							<el-table-column prop="MaxPoints" label="最高分" show-overflow-tooltip/>
+							<el-table-column prop="TechnicalScore" label="评分点" width="120" show-overflow-tooltip/>
+							<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip/>
+							<el-table-column prop="TechnicalMaxScore" label="最高分" show-overflow-tooltip/>
 							<el-table-column label="评审" width="70" show-overflow-tooltip>
 								<template #default="scope">
 									<el-switch
@@ -84,21 +84,42 @@ export default {
 		const store = useStore();
 		const state: any = reactive({
 			projectLineIndex:'',
+			activeName:"jsps",
 			project: {},
 			tableData: {
-				data: [{Id:"AXDF123",Name: "张三", MaxPoints: 50, State: 1}],
+				data: [],
 				total: 0,
 				loading: false,
 				param: {
 					mode: 2,
 					current: 1,
 					size: 20,
-					projectId: 0,
+					projectId: '279082270076182531',
 					categoryId: null,
 					name: '',
 				},
 			},
 		});
+
+		//技术表格
+		const onGetTableData = async (gotoFirstPage: boolean = false) => {
+			if (gotoFirstPage) {
+				state.tableData.param.current = 1;
+			}
+			state.tableData.loading = true;
+			try {
+				state.tableData.param.kind = state.activeName
+				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.tableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.tableData.total = res.total;
+				state.tableData.data = res.data;
+			} finally {
+				state.tableData.loading = false;
+			}
+		};
+
 		//获取项目品目信息
 		const getCompanyList = async (isState: boolean) => {
 			if (isState) {
@@ -154,7 +175,9 @@ export default {
 		};
 
 		// 页面加载时
-		onMounted(() => {});
+		onMounted(() => {
+			onGetTableData(true);
+		});
 
 		return {
 			proxy,

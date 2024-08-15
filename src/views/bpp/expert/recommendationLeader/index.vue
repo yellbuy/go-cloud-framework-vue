@@ -72,7 +72,7 @@ export default {
 		const state: any = reactive({
 			project: {},
 			tableData: {
-				data: [{Id:123 ,Name: "张三", CheckState: 1,VoteState: 1, VoteCount: 5, LeaderState: 1}],
+				data: [{Id:"279082270076182531" ,Name: "张三", CheckState: 1,VoteState: 1, VoteCount: 5, LeaderState: 1}],
 				total: 0,
 				loading: false,
 				param: {
@@ -92,7 +92,7 @@ export default {
 				state.tableData.data = [];
 				try {
 					//请求获取列表
-					const res = await proxy.$api.erp.project.expertList(state.project);
+					const res = await proxy.$api.erp.project.expertList('279082270076182531');
 					//获取存储的项目数据
 					if (res.errcode != 0) {
 						return;
@@ -114,7 +114,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.project.expertLeader(state.ruleForm);
+					const res = await proxy.$api.erp.projectreview.expertLeader('279082270076182531');
 					if (res.errcode != 0) {
 						return;
 					}
@@ -137,7 +137,7 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
-			// onGetTableData(true)
+			onGetTableData(true)
 		});
 
 		return {
