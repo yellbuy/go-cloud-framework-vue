@@ -3,9 +3,9 @@
     <div>
       <p>
         <span class="tbWaybillStat-title">{{statData.DateTitle}}生产完成情况</span> <br/>
-        共<span style="color:lightblue;font-size: 16pt;margin-left:4px;margin-right:4px">{{statData.VehicleCount}}</span>
+        <!-- 共<span style="color:lightblue;font-size: 16pt;margin-left:4px;margin-right:4px">{{statData.VehicleCount}}</span> -->
         出<span style="color:lightgreen;font-size: 16pt;margin-left:4px;margin-right:4px">{{statData.VehicleRunningCount}}</span>
-        停<span style="color:lightsalmon;font-size: 16pt;margin-left:4px">{{statData.VehicleStopCount}}</span>
+        <!-- 停<span style="color:lightsalmon;font-size: 16pt;margin-left:4px">{{statData.VehicleStopCount}}</span> -->
       </p>
     </div>
     <div style="margin-top:4px">

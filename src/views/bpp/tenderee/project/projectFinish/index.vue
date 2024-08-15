@@ -58,21 +58,21 @@
 					:total="tableData.total">
 				</el-pagination>
 			</el-card>
-			<editDlg ref="editDlgRef" />
+			<!-- <editDlg ref="editDlgRef" /> -->
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
+import { ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import editDlg from '../bid/component/projectSee.vue';
+// import editDlg from '../bid/component/projectSee.vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 export default {
 	name: 'manager',
-	components: { editDlg },
+	components: {  },
 	setup() {
 		const store = useStore();
 		const route = useRoute();

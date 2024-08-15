@@ -306,14 +306,13 @@
 </template>
 
 <script lang="ts">
+import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onActivated, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
-import { useRouter } from 'vue-router';
-import { useStore } from '/@/store/index';
-import { Session } from '/@/utils/storage';
-import { formatAxis } from '/@/utils/formatTime';
 import { useRoute } from 'vue-router';
+import { useStore } from '/@/store/index';
+import { formatAxis } from '/@/utils/formatTime';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'admin',
 	setup() {
@@ -718,7 +717,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '../../chart/chart.scss';
+//@import '../../chart/chart.scss';
 .home-container {
 	overflow-x: hidden;
 	.home-card-item {

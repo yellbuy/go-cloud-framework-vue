@@ -64,12 +64,12 @@
 </template>
 
 <script lang="ts">
-import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import editDlg from '../bid/component/projectSee.vue';
+import { ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
+import editDlg from '../../component/companyEdit.vue';
 import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'manager',
 	components: { editDlg },

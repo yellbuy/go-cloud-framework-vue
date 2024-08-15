@@ -74,24 +74,23 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
+import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import commonFunction from '/@/utils/commonFunction';
-import { useStore } from '/@/store/index';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import expertJjps from './jjps.vue';
+// import jjpsGather from './jjpsGather.vue';
+import expertJsps from './jsps.vue';
+// import jspsGather from './jspsGather.vue';
 import expertLeader from './leader.vue';
 import expertSeeSetting from './seeSetting.vue';
 import expertZgps from './zgps.vue';
-import expertJsps from './jsps.vue';
-import expertJjps from './jjps.vue';
-import zgpsGather from './zgpsGather.vue';
-import jspsGather from './jspsGather.vue';
-import jjpsGather from './jjpsGather.vue';
-import gather from '../../component/bidSelection/gather.vue';
+// import zgpsGather from './zgpsGather.vue';
+import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
+// import gather from '../../component/bidSelection/gather.vue';
 import signature from './signature.vue';
 export default {
 	name: 'api_sys_project_selection',
-	components: { expertLeader, expertSeeSetting, expertZgps, expertJsps, expertJjps, zgpsGather, jspsGather, jjpsGather, gather, signature },
+	components: { expertLeader, expertSeeSetting, expertZgps, expertJsps, expertJjps, signature },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const { t } = useI18n();

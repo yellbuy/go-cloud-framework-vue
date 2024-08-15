@@ -232,7 +232,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '../../chart/chart.scss';
+//@import '../../chart/chart.scss';
 .home-container {
 	overflow-x: hidden;
 	.home-card-item {
