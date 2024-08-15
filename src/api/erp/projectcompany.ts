@@ -38,4 +38,14 @@ export default {
         return await http.get(url, data);
     },
 
+        /**
+ * 公司报名详细信息
+ * @param data 标识，字符串或数组
+ * @returns 返回接口数据
+ */
+    projectcompany: async (data: object) => {
+        const url = `/v1/admin/erp/projectcompany/projectcompanygetbyid/${id}`;
+        return await http.get(url, data);
+    },
+
 }

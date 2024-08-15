@@ -30,7 +30,6 @@
 				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
 					<el-table-column prop="No" label="项目编号"  width="160" show-overflow-tooltip fixed/>
-					
 					<el-table-column prop="Name" label="项目名称" show-overflow-tooltip/>
 					<el-table-column prop="fanwei" label="项目包号" width="70"/>
 					<el-table-column prop="Kind" label="参与方式" width="100">
@@ -108,6 +107,8 @@ export default {
 					no: '',
 					pageNum: 1,
 					size: 20,
+					projectId: '279082270076182531',
+					CompanyId: '279082270076182531',
 					isBid: Boolean(isBid),
 				},
 			},
@@ -130,7 +131,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.projectcompany.signUpList(state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -140,6 +141,7 @@ export default {
 				state.tableData.loading = false;
 			}
 		};
+
 		// 打开修改界面
 		const onModelEdit = (Id: number) => {
 			store.commit('project/getProjectId', Id);
