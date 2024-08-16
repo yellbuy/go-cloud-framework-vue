@@ -30,8 +30,8 @@
 					<el-col>
 						<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" fixed />
-							<el-table-column prop="qualification_score" label="评分点" width="120" show-overflow-tooltip/>
-							<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip/>
+							<el-table-column prop="Id" label="评分点" width="120" show-overflow-tooltip/>
+							<el-table-column prop="Name" label="评审标准" show-overflow-tooltip/>
 							<el-table-column label="评审" width="70" show-overflow-tooltip>
 								<template #default="scope">
 									<el-switch
@@ -94,55 +94,21 @@ export default {
 		const store = useStore();
 		const state: any = reactive({
 			projectLineIndex:'',
-			activeName:"zgps",
 			project: {},
-			supplierList: [],
 			tableData: {
-				data: [],
+				data: [{Id:"AXDF123",Name: "张三", CheckState: 1,VoteState: 1, VoteCount: 5, LeaderState: 1}],
 				total: 0,
 				loading: false,
 				param: {
 					mode: 2,
 					current: 1,
 					size: 20,
-					projectId: '279082270076182531',
+					projectId: 0,
 					categoryId: null,
 					name: '',
 				},
 			},
 		});
-
-		//资格评审表格
-		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			if (gotoFirstPage) {
-				state.tableData.param.current = 1;
-			}
-			state.tableData.loading = true;
-			try {
-				state.tableData.param.kind = state.activeName
-				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.tableData.param);
-				if (res.errcode != 0) {
-					return;
-				}
-				state.tableData.total = res.total;
-				state.tableData.data = res.data;
-			} finally {
-				state.tableData.loading = false;
-			}
-		};
-
-		//加载投标方列表
-		const loadSupplierList = async () => {
-				try {
-					const res = await proxy.$api.erp.projectcompany.comparisonList(state.tableData.params);
-					if (res.errcode != 0) {
-						return;
-					}
-					state.supplierList = res.data;
-				} finally {
-				}
-		};
-
 		//获取项目品目信息
 		const getCompanyList = async (isState: boolean) => {
 			if (isState) {
@@ -198,10 +164,7 @@ export default {
 		};
 
 		// 页面加载时
-		onMounted(() => {
-			loadSupplierList();
-			onGetTableData(true);
-		});
+		onMounted(() => {});
 
 		return {
 			proxy,

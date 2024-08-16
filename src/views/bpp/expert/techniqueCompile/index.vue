@@ -13,7 +13,7 @@
 		<el-row>
 			<el-col :span="8">
 				<div>
-					<el-button type="primary" @click="onCompile(tableData.param.projectId)">汇总</el-button>
+					<el-button type="primary" @click="onCompile">汇总</el-button>
 				</div>
 			</el-col>
 			<el-col :span="8">
@@ -25,7 +25,7 @@
 			</el-col>
 			<el-col :span="8">
 				<div style="float: right;">
-					<el-button type="primary" @click="onReturnReview(tableData.param.projectId)">退回重评</el-button>
+					<el-button type="primary" @click="">退回重评</el-button>
 				</div>
 			</el-col>
 		</el-row>
@@ -33,10 +33,10 @@
 			<el-col :span="24">
 				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column prop="TechnicalScore" label="评分点" width="120" show-overflow-tooltip/>
-					<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip/>
-					<el-table-column prop="" label="满分" show-overflow-tooltip/>
-					<el-table-column prop="" label="一号公司" show-overflow-tooltip/>
+					<el-table-column prop="Id" label="评分点" width="120" show-overflow-tooltip/>
+					<el-table-column prop="Name" label="评审标准" show-overflow-tooltip/>
+					<el-table-column prop="Name" label="满分" show-overflow-tooltip/>
+					<el-table-column prop="Name" label="一号公司" show-overflow-tooltip/>
 				</el-table>
 				<el-pagination
 					small
@@ -68,42 +68,21 @@ export default {
 		const store = useStore();
 		const state: any = reactive({
 			projectLineIndex:'',
-			activeName:"jsps",
 			project: {},
 			tableData: {
-				data: [],
+				data: [{Id:"AXDF123",Name: "张三", CheckState: 1,VoteState: 1, VoteCount: 5, LeaderState: 1}],
 				total: 0,
 				loading: false,
 				param: {
 					mode: 2,
 					current: 1,
 					size: 20,
-					projectId: '279082270076182531',
+					projectId: 0,
 					categoryId: null,
 					name: '',
 				},
 			},
 		});
-
-		//技术表格
-		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			if (gotoFirstPage) {
-				state.tableData.param.current = 1;
-			}
-			state.tableData.loading = true;
-			try {
-				state.tableData.param.kind = state.activeName
-				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.tableData.param);
-				if (res.errcode != 0) {
-					return;
-				}
-				state.tableData.total = res.total;
-				state.tableData.data = res.data;
-			} finally {
-				state.tableData.loading = false;
-			}
-		};
-
 		//获取项目品目信息
 		const getCompanyList = async (isState: boolean) => {
 			if (isState) {
@@ -136,38 +115,15 @@ export default {
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
-				try {
-					const res = await proxy.$api.erp.projectreview.expertGatherSave(state.tableData.params.projectId ,params);
-					if (res.errcode != 0) {
-						return;
-					}
-					state.ruleForm.AuditState = 0;
-				} finally {
-					onGetTableData(true);
-				}
-				return false;
-			});
-		};
-
-		const onReturnReview = async (Id: Number) => {
-			if (!Id) {
-				ElMessage.error('当前没有可退回重评的项目包。');
-				return;
-			}
-			ElMessageBox.confirm(`确定退回重评吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(async () => {
-				try {
-					const res = await proxy.$api.erp.projectreview.expertGatherReturn(state.tableData.params.projectId ,params);
-					if (res.errcode != 0) {
-						return;
-					}
-					state.ruleForm.AuditState = 0;
-				} finally {
-					onGetTableData(true);
-				}
+				// try {
+				// 	const res = await proxy.$api.common.enterprise.audit(state.ruleForm);
+				// 	if (res.errcode != 0) {
+				// 		return;
+				// 	}
+				// 	state.ruleForm.AuditState = 0;
+				// } finally {
+				// 	onGetTableData(true);
+				// }
 				return false;
 			});
 		};
@@ -182,15 +138,12 @@ export default {
 		};
 
 		// 页面加载时
-		onMounted(() => {
-			onGetTableData(true);
-		});
+		onMounted(() => {});
 
 		return {
 			proxy,
 			getCompanyList,
 			onCompile,
-			onReturnReview,
 			onHandleSizeChange,
 			onHandleCurrentChange,
 			t,
