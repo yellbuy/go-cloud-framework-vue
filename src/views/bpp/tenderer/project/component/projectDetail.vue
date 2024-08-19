@@ -11,16 +11,28 @@
 						<el-divider border-style="dashed" />
 						<p class="font14"><b>购买资料</b></p>
 						<el-row class="mt10">
-							<el-col :span="16">
-								<el-link type="primary" @click="previewImage()">缴费凭证图片</el-link>
-							</el-col>
-							<el-col :span="8" class="text-right">
-								<el-link type="primary" @click="handleUploadImage()">上传缴费凭证</el-link>
-								<el-link>等待审核</el-link>
+							<el-col :span="24">
+								<el-upload
+									:action="uploadURL"
+									list-type="picture-card"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onSuccessFile"
+									:on-preview="showImage"
+									:on-remove="onRemove"
+									:before-upload="onBeforeImageUpload"
+									:file-list="FilesList"
+									:limit="1"
+									v-if="projectInfoData.data.BidPayUid >= 0">
+									<template #default>
+										<el-link type="primary">上传缴费凭证</el-link>
+									</template>
+								</el-upload>
+								<a v-else-if="projectInfoData.data.BidAuditState == 0">等待审核</a>
+								<a v-else>审核通过</a>
 							</el-col>
 						</el-row>
 						<el-divider border-style="dashed" />
-						<el-descriptions title="下载标书" border>
+						<el-descriptions title="下载标书" border >
 							<el-descriptions-item label-align="left" width="50%" align="right" label="《标书文件》">
 								<el-link type="primary" @click="handleDownload()">下载</el-link>
 							</el-descriptions-item>
@@ -28,12 +40,24 @@
 						<el-divider border-style="dashed" />
 						<p class="font14"><b>支付投标保证金</b></p>
 						<el-row class="mt10">
-							<el-col :span="16">
-								<el-link type="primary" @click="previewImage()">缴费凭证图片</el-link>
-							</el-col>
-							<el-col :span="8" class="text-right">
-								<el-link type="primary" @click="handleUploadImage()">上传缴费凭证</el-link>
-								<el-link>等待审核</el-link>
+							<el-col :span="24">
+								<el-upload
+									:action="uploadURL"
+									list-type="picture-card"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onSuccessFile"
+									:on-preview="showImage"
+									:on-remove="onRemove"
+									:before-upload="onBeforeImageUpload"
+									:file-list="FilesList"
+									:limit="1"
+									v-if="projectInfoData.data.EnsurePayUid >= 0">
+									<template #default>
+										<el-link type="primary" @click="submitUpload" >上传缴费凭证</el-link>
+									</template>
+								</el-upload>
+								<el-link v-else-if="projectInfoData.data.EnsureAuditState == 0">等待审核</el-link>
+								<el-link v-else>审核通过</el-link>
 							</el-col>
 						</el-row>
 					</el-card>
@@ -57,7 +81,7 @@
 							<p class="font14 mb10"><b>成交通知</b></p>
 							<p>您好：我公司的[汉风生产管控系统建设] （YJ2023122102538），经评审，现确定由贵公司供应（承揽）。请收到本通知后10个工作日内,到采购单位签订合同，否则，将视为放弃供应（承揽）权利，并扣除投标/议价/竞价保证金。请到采购组织方领取纸质版成交通知书，或联系组织方领取扫描版成交通知书（电子邮件方式）。</p>
 							<p class="text-right">特此通知。</p>
-							<p class="mt10"><el-link type="primary">中标通知书下载</el-link></p>
+							<p class="mt10"><el-link type="primary" @click="handleDownload()">中标通知书下载</el-link></p>
 						</el-card>
 					</el-timeline-item>
 				</el-timeline>
@@ -420,6 +444,7 @@ import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactiv
 import { useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'admin',
 	setup() {
@@ -435,15 +460,42 @@ export default {
 			tenant: {},
 			tabIndex:0,
 			stepIndex:0,
+			id: '279083082479309638',
+			httpsText: import.meta.env.VITE_URL as any,
+			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
+			dialogImageUrl: "",
+			ImageVisible: false,
+			dialogVisible: false,
+			Files: [],
+			FilesList: [],
+			//	表单
+			ruleForm: {
+				bid_pics:0,
+				bid_files:0,
+				bid_pay_state: '0',	
+				bid_pay_uid:0,
+				bid_pay_by:0,
+				bid_audit_state:0,
+				bid_audit_uid:0,
+				bid_audit_by:0,
+				ensure_pics:0,
+				ensure_files:0,
+				ensure_pay_state:0,
+				ensure_pay_uid:0,
+				ensure_pay_by:0,
+				ensure_audit_state:0,
+				ensure_audit_uid:0,
+				ensure_audit_by:0,
+			},
 			projectInfoData: {
-				data: [],
+				data: {},
 				total: 0,
 				loading: false,
 				param: {
+					kind: "repair",
 					mode: 2,
 					current: 1,
 					size: 20,
-					projectId: '279082270076182531',
 					categoryId: null,
 					name: '',
 				},
@@ -464,19 +516,17 @@ export default {
 			myCharts: [],
 		});
 
+		const token = Session.get('token');
+
 		// 获取项目信息
-		const onGetProjectInfoData = async (gotoFirstPage: boolean = false) => {
-			if (gotoFirstPage) {
-				state.projectInfoData.param.pageNum = 1;
-			}
+		const onGetProjectInfoData = async () => {
 			state.projectInfoData.loading = true;
 			try {
-				const res = await proxy.$api.erp.project.getById(state.projectInfoData.param.projectId);
+				const res = await proxy.$api.erp.projectcompany.projectcompany(state.id ,state.projectInfoData.param);
 				if (res.errcode != 0) {
 					return;
 				}
-				state.projectInfoData.data = res.data;
-				state.projectInfoData.total = res.total;
+				state.projectInfoData.data = res.data[0];
 			} finally {
 				state.projectInfoData.loading = false;
 			}
@@ -508,6 +558,7 @@ export default {
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
 		});
+
 		// 当前时间提示语
 		const currentTime = computed(() => {
 			return formatAxis(new Date());
@@ -528,14 +579,17 @@ export default {
 				}
 			});
 		};
+
 		// 批量设置 echarts resize
 		const initEchartsResize = () => {
 			window.addEventListener('resize', initEchartsResizeFun);
 		};
+
 		//返回
 		const onGoToList=()=>{
 			proxy.$parent.$parent.onModelList(false);
 		}
+
 		//前一步
 		const onGoToPrevious=()=>{
 			let stepIndex=state.stepIndex-1
@@ -544,6 +598,7 @@ export default {
 			}
 			state.stepIndex=stepIndex
 		}
+
 		//后一步
 		const onGoToNext=()=>{
 			let stepIndex=state.stepIndex+1
@@ -552,39 +607,89 @@ export default {
 			}
 			state.stepIndex=stepIndex
 		}
+
 		//参与投标
 		const onBeginBid = ()=>{
 			state.tabIndex=1
 		}
 
-		// 上传文件
-		const handleUploadFile = async () => {
-			const input = document.createElement('input');
-			input.type = 'file';
-			input.accept = 'image/*';
-			input.onchange = async (e) => {
-				const file = e.target.files[0];
-				const formData = new FormData();
-				formData.append('file', file);
-				try {
-					const response = await fetch(import.meta.env.VITE_URL + '/static/download/erp/bbp/', {
-					method: 'POST',
-					body: formData
-					});
-					if (response.ok) {
-						console.log('图片上传成功');
-					} else {
-						console.error('图片上传失败');
-					}
-				} catch (error) {
-					console.error('上传过程中发生错误', error);
+		//	文件列表更新
+		const onSuccessFile = (file: UploadFile) => {
+			console.log('触发图片上传');
+			state.Files.push(file.data.src);
+			let image = { url: '' };
+			image.url = state.httpsText + file.data.src;
+			console.log(state.FilesList);
+		};
+
+		//	显示表格图片
+		const showImage: UploadProps['onPreview'] = (uploadFile) => {
+			state.dialogImageUrl = uploadFile.url!
+			state.ImageVisible = true
+		}
+
+		//	预览文件
+		const onPreview = (uploadFile: any) => {
+			//	当格式为图片就预览图片，否则下载文件
+			let filename = uploadFile.name;
+			if (!uploadFile.name || uploadFile.name == '') {
+				filename = uploadFile.url;
+			}
+			let fileurl = uploadFile.url;
+			let fileExtension = '';
+			//	校检文件类型
+			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
+			if (filename.lastIndexOf('.') > -1) {
+				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
+			}
+			const isTypeOk = imageTypes.some((type) => {
+				if (fileExtension && fileExtension.indexOf(type) > -1) {
+					return true;
 				}
-			};
-			input.click();
+			});
+			if (isTypeOk) {
+				//	预览图片
+				state.dialogImageUrl[0] = fileurl;
+				state.dialogTitle = filename;
+				state.dialogVisible = true;
+			} else {
+				//	下载文件
+				state.dialogVisible = false;
+				//	openWindow(fileurl, { target: "_self" });
+				window.open(fileurl, '_self');
+			}
+		};
+
+		const onRemove = (file: UploadFile) => {
+			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			for (let i = 0; i < state.Files.length; i++) {
+				if (state.Files[i] == removeUrl) {
+					state.Files.splice(i, 1);
+				}
+			}
+		};
+
+		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
+			if (
+				rawFile.type !== 'image/jpeg' &&
+				rawFile.type !== 'image/jpg' &&
+				rawFile.type !== 'image/png' &&
+				rawFile.type !== 'image/ico' &&
+				rawFile.type !== 'image/bmp' &&
+				rawFile.type !== 'image/gif' &&
+				rawFile.type !== 'image/svg'
+			) {
+				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
+				return false;
+			} else if (rawFile.size / 1024 / 1024 > 10) {
+				ElMessage.error('图片大小不能超过10MB!');
+				return false;
+			}
+			return true;
 		};
 
 		// 上传图片
-		const handleUploadImage = async () => {
+		const submitUpload = async () => {
 			const input = document.createElement('input');
 			input.type = 'file';
 			input.accept = 'image/*';
@@ -593,7 +698,7 @@ export default {
 				const formData = new FormData();
 				formData.append('file', file);
 				try {
-					const response = await fetch(import.meta.env.VITE_URL + '/static/download/erp/bbp/', {
+					const response = await fetch(state.uploadURL, {
 					method: 'POST',
 					body: formData
 					});
@@ -624,10 +729,51 @@ export default {
 			file.click();
 		};
 
+		//	保存上传
+		const submit = (isCloseDlg: boolean) => {
+			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
+				if (valid) {
+					state.loading = true;
+					state.ruleForm.Id = state.ruleForm.Id.toString();
+					try {
+						if (state.ruleForm.Id==0){
+							let res = await proxy.$api.common.category.insert(state.ruleForm);
+								if (res.errcode == 0) {
+							if (isCloseDlg) {
+								closeDialog();
+							} else {
+								proxy.$refs.ruleFormRef.resetFields();
+								state.ruleForm.Id = 0;
+							}
+							proxy.$parent.onGetMainTableData();
+						}
+						}else{
+							let res = await proxy.$api.common.category.update(state.ruleForm);
+							if (res.errcode == 0) {
+							if (isCloseDlg) {
+								closeDialog();
+							} else {
+								proxy.$refs.ruleFormRef.resetFields();
+								state.ruleForm.Id = 0;
+							}
+							proxy.$parent.onGetMainTableData();
+						}
+						}
+						
+					} finally {
+						state.loading = false;
+					}
+					return false;
+				} else {
+					return false;
+				}
+			});
+		};
+
 		// 页面加载时
 		onMounted(() => {
 			onGetProjectInfoData();
-			onGetBidTableData();
+			// onGetBidTableData();
 			initEchartsResize();
 			loadTenant();
 		});
@@ -644,6 +790,7 @@ export default {
 		);
 
 		return {
+			token,
 			onGotoEdit,
 			onGoToList,
 			onGoToPrevious,
@@ -651,8 +798,12 @@ export default {
 			onBeginBid,
 			getUserInfos,
 			currentTime,
-			handleUploadImage,
-			handleUploadFile,
+			onSuccessFile,
+			onRemove,
+			onPreview,
+			showImage,
+			onBeforeImageUpload,
+			submitUpload,
 			previewImage,
 			handleDownload,
 			...toRefs(state),
