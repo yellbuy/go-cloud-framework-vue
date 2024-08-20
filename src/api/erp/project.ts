@@ -108,7 +108,7 @@ export default {
     * 获取公司报名信息
     * @returns 返回接口数据
     */
-    signUpDetail: async (id: number | string,companyId: number | string) => {
+    signUpDetail: async (id: number | string, companyId: number | string) => {
         const url = `/v1/admin/erp/project/signup/${id}/${companyId}`;
         return await http.get(url);
     },
