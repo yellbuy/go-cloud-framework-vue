@@ -52,11 +52,10 @@ export default {
 
 /**
  * 更新
- * @param id 报名公司id
  * @param data 标识，字符串或数组
  * @returns 返回接口数据
  */
-    update: async (id: string|number, data: object) => {
+    update: async ( id: string|number, data: object) => {
         const url = `/v1/admin/erp/projectcompany/${id}`;
         return await http.post(url, data);
     },

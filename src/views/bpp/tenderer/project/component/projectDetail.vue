@@ -203,7 +203,7 @@
 		<el-row>
 			<el-col :span="24" >
 				<div v-if="stepIndex==0">
-					<el-table :data="bidTableData.data" v-loading="bidTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+					<el-table :data="swwjTableData.data" v-loading="bidTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" />
 						<el-table-column prop="name" label="商务文件" width="350">
 							<template #default="scope">
@@ -215,17 +215,12 @@
 						<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
 							<template #header>
 								<el-upload
-									class="upload-demo"
 									:action="uploadURL"
 									:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="(file) => onSuccessFile(file, 'scswwj')"
 									:before-upload="onBeforeImageUpload"
-									multiple
-									:limit="10"
-									:file-list="swFilesList"
-									:show-file-list="true"
-									:auto-upload="true">
+									:show-file-list="false">
 									<template #default>
 										<el-button type="primary" align="right">上传</el-button>
 									</template>
@@ -234,25 +229,12 @@
 							<template #default="scope">
 								<el-row>
 									<el-col :span="8">
-										<el-button text bg  @click="onModelEdit(scope.row.Id, false)">
-											查看
+										<el-button text bg type="primary" @click="">
+											下载
 										</el-button>
 									</el-col>
 									<el-col :span="8">
-										<el-upload
-											ref="uploadRef"
-											class="upload-demo"
-											action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-											accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
-											:show-file-list="false"
-											:auto-upload="true">
-											<el-button text bg type="primary" @click="submitUpload">
-											上传
-											</el-button>
-										</el-upload>
-									</el-col>
-									<el-col :span="8">
-										<el-button text bg type="danger" @click="onPwdChanggeEdit(scope.row.Id, false)">
+										<el-button text bg type="danger" @click="onDel(123)">
 											删除
 										</el-button>
 									</el-col>
@@ -265,7 +247,7 @@
 					</p>						
 				</div>
 				<div v-else-if="stepIndex==1">
-					<el-table :data="bidTableData.data" v-loading="bidTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+					<el-table :data="swwjTableData.data" v-loading="bidTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" />
 						<el-table-column prop="name" label="技术文件" width="350">
 							<template #default="scope">
@@ -284,7 +266,6 @@
 									:on-success="(file) => onSuccessFile(file, 'scjswj')"
 									:before-upload="onBeforeImageUpload"
 									multiple
-									:file-list="jsFilesList"
 									:show-file-list="true"
 									:auto-upload="true">
 									<template #default>
@@ -460,6 +441,7 @@
 
 <script lang="ts">
 import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
+import { ElMessageBox, ElMessage } from 'element-plus';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
@@ -493,6 +475,17 @@ export default {
 			qtFilesList: [],
 			fjFilesList: [],
 			projectInfoData: {},
+			swwjTableData:{
+				data:[],
+				total: 0,
+				loading: false,
+				param: {
+					name: '',
+					files: [],
+
+				},
+			},
+			ProjectCompanyLineData: {},
 			//	表单
 			ruleForm: {},
 
@@ -523,7 +516,19 @@ export default {
 				}
 				state.projectInfoData = res.data[0];
 				state.ruleForm = res.data[0];
-				console.log("测试", state.projectInfoData)
+			} finally {
+			}
+		};
+
+		// 获取文件列表
+		const onGetProjectCompanyLineData = async () => {
+			try {
+				const res = await proxy.$api.erp.projectcompanyline.getListByScope();
+				if (res.errcode != 0) {
+					return;
+				}
+				state.ProjectCompanyLineData = res.data[0];
+				console.log("测试", state.ProjectCompanyLineData)
 			} finally {
 			}
 		};
@@ -535,7 +540,7 @@ export default {
 			}
 			state.bidTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectCompany.projectcompany(state.id);
+				const res = await proxy.$api.erp.projectcompany.projectcompany(state.id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -549,7 +554,20 @@ export default {
 		// 更新公司报名项目信息
 		const onUpProjectCompanyData = async () => {
 			try {
-				const res = await proxy.$api.erp.projectcompany.update(state.projectInfoData.Id, state.ruleForm)
+				const res = await proxy.$api.erp.projectcompany.update(state.projectInfoData.Id, state.testRuuleForm)
+				if (res.errcode != 0) {
+					return;
+				}
+				onGetProjectInfoData();
+			} finally {
+			}
+		};
+
+		// 批量上传文件
+		const onSaveMultiProjectCompanyLineData = async () => {
+
+			try {
+				const res = await proxy.$api.erp.projectcompanyline.SaveMulti(state.ProjectCompanyLineData.Kind, state.swFilesList)
 				if (res.errcode != 0) {
 					return;
 				}
@@ -571,6 +589,29 @@ export default {
 		const currentTime = computed(() => {
 			return formatAxis(new Date());
 		});
+
+		const onDel = async (Id: Number) => {
+			if (!Id) {
+				ElMessage.error('当前没有可删除的文件，请刷新后重试。');
+				return;
+			}
+			ElMessageBox.confirm(`确定删除吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				// try {
+				// 	const res = await proxy.$api.common.enterprise.audit(state.ruleForm);
+				// 	if (res.errcode != 0) {
+				// 		return;
+				// 	}
+				// 	state.ruleForm.AuditState = 0;
+				// } finally {
+				// 	onGetTableData(true);
+				// }
+				return false;
+			});
+		};
 
 		const loadTenant = async () => {
 			const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
@@ -610,6 +651,7 @@ export default {
 		//后一步
 		const onGoToNext=()=>{
 			let stepIndex=state.stepIndex+1
+			onSaveMultiProjectCompanyLineData()
 			if(stepIndex>4){
 				stepIndex=4
 			}
@@ -619,25 +661,50 @@ export default {
 		//参与投标
 		const onBeginBid = ()=>{
 			state.tabIndex=1
+			onGetProjectCompanyLineData()
 		}
 
 		//	文件列表更新
 		const onSuccessFile = (file: UploadFile, select: string) => {
 			switch (select) {
 				case 'gmzl':
-					state.projectInfoData.BidFiles = file.data.src
 					state.ruleForm.BidFiles = file.data.src
 					onUpProjectCompanyData();
 					break;
 				case 'zftbbzj':
-					state.projectInfoData.EnsureFiles = file.data.src
 					state.ruleForm.EnsureFiles = file.data.src
 					onUpProjectCompanyData();
 					break;
 				case 'scswwj':
-					state.projectInfoData.Files = state.projectInfoData.Files.push(file.data.src)
+					
+					let filePath = {"name": "商务文件"+formatTimestamp(Date.now())}
+					state.swwjTableData.data.push(filePath)
+					console.log("测试", state.swwjTableData.data)
+					break;
+				case 'scjswj':
+					state.jsFilesList = file.data.src
+					console.log("测试", state.jsFilesList)
+					break;
+				case 'scqtwj':
+					state.qtFilesList = file.data.src
+					console.log("测试", state.qtFilesList)
+					break;
+				case 'scfj':
+					state.fjFilesList = file.data.src
+					console.log("测试", state.fjFilesList)
 					break;
 				}
+		};
+
+		const formatTimestamp = (timestamp) => {
+			const date = new Date(timestamp);
+			const year = date.getFullYear();
+			const month = (date.getMonth() + 1).toString().padStart(2, '0');
+			const day = date.getDate().toString().padStart(2, '0');
+			const hours = String(date.getHours()).padStart(2, '0');
+			const minutes = String(date.getMinutes()).padStart(2, '0');
+			const seconds = String(date.getSeconds()).padStart(2, '0');
+			return `${year}${month}${day}${hours}${minutes}${seconds}`;
 		};
 
 		//	预览文件
@@ -773,6 +840,8 @@ export default {
 			onSuccessFile,
 			onPreview,
 			onBeforeImageUpload,
+			onDel,
+			formatTimestamp,
 			handleDownload,
 			...toRefs(state),
 		};
