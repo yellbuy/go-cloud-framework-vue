@@ -253,6 +253,7 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
+					businessBillType:2, //1：计划，2：生产
 					startTime: '',
 					endTime: '',
 					pageNum: 1,

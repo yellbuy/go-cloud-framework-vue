@@ -117,6 +117,7 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
+					businessBillType:2, //1：计划，2：生产
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,

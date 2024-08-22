@@ -250,6 +250,7 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					state.ruleForm.BusinessBillType=2; //1：计划，2：生产
 					try {
 						const res = await proxy.$api.erp.businessBillLine.save(state.ruleForm);
 						if (res.errcode == 0) {
