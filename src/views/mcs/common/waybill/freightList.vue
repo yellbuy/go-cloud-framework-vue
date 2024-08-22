@@ -313,6 +313,7 @@ export default {
 					keyword: '',
 					sendPlanStartTime: "",
 					sendPlanEndTime: "",
+					WaybillType:2,
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,

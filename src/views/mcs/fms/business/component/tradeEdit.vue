@@ -242,6 +242,7 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					state.ruleForm.BusinessBillType=2; //1：计划，2：生产
 					state.ruleForm.BillTime = state.ruleForm.SenderPlanTime;
 					if (state.ruleForm.GoodsCategoryId === ''){
 						state.ruleForm.GoodsCategoryId = "0";

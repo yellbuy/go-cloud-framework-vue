@@ -105,10 +105,10 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs';
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import dayjs from 'dayjs';
 import editDlg from './component/mainEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
@@ -134,6 +134,7 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
+					businessBillType:2, //1：计划，2：生产
 					startTime: '',
 					endTime: '',
 					pageNum: 1,
