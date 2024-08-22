@@ -11,53 +11,55 @@
 						<el-divider border-style="dashed" />
 						<p class="font14"><b>购买资料</b></p>
 						<el-row class="mt10">
-							<el-col :span="24">
+							<el-col :span="12">	
+								<el-link :href="baseUrl+projectInfoData.BidFiles" v-if="projectInfoData.BidFiles" target="_blank">{{ projectInfoData.BidFiles }}</el-link>	
+								<a v-else>待上传</a>
+							</el-col>
+							<el-col :span="12" class="text-right">
 								<el-upload
 									:action="uploadURL"
-									list-type="picture-card"
+									:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="onSuccessFile"
-									:on-preview="showImage"
-									:on-remove="onRemove"
+									:on-success="(file) => onSuccessFile(file, 'gmzl')"
 									:before-upload="onBeforeImageUpload"
-									:file-list="FilesList"
 									:limit="1"
-									v-if="projectInfoData.data.BidPayUid >= 0">
+									v-if="!projectInfoData.BidFiles">
 									<template #default>
-										<el-link type="primary">上传缴费凭证</el-link>
+										<el-link type="primary" align="right">上传缴费凭证</el-link>
 									</template>
 								</el-upload>
-								<a v-else-if="projectInfoData.data.BidAuditState == 0">等待审核</a>
+								<a v-else-if="projectInfoData.BidAuditState == 0">等待审核</a>
 								<a v-else>审核通过</a>
 							</el-col>
 						</el-row>
 						<el-divider border-style="dashed" />
 						<el-descriptions title="下载标书" border >
 							<el-descriptions-item label-align="left" width="50%" align="right" label="《标书文件》">
-								<el-link type="primary" @click="handleDownload()">下载</el-link>
+								<el-link type="primary" @click="handleDownload">下载</el-link>
 							</el-descriptions-item>
 						</el-descriptions>
 						<el-divider border-style="dashed" />
 						<p class="font14"><b>支付投标保证金</b></p>
 						<el-row class="mt10">
-							<el-col :span="24">
+							<el-col :span="12">	
+								<el-link :href="baseUrl+projectInfoData.EnsureFiles" v-if="projectInfoData.EnsureFiles" target="_blank">{{ projectInfoData.EnsureFiles }}</el-link>	
+								<a v-else>待上传</a>
+							</el-col>
+							<el-col :span="12" class="text-right">
 								<el-upload
 									:action="uploadURL"
-									list-type="picture-card"
+									:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="onSuccessFile"
-									:on-preview="showImage"
-									:on-remove="onRemove"
+									:on-success="(file) => onSuccessFile(file, 'zftbbzj')"
 									:before-upload="onBeforeImageUpload"
-									:file-list="FilesList"
 									:limit="1"
-									v-if="projectInfoData.data.EnsurePayUid >= 0">
+									v-if="!projectInfoData.EnsureFiles">
 									<template #default>
-										<el-link type="primary" @click="submitUpload" >上传缴费凭证</el-link>
+										<el-link type="primary" align="right">上传缴费凭证</el-link>
 									</template>
 								</el-upload>
-								<el-link v-else-if="projectInfoData.data.EnsureAuditState == 0">等待审核</el-link>
-								<el-link v-else>审核通过</el-link>
+								<a v-else-if="projectInfoData.EnsureAuditState == 0">等待审核</a>
+								<a v-else>审核通过</a>
 							</el-col>
 						</el-row>
 					</el-card>
@@ -89,10 +91,10 @@
 			<el-col :xs="24" :sm="12" :md="16" :lg="16" :xl="16" class="home-dynamic-media">
 				<el-descriptions title="项目基本信息" size="large" :column="2" border>
 					<el-descriptions-item label="项目编号" label-align="right" align="left" min-width="130px">
-						{{ projectInfoData.data.No }}
+						{{ projectInfoData.No }}
 					</el-descriptions-item>
 					<el-descriptions-item label="项目名称" label-align="right" align="left" min-width="130px">
-						{{ projectInfoData.data.Name }}
+						{{ projectInfoData.Name }}
 					</el-descriptions-item>
 					<el-descriptions-item label="执行策略" label-align="right" align="left">
 						未对接数据
@@ -101,25 +103,25 @@
 						<el-tag size="small">未对接数据</el-tag>
 					</el-descriptions-item>
 					<el-descriptions-item label="售标截止时间" label-align="right" align="left">
-						{{ projectInfoData.data.EndTime }}
+						{{ projectInfoData.EndTime }}
 					</el-descriptions-item>
 					<el-descriptions-item label="投标截止时间" label-align="right" align="left">
-						{{ projectInfoData.data.FinishTime }}
+						{{ projectInfoData.FinishTime }}
 					</el-descriptions-item>
 					<el-descriptions-item label="开标时间" label-align="right" align="left">
-						{{ projectInfoData.data.BeginTime }}
+						{{ projectInfoData.BeginTime }}
 					</el-descriptions-item>
 					<el-descriptions-item label="评标办法" label-align="right" align="left">
-						{{ projectInfoData.data.ReviewDesc }}
+						{{ projectInfoData.ReviewDesc }}
 					</el-descriptions-item>
 					<el-descriptions-item label="项目负责人" label-align="right" align="left">
-						{{ projectInfoData.data.ProjectManagerName }}
+						{{ projectInfoData.ProjectManagerName }}
 					</el-descriptions-item>
 					<el-descriptions-item label="采购负责人" label-align="right" align="left">
-						{{ projectInfoData.data.PurchaseManangerName }}
+						{{ projectInfoData.PurchaseManangerName }}
 					</el-descriptions-item>
 					<el-descriptions-item label="供应商报价模式" label-align="right" align="left" :span="2">
-						{{ projectInfoData.data.QuotationMode }}
+						{{ projectInfoData.QuotationMode }}
 					</el-descriptions-item>
 					<el-descriptions-item label="投标资格要求" label-align="right" align="left" :span="1">
 						<el-tooltip
@@ -127,7 +129,7 @@
 							effect="dark"
 							content="1、具有承揽本项目相关经营资格； 2、具有良好的企业信誉和履约能力。"
 							placement="top-start">
-							<el-text truncated line-clamp="1" size="default" style="width:90%">{{ projectInfoData.data.Qualification }}</el-text>
+							<el-text truncated line-clamp="1" size="default" style="width:90%">{{ projectInfoData.Qualification }}</el-text>
 						</el-tooltip>
 					</el-descriptions-item>
 				</el-descriptions>
@@ -201,7 +203,7 @@
 		<el-row>
 			<el-col :span="24" >
 				<div v-if="stepIndex==0">
-					<el-table :data="bidTableData.data" v-loading="bidTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+					<el-table :data="swwjTableData.data" v-loading="bidTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" />
 						<el-table-column prop="name" label="商务文件" width="350">
 							<template #default="scope">
@@ -213,39 +215,26 @@
 						<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
 							<template #header>
 								<el-upload
-									ref="uploadRef"
-									class="upload-demo"
-									action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-									accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
-									:show-file-list="false"
-									:auto-upload="true">
-									<el-button type="primary" @click="submitUpload">
-									上传
-									</el-button>
+									:action="uploadURL"
+									:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="(file) => onSuccessFile(file, 'scswwj')"
+									:before-upload="onBeforeImageUpload"
+									:show-file-list="false">
+									<template #default>
+										<el-button type="primary" align="right">上传</el-button>
+									</template>
 								</el-upload>
 							</template>
 							<template #default="scope">
 								<el-row>
 									<el-col :span="8">
-										<el-button text bg  @click="onModelEdit(scope.row.Id, false)">
-											查看
+										<el-button text bg type="primary" @click="">
+											下载
 										</el-button>
 									</el-col>
 									<el-col :span="8">
-										<el-upload
-											ref="uploadRef"
-											class="upload-demo"
-											action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-											accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
-											:show-file-list="false"
-											:auto-upload="true">
-											<el-button text bg type="primary" @click="submitUpload">
-											上传
-											</el-button>
-										</el-upload>
-									</el-col>
-									<el-col :span="8">
-										<el-button text bg type="danger" @click="onPwdChanggeEdit(scope.row.Id, false)">
+										<el-button text bg type="danger" @click="onDel(123)">
 											删除
 										</el-button>
 									</el-col>
@@ -258,7 +247,7 @@
 					</p>						
 				</div>
 				<div v-else-if="stepIndex==1">
-					<el-table :data="bidTableData.data" v-loading="bidTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+					<el-table :data="swwjTableData.data" v-loading="bidTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" />
 						<el-table-column prop="name" label="技术文件" width="350">
 							<template #default="scope">
@@ -270,15 +259,18 @@
 						<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
 							<template #header>
 								<el-upload
-									ref="uploadRef"
 									class="upload-demo"
-									action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-									accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
-									:show-file-list="false"
+									:action="uploadURL"
+									:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="(file) => onSuccessFile(file, 'scjswj')"
+									:before-upload="onBeforeImageUpload"
+									multiple
+									:show-file-list="true"
 									:auto-upload="true">
-									<el-button type="primary" @click="submitUpload">
-									上传
-									</el-button>
+									<template #default>
+										<el-button type="primary" align="right">上传</el-button>
+									</template>
 								</el-upload>
 							</template>
 							<template #default="scope">
@@ -327,15 +319,19 @@
 						<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
 							<template #header>
 								<el-upload
-									ref="uploadRef"
 									class="upload-demo"
-									action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-									accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
-									:show-file-list="false"
+									:action="uploadURL"
+									:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="(file) => onSuccessFile(file, 'scqtwj')"
+									:before-upload="onBeforeImageUpload"
+									multiple
+									:file-list="qtFilesList"
+									:show-file-list="true"
 									:auto-upload="true">
-									<el-button type="primary" @click="submitUpload">
-									上传
-									</el-button>
+									<template #default>
+										<el-button type="primary" align="right">上传</el-button>
+									</template>
 								</el-upload>
 							</template>
 							<template #default="scope">
@@ -389,16 +385,20 @@
 					<div style="width:900px;margin-left:auto;margin-right:auto;" >
 						<div class="mt20 mb10">
 							<el-upload
-									ref="uploadRef"
-									class="upload-demo"
-									action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-									accept="xls|xlsx|doc|docx|png|jpg|jpeg|pdf"
-									:show-file-list="false"
-									:auto-upload="true">
-									<el-button type="primary" size="default" @click="submitUpload">
-									上传附件
-									</el-button>
-								</el-upload>
+								class="upload-demo"
+								:action="uploadURL"
+								:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
+								:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+								:on-success="(file) => onSuccessFile(file, 'scfj')"
+								:before-upload="onBeforeImageUpload"
+								multiple
+								:file-list="fjFilesList"
+								:show-file-list="true"
+								:auto-upload="true">
+								<template #default>
+									<el-button type="primary" align="right">上传附件</el-button>
+								</template>
+							</el-upload>
 						</div>
 						<div>
 							<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
@@ -441,7 +441,8 @@
 
 <script lang="ts">
 import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { ElMessageBox, ElMessage } from 'element-plus';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
 import { Session } from '/@/utils/storage';
@@ -449,6 +450,8 @@ export default {
 	name: 'admin',
 	setup() {
 		const moduleKey = 'api_sys_home_alias';
+		const route = useRoute();
+		const kind = route.params.kind||'repair';
 		const router = useRouter();
 		console.debug('router：', router.currentRoute.value);
 		//console.debug("route:",$route)
@@ -461,45 +464,31 @@ export default {
 			tabIndex:0,
 			stepIndex:0,
 			id: '279083082479309638',
-			httpsText: import.meta.env.VITE_URL as any,
+			baseUrl: import.meta.env.VITE_URL as any,
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			dialogImageUrl: "",
 			ImageVisible: false,
 			dialogVisible: false,
 			Files: [],
-			FilesList: [],
-			//	表单
-			ruleForm: {
-				bid_pics:0,
-				bid_files:0,
-				bid_pay_state: '0',	
-				bid_pay_uid:0,
-				bid_pay_by:0,
-				bid_audit_state:0,
-				bid_audit_uid:0,
-				bid_audit_by:0,
-				ensure_pics:0,
-				ensure_files:0,
-				ensure_pay_state:0,
-				ensure_pay_uid:0,
-				ensure_pay_by:0,
-				ensure_audit_state:0,
-				ensure_audit_uid:0,
-				ensure_audit_by:0,
-			},
-			projectInfoData: {
-				data: {},
+			swFilesList: [],
+			jsFilesList: [],
+			qtFilesList: [],
+			fjFilesList: [],
+			projectInfoData: {},
+			swwjTableData:{
+				data:[],
 				total: 0,
 				loading: false,
 				param: {
-					kind: "repair",
-					mode: 2,
-					current: 1,
-					size: 20,
-					categoryId: null,
 					name: '',
+					files: [],
+
 				},
 			},
+			ProjectCompanyLineData: {},
+			//	表单
+			ruleForm: {},
+
 			bidTableData: {
 				data: [],
 				total: 0,
@@ -520,15 +509,27 @@ export default {
 
 		// 获取项目信息
 		const onGetProjectInfoData = async () => {
-			state.projectInfoData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectcompany.projectcompany(state.id ,state.projectInfoData.param);
+				const res = await proxy.$api.erp.projectcompany.projectcompany('repair', state.id);
 				if (res.errcode != 0) {
 					return;
 				}
-				state.projectInfoData.data = res.data[0];
+				state.projectInfoData = res.data[0];
+				state.ruleForm = res.data[0];
 			} finally {
-				state.projectInfoData.loading = false;
+			}
+		};
+
+		// 获取文件列表
+		const onGetProjectCompanyLineData = async () => {
+			try {
+				const res = await proxy.$api.erp.projectcompanyline.getListByScope();
+				if (res.errcode != 0) {
+					return;
+				}
+				state.ProjectCompanyLineData = res.data[0];
+				console.log("测试", state.ProjectCompanyLineData)
+			} finally {
 			}
 		};
 
@@ -539,7 +540,7 @@ export default {
 			}
 			state.bidTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectCompany.projectcompany(state.projectInfoData.param.projectId);
+				const res = await proxy.$api.erp.projectcompany.projectcompany(state.id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -547,6 +548,31 @@ export default {
 				state.bidTableData.total = res.total;
 			} finally {
 				state.bidTableData.loading = false;
+			}
+		};
+
+		// 更新公司报名项目信息
+		const onUpProjectCompanyData = async () => {
+			try {
+				const res = await proxy.$api.erp.projectcompany.update(state.projectInfoData.Id, state.testRuuleForm)
+				if (res.errcode != 0) {
+					return;
+				}
+				onGetProjectInfoData();
+			} finally {
+			}
+		};
+
+		// 批量上传文件
+		const onSaveMultiProjectCompanyLineData = async () => {
+
+			try {
+				const res = await proxy.$api.erp.projectcompanyline.SaveMulti(state.ProjectCompanyLineData.Kind, state.swFilesList)
+				if (res.errcode != 0) {
+					return;
+				}
+				onGetProjectInfoData();
+			} finally {
 			}
 		};
 
@@ -563,6 +589,29 @@ export default {
 		const currentTime = computed(() => {
 			return formatAxis(new Date());
 		});
+
+		const onDel = async (Id: Number) => {
+			if (!Id) {
+				ElMessage.error('当前没有可删除的文件，请刷新后重试。');
+				return;
+			}
+			ElMessageBox.confirm(`确定删除吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				// try {
+				// 	const res = await proxy.$api.common.enterprise.audit(state.ruleForm);
+				// 	if (res.errcode != 0) {
+				// 		return;
+				// 	}
+				// 	state.ruleForm.AuditState = 0;
+				// } finally {
+				// 	onGetTableData(true);
+				// }
+				return false;
+			});
+		};
 
 		const loadTenant = async () => {
 			const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
@@ -602,6 +651,7 @@ export default {
 		//后一步
 		const onGoToNext=()=>{
 			let stepIndex=state.stepIndex+1
+			onSaveMultiProjectCompanyLineData()
 			if(stepIndex>4){
 				stepIndex=4
 			}
@@ -611,22 +661,51 @@ export default {
 		//参与投标
 		const onBeginBid = ()=>{
 			state.tabIndex=1
+			onGetProjectCompanyLineData()
 		}
 
 		//	文件列表更新
-		const onSuccessFile = (file: UploadFile) => {
-			console.log('触发图片上传');
-			state.Files.push(file.data.src);
-			let image = { url: '' };
-			image.url = state.httpsText + file.data.src;
-			console.log(state.FilesList);
+		const onSuccessFile = (file: UploadFile, select: string) => {
+			switch (select) {
+				case 'gmzl':
+					state.ruleForm.BidFiles = file.data.src
+					onUpProjectCompanyData();
+					break;
+				case 'zftbbzj':
+					state.ruleForm.EnsureFiles = file.data.src
+					onUpProjectCompanyData();
+					break;
+				case 'scswwj':
+					
+					let filePath = {"name": "商务文件"+formatTimestamp(Date.now())}
+					state.swwjTableData.data.push(filePath)
+					console.log("测试", state.swwjTableData.data)
+					break;
+				case 'scjswj':
+					state.jsFilesList = file.data.src
+					console.log("测试", state.jsFilesList)
+					break;
+				case 'scqtwj':
+					state.qtFilesList = file.data.src
+					console.log("测试", state.qtFilesList)
+					break;
+				case 'scfj':
+					state.fjFilesList = file.data.src
+					console.log("测试", state.fjFilesList)
+					break;
+				}
 		};
 
-		//	显示表格图片
-		const showImage: UploadProps['onPreview'] = (uploadFile) => {
-			state.dialogImageUrl = uploadFile.url!
-			state.ImageVisible = true
-		}
+		const formatTimestamp = (timestamp) => {
+			const date = new Date(timestamp);
+			const year = date.getFullYear();
+			const month = (date.getMonth() + 1).toString().padStart(2, '0');
+			const day = date.getDate().toString().padStart(2, '0');
+			const hours = String(date.getHours()).padStart(2, '0');
+			const minutes = String(date.getMinutes()).padStart(2, '0');
+			const seconds = String(date.getSeconds()).padStart(2, '0');
+			return `${year}${month}${day}${hours}${minutes}${seconds}`;
+		};
 
 		//	预览文件
 		const onPreview = (uploadFile: any) => {
@@ -660,15 +739,6 @@ export default {
 			}
 		};
 
-		const onRemove = (file: UploadFile) => {
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
-			for (let i = 0; i < state.Files.length; i++) {
-				if (state.Files[i] == removeUrl) {
-					state.Files.splice(i, 1);
-				}
-			}
-		};
-
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
 				rawFile.type !== 'image/jpeg' &&
@@ -688,45 +758,14 @@ export default {
 			return true;
 		};
 
-		// 上传图片
-		const submitUpload = async () => {
-			const input = document.createElement('input');
-			input.type = 'file';
-			input.accept = 'image/*';
-			input.onchange = async (e) => {
-				const file = e.target.files[0];
-				const formData = new FormData();
-				formData.append('file', file);
-				try {
-					const response = await fetch(state.uploadURL, {
-					method: 'POST',
-					body: formData
-					});
-					if (response.ok) {
-						console.log('图片上传成功');
-					} else {
-						console.error('图片上传失败');
-					}
-				} catch (error) {
-					console.error('上传过程中发生错误', error);
-				}
-			};
-			input.click();
-		};
-
-		//预览图片
-		const previewImage = () => {
-			const imagePath = import.meta.env.VITE_URL+"/static/download/erp/bbp/test.jpg"; 
-			const newWindow = window.open('', '_blank');
-			newWindow.document.write(`<img src="${imagePath}" alt="预览" />`);
-		}
-
 		// 下载文件
 		const handleDownload = async () => {
-			var file = document.createElement('a');
-			file.href = import.meta.env.VITE_URL+"/static/download/erp/bbp/test.jpg";
-			file.download = '标书文件_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
-			file.click();
+			const link = document.createElement('a');
+			link.href = "/static/download/erp/bbp/parts.xlsx";
+			link.download = 'parts';
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
 		};
 
 		//	保存上传
@@ -799,12 +838,10 @@ export default {
 			getUserInfos,
 			currentTime,
 			onSuccessFile,
-			onRemove,
 			onPreview,
-			showImage,
 			onBeforeImageUpload,
-			submitUpload,
-			previewImage,
+			onDel,
+			formatTimestamp,
 			handleDownload,
 			...toRefs(state),
 		};
