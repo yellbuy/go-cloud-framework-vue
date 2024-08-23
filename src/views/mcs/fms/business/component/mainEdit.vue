@@ -30,6 +30,7 @@
 						<el-form-item label="产品类型" prop="GoodsCategoryId">
 							<el-select
 								v-model="ruleForm.GoodsCategoryId"
+								@change="onCategorySelect"
 								filterable
 								placeholder="请选择">
 								<el-option v-for="(item, index) in goodsCategoryList" :key="index" :label="item.Name" :value="item.Id" />
@@ -269,7 +270,7 @@ export default {
 				state.disable = disable;
 				await loadCustomerName()
 				await loadGoodsCategory()
-				await loadgoodsName()
+				await loadGoodsList()
 				await loadAddressList()
 				if (id && id != '0' && disable == true) {
 					await getByIdRow(id);
@@ -323,13 +324,18 @@ export default {
 		}
 
 		//	加载产品名称
-		const loadgoodsName = async () => {
-			const goodsNameRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000, categoryId:state.ruleForm.GoodsCategoryId});
+		const loadGoodsList = async (categoryId:string="0") => {
+			const goodsNameRes = await proxy.$api.wms.goods.getListByScope('product', 0, 2, {pageSize:10000, categoryId:categoryId});
 			if (goodsNameRes.errcode == 0) {
 				state.goodsNameList = goodsNameRes.data;
 			}else{
 				console.log("error:",goodsNameRes.errmsg)
 			}
+		}
+
+		const onCategorySelect=async (id:string)=>{
+			state.ruleForm.GoodsId=""
+			loadGoodsList(id);
 		}
 
 		//	加载地址列表
@@ -406,7 +412,7 @@ export default {
 			onSubmit,
 			loadCustomerName,
 			loadGoodsCategory,
-			loadgoodsName,
+			onCategorySelect,
 			loadAddressList,
 			...toRefs(state),
 		};

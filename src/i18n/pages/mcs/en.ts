@@ -22,6 +22,9 @@ export default {
 		main_business_ine:'main business ine',
 		warehouse_ine:'warehouse ine',
 		trade_ine:'trade ine',
+		main_business_plan:'main business plan',
+		warehouse_plan:'warehouse plan',
+		trade_plan:'trade plan',
 		platform_ine:'platform ine',
 		vehicle_insurance:'vehicle insurance',
 		truck_type:'truck type',
@@ -29,6 +32,7 @@ export default {
 		
 		task:'task',
 		waybill:'waybill',
+		waybill_plan:'waybill plan',
 		waybill_line:'waybill line',
 		energy_bill:'energy bill',
 		energy_bill_line:'energy bill line',
