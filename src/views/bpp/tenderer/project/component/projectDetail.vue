@@ -12,7 +12,7 @@
 						<p class="font14"><b>购买资料</b></p>
 						<el-row class="mt10">
 							<el-col :span="12">	
-								<el-link :href="baseUrl+projectInfoData.BidFiles" v-if="projectInfoData.BidFiles" target="_blank">{{ projectInfoData.BidFiles }}</el-link>	
+								<el-link :href="baseUrl+projectCompanyData.data.BidFiles" v-if="projectCompanyData.data.BidFiles" target="_blank">{{ projectCompanyData.data.BidFiles }}</el-link>	
 								<a v-else>待上传</a>
 							</el-col>
 							<el-col :span="12" class="text-right">
@@ -23,12 +23,12 @@
 									:on-success="(file) => onSuccessFile(file, 'gmzl')"
 									:before-upload="onBeforeImageUpload"
 									:limit="1"
-									v-if="!projectInfoData.BidFiles">
+									v-if="!projectCompanyData.data.BidFiles">
 									<template #default>
 										<el-link type="primary" align="right">上传缴费凭证</el-link>
 									</template>
 								</el-upload>
-								<a v-else-if="projectInfoData.BidAuditState == 0">等待审核</a>
+								<a v-else-if="projectCompanyData.data.BidAuditState == 0">等待审核</a>
 								<a v-else>审核通过</a>
 							</el-col>
 						</el-row>
@@ -42,7 +42,7 @@
 						<p class="font14"><b>支付投标保证金</b></p>
 						<el-row class="mt10">
 							<el-col :span="12">	
-								<el-link :href="baseUrl+projectInfoData.EnsureFiles" v-if="projectInfoData.EnsureFiles" target="_blank">{{ projectInfoData.EnsureFiles }}</el-link>	
+								<el-link :href="baseUrl+projectCompanyData.data.EnsureFiles" v-if="projectCompanyData.data.EnsureFiles" target="_blank">{{ projectCompanyData.data.EnsureFiles }}</el-link>	
 								<a v-else>待上传</a>
 							</el-col>
 							<el-col :span="12" class="text-right">
@@ -53,12 +53,12 @@
 									:on-success="(file) => onSuccessFile(file, 'zftbbzj')"
 									:before-upload="onBeforeImageUpload"
 									:limit="1"
-									v-if="!projectInfoData.EnsureFiles">
+									v-if="!projectCompanyData.data.EnsureFiles">
 									<template #default>
 										<el-link type="primary" align="right">上传缴费凭证</el-link>
 									</template>
 								</el-upload>
-								<a v-else-if="projectInfoData.EnsureAuditState == 0">等待审核</a>
+								<a v-else-if="projectCompanyData.data.EnsureAuditState == 0">等待审核</a>
 								<a v-else>审核通过</a>
 							</el-col>
 						</el-row>
@@ -91,10 +91,10 @@
 			<el-col :xs="24" :sm="12" :md="16" :lg="16" :xl="16" class="home-dynamic-media">
 				<el-descriptions title="项目基本信息" size="large" :column="2" border>
 					<el-descriptions-item label="项目编号" label-align="right" align="left" min-width="130px">
-						{{ projectInfoData.No }}
+						{{ projectCompanyData.data.No }}
 					</el-descriptions-item>
 					<el-descriptions-item label="项目名称" label-align="right" align="left" min-width="130px">
-						{{ projectInfoData.Name }}
+						{{ projectCompanyData.data.Name }}
 					</el-descriptions-item>
 					<el-descriptions-item label="执行策略" label-align="right" align="left">
 						未对接数据
@@ -103,25 +103,25 @@
 						<el-tag size="small">未对接数据</el-tag>
 					</el-descriptions-item>
 					<el-descriptions-item label="售标截止时间" label-align="right" align="left">
-						{{ projectInfoData.EndTime }}
+						{{ projectCompanyData.data.EndTime }}
 					</el-descriptions-item>
 					<el-descriptions-item label="投标截止时间" label-align="right" align="left">
-						{{ projectInfoData.FinishTime }}
+						{{ projectCompanyData.data.FinishTime }}
 					</el-descriptions-item>
 					<el-descriptions-item label="开标时间" label-align="right" align="left">
-						{{ projectInfoData.BeginTime }}
+						{{ projectCompanyData.data.BeginTime }}
 					</el-descriptions-item>
 					<el-descriptions-item label="评标办法" label-align="right" align="left">
-						{{ projectInfoData.ReviewDesc }}
+						{{ projectCompanyData.data.ReviewDesc }}
 					</el-descriptions-item>
 					<el-descriptions-item label="项目负责人" label-align="right" align="left">
-						{{ projectInfoData.ProjectManagerName }}
+						{{ projectCompanyData.data.ProjectManagerName }}
 					</el-descriptions-item>
 					<el-descriptions-item label="采购负责人" label-align="right" align="left">
-						{{ projectInfoData.PurchaseManangerName }}
+						{{ projectCompanyData.data.PurchaseManangerName }}
 					</el-descriptions-item>
 					<el-descriptions-item label="供应商报价模式" label-align="right" align="left" :span="2">
-						{{ projectInfoData.QuotationMode }}
+						{{ projectCompanyData.data.QuotationMode }}
 					</el-descriptions-item>
 					<el-descriptions-item label="投标资格要求" label-align="right" align="left" :span="1">
 						<el-tooltip
@@ -129,7 +129,7 @@
 							effect="dark"
 							content="1、具有承揽本项目相关经营资格； 2、具有良好的企业信誉和履约能力。"
 							placement="top-start">
-							<el-text truncated line-clamp="1" size="default" style="width:90%">{{ projectInfoData.Qualification }}</el-text>
+							<el-text truncated line-clamp="1" size="default" style="width:90%">{{ projectCompanyData.data.Qualification }}</el-text>
 						</el-tooltip>
 					</el-descriptions-item>
 				</el-descriptions>
@@ -203,7 +203,7 @@
 		<el-row>
 			<el-col :span="24" >
 				<div v-if="stepIndex==0">
-					<el-table :data="swFilesTableData.data" v-loading="swFilesTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+					<el-table :data="ProjectCompanyLineTableData.data" v-loading="ProjectCompanyLineTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" />
 						<el-table-column prop="Name" label="商务文件" width="350">
 							<template #default="scope">
@@ -246,7 +246,7 @@
 					</p>						
 				</div>
 				<div v-else-if="stepIndex==1">
-					<el-table :data="jsFilesTableData.data" v-loading="jsFilesTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+					<el-table :data="ProjectCompanyLineTableData.data" v-loading="ProjectCompanyLineTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" />
 						<el-table-column prop="Name" label="技术文件" width="350">
 							<template #default="scope">
@@ -289,7 +289,7 @@
 					</p>						
 				</div>		
 				<div v-else-if="stepIndex==2">
-					<el-table :data="qtFilesTableData.data" v-loading="qtFilesTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+					<el-table :data="ProjectCompanyLineTableData.data" v-loading="ProjectCompanyLineTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" />
 						<el-table-column prop="Name" label="其他文件" width="350">
 							<template #default="scope">
@@ -332,7 +332,7 @@
 					</p>					
 				</div>	
 				<div v-else-if="stepIndex==3">
-					<el-table :data="jjpsTableData.data" v-loading="jjpsTableData.loading" show-summary style="width: 900px;margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
+					<el-table :data="ProjectCompanyLineTableData.data" v-loading="ProjectCompanyLineTableData.loading" show-summary style="width: 900px;margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
 						<el-table-column prop="No" label="物资编码"  width="120" show-overflow-tooltip fixed/>
 						<el-table-column prop="Name" label="名称" width="200" show-overflow-tooltip/>
@@ -353,6 +353,9 @@
 								:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
 								:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 								:on-success="(file) => onSuccessFile(file, 'jjps')"
+								:on-remove="onRemove"
+								:file-list="projectCompanyData.files"
+								:limit="10"
 								:show-file-list="true">
 								<template #default>
 									<el-button type="primary" align="right">上传附件</el-button>
@@ -388,7 +391,7 @@
 				<el-button @click="onGoToNext" type="primary" v-if="stepIndex<4" size="large">
 					<SvgIcon name="fa fa-arrow-right" class="mr3"/>下一步
 				</el-button>
-				<el-button @click="onGoToNext" type="primary" v-if="stepIndex==4" size="large">
+				<el-button @click="submit" type="primary" v-if="stepIndex==4" size="large">
 					<SvgIcon name="fa fa-rotate-right" class="mr3"/>确认提交
 				</el-button>
 			</el-col>
@@ -405,6 +408,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
 import { Session } from '/@/utils/storage';
+import { stat } from 'fs';
 export default {
 	name: 'admin',
 	setup() {
@@ -429,12 +433,13 @@ export default {
 			ImageVisible: false,
 			dialogVisible: false,
 			myCharts: [],
-			files: [],
-			ruleForm: {},
-			projectInfoData: {},
-			ProjectCompanyLineData: {},
+			projectCompanyData: {
+				data: {},
+				files: [],
+			},
 			bidTableData: {
 				data: [],
+				fileList: [],
 				total: 0,
 				loading: false,
 				param: {
@@ -442,46 +447,12 @@ export default {
 					pageSize: 20,
 				},
 			},
-			swFilesTableData:{
+			ProjectCompanyLineTableData:{
 				data:[],
+				list: [],
 				total: 0,
 				loading: false,
 				param: {
-					kind:"zgps",
-					pageNum: 1,
-					pageSize: 20,
-				},
-			},
-			jsFilesTableData: {
-				data:[],
-				total: 0,
-				loading: false,
-				param: {
-					kind:"jsps",
-					pageNum: 1,
-					pageSize: 20,
-				},
-			},
-			qtFilesTableData: {
-				data:[],
-				total: 0,
-				loading: false,
-				param: {
-					kind:"qt",
-					pageNum: 1,
-					pageSize: 20,
-				},
-			},
-			jjpsTableData: {
-				data:[],
-				total: 0,
-				loading: false,
-				param: {
-					kind:"jjps",
-					projectId: '279082270076182531',
-					companyId: '293435810496118785',
-					projectLineId: '298664702576164898',
-					projectCompanyId: '279083082479309638',
 					pageNum: 1,
 					pageSize: 20,
 				},
@@ -491,26 +462,25 @@ export default {
 		const token = Session.get('token');
 
 		// 获取项目信息
-		const onGetProjectInfoData = async () => {
+		const onGetprojectCompanyData = async () => {
 			try {
 				const res = await proxy.$api.erp.projectcompany.projectcompany('repair', store.state.project.projectId);
 				if (res.errcode != 0) {
 					return;
 				}
-				state.projectInfoData = res.data[0];
-				state.ruleForm = res.data[0];
+				state.projectCompanyData.data = res.data[0];
 			} finally {
 			}
 		};
 
 		// 获取文件列表
-		const onGetProjectCompanyLineData = async (param: {}) => {
+		const onGetProjectCompanyLineTableData = async () => {
 			try {
-				const res = await proxy.$api.erp.projectcompanyline.getListByScope(param);
+				const res = await proxy.$api.erp.projectcompanyline.getListByScope(state.ProjectCompanyLineTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
-				return res.data;
+				state.ProjectCompanyLineTableData.data = res.data;
 			} finally {
 			}
 		};
@@ -536,43 +506,33 @@ export default {
 		// 更新公司报名项目信息
 		const onUpProjectCompanyData = async () => {
 			try {
-				const res = await proxy.$api.erp.projectcompany.update(state.projectInfoData.Id, state.testRuuleForm)
+				const res = await proxy.$api.erp.projectcompany.update(state.projectCompanyData.data.Id, state.projectCompanyData.data)
 				if (res.errcode != 0) {
 					return;
 				}
-				onGetProjectInfoData();
+				onGetprojectCompanyData();
 			} finally {
 			}
 		};
 
 		// 批量上传文件
-		const onsaveMultiProjectCompanyLineData = async (kind: string) => {
+		const onsaveMultiProjectCompanyLineTableData = async () => {
 			try {
-				switch (kind) {
-					case "zgps":
-						const swres = await proxy.$api.erp.projectcompanyline.saveMulti(state.swFilesTableData.param.kind, state.swFilesTableData.data)
-						if (swres.errcode != 0) {
-							return;
-						}
-						break;
-					case "jsps":
-						const jsres = await proxy.$api.erp.projectcompanyline.saveMulti(state.jsFilesTableData.param.kind, state.jsFilesTableData.data)
-						if (jsres.errcode != 0) {
-							return;
-						}
-						break;
-					case "qt":
-						const qtres = await proxy.$api.erp.projectcompanyline.saveMulti(state.qtFilesTableData.param.kind, state.qtFilesTableData.data)
-						if (qtres.errcode != 0) {
-							return;
-						}
-						break;
-					case "jjps":
-						const jjres = await proxy.$api.erp.projectcompanyline.saveMulti(state.jjFilesTableData.param.kind, state.qtFilesTableData.data)
-						if (jjres.errcode != 0) {
-							return;
-						}
-						break;
+				let model = {}
+				state.ProjectCompanyLineTableData.list = []
+				for (let i = 0; i < state.ProjectCompanyLineTableData.data.length; i++) {
+					model = {}
+					model.Id = state.ProjectCompanyLineTableData.data[i].Id
+					model.Kind = state.ProjectCompanyLineTableData.data[i].Kind
+					model.Name = state.ProjectCompanyLineTableData.data[i].Name
+					model.Files = state.ProjectCompanyLineTableData.data[i].Files
+					model.ProjectId = state.ProjectCompanyLineTableData.data[i].ProjectId
+					model.ProjectCompanyId = state.ProjectCompanyLineTableData.data[i].ProjectCompanyId
+					state.ProjectCompanyLineTableData.list.push(model)
+				}
+				const jsres = await proxy.$api.erp.projectcompanyline.saveMulti(state.ProjectCompanyLineTableData.param.kind, state.ProjectCompanyLineTableData.list)
+				if (jsres.errcode != 0) {
+					return;
 				}
 			} finally {
 			}
@@ -603,10 +563,12 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const qtres = await proxy.$api.erp.projectcompanyline.delete(id)
+					const res = await proxy.$api.erp.projectcompanyline.delete(id)
 					if (res.errcode != 0) {
 						return;
 					}
+					state.ProjectCompanyLineTableData.data = []
+					onGetProjectCompanyLineTableData()
 				} finally {
 				}
 				return false;
@@ -642,6 +604,7 @@ export default {
 					break;
 				case 1:
 					state.tabIndex = 0
+					state.stepIndex = 0
 					break;
 			}
 		}
@@ -649,89 +612,131 @@ export default {
 		//前一步
 		const onGoToPrevious=()=>{
 			let stepIndex=state.stepIndex-1
+			state.ProjectCompanyLineTableData.data = []
+			state.ProjectCompanyLineTableData.param.projectId = store.state.project.projectId
+			state.ProjectCompanyLineTableData.param.companyId = state.projectCompanyData.CompanyId
+			state.ProjectCompanyLineTableData.param.projectCompanyId =  state.projectCompanyData.Id
+			state.ProjectCompanyLineTableData.param.pageNum = 1
+			state.ProjectCompanyLineTableData.param.pageSize = 20
 			if(stepIndex<0){
 				stepIndex=0
 			}
+			switch(stepIndex){
+				case 0:
+					state.ProjectCompanyLineTableData.param.kind = "zgps"
+					break;
+				case 1:
+					state.ProjectCompanyLineTableData.param.kind = "jsps"
+					break;
+				case 2:
+					state.ProjectCompanyLineTableData.param.kind = "qt"
+					break;
+				case 3:
+					state.ProjectCompanyLineTableData.param.kind = "jjps"
+					break;
+				case 4:
+					break;
+			}
+			onGetProjectCompanyLineTableData()
 			state.stepIndex=stepIndex
 		}
 
 		//后一步
 		const onGoToNext=()=>{
+			if (state.ProjectCompanyLineTableData.list != []){
+				onsaveMultiProjectCompanyLineTableData()
+			}
 			let stepIndex=state.stepIndex+1
+			state.ProjectCompanyLineTableData.data = []
+			state.ProjectCompanyLineTableData.param.projectId = store.state.project.projectId
+			state.ProjectCompanyLineTableData.param.projectCompanyId =  state.projectCompanyData.Id
+			state.ProjectCompanyLineTableData.param.pageNum = 1
+			state.ProjectCompanyLineTableData.param.pageSize = 20
 			if(stepIndex>4){
 				stepIndex=4
 			}
-			console.log("测试", stepIndex)
 			switch(stepIndex){
 				case 1:
-					onsaveMultiProjectCompanyLineData("zgps")
-					onGetProjectCompanyLineData(state.jsFilesTableData.param).then(result => {
-						state.jsFilesTableData.data = result;
-					}).catch(error => {
-						console.error('发生错误：', error);
-					});
+					state.ProjectCompanyLineTableData.param.kind = "jsps"
+					
 					break;
 				case 2:
-					onsaveMultiProjectCompanyLineData("jsps")
-					onGetProjectCompanyLineData(state.qtFilesTableData.param).then(result => {
-						state.qtFilesTableData.data = result;
-					}).catch(error => {
-						console.error('发生错误：', error);
-					});
+					state.ProjectCompanyLineTableData.param.kind = "qt"
+					
 					break;
 				case 3:
-					onsaveMultiProjectCompanyLineData("qt")
-					onGetProjectCompanyLineData(state.jjpsTableData.param).then(result => {
-						state.jjpsTableData.data = result;
-					}).catch(error => {
-						console.error('发生错误：', error);
-					});
+					state.ProjectCompanyLineTableData.param.kind = "jjps"
+					state.ProjectCompanyLineTableData.param.projectLineId =  '298664702576164897'
+					if (state.projectCompanyData.data.Files) {
+						state.projectCompanyData.files = state.projectCompanyData.data.Files.split(",")
+					}else{
+						state.projectCompanyData.files = []
+					}
 					break;
 				case 4:
-					onsaveMultiProjectCompanyLineData("jjps")
 					break;
 			}
-			state.stepIndex=stepIndex
+			onGetProjectCompanyLineTableData()
+			state.stepIndex = stepIndex
 		}
 
 		//参与投标
 		const onBeginBid = ()=>{
 			state.tabIndex=1
-			onGetProjectCompanyLineData(state.swFilesTableData.param).then(result => {
-				state.swFilesTableData.data = result;
-			}).catch(error => {
-				console.error('发生错误：', error);
-			});
+			state.stepIndex = 0
+			state.ProjectCompanyLineTableData.data = []
+			state.ProjectCompanyLineTableData.param.projectId = store.state.project.projectId
+			state.ProjectCompanyLineTableData.param.projectCompanyId =  state.projectCompanyData.Id
+			state.ProjectCompanyLineTableData.param.pageNum = 1
+			state.ProjectCompanyLineTableData.param.pageSize = 20
+			state.ProjectCompanyLineTableData.param.kind = "zgps"
+			onGetProjectCompanyLineTableData()
+			
 		}
 
 		//	文件列表更新
 		const onSuccessFile = (file: UploadFile, select: string) => {
+			let model = {}
+			model.ProjectId = store.state.project.projectId
+			model.ProjectCompanyId = state.projectCompanyData.Id
 			switch (select) {
 				case 'gmzl':
-					state.ruleForm.BidFiles = file.data.src
-					state.files.ProjectId = state.projectInfoData.ProjectId
-					state.files.CompanyId = state.projectInfoData.CompanyId
-					state.files.ProjectLineId = state.projectInfoData.ProjectLineId
-					state.files.ProjectCompanyId = state.projectInfoData.Id
+					state.bidTableData.form.BidFiles = file.data.src
 					onUpProjectCompanyData();
 					break;
 				case 'zftbbzj':
-					state.ruleForm.EnsureFiles = file.data.src
+					state.bidTableData.form.EnsureFiles = file.data.src
 					onUpProjectCompanyData();
 					break;
 				case 'zgps':
-					state.swFilesTableData.data.push({"Name": "商务文件"+formatTimestamp(Date.now()), "Files": file.data.src})
+					model.Kind = 'zgps'
+					model.Name = "商务文件"+formatTimestamp(Date.now())
+					state.ProjectCompanyLineTableData.data.push(model)
 					break;
 				case 'jsps':
-					state.jsFilesTableData.data.push({"Name": "技术文件"+formatTimestamp(Date.now()), "Files": file.data.src})
+					model.Kind = 'jsps'
+					model.Name = "技术文件"+formatTimestamp(Date.now())
+					state.ProjectCompanyLineTableData.data.push(model)
 					break;
 				case 'qt':
-					state.qtFilesTableData.data.push({"Name": "其他文件"+formatTimestamp(Date.now()), "Files": file.data.src})
+					model.Kind = 'qt'
+					model.Name = "其他文件"+formatTimestamp(Date.now())
+					state.ProjectCompanyLineTableData.data.push(model)
 					break;
 				case 'jjps':
-					state.jjpsTableData.data.push()
+					state.projectCompanyData.files.push(file.data.src)
 					break;
 				}
+		};
+
+		// 文件删除
+		const onRemove = (file: UploadFile) => {
+			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			for (let i = 0; i < state.projectCompanyData.files.length; i++) {
+				if (state.projectCompanyData.files[i] == removeUrl) {
+					state.projectCompanyData.files.splice(i, 1);
+				}
+			}
 		};
 
 		const formatTimestamp = (timestamp) => {
@@ -805,49 +810,30 @@ export default {
 		};
 
 		//	保存上传
-		const submit = (isCloseDlg: boolean) => {
-			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
-				if (valid) {
-					state.loading = true;
-					state.ruleForm.Id = state.ruleForm.Id.toString();
-					try {
-						if (state.ruleForm.Id==0){
-							let res = await proxy.$api.common.category.insert(state.ruleForm);
-								if (res.errcode == 0) {
-							if (isCloseDlg) {
-								closeDialog();
-							} else {
-								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id = 0;
-							}
-							proxy.$parent.onGetMainTableData();
-						}
-						}else{
-							let res = await proxy.$api.common.category.update(state.ruleForm);
-							if (res.errcode == 0) {
-							if (isCloseDlg) {
-								closeDialog();
-							} else {
-								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id = 0;
-							}
-							proxy.$parent.onGetMainTableData();
-						}
-						}
-						
-					} finally {
-						state.loading = false;
+		const submit = () => {
+			ElMessageBox.confirm(`确认已检查文件上传无误，立刻提交吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					if(state.projectCompanyData.files.length > 0){
+						state.projectCompanyData.data.Files = state.projectCompanyData.files.join(',')
+					}else{
+						state.projectCompanyData.data.Files = ""
 					}
-					return false;
-				} else {
-					return false;
+					state.projectCompanyData.data.State = 1
+					onUpProjectCompanyData();
+					onGoToList(1)
+				} finally {
 				}
+				return false;
 			});
 		};
 
 		// 页面加载时
 		onMounted(() => {
-			onGetProjectInfoData();
+			onGetprojectCompanyData();
 			onGetBidTableData();
 			initEchartsResize();
 			// loadTenant();
@@ -877,6 +863,8 @@ export default {
 			onPreview,
 			onBeforeImageUpload,
 			onDel,
+			onRemove,
+			submit,
 			formatTimestamp,
 			onDownloadFile,
 			...toRefs(state),
