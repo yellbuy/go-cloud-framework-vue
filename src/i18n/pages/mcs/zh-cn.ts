@@ -21,6 +21,9 @@ export default {
 		warehouse_ine:'仓储收支管理',
 		trade_ine:'贸易收支管理',
 		platform_ine:'仓储平台管理',
+		main_business_plan:'铁运收支计划',
+		warehouse_plan:'仓储收支计划',
+		trade_plan:'贸易收支计划',
 		maintenance_sheet:"保养管理",
 		finance_account:'收支科目管理',
 		vehicle_insurance:'保险管理',
@@ -29,6 +32,7 @@ export default {
 		
 		task:'任务管理',
 		waybill:'任务单',
+		waybill_plan:'任务计划',
 		waybill_line:'派车单',
 		energy_bill:'油耗单',
 		energy_bill_line:'油耗详情',
