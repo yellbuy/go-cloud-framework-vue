@@ -16,12 +16,12 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
-						<el-form-item label="日期" prop="BillTime">
+						<el-form-item label="月份" prop="BillTime">
 							<el-date-picker
 								v-model="ruleForm.BillTime"
-								type="date"
-								placeholder="日期"
-								format="YYYY-MM-DD" />
+								type="month"
+								placeholder="月份"
+								format="YYYY年MM月" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -51,9 +51,9 @@
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
-						<el-form-item label="计划吨位" prop="PlanWeight">
+						<el-form-item label="计划吨位" prop="PlanQty">
 							<el-input-number
-								v-model="ruleForm.PlanWeight"
+								v-model="ruleForm.PlanQty"
 								:controls="true"
 								precision="2"
 								placeholder="请输入"
@@ -62,34 +62,9 @@
 								step="1" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
-						<el-form-item label="实际吨位" prop="Weight">
-							<el-input-number
-								v-model="ruleForm.Weight"
-								:controls="true"
-								precision="2"
-								placeholder="请输入"
-								min="0"
-								max="1000000000"
-								step="1" />
-						</el-form-item>
-					</el-col>
+					
 				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
-						<el-form-item label="列数" prop="VehicleCount">
-							<el-input-number
-								v-model="ruleForm.VehicleCount"
-								placeholder="请输入"
-								:controls="true"
-								precision="0"
-								min="0"
-								max="1000000000"
-								step="1"
-								oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
-						</el-form-item>
-					</el-col>
-				</el-row>
+				
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="备注" prop="Remark">
@@ -101,37 +76,7 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-divider content-position="left">收发货信息*</el-divider>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
-						<el-form-item label="发货站" prop="SenderAddress">
-							<el-select
-								v-model="ruleForm.SenderAddress"
-								filterable="true"
-								allow-create
-								default-first-option
-								:reserve-keyword="false"
-								placeholder="请输入并选择">
-								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item" />
-							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
-						<el-form-item label="到达地" prop="ReceiverAddress">
-							<el-select
-								v-model="ruleForm.ReceiverAddress"
-								filterable="true"
-								allow-create
-								default-first-option
-								:reserve-keyword="false"
-								placeholder="请输入并选择">
-								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item" />
-							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
+				
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -201,8 +146,6 @@ export default {
 			tableList:[],
 			saveState: false,
 			Files: [],
-			senderAddressList: [],
-			receiverAddressList: [],
 		});
 
 		const token = Session.get('token');
@@ -231,34 +174,14 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			Weight: [
+			PlanQty: [
 				{
 					required: true,
 					message: t('message.validRule.mustOption'),
 					trigger: 'blur',
 				},
 			],
-			PlanVehicleCount: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
-			SenderAddress: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
-			ReceiverAddress: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
+			
 		});
 		
 		//	打开弹窗
@@ -370,7 +293,7 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
-					state.ruleForm.BusinessBillType=2; //1：计划，2：生产
+					state.ruleForm.BusinessBillType=1; //1：计划，2：生产
 					try {
 						const res = await proxy.$api.erp.businessBillLine.save(state.ruleForm);
 						if (res.errcode == 0) {

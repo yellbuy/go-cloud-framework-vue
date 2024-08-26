@@ -2,8 +2,17 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-divider content-position="left">货物名称*</el-divider>
 				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="计划月份" prop="SenderPlanTime">
+							<el-date-picker
+								v-model="ruleForm.SenderPlanTime"
+								type="month"
+								placeholder="计划月份"
+								format="YYYY年MM月">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="客户名称" prop="CustomerId" >
 							<el-select
@@ -15,18 +24,7 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="业务类型" prop="WaybillMode">
-							<div mb-2 flex items-center>
-								<el-radio-group
-									v-model="ruleForm.WaybillMode">
-									<el-radio :label="1">固定</el-radio>
-									<el-radio :label="2">临配</el-radio>
-									<el-radio :label="10">其他</el-radio>
-								</el-radio-group>
-							</div>
-						</el-form-item>
-					</el-col>
+					
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
@@ -54,9 +52,9 @@
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="计划量" prop="PlanWeight">
+						<el-form-item label="计划量" prop="PlanQty">
 							<el-input-number
-								v-model.number="ruleForm.PlanWeight"
+								v-model.number="ruleForm.PlanQty"
 								:controls="true"
 								:precision="ruleForm.Mode==2?0:2"
 								placeholder="请输入"
@@ -79,62 +77,9 @@
 							</div>
 						</el-form-item>
 					</el-col>
+					
 				</el-row>
-				<el-divider content-position="left">收发货信息*</el-divider>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="要求发货时间" prop="SenderPlanTime">
-							<el-date-picker
-								v-model="ruleForm.SenderPlanTime"
-								type="datetime"
-								placeholder="要求发货时间"
-								format="YYYY-MM-DD HH:mm">
-							</el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="要求收货时间" prop="ReceiverPlanTime">
-							<el-date-picker
-								v-model="ruleForm.ReceiverPlanTime"
-								type="datetime"
-								placeholder="要求收货时间"
-								format="YYYY-MM-DD HH:mm">
-							</el-date-picker>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
-						<el-form-item label="发货地点" prop="SenderAddress">
-							<el-select
-								v-model="ruleForm.SenderAddress"
-								filterable
-								allow-create
-								default-first-option
-								:reserve-keyword="false"
-								placeholder="请输入或选择">
-								<el-option v-for="(item,index) in senderAddressList" :key="index" :label="item" :value="item">
-								</el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
-						<el-form-item label="收货地点" prop="ReceiverAddress">
-							<el-select
-								v-model="ruleForm.ReceiverAddress" 
-								filterable
-								allow-create
-								default-first-option
-								:reserve-keyword="false"
-								placeholder="请输入或选择">
-								<el-option v-for="(item,index) in receiverAddressList" :key="index" :label="item" :value="item">
-								</el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
+				
 				
 			</el-form>
 			<template #footer>
@@ -241,13 +186,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			ReceiverPlanTime: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
+			
 			CustomerId: [
 				{
 					required: true,
@@ -269,20 +208,14 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			PlanWeight: [
+			PlanQty: [
 				{
 					required: true,
 					message: t('message.validRule.mustOption'),
 					trigger: 'blur',
 				},
 			],
-			Price: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
+			
 		});
 		
 		// 打开弹窗
