@@ -126,6 +126,101 @@ export default {
 			});
 		};
 
+						//Go语言数据库模型结构体转换工具
+						const dataModelCrossoverTool = () => {
+			let str = "id	kind	sn	no	name	subject	content	project_company_id	project_line_id	project_id	company_id	state	progress	pay_mode	price_mode	price_time	price	qty	amount	tax	pics	files	ext_id	ext_model	extattr	remark	outer_id	sync_time	currency_type	audit_state	audit_uid	audit_by	audit_remark	audit_time	create_uid	create_by	create_time	update_uid	update_by	update_time	delete_uid	delete_by	delete_time	is_del	uid	tid	appid".split("	")
+			let strKind = "int8	varchar	varchar	varchar	varchar	varchar	text	int8	int8	int8	int8	int2	int2	int2	int2	timestamptz	numeric	int4	numeric	numeric	varchar	varchar	int8	varchar	text	varchar	varchar	timestamptz	varchar	int2	int8	varchar	varchar	timestamptz	int8	varchar	timestamptz	int8	varchar	timestamptz	int8	varchar	timestamptz	int8	int8	int8	int8".split("	")
+			let strMaxSize = "64	36	36	36	255	255	0	64	64	64	64	16	16	16	16	6	18	32	18	18	2048	2048	64	36	0	255	36	6	20	16	64	31	255	6	64	31	6	64	31	6	64	255	6	64	64	64	64".split("	")
+			let outModelStr = []
+			let outDbSelectStr = []
+			let outStr = []
+			for (let i = 0;	i < strKind.length; i++) {
+				switch (strKind[i]) {
+					case 'varchar':
+						strKind[i] = 'string'
+						break;
+
+					case 'text':
+						strKind[i] = 'string'
+						break;
+
+					case 'numeric':
+						strKind[i] = 'float64'
+						break;
+				
+					case 'timestamptz':
+						strKind[i] = 'DateTime'
+						break;
+
+					case 'int8':
+						strKind[i] = 'int64'
+						break;
+
+					case 'int4':
+						strKind[i] = 'int'
+						break;
+
+					case 'int2':
+						strKind[i] = 'uint8'
+						break;
+
+					default:
+						break;
+				}
+
+			}
+
+			for (let i = 0; i < str.length; i++) {
+				let saveStr = ""
+				for (let j = 0; j < str[i].length; j++) {
+					switch (str[i][j]){
+						case '_':
+							saveStr += str[i][j+1].toUpperCase()
+							j++
+							break;
+						default:
+							(j > 0 ) ? saveStr += str[i][j] : saveStr += str[i][j].toUpperCase()
+							break;
+					}
+				}
+				if(strMaxSize[i] == 0){
+					outModelStr.push(saveStr + "		" + strKind[i])
+				}else{
+					outModelStr.push(saveStr + "		" + strKind[i] + "		")
+					switch (strKind[i]) {
+						case 'string':
+							outModelStr.push('`valid:"MaxSize(' + strMaxSize[i] + ')"`')
+							break;
+						
+						case 'libs.DateTime':
+							outModelStr.push('`orm:"type(timestamptz)"`')
+							break;
+
+						case 'int64':
+							outModelStr.push('`json:",string"`')
+							break;
+
+						default:
+							break;
+					}
+				}
+				
+				outStr.push('"' + saveStr + '"')
+				outDbSelectStr.push('"d.'+ str[i] +'"')
+
+				if(i != str.length - 1){
+					outModelStr.push('\n')
+					outDbSelectStr.push(', ')
+				}
+				outStr.push(', ')
+			}
+
+			console.log('输出模型字符串\n', outModelStr.join(""))
+			console.log('输出数据库查询字段符串\n', outDbSelectStr.join(""))
+			console.log('输出字段字符串\n', outStr.join(""))
+			return
+		}
+
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
 			state.tableData.param.size = val;
@@ -137,6 +232,7 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
+			dataModelCrossoverTool();
 			onGetTableData(true)
 		});
 

@@ -29,9 +29,9 @@
 				</div>
 				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
-					<el-table-column prop="No" label="项目编号"  width="160" show-overflow-tooltip fixed/>
-					<el-table-column prop="Name" label="项目名称" show-overflow-tooltip/>
-					<el-table-column prop="fanwei" label="项目包号" width="70"/>
+					<el-table-column prop="CompanyNo" label="项目编号"  width="160" show-overflow-tooltip fixed/>
+					<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip/>
+					<el-table-column prop="LineName" label="项目包号" width="70"/>
 					<el-table-column prop="Kind" label="参与方式" width="100">
 						<template #default="scope">
 							<span v-if="scope.row.ProjectType == 1">公开招标</span>
@@ -46,8 +46,8 @@
 					<el-table-column prop="State" label="状态" width="90"/>
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" fixed="right">
 						<template #default="scope">
-							<el-button text bg type="info" @click="onModelSee(scope.row.Id, false)">{{ '详情' }}</el-button>
-							<el-button text bg type="primary" @click="onToDetail(scope.row.Id)">{{ '待办' }}</el-button>
+							<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, false)">{{ '详情' }}</el-button>
+							<el-button text bg type="primary" @click="onToDetail(scope.row.ProjectId)">{{ '待办' }}</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -99,16 +99,13 @@ export default {
 			scopeMode,
 			scopeValue,
 			tableData: {
-				data: [{No:'MYXRMYY20190614324', Kind:5, Name:'XX集团光交换机招标公告', Fanwei:'网络', EndTime:'2024-7-30', ReviewTime:'2024-7-1'}],
+				data: [],
 				total: 0,
 				loading: false,
 				param: {
-					name: '',
-					no: '',
+					projectId: '279082270076182531',
 					pageNum: 1,
 					size: 20,
-					projectId: '279082270076182531',
-					CompanyId: '279082270076182531',
 					isBid: Boolean(isBid),
 				},
 			},
@@ -143,8 +140,8 @@ export default {
 		};
 
 		// 打开修改界面
-		const onModelEdit = (Id: number) => {
-			store.commit('project/getProjectId', Id);
+		const onModelEdit = (id: number) => {
+			store.commit('project/getProjectId', id);
 			state.isShowList = false;
 			createStepDlgRef.value.openPage();
 		};
@@ -155,16 +152,16 @@ export default {
 		};
 		//打开查看数据弹窗
 
-		const onModelSee = (Id: string, state: boolean) => {
-			seeDlgRef.value.openDialog(Id, state);
+		const onModelSee = (id: string, state: boolean) => {
+			seeDlgRef.value.openDialog(id, state);
 		};
 		// 跳转
-		const onToDetail = (Id: string) => {
-			store.commit('project/getProjectId', Id);
+		const onToDetail = (id: number) => {
+			store.commit('project/getProjectId', id);
 			state.isShowList = false;
 		};
 		// 删除用户
-		const onModelDel = (Id: number) => {
+		const onModelDel = (id: number) => {
 			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
@@ -172,7 +169,7 @@ export default {
 			}).then(async () => {
 				state.tableData.loading = true;
 				try {
-					const res = await proxy.$api.erp.project.delete(Id);
+					const res = await proxy.$api.erp.project.delete(id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
@@ -221,7 +218,7 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
-			// onGetTableData();
+			onGetTableData();
 		});
 
 		const { dateFormatYMDHM, dateFormat } = commonFunction();

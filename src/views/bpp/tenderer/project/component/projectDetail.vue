@@ -183,7 +183,7 @@
 		<el-divider border-style="dashed" />
 		<el-row>
 			<el-col :span="24" class="text-center">
-				<el-button @click="onGoToList" class="mt20" size="large">
+				<el-button @click="onGoToList(0)" class="mt20" size="large">
 					<SvgIcon name="fa fa-rotate-left" class="mr3"/>返回
 				</el-button>
 			</el-col>
@@ -332,14 +332,14 @@
 					</p>					
 				</div>	
 				<div v-else-if="stepIndex==3">
-					<el-table :data="fjFilesTableData.data" v-loading="fjFilesTableData.loading" show-summary style="width: 900px;margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
+					<el-table :data="jjpsTableData.data" v-loading="jjpsTableData.loading" show-summary style="width: 900px;margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
 						<el-table-column prop="No" label="物资编码"  width="120" show-overflow-tooltip fixed/>
 						<el-table-column prop="Name" label="名称" width="200" show-overflow-tooltip/>
 						<el-table-column prop="Content" label="明细项" width="70"/>
 						<el-table-column prop="Unit" label="明细项单位" width="90"/>
-						<el-table-column prop="Qty" label="采购数量" width="90"/>
-						<el-table-column prop="Price" label="单价" width="110" >
+						<el-table-column prop="Qty" label="采购数量" align="right" width="90"/>
+						<el-table-column prop="Price" label="单价" align="right" width="110" >
 							<template #default="scope">
 								<el-input-number v-model="scope.row.Price" :min="0" :max="1000000000000" style="width:90px" :step="10" :value-on-clear="0" :precision="2" :controls="false" controls-position="right" /> 
 							</template>	
@@ -353,7 +353,7 @@
 								:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
 								:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 								:on-success="(file) => onSuccessFile(file, 'jjps')"
-								:show-file-list="false">
+								:show-file-list="true">
 								<template #default>
 									<el-button type="primary" align="right">上传附件</el-button>
 								</template>
@@ -379,7 +379,7 @@
 		<el-divider border-style="dashed" />
 		<el-row>
 			<el-col :span="24" class="text-center mt20">
-				<el-button @click="onGoToList"  size="large">
+				<el-button @click="onGoToList(1)"  size="large">
 					<SvgIcon name="fa fa-rotate-left" class="mr3"/>返回
 				</el-button>
 				<el-button @click="onGoToPrevious" v-if="stepIndex>0" type="primary" size="large">
@@ -429,7 +429,7 @@ export default {
 			ImageVisible: false,
 			dialogVisible: false,
 			myCharts: [],
-			Files: [],
+			files: [],
 			ruleForm: {},
 			projectInfoData: {},
 			ProjectCompanyLineData: {},
@@ -438,14 +438,8 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
-					mode: 2,
-					current: 1,
-					size: 20,
-					projectId: '279082270076182531',
-					categoryId: null,
-					name: '',
 					pageNum: 1,
-					pageSize: 15,
+					pageSize: 20,
 				},
 			},
 			swFilesTableData:{
@@ -455,7 +449,7 @@ export default {
 				param: {
 					kind:"zgps",
 					pageNum: 1,
-					pageSize: 15,
+					pageSize: 20,
 				},
 			},
 			jsFilesTableData: {
@@ -465,7 +459,7 @@ export default {
 				param: {
 					kind:"jsps",
 					pageNum: 1,
-					pageSize: 15,
+					pageSize: 20,
 				},
 			},
 			qtFilesTableData: {
@@ -475,17 +469,21 @@ export default {
 				param: {
 					kind:"qt",
 					pageNum: 1,
-					pageSize: 15,
+					pageSize: 20,
 				},
 			},
-			fjFilesTableData: {
+			jjpsTableData: {
 				data:[],
 				total: 0,
 				loading: false,
 				param: {
 					kind:"jjps",
+					projectId: '279082270076182531',
+					companyId: '293435810496118785',
+					projectLineId: '298664702576164898',
+					projectCompanyId: '279083082479309638',
 					pageNum: 1,
-					pageSize: 15,
+					pageSize: 20,
 				},
 			},
 		});
@@ -495,7 +493,7 @@ export default {
 		// 获取项目信息
 		const onGetProjectInfoData = async () => {
 			try {
-				const res = await proxy.$api.erp.projectcompany.projectcompany('repair', state.id);
+				const res = await proxy.$api.erp.projectcompany.projectcompany('repair', store.state.project.projectId);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -549,7 +547,6 @@ export default {
 
 		// 批量上传文件
 		const onsaveMultiProjectCompanyLineData = async (kind: string) => {
-
 			try {
 				switch (kind) {
 					case "zgps":
@@ -567,6 +564,12 @@ export default {
 					case "qt":
 						const qtres = await proxy.$api.erp.projectcompanyline.saveMulti(state.qtFilesTableData.param.kind, state.qtFilesTableData.data)
 						if (qtres.errcode != 0) {
+							return;
+						}
+						break;
+					case "jjps":
+						const jjres = await proxy.$api.erp.projectcompanyline.saveMulti(state.jjFilesTableData.param.kind, state.qtFilesTableData.data)
+						if (jjres.errcode != 0) {
 							return;
 						}
 						break;
@@ -632,8 +635,15 @@ export default {
 		};
 
 		//返回
-		const onGoToList=()=>{
-			proxy.$parent.$parent.onModelList(false);
+		const onGoToList=(select : number)=>{
+			switch (select){
+				case 0:
+					proxy.$parent.$parent.onModelList(false);
+					break;
+				case 1:
+					state.tabIndex = 0
+					break;
+			}
 		}
 
 		//前一步
@@ -671,6 +681,14 @@ export default {
 					break;
 				case 3:
 					onsaveMultiProjectCompanyLineData("qt")
+					onGetProjectCompanyLineData(state.jjpsTableData.param).then(result => {
+						state.jjpsTableData.data = result;
+					}).catch(error => {
+						console.error('发生错误：', error);
+					});
+					break;
+				case 4:
+					onsaveMultiProjectCompanyLineData("jjps")
 					break;
 			}
 			state.stepIndex=stepIndex
@@ -691,6 +709,10 @@ export default {
 			switch (select) {
 				case 'gmzl':
 					state.ruleForm.BidFiles = file.data.src
+					state.files.ProjectId = state.projectInfoData.ProjectId
+					state.files.CompanyId = state.projectInfoData.CompanyId
+					state.files.ProjectLineId = state.projectInfoData.ProjectLineId
+					state.files.ProjectCompanyId = state.projectInfoData.Id
 					onUpProjectCompanyData();
 					break;
 				case 'zftbbzj':
@@ -707,7 +729,7 @@ export default {
 					state.qtFilesTableData.data.push({"Name": "其他文件"+formatTimestamp(Date.now()), "Files": file.data.src})
 					break;
 				case 'jjps':
-					state.fjFilesTableData.data.push({"No": "test", "Name": "附件"+formatTimestamp(Date.now()), "Content": "test", "Unit": "test单位", "Qty": 12, "Price":102, "Amount":1224, "Files": file.data.src})
+					state.jjpsTableData.data.push()
 					break;
 				}
 		};
