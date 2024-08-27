@@ -34,6 +34,8 @@ export default {
 		reset: '重置',
 		clear: '清空',
 		close: '关闭',
+		begin:'开始',
+		finish:'完成',
 		detail: '详情',
 		submit: '提交',
 		cancel: '取消',

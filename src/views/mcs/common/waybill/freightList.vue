@@ -1,11 +1,11 @@
 <template>
 	<div class="base-freight-container">
 			<splitpanes class="default-theme" @resize="paneSize = $event[0].size" style="height: 100%">
-				<pane :size="60">
+				<pane :size="58">
 					<el-card shadow="hover">
-						<div class="">
+						<div style="margin-bottom:-16px">
 							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="60px" :inline="true">
-								<el-form-item label="关键字" style="width:160px">
+								<el-form-item label="关键字" style="width:130px">
 									<el-input
 										placeholder="输入关键字查询"
 										v-model="mainTableData.param.keyword"/>
@@ -111,155 +111,178 @@
 					</el-pagination>
 				</el-card>
 				</pane>
-				<pane :size="40">
+				<pane :size="42">
 					<el-card shadow="hover">
-						<div class="">
+						<div style="margin-bottom:-16px">
 							<el-form ref="searchFormRef" :model="childTableData.param" label-suffix="：" label-width="60px" :inline="true">
 								<el-form-item label="关键字">
-									<el-input placeholder="输入关键字查询" style="width:100px" v-model="childTableData.param.keyword"> </el-input>
+									<el-input placeholder="输入关键字查询" style="width:80px" v-model="childTableData.param.keyword"> </el-input>
 								</el-form-item>
 								<el-form-item label="当日">
 									<el-checkbox v-model="childTableData.isTodayAll" :true-label="1" :false-label="0">{{ $t('message.action.all') }}</el-checkbox>
 									<el-button-group>
-									<el-tooltip
-										class="box-item"
-										effect="dark"
-										:content="$t('message.action.reset')"
-										placement="top-start"><el-button type="info" style="margin-left: 10px;" @click="onChildResetSearch">
-										<el-icon>
-											<RefreshLeft />
-										</el-icon>
-									</el-button>
-								</el-tooltip>
-								<el-tooltip
-									class="box-item"
-									effect="dark"
-									:content="$t('message.action.search')"
-									placement="top-start">	
-									<el-button type="info" @click="onChildQuery()">
-										<el-icon>
-											<Search />
-										</el-icon>
-									</el-button>
-								</el-tooltip>
-								<el-tooltip
-									class="box-item"
-									effect="dark"
-									:content="$t('message.action.add')"
-									placement="top-start">	
-									<el-button type="primary" @click="onChildOpenAddDlg(0, false)" v-auth:[moduleKey]="'btn.ChildAdd'">
-										<el-icon>
-											<CirclePlusFilled />
-										</el-icon>
-									</el-button>
-								</el-tooltip>
-							</el-button-group>
+										<el-tooltip
+											class="box-item"
+											effect="dark"
+											:content="$t('message.action.reset')"
+											placement="top-start">
+											<el-button type="info" style="margin-left: 10px;" @click="onChildResetSearch">
+												<el-icon>
+													<RefreshLeft />
+												</el-icon>
+											</el-button>
+										</el-tooltip>
+										<el-tooltip
+											class="box-item"
+											effect="dark"
+											:content="$t('message.action.search')"
+											placement="top-start">	
+											<el-button type="info" @click="onChildQuery()">
+												<el-icon>
+													<Search />
+												</el-icon>
+											</el-button>
+										</el-tooltip>
+										
+										<el-tooltip
+											class="box-item"
+											effect="dark"
+											:content="$t('message.action.begin')"
+											placement="top-start">	
+											<el-button type="warning" @click="onChildBatchBegin" v-auth:[moduleKey]="'btn.ChildEdit'">
+												<el-icon>
+													<RefreshRight />
+												</el-icon>
+											</el-button>
+										</el-tooltip>
+										<el-tooltip
+											class="box-item"
+											effect="dark"
+											:content="$t('message.action.finish')"
+											placement="top-start">	
+											<el-button type="success" @click="onChildBatchFinish" v-auth:[moduleKey]="'btn.ChildEdit'">
+												<el-icon>
+													<Finished />
+												</el-icon>
+											</el-button>
+										</el-tooltip>
+										<el-tooltip
+											class="box-item"
+											effect="dark"
+											:content="$t('message.action.add')"
+											placement="top-start">	
+											<el-button type="primary" @click="onChildOpenAddDlg(0, false)" v-auth:[moduleKey]="'btn.ChildAdd'">
+												<el-icon>
+													<CirclePlusFilled />
+												</el-icon>
+											</el-button>
+										</el-tooltip>
+									</el-button-group>
 								</el-form-item>
-								<el-form-item>
-									</el-form-item>
+								<el-form-item></el-form-item>
 							</el-form>
 						</div>
-					<el-table
-						ref="childTableRef"
-						:data="childTableData.data"
-						v-loading="childTableData.loading"
-						style="width: 100%"
-						:height="proxy.$calcMainHeight(-75)"
-						border
-						stripe
-						selectable
-						highlight-current-row>
-						<el-table-column type="selection" width="55" align="center" fixed />
-						<el-table-column type="expand" fixed>
-							<template #default="props">
-								<el-card shadow="hover" :body-style="{ padding: '6px' }">
-								<h2><el-text class="mx-1" type="info">任务单号: </el-text><el-text class="mx-1" type="primary">{{ props.row.WaybillBillNo }}</el-text></h2>
-								<h3><el-text class="mx-1" type="info">客户名称: </el-text><el-text class="mx-1" >{{ props.row.WaybillCustomerName }}</el-text></h3>
-								<h3><el-text class="mx-1" type="info">品名规格: </el-text><el-text class="mx-1" >{{ props.row.WaybillGoodsName }}</el-text></h3>
-								<h3><el-text class="mx-1" type="info">发货地址: </el-text><el-text class="mx-1" >{{ props.row.WaybillSenderAddress }}</el-text></h3>
-								<h3><el-text class="mx-1" type="info">收货地址: </el-text><el-text class="mx-1" >{{ props.row.WaybillReceiverAddress }}</el-text></h3>
-								</el-card>
-							</template>
-						</el-table-column>
-						<el-table-column prop="VehicleNumber" label="车牌号" width="85" fixed>
-						</el-table-column>
-						<el-table-column label="开始" width="70" align="center" show-overflow-tooltip>
-							<template #default="scope">
-								<el-switch
-									v-model="scope.row.BeginState"
-									inline-prompt
-									:width="46"
-									v-auth:[moduleKey]="'btn.ChildUpdate'"
-									@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'begin_state', scope.row.Id, scope.row.BeginState,'begin_time')"
-									:active-text="$t('message.action.yes')"
-									:inactive-text="$t('message.action.no')"
-									:active-value="1"
-									:inactive-value="0"/> 
-								<el-tag type="success" effect="plain" v-if="scope.row.BeginState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
-								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
-							</template>
-						</el-table-column>
-						<el-table-column label="结束" width="70" align="center" show-overflow-tooltip>
-							<!-- <template #default="scope">
-								<el-tag type="success" effect="plain" v-if="scope.row.FinishState">{{ $t('message.action.yes') }}</el-tag>
-								<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
-							</template> -->
-							<template #default="scope">
-								<el-switch
-									v-model="scope.row.FinishState"
-									inline-prompt
-									:width="46"
-									v-auth:[moduleKey]="'btn.ChildUpdate'"
-									@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'finish_state', scope.row.Id, scope.row.FinishState,'finish_time')"
-									:active-text="$t('message.action.yes')"
-									:inactive-text="$t('message.action.no')"
-									:active-value="1"
-									:inactive-value="0"/> 
-								<el-tag type="success" effect="plain" v-if="scope.row.FinishState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
-								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
-							</template>
-						</el-table-column>
-						<el-table-column prop="VehicleTypeName" label="车型" width="80"></el-table-column>
-						<el-table-column prop="WaybillCompanyName" label="公司" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="WaybillSenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="WaybillReceiverAddress" label="收货地址" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="WaybillBillNo" label="单号" width="110"></el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
-							<template #default="scope">
-								<el-dropdown split-button>
-									{{ $t('message.action.operate') }}
-									<template #dropdown>
-										<el-dropdown-menu>
-											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ChildEdit'">
-												<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
-											</el-dropdown-item>
-											<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, true)">
-												<el-text  >{{ $t('message.action.see') }}</el-text>
-											</el-dropdown-item>
-											<el-dropdown-item @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" divided v-auth:[moduleKey]="'btn.ChildMap'">
-												<el-text  >{{ $t('message.action.location') }}</el-text>
-											</el-dropdown-item>
-											<el-dropdown-item @click="onChildDel(scope.row.Id,scope.row.WaybillId)" divided v-auth:[moduleKey]="'btn.ChildDel'">
-												<el-text type="danger">{{ $t('message.action.delete') }}</el-text>
-											</el-dropdown-item>
-										</el-dropdown-menu>
-									</template>
-								</el-dropdown>
-							</template>
-						</el-table-column>
-					</el-table>
-					<el-pagination
-						small
-						@size-change="onChildHandleSizeChange"
-						@current-change="onChildHandleCurrentChange"
-						class="mt15"
-						:page-sizes="[10, 20, 30, 50, 100]"
-						v-model:current-page="childTableData.param.pageNum"
-						background
-						v-model:page-size="childTableData.param.pageSize"
-						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="childTableData.total">
-					</el-pagination>
+						<el-table
+							ref="childTableRef"
+							:data="childTableData.data"
+							v-loading="childTableData.loading"
+							style="width: 100%"
+							:height="proxy.$calcMainHeight(-75)"
+							border
+							stripe
+							selectable
+							highlight-current-row>
+							<el-table-column type="selection" width="55" align="center" fixed />
+							<el-table-column type="expand" fixed>
+								<template #default="props">
+									<el-card shadow="hover" :body-style="{ padding: '6px' }">
+									<h2><el-text class="mx-1" type="info">任务单号: </el-text><el-text class="mx-1" type="primary">{{ props.row.WaybillBillNo }}</el-text></h2>
+									<h3><el-text class="mx-1" type="info">客户名称: </el-text><el-text class="mx-1" >{{ props.row.WaybillCustomerName }}</el-text></h3>
+									<h3><el-text class="mx-1" type="info">品名规格: </el-text><el-text class="mx-1" >{{ props.row.WaybillGoodsName }}</el-text></h3>
+									<h3><el-text class="mx-1" type="info">发货地址: </el-text><el-text class="mx-1" >{{ props.row.WaybillSenderAddress }}</el-text></h3>
+									<h3><el-text class="mx-1" type="info">收货地址: </el-text><el-text class="mx-1" >{{ props.row.WaybillReceiverAddress }}</el-text></h3>
+									</el-card>
+								</template>
+							</el-table-column>
+							<el-table-column prop="VehicleNumber" label="车牌号" width="85" fixed>
+							</el-table-column>
+							<el-table-column label="开始" width="70" align="center" show-overflow-tooltip>
+								<template #default="scope">
+									<el-switch
+										v-model="scope.row.BeginState"
+										inline-prompt
+										:width="46"
+										v-auth:[moduleKey]="'btn.ChildUpdate'"
+										@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'begin_state', scope.row.Id, scope.row.BeginState,'begin_time')"
+										:active-text="$t('message.action.yes')"
+										:inactive-text="$t('message.action.no')"
+										:active-value="1"
+										:inactive-value="0"/> 
+									<el-tag type="success" effect="plain" v-if="scope.row.BeginState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
+									<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
+								</template>
+							</el-table-column>
+							<el-table-column label="结束" width="70" align="center" show-overflow-tooltip>
+								<!-- <template #default="scope">
+									<el-tag type="success" effect="plain" v-if="scope.row.FinishState">{{ $t('message.action.yes') }}</el-tag>
+									<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
+								</template> -->
+								<template #default="scope">
+									<el-switch
+										v-model="scope.row.FinishState"
+										inline-prompt
+										:width="46"
+										v-auth:[moduleKey]="'btn.ChildUpdate'"
+										@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'finish_state', scope.row.Id, scope.row.FinishState,'finish_time')"
+										:active-text="$t('message.action.yes')"
+										:inactive-text="$t('message.action.no')"
+										:active-value="1"
+										:inactive-value="0"/> 
+									<el-tag type="success" effect="plain" v-if="scope.row.FinishState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
+									<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
+								</template>
+							</el-table-column>
+							<el-table-column prop="VehicleTypeName" label="车型" width="80"></el-table-column>
+							<el-table-column prop="WaybillCompanyName" label="公司" width="120" show-overflow-tooltip></el-table-column>
+							<el-table-column prop="WaybillSenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
+							<el-table-column prop="WaybillReceiverAddress" label="收货地址" width="120" show-overflow-tooltip></el-table-column>
+							<el-table-column prop="WaybillBillNo" label="单号" width="110"></el-table-column>
+							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
+								<template #default="scope">
+									<el-dropdown split-button>
+										{{ $t('message.action.operate') }}
+										<template #dropdown>
+											<el-dropdown-menu>
+												<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ChildEdit'">
+													<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
+												</el-dropdown-item>
+												<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, true)">
+													<el-text  >{{ $t('message.action.see') }}</el-text>
+												</el-dropdown-item>
+												<el-dropdown-item @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" divided v-auth:[moduleKey]="'btn.ChildMap'">
+													<el-text  >{{ $t('message.action.location') }}</el-text>
+												</el-dropdown-item>
+												<el-dropdown-item @click="onChildDel(scope.row.Id,scope.row.WaybillId)" divided v-auth:[moduleKey]="'btn.ChildDel'">
+													<el-text type="danger">{{ $t('message.action.delete') }}</el-text>
+												</el-dropdown-item>
+											</el-dropdown-menu>
+										</template>
+									</el-dropdown>
+								</template>
+							</el-table-column>
+						</el-table>
+						<el-pagination
+							small
+							@size-change="onChildHandleSizeChange"
+							@current-change="onChildHandleCurrentChange"
+							class="mt15"
+							:page-sizes="[10, 20, 30, 50, 100]"
+							v-model:current-page="childTableData.param.pageNum"
+							background
+							v-model:page-size="childTableData.param.pageSize"
+							layout="->, total, sizes, prev, pager, next, jumper"
+							:total="childTableData.total">
+						</el-pagination>
 					</el-card>
 				</pane>
 			</splitpanes>
@@ -472,6 +495,24 @@ export default {
 			batchAddLineDlgRef.value.openDialog(state.kind, state.mainCurrentRow.Id, ishow);
 		};
 
+		//批量开始
+		const onChildBatchBegin=async ()=>{
+			const rows=childTableRef.value.getSelectionRows();
+			const ids=rows.map((val)=>{return val.Id});
+			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'begin_state', ids, 1,'begin_time')
+			if(success){
+				onChildGetTableData();
+			}
+		}
+		//批量结束
+		const onChildBatchFinish= async ()=>{
+			const rows=childTableRef.value.getSelectionRows();
+			const ids=rows.map((val)=>{return val.Id});
+			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'finish_state', ids, 1,'finish_time')	
+			if(success){
+				onChildGetTableData();
+			}
+		}
 		//	打开弹窗
 		const onChildOpenEditDlg = (id: string, ishow: boolean) => {
 			editChildDlgRef.value.openDialog(state.kind, id, ishow);
@@ -544,6 +585,8 @@ export default {
 			onChildOpenAddDlg,
 			onChildOpenEditDlg,
 			onChildOpenMapDlg,
+			onChildBatchBegin,
+			onChildBatchFinish,
 			onChildDel,
 			onChildHandleSizeChange,
 			onChildHandleCurrentChange,
