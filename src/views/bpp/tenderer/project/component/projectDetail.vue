@@ -354,9 +354,14 @@
 								:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 								:on-success="(file) => onSuccessFile(file, 'jjps')"
 								:on-remove="onRemove"
-								:file-list="projectCompanyData.files"
+								:file-list="projectCompanyData.filesList"
 								:limit="10"
 								:show-file-list="true">
+								<template #file="{ file }">
+									<div>文件名：{{ file.name }}</div>
+									<!-- 可以根据需要添加更多文件信息的显示 -->
+									<el-button text bg type="primary" style="float: right;">删除</el-button>
+								</template>
 								<template #default>
 									<el-button type="primary" align="right">上传附件</el-button>
 								</template>
@@ -426,7 +431,6 @@ export default {
 			tenant: {},
 			tabIndex:0,
 			stepIndex:0,
-			id: '279083082479309638',
 			baseUrl: import.meta.env.VITE_URL as any,
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			dialogImageUrl: "",
@@ -435,7 +439,10 @@ export default {
 			myCharts: [],
 			projectCompanyData: {
 				data: {},
-				files: [],
+				from: {},
+				fileName: [],
+				fileUrl:[],
+				filesList: [],
 			},
 			bidTableData: {
 				data: [],
@@ -448,7 +455,7 @@ export default {
 				},
 			},
 			ProjectCompanyLineTableData:{
-				data:[],
+				data: [],
 				list: [],
 				total: 0,
 				loading: false,
@@ -461,19 +468,21 @@ export default {
 
 		const token = Session.get('token');
 
-		// 获取项目信息
-		const onGetprojectCompanyData = async () => {
-			try {
-				const res = await proxy.$api.erp.projectcompany.projectcompany('repair', store.state.project.projectId);
-				if (res.errcode != 0) {
-					return;
-				}
-				state.projectCompanyData.data = res.data[0];
-			} finally {
-			}
+		const onGotoEdit = () => {
+			router.push(`/bpp/home/tenantEdit/bpp`);
 		};
+		
+		// 获取用户信息 vuex
+		const getUserInfos = computed(() => {
+			return store.state.userInfos.userInfos;
+		});
 
-		// 获取文件列表
+		// 当前时间提示语
+		const currentTime = computed(() => {
+			return formatAxis(new Date());
+		});
+
+		// 获取已报名项目文件列表
 		const onGetProjectCompanyLineTableData = async () => {
 			try {
 				const res = await proxy.$api.erp.projectcompanyline.getListByScope(state.ProjectCompanyLineTableData.param);
@@ -481,6 +490,18 @@ export default {
 					return;
 				}
 				state.ProjectCompanyLineTableData.data = res.data;
+			} finally {
+			}
+		};
+
+		// 获取已报名项目详细信息
+		const onGetprojectCompanyData = async () => {
+			try {
+				const res = await proxy.$api.erp.projectcompany.projectcompany(kind, store.state.project.projectCompanyId);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.projectCompanyData.data = res.data[0];
 			} finally {
 			}
 		};
@@ -506,7 +527,7 @@ export default {
 		// 更新公司报名项目信息
 		const onUpProjectCompanyData = async () => {
 			try {
-				const res = await proxy.$api.erp.projectcompany.update(state.projectCompanyData.data.Id, state.projectCompanyData.data)
+				const res = await proxy.$api.erp.projectcompany.update(state.projectCompanyData.data.Id, state.projectCompanyData.from)
 				if (res.errcode != 0) {
 					return;
 				}
@@ -515,130 +536,17 @@ export default {
 			}
 		};
 
-		// 批量上传文件
-		const onsaveMultiProjectCompanyLineTableData = async () => {
-			try {
-				let model = {}
-				state.ProjectCompanyLineTableData.list = []
-				for (let i = 0; i < state.ProjectCompanyLineTableData.data.length; i++) {
-					model = {}
-					model.Id = state.ProjectCompanyLineTableData.data[i].Id
-					model.Kind = state.ProjectCompanyLineTableData.data[i].Kind
-					model.Name = state.ProjectCompanyLineTableData.data[i].Name
-					model.Files = state.ProjectCompanyLineTableData.data[i].Files
-					model.ProjectId = state.ProjectCompanyLineTableData.data[i].ProjectId
-					model.ProjectCompanyId = state.ProjectCompanyLineTableData.data[i].ProjectCompanyId
-					state.ProjectCompanyLineTableData.list.push(model)
-				}
-				const jsres = await proxy.$api.erp.projectcompanyline.saveMulti(state.ProjectCompanyLineTableData.param.kind, state.ProjectCompanyLineTableData.list)
-				if (jsres.errcode != 0) {
-					return;
-				}
-			} finally {
-			}
-		};
-
-		const onGotoEdit = () => {
-			router.push(`/bpp/home/tenantEdit/bpp`);
-		};
-		
-		// 获取用户信息 vuex
-		const getUserInfos = computed(() => {
-			return store.state.userInfos.userInfos;
-		});
-
-		// 当前时间提示语
-		const currentTime = computed(() => {
-			return formatAxis(new Date());
-		});
-
-		const onDel = async (id: Number) => {
-			if (!id) {
-				ElMessage.error('当前没有可删除的文件，请刷新后重试。');
-				return;
-			}
-			ElMessageBox.confirm(`确定删除吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(async () => {
-				try {
-					const res = await proxy.$api.erp.projectcompanyline.delete(id)
-					if (res.errcode != 0) {
-						return;
-					}
-					state.ProjectCompanyLineTableData.data = []
-					onGetProjectCompanyLineTableData()
-				} finally {
-				}
-				return false;
-			});
-		};
-
-		const loadTenant = async () => {
-			const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
-			if (res.errcode == 0) {
-				state.tenant = res.data;
-			}
-		};
-
-		// 批量设置 echarts resize
-		const initEchartsResizeFun = () => {
-			nextTick(() => {
-				for (let i = 0; i < state.myCharts.length; i++) {
-					state.myCharts[i].resize();
-				}
-			});
-		};
-
-		// 批量设置 echarts resize
-		const initEchartsResize = () => {
-			window.addEventListener('resize', initEchartsResizeFun);
-		};
-
-		//返回
-		const onGoToList=(select : number)=>{
-			switch (select){
-				case 0:
-					proxy.$parent.$parent.onModelList(false);
-					break;
-				case 1:
-					state.tabIndex = 0
-					state.stepIndex = 0
-					break;
-			}
-		}
-
-		//前一步
-		const onGoToPrevious=()=>{
-			let stepIndex=state.stepIndex-1
+		//参与投标
+		const onBeginBid = ()=>{
+			state.tabIndex=1
+			state.stepIndex = 0
 			state.ProjectCompanyLineTableData.data = []
 			state.ProjectCompanyLineTableData.param.projectId = store.state.project.projectId
-			state.ProjectCompanyLineTableData.param.companyId = state.projectCompanyData.CompanyId
 			state.ProjectCompanyLineTableData.param.projectCompanyId =  state.projectCompanyData.Id
 			state.ProjectCompanyLineTableData.param.pageNum = 1
 			state.ProjectCompanyLineTableData.param.pageSize = 20
-			if(stepIndex<0){
-				stepIndex=0
-			}
-			switch(stepIndex){
-				case 0:
-					state.ProjectCompanyLineTableData.param.kind = "zgps"
-					break;
-				case 1:
-					state.ProjectCompanyLineTableData.param.kind = "jsps"
-					break;
-				case 2:
-					state.ProjectCompanyLineTableData.param.kind = "qt"
-					break;
-				case 3:
-					state.ProjectCompanyLineTableData.param.kind = "jjps"
-					break;
-				case 4:
-					break;
-			}
+			state.ProjectCompanyLineTableData.param.kind = "zgps"
 			onGetProjectCompanyLineTableData()
-			state.stepIndex=stepIndex
 		}
 
 		//后一步
@@ -667,10 +575,18 @@ export default {
 				case 3:
 					state.ProjectCompanyLineTableData.param.kind = "jjps"
 					state.ProjectCompanyLineTableData.param.projectLineId =  '298664702576164897'
-					if (state.projectCompanyData.data.Files) {
-						state.projectCompanyData.files = state.projectCompanyData.data.Files.split(",")
-					}else{
-						state.projectCompanyData.files = []
+					state.projectCompanyData.filesList = []
+					state.projectCompanyData.fileName = []
+					state.projectCompanyData.fileUrl = []
+					if (state.projectCompanyData.data.Files != "") {
+						state.projectCompanyData.fileName = state.projectCompanyData.data.WinFile.split(",")
+						state.projectCompanyData.fileUrl = state.projectCompanyData.data.Files.split(",")
+						let f = {name:'', url:''};
+						for (let i = 0; i < state.projectCompanyData.fileUrl.length; i++) {
+							f.url = state.baseUrl + state.projectCompanyData.files[i]
+							f.name = state.projectCompanyData.data.WinFile[i]
+							state.projectCompanyData.filesList.push(f)
+						}
 					}
 					break;
 				case 4:
@@ -680,32 +596,105 @@ export default {
 			state.stepIndex = stepIndex
 		}
 
-		//参与投标
-		const onBeginBid = ()=>{
-			state.tabIndex=1
-			state.stepIndex = 0
+		//前一步
+		const onGoToPrevious=()=>{
+			let stepIndex=state.stepIndex-1
 			state.ProjectCompanyLineTableData.data = []
 			state.ProjectCompanyLineTableData.param.projectId = store.state.project.projectId
+			state.ProjectCompanyLineTableData.param.companyId = state.projectCompanyData.CompanyId
 			state.ProjectCompanyLineTableData.param.projectCompanyId =  state.projectCompanyData.Id
 			state.ProjectCompanyLineTableData.param.pageNum = 1
 			state.ProjectCompanyLineTableData.param.pageSize = 20
-			state.ProjectCompanyLineTableData.param.kind = "zgps"
+			if(stepIndex<0){
+				stepIndex=0
+			}
+			switch(stepIndex){
+				case 0:
+					state.ProjectCompanyLineTableData.param.kind = "zgps"
+					break;
+				case 1:
+					state.ProjectCompanyLineTableData.param.kind = "jsps"
+					break;
+				case 2:
+					state.ProjectCompanyLineTableData.param.kind = "qt"
+					break;
+				case 3:
+					state.ProjectCompanyLineTableData.param.kind = "jjps"
+					state.ProjectCompanyLineTableData.param.projectLineId =  '298664702576164897'
+					state.projectCompanyData.filesList = []
+					state.projectCompanyData.fileName = []
+					state.projectCompanyData.fileUrl = []
+					if (state.projectCompanyData.data.Files != "") {
+						state.projectCompanyData.fileName = state.projectCompanyData.data.WinFile.split(",")
+						state.projectCompanyData.fileUrl = state.projectCompanyData.data.Files.split(",")
+						let f = {name:'', url:''};
+						for (let i = 0; i < state.projectCompanyData.fileUrl.length; i++) {
+							f.url = state.baseUrl + state.projectCompanyData.files[i]
+							f.name = state.projectCompanyData.data.WinFile[i]
+							state.projectCompanyData.filesList.push(f)
+						}
+					}
+					break;
+				case 4:
+					break;
+			}
 			onGetProjectCompanyLineTableData()
-			
+			state.stepIndex=stepIndex
 		}
 
-		//	文件列表更新
+		//返回
+		const onGoToList=(select : number)=>{
+			switch (select){
+				case 0:
+					proxy.$parent.$parent.onModelList(false);
+					break;
+				case 1:
+					state.tabIndex = 0
+					state.stepIndex = 0
+					break;
+			}
+		};
+
+		
+		// 批量上传文件
+		const onsaveMultiProjectCompanyLineTableData = async () => {
+			try {
+				let model = {}
+				state.ProjectCompanyLineTableData.list = []
+				for (let i = 0; i < state.ProjectCompanyLineTableData.data.length; i++) {
+					model = {}
+					model.Id = state.ProjectCompanyLineTableData.data[i].Id
+					model.Kind = state.ProjectCompanyLineTableData.data[i].Kind
+					model.Name = state.ProjectCompanyLineTableData.data[i].Name
+					model.Files = state.ProjectCompanyLineTableData.data[i].Files
+					model.ProjectId = state.ProjectCompanyLineTableData.data[i].ProjectId
+					model.ProjectCompanyId = state.ProjectCompanyLineTableData.data[i].ProjectCompanyId
+					state.ProjectCompanyLineTableData.list.push(model)
+				}
+				const jsres = await proxy.$api.erp.projectcompanyline.saveMulti(kind, state.ProjectCompanyLineTableData.list)
+				if (jsres.errcode != 0) {
+					return;
+				}
+			} finally {
+			}
+		};
+
+		//	上传文件列表更新
 		const onSuccessFile = (file: UploadFile, select: string) => {
 			let model = {}
 			model.ProjectId = store.state.project.projectId
 			model.ProjectCompanyId = state.projectCompanyData.Id
 			switch (select) {
 				case 'gmzl':
-					state.bidTableData.form.BidFiles = file.data.src
+					state.projectCompanyData.from = {}
+					state.projectCompanyData.from.Id = state.projectCompanyData.data.Id
+					state.projectCompanyData.from.BidFiles = file.data.src
 					onUpProjectCompanyData();
 					break;
 				case 'zftbbzj':
-					state.bidTableData.form.EnsureFiles = file.data.src
+					state.projectCompanyData.from = {}
+					state.projectCompanyData.from.Id = state.projectCompanyData.data.Id
+					state.projectCompanyData.from.EnsureFiles = file.data.src
 					onUpProjectCompanyData();
 					break;
 				case 'zgps':
@@ -724,12 +713,41 @@ export default {
 					state.ProjectCompanyLineTableData.data.push(model)
 					break;
 				case 'jjps':
-					state.projectCompanyData.files.push(file.data.src)
+					let f = {name:'', url:''};
+					f.url = state.baseUrl + file.data.src
+					f.name = file.data.name
+					state.projectCompanyData.filesList.push(f)
+					state.projectCompanyData.fileName.push("附件"+formatTimestamp(Date.now()))
+					state.projectCompanyData.fileUrl.push(file.data.src)
 					break;
 				}
 		};
 
-		// 文件删除
+		//列表记录数据删除
+		const onDel = async (id: Number) => {
+			if (!id) {
+				ElMessage.error('当前没有可删除的文件，请刷新后重试。');
+				return;
+			}
+			ElMessageBox.confirm(`确定删除吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					const res = await proxy.$api.erp.projectcompanyline.delete(id)
+					if (res.errcode != 0) {
+						return;
+					}
+					state.ProjectCompanyLineTableData.data = []
+					onGetProjectCompanyLineTableData()
+				} finally {
+				}
+				return false;
+			});
+		};
+
+		// 上传文件删除
 		const onRemove = (file: UploadFile) => {
 			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.projectCompanyData.files.length; i++) {
@@ -737,17 +755,6 @@ export default {
 					state.projectCompanyData.files.splice(i, 1);
 				}
 			}
-		};
-
-		const formatTimestamp = (timestamp) => {
-			const date = new Date(timestamp);
-			const year = date.getFullYear();
-			const month = (date.getMonth() + 1).toString().padStart(2, '0');
-			const day = date.getDate().toString().padStart(2, '0');
-			const hours = String(date.getHours()).padStart(2, '0');
-			const minutes = String(date.getMinutes()).padStart(2, '0');
-			const seconds = String(date.getSeconds()).padStart(2, '0');
-			return `${year}${month}${day}${hours}${minutes}${seconds}`;
 		};
 
 		//	预览文件
@@ -817,12 +824,17 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					if(state.projectCompanyData.files.length > 0){
-						state.projectCompanyData.data.Files = state.projectCompanyData.files.join(',')
+					state.projectCompanyData.from = {}
+					if(state.projectCompanyData.filesList.length > 0){
+						state.projectCompanyData.from.Id = state.projectCompanyData.data.Id
+						state.projectCompanyData.from.Files = state.projectCompanyData.fileUrl.toString()
+						state.projectCompanyData.from.WinFile = state.projectCompanyData.fileName.toString()
 					}else{
-						state.projectCompanyData.data.Files = ""
+						state.projectCompanyData.from.Id = state.projectCompanyData.data.Id
+						state.projectCompanyData.from.Files = ""
+						state.projectCompanyData.from.WinFile = ""
 					}
-					state.projectCompanyData.data.State = 1
+					state.projectCompanyData.from.State = 1
 					onUpProjectCompanyData();
 					onGoToList(1)
 				} finally {
@@ -831,12 +843,36 @@ export default {
 			});
 		};
 
+		const formatTimestamp = (timestamp) => {
+			const date = new Date(timestamp);
+			const year = date.getFullYear();
+			const month = (date.getMonth() + 1).toString().padStart(2, '0');
+			const day = date.getDate().toString().padStart(2, '0');
+			const hours = String(date.getHours()).padStart(2, '0');
+			const minutes = String(date.getMinutes()).padStart(2, '0');
+			const seconds = String(date.getSeconds()).padStart(2, '0');
+			return `${year}${month}${day}${hours}${minutes}${seconds}`;
+		};
+
+		// 批量设置 echarts resize
+		const initEchartsResizeFun = () => {
+			nextTick(() => {
+				for (let i = 0; i < state.myCharts.length; i++) {
+					state.myCharts[i].resize();
+				}
+			});
+		};
+
+		// 批量设置 echarts resize
+		const initEchartsResize = () => {
+			window.addEventListener('resize', initEchartsResizeFun);
+		};
+
 		// 页面加载时
 		onMounted(() => {
 			onGetprojectCompanyData();
 			onGetBidTableData();
 			initEchartsResize();
-			// loadTenant();
 		});
 		// 由于页面缓存原因，keep-alive
 		onActivated(() => {

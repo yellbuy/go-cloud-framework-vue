@@ -47,7 +47,7 @@
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" fixed="right">
 						<template #default="scope">
 							<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, false)">{{ '详情' }}</el-button>
-							<el-button text bg type="primary" @click="onToDetail(scope.row.ProjectId)">{{ '待办' }}</el-button>
+							<el-button text bg type="primary" @click="onToDetail(scope.row.ProjectId, scope.row.CompanyId)">{{ '待办' }}</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -103,7 +103,6 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
-					projectId: '279082270076182531',
 					pageNum: 1,
 					size: 20,
 					isBid: Boolean(isBid),
@@ -156,8 +155,9 @@ export default {
 			seeDlgRef.value.openDialog(id, state);
 		};
 		// 跳转
-		const onToDetail = (id: number) => {
+		const onToDetail = (id: number, companyId: number) => {
 			store.commit('project/getProjectId', id);
+			store.commit('project/getProjectCompanyId', companyId)
 			state.isShowList = false;
 		};
 		// 删除用户
