@@ -38,6 +38,8 @@ export default {
 		submit:'submit',
 		cancel:'cancel',
 		close:'close',
+		begin:'begin',
+		finish:'finish',
 		detail:'detail',
 		draft:'draft',
 		publish:'publish',

@@ -33,6 +33,8 @@ export default {
 		submit: '提交',
 		cancel: '取消',
 		close: '关闭',
+		begin:'开始',
+		finish:'完成',
 		detail: '详情',
 		see: "查看",
 		location: "位置",

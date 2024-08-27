@@ -63,13 +63,9 @@
 						<el-tag type="warning" class="mr4" effect="dark" v-else-if="scope.row.WaybillMode==10">其他</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="PlanWeight" label="执行进度" width="100" align="center">
-					<template #default="scope">
-						<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
-					</template>
+				<el-table-column prop="PlanQty" label="计划数量" width="100" align="right">
 				</el-table-column>
-				<el-table-column prop="SenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="ReceiverAddress" label="收货地址" width="120" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="SenderPlanTime" label="计划月份" width="80" align="left" :formatter="dateFormatYM" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 					<template #default="scope">
@@ -77,9 +73,6 @@
 							{{ $t('message.action.operate') }}
 							<template #dropdown>
 								<el-dropdown-menu>
-									<el-dropdown-item @click="onMainCopy(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Copy'">
-										<el-text type="primary" >{{ $t('message.action.copy') }}</el-text>
-									</el-dropdown-item>
 									<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 										<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
 									</el-dropdown-item>
@@ -113,6 +106,7 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs';
 import { ElMessageBox } from 'element-plus';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
@@ -128,7 +122,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_waybill_freight`;
+		const moduleKey = `api_waybill_plan`;
 		const editMainDlgRef = ref();
 		const editChildDlgRef = ref();
 		const childMapDlgRef=ref();
@@ -142,7 +136,7 @@ export default {
 			scopeMode,
 			scopeValue,
 			mainCurrentRow:null,
-			timeRange: [],
+			timeRange: [dayjs().startOf("month"), dayjs().endOf("month")],
 			mainTableData: {
 				data: [],
 				total: 0,
@@ -151,7 +145,7 @@ export default {
 					keyword: '',
 					sendPlanStartTime: "",
 					sendPlanEndTime: "",
-					WaybillType:2,
+					waybillType:1,
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -250,7 +244,7 @@ export default {
 			onMainGetTableData();
 		});
 
-		const { dateFormatYMDHM,dateFormatHMS,dateFormatHM } = commonFunction();
+		const { dateFormatYM,dateFormatHMS,dateFormatHM } = commonFunction();
 
 		return {
 			proxy,
@@ -264,7 +258,7 @@ export default {
 			onMainDel,
 			onMainHandleSizeChange,
 			onMainHandleCurrentChange,
-			dateFormatYMDHM,
+			dateFormatYM,
 			dateFormatHMS,
 			dateFormatHM,
 			...toRefs(state),
