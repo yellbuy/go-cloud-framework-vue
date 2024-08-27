@@ -106,6 +106,7 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs';
 import { ElMessageBox } from 'element-plus';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
@@ -121,7 +122,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_waybill_freight`;
+		const moduleKey = `api_waybill_plan`;
 		const editMainDlgRef = ref();
 		const editChildDlgRef = ref();
 		const childMapDlgRef=ref();
@@ -135,7 +136,7 @@ export default {
 			scopeMode,
 			scopeValue,
 			mainCurrentRow:null,
-			timeRange: [],
+			timeRange: [dayjs().startOf("month"), dayjs().endOf("month")],
 			mainTableData: {
 				data: [],
 				total: 0,

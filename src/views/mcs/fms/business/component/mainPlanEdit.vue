@@ -216,7 +216,7 @@ export default {
 
 		const getByIdRow = async (id: string) => {
 			try {
-				const res = await proxy.$api.erp.businessBillLine.getById(id);
+				const res = await proxy.$api.erp.businessBill.getById(id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -259,14 +259,14 @@ export default {
 		}
 
 		const onCategorySelect=async (id:string)=>{			
-			loadGoodsList(id);
+			//loadGoodsList(id);
 		}
 
 		//	加载地址列表
 		const loadAddressList = async () => {
 			state.senderAddressList=[];
 			state.receiverAddressList=[];
-			const res = await proxy.$api.erp.businessBillLine.getListByScope("main_business", 0, 2, {pageSize:1000000});
+			const res = await proxy.$api.erp.businessBill.getListByScope("main_business", 0, 2, {pageSize:1000000});
 			if (res.errcode == 0) {
 				for (let i = 0; i < res.data.length; i++){
 					state.senderAddressList.push(res.data[i].SenderAddress);
@@ -295,7 +295,7 @@ export default {
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.BusinessBillType=1; //1：计划，2：生产
 					try {
-						const res = await proxy.$api.erp.businessBillLine.save(state.ruleForm);
+						const res = await proxy.$api.erp.businessBill.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();

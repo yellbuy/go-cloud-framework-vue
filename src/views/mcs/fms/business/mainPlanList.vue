@@ -119,14 +119,14 @@ export default {
 		const kind = route.params.kind||'main_business';
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_fms_balance_main_business`;
+		const moduleKey = `api_fms_balance_main_businessplan`;
 		const editDlgRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
 			scopeMode,
 			scopeValue,
-			timeRange: [new Date(), new Date()],
+			timeRange: [dayjs().startOf("month"), dayjs().endOf("month")],
 			tableData: {
 				data: [],
 				total: 3,
@@ -155,8 +155,8 @@ export default {
 		// 查询表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (state.timeRange && state.timeRange.length > 1) {
-				state.tableData.param.startTime = dayjs(state.timeRange[0]).set('hour', 8).set('minute', 0).set('second', 0);
-				state.tableData.param.endTime = dayjs(state.timeRange[1]).set('hour', 32).set('minute', 0).set('second', 0);
+				state.tableData.param.startTime = dayjs(state.timeRange[0]).set('hour', 8).set('minute', 0).set('second', 0).format("YYYY-MM-DD");
+				state.tableData.param.endTime = dayjs(state.timeRange[1]).set('hour', 32).set('minute', 0).set('second', 0).format("YYYY-MM-DD");
 			}
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
@@ -164,7 +164,7 @@ export default {
 			state.tableData.loading = true;
 			try {
 				
-				const res = await proxy.$api.erp.businessBillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.businessBill.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -187,7 +187,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.businessBillLine.delete(Id);
+					const res = await proxy.$api.erp.businessBill.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}

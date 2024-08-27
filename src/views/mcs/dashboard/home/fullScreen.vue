@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import cards from "./cards.vue";
+import cards from "../app/ringProgress.vue";
 import digitalFlop from "./digitalFlop.vue";
 import rankingBoard from "./rankingBoard.vue";
 import roseChart from "./roseChart.vue";

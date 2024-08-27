@@ -20,8 +20,12 @@
             </div>
           </dv-border-box-1>
           <dv-border-box-12 style="width:40%;padding:0.5vh">
-            <center-top></center-top>
-            <center-bottom></center-bottom>
+            <ringProgressList title="年运量完成情况（公路）" modelName="waybill" kind="freight" timeSpan="year" :limit="5"></ringProgressList>
+            <ringProgressList title="月运量完成情况（公路）" modelName="waybill" kind="freight" timeSpan="month" :limit="5"></ringProgressList>
+            <ringProgressList title="年运量完成情况（铁运）" modelName="businessBill" kind="main_business" timeSpan="year" :limit="5"></ringProgressList>
+            <ringProgressList title="月运量完成情况（铁运）" modelName="businessBill" kind="main_business" timeSpan="month" :limit="5"></ringProgressList>
+            <!-- <center-top></center-top>
+            <center-bottom></center-bottom> -->
             <!-- <dv-decoration-3 style="width: 100%;" /> -->
             
             <!-- <center-bottom></center-bottom> -->
@@ -60,7 +64,7 @@
             </div>
           </dv-border-box-1>
           <dv-border-box-12 style="width:40%;height:auto;padding:0.5vh">           
-            <!-- 本年 -->
+            <!-- 本年 -->            
             <tbEnergyBillStat :timeMode="7"></tbEnergyBillStat>
              <!-- 本月 -->
              <tbEnergyBillStat :timeMode="3"></tbEnergyBillStat>
@@ -100,9 +104,13 @@
               <notice-list></notice-list>
             </div>
           </dv-border-box-1>
-          <dv-border-box-12 style="width:40%;padding:0.5vh">
-            <center-top></center-top>
-            <center-bottom></center-bottom>
+          <dv-border-box-12 style="width:40%;padding:0.5vh;height:auto">
+            <ringProgressList title="年运量完成情况（公路）" modelName="waybill" kind="freight" timeSpan="year" :limit="5"></ringProgressList>
+            <ringProgressList title="月运量完成情况（公路）" modelName="waybill" kind="freight" timeSpan="month" :limit="5"></ringProgressList>
+            <ringProgressList title="年运量完成情况（铁运）" modelName="businessBill" kind="main_business" timeSpan="year" :limit="5"></ringProgressList>
+            <ringProgressList title="月运量完成情况（铁运）" modelName="businessBill" kind="main_business" timeSpan="month" :limit="5"></ringProgressList>
+            <!-- <center-top></center-top>
+            <center-bottom></center-bottom> -->
             <!-- <dv-decoration-3 style="width: 100%;" /> -->
             
             <!-- <center-bottom></center-bottom> -->
@@ -141,7 +149,7 @@
             </div>
           </dv-border-box-1>
           <dv-border-box-12 style="width:40%;height:auto;padding:0.5vh">           
-            <!-- 本年 -->
+            <!-- 本年 -->            
             <tbEnergyBillStat :timeMode="7"></tbEnergyBillStat>
              <!-- 本月 -->
              <tbEnergyBillStat :timeMode="3"></tbEnergyBillStat>
@@ -184,6 +192,7 @@ import lineEnergyBoard from "./lineEnergyBoard.vue";
 import lineRepairBoard from "./lineRepairBoard.vue";
 import noticeList from "./noticeList.vue";
 import rankingBoard from "./rankingBoard.vue";
+import ringProgressList from "./ringProgressList.vue";
 import roseChart from "./roseChart.vue";
 import scrollBoard from "./scrollBoard.vue";
 import scrollBoardAmount from "./scrollBoardAmount.vue";
@@ -197,6 +206,7 @@ export default {
   name: "DataView",
   components: {
     topHeader,
+    ringProgressList,
     tbVehicleStat,
     tbWaybillStat,
     tbEnergyBillStat,
