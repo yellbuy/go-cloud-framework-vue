@@ -33,7 +33,7 @@
 
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="密码" prop="Password">
-							<el-input v-model="ruleForm.Password" type="new-password" placeholder="用户登录密码" maxlength="50" clearable></el-input>
+							<el-input v-model="ruleForm.Password" type="password" show-password placeholder="用户登录密码" maxlength="50" clearable></el-input>
 							<p title="" class="color-info-light text-help-info font10" v-if="ruleForm.Id > 0">
 								<SvgIcon name="fa fa-info-circle" /><span>无需修改密码，请保留为空</span>
 							</p>
@@ -41,7 +41,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="确认密码" prop="PasswordConfirm">
-							<el-input v-model="ruleForm.PasswordConfirm" type="new-password" placeholder="请输入确认密码" maxlength="50" clearable></el-input>
+							<el-input v-model="ruleForm.PasswordConfirm" type="password" show-password placeholder="请输入确认密码" maxlength="50" clearable></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -140,8 +140,7 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 export default {
