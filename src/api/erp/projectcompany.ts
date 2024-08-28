@@ -51,12 +51,24 @@ export default {
     },
 
 /**
- * 更新
+ * 更新公司已报名表信息
+ * @param id 项目id
  * @param data 标识，字符串或数组
  * @returns 返回接口数据
  */
     update: async ( id: string|number, data: object) => {
-        const url = `/v1/admin/erp/projectcompany/${id}`;
+        const url = `/v1/admin/erp/projectcompany/update/${id}`;
+        return await http.post(url, data);
+    },
+
+/**
+ * 更新公司报名信息上传的文件及状态
+ * @param id 项目id
+ * @param data 标识，字符串或数组
+ * @returns 返回接口数据
+ */
+    fileUpdate: async ( id: string|number, data: object) => {
+        const url = `/v1/admin/erp/projectcompany/updatefile/${id}`;
         return await http.post(url, data);
     },
 }
