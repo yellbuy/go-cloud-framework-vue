@@ -45,8 +45,8 @@
 				<el-table-column prop="State" label="状态" width="90"/>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, false)">{{ '详情' }}</el-button>
-						<el-button text bg type="primary" @click="onToDetail(scope.row.Id, scope.row.ProjectId, scope.row.CompanyId)">{{ '待办' }}</el-button>
+						<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, false)">详情</el-button>
+						<el-button text bg type="primary" @click="onToDetail(scope.row.Id, scope.row.ProjectId)">待办</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -116,7 +116,7 @@ export default {
 		const onGetTableData = async () => {
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectcompany.preliminaryReviewList(state.tableData.param);
+				const res = await proxy.$api.erp.projectcompany.signUpLists(state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -134,9 +134,8 @@ export default {
 			projectDetail.value.openPage();
 		};
 		// 打开列表
-		const onModelList = (isRefreshList: Boolean=true) => {
+		const onModelList = () => {
 			state.isShowPage = true;
-			console.log("state.isShowPage:",state.isShowPage)
 		};
 		//打开查看数据弹窗
 
@@ -144,10 +143,9 @@ export default {
 			seeDlgRef.value.openDialog(id, state);
 		};
 		// 跳转
-		const onToDetail = (id: number, projectId: number, companyId: number) => {
+		const onToDetail = (id: string|number, projectId: string|number) => {
 			store.commit('project/getProjectCompanyId', id)
 			store.commit('project/getProjectId', projectId);
-			store.commit('project/getCompanyId', companyId);
 			state.isShowPage = false;
 			projectDetailRef.value.openPage();
 		};

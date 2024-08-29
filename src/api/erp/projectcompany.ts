@@ -43,8 +43,8 @@ export default {
  * @param data 标识，字符串或数组
  * @returns 返回接口数据
  */
-    preliminaryReviewList: async (data: object) => {
-        const url = `/v1/admin/erp/projectcompany/preliminaryreviewlist`;
+    signUpLists: async (data: object) => {
+        const url = `/v1/admin/erp/projectcompany/signuplists`;
         return await http.get(url, data);
     },
 

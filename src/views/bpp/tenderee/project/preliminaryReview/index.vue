@@ -168,7 +168,7 @@ export default {
 		const onGetTableData = async () => {
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectcompany.preliminaryReviewList(state.tableData.param);
+				const res = await proxy.$api.erp.projectcompany.signUpLists(state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
