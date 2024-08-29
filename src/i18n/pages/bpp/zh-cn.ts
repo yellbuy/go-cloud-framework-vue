@@ -8,6 +8,7 @@ export default {
 		project:'项目管理',
 		projectBid:'招标项目',
 		settingTemplate:'参数模板',
+		projectPreliminaryReview:'项目初审',
 		projectEnd:'已结束项目',
 		supplier:'供应商管理',
 		supplierAudit:'基本信息变更申请',
