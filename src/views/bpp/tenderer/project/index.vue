@@ -3,10 +3,10 @@
 		<el-card v-if="isShowPage">
 			<div>
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
-					<el-form-item label="比选编号">
+					<el-form-item label="项目编号">
 						<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no" style="width: 150px;"/>
 					</el-form-item>
-					<el-form-item label="比选项目">
+					<el-form-item label="项目名称">
 						<el-input placeholder="请输入比选项目查询" v-model="tableData.param.name" style="width: 150px;"/>
 					</el-form-item>
 					<el-form-item>
@@ -131,7 +131,7 @@ export default {
 		const onModelEdit = (id: number) => {
 			store.commit('project/getProjectId', id);
 			state.isShowPage = false;
-			projectDetail.value.openPage();
+			projectDetailRef.value.openPage()
 		};
 		// 打开列表
 		const onModelList = () => {
@@ -146,8 +146,8 @@ export default {
 		const onToDetail = (id: string|number, projectId: string|number) => {
 			store.commit('project/getProjectCompanyId', id)
 			store.commit('project/getProjectId', projectId);
-			state.isShowPage = false;
 			projectDetailRef.value.openPage();
+			state.isShowPage = false;
 		};
 		// 删除用户
 		const onModelDel = (id: number) => {

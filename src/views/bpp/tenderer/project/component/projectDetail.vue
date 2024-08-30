@@ -4,83 +4,104 @@
 			<el-row :gutter="15" class="mb15">
 				<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="home-warning-media">
 					<el-timeline style="max-width: 600px">
-						<el-timeline-item timestamp="2018-04-12 15:00" placement="top" type="primary">
-						<el-card>
-							<el-descriptions title="售标截止">
-								<el-descriptions-item label="">2018-04-12 15:00</el-descriptions-item>
-							</el-descriptions>
-							<el-divider border-style="dashed" />
-							<p class="font14"><b>购买资料</b></p>
-							<el-row class="mt10">
-								<el-col :span="12">	
-									<el-link :href="baseUrl+projectCompanyData.data.BidFiles" v-if="projectCompanyData.data.BidFiles" target="_blank">{{ projectCompanyData.data.BidFiles }}</el-link>	
-									<a v-else>待上传</a>
-								</el-col>
-								<el-col :span="12" class="text-right">
-									<el-upload
-										:action="uploadURL"
-										:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
-										:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-										:on-success="(file) => onSuccessFile(file, 'bid')"
-										:before-upload="onBeforeImageUpload"
-										:limit="1"
-										v-if="!projectCompanyData.data.BidFiles">
-										<template #default>
-											<el-link type="primary" align="right">上传缴费凭证</el-link>
-										</template>
-									</el-upload>
-									<a v-else-if="projectCompanyData.data.BidAuditState == 0">等待审核</a>
-									<a v-else>审核通过</a>
-								</el-col>
-							</el-row>
-							<el-divider border-style="dashed" />
-							<el-descriptions title="下载标书" border >
-								<el-descriptions-item label-align="left" width="50%" align="right" label="《标书文件》">
-									<el-link type="primary" @click="onDownloadFile('标书文件', '/static/upload/31/image/20240821/298509223602421761.jpg')">下载</el-link>
-								</el-descriptions-item>
-							</el-descriptions>
-							<el-divider border-style="dashed" />
-							<p class="font14"><b>支付投标保证金</b></p>
-							<el-row class="mt10">
-								<el-col :span="12">	
-									<el-link :href="baseUrl+projectCompanyData.data.EnsureFiles" v-if="projectCompanyData.data.EnsureFiles" target="_blank">{{ projectCompanyData.data.EnsureFiles }}</el-link>	
-									<a v-else>待上传</a>
-								</el-col>
-								<el-col :span="12" class="text-right">
-									<el-upload
-										:action="uploadURL"
-										:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
-										:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-										:on-success="(file) => onSuccessFile(file, 'ensure')"
-										:before-upload="onBeforeImageUpload"
-										:limit="1"
-										v-if="!projectCompanyData.data.EnsureFiles">
-										<template #default>
-											<el-link type="primary" align="right">上传缴费凭证</el-link>
-										</template>
-									</el-upload>
-									<a v-else-if="projectCompanyData.data.EnsureAuditState == 0">等待审核</a>
-									<a v-else>审核通过</a>
-								</el-col>
-							</el-row>
-						</el-card>
+						<el-timeline-item :timestamp=projectCompanyData.data.ProjectBeginTime placement="top" type="primary">
+							<p class="font14" style="margin-bottom: 10px;"><b>投标开始</b></p>
+							<el-card>
+								<el-row class="mt10">
+									<el-col :span="24">
+										<el-descriptions title="售标截止">
+											<el-descriptions-item label="">{{projectCompanyData.data.SaleEndTime}}</el-descriptions-item>
+										</el-descriptions>
+									</el-col>
+								</el-row>
+								<el-row class="mt10">
+									<el-divider border-style="dashed" />
+									<el-col :span="24">
+										<p class="font14" style="margin-bottom: 10px;"><b>购买资料</b></p>
+									</el-col>
+									<el-col :span="12">	
+										<el-link :href="baseUrl+projectCompanyData.data.BidPics" v-if="projectCompanyData.data.BidPayState == 1" target="_blank">{{ projectCompanyData.data.BidPics }}</el-link>	
+										<a v-else-if="projectCompanyData.data.BidAuditState == 2 && projectCompanyData.data.BidPayState == 0">审核未通过，请重新上传提交审核</a>
+										<a v-else>待上传</a>
+									</el-col>
+									<el-col :span="12" class="text-right">
+										<el-upload
+											:action="uploadURL"
+											:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
+											:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+											:on-success="(file) => onSuccessFile(file, 'bid')"
+											:before-upload="onBeforeImageUpload"
+											:limit="1"
+											v-if="projectCompanyData.data.BidPayState == 0 && projectCompanyData.data.BidAuditState != 1">
+											<template #default>
+												<el-link type="primary" align="right">上传缴费凭证</el-link>
+											</template>
+										</el-upload>
+										<a v-else-if="projectCompanyData.data.BidAuditState == 0">等待审核</a>
+										<a v-else>审核通过</a>
+									</el-col>
+								</el-row>
+								<el-row class="mt10">
+									<el-divider border-style="dashed" />
+									<el-col :span="24">
+										<el-descriptions title="下载标书" border v-if="projectCompanyData.data.BidPayState == 1">
+											<el-descriptions-item label-align="left" width="50%" align="right" label="《标书文件》">
+												<el-link type="primary" @click="onDownloadFile('标书文件', '/static/upload/31/image/20240821/298509223602421761.jpg')">下载</el-link>
+											</el-descriptions-item>
+										</el-descriptions>
+									</el-col>
+								</el-row>
+								<el-row class="mt10" v-if="projectCompanyData.data.BidAuditState == 1">
+									<el-divider border-style="dashed" />
+									<el-col :span="24">
+										<p class="font14" style="margin-bottom: 10px;"><b>支付投标保证金</b></p>
+									</el-col>
+									<el-col :span="12">	
+										<el-link :href="baseUrl+projectCompanyData.data.EnsurePics" v-if="projectCompanyData.data.EnsurePayState == 1" target="_blank">{{ projectCompanyData.data.EnsurePics }}</el-link>	
+										<a v-else-if="projectCompanyData.data.EnsureAuditState == 2 && projectCompanyData.data.EnsurePayState == 0">审核未通过，请重新上传提交审核</a>
+										<a v-else>待上传</a>
+									</el-col>
+									<el-col :span="12" class="text-right">
+										<el-upload
+											:action="uploadURL"
+											:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
+											:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+											:on-success="(file) => onSuccessFile(file, 'ensure')"
+											:before-upload="onBeforeImageUpload"
+											:limit="1"
+											v-if="projectCompanyData.data.EnsurePayState == 0 && projectCompanyData.data.EnsureAuditState != 1">
+											<template #default>
+												<el-link type="primary" align="right">上传缴费凭证</el-link>
+											</template>
+										</el-upload>
+										<a v-else-if="projectCompanyData.data.EnsureAuditState == 0">等待审核</a>
+										<a v-else>审核通过</a>
+									</el-col>
+								</el-row>
+							</el-card>
 						</el-timeline-item>
-						<el-timeline-item timestamp="2024-04-12 15:00" placement="top" type="primary">
+						<el-timeline-item :timestamp=projectCompanyData.data.ProjectFinishTime placement="top" type="primary">
 							<p class="font14"><b>投标截止</b></p>
 						</el-timeline-item>
-						<el-timeline-item timestamp="2024-04-12 15:00" placement="top" type="primary">
+						<el-timeline-item :timestamp=projectCompanyData.data.BidOpenTime placement="top" type="primary" >
 							<p class="font14"><b>开始开标</b></p>
 							<el-divider border-style="dashed" />
-							<el-button type="primary" @click="onBeginBid">
-								<SvgIcon name="fa fa-cloud-download" class="mr3"/>参与投标
-							</el-button>
+							<div v-if="projectCompanyData.data.BidAuditState==1 && projectCompanyData.data.EnsureAuditState==1">
+								<el-button type="primary" @click="onBeginBid" style="float: right;">
+									<SvgIcon name="fa fa-cloud-download" class="mr3"/>参与投标
+								</el-button>
+							</div>
+							<div v-else>
+								<p style="font-size: 14px;"><b>资料缴费凭证及保证金缴费凭证都审核通过，既可参与投标</b></p>
+								<el-button type="info" style="float: right;">
+									<SvgIcon name="fa fa-cloud-download" class="mr3"/>参与投标
+								</el-button>
+							</div>
 							<el-divider border-style="dashed" />
 						</el-timeline-item>
-						<el-timeline-item timestamp="">
+						<el-timeline-item :timestamp=projectCompanyData.data.ProjectFinishTime placement="top" type="primary">
+							<p class="font14" style="margin-bottom: 10px;"><b>开标结束</b></p>
 							<el-card>
-								<el-descriptions title="开标结束">
-									<el-descriptions-item label="">2024-04-12 18:00</el-descriptions-item>
-								</el-descriptions>
 								<p class="font14 mb10"><b>成交通知</b></p>
 								<p>您好：我公司的[汉风生产管控系统建设] （YJ2023122102538），经评审，现确定由贵公司供应（承揽）。请收到本通知后10个工作日内,到采购单位签订合同，否则，将视为放弃供应（承揽）权利，并扣除投标/议价/竞价保证金。请到采购组织方领取纸质版成交通知书，或联系组织方领取扫描版成交通知书（电子邮件方式）。</p>
 								<p class="text-right">特此通知。</p>
@@ -104,13 +125,13 @@
 							<el-tag size="small">未对接数据</el-tag>
 						</el-descriptions-item>
 						<el-descriptions-item label="售标截止时间" label-align="right" align="left">
-							{{ projectCompanyData.data.EndTime }}
+							{{ projectCompanyData.data.SaleEndTime }}
 						</el-descriptions-item>
 						<el-descriptions-item label="投标截止时间" label-align="right" align="left">
-							{{ projectCompanyData.data.FinishTime }}
+							{{ projectCompanyData.data.ProjectFinishTime }}
 						</el-descriptions-item>
 						<el-descriptions-item label="开标时间" label-align="right" align="left">
-							{{ projectCompanyData.data.BeginTime }}
+							{{ projectCompanyData.data.BidOpenTime }}
 						</el-descriptions-item>
 						<el-descriptions-item label="评标办法" label-align="right" align="left">
 							{{ projectCompanyData.data.ReviewDesc }}
@@ -207,14 +228,12 @@
 						<el-table :data="ProjectCompanyLineTableData.data" v-loading="ProjectCompanyLineTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" />
 							<el-table-column prop="Name" label="商务文件" width="350">
-								<template #default="scope">
-									<el-input
-										v-model="scope.row.Name"
-										placeholder="请输入"/> 
+								<template #default="scope" v-if="projectCompanyData.data.State == 0">
+									<el-input v-model="scope.row.Name" placeholder="请输入"/> 
 								</template>
 							</el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
-								<template #header>
+								<template #header v-if="projectCompanyData.data.State == 0">
 									<el-upload
 										:action="uploadURL"
 										:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
@@ -233,7 +252,7 @@
 												下载
 											</el-button>
 										</el-col>
-										<el-col :span="8">
+										<el-col :span="8" v-if="projectCompanyData.data.State == 0">
 											<el-button text bg type="danger" @click="onDelProjectCompanyLineTableData(scope.row.Id)">
 												删除
 											</el-button>
@@ -250,14 +269,14 @@
 						<el-table :data="ProjectCompanyLineTableData.data" v-loading="ProjectCompanyLineTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" />
 							<el-table-column prop="Name" label="技术文件" width="350">
-								<template #default="scope">
+								<template #default="scope" v-if="projectCompanyData.data.State == 0">
 									<el-input
 										v-model="scope.row.Name"
 										placeholder="请输入"/> 
 								</template>
 							</el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
-								<template #header>
+								<template #header v-if="projectCompanyData.data.State == 0">
 									<el-upload
 										:action="uploadURL"
 										:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
@@ -276,7 +295,7 @@
 												下载
 											</el-button>
 										</el-col>
-										<el-col :span="8">
+										<el-col :span="8" v-if="projectCompanyData.data.State == 0">
 											<el-button text bg type="danger" @click="onDelProjectCompanyLineTableData(scope.row.Id)">
 												删除
 											</el-button>
@@ -293,14 +312,14 @@
 						<el-table :data="ProjectCompanyLineTableData.data" v-loading="ProjectCompanyLineTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" />
 							<el-table-column prop="Name" label="其他文件" width="350">
-								<template #default="scope">
+								<template #default="scope" v-if="projectCompanyData.data.State == 0">
 									<el-input
 										v-model="scope.row.Name"
 										placeholder="请输入"/> 
 								</template>
 							</el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
-								<template #header>
+								<template #header v-if="projectCompanyData.data.State == 0">
 									<el-upload
 										:action="uploadURL"
 										:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
@@ -319,7 +338,7 @@
 												下载
 											</el-button>
 										</el-col>
-										<el-col :span="8">
+										<el-col :span="8" v-if="projectCompanyData.data.State == 0">
 											<el-button text bg type="danger" @click="onDelProjectCompanyLineTableData(scope.row.Id, scope.row.Kind)">
 												删除
 											</el-button>
@@ -341,15 +360,15 @@
 							<el-table-column prop="Unit" label="明细项单位" width="80"/>
 							<el-table-column prop="Qty" label="采购数量" align="right" width="70"/>
 							<el-table-column prop="Price" label="单价" align="right" width="80" >
-								<template #default="scope">
+								<template #default="scope" v-if="projectCompanyData.data.State == 0">
 									<el-input-number v-model="scope.row.Price" :min="0" :max="1000000000000" style="width:90px" :step="10" :value-on-clear="0" :precision="2" :controls="false" controls-position="right" /> 
 								</template>	
 							</el-table-column>
 							<el-table-column prop="Amount" label="总价" width="80" align="right"/>								
 						</el-table>
 						<el-row>
-							<el-col :span="24">
-								<div style="width:900px;margin-left:auto;margin-right:auto;" >
+							<el-col :span="24" v-if="projectCompanyData.data.State == 0">
+								<div style="width:900px;margin-left:auto;margin-right:auto;margin-top: 10px;" >
 									<el-upload
 										:action="uploadURL"
 										:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
@@ -363,33 +382,40 @@
 									</el-upload>
 								</div>
 							</el-col>
-							<el-col :span="24">
-								<div style="width:900px;margin-left:auto;margin-right:auto;">
+							<el-col :span="24" v-if="ProjectCompanyLineTableData.data.State == 0">
+								<div style="width:900px;margin-left:auto;margin-right:auto;margin-top: 10px;">
 									<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
 								</div>	
 							</el-col>
 							<el-col :span="24" v-if="projectCompanyData.data.Files != ''">
-								<div style="display: flex; justify-content: space-between; width:900px;margin-left:auto;margin-right:auto;margin-top: 20px;">
-									<div>一览表文件</div>
-									<div>
+								<el-descriptions border style="width:900px;margin-left:auto;margin-right:auto;margin-top: 10px;">
+									<el-descriptions-item label-align="left" width="50%" align="right" label="《一览表附件》">
 										<el-button text bg type="primary"  @click="onDownloadFile('其他文件', scope.row.Files)">
 											下载
 										</el-button>
-										<el-button text bg type="danger" @click="onDelProjectCompanyTableData()">
+										<el-button text bg type="danger" v-if="projectCompanyData.data.State == 0" @click="onDelProjectCompanyTableData()">
 											删除
 										</el-button>
-									</div>
-								</div>
+									</el-descriptions-item>
+								</el-descriptions>
 							</el-col>
 						</el-row>		
 					</div>	
 					<div v-else-if="stepIndex==4">
-						<div class="text-center">
+						<div class="text-center" v-if="projectCompanyData.data.State == 0">
 							<div>
 								<SvgIcon name="fa fa-check-circle" color="green" :size="60" ></SvgIcon>
 							</div>
-							<div class="mt30 mb30">
+							<div class="mt30 mb30" >
 								<el-text type="info" size="default">投标文件已上传成功，确认无误后请点击确认提交，开标后数据将无法修改</el-text>	
+							</div>
+						</div>
+						<div class="text-center" v-else>
+							<div>
+								<SvgIcon name="fa fa-check-circle" color="green" :size="60" ></SvgIcon>
+							</div>
+							<div class="mt30 mb30" >
+								<el-text type="info" size="default">当前已开标，数据只可查看，无法修改！</el-text>	
 							</div>
 						</div>
 					</div>					
@@ -407,7 +433,7 @@
 					<el-button @click="onGoToNext" type="primary" v-if="stepIndex<4" size="large">
 						<SvgIcon name="fa fa-arrow-right" class="mr3"/>下一步
 					</el-button>
-					<el-button @click="submit" type="primary" v-if="stepIndex==4" size="large">
+					<el-button @click="submit" type="primary" v-if="stepIndex==4 && projectCompanyData.data.State == 0" size="large">
 						<SvgIcon name="fa fa-rotate-right" class="mr3"/>确认提交
 					</el-button>
 				</el-col>
@@ -480,9 +506,8 @@ export default {
 
 		// 跳转页面
 		const openPage = async () => {
+			onGetprojectCompanyData();
 			onGetBidTableData();
-			onGetprojectCompanyData()
-			initEchartsResize();
 			state.isShowPage = true;
 		};
 
@@ -555,9 +580,9 @@ export default {
 				state.projectCompanyData.from.Id = state.projectCompanyData.data.Id
 				state.projectCompanyData.from.FileKind = select
 				if (select == "bid") {
-					state.projectCompanyData.from.FilePath = state.projectCompanyData.data.BidFiles
+					state.projectCompanyData.from.PicsPath = state.projectCompanyData.data.BidPics
 				}else if (select == "ensure"){
-					state.projectCompanyData.from.FilePath = state.projectCompanyData.data.EnsureFiles
+					state.projectCompanyData.from.PicsPath = state.projectCompanyData.data.EnsurePics
 				}else if (select == "jjps"){
 					state.projectCompanyData.from.FilePath = state.projectCompanyData.data.Files
 				}
@@ -705,8 +730,8 @@ export default {
 			switch (select){
 				case 0:
 					state.isShowPage = false
-					proxy.$parent.isShowPage = true;
 					proxy.$parent.onGetTableData();
+					proxy.$parent.isShowPage = true;
 					break;
 				case 1:
 					state.tabIndex = 0
@@ -738,11 +763,11 @@ export default {
 			model.ProjectCompanyId = state.projectCompanyData.Id
 			switch (select) {
 				case 'bid':
-					state.projectCompanyData.data.BidFiles = file.data.src
+					state.projectCompanyData.data.BidPics = file.data.src
 					onUpdateProjectCompanyFileData(select);
 					break;
 				case 'ensure':
-					state.projectCompanyData.data.EnsureFiles = file.data.src
+					state.projectCompanyData.data.EnsurePics = file.data.src
 					onUpdateProjectCompanyFileData(select);
 					break;
 				case 'zgps':
@@ -863,8 +888,6 @@ export default {
 
 		// 页面加载时
 		onMounted(() => {
-			onGetBidTableData();
-			onGetprojectCompanyData()
 			initEchartsResize();
 		});
 		// 由于页面缓存原因，keep-alive

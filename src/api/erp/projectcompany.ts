@@ -81,4 +81,15 @@ export default {
         const url = `/v1/admin/erp/projectcompany/updatefile/${id}`;
         return await http.post(url, data);
     },
+    
+    /**
+ * 更新公司报名信息凭证审核状态
+ * @param id 项目id
+ * @param data 标识，字符串或数组
+ * @returns 返回接口数据
+ */
+    auditUpdate: async ( id: string|number, data: object) => {
+        const url = `/v1/admin/erp/projectcompany/updateaudit/${id}`;
+        return await http.post(url, data);
+    },
 }

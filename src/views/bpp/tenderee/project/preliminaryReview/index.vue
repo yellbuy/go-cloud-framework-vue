@@ -14,7 +14,7 @@
 					</el-form-item>
 					<el-form-item label="审核状态">
 						<el-select
-							v-model="tableData.param.LineState"
+							v-model="tableData.param.lineState"
 							filterable
 							placeholder="请选择"
 							style="width: 150px;">
@@ -45,10 +45,16 @@
 				<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip/>
 				<el-table-column prop="BidFiles" label="资料凭证" width="100" show-overflow-tooltip>
 					<template #default="scope">
-						<img :src="baseUrl + scope.row.BidFiles" alt="资料凭证图片" width="80" height="80" @click="showImage(scope.row.BidFiles)"/>
+						<img :src="baseUrl + scope.row.BidPics" alt="资料凭证图片" width="80" height="80" @click="showImage(scope.row.BidPics)"/>
 					</template>
 				</el-table-column>
-				<el-table-column prop="BidPayTime" label="资料支付时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
+				<el-table-column prop="BidPayTime" label="资料支付时间" width="120" show-overflow-tooltip>
+					<template #default="scope">
+						<div >
+							<span >{{ dateFormatYMDHM(scope, scope.row, scope.row.EnsurePayTime) }}</span>
+						</div>
+					</template>
+				</el-table-column>
 				<el-table-column prop="BidAuditState" label="资料凭证审核" width="110" show-overflow-tooltip>
 					<template #default="scope">
 						<div v-if="scope.row.BidAuditState == 0" style="display: flex; align-items: center;">
@@ -67,29 +73,45 @@
 				</el-table-column>
 				<el-table-column prop="EnsureFiles" label="保证金凭证" width="100" show-overflow-tooltip>
 					<template #default="scope">
-						<img :src="baseUrl + scope.row.EnsureFiles" alt="保证金凭证图片" width="80" height="80" @click="showImage(scope.row.EnsureFiles)"/>
+						<img :src="baseUrl + scope.row.EnsurePics" alt="保证金凭证图片" width="80" height="80" v-if="scope.row.EnsurePayState == 1" @click="showImage(scope.row.EnsurePics)"/>
+						<div style="display: flex; align-items: center; justify-content: center;" v-else>
+							<span>————</span>
+						</div>
 					</template>
 				</el-table-column>
-				<el-table-column prop="EnsurePayTime" label="保证金支付时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
+				<el-table-column prop="EnsurePayTime" label="保证金支付时间" width="120" show-overflow-tooltip>
+					<template #default="scope">
+						<div v-if="scope.row.EnsurePayState == 1">
+							<span >{{ dateFormatYMDHM(scope, scope.row, scope.row.EnsurePayTime) }}</span>
+						</div>
+						<div style="display: flex; align-items: center; justify-content: center;" v-else>
+							<span >————</span>
+						</div>
+					</template>
+				</el-table-column>
 				<el-table-column prop="EnsureAuditState" label="保证金凭证审核" width="110" show-overflow-tooltip>
 					<template #default="scope">
-						<div v-if="scope.row.EnsureAuditState == 0" style="display: flex; align-items: center;">
+						<div v-if="scope.row.EnsureAuditState == 0 && scope.row.EnsurePayState == 1" style="display: flex; align-items: center;">
 							<span style="color: gray; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
 							<span >待审核</span>
 						</div>
-						<div v-else-if="scope.row.EnsureAuditState == 1" style="display: flex; align-items: center;">
+						<div v-else-if="scope.row.EnsureAuditState == 1 && scope.row.EnsurePayState == 1" style="display: flex; align-items: center;">
 							<span style="color: green; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
 							<span>通过</span>
 						</div>
-						<div v-else-if="scope.row.EnsureAuditState == 2" style="display: flex; align-items: center;">
+						<div v-else-if="scope.row.EnsureAuditState == 2 && scope.row.EnsurePayState == 1" style="display: flex; align-items: center;">
 							<span style="color: red; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
 							<span>不通过</span>
 						</div>
+						<div v-else style="display: flex; align-items: center; justify-content: center;">
+							<span>————</span>
+						</div>
 					</template>
 				</el-table-column>
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(80)" fixed="right">
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(130)" fixed="right">
 					<template #default="scope">
-						<el-button type="primary" @click="onModelEdit()">审核</el-button>
+						<el-button text bg type="primary" @click="onToRouterSee(scope.row.Id, scope.row.ProjectId)">查看</el-button>
+						<el-button type="primary" @click="onToRouterEdit(scope.row.Id, scope.row.ProjectId)">审核</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -141,9 +163,10 @@ export default {
 				data: [],
 				total: 0,
 				loading: false,
-				lineStateList:["标书缴费待审","保证金缴费待审","标书缴费通过","保证金缴费通过","标书缴费不通过","保证金缴费不通过"],
+				lineStateList:["全部","待审"],
 				param: {
 					kind: 'repair',
+					lineState: 0,
 					no: '',
 					projectId: 0,
 					companyId: 0,
@@ -160,7 +183,7 @@ export default {
 			state.tableData.param.no = '';
 			state.tableData.param.projectName = '';
 			state.tableData.param.companyName = '';
-			state.tableData.param.LineState = '';
+			state.tableData.param.lineState = '';
 			onGetTableData();
 		};
 
@@ -187,26 +210,25 @@ export default {
 			}
 		};
 
-		// 打开编辑弹窗
-		const onModelEdit = (Id: number) => {
-			store.commit('project/getProjectId', Id);
-			store.commit('project/getProjectCompanyId', Id);
+		//跳转审核
+		const onToRouterEdit = (id: number|string, projectId: number|string) => {
+			store.commit('project/getProjectId', projectId);
+			store.commit('project/getProjectCompanyId', id);
+			reviewEditDlgRef.value.openEditPage(id)
 			state.isShowPage = false;
-			reviewEditDlgRef.value.openDialog();
 		};
-		//打开查看弹窗
 
-		const onModelSee = (Id: string, state: boolean) => {
-			seeDlgRef.value.openDialog(Id, state);
-		};
-		//跳转
-		const onToRouter = (Id: string) => {
-			store.commit('project/getProjectId', Id);
+		//跳转查看
+		const onToRouterSee = (id: number|string, projectId: number|string) => {
+			store.commit('project/getProjectId', projectId);
+			store.commit('project/getProjectCompanyId', id);
+			reviewEditDlgRef.value.openSeePage(id)
 			state.isShowPage = false;
-			bidSelectionDlgRef.value.GetByIdRow(Id);
 		};
+
+
 		// 删除用户
-		const onModelDel = (Id: number) => {
+		const onModelDel = (id: number) => {
 			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
@@ -214,7 +236,7 @@ export default {
 			}).then(async () => {
 				state.tableData.loading = true;
 				try {
-					const res = await proxy.$api.erp.project.delete(Id);
+					const res = await proxy.$api.erp.project.delete(id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}
@@ -275,9 +297,8 @@ export default {
 			reviewEditDlgRef,
 			onGetTableData,
 			onResetSearch,
-			onModelEdit,
-			onModelSee,
-			onToRouter,
+			onToRouterEdit,
+			onToRouterSee,
 			isSeletionTime,
 			isEditTime,
 			isSignUpTime,
