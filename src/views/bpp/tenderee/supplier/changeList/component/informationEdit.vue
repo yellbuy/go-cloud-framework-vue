@@ -108,7 +108,7 @@
 				</span>
 			</template>
 		</el-dialog>
-		<el-dialog :title="title" v-model="isShowAuditDialog" width="20%" :before-close="onAuditCancel">
+		<el-dialog :title="title" v-model="isShowDialog" width="20%" :before-close="onAuditCancel">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-suffix="：" label-width="120px" v-loading="loading">
 				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -149,7 +149,7 @@ export default {
 		const state = reactive({
 			moduleKey,
 			isShowDialog: false,
-			isShowAuditDialog:false,
+			isShowDialog:false,
 			title: t('message.action.add'),
 			loading: false,
 			token: token,
@@ -239,10 +239,10 @@ export default {
 		// 打开审核窗口
 		const onAudit = (a: number) => {
 			if (a == 0) {
-				state.isShowAuditDialog = true;
+				state.isShowDialog = true;
 				state.title = "资质审核通过"
 			} else if (a == 1) {
-				state.isShowAuditDialog = true;
+				state.isShowDialog = true;
 				state.title = "资质审核驳回"
 			}
 		};
@@ -255,7 +255,7 @@ export default {
 		const onAuditCancel = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
-			state.isShowAuditDialog = false;
+			state.isShowDialog = false;
 		};
 
 		//	加载所属部门

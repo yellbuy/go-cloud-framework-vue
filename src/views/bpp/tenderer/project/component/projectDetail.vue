@@ -1,401 +1,445 @@
 <template>
-	<div v-if="tabIndex==0">
-		<el-row :gutter="15" class="mb15">
-			<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="home-warning-media">
-				<el-timeline style="max-width: 600px">
-					<el-timeline-item timestamp="2018-04-12 15:00" placement="top" type="primary">
-					<el-card>
-						<el-descriptions title="售标截止">
-							<el-descriptions-item label="">2018-04-12 15:00</el-descriptions-item>
-						</el-descriptions>
-						<el-divider border-style="dashed" />
-						<p class="font14"><b>购买资料</b></p>
-						<el-row class="mt10">
-							<el-col :span="12">	
-								<el-link :href="baseUrl+projectInfoData.BidFiles" v-if="projectInfoData.BidFiles" target="_blank">{{ projectInfoData.BidFiles }}</el-link>	
-								<a v-else>待上传</a>
-							</el-col>
-							<el-col :span="12" class="text-right">
-								<el-upload
-									:action="uploadURL"
-									:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="(file) => onSuccessFile(file, 'gmzl')"
-									:before-upload="onBeforeImageUpload"
-									:limit="1"
-									v-if="!projectInfoData.BidFiles">
-									<template #default>
-										<el-link type="primary" align="right">上传缴费凭证</el-link>
-									</template>
-								</el-upload>
-								<a v-else-if="projectInfoData.BidAuditState == 0">等待审核</a>
-								<a v-else>审核通过</a>
-							</el-col>
-						</el-row>
-						<el-divider border-style="dashed" />
-						<el-descriptions title="下载标书" border >
-							<el-descriptions-item label-align="left" width="50%" align="right" label="《标书文件》">
-								<el-link type="primary" @click="onDownloadFile('标书文件', '/static/upload/31/image/20240821/298509223602421761.jpg')">下载</el-link>
-							</el-descriptions-item>
-						</el-descriptions>
-						<el-divider border-style="dashed" />
-						<p class="font14"><b>支付投标保证金</b></p>
-						<el-row class="mt10">
-							<el-col :span="12">	
-								<el-link :href="baseUrl+projectInfoData.EnsureFiles" v-if="projectInfoData.EnsureFiles" target="_blank">{{ projectInfoData.EnsureFiles }}</el-link>	
-								<a v-else>待上传</a>
-							</el-col>
-							<el-col :span="12" class="text-right">
-								<el-upload
-									:action="uploadURL"
-									:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="(file) => onSuccessFile(file, 'zftbbzj')"
-									:before-upload="onBeforeImageUpload"
-									:limit="1"
-									v-if="!projectInfoData.EnsureFiles">
-									<template #default>
-										<el-link type="primary" align="right">上传缴费凭证</el-link>
-									</template>
-								</el-upload>
-								<a v-else-if="projectInfoData.EnsureAuditState == 0">等待审核</a>
-								<a v-else>审核通过</a>
-							</el-col>
-						</el-row>
+	<el-card v-if="isShowPage">
+		<div v-if="tabIndex==0">
+			<el-row :gutter="15" class="mb15">
+				<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6" class="home-warning-media">
+					<el-timeline style="max-width: 600px">
+						<el-timeline-item :timestamp=projectCompanyData.data.ProjectBeginTime placement="top" type="primary">
+							<p class="font14" style="margin-bottom: 10px;"><b>投标开始</b></p>
+							<el-card>
+								<el-row class="mt10">
+									<el-col :span="24">
+										<el-descriptions title="售标截止">
+											<el-descriptions-item label="">{{projectCompanyData.data.SaleEndTime}}</el-descriptions-item>
+										</el-descriptions>
+									</el-col>
+								</el-row>
+								<el-row class="mt10">
+									<el-divider border-style="dashed" />
+									<el-col :span="24">
+										<p class="font14" style="margin-bottom: 10px;"><b>购买资料</b></p>
+									</el-col>
+									<el-col :span="12">	
+										<el-link :href="baseUrl+projectCompanyData.data.BidPics" v-if="projectCompanyData.data.BidPayState == 1" target="_blank">{{ projectCompanyData.data.BidPics }}</el-link>	
+										<a v-else-if="projectCompanyData.data.BidAuditState == 2 && projectCompanyData.data.BidPayState == 0">审核未通过，请重新上传提交审核</a>
+										<a v-else>待上传</a>
+									</el-col>
+									<el-col :span="12" class="text-right">
+										<el-upload
+											:action="uploadURL"
+											:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
+											:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+											:on-success="(file) => onSuccessFile(file, 'bid')"
+											:before-upload="onBeforeImageUpload"
+											:limit="1"
+											v-if="projectCompanyData.data.BidPayState == 0 && projectCompanyData.data.BidAuditState != 1">
+											<template #default>
+												<el-link type="primary" align="right">上传缴费凭证</el-link>
+											</template>
+										</el-upload>
+										<a v-else-if="projectCompanyData.data.BidAuditState == 0">等待审核</a>
+										<a v-else>审核通过</a>
+									</el-col>
+								</el-row>
+								<el-row class="mt10">
+									<el-divider border-style="dashed" />
+									<el-col :span="24">
+										<el-descriptions title="下载标书" border v-if="projectCompanyData.data.BidPayState == 1">
+											<el-descriptions-item label-align="left" width="50%" align="right" label="《标书文件》">
+												<el-link type="primary" @click="onDownloadFile('标书文件', '/static/upload/31/image/20240821/298509223602421761.jpg')">下载</el-link>
+											</el-descriptions-item>
+										</el-descriptions>
+									</el-col>
+								</el-row>
+								<el-row class="mt10" v-if="projectCompanyData.data.BidAuditState == 1">
+									<el-divider border-style="dashed" />
+									<el-col :span="24">
+										<p class="font14" style="margin-bottom: 10px;"><b>支付投标保证金</b></p>
+									</el-col>
+									<el-col :span="12">	
+										<el-link :href="baseUrl+projectCompanyData.data.EnsurePics" v-if="projectCompanyData.data.EnsurePayState == 1" target="_blank">{{ projectCompanyData.data.EnsurePics }}</el-link>	
+										<a v-else-if="projectCompanyData.data.EnsureAuditState == 2 && projectCompanyData.data.EnsurePayState == 0">审核未通过，请重新上传提交审核</a>
+										<a v-else>待上传</a>
+									</el-col>
+									<el-col :span="12" class="text-right">
+										<el-upload
+											:action="uploadURL"
+											:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
+											:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+											:on-success="(file) => onSuccessFile(file, 'ensure')"
+											:before-upload="onBeforeImageUpload"
+											:limit="1"
+											v-if="projectCompanyData.data.EnsurePayState == 0 && projectCompanyData.data.EnsureAuditState != 1">
+											<template #default>
+												<el-link type="primary" align="right">上传缴费凭证</el-link>
+											</template>
+										</el-upload>
+										<a v-else-if="projectCompanyData.data.EnsureAuditState == 0">等待审核</a>
+										<a v-else>审核通过</a>
+									</el-col>
+								</el-row>
+							</el-card>
+						</el-timeline-item>
+						<el-timeline-item :timestamp=projectCompanyData.data.ProjectFinishTime placement="top" type="primary">
+							<p class="font14"><b>投标截止</b></p>
+						</el-timeline-item>
+						<el-timeline-item :timestamp=projectCompanyData.data.BidOpenTime placement="top" type="primary" >
+							<p class="font14"><b>开始开标</b></p>
+							<el-divider border-style="dashed" />
+							<div v-if="projectCompanyData.data.BidAuditState==1 && projectCompanyData.data.EnsureAuditState==1">
+								<el-button type="primary" @click="onBeginBid" style="float: right;">
+									<SvgIcon name="fa fa-cloud-download" class="mr3"/>参与投标
+								</el-button>
+							</div>
+							<div v-else>
+								<p style="font-size: 14px;"><b>资料缴费凭证及保证金缴费凭证都审核通过，既可参与投标</b></p>
+								<el-button type="info" style="float: right;">
+									<SvgIcon name="fa fa-cloud-download" class="mr3"/>参与投标
+								</el-button>
+							</div>
+							<el-divider border-style="dashed" />
+						</el-timeline-item>
+						<el-timeline-item :timestamp=projectCompanyData.data.ProjectFinishTime placement="top" type="primary">
+							<p class="font14" style="margin-bottom: 10px;"><b>开标结束</b></p>
+							<el-card>
+								<p class="font14 mb10"><b>成交通知</b></p>
+								<p>您好：我公司的[汉风生产管控系统建设] （YJ2023122102538），经评审，现确定由贵公司供应（承揽）。请收到本通知后10个工作日内,到采购单位签订合同，否则，将视为放弃供应（承揽）权利，并扣除投标/议价/竞价保证金。请到采购组织方领取纸质版成交通知书，或联系组织方领取扫描版成交通知书（电子邮件方式）。</p>
+								<p class="text-right">特此通知。</p>
+								<p class="mt10"><el-link type="primary" @click="onDownloadFile('标书文件', '/static/upload/31/image/20240821/298509223602421761.jpg')">中标通知书下载</el-link></p>
+							</el-card>
+						</el-timeline-item>
+					</el-timeline>
+				</el-col>
+				<el-col :xs="24" :sm="12" :md="16" :lg="16" :xl="16" class="home-dynamic-media">
+					<el-descriptions title="项目基本信息" size="large" :column="2" border>
+						<el-descriptions-item label="项目编号" label-align="right" align="left" min-width="130px">
+							{{ projectCompanyData.data.No }}
+						</el-descriptions-item>
+						<el-descriptions-item label="项目名称" label-align="right" align="left" min-width="130px">
+							{{ projectCompanyData.data.Name }}
+						</el-descriptions-item>
+						<el-descriptions-item label="执行策略" label-align="right" align="left">
+							未对接数据
+						</el-descriptions-item>
+						<el-descriptions-item label="报价要求" label-align="right" align="left">
+							<el-tag size="small">未对接数据</el-tag>
+						</el-descriptions-item>
+						<el-descriptions-item label="售标截止时间" label-align="right" align="left">
+							{{ projectCompanyData.data.SaleEndTime }}
+						</el-descriptions-item>
+						<el-descriptions-item label="投标截止时间" label-align="right" align="left">
+							{{ projectCompanyData.data.ProjectFinishTime }}
+						</el-descriptions-item>
+						<el-descriptions-item label="开标时间" label-align="right" align="left">
+							{{ projectCompanyData.data.BidOpenTime }}
+						</el-descriptions-item>
+						<el-descriptions-item label="评标办法" label-align="right" align="left">
+							{{ projectCompanyData.data.ReviewDesc }}
+						</el-descriptions-item>
+						<el-descriptions-item label="项目负责人" label-align="right" align="left">
+							{{ projectCompanyData.data.ProjectManagerName }}
+						</el-descriptions-item>
+						<el-descriptions-item label="采购负责人" label-align="right" align="left">
+							{{ projectCompanyData.data.PurchaseManangerName }}
+						</el-descriptions-item>
+						<el-descriptions-item label="供应商报价模式" label-align="right" align="left" :span="2">
+							{{ projectCompanyData.data.QuotationMode }}
+						</el-descriptions-item>
+						<el-descriptions-item label="投标资格要求" label-align="right" align="left" :span="1">
+							<el-tooltip
+								class="box-item"
+								effect="dark"
+								content="1、具有承揽本项目相关经营资格； 2、具有良好的企业信誉和履约能力。"
+								placement="top-start">
+								<el-text truncated line-clamp="1" size="default" style="width:90%">{{ projectCompanyData.data.Qualification }}</el-text>
+							</el-tooltip>
+						</el-descriptions-item>
+					</el-descriptions>
+					<el-divider border-style="dashed" />
+					<el-descriptions title="标的列表" size="large">
+					</el-descriptions>
+					<el-card shadow="hover" header="标的列表">
+						<template #header>
+							<div class="card-header">
+								<el-row>
+									<el-col :span="3">
+										显示更多信息
+									</el-col>
+									<el-col :span="9">
+										<el-switch
+											v-model="isShowMore"
+											inline-prompt
+											active-text="是"
+											inactive-text="否"/>
+									</el-col>
+									<el-col :span="12" class="text-right">
+										<el-button type="primary">
+											<SvgIcon name="fa fa-cloud-download" class="mr3"/>导出标的物
+										</el-button>
+									</el-col>
+								</el-row>
+							</div>
+							</template>
+						<el-table :data="bidTableData.data" v-loading="bidTableData.loading" style="width: 100%" stripe highlight-current-row>
+							<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
+							<el-table-column prop="No" label="物资编码"  width="120" show-overflow-tooltip fixed/>
+							<el-table-column prop="Name" label="名称" width="120" show-overflow-tooltip/>
+							<el-table-column v-if="isShowMore" prop="Content" label="明细项" width="70"/>
+							<el-table-column v-if="isShowMore" prop="Unit" label="明细项单位" width="90"/>
+							<el-table-column v-if="isShowMore" prop="Material" label="材质/系列" width="130" show-overflow-tooltip/>
+							<el-table-column v-if="isShowMore" prop="Spec" label="规格/型号" width="130" show-overflow-tooltip/>
+							<el-table-column v-if="isShowMore" prop="Standard" label="执行标准" width="90"/>
+							<el-table-column v-if="isShowMore" prop="Param" label="技术参数" width="90"/>
+							<el-table-column v-if="isShowMore" prop="Unit" label="计量单位" width="90"/>
+							<el-table-column prop="Qty" label="采购数量" width="90"/>
+							<el-table-column v-if="isShowMore" prop="SupplyLocation" label="收货/服务/施工地点" width="150"/>
+							<el-table-column v-if="isShowMore" prop="Color" label="颜色" width="90"/>
+							<el-table-column v-if="isShowMore" prop="Size" label="尺码" width="90"/>
+							<el-table-column prop="BeginTime" label="执行开始时间" width="120"/>
+							<el-table-column prop="FinishTime" label="执行截止时间" width="120"/>
+							<el-table-column prop="Remark" label="采购备注" width="90"/>
+						</el-table>
 					</el-card>
-					</el-timeline-item>
-					<el-timeline-item timestamp="2024-04-12 15:00" placement="top" type="primary">
-						<p class="font14"><b>投标截止</b></p>
-					</el-timeline-item>
-					<el-timeline-item timestamp="2024-04-12 15:00" placement="top" type="primary">
-						<p class="font14"><b>开始开标</b></p>
-						<el-divider border-style="dashed" />
-						<el-button type="primary" @click="onBeginBid">
-							<SvgIcon name="fa fa-cloud-download" class="mr3"/>参与投标
-						</el-button>
-						<el-divider border-style="dashed" />
-					</el-timeline-item>
-					<el-timeline-item timestamp="">
-						<el-card>
-							<el-descriptions title="开标结束">
-								<el-descriptions-item label="">2024-04-12 18:00</el-descriptions-item>
-							</el-descriptions>
-							<p class="font14 mb10"><b>成交通知</b></p>
-							<p>您好：我公司的[汉风生产管控系统建设] （YJ2023122102538），经评审，现确定由贵公司供应（承揽）。请收到本通知后10个工作日内,到采购单位签订合同，否则，将视为放弃供应（承揽）权利，并扣除投标/议价/竞价保证金。请到采购组织方领取纸质版成交通知书，或联系组织方领取扫描版成交通知书（电子邮件方式）。</p>
-							<p class="text-right">特此通知。</p>
-							<p class="mt10"><el-link type="primary" @click="onDownloadFile('标书文件', '/static/upload/31/image/20240821/298509223602421761.jpg')">中标通知书下载</el-link></p>
-						</el-card>
-					</el-timeline-item>
-				</el-timeline>
-			</el-col>
-			<el-col :xs="24" :sm="12" :md="16" :lg="16" :xl="16" class="home-dynamic-media">
-				<el-descriptions title="项目基本信息" size="large" :column="2" border>
-					<el-descriptions-item label="项目编号" label-align="right" align="left" min-width="130px">
-						{{ projectInfoData.No }}
-					</el-descriptions-item>
-					<el-descriptions-item label="项目名称" label-align="right" align="left" min-width="130px">
-						{{ projectInfoData.Name }}
-					</el-descriptions-item>
-					<el-descriptions-item label="执行策略" label-align="right" align="left">
-						未对接数据
-					</el-descriptions-item>
-					<el-descriptions-item label="报价要求" label-align="right" align="left">
-						<el-tag size="small">未对接数据</el-tag>
-					</el-descriptions-item>
-					<el-descriptions-item label="售标截止时间" label-align="right" align="left">
-						{{ projectInfoData.EndTime }}
-					</el-descriptions-item>
-					<el-descriptions-item label="投标截止时间" label-align="right" align="left">
-						{{ projectInfoData.FinishTime }}
-					</el-descriptions-item>
-					<el-descriptions-item label="开标时间" label-align="right" align="left">
-						{{ projectInfoData.BeginTime }}
-					</el-descriptions-item>
-					<el-descriptions-item label="评标办法" label-align="right" align="left">
-						{{ projectInfoData.ReviewDesc }}
-					</el-descriptions-item>
-					<el-descriptions-item label="项目负责人" label-align="right" align="left">
-						{{ projectInfoData.ProjectManagerName }}
-					</el-descriptions-item>
-					<el-descriptions-item label="采购负责人" label-align="right" align="left">
-						{{ projectInfoData.PurchaseManangerName }}
-					</el-descriptions-item>
-					<el-descriptions-item label="供应商报价模式" label-align="right" align="left" :span="2">
-						{{ projectInfoData.QuotationMode }}
-					</el-descriptions-item>
-					<el-descriptions-item label="投标资格要求" label-align="right" align="left" :span="1">
-						<el-tooltip
-							class="box-item"
-							effect="dark"
-							content="1、具有承揽本项目相关经营资格； 2、具有良好的企业信誉和履约能力。"
-							placement="top-start">
-							<el-text truncated line-clamp="1" size="default" style="width:90%">{{ projectInfoData.Qualification }}</el-text>
-						</el-tooltip>
-					</el-descriptions-item>
-				</el-descriptions>
-				<el-divider border-style="dashed" />
-				<el-descriptions title="标的列表" size="large">
-				</el-descriptions>
-				<el-card shadow="hover" header="标的列表">
-					<template #header>
-						<div class="card-header">
-							<el-row>
-								<el-col :span="3">
-									显示更多信息
-								</el-col>
-								<el-col :span="9">
-									<el-switch
-										v-model="isShowMore"
-										inline-prompt
-										active-text="是"
-										inactive-text="否"/>
-								</el-col>
-								<el-col :span="12" class="text-right">
-									<el-button type="primary">
-										<SvgIcon name="fa fa-cloud-download" class="mr3"/>导出标的物
-									</el-button>
-								</el-col>
-							</el-row>
-						</div>
-						</template>
-					<el-table :data="bidTableData.data" v-loading="bidTableData.loading" style="width: 100%" stripe highlight-current-row>
-						<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
-						<el-table-column prop="No" label="物资编码"  width="120" show-overflow-tooltip fixed/>
-						<el-table-column prop="Name" label="名称" width="120" show-overflow-tooltip/>
-						<el-table-column v-if="isShowMore" prop="Content" label="明细项" width="70"/>
-						<el-table-column v-if="isShowMore" prop="Unit" label="明细项单位" width="90"/>
-						<el-table-column v-if="isShowMore" prop="Material" label="材质/系列" width="130" show-overflow-tooltip/>
-						<el-table-column v-if="isShowMore" prop="Spec" label="规格/型号" width="130" show-overflow-tooltip/>
-						<el-table-column v-if="isShowMore" prop="Standard" label="执行标准" width="90"/>
-						<el-table-column v-if="isShowMore" prop="Param" label="技术参数" width="90"/>
-						<el-table-column v-if="isShowMore" prop="Unit" label="计量单位" width="90"/>
-						<el-table-column prop="Qty" label="采购数量" width="90"/>
-						<el-table-column v-if="isShowMore" prop="SupplyLocation" label="收货/服务/施工地点" width="150"/>
-						<el-table-column v-if="isShowMore" prop="Color" label="颜色" width="90"/>
-						<el-table-column v-if="isShowMore" prop="Size" label="尺码" width="90"/>
-						<el-table-column prop="BeginTime" label="执行开始时间" width="120"/>
-						<el-table-column prop="FinishTime" label="执行截止时间" width="120"/>
-						<el-table-column prop="Remark" label="采购备注" width="90"/>
-					</el-table>
-				</el-card>
-			</el-col>
-		</el-row>
-		<el-divider border-style="dashed" />
-		<el-row>
-			<el-col :span="24" class="text-center">
-				<el-button @click="onGoToList(0)" class="mt20" size="large">
-					<SvgIcon name="fa fa-rotate-left" class="mr3"/>返回
-				</el-button>
-			</el-col>
-		</el-row>
-	</div>
-	<div v-else-if="tabIndex==1">
-		<div class="text-center">
-			<el-steps style="max-width: 720px;margin-left: auto;margin-right:auto;" :active="stepIndex" finish-status="finish" align-center>
-				<el-step title="上传商务文件" />
-				<el-step title="上传技术文件" />
-				<el-step title="上传其他文件" />
-				<el-step title="填写开标一览表" />
-				<el-step title="完成投标" />
-			</el-steps>
+				</el-col>
+			</el-row>
+			<el-divider border-style="dashed" />
+			<el-row>
+				<el-col :span="24" class="text-center">
+					<el-button @click="onGoToList(0)" class="mt20" size="large">
+						<SvgIcon name="fa fa-rotate-left" class="mr3"/>返回
+					</el-button>
+				</el-col>
+			</el-row>
 		</div>
-		<el-divider border-style="dashed" />			
-		<el-row>
-			<el-col :span="24" >
-				<div v-if="stepIndex==0">
-					<el-table :data="swFilesTableData.data" v-loading="swFilesTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
-						<el-table-column type="index" label="序号" align="right" width="70" />
-						<el-table-column prop="Name" label="商务文件" width="350">
-							<template #default="scope">
-								<el-input
-									v-model="scope.row.Name"
-									placeholder="请输入"/> 
-							</template>
-						</el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
-							<template #header>
-								<el-upload
-									:action="uploadURL"
-									:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="(file) => onSuccessFile(file, 'zgps')"
-									:show-file-list="false">
-									<template #default>
-										<el-button type="primary" align="right">上传</el-button>
-									</template>
-								</el-upload>
-							</template>
-							<template #default="scope">
-								<el-row>
-									<el-col :span="8">
-										<el-button text bg type="primary" @click="onDownloadFile('商务文件', scope.row.Files)">
-											下载
-										</el-button>
-									</el-col>
-									<el-col :span="8">
-										<el-button text bg type="danger" @click="onDel(scope.row.Id)">
-											删除
-										</el-button>
-									</el-col>
-								</el-row>
-							</template>
-						</el-table-column>
-					</el-table>
-					<p class="text-center">
-						<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
-					</p>						
-				</div>
-				<div v-else-if="stepIndex==1">
-					<el-table :data="jsFilesTableData.data" v-loading="jsFilesTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
-						<el-table-column type="index" label="序号" align="right" width="70" />
-						<el-table-column prop="Name" label="技术文件" width="350">
-							<template #default="scope">
-								<el-input
-									v-model="scope.row.Name"
-									placeholder="请输入"/> 
-							</template>
-						</el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
-							<template #header>
-								<el-upload
-									:action="uploadURL"
-									:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="(file) => onSuccessFile(file, 'jsps')"
-									:show-file-list="false">
-									<template #default>
-										<el-button type="primary" align="right">上传</el-button>
-									</template>
-								</el-upload>
-							</template>
-							<template #default="scope">
-								<el-row>
-									<el-col :span="8">
-										<el-button text bg type="primary"  @click="onDownloadFile('技术文件', scope.row.Files)">
-											下载
-										</el-button>
-									</el-col>
-									<el-col :span="8">
-										<el-button text bg type="danger" @click="onDel(scope.row.Id)">
-											删除
-										</el-button>
-									</el-col>
-								</el-row>
-							</template>
-						</el-table-column>
-					</el-table>
-					<p class="text-center">
-						<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
-					</p>						
-				</div>		
-				<div v-else-if="stepIndex==2">
-					<el-table :data="qtFilesTableData.data" v-loading="qtFilesTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
-						<el-table-column type="index" label="序号" align="right" width="70" />
-						<el-table-column prop="Name" label="其他文件" width="350">
-							<template #default="scope">
-								<el-input
-									v-model="scope.row.Name"
-									placeholder="请输入"/> 
-							</template>
-						</el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
-							<template #header>
-								<el-upload
-									:action="uploadURL"
-									:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="(file) => onSuccessFile(file, 'qt')"
-									:show-file-list="false">
-									<template #default>
-										<el-button type="primary" align="right">上传</el-button>
-									</template>
-								</el-upload>
-							</template>
-							<template #default="scope">
-								<el-row>
-									<el-col :span="8">
+		<div v-else-if="tabIndex==1">
+			<div class="text-center">
+				<el-steps style="max-width: 720px;margin-left: auto;margin-right:auto;" :active="stepIndex" finish-status="finish" align-center>
+					<el-step title="上传商务文件" />
+					<el-step title="上传技术文件" />
+					<el-step title="上传其他文件" />
+					<el-step title="填写开标一览表" />
+					<el-step title="完成投标" />
+				</el-steps>
+			</div>
+			<el-divider border-style="dashed" />			
+			<el-row>
+				<el-col :span="24" >
+					<div v-if="stepIndex==0">
+						<el-table :data="ProjectCompanyLineTableData.data" v-loading="ProjectCompanyLineTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+							<el-table-column type="index" label="序号" align="right" width="70" />
+							<el-table-column prop="Name" label="商务文件" width="350">
+								<template #default="scope" v-if="projectCompanyData.data.State == 0">
+									<el-input v-model="scope.row.Name" placeholder="请输入"/> 
+								</template>
+							</el-table-column>
+							<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
+								<template #header v-if="projectCompanyData.data.State == 0">
+									<el-upload
+										:action="uploadURL"
+										:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
+										:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+										:on-success="(file) => onSuccessFile(file, 'zgps')"
+										:show-file-list="false">
+										<template #default>
+											<el-button type="primary" align="right">上传</el-button>
+										</template>
+									</el-upload>
+								</template>
+								<template #default="scope">
+									<el-row>
+										<el-col :span="8">
+											<el-button text bg type="primary" @click="onDownloadFile('商务文件', scope.row.Files)">
+												下载
+											</el-button>
+										</el-col>
+										<el-col :span="8" v-if="projectCompanyData.data.State == 0">
+											<el-button text bg type="danger" @click="onDelProjectCompanyLineTableData(scope.row.Id)">
+												删除
+											</el-button>
+										</el-col>
+									</el-row>
+								</template>
+							</el-table-column>
+						</el-table>
+						<p class="text-center">
+							<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
+						</p>						
+					</div>
+					<div v-else-if="stepIndex==1">
+						<el-table :data="ProjectCompanyLineTableData.data" v-loading="ProjectCompanyLineTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+							<el-table-column type="index" label="序号" align="right" width="70" />
+							<el-table-column prop="Name" label="技术文件" width="350">
+								<template #default="scope" v-if="projectCompanyData.data.State == 0">
+									<el-input
+										v-model="scope.row.Name"
+										placeholder="请输入"/> 
+								</template>
+							</el-table-column>
+							<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
+								<template #header v-if="projectCompanyData.data.State == 0">
+									<el-upload
+										:action="uploadURL"
+										:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
+										:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+										:on-success="(file) => onSuccessFile(file, 'jsps')"
+										:show-file-list="false">
+										<template #default>
+											<el-button type="primary" align="right">上传</el-button>
+										</template>
+									</el-upload>
+								</template>
+								<template #default="scope">
+									<el-row>
+										<el-col :span="8">
+											<el-button text bg type="primary"  @click="onDownloadFile('技术文件', scope.row.Files)">
+												下载
+											</el-button>
+										</el-col>
+										<el-col :span="8" v-if="projectCompanyData.data.State == 0">
+											<el-button text bg type="danger" @click="onDelProjectCompanyLineTableData(scope.row.Id)">
+												删除
+											</el-button>
+										</el-col>
+									</el-row>
+								</template>
+							</el-table-column>
+						</el-table>
+						<p class="text-center">
+							<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
+						</p>						
+					</div>		
+					<div v-else-if="stepIndex==2">
+						<el-table :data="ProjectCompanyLineTableData.data" v-loading="ProjectCompanyLineTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
+							<el-table-column type="index" label="序号" align="right" width="70" />
+							<el-table-column prop="Name" label="其他文件" width="350">
+								<template #default="scope" v-if="projectCompanyData.data.State == 0">
+									<el-input
+										v-model="scope.row.Name"
+										placeholder="请输入"/> 
+								</template>
+							</el-table-column>
+							<el-table-column :label="$t('message.action.operate')" :width="180" align="left">
+								<template #header v-if="projectCompanyData.data.State == 0">
+									<el-upload
+										:action="uploadURL"
+										:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
+										:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+										:on-success="(file) => onSuccessFile(file, 'qt')"
+										:show-file-list="false">
+										<template #default>
+											<el-button type="primary" align="right">上传</el-button>
+										</template>
+									</el-upload>
+								</template>
+								<template #default="scope">
+									<el-row>
+										<el-col :span="8">
+											<el-button text bg type="primary"  @click="onDownloadFile('其他文件', scope.row.Files)">
+												下载
+											</el-button>
+										</el-col>
+										<el-col :span="8" v-if="projectCompanyData.data.State == 0">
+											<el-button text bg type="danger" @click="onDelProjectCompanyLineTableData(scope.row.Id, scope.row.Kind)">
+												删除
+											</el-button>
+										</el-col>
+									</el-row>
+								</template>
+							</el-table-column>
+						</el-table>
+						<p class="text-center">
+							<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
+						</p>					
+					</div>	
+					<div v-else-if="stepIndex==3">
+						<el-table :data="ProjectCompanyLineTableData.data" v-loading="ProjectCompanyLineTableData.loading" show-summary style="width: 900px;margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
+							<el-table-column type="index" label="序号" align="right" width="60" show-overflow-tooltip fixed />
+							<el-table-column prop="No" label="物资编码"  width="100" show-overflow-tooltip fixed/>
+							<el-table-column prop="Name" label="名称" show-overflow-tooltip/>
+							<el-table-column prop="Content" label="明细项" width="150"/>
+							<el-table-column prop="Unit" label="明细项单位" width="80"/>
+							<el-table-column prop="Qty" label="采购数量" align="right" width="70"/>
+							<el-table-column prop="Price" label="单价" align="right" width="80" >
+								<template #default="scope" v-if="projectCompanyData.data.State == 0">
+									<el-input-number v-model="scope.row.Price" :min="0" :max="1000000000000" style="width:90px" :step="10" :value-on-clear="0" :precision="2" :controls="false" controls-position="right" /> 
+								</template>	
+							</el-table-column>
+							<el-table-column prop="Amount" label="总价" width="80" align="right"/>								
+						</el-table>
+						<el-row>
+							<el-col :span="24" v-if="projectCompanyData.data.State == 0">
+								<div style="width:900px;margin-left:auto;margin-right:auto;margin-top: 10px;" >
+									<el-upload
+										:action="uploadURL"
+										:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
+										:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+										:on-success="(file) => onSuccessFile(file, 'jjps')"
+										:limit="1"
+										:show-file-list="false">
+										<template #default>
+											<el-button type="primary">上传附件</el-button>
+										</template>
+									</el-upload>
+								</div>
+							</el-col>
+							<el-col :span="24" v-if="ProjectCompanyLineTableData.data.State == 0">
+								<div style="width:900px;margin-left:auto;margin-right:auto;margin-top: 10px;">
+									<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
+								</div>	
+							</el-col>
+							<el-col :span="24" v-if="projectCompanyData.data.Files != ''">
+								<el-descriptions border style="width:900px;margin-left:auto;margin-right:auto;margin-top: 10px;">
+									<el-descriptions-item label-align="left" width="50%" align="right" label="《一览表附件》">
 										<el-button text bg type="primary"  @click="onDownloadFile('其他文件', scope.row.Files)">
 											下载
 										</el-button>
-									</el-col>
-									<el-col :span="8">
-										<el-button text bg type="danger" @click="onDel(scope.row.Id)">
+										<el-button text bg type="danger" v-if="projectCompanyData.data.State == 0" @click="onDelProjectCompanyTableData()">
 											删除
 										</el-button>
-									</el-col>
-								</el-row>
-							</template>
-						</el-table-column>
-					</el-table>
-					<p class="text-center">
-						<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
-					</p>					
-				</div>	
-				<div v-else-if="stepIndex==3">
-					<el-table :data="jjpsTableData.data" v-loading="jjpsTableData.loading" show-summary style="width: 900px;margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
-						<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
-						<el-table-column prop="No" label="物资编码"  width="120" show-overflow-tooltip fixed/>
-						<el-table-column prop="Name" label="名称" width="200" show-overflow-tooltip/>
-						<el-table-column prop="Content" label="明细项" width="70"/>
-						<el-table-column prop="Unit" label="明细项单位" width="90"/>
-						<el-table-column prop="Qty" label="采购数量" align="right" width="90"/>
-						<el-table-column prop="Price" label="单价" align="right" width="110" >
-							<template #default="scope">
-								<el-input-number v-model="scope.row.Price" :min="0" :max="1000000000000" style="width:90px" :step="10" :value-on-clear="0" :precision="2" :controls="false" controls-position="right" /> 
-							</template>	
-						</el-table-column>
-						<el-table-column prop="Amount" label="总价" width="110" align="right"/>								
-					</el-table>
-					<div style="width:900px;margin-left:auto;margin-right:auto;" >
-						<div class="mt20 mb10">
-							<el-upload
-								:action="uploadURL"
-								:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
-								:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-								:on-success="(file) => onSuccessFile(file, 'jjps')"
-								:show-file-list="true">
-								<template #default>
-									<el-button type="primary" align="right">上传附件</el-button>
-								</template>
-							</el-upload>
+									</el-descriptions-item>
+								</el-descriptions>
+							</el-col>
+						</el-row>		
+					</div>	
+					<div v-else-if="stepIndex==4">
+						<div class="text-center" v-if="projectCompanyData.data.State == 0">
+							<div>
+								<SvgIcon name="fa fa-check-circle" color="green" :size="60" ></SvgIcon>
+							</div>
+							<div class="mt30 mb30" >
+								<el-text type="info" size="default">投标文件已上传成功，确认无误后请点击确认提交，开标后数据将无法修改</el-text>	
+							</div>
 						</div>
-						<div>
-							<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
-						</div>							
-					</div>			
-				</div>	
-				<div v-else-if="stepIndex==4">
-					<div class="text-center">
-						<div>
-							<SvgIcon name="fa fa-check-circle" color="green" :size="60" ></SvgIcon>
+						<div class="text-center" v-else>
+							<div>
+								<SvgIcon name="fa fa-check-circle" color="green" :size="60" ></SvgIcon>
+							</div>
+							<div class="mt30 mb30" >
+								<el-text type="info" size="default">当前已开标，数据只可查看，无法修改！</el-text>	
+							</div>
 						</div>
-						<div class="mt30 mb30">
-							<el-text type="info" size="default">投标文件已上传成功，确认无误后请点击确认提交，开标后数据将无法修改</el-text>	
-						</div>
-					</div>
-				</div>					
-			</el-col>
-		</el-row>
-		<el-divider border-style="dashed" />
-		<el-row>
-			<el-col :span="24" class="text-center mt20">
-				<el-button @click="onGoToList(1)"  size="large">
-					<SvgIcon name="fa fa-rotate-left" class="mr3"/>返回
-				</el-button>
-				<el-button @click="onGoToPrevious" v-if="stepIndex>0" type="primary" size="large">
-					<SvgIcon name="fa fa-arrow-left" class="mr3"/>上一步
-				</el-button>
-				<el-button @click="onGoToNext" type="primary" v-if="stepIndex<4" size="large">
-					<SvgIcon name="fa fa-arrow-right" class="mr3"/>下一步
-				</el-button>
-				<el-button @click="onGoToNext" type="primary" v-if="stepIndex==4" size="large">
-					<SvgIcon name="fa fa-rotate-right" class="mr3"/>确认提交
-				</el-button>
-			</el-col>
-		</el-row>
-	</div>
-	<div v-else>
-	</div>
+					</div>					
+				</el-col>
+			</el-row>
+			<el-divider border-style="dashed" />
+			<el-row>
+				<el-col :span="24" class="text-center mt20">
+					<el-button @click="onGoToList(1)"  size="large">
+						<SvgIcon name="fa fa-rotate-left" class="mr3"/>返回
+					</el-button>
+					<el-button @click="onGoToPrevious" v-if="stepIndex>0" type="primary" size="large">
+						<SvgIcon name="fa fa-arrow-left" class="mr3"/>上一步
+					</el-button>
+					<el-button @click="onGoToNext" type="primary" v-if="stepIndex<4" size="large">
+						<SvgIcon name="fa fa-arrow-right" class="mr3"/>下一步
+					</el-button>
+					<el-button @click="submit" type="primary" v-if="stepIndex==4 && projectCompanyData.data.State == 0" size="large">
+						<SvgIcon name="fa fa-rotate-right" class="mr3"/>确认提交
+					</el-button>
+				</el-col>
+			</el-row>
+		</div>
+	</el-card>
 </template>
 
 <script lang="ts">
@@ -405,6 +449,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
 import { Session } from '/@/utils/storage';
+import { stat } from 'fs';
 export default {
 	name: 'admin',
 	setup() {
@@ -420,21 +465,22 @@ export default {
 			moduleKey: moduleKey,
 			isShowMore:false,
 			tenant: {},
+			isShowPage: false,
 			tabIndex:0,
 			stepIndex:0,
-			id: '279083082479309638',
 			baseUrl: import.meta.env.VITE_URL as any,
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			dialogImageUrl: "",
 			ImageVisible: false,
 			dialogVisible: false,
 			myCharts: [],
-			files: [],
-			ruleForm: {},
-			projectInfoData: {},
-			ProjectCompanyLineData: {},
+			projectCompanyData: {
+				data: {},
+				from: {},
+			},
 			bidTableData: {
 				data: [],
+				fileList: [],
 				total: 0,
 				loading: false,
 				param: {
@@ -442,46 +488,14 @@ export default {
 					pageSize: 20,
 				},
 			},
-			swFilesTableData:{
-				data:[],
+			ProjectCompanyLineTableData:{
+				data: [],
+				list: [],
 				total: 0,
 				loading: false,
 				param: {
-					kind:"zgps",
-					pageNum: 1,
-					pageSize: 20,
-				},
-			},
-			jsFilesTableData: {
-				data:[],
-				total: 0,
-				loading: false,
-				param: {
-					kind:"jsps",
-					pageNum: 1,
-					pageSize: 20,
-				},
-			},
-			qtFilesTableData: {
-				data:[],
-				total: 0,
-				loading: false,
-				param: {
-					kind:"qt",
-					pageNum: 1,
-					pageSize: 20,
-				},
-			},
-			jjpsTableData: {
-				data:[],
-				total: 0,
-				loading: false,
-				param: {
-					kind:"jjps",
-					projectId: '279082270076182531',
-					companyId: '293435810496118785',
-					projectLineId: '298664702576164898',
-					projectCompanyId: '279083082479309638',
+					projectId: store.state.project.projectId,
+					projectCompanyId: '0',
 					pageNum: 1,
 					pageSize: 20,
 				},
@@ -490,27 +504,36 @@ export default {
 
 		const token = Session.get('token');
 
-		// 获取项目信息
-		const onGetProjectInfoData = async () => {
-			try {
-				const res = await proxy.$api.erp.projectcompany.projectcompany('repair', store.state.project.projectId);
-				if (res.errcode != 0) {
-					return;
-				}
-				state.projectInfoData = res.data[0];
-				state.ruleForm = res.data[0];
-			} finally {
-			}
+		// 跳转页面
+		const openPage = async () => {
+			onGetprojectCompanyData();
+			onGetBidTableData();
+			state.isShowPage = true;
 		};
 
-		// 获取文件列表
-		const onGetProjectCompanyLineData = async (param: {}) => {
+		const onGotoEdit = () => {
+			router.push(`/bpp/home/tenantEdit/bpp`);
+		};
+		
+		// 获取用户信息 vuex
+		const getUserInfos = computed(() => {
+			return store.state.userInfos.userInfos;
+		});
+
+		// 当前时间提示语
+		const currentTime = computed(() => {
+			return formatAxis(new Date());
+		});
+
+		// 获取公司已报名详细信息
+		const onGetprojectCompanyData = async () => {
 			try {
-				const res = await proxy.$api.erp.projectcompanyline.getListByScope(param);
+				const res = await proxy.$api.erp.projectcompany.projectcompany(kind, store.state.project.projectCompanyId);
 				if (res.errcode != 0) {
 					return;
 				}
-				return res.data;
+				state.projectCompanyData.data = res.data[0];
+				state.ProjectCompanyLineTableData.param.projectCompanyId = res.data[0].Id
 			} finally {
 			}
 		};
@@ -533,126 +556,116 @@ export default {
 			}
 		};
 
-		// 更新公司报名项目信息
-		const onUpProjectCompanyData = async () => {
+		// 获取已报名信息详细信息文件表
+		const onGetProjectCompanyLineTableData = async (select: string) => {
 			try {
-				const res = await proxy.$api.erp.projectcompany.update(state.projectInfoData.Id, state.testRuuleForm)
+				state.ProjectCompanyLineTableData.param.kind = select
+				if (select == "jjps") {
+					state.ProjectCompanyLineTableData.param.projectLineId =  '298664702576164898'
+				}else{
+					state.ProjectCompanyLineTableData.param.projectLineId =  ''
+				}
+				const res = await proxy.$api.erp.projectcompanyline.getListByScope(state.ProjectCompanyLineTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
-				onGetProjectInfoData();
+				state.ProjectCompanyLineTableData.data = res.data;
 			} finally {
 			}
 		};
 
-		// 批量上传文件
-		const onsaveMultiProjectCompanyLineData = async (kind: string) => {
+		// 更新公司报名信息上传的文件及状态
+		const onUpdateProjectCompanyFileData = async (select: string) => {
 			try {
-				switch (kind) {
-					case "zgps":
-						const swres = await proxy.$api.erp.projectcompanyline.saveMulti(state.swFilesTableData.param.kind, state.swFilesTableData.data)
-						if (swres.errcode != 0) {
-							return;
-						}
-						break;
-					case "jsps":
-						const jsres = await proxy.$api.erp.projectcompanyline.saveMulti(state.jsFilesTableData.param.kind, state.jsFilesTableData.data)
-						if (jsres.errcode != 0) {
-							return;
-						}
-						break;
-					case "qt":
-						const qtres = await proxy.$api.erp.projectcompanyline.saveMulti(state.qtFilesTableData.param.kind, state.qtFilesTableData.data)
-						if (qtres.errcode != 0) {
-							return;
-						}
-						break;
-					case "jjps":
-						const jjres = await proxy.$api.erp.projectcompanyline.saveMulti(state.jjFilesTableData.param.kind, state.qtFilesTableData.data)
-						if (jjres.errcode != 0) {
-							return;
-						}
-						break;
+				state.projectCompanyData.from.Id = state.projectCompanyData.data.Id
+				state.projectCompanyData.from.FileKind = select
+				if (select == "bid") {
+					state.projectCompanyData.from.PicsPath = state.projectCompanyData.data.BidPics
+				}else if (select == "ensure"){
+					state.projectCompanyData.from.PicsPath = state.projectCompanyData.data.EnsurePics
+				}else if (select == "jjps"){
+					state.projectCompanyData.from.FilePath = state.projectCompanyData.data.Files
+				}
+				const res = await proxy.$api.erp.projectcompany.fileUpdate(state.projectCompanyData.data.Id, state.projectCompanyData.from)
+				if (res.errcode != 0) {
+					onGetprojectCompanyData();
+					return;
+				}
+				onGetprojectCompanyData();
+			} finally {
+			}
+		};
+
+		// 批量更新公司报名信息文件表上传的文件
+		const onMultiUpdateProjectCompanyLineTableData = async (select: string) => {
+			try {
+				let model = {}
+				state.ProjectCompanyLineTableData.list = []
+				state.ProjectCompanyLineTableData.param.kind = select
+				for (let i = 0; i < state.ProjectCompanyLineTableData.data.length; i++) {
+					model = {}
+					model.Id = state.ProjectCompanyLineTableData.data[i].Id
+					model.Kind = state.ProjectCompanyLineTableData.data[i].Kind
+					model.Name = state.ProjectCompanyLineTableData.data[i].Name
+					model.Files = state.ProjectCompanyLineTableData.data[i].Files
+					model.ProjectId = state.ProjectCompanyLineTableData.data[i].ProjectId
+					model.ProjectCompanyId = state.ProjectCompanyLineTableData.data[i].ProjectCompanyId
+					state.ProjectCompanyLineTableData.list.push(model)
+				}
+				const jsres = await proxy.$api.erp.projectcompanyline.saveMulti(select, state.ProjectCompanyLineTableData.list)
+				if (jsres.errcode != 0) {
+					return;
 				}
 			} finally {
 			}
 		};
 
-		const onGotoEdit = () => {
-			router.push(`/bpp/home/tenantEdit/bpp`);
-		};
-		
-		// 获取用户信息 vuex
-		const getUserInfos = computed(() => {
-			return store.state.userInfos.userInfos;
-		});
-
-		// 当前时间提示语
-		const currentTime = computed(() => {
-			return formatAxis(new Date());
-		});
-
-		const onDel = async (id: Number) => {
+		//	删除公司报名信息文件表数据
+		const onDelProjectCompanyLineTableData = async (id: Number, select : number) => {
 			if (!id) {
 				ElMessage.error('当前没有可删除的文件，请刷新后重试。');
 				return;
 			}
-			ElMessageBox.confirm(`确定删除吗?`, '提示', {
+			ElMessageBox.confirm(`确定删除文件吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const qtres = await proxy.$api.erp.projectcompanyline.delete(id)
+					const res = await proxy.$api.erp.projectcompanyline.delete(id)
 					if (res.errcode != 0) {
 						return;
 					}
+					state.ProjectCompanyLineTableData.data = []
+					onGetProjectCompanyLineTableData(select)
 				} finally {
 				}
 				return false;
 			});
 		};
 
-		const loadTenant = async () => {
-			const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
-			if (res.errcode == 0) {
-				state.tenant = res.data;
-			}
-		};
-
-		// 批量设置 echarts resize
-		const initEchartsResizeFun = () => {
-			nextTick(() => {
-				for (let i = 0; i < state.myCharts.length; i++) {
-					state.myCharts[i].resize();
+		//	删除公司报名信息表数据
+		const onDelProjectCompanyTableData = async () => {
+			ElMessageBox.confirm(`确定删除附件吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					state.projectCompanyData.data.Files = ""
+					onUpdateProjectCompanyFileData("jjps")
+				} finally {
 				}
+				return false;
 			});
 		};
 
-		// 批量设置 echarts resize
-		const initEchartsResize = () => {
-			window.addEventListener('resize', initEchartsResizeFun);
-		};
-
-		//返回
-		const onGoToList=(select : number)=>{
-			switch (select){
-				case 0:
-					proxy.$parent.$parent.onModelList(false);
-					break;
-				case 1:
-					state.tabIndex = 0
-					break;
-			}
-		}
-
-		//前一步
-		const onGoToPrevious=()=>{
-			let stepIndex=state.stepIndex-1
-			if(stepIndex<0){
-				stepIndex=0
-			}
-			state.stepIndex=stepIndex
+		//参与投标
+		const onBeginBid = ()=>{
+			state.tabIndex=1
+			state.stepIndex = 0
+			onGetprojectCompanyData()
+			onGetProjectCompanyLineTableData("zgps")
 		}
 
 		//后一步
@@ -661,88 +674,132 @@ export default {
 			if(stepIndex>4){
 				stepIndex=4
 			}
-			console.log("测试", stepIndex)
 			switch(stepIndex){
 				case 1:
-					onsaveMultiProjectCompanyLineData("zgps")
-					onGetProjectCompanyLineData(state.jsFilesTableData.param).then(result => {
-						state.jsFilesTableData.data = result;
-					}).catch(error => {
-						console.error('发生错误：', error);
-					});
+					if (state.ProjectCompanyLineTableData.data.length > 0){
+						onMultiUpdateProjectCompanyLineTableData("zgps")
+					}
+					onGetProjectCompanyLineTableData("jsps")
+					break;
+
+				case 2:
+					if (state.ProjectCompanyLineTableData.data.length > 0){
+						onMultiUpdateProjectCompanyLineTableData("jsps")
+					}
+					onGetProjectCompanyLineTableData("qt")
+					break;
+
+				case 3:
+					if (state.ProjectCompanyLineTableData.data.length > 0){
+						onMultiUpdateProjectCompanyLineTableData("qt")
+					}
+					onGetProjectCompanyLineTableData("jjps")
+					break;
+				case 4:	
+					break;
+			}
+			state.stepIndex = stepIndex
+		}
+
+		//前一步
+		const onGoToPrevious=()=>{
+			let stepIndex=state.stepIndex-1
+			if(stepIndex<0){
+				stepIndex=0
+			}
+			switch(stepIndex){
+				case 0:
+					onGetProjectCompanyLineTableData("zgps")
+					break;
+				case 1:
+					onGetProjectCompanyLineTableData("jsps")
 					break;
 				case 2:
-					onsaveMultiProjectCompanyLineData("jsps")
-					onGetProjectCompanyLineData(state.qtFilesTableData.param).then(result => {
-						state.qtFilesTableData.data = result;
-					}).catch(error => {
-						console.error('发生错误：', error);
-					});
+					onGetProjectCompanyLineTableData("qt")
 					break;
 				case 3:
-					onsaveMultiProjectCompanyLineData("qt")
-					onGetProjectCompanyLineData(state.jjpsTableData.param).then(result => {
-						state.jjpsTableData.data = result;
-					}).catch(error => {
-						console.error('发生错误：', error);
-					});
-					break;
-				case 4:
-					onsaveMultiProjectCompanyLineData("jjps")
+					onGetProjectCompanyLineTableData("jjps")
+					state.projectCompanyData.from.Files = state.projectCompanyData.data.Files
 					break;
 			}
 			state.stepIndex=stepIndex
 		}
 
-		//参与投标
-		const onBeginBid = ()=>{
-			state.tabIndex=1
-			onGetProjectCompanyLineData(state.swFilesTableData.param).then(result => {
-				state.swFilesTableData.data = result;
-			}).catch(error => {
-				console.error('发生错误：', error);
-			});
-		}
-
-		//	文件列表更新
-		const onSuccessFile = (file: UploadFile, select: string) => {
-			switch (select) {
-				case 'gmzl':
-					state.ruleForm.BidFiles = file.data.src
-					state.files.ProjectId = state.projectInfoData.ProjectId
-					state.files.CompanyId = state.projectInfoData.CompanyId
-					state.files.ProjectLineId = state.projectInfoData.ProjectLineId
-					state.files.ProjectCompanyId = state.projectInfoData.Id
-					onUpProjectCompanyData();
+		//返回
+		const onGoToList=(select : number)=>{
+			switch (select){
+				case 0:
+					state.isShowPage = false
+					proxy.$parent.onGetTableData();
+					proxy.$parent.isShowPage = true;
 					break;
-				case 'zftbbzj':
-					state.ruleForm.EnsureFiles = file.data.src
-					onUpProjectCompanyData();
+				case 1:
+					state.tabIndex = 0
+					state.stepIndex = 0
+					break;
+			}
+		};
+
+		//	确认提交并更新公司报名项目状态
+		const submit = () => {
+			ElMessageBox.confirm(`确认已检查文件上传无误，立刻提交吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					onUpdateProjectCompanyFileData("submit");
+					onGoToList(1)
+				} finally {
+				}
+				return false;
+			});
+		};
+
+		//	更新公司报名信息文件表上传的文件
+		const onSuccessFile = (file: UploadFile, select: string) => {
+			let model = {}
+			model.ProjectId = store.state.project.projectId
+			model.ProjectCompanyId = state.projectCompanyData.Id
+			switch (select) {
+				case 'bid':
+					state.projectCompanyData.data.BidPics = file.data.src
+					onUpdateProjectCompanyFileData(select);
+					break;
+				case 'ensure':
+					state.projectCompanyData.data.EnsurePics = file.data.src
+					onUpdateProjectCompanyFileData(select);
 					break;
 				case 'zgps':
-					state.swFilesTableData.data.push({"Name": "商务文件"+formatTimestamp(Date.now()), "Files": file.data.src})
+					model.Kind = 'zgps'
+					model.Name = "商务文件"+formatTimestamp(Date.now())
+					state.ProjectCompanyLineTableData.data.push(model)
 					break;
 				case 'jsps':
-					state.jsFilesTableData.data.push({"Name": "技术文件"+formatTimestamp(Date.now()), "Files": file.data.src})
+					model.Kind = 'jsps'
+					model.Name = "技术文件"+formatTimestamp(Date.now())
+					state.ProjectCompanyLineTableData.data.push(model)
 					break;
 				case 'qt':
-					state.qtFilesTableData.data.push({"Name": "其他文件"+formatTimestamp(Date.now()), "Files": file.data.src})
+					model.Kind = 'qt'
+					model.Name = "其他文件"+formatTimestamp(Date.now())
+					state.ProjectCompanyLineTableData.data.push(model)
 					break;
 				case 'jjps':
-					state.jjpsTableData.data.push()
+					state.projectCompanyData.data.Files = file.data.src
+					onUpdateProjectCompanyFileData(select)
 					break;
 				}
 		};
 
-		const formatTimestamp = (timestamp) => {
-			const date = new Date(timestamp);
-			const year = date.getFullYear();
-			const month = (date.getMonth() + 1).toString().padStart(2, '0');
-			const day = date.getDate().toString().padStart(2, '0');
-			const hours = String(date.getHours()).padStart(2, '0');
-			const minutes = String(date.getMinutes()).padStart(2, '0');
-			const seconds = String(date.getSeconds()).padStart(2, '0');
-			return `${year}${month}${day}${hours}${minutes}${seconds}`;
+		// 上传文件删除
+		const onRemove = (file: UploadFile) => {
+			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			for (let i = 0; i < state.projectCompanyData.files.length; i++) {
+				if (state.projectCompanyData.files[i] == removeUrl) {
+					state.projectCompanyData.files.splice(i, 1);
+				}
+			}
 		};
 
 		//	预览文件
@@ -804,53 +861,34 @@ export default {
 			a.click();
 		};
 
-		//	保存上传
-		const submit = (isCloseDlg: boolean) => {
-			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
-				if (valid) {
-					state.loading = true;
-					state.ruleForm.Id = state.ruleForm.Id.toString();
-					try {
-						if (state.ruleForm.Id==0){
-							let res = await proxy.$api.common.category.insert(state.ruleForm);
-								if (res.errcode == 0) {
-							if (isCloseDlg) {
-								closeDialog();
-							} else {
-								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id = 0;
-							}
-							proxy.$parent.onGetMainTableData();
-						}
-						}else{
-							let res = await proxy.$api.common.category.update(state.ruleForm);
-							if (res.errcode == 0) {
-							if (isCloseDlg) {
-								closeDialog();
-							} else {
-								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id = 0;
-							}
-							proxy.$parent.onGetMainTableData();
-						}
-						}
-						
-					} finally {
-						state.loading = false;
-					}
-					return false;
-				} else {
-					return false;
+		const formatTimestamp = (timestamp) => {
+			const date = new Date(timestamp);
+			const year = date.getFullYear();
+			const month = (date.getMonth() + 1).toString().padStart(2, '0');
+			const day = date.getDate().toString().padStart(2, '0');
+			const hours = String(date.getHours()).padStart(2, '0');
+			const minutes = String(date.getMinutes()).padStart(2, '0');
+			const seconds = String(date.getSeconds()).padStart(2, '0');
+			return `${year}${month}${day}${hours}${minutes}${seconds}`;
+		};
+
+		// 批量设置 echarts resize
+		const initEchartsResizeFun = () => {
+			nextTick(() => {
+				for (let i = 0; i < state.myCharts.length; i++) {
+					state.myCharts[i].resize();
 				}
 			});
 		};
 
+		// 批量设置 echarts resize
+		const initEchartsResize = () => {
+			window.addEventListener('resize', initEchartsResizeFun);
+		};
+
 		// 页面加载时
 		onMounted(() => {
-			onGetProjectInfoData();
-			onGetBidTableData();
 			initEchartsResize();
-			// loadTenant();
 		});
 		// 由于页面缓存原因，keep-alive
 		onActivated(() => {
@@ -866,6 +904,7 @@ export default {
 
 		return {
 			token,
+			openPage,
 			onGotoEdit,
 			onGoToList,
 			onGoToPrevious,
@@ -876,7 +915,10 @@ export default {
 			onSuccessFile,
 			onPreview,
 			onBeforeImageUpload,
-			onDel,
+			onDelProjectCompanyLineTableData,
+			onDelProjectCompanyTableData,
+			onRemove,
+			submit,
 			formatTimestamp,
 			onDownloadFile,
 			...toRefs(state),

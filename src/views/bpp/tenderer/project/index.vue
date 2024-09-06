@@ -1,72 +1,68 @@
 <template>
 	<div>
-		<el-card >
-			<div v-if="isShowList">
-				<div>
-					<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
-						<el-form-item label="比选编号">
-							<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no" style="width: 150px;"/>
-						</el-form-item>
-						<el-form-item label="比选项目">
-							<el-input placeholder="请输入比选项目查询" v-model="tableData.param.name" style="width: 150px;"/>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="info" @click="onResetSearch">
-								<el-icon>
-									<RefreshLeft />
-								</el-icon>
-								{{ $t('message.action.reset') }}
-							</el-button>
-							<el-button type="info" @click="onGetTableData(true)">
-								<el-icon>
-									<Search />
-								</el-icon>
-								&#8197;{{ $t('message.action.search') }}
-							</el-button>
-						</el-form-item>
-						<el-form-item></el-form-item>
-					</el-form>
-				</div>
-				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
-					<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
-					<el-table-column prop="CompanyNo" label="项目编号"  width="160" show-overflow-tooltip fixed/>
-					<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip/>
-					<el-table-column prop="LineName" label="项目包号" width="70"/>
-					<el-table-column prop="Kind" label="参与方式" width="100">
-						<template #default="scope">
-							<span v-if="scope.row.ProjectType == 1">公开招标</span>
-							<span v-else-if="scope.row.ProjectType == 2">邀请招标</span>
-							<span v-else-if="scope.row.ProjectType == 3">竞争性谈判</span>
-							<span v-else-if="scope.row.ProjectType == 4">单一来源采购</span>
-							<span v-else-if="scope.row.ProjectType == 5">询价采购</span>
-						</template>
-					</el-table-column>
-					<el-table-column prop="EndTime" label="报名截止日期" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
-					<el-table-column prop="ReviewTime" label="开标时间" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
-					<el-table-column prop="State" label="状态" width="90"/>
-					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" fixed="right">
-						<template #default="scope">
-							<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, false)">{{ '详情' }}</el-button>
-							<el-button text bg type="primary" @click="onToDetail(scope.row.ProjectId)">{{ '待办' }}</el-button>
-						</template>
-					</el-table-column>
-				</el-table>
-				<el-pagination
-					small
-					@size-change="onHandleSizeChange"
-					@current-change="onHandleCurrentChange"
-					class="mt15"
-					:page-sizes="[10, 20, 30, 50, 100]"
-					v-model:current-page="tableData.param.pageNum"
-					background
-					v-model:page-size="tableData.param.size"
-					layout="->, total, sizes, prev, pager, next, jumper"
-					:total="tableData.total"/>
+		<el-card v-if="isShowPage">
+			<div>
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
+					<el-form-item label="项目编号">
+						<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no" style="width: 150px;"/>
+					</el-form-item>
+					<el-form-item label="项目名称">
+						<el-input placeholder="请输入比选项目查询" v-model="tableData.param.name" style="width: 150px;"/>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="info" @click="onResetSearch">
+							<el-icon>
+								<RefreshLeft />
+							</el-icon>
+							{{ $t('message.action.reset') }}
+						</el-button>
+						<el-button type="info" @click="onGetTableData(true)">
+							<el-icon>
+								<Search />
+							</el-icon>
+							&#8197;{{ $t('message.action.search') }}
+						</el-button>
+					</el-form-item>
+					<el-form-item></el-form-item>
+				</el-form>
 			</div>
-			<div v-else>
-				<projectDetail></projectDetail>
-			</div>
+			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
+				<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
+				<el-table-column prop="CompanyNo" label="项目编号"  width="160" show-overflow-tooltip fixed/>
+				<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip/>
+				<el-table-column prop="LineName" label="项目包号" width="70"/>
+				<el-table-column prop="Kind" label="参与方式" width="100">
+					<template #default="scope">
+						<span v-if="scope.row.ProjectType == 1">公开招标</span>
+						<span v-else-if="scope.row.ProjectType == 2">邀请招标</span>
+						<span v-else-if="scope.row.ProjectType == 3">竞争性谈判</span>
+						<span v-else-if="scope.row.ProjectType == 4">单一来源采购</span>
+						<span v-else-if="scope.row.ProjectType == 5">询价采购</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="EndTime" label="报名截止日期" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
+				<el-table-column prop="ReviewTime" label="开标时间" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
+				<el-table-column prop="State" label="状态" width="90"/>
+				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" fixed="right">
+					<template #default="scope">
+						<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, false)">详情</el-button>
+						<el-button text bg type="primary" @click="onToDetail(scope.row.Id, scope.row.ProjectId)">待办</el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+			<el-pagination
+				small
+				@size-change="onHandleSizeChange"
+				@current-change="onHandleCurrentChange"
+				class="mt15"
+				:page-sizes="[10, 20, 30, 50, 100]"
+				v-model:current-page="tableData.param.pageIndex"
+				background
+				v-model:page-size="tableData.param.pageSize"
+				layout="->, total, sizes, prev, pager, next, jumper"
+				:total="tableData.total"/>
 		</el-card>
+		<projectDetail ref="projectDetailRef"/>
 	</div>
 </template>
 
@@ -91,8 +87,7 @@ export default {
 		const moduleKey = `api_pro_project_${kind}_${mode}`;
 		const { proxy } = getCurrentInstance() as any;
 		const seeDlgRef = ref();
-		const bidSelectionDlgRef = ref();
-		const createStepDlgRef = ref();
+		const projectDetailRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
@@ -103,16 +98,12 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
-					projectId: '279082270076182531',
-					pageNum: 1,
-					size: 20,
-					isBid: Boolean(isBid),
+					kind: "repair",
+					pageIndex: 1,
+					pageSize: 20,
 				},
 			},
-			isShowList: true,
-		});
-		state.tableData.param.pageIndex = computed(() => {
-			return state.tableData.param.pageNum - 1;
+			isShowPage: true,
 		});
 		//重置查询条件
 		const onResetSearch = () => {
@@ -122,13 +113,10 @@ export default {
 		};
 
 		// 初始化表格数据
-		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			if (gotoFirstPage) {
-				state.tableData.param.pageNum = 1;
-			}
+		const onGetTableData = async () => {
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectcompany.signUpList(state.tableData.param);
+				const res = await proxy.$api.erp.projectcompany.signUpLists(state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -142,13 +130,12 @@ export default {
 		// 打开修改界面
 		const onModelEdit = (id: number) => {
 			store.commit('project/getProjectId', id);
-			state.isShowList = false;
-			createStepDlgRef.value.openPage();
+			state.isShowPage = false;
+			projectDetailRef.value.openPage()
 		};
 		// 打开列表
-		const onModelList = (isRefreshList: Boolean=true) => {
-			state.isShowList = true;
-			console.log("state.isShowPage:",state.isShowPage)
+		const onModelList = () => {
+			state.isShowPage = true;
 		};
 		//打开查看数据弹窗
 
@@ -156,9 +143,11 @@ export default {
 			seeDlgRef.value.openDialog(id, state);
 		};
 		// 跳转
-		const onToDetail = (id: number) => {
-			store.commit('project/getProjectId', id);
-			state.isShowList = false;
+		const onToDetail = (id: string|number, projectId: string|number) => {
+			store.commit('project/getProjectCompanyId', id)
+			store.commit('project/getProjectId', projectId);
+			projectDetailRef.value.openPage();
+			state.isShowPage = false;
 		};
 		// 删除用户
 		const onModelDel = (id: number) => {
@@ -226,8 +215,7 @@ export default {
 		return {
 			proxy,
 			seeDlgRef,
-			bidSelectionDlgRef,
-			createStepDlgRef,
+			projectDetailRef,
 			onGetTableData,
 			onResetSearch,
 			onModelEdit,
