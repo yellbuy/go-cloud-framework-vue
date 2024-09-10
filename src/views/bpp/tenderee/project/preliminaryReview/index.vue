@@ -43,9 +43,11 @@
 				<el-table-column prop="No" label="编号" width="150" show-overflow-tooltip fixed/>
 				<el-table-column prop="CompanyName" label="供应商名称" width="300" show-overflow-tooltip fixed/>
 				<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip/>
-				<el-table-column prop="BidFiles" label="资料凭证" width="100" show-overflow-tooltip>
+				<el-table-column prop="BidFiles" label="资料凭证" width="80" show-overflow-tooltip>
 					<template #default="scope">
-						<img :src="baseUrl + scope.row.BidPics" alt="资料凭证图片" width="80" height="80" @click="showImage(scope.row.BidPics)"/>
+						<div style="display: flex; align-items: center; justify-content: center;">
+							<img :src="baseUrl + scope.row.BidPics" alt="资料凭证图片" width="30" height="30" @click="showImage(scope.row.BidPics)"/>
+						</div>
 					</template>
 				</el-table-column>
 				<el-table-column prop="BidPayTime" label="资料支付时间" width="120" show-overflow-tooltip>
@@ -57,25 +59,18 @@
 				</el-table-column>
 				<el-table-column prop="BidAuditState" label="资料凭证审核" width="110" show-overflow-tooltip>
 					<template #default="scope">
-						<div v-if="scope.row.BidAuditState == 0" style="display: flex; align-items: center;">
-							<span style="color: gray; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-							<span >待审核</span>
-						</div>
-						<div v-else-if="scope.row.BidAuditState == 1" style="display: flex; align-items: center;">
-							<span style="color: green; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-							<span>通过</span>
-						</div>
-						<div v-else-if="scope.row.BidAuditState == 2" style="display: flex; align-items: center;">
-							<span style="color: red; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-							<span>不通过</span>
+						<div style="display: flex; align-items: center; justify-content: center;">
+							<el-tag type="info" effect="dark" v-if="scope.row.BidAuditState == 0">待审核</el-tag>
+							<el-tag type="success" effect="dark" v-else-if="scope.row.BidAuditState == 1">通过</el-tag>
+							<el-tag type="danger" effect="dark" v-else-if="scope.row.BidAuditState == 2">不通过</el-tag>
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column prop="EnsureFiles" label="保证金凭证" width="100" show-overflow-tooltip>
+				<el-table-column prop="EnsureFiles" label="保证金凭证" width="80" show-overflow-tooltip>
 					<template #default="scope">
-						<img :src="baseUrl + scope.row.EnsurePics" alt="保证金凭证图片" width="80" height="80" v-if="scope.row.EnsurePayState == 1" @click="showImage(scope.row.EnsurePics)"/>
-						<div style="display: flex; align-items: center; justify-content: center;" v-else>
-							<span>————</span>
+						<div style="display: flex; align-items: center; justify-content: center;">
+							<img :src="baseUrl + scope.row.EnsurePics" alt="保证金凭证图片" width="30" height="30" v-if="scope.row.EnsurePayState == 1" @click="showImage(scope.row.EnsurePics)"/>
+							<span v-else>—</span>
 						</div>
 					</template>
 				</el-table-column>
@@ -85,26 +80,17 @@
 							<span >{{ dateFormatYMDHM(scope, scope.row, scope.row.EnsurePayTime) }}</span>
 						</div>
 						<div style="display: flex; align-items: center; justify-content: center;" v-else>
-							<span >————</span>
+							<span >—</span>
 						</div>
 					</template>
 				</el-table-column>
 				<el-table-column prop="EnsureAuditState" label="保证金凭证审核" width="110" show-overflow-tooltip>
 					<template #default="scope">
-						<div v-if="scope.row.EnsureAuditState == 0 && scope.row.EnsurePayState == 1" style="display: flex; align-items: center;">
-							<span style="color: gray; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-							<span >待审核</span>
-						</div>
-						<div v-else-if="scope.row.EnsureAuditState == 1 && scope.row.EnsurePayState == 1" style="display: flex; align-items: center;">
-							<span style="color: green; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-							<span>通过</span>
-						</div>
-						<div v-else-if="scope.row.EnsureAuditState == 2 && scope.row.EnsurePayState == 1" style="display: flex; align-items: center;">
-							<span style="color: red; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-							<span>不通过</span>
-						</div>
-						<div v-else style="display: flex; align-items: center; justify-content: center;">
-							<span>————</span>
+						<div style="display: flex; align-items: center; justify-content: center;">
+							<el-tag type="info" effect="dark" v-if="scope.row.EnsureAuditState == 0 && scope.row.EnsurePayState == 1">待审核</el-tag>
+							<el-tag type="success" effect="dark" v-else-if="scope.row.EnsureAuditState == 1 && scope.row.EnsurePayState == 1">通过</el-tag>
+							<el-tag type="danger" effect="dark" v-else-if="scope.row.EnsureAuditState == 2 && scope.row.EnsurePayState == 1">不通过</el-tag>
+							<span v-else>—</span>
 						</div>
 					</template>
 				</el-table-column>

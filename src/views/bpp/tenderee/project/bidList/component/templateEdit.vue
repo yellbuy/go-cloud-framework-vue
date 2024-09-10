@@ -75,6 +75,7 @@ export default {
 		// 打开弹窗
 		const openDialog = (kind: string, isAdd: boolean, item: object, isAjax: boolean, index: number) => {
 			state.isAjax = isAjax;
+			console.log("测试1", isAdd)
 			state.ruleForm = { Id: '0', Kind: 'zgps', Content: '', Standard: '', TechnicalMaxScore: 0 };
 			if (isAdd) {
 				state.ruleForm.Id = 0;

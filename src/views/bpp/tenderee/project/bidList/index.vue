@@ -14,15 +14,15 @@
 							<el-icon>
 								<RefreshLeft />
 							</el-icon>
-							{{ $t('message.action.reset') }}
+							重置
 						</el-button>
 						<el-button type="info" @click="onGetTableData(true)">
 							<el-icon>
 								<Search />
 							</el-icon>
-							&#8197;{{ $t('message.action.search') }}
+							搜索
 						</el-button>
-						<el-button type="primary" @click="onProjectEdit()">{{ '新建项目立项' }}</el-button>
+						<el-button type="primary" @click="onProjectAddEdit()">新建项目立项</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
 				</el-form>
@@ -65,7 +65,7 @@
 			<seeDlg ref="seeDlgRef" />
 		</el-card>
 		<bidEdit ref="bidEditRef" />
-		<projectEdit ref="projectEditRef"/>
+		<projectAddEdit ref="projectAddEditRef"/>
 	</div>
 </template>
 
@@ -74,17 +74,17 @@ import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import bidEdit from './component/bidEdit.vue';
-import projectEdit from './component/projectEdit.vue';
+import projectAddEdit from './component/projectAddEdit.vue';
 import seeDlg from './component/projectSee.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'project',
-	components: { seeDlg, bidEdit, projectEdit },
+	components: { seeDlg, bidEdit, projectAddEdit },
 	setup() {
 		const store = useStore();
 		const route = useRoute();
-		const kind = route.params.kind;
+		const kind = route.params.kind || 'bid';
 		const mode = route.params.mode;
 		const isBid = route.params.isBid;
 		const scopeMode = route.params.scopeMode || 0;
@@ -93,14 +93,15 @@ export default {
 		const { proxy } = getCurrentInstance() as any;
 		const seeDlgRef = ref();
 		const bidEditRef = ref();
-		const projectEditRef = ref();
+		const projectAddEditRef = ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			kind,
 			scopeMode,
 			scopeValue,
+			isShowPage: true,
 			tableData: {
-				data: [{No:'MYXRMYY20190614324', Kind:5, Name:'XX集团光交换机招标公告', Fanwei:'网络', EndTime:'2024-7-30', ReviewTime:'2024-7-1'}],
+				data: [],
 				total: 0,
 				loading: false,
 				param: {
@@ -111,7 +112,7 @@ export default {
 					isBid: Boolean(isBid),
 				},
 			},
-			isShowPage: true,
+			
 		});
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.current - 1;
@@ -141,9 +142,9 @@ export default {
 			}
 		};
 		// 打开项目编辑页
-		const onProjectEdit = () => {
+		const onProjectAddEdit = () => {
 			state.isShowPage = false;
-			projectEditRef.value.openPage();
+			projectAddEditRef.value.openPage(0);
 		};
 		//打开项目查看弹窗
 
@@ -213,7 +214,7 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
-			// onGetTableData();
+			onGetTableData();
 		});
 
 		const { dateFormatYMDHM, dateFormat } = commonFunction();
@@ -222,10 +223,10 @@ export default {
 			proxy,
 			seeDlgRef,
 			bidEditRef,
-			projectEditRef,
+			projectAddEditRef,
 			onGetTableData,
 			onResetSearch,
-			onProjectEdit,
+			onProjectAddEdit,
 			onProjectSee,
 			onProjectBidEdit,
 			isSeletionTime,

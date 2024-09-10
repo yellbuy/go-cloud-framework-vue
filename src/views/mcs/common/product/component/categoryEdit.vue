@@ -220,6 +220,7 @@ export default {
 				}
 				state.disable = disable;
 				if (id && id != '0') {
+					state.ruleForm.Id = id;
 					getByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
@@ -306,7 +307,6 @@ export default {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id = 0;
 							}
-							proxy.$parent.onGetMainTableData();
 						}
 						}else{
 							let res = await proxy.$api.common.category.update(state.ruleForm);
@@ -317,7 +317,6 @@ export default {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id = 0;
 							}
-							proxy.$parent.onGetMainTableData();
 						}
 						}
 						
