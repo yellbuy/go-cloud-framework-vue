@@ -32,7 +32,9 @@ export default defineComponent({
 			i18nLocale: zhCn,
 		});
 		const messageConfig = reactive({
-			max: 6,
+			max: 5,
+			grouping:true,
+			duration:1800,
 		})
 		// 获取布局配置信息
 		const getThemeConfig = computed(() => {
