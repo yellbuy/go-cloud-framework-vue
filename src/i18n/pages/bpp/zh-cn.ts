@@ -18,6 +18,8 @@ export default {
 		projectManager:'项目管理员',
 		message:'站内消息',
 		tenderer:'投标方',
+		projectSignUp:'报名项目',
+		projectJustSign:'已报项目',
 		expert:'专家',
 		projectReview:'项目评标',
 		recommendationLeader:'评标组长推荐',

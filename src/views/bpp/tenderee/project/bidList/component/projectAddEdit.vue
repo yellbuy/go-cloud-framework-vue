@@ -10,20 +10,20 @@
 			</el-col>
 		</el-row>
 		<el-row v-if="state.activeIndex == 1">
-			<el-form ref="ruleFormRef" :model="state.projectForm" :rules="rules" size="small" label-width="120px" v-loading="state.projectLoading">
+			<el-form ref="ruleFormRef" :model="state.projectForm" :rules="rules" size="small" label-width="120px" label-suffix="：" v-loading="state.projectLoading">
 				<el-row>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
-						<el-form-item label="项目编号：" prop="No">
+						<el-form-item label="项目编号" prop="No">
 							<el-input v-model="state.projectForm.No"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
-						<el-form-item label="项目名称：" prop="Name">
+						<el-form-item label="项目名称" prop="Name">
 							<el-input v-model="state.projectForm.Name"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
-						<el-form-item label="项目方式：" prop="ProjectType">
+						<el-form-item label="项目方式" prop="ProjectType">
 							<el-select v-model="state.projectForm.ProjectType" placeholder="请选择">
 								<el-option label="公开招标" :value="1" />
 								<el-option label="邀请招标" :value="2" />
@@ -34,13 +34,20 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
-						<el-form-item label="资格要求：" prop="Qualification">
+						<el-form-item label="资格要求" prop="Qualification">
 								<el-input v-model="state.projectForm.Qualification"/>
 							</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
-						<el-form-item label="标书费用(元)：" prop="BidFee">
+						<el-form-item label="标书费用(元)" prop="BidFee">
 							<el-input-number v-model="state.projectForm.BidFee" :min="0" controls-position="right" :precision="2"/>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
+						<el-form-item label="项目管理员" prop="ProjectManagerUid">
+							<el-select v-model="state.projectForm.ProjectManagerUid" filterable placeholder="请选择">
+								<el-option v-for="(item, index) in state.ProjectManagerData.data" :key="index" :label="item.Name" :value="item.Id" />
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<!-- <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb16">
@@ -49,12 +56,12 @@
 						</el-form-item>
 					</el-col> -->
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
-						<el-form-item label="评选地点：" prop="Location">
+						<el-form-item label="评选地点" prop="Location">
 							<el-input v-model="state.projectForm.Location"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb16">
-						<el-form-item label="项目内容：" prop="Content">
+						<el-form-item label="项目内容" prop="Content">
 							<vue-ueditor-wrap
 								:editor-id="`editor-content`"
 								:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js', 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css']"
@@ -72,10 +79,10 @@
 			</el-form>
 		</el-row>
 		<el-row v-else-if="state.activeIndex == 2">
-			<el-form ref="ruleFormRef" :model="state.projectForm" :rules="rules" size="small" label-width="120px" v-loading="state.updateLoading">
+			<el-form ref="ruleFormRef" :model="state.projectForm" :rules="rules" size="small" label-width="120px" label-suffix="：" v-loading="state.updateLoading">
 				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb16">
-						<el-form-item label="上传标书：" prop="Files">
+						<el-form-item label="上传标书" prop="Files">
 							<div style="width: 50%">
 								<el-upload
 									class="upload-demo"
@@ -124,27 +131,27 @@
 						</el-table>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
-						<el-form-item label="报名开始时间：" prop="StartTime" required>
+						<el-form-item label="报名开始时间" prop="StartTime" required>
 							<el-date-picker v-model="state.projectForm.StartTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
-						<el-form-item label="报名结束时间：" prop="EndTime" required>
+						<el-form-item label="报名结束时间" prop="EndTime" required>
 							<el-date-picker v-model="state.projectForm.EndTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
-						<el-form-item label="投标开始时间：" prop="BeginTime" required>
+						<el-form-item label="投标开始时间" prop="BeginTime" required>
 							<el-date-picker v-model="state.projectForm.BeginTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
-						<el-form-item label="投标结束时间：" prop="FinishTime" required>
+						<el-form-item label="投标结束时间" prop="FinishTime" required>
 							<el-date-picker v-model="state.projectForm.FinishTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
-						<el-form-item label="评选时间：" prop="ReviewTime" required>
+						<el-form-item label="评选时间" prop="ReviewTime" required>
 							<el-date-picker v-model="state.projectForm.ReviewTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
 						</el-form-item>
 					</el-col>
@@ -164,29 +171,29 @@
 			</el-form>
 			<el-dialog v-model="state.isShowProjectLineDialog" title="品目信息" :destroy-on-close="true"  width="40%" :before-close="closeProjectLineDialog">
 				<el-divider content-position="left">品目信息</el-divider>
-				<el-form ref="ruleFormRef" :model="state.projectLineForm" :rules="rules" size="small" label-width="130px" v-loading="state.projectLineLoading">
+				<el-form ref="ruleFormRef" :model="state.projectLineForm" :rules="rules" size="small" label-width="130px" label-suffix="：" v-loading="state.projectLineLoading">
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10">
-							<el-form-item label="品目号：" prop="No">
+							<el-form-item label="品目号" prop="No">
 								<el-input v-model="state.projectLineForm.No" placeholder="品目号"/>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10">
-							<el-form-item label="名称：" prop="Name">
+							<el-form-item label="名称" prop="Name">
 								<el-input v-model="state.projectLineForm.Name" placeholder="名称"/>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb10">
-							<el-form-item label="数量：" prop="Qty">
+							<el-form-item label="数量" prop="Qty">
 								<el-input-number v-model="state.projectLineForm.Qty" :min="0" controls-position="right" style="width: 100%;"/>
 							</el-form-item>
 						</el-col>
-					</el-row>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
-							<el-form-item label="备注：" prop="Remark">
+						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb10">
+							<el-form-item label="备注" prop="Remark">
 								<el-input v-model="state.projectLineForm.Remark" placeholder="备注"/>
 							</el-form-item>
 						</el-col>
+					</el-row>
 				</el-form>
 				<template #footer>
 					<span class="dialog-footer">
@@ -329,7 +336,7 @@
 				</el-tab-pane>
 			</el-tabs>
 			<el-dialog :title="state.settingTitle" v-model="state.isShowSettingDialog" width="25%" :before-close="closeSettingDialog">
-				<el-form ref="ruleFormRef" :model="state.settingForm" :rules="rules" size="small" label-width="130px" v-loading="state.settingLoading">
+				<el-form ref="ruleFormRef" :model="state.settingForm" :rules="rules" size="small" label-width="130px" label-suffix="：" v-loading="state.settingLoading">
 					<el-form-item label="评审内容" prop="Content">
 						<el-input v-model="state.settingForm.Content"/>
 					</el-form-item>
@@ -374,7 +381,6 @@ import { useI18n } from 'vue-i18n';
 import { number } from 'echarts';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
-import { float } from 'html2canvas/dist/types/css/property-descriptors/float';
 
 const store = useStore();
 const route = useRoute();
@@ -421,6 +427,15 @@ const state = reactive({
 		FinishTime: "",
 		ReviewTime: "",
 		AutoSwitchState: 0,
+		ProjectManagerUid: "",
+	},
+	ProjectManagerData: {
+		data: [],
+		param: {
+			fetchChild: false,
+			pageIndex: 0,
+			pageSize: 10000,
+		},
 	},
 	projectLineTableData:{
 		kind: "bid",
@@ -545,7 +560,7 @@ const rules = reactive({
 });
 
 //	打开页面
-const openPage = async (id: number) => {
+const openPage = async () => {
 	// if (id != 0) {
 	// 	state.jsTableData.loading = true;
 	// 	try {
@@ -559,6 +574,7 @@ const openPage = async (id: number) => {
 	// 		state.jsTableData.loading = false;
 	// 	}
 	// }
+	onGetProjectManagerList()
 	state.isShowPage = true
 };
 
@@ -816,6 +832,18 @@ const onGetSettingTableData = async () => {
 				state.jsTableData.loading = false;
 			}
 			break;
+	}
+};
+
+// 获取项目管理员列表
+const onGetProjectManagerList = async () => {
+	try {
+		const res = await proxy.$api.base.user.getList(state.ProjectManagerData.param);
+		if (res.errcode != 0) {
+			return;
+		}
+		state.ProjectManagerData.data = res.data;
+	} finally {
 	}
 };
 

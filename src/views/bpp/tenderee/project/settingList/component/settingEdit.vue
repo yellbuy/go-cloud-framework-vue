@@ -26,9 +26,9 @@
 				<el-form-item label="最高评分" v-if="state.ruleForm.Kind == 'jsps'" prop="TechnicalMaxScore">
 					<el-input-number v-model="state.ruleForm.TechnicalMaxScore" :min="0" controls-position="right" :precision="1" />
 				</el-form-item>
-				<el-form-item label="排序：" prop="Order">
+				<!-- <el-form-item label="排序：" prop="Order">
 					<el-input-number v-model="state.ruleForm.Order" :min="0" :max="10000000" controls-position="right" :precision="0" /> 
-				</el-form-item>
+				</el-form-item> -->
 				<el-form-item label="备注" prop="Remark">
 					<el-input v-model="state.ruleForm.Remark" type="textarea"/>
 				</el-form-item>

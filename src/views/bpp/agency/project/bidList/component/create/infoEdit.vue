@@ -187,7 +187,6 @@ import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
 import editLineListDlg from '../projectLineList.vue';
 import editItemDlg from '../templateEdit.vue';
-import { fa } from 'element-plus/es/locale';
 export default {
 	name: 'projectEdit',
 	components: { Upload, lineEditDlg, editItemDlg, editLineListDlg },

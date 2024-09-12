@@ -1,27 +1,25 @@
 <template>
 	<div>
 		<el-card v-if="isShowPage">
-			<div class="">
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
-					<el-form-item label="名称">
-						<el-input placeholder="请输入关键字" v-model="tableData.param.no" style="width: 120px;"/>
-					</el-form-item>
-					<el-form-item>
-						<el-button type="info" @click="onResetSearch">
-							<el-icon>
-								<RefreshLeft />
-							</el-icon>
-							{{ $t('message.action.reset') }}
-						</el-button>
-						<el-button type="info" @click="onGetTableData(true)">
-							<el-icon>
-								<Search />
-							</el-icon>
-							&#8197;{{ $t('message.action.search') }}
-						</el-button>
-					</el-form-item>
-				</el-form>
-			</div>
+			<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
+				<el-form-item label="名称">
+					<el-input placeholder="请输入关键字" v-model="tableData.param.no" style="width: 120px;"/>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="info" @click="onResetSearch">
+						<el-icon>
+							<RefreshLeft />
+						</el-icon>
+						{{ $t('message.action.reset') }}
+					</el-button>
+					<el-button type="info" @click="onGetTableData(true)">
+						<el-icon>
+							<Search />
+						</el-icon>
+						&#8197;{{ $t('message.action.search') }}
+					</el-button>
+				</el-form-item>
+			</el-form>
 			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%; margin-top: 15px;" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" width="70" align="right" show-overflow-tooltip fixed />
 				<el-table-column prop="User" label="供应商编号" width="120" fixed />
@@ -45,7 +43,7 @@
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="info" @click="">账号禁用</el-button>
-						<el-button text bg type="primary" @click="onModelSee()">详细信息</el-button>
+						<el-button text bg type="primary" @click="onModelSee(scope.row.Id)">详细信息</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -57,7 +55,7 @@
 				:page-sizes="[10, 20, 30, 50, 100]"
 				v-model:current-page="tableData.param.current"
 				background
-				v-model:page-size="tableData.param.size"
+				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
 				:total="tableData.total"/>
 		</el-card>
@@ -92,17 +90,12 @@ export default {
 			scopeMode,
 			scopeValue,
 			tableData: {
-				data: [{User:"test", Name:"张三", Department:"研发", Type:"技术", Phone:13333333333, State:0}],
+				data: [],
 				total: 0,
 				loading: false,
 				param: {
-					name: '',
-					no: '',
-					phone:'',
-					kind:'',
 					current: 1,
-					size: 20,
-					isBid: Boolean(isBid),
+					pageSize: 10000,
 				},
 			},
 			isShowPage: true,
@@ -114,17 +107,14 @@ export default {
 		const onResetSearch = () => {
 			state.tableData.param.name = '';
 			state.tableData.param.no = '';
-			onGetTableData(true);
+			onGetTableData();
 		};
 
 		// 初始化表格数据
-		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			if (gotoFirstPage) {
-				state.tableData.param.current = 1;
-			}
+		const onGetTableData = async () => {
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.base.tenant.getList(state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -140,9 +130,9 @@ export default {
 		};
 		//打开查看数据弹窗
 
-		const onModelSee = () => {
+		const onModelSee = (id: string) => {
 			state.isShowPage = false;
-			editDlgRef.value.openPage();
+			editDlgRef.value.openPage(id);
 		};
 		// 删除用户
 		const onModelDel = (Id: number) => {
@@ -165,7 +155,7 @@ export default {
 		};
 		// 改变单页数量
 		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.size = val;
+			state.tableData.param.pageSize = val;
 		};
 		// 改变页数
 		const onHandleCurrentChange = (val: number) => {
@@ -202,7 +192,7 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
-			// onGetTableData();
+			onGetTableData()
 		});
 
 		const { dateFormatYMDHM, dateFormat } = commonFunction();

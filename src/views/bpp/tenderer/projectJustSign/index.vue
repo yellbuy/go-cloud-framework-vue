@@ -56,7 +56,7 @@
 				@current-change="onHandleCurrentChange"
 				class="mt15"
 				:page-sizes="[10, 20, 30, 50, 100]"
-				v-model:current-page="tableData.param.pageIndex"
+				v-model:current-page="tableData.param.current"
 				background
 				v-model:page-size="tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
@@ -98,18 +98,23 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
-					kind: "repair",
-					pageIndex: 1,
+					kind: "bid",
+					current: 1,
 					pageSize: 20,
 				},
 			},
 			isShowPage: true,
 		});
+
+		state.tableData.param.pageIndex = computed(() => {
+			return state.tableData.param.current - 1;
+		});
+
 		//重置查询条件
 		const onResetSearch = () => {
 			state.tableData.param.name = '';
 			state.tableData.param.no = '';
-			onGetTableData(true);
+			onGetTableData();
 		};
 
 		// 初始化表格数据
@@ -170,41 +175,13 @@ export default {
 		};
 		// 分页改变
 		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.size = val;
+			state.tableData.param.pageSize = val;
 		};
 		// 分页改变
 		const onHandleCurrentChange = (val: number) => {
-			state.tableData.param.pageNum = val;
+			state.tableData.param.current = val;
 		};
-		const isSeletionTime = (model) => {
-			let isTime = false;
-			if (
-				model.BeginTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') &&
-				dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.FinishTime &&
-				model.State == 0
-			) {
-				isTime = true;
-			}
-			return isTime;
-		};
-		const isEditTime = (model) => {
-			let isTime = false;
-			if (model.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && model.State == 0) {
-				isTime = true;
-			}
-			return isTime;
-		};
-		const isSignUpTime = (model) => {
-			let isTime = false;
-			if (
-				model.StartTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') &&
-				dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.EndTime &&
-				model.State == 0
-			) {
-				isTime = true;
-			}
-			return isTime;
-		};
+
 		// 页面加载时
 		onMounted(() => {
 			onGetTableData();
@@ -222,9 +199,6 @@ export default {
 			onModelList,
 			onModelSee,
 			onToDetail,
-			isSeletionTime,
-			isEditTime,
-			isSignUpTime,
 			onModelDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,

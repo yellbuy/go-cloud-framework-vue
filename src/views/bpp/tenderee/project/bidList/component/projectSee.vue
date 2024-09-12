@@ -6,12 +6,12 @@
 					<el-row :gutter="20">
 						<el-col :span="24">
 							<el-descriptions :column="2">
-								<el-descriptions-item label="比选编号：">test</el-descriptions-item>
-								<el-descriptions-item label="比选项目：">test</el-descriptions-item>
-								<el-descriptions-item label="发布日期：">test</el-descriptions-item>
-								<el-descriptions-item label="报名截止时间：">test</el-descriptions-item>
-								<el-descriptions-item label="投标截止时间：">test</el-descriptions-item>
-								<el-descriptions-item label="评选日期：">test</el-descriptions-item>
+								<el-descriptions-item label="比选编号：">{{ ruleForm.No }}</el-descriptions-item>
+								<el-descriptions-item label="比选项目：">{{ ruleForm.Name }}</el-descriptions-item>
+								<el-descriptions-item label="发布日期：">{{ ruleForm.BidOpenTime }}</el-descriptions-item>
+								<el-descriptions-item label="报名截止时间：">{{ ruleForm.EndTime }}</el-descriptions-item>
+								<el-descriptions-item label="投标截止时间：">{{ ruleForm.FinishTime }}</el-descriptions-item>
+								<el-descriptions-item label="评选日期：">{{ ruleForm.ReviewTime }}</el-descriptions-item>
 								<el-descriptions-item label="项目类型：">
 									<span v-if="ruleForm.ProjectType == 1">公开招标</span>
 									<span v-else-if="ruleForm.ProjectType == 2">邀请招标</span>
@@ -42,15 +42,15 @@
 									<el-descriptions-item label="采购项目编号：">test</el-descriptions-item>
 									<el-descriptions-item label="采购方式：">test</el-descriptions-item>
 									<el-descriptions-item label="行政区划：">test</el-descriptions-item>
-									<el-descriptions-item label="采购人：">test</el-descriptions-item>
+									<el-descriptions-item label="采购人：">{{ ruleForm.PurchaseManangerName }}</el-descriptions-item>
 									<el-descriptions-item label="采购人地址：">test</el-descriptions-item>
-									<el-descriptions-item label="采购人联系方式：">test</el-descriptions-item>
-									<el-descriptions-item label="项目联系人：">test</el-descriptions-item>
+									<el-descriptions-item label="采购人联系方式：">{{ ruleForm.PurchaseManangerMobile }}</el-descriptions-item>
+									<el-descriptions-item label="项目联系人：">{{ ruleForm.ProjectManagerName }}</el-descriptions-item>
 									<el-descriptions-item label="供应商资格条件：">test</el-descriptions-item>
 									<el-descriptions-item label="标书发售方式：">test</el-descriptions-item>
 									<el-descriptions-item label="项目包个数：">test</el-descriptions-item>
 									<el-descriptions-item label="报名时间：">test</el-descriptions-item>
-									<el-descriptions-item label="标书售价：">test</el-descriptions-item>
+									<el-descriptions-item label="标书售价：">{{ ruleForm.BidFee }}</el-descriptions-item>
 									<el-descriptions-item label="投标时间：">test</el-descriptions-item>
 								</el-descriptions>
 							</el-col>
@@ -97,7 +97,7 @@ export default {
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.see'),
-			ruleForm: {ProjectType:1},
+			ruleForm: {},
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 			projectType: '',
@@ -108,7 +108,7 @@ export default {
 			isShow: false,
 			getList: [],
 			packageTableData:{
-				data: [{PackageId:"T158941", LineName:"电脑", Count:35, Note:"测试测试测试"}],
+				data: [],
 				loading: false,
 				param: {
 					current: 1,
@@ -116,7 +116,7 @@ export default {
 				},
 			},
 			comparativeTableData: {
-				data: [{SupplierId:"ADW18664", SupplierName:"攀枝花XXX有限责任公司", CheckTime:"2024-07-01", ComparativeTime:"2024-07-03", PackageId:"T158941"}],
+				data: [],
 				loading: false,
 				param: {
 					current: 1,

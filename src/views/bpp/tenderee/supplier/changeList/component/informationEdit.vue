@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" destroy-on-close width="60%" :before-close="onCancel">
+		<el-dialog :title="title" v-model="isShowInfoDialog" destroy-on-close width="60%" :before-close="onCancel">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-suffix="：" label-width="120px" v-loading="loading">
 				<el-divider content-position="left">工商信息*</el-divider>
 				<el-row :gutter="20">
@@ -108,7 +108,7 @@
 				</span>
 			</template>
 		</el-dialog>
-		<el-dialog :title="title" v-model="isShowDialog" width="20%" :before-close="onAuditCancel">
+		<el-dialog :title="title" v-model="isShowAuditDialog" width="20%" :before-close="onAuditCancel">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-suffix="：" label-width="120px" v-loading="loading">
 				<el-row>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -148,8 +148,8 @@ export default {
 		});
 		const state = reactive({
 			moduleKey,
-			isShowDialog: false,
-			isShowDialog:false,
+			isShowInfoDialog: false,
+			isShowAuditDialog:false,
 			title: t('message.action.add'),
 			loading: false,
 			token: token,
@@ -220,13 +220,13 @@ export default {
 				state.title = t('message.action.add');
 			}
 			state.ruleForm.Kind = kind;
-			state.isShowDialog = true;
+			state.isShowInfoDialog = true;
 		};
 
 		// 获取详细信息
 		const GetByIdRow = async (id: string) => {
 			try {
-				const res = await proxy.$api.erp.project.getById(id);
+				const res = await proxy.$api.base.tenant.getCacheById(id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -238,11 +238,10 @@ export default {
 
 		// 打开审核窗口
 		const onAudit = (a: number) => {
+			state.isShowAuditDialog = true;
 			if (a == 0) {
-				state.isShowDialog = true;
 				state.title = "资质审核通过"
 			} else if (a == 1) {
-				state.isShowDialog = true;
 				state.title = "资质审核驳回"
 			}
 		};
@@ -255,7 +254,7 @@ export default {
 		const onAuditCancel = () => {
 			proxy.$refs.ruleFormRef.resetFields();
 			state.loading = false;
-			state.isShowDialog = false;
+			state.isShowAuditDialog = false;
 		};
 
 		//	加载所属部门

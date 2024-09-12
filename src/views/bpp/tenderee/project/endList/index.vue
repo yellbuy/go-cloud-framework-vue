@@ -54,7 +54,7 @@
 				@current-change="onHandleCurrentChange"
 				class="mt15"
 				:page-sizes="[10, 20, 30, 50, 100]"
-				v-model:current-page="state.tableData.param.pageIndex"
+				v-model:current-page="state.tableData.param.current"
 				background
 				v-model:page-size="state.tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
@@ -96,7 +96,7 @@ const state: any = reactive({
 		total: 0,
 		loading: false,
 		param: {
-			pageIndex: 1,
+			current: 1,
 			pageSize: 20,
 			finishTimeMd: 1,
 			isBid: Boolean(isBid),
@@ -105,17 +105,23 @@ const state: any = reactive({
 	isShowPage: true,
 });
 
+state.tableData.param.pageIndex = computed(() => {
+	return state.tableData.param.current - 1;
+});
+
 //重置查询条件
 const onResetSearch = () => {
-	state.tableData.param = {pageIndex: 1, pageSize: 20, finishTimeMd: 1, isBid: Boolean(isBid),},
-	onGetTableData(true);
+	state.tableData.param.current = 1
+	state.tableData.param.pageSize = 20
+	state.tableData.param.finishTimeMd = 1
+	state.tableData.param.isBid = Boolean(isBid)
+	onGetTableData();
 };
 
 //	获取表格数据
 const onGetTableData = async () => {
 	state.tableData.loading = true;
 	try {
-		state.tableData.param.pageIndex = state.tableData.param.pageIndex - 1
 		const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
@@ -167,7 +173,7 @@ const onModelDel = (Id: number) => {
 
 // 分页改变
 const onHandleSizeChange = (val: number) => {
-	state.tableData.param.size = val;
+	state.tableData.param.pageSize = val;
 };
 
 // 分页改变
