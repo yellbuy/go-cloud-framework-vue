@@ -4,7 +4,7 @@
       <div class="digital-title" v-if="list.length>0">{{title}}</div>
       <div style="display: flex;flex-direction: row;">
         <div style="width:20%;margin:4px;align-items: center;justify-content: space-between;" v-for="(val,index) in list" :key="index">
-          <ringProgress  :title="val.Name" :planValue="val.PlanQty" :actualValue="val.Weight" unit="吨" ></ringProgress>
+          <ringProgress  :title="val.Name" :planValue="val.PlanQty" :actualValue="val.Weight" unit="万吨" ></ringProgress>
         </div>
       </div>
       
