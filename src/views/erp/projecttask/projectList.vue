@@ -288,8 +288,6 @@
 			</splitpanes>
 		<editMainDlg ref="editMainDlgRef" />
 		<editChildDlg ref="editChildDlgRef" />
-		<childMapDlg ref="childMapDlgRef" />
-		<batchAddLineDlg ref="batchAddLineDlgRef" />
 	</div>
 </template>
 
@@ -299,14 +297,12 @@ import { Pane, Splitpanes } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editMainDlg from './component/freightEdit.vue';
-import batchAddLineDlg from './component/freightLineBatchAdd.vue';
-import editChildDlg from './component/freightLineEdit.vue';
-import childMapDlg from './component/vehicleMap.vue';
+import editMainDlg from './component/projectEdit.vue';
+import editChildDlg from './component/taskEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'freightList',
-	components: { editMainDlg, editChildDlg, batchAddLineDlg,childMapDlg, Splitpanes, Pane },
+	components: { editMainDlg, editChildDlg, Splitpanes, Pane },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();

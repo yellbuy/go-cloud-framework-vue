@@ -160,47 +160,51 @@ export default {
 				const isTop = path == 'returnProxyTop';
 				const res=await proxy.$api.base.proxy.return(isTop);
 				if (res.errcode == 0) {
+					try {
+						// 存储 token 到浏览器缓存
+						Session.clear();
+						Session.set('token', res.data.token);
+						let defaultRoles: Array<string> = [];
+						let defaultAuthBtnList: Array<string> = [];					
+						const avatar = import.meta.env.VITE_API_URL + '/v1/avatar/user/' + res.data.user.Id + '.jpg';
+						//console.debug(avatar)
+						// 用户信息模拟数据
+						const userInfos = {
+							uid: res.data.user.Id,
+							appid:res.data.user.Appid,
+							tid:res.data.user.Tid,
+							username: res.data.user.Username,
+							realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
+							mobile:res.data.user.Mobile,
+							avatar: avatar,
+							time: new Date().getTime(),
+							isAdmin:res.data.user.IsAdmin,
+							roles: ['api'],
+							authBtnList: defaultAuthBtnList,
+							isProxy: res.data.user.IsProxy,
+							app:res.data.user.App||{},
+							tenant:res.data.user.Tenant||{},
+						};
+						
+						// 存储用户信息到浏览器缓存
+						Session.set('userInfo', userInfos);
+						Session.set('expiresToken', res.data.expiresAt);
+						Session.set('refreshTokenAt', res.data.refreshTokenAt);
+						// 1、请注意执行顺序(存储用户信息到vuex)
+						store.dispatch('userInfos/setUserInfos', userInfos);
+						resetRoute(); // 删除/重置路由						
+					} catch (err) {
+						console.error(err);
+						ElMessage.error(err.message);
+						return 
+					}
+
 					ElMessage.success({
 						showClose: true,
 						duration: 2400,
 						message: t('pages.base.action.proxySuccess'),
 						onClose: async function () {
-							try {
-								let defaultRoles: Array<string> = [];
-								let defaultAuthBtnList: Array<string> = [];
-								Session.clear();
-								const avatar = import.meta.env.VITE_API_URL + '/v1/avatar/user/' + res.data.user.Id + '.jpg';
-								//console.debug(avatar)
-								// 用户信息模拟数据
-								const userInfos = {
-									uid: res.data.user.Id,
-									appid:res.data.user.Appid,
-									tid:res.data.user.Tid,
-									username: res.data.user.Username,
-									realname: res.data.user.Name || res.data.user.NickName || res.data.user.Username,
-									mobile:res.data.user.Mobile,
-									avatar: avatar,
-									time: new Date().getTime(),
-									isAdmin:res.data.user.IsAdmin,
-									roles: ['api'],
-									authBtnList: defaultAuthBtnList,
-									isProxy: res.data.user.IsProxy,
-									app:res.data.user.App||{},
-									tenant:res.data.user.Tenant||{},
-								};
-								// 存储 token 到浏览器缓存
-								Session.set('token', res.data.token);
-								// 存储用户信息到浏览器缓存
-								Session.set('userInfo', userInfos);
-								Session.set('expiresToken', res.data.expiresAt);
-								Session.set('refreshTokenAt', res.data.refreshTokenAt);
-								// 1、请注意执行顺序(存储用户信息到vuex)
-								store.dispatch('userInfos/setUserInfos', userInfos);
-								resetRoute(); // 删除/重置路由
-								window.location.href = '/';
-							} catch (err) {
-								console.error(err);
-							}
+							window.location.href = '/';
 						},
 					});
 				}
@@ -229,7 +233,7 @@ export default {
 					},
 				})
 					.then(() => {
-						Session.clear(); // 清除缓存/token等
+					 // 清除缓存/token等
 						resetRoute(); // 删除/重置路由
 						router.push('/login');
 						setTimeout(() => {
