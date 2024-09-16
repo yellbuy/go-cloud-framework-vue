@@ -297,8 +297,8 @@ import { Pane, Splitpanes } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editMainDlg from './component/projectEdit.vue';
 import editChildDlg from './component/billEdit.vue';
+import editMainDlg from './component/projectEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'freightList',
@@ -309,7 +309,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_waybill_freight`;
+		const moduleKey = `api_erp_projectbill`;
 		const editMainDlgRef = ref();
 		const editChildDlgRef = ref();
 		const childMapDlgRef=ref();

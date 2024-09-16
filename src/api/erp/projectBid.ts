@@ -11,7 +11,7 @@ export default {
      * @returns 返回接口数据
      */
     getListByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
-        const url = `/v1/admin/erp/project/${kind}/${scopeMode}/${scopeValue}`;
+        const url = `/v1/admin/erp/projectbid/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
     
@@ -44,6 +44,20 @@ export default {
             return await http.post(url, data);
         }
         const url = `/v1/admin/erp/project/${data.Id}`;
+        return await http.post(url, data);
+    },
+
+        /**
+     * 创建招标项目
+     * @param data 信息
+     * @returns 返回接口数据
+     */
+    saveBid: async (data: object) => {
+        if (!data.Id || data.Id == "0") {
+            const url = `/v1/admin/erp/projectbid`;
+            return await http.post(url, data);
+        }
+        const url = `/v1/admin/erp/projectbid/${data.Id}`;
         return await http.post(url, data);
     },
 

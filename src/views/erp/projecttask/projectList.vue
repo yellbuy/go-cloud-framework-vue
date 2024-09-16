@@ -1,25 +1,22 @@
 <template>
 	<div class="base-freight-container">
 			<splitpanes class="default-theme" @resize="paneSize = $event[0].size" style="height: 100%">
-				<pane :size="58">
+				<pane :size="40">
 					<el-card shadow="hover">
-						<div style="margin-bottom:-16px">
+						<div>
 							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="60px" :inline="true">
 								<el-form-item label="关键字" style="width:130px">
 									<el-input
 										placeholder="输入关键字查询"
 										v-model="mainTableData.param.keyword"/>
 								</el-form-item>
-								<el-form-item label="发货时间" style="width:250px; white-space: nowrap;" >
-									<el-date-picker
-										v-model="timeRange"
-										type="daterange"
-										unlink-panels
-										range-separator="至"
-										start-placeholder="开始时间"
-										end-placeholder="结束时间"
-										format="YYYY-MM-DD"
-										date-format="YYYY/MM/DD"/>
+								<el-form-item label="状态">
+									<el-select v-model="mainTableData.param.state" placeholder="项目状态" style="width: 80px">
+										<el-option label="不限" :value="-1"></el-option>
+										<el-option label="进行中" :value="1"></el-option>
+										<el-option label="未开始" :value="0"></el-option>
+										<el-option label="已完成" :value="2"></el-option>
+									</el-select>
 								</el-form-item>
 								<el-form-item>
 									<el-button type="info" @click="onMainResetSearch">
@@ -34,7 +31,7 @@
 										</el-icon>
 										&#8197;{{ $t('message.action.search') }}
 									</el-button>
-									<el-button type="primary" @click="onMainOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
+									<el-button type="primary" @click="onMainOpenEditDlg(0, false)" v-auth:[moduleKey]="'btn.ProjectAdd'">
 										<el-icon>
 											<CirclePlusFilled />
 										</el-icon>
@@ -50,45 +47,37 @@
 						@current-change="onMainCurrentChange"
 						v-loading="mainTableData.loading"
 						style="width: 100%"
-						:height="proxy.$calcMainHeight(-75)"
+						:height="proxy.$calcMainHeight(-125)"
 						border
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="60" fixed />
-						<el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column>
-						<el-table-column prop="GoodsName" label="货物" width="100"></el-table-column>
-						<el-table-column prop="CustomerName" label="客户" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="WaybillMode" label="业务类型" width="70" align="center">
+						
+						<el-table-column prop="Name" label="项目名称" width="180"></el-table-column>
+						<el-table-column prop="State" label="状态" width="70" align="center">
 							<template #default="scope">
-								<el-tag type="success" class="mr4" effect="dark" v-if="scope.row.WaybillMode==1">固定</el-tag>
-								<el-tag type="danger" class="mr4" effect="dark" v-else-if="scope.row.WaybillMode==2">临配</el-tag>
-								<el-tag type="warning" class="mr4" effect="dark" v-else-if="scope.row.WaybillMode==10">其他</el-tag>
+								<el-tag type="danger"  v-if="scope.row.State==0" effect="dark">未开始</el-tag> 
+								<el-tag type="success" v-else-if="scope.row.State==1" effect="dark">进行中</el-tag>
+								<el-tag type="primary" v-else-if="scope.row.State==2" effect="dark">已结束</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="PlanWeight" label="执行进度" width="100" align="center">
-							<template #default="scope">
-								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
-							</template>
-						</el-table-column>
-						<el-table-column prop="SenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="ReceiverAddress" label="收货地址" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="CompanyName" label="所属公司" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="StartTime" label="开始时间" width="90" :formatter="dateFormatYMD" ></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope">
 								<el-dropdown split-button >
 									{{ $t('message.action.operate') }}
 									<template #dropdown>
 										<el-dropdown-menu>
-											<el-dropdown-item @click="onMainCopy(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Copy'">
+											<el-dropdown-item @click="onMainCopy(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ProjectCopy'">
 												<el-text type="primary" >{{ $t('message.action.copy') }}</el-text>
 											</el-dropdown-item>
-											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
+											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ProjectEdit'">
 												<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
 											</el-dropdown-item>
 											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, true)">
 												<el-text >{{ $t('message.action.see') }}</el-text>
 											</el-dropdown-item>
-											<el-dropdown-item divided @click="onMainDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+											<el-dropdown-item divided @click="onMainDel(scope.row.Id)" v-auth:[moduleKey]="'btn.ProjectDel'">
 												<el-text type="danger" >{{ $t('message.action.delete') }}</el-text>
 											</el-dropdown-item>
 										</el-dropdown-menu>
@@ -111,73 +100,52 @@
 					</el-pagination>
 				</el-card>
 				</pane>
-				<pane :size="42">
+				<pane :size="60">
 					<el-card shadow="hover">
-						<div style="margin-bottom:-16px">
+						<div >
 							<el-form ref="searchFormRef" :model="childTableData.param" label-suffix="：" label-width="60px" :inline="true">
 								<el-form-item label="关键字">
 									<el-input placeholder="输入关键字查询" style="width:80px" v-model="childTableData.param.keyword"> </el-input>
 								</el-form-item>
-								<el-form-item label="当日">
-									<el-checkbox v-model="childTableData.isTodayAll" :true-label="1" :false-label="0">{{ $t('message.action.all') }}</el-checkbox>
-									<el-button-group>
-										<el-tooltip
-											class="box-item"
-											effect="dark"
-											:content="$t('message.action.reset')"
-											placement="top-start">
-											<el-button type="info" style="margin-left: 10px;" @click="onChildResetSearch">
-												<el-icon>
-													<RefreshLeft />
-												</el-icon>
-											</el-button>
-										</el-tooltip>
-										<el-tooltip
-											class="box-item"
-											effect="dark"
-											:content="$t('message.action.search')"
-											placement="top-start">	
-											<el-button type="info" @click="onChildQuery()">
-												<el-icon>
-													<Search />
-												</el-icon>
-											</el-button>
-										</el-tooltip>
-										
-										<el-tooltip
-											class="box-item"
-											effect="dark"
-											:content="$t('message.action.begin')"
-											placement="top-start">	
-											<el-button type="warning" @click="onChildBatchBegin" v-auth:[moduleKey]="'btn.ChildEdit'">
-												<el-icon>
-													<RefreshRight />
-												</el-icon>
-											</el-button>
-										</el-tooltip>
-										<el-tooltip
-											class="box-item"
-											effect="dark"
-											:content="$t('message.action.finish')"
-											placement="top-start">	
-											<el-button type="success" @click="onChildBatchFinish" v-auth:[moduleKey]="'btn.ChildEdit'">
-												<el-icon>
-													<Finished />
-												</el-icon>
-											</el-button>
-										</el-tooltip>
-										<el-tooltip
-											class="box-item"
-											effect="dark"
-											:content="$t('message.action.add')"
-											placement="top-start">	
-											<el-button type="primary" @click="onChildOpenAddDlg(0, false)" v-auth:[moduleKey]="'btn.ChildAdd'">
-												<el-icon>
-													<CirclePlusFilled />
-												</el-icon>
-											</el-button>
-										</el-tooltip>
-									</el-button-group>
+								<el-form-item label="日期" style="width:250px; white-space: nowrap;" >
+									<el-date-picker
+										v-model="timeRange"
+										type="daterange"
+										unlink-panels
+										range-separator="至"
+										start-placeholder="开始时间"
+										end-placeholder="结束时间"
+										format="YYYY-MM-DD"
+										date-format="YYYY/MM/DD"/>
+								</el-form-item>
+								<el-form-item label="" >
+									<el-checkbox v-model="childTableData.param.allProject" :true-label="true" :false-label="false">不限项目</el-checkbox>
+								</el-form-item>
+								<el-form-item>
+									<el-button type="info" @click="onChildResetSearch">
+										<el-icon>
+											<RefreshLeft />
+										</el-icon>
+										{{ $t('message.action.reset') }}
+									</el-button>
+									<el-button type="info" @click="onChildQuery()">
+										<el-icon>
+											<Search />
+										</el-icon>
+										&#8197;{{ $t('message.action.search') }}
+									</el-button>
+									<el-button type="primary" @click="onChildBatchFinish()" v-auth:[moduleKey]="'btn.TaskEdit'">
+										<el-icon>
+											<CirclePlusFilled />
+										</el-icon>
+										&#8197;{{ $t('message.action.finish') }}
+									</el-button>
+									<el-button type="primary" @click="onChildOpenAddDlg(0, false)" v-auth:[moduleKey]="'btn.TaskAdd'">
+										<el-icon>
+											<CirclePlusFilled />
+										</el-icon>
+										&#8197;{{ $t('message.action.add') }}
+									</el-button>
 								</el-form-item>
 								<el-form-item></el-form-item>
 							</el-form>
@@ -187,13 +155,13 @@
 							:data="childTableData.data"
 							v-loading="childTableData.loading"
 							style="width: 100%"
-							:height="proxy.$calcMainHeight(-75)"
+							:height="proxy.$calcMainHeight(-125)"
 							border
 							stripe
 							selectable
 							highlight-current-row>
 							<el-table-column type="selection" width="55" align="center" fixed />
-							<el-table-column type="expand" fixed>
+							<!-- <el-table-column type="expand" fixed>
 								<template #default="props">
 									<el-card shadow="hover" :body-style="{ padding: '6px' }">
 									<h2><el-text class="mx-1" type="info">任务单号: </el-text><el-text class="mx-1" type="primary">{{ props.row.WaybillBillNo }}</el-text></h2>
@@ -203,26 +171,20 @@
 									<h3><el-text class="mx-1" type="info">收货地址: </el-text><el-text class="mx-1" >{{ props.row.WaybillReceiverAddress }}</el-text></h3>
 									</el-card>
 								</template>
+							</el-table-column> -->
+							<el-table-column prop="Title" label="工单标题" width="150" show-overflow-tooltip>
 							</el-table-column>
-							<el-table-column prop="VehicleNumber" label="车牌号" width="85" fixed>
+							<el-table-column prop="TaskType" label="工单类型" width="70" align="center">
 							</el-table-column>
-							<el-table-column label="开始" width="70" align="center" show-overflow-tooltip>
+							<el-table-column prop="TaskMode" label="处理方式" width="70" align="center">
 								<template #default="scope">
-									<el-switch
-										v-model="scope.row.BeginState"
-										inline-prompt
-										:width="46"
-										v-auth:[moduleKey]="'btn.ChildUpdate'"
-										@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'begin_state', scope.row.Id, scope.row.BeginState,'begin_time')"
-										:active-text="$t('message.action.yes')"
-										:inactive-text="$t('message.action.no')"
-										:active-value="1"
-										:inactive-value="0"/> 
-									<el-tag type="success" effect="plain" v-if="scope.row.BeginState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
-									<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
+									<el-tag type="success" v-if="scope.row.TaskMode==1" effect="dark">现场</el-tag>
+									<el-tag type="primary" v-else-if="scope.row.TaskMode==2" effect="dark">远程</el-tag>
 								</template>
 							</el-table-column>
-							<el-table-column label="结束" width="70" align="center" show-overflow-tooltip>
+							<el-table-column prop="Content" label="处理内容" show-overflow-tooltip>
+							</el-table-column>
+							<el-table-column label="处理结果" width="80" align="center" >
 								<!-- <template #default="scope">
 									<el-tag type="success" effect="plain" v-if="scope.row.FinishState">{{ $t('message.action.yes') }}</el-tag>
 									<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
@@ -232,37 +194,32 @@
 										v-model="scope.row.FinishState"
 										inline-prompt
 										:width="46"
-										v-auth:[moduleKey]="'btn.ChildUpdate'"
-										@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'finish_state', scope.row.Id, scope.row.FinishState,'finish_time')"
+										v-auth:[moduleKey]="'btn.TaskEdit'"
+										@change="proxy.$api.common.table.updateExtById('erp_project_task', 'finish_state', scope.row.Id, scope.row.FinishState,'finish_time')"
 										:active-text="$t('message.action.yes')"
 										:inactive-text="$t('message.action.no')"
 										:active-value="1"
 										:inactive-value="0"/> 
-									<el-tag type="success" effect="plain" v-if="scope.row.FinishState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
-									<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
+									<el-tag type="success" effect="plain" v-if="scope.row.FinishState" v-no-auth:[moduleKey]="'btn.TaskEdit'">{{ $t('message.action.yes') }}</el-tag>
+									<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.TaskEdit'">{{ $t('message.action.no') }}</el-tag>
 								</template>
 							</el-table-column>
-							<el-table-column prop="VehicleTypeName" label="车型" width="80"></el-table-column>
-							<el-table-column prop="WaybillCompanyName" label="公司" width="120" show-overflow-tooltip></el-table-column>
-							<el-table-column prop="WaybillSenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
-							<el-table-column prop="WaybillReceiverAddress" label="收货地址" width="120" show-overflow-tooltip></el-table-column>
-							<el-table-column prop="WaybillBillNo" label="单号" width="110"></el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 								<template #default="scope">
 									<el-dropdown split-button>
 										{{ $t('message.action.operate') }}
 										<template #dropdown>
 											<el-dropdown-menu>
-												<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ChildEdit'">
+												<el-dropdown-item @click="onChildCopy(scope.row.Id, false)" v-auth:[moduleKey]="'btn.TaskCopy'">
+													<el-text type="primary" >{{ $t('message.action.copy') }}</el-text>
+												</el-dropdown-item>
+												<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.TaskEdit'">
 													<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
 												</el-dropdown-item>
 												<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, true)">
 													<el-text  >{{ $t('message.action.see') }}</el-text>
 												</el-dropdown-item>
-												<el-dropdown-item @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)" divided v-auth:[moduleKey]="'btn.ChildMap'">
-													<el-text  >{{ $t('message.action.location') }}</el-text>
-												</el-dropdown-item>
-												<el-dropdown-item @click="onChildDel(scope.row.Id,scope.row.WaybillId)" divided v-auth:[moduleKey]="'btn.ChildDel'">
+												<el-dropdown-item @click="onChildDel(scope.row.Id,scope.row.projectId)" divided v-auth:[moduleKey]="'btn.TaskdDel'">
 													<el-text type="danger">{{ $t('message.action.delete') }}</el-text>
 												</el-dropdown-item>
 											</el-dropdown-menu>
@@ -309,11 +266,9 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_waybill_freight`;
+		const moduleKey = `api_erp_projecttask`;
 		const editMainDlgRef = ref();
 		const editChildDlgRef = ref();
-		const childMapDlgRef=ref();
-		const batchAddLineDlgRef = ref();
 		const mainTableRef = ref();
 		const childTableRef = ref();
 		const state: any = reactive({
@@ -330,22 +285,19 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
-					sendPlanStartTime: "",
-					sendPlanEndTime: "",
-					waybillType:2,
+					state: 1,
 					pageNum: 1,
 					pageSize: 20,
-					state: -1,
 				},
 			},
 			childTableData: {
 				data: [],
 				total: 0,
 				loading: false,
-				isTodayAll:1, //查询今日所有任务详情
 				param: {
 					keyword: '',
-					waybillId:'0',
+					allProject:true, //查询所有项目
+					projectId:'0',
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -368,26 +320,22 @@ export default {
 			}
 			state.mainCurrentRow = row
 			if(row){
-				state.childTableData.param.waybillId=row.Id
-			} else{
-				state.childTableData.param.waybillId="0"
+				state.childTableData.param.allProject=false;
+			} else {
+				state.childTableData.param.allProject=true;
 			}
-			state.childTableData.param.isTodayAll=0
 			onChildGetTableData(true)
 		}
 
 		//	初始化表格数据
 		const onMainGetTableData = async (gotoFirstPage: boolean = false) => {
-			if (state.timeRange && state.timeRange.length>1) {
-				state.mainTableData.param.sendPlanStartTime = state.timeRange[0]
-				state.mainTableData.param.sendPlanEndTime = state.timeRange[1]
-			}
+			
 			if (gotoFirstPage) {
 				state.mainTableData.param.pageNum = 1;
 			}
 			state.mainTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.waybill.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.mainTableData.param);
+				const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.mainTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -399,11 +347,11 @@ export default {
 			}
 		};
 
-		//	打开弹窗
+		//	复制
 		const onMainCopy = async (id: string, ishow: boolean) => {
 			state.mainTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.waybill.copy(id);
+				const res = await proxy.$api.erp.project.copy(id);
 				if (res.errcode == 0) {
 					onMainGetTableData(true)
 				}
@@ -424,7 +372,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.waybill.delete(Id);
+					const res = await proxy.$api.erp.project.delete(Id);
 					if (res.errcode == 0) {
 						onMainGetTableData();
 					}
@@ -460,7 +408,6 @@ export default {
 
 		//重置查询条件
 		const onChildQuery = () => {
-			state.childTableData.param.isTodayAll=state.childTableData.isTodayAll
 			onChildGetTableData(true);
 		};
 
@@ -470,8 +417,13 @@ export default {
 				state.childTableData.param.pageNum = 1;
 			}
 			state.childTableData.loading = true;
+			if(state.childTableData.param.allProject && state.mainCurrentRow){
+				state.childTableData.param.projectId=state.mainCurrentRow.Id
+			} else{
+				state.childTableData.param.projectId='0'
+			}
 			try {
-				const res = await proxy.$api.erp.waybillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.childTableData.param);
+				const res = await proxy.$api.erp.projectTask.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.childTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -482,52 +434,52 @@ export default {
 			}
 		};
 
+		//	复制
+		const onChildCopy = async (id: string, ishow: boolean) => {
+			state.childTableData.loading = true;
+			try {
+				const res = await proxy.$api.erp.projectTask.copy(id);
+				if (res.errcode == 0) {
+					onChildGetTableData(true)
+				}
+			} finally {
+				state.childTableData.loading = false;
+			}
+			return false;
+		};
+
 		//	打开弹窗
 		const onChildOpenAddDlg = (id: string, ishow: boolean) => {
 			if(!state.mainCurrentRow){
-				ElMessage.warning('请选择任务单再添加车辆');
+				ElMessage.warning('请选择项目后再添加记录');
 				return;
 			}
-			batchAddLineDlgRef.value.openDialog(state.kind, state.mainCurrentRow.Id, ishow);
+			editChildDlgRef.value.openDialog(state.kind, '0', state.mainCurrentRow.Id,state.mainCurrentRow.Name, ishow);
 		};
-
-		//批量开始
-		const onChildBatchBegin=async ()=>{
-			const rows=childTableRef.value.getSelectionRows();
-			const ids=rows.map((val)=>{return val.Id});
-			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'begin_state', ids, 1,'begin_time')
-			if(success){
-				onChildGetTableData();
-			}
-		}
+		//	打开弹窗
+		const onChildOpenEditDlg = (id: string,projectName:string, ishow: boolean) => {
+			editChildDlgRef.value.openDialog(state.kind, id, '0',projectName, ishow);
+		};
 		//批量结束
 		const onChildBatchFinish= async ()=>{
 			const rows=childTableRef.value.getSelectionRows();
 			const ids=rows.map((val)=>{return val.Id});
-			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'finish_state', ids, 1,'finish_time')	
+			const success= await proxy.$api.common.table.updateExtByIds('erp_project_task', 'finish_state', ids, 1,'finish_time')	
 			if(success){
 				onChildGetTableData();
 			}
 		}
-		//	打开弹窗
-		const onChildOpenEditDlg = (id: string, ishow: boolean) => {
-			editChildDlgRef.value.openDialog(state.kind, id, ishow);
-		};
-
-		//	打开地图
-		const onChildOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
-			childMapDlgRef.value.openDialog(vehicleNumber, ishow);
-		};
+		
 
 		//	删除用户
-		const onChildDel = (id: string,waybillId:string) => {
+		const onChildDel = (id: string,projectId:string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.erp.waybillLine.delete(id,waybillId);
+					const res = await proxy.$api.erp.projectTask.delete(id,projectId);
 					if (res.errcode == 0) {
 						onMainGetTableData();
 						onChildGetTableData();
@@ -557,14 +509,12 @@ export default {
 			onChildGetTableData();
 		});
 
-		const { dateFormatYMDHM,dateFormatHMS,dateFormatHM } = commonFunction();
+		const { dateFormatYMD } = commonFunction();
 
 		return {
 			proxy,
 			editMainDlgRef,
 			editChildDlgRef,
-			childMapDlgRef,
-			batchAddLineDlgRef,
 			mainTableRef,
 			childTableRef,
 			onMainCurrentChange,
@@ -580,15 +530,12 @@ export default {
 			onChildResetSearch,
 			onChildOpenAddDlg,
 			onChildOpenEditDlg,
-			onChildOpenMapDlg,
-			onChildBatchBegin,
+			onChildCopy,
 			onChildBatchFinish,
 			onChildDel,
 			onChildHandleSizeChange,
 			onChildHandleCurrentChange,
-			dateFormatYMDHM,
-			dateFormatHMS,
-			dateFormatHM,
+			dateFormatYMD,
 			...toRefs(state),
 		};
 	},
