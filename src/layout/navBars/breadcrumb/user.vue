@@ -234,6 +234,7 @@ export default {
 				})
 					.then(() => {
 					 // 清除缓存/token等
+					 	Session.clear(); // 清除缓存/token等
 						resetRoute(); // 删除/重置路由
 						router.push('/login');
 						setTimeout(() => {

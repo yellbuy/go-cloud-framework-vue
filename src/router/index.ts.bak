@@ -6,8 +6,8 @@ import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { dynamicRoutes, staticRoutes } from '/@/router/route';
 import { store } from '/@/store/index.ts';
 import { NextLoading } from '/@/utils/loading';
-import { Session } from '/@/utils/storage';
-
+import { appid, setAppid } from '/@/utils/request';
+import { Local, Session } from '/@/utils/storage';
 /**
  * 创建一个可以被 Vue 应用程序使用的路由实例
  * @method createRouter(options: RouterOptions): Router
@@ -58,8 +58,7 @@ export function formatTwoStageRoutes(arr: any) {
 			newArr.push({ component: v.component, name: v.name, path: v.path, redirect: v.redirect, meta: v.meta, children: [] });
 		} else {
 			// 判断是否是动态路由（xx/:id/:name），用于 tagsView 等中使用
-			// 修复：https://gitee.com/lyt-top/vue-next-admin/issues/I3YX6G
-			if (v.path.indexOf('/:') > -1) {
+			if (v.path.indexOf('/:') > -1 || v.url.indexOf('?') > -1) {
 				v.meta['isDynamic'] = true;
 				v.meta['isDynamicPath'] = v.url || v.path;
 			}
@@ -212,7 +211,17 @@ router.beforeEach(async (to, from, next) => {
 	NProgress.configure({ showSpinner: false });
 	if (to.meta.title) NProgress.start();
 	const token = Session.get('token');
-	if (to.path === '/login' && !token) {
+	if ((to.path === '/login' || to.path === '/register') && !token) {
+		//获取APPID
+		let curAppid=to.query.appid;
+		if(curAppid=="-1"){
+			curAppid=appid
+		}
+		const localAppid=Local.get('appid');
+		curAppid=curAppid||localAppid||appid;
+		console.log("curAppid:",curAppid)
+		setAppid(curAppid);
+
 		next();
 		NProgress.done();
 	} else {

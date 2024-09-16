@@ -72,14 +72,13 @@
 </template>
 
 <script lang="ts">
-import { useRouter } from 'vue-router';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { ElMessage } from 'element-plus';
+import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from '/@/store/index';
-import { Session, Local } from '/@/utils/storage';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
+import { useRouter } from 'vue-router';
 import { resetRoute } from '/@/router/index';
-import other from '/@/utils/other';
+import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 
 export default {
 	name: 'baseUsers',
