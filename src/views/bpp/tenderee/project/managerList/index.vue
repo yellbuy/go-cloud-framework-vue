@@ -42,11 +42,11 @@
 					</el-form>
 				</div>
 				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
-					<el-table-column prop="user" label="用户名" align="right" width="120" fixed />
-					<el-table-column prop="name" label="姓名" align="right" width="120" show-overflow-tooltip fixed/>
+					<el-table-column prop="Username" label="用户名" align="right" width="120" fixed />
+					<el-table-column prop="Name" label="姓名" align="right" width="120" show-overflow-tooltip fixed/>
 					<el-table-column prop="department" label="所属部门" width="120" show-overflow-tooltip/>
 					<el-table-column prop="type" label="管理类别" show-overflow-tooltip/>
-					<el-table-column prop="phone" label="手机号" width="180" show-overflow-tooltip/>
+					<el-table-column prop="Mobile" label="手机号" width="180" show-overflow-tooltip/>
 					<el-table-column label="账号状态" width="70" show-overflow-tooltip>
 						<template #default="scope">
 							<el-switch
@@ -123,13 +123,9 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
-					name: '',
-					no: '',
-					phone:'',
-					kind:'',
-					pageNum: 1,
-					size: 20,
-					isBid: Boolean(isBid),
+					fetchChild: false,
+					pageIndex: 0,
+					pageSize: 10000,
 				},
 			},
 			isSelection: true,
@@ -146,13 +142,12 @@ export default {
 
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			state.tableData.data = [{user:"test", name:"张三", department:"研发", type:"技术", phone:13333333333, state:0}]
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.base.user.getList(state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}

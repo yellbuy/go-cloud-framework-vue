@@ -1,11 +1,11 @@
 <template>
 	<div class="base-user-container">
 		<el-card shadow="hover">
-			<el-tabs v-model="state.activeName" type="card" class="demo-tabs" @tab-change="onGetTableData">
+			<el-tabs v-model="state.activeName" type="card" class="demo-tabs" @tab-change="onResetSearch">
 				<el-tab-pane label="资格评审" name="zgps">
-					<el-form :model="state.zgTableData.param" label-width="60px" :inline="true">
+					<el-form :model="state.tableData.param" label-width="60px" :inline="true">
 						<el-form-item label="评审内容">
-							<el-input placeholder="请输入关键词" v-model="state.zgTableData.param.content" style="width: 150px;"/>
+							<el-input placeholder="请输入关键词" v-model="state.tableData.param.content" style="width: 150px;"/>
 						</el-form-item>
 						<el-form-item>
 							<el-button type="info" @click="onResetSearch()">
@@ -23,7 +23,7 @@
 							<el-button type="primary" @click="onOpenEditDlg(0)">创建</el-button>
 						</el-form-item>
 					</el-form>
-					<el-table :data="state.zgTableData.data" style="width: 100%; margin-top: 10px;" v-loading="state.zgTableData.loading" :height="proxy.$calcMainHeight(-170)" border stripe highlight-current-row>
+					<el-table :data="state.tableData.data" style="width: 100%; margin-top: 10px;" v-loading="state.tableData.loading" :height="proxy.$calcMainHeight(-170)" border stripe highlight-current-row>
 						<el-table-column type="index" label="序号" width="70" align="right" show-overflow-tooltip fixed />
 						<!-- <el-table-column prop="Name" label="评审项" width="120" show-overflow-tooltip /> -->
 						<el-table-column prop="Content" label="评审内容" width="240" show-overflow-tooltip />
@@ -40,10 +40,10 @@
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column prop="Order" label="排序" width="100" align="center">
+						<!-- <el-table-column prop="Order" label="排序" width="100" align="center">
 							<template #header>
-								<el-button  type="text" v-if="state.zgTableData.data" 
-									@click="proxy.$api.common.table.update('erp_project_setting','Order', zgTableData.data||[], 0)" v-auth:[moduleKey]="'btn.Edit'">
+								<el-button  type="text" v-if="state.tableData.data" 
+									@click="proxy.$api.common.table.update('erp_project_setting','Order', state.tableData.data||[], 0)" v-auth:[moduleKey]="'btn.Edit'">
 									<el-icon>
 										<Edit />
 									</el-icon>
@@ -55,7 +55,7 @@
 								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'"> </el-input>
 								<span v-no-auth:[moduleKey]="'btn.Edit'">{{scope.row.Order}}</span>
 							</template>
-						</el-table-column>
+						</el-table-column> -->
 						<el-table-column prop="Remark" label="备注" show-overflow-tooltip />
 						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" show-overflow-tooltip>
 							<template #default="scope">
@@ -66,9 +66,9 @@
 					</el-table>
 				</el-tab-pane>
 				<el-tab-pane label="技术评审" name="jsps">
-					<el-form :model="state.jsTableData.param" label-width="60px" :inline="true">
+					<el-form :model="state.tableData.param" label-width="60px" :inline="true">
 						<el-form-item label="评审内容">
-							<el-input placeholder="请输入关键词" v-model="state.jsTableData.param.content" style="width: 150px;"/>
+							<el-input placeholder="请输入关键词" v-model="state.tableData.param.content" style="width: 150px;"/>
 						</el-form-item>
 						<el-form-item>
 							<el-button type="info" @click="onResetSearch">
@@ -87,9 +87,9 @@
 						</el-form-item>
 					</el-form>
 					<el-table
-						:data="state.jsTableData.data"
+						:data="state.tableData.data"
 						style="width: 100%; margin-top: 10px;"
-						v-loading="state.jsTableData.loading"
+						v-loading="state.tableData.loading"
 						:height="proxy.$calcMainHeight(-170)"
 						border
 						stripe
@@ -99,7 +99,7 @@
 						<el-table-column prop="Standard" label="评审标准" width="300" show-overflow-tooltip />
 						<el-table-column prop="TechnicalMaxScore" label="最高评分" align="right" width="90" />
 						
-						<el-table-column prop="Order" label="排序" width="100" align="center">
+						<!-- <el-table-column prop="Order" label="排序" width="100" align="center">
 							<template #header>
 								<el-button  type="text" v-if="state.jsTableData.data" 
 									@click="proxy.$api.common.table.update('erp_project_setting','Order', state.jsTableData.data||[], 0)" v-auth:[moduleKey]="'btn.Edit'">
@@ -114,8 +114,8 @@
 								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'"> </el-input>
 								<span v-no-auth:[moduleKey]="'btn.Edit'">{{scope.row.Order}}</span>
 							</template>
-						</el-table-column>
-						、<el-table-column prop="Remark" label="备注" show-overflow-tooltip />
+						</el-table-column> -->
+						<el-table-column prop="Remark" label="备注" show-overflow-tooltip />
 						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id)">编辑</el-button>
@@ -132,43 +132,36 @@
 
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import settingEdit from './component/settingEdit.vue';
 
 const settingEditDlgRef = ref();
 const route = useRoute();
-// const activeName = ref('zg');
 const scopeMode = route.params.scopeMode || 0;
 const scopeValue = route.params.scopeValue || 0;
 const moduleKey = 'tenderee_project_setting';
 const { proxy } = getCurrentInstance() as any;
 const state = reactive({
 	moduleKey: moduleKey,
-	// supKindData: [], //类型
 	activeName: 'zgps',
 	scopeMode,
 	scopeValue,
-	zgTableData: {
+	tableData: {
 		data: [],
 		total: 0,
 		param: {
 			kind: 'zgps',
-			pageIndex: 1,
-			pageSize: 10000,
-		},
-	},
-	jsTableData: {
-		data: [],
-		total: 0,
-		param: {
-			kind: 'jsps',
-			pageIndex: 1,
+			current: 1,
+			pageIndex: 0,
 			pageSize: 10000,
 		},
 	},
 });
 
+state.tableData.param.pageIndex = computed(() => {
+	return state.tableData.param.current - 1;
+});
 
 //	打开编辑弹窗
 const onOpenEditDlg = (id: string) => {
@@ -177,45 +170,21 @@ const onOpenEditDlg = (id: string) => {
 
 //	重置搜索
 const onResetSearch = () => {
-	switch (state.activeName) {
-		case "zgps":
-			state.zgTableData.param = {kind: 'zgps', pageIndex: 1, pageSize: 10000,}
-			break
-		case "jsps":
-			state.jsTableData.param = {kind: 'jsps', pageIndex: 1, pageSize: 10000,}
-			break
-	}
+	state.tableData.param.kind = state.activeName
 	onGetTableData();
 };
 
 //获取评审参数模版列表
 const onGetTableData = async () => {
-	switch (state.activeName){
-		case "zgps":
-			state.zgTableData.loading = true;
-			try {
-				state.zgTableData.param.pageIndex-1
-				const res = await proxy.$api.erp.projectsetting.getListByScope(scopeMode, scopeValue, state.zgTableData.param);
-				if (res.errcode != 0) {
-					return;
-				}
-				state.zgTableData.data = res.data
-			} finally {
-				state.zgTableData.loading = false;
-			}
-			break;
-		case "jsps":
-			state.jsTableData.loading = true;
-			try {
-				const res = await proxy.$api.erp.projectsetting.getListByScope(scopeMode, scopeValue, state.jsTableData.param);
-				if (res.errcode != 0) {
-					return;
-				}
-				state.jsTableData.data = res.data
-			} finally {
-				state.jsTableData.loading = false;
-			}
-			break;
+	state.tableData.loading = true;
+	try {
+		const res = await proxy.$api.erp.projectsetting.getListByScope(scopeMode, scopeValue, state.tableData.param);
+		if (res.errcode != 0) {
+			return;
+		}
+		state.tableData.data = res.data
+	} finally {
+		state.tableData.loading = false;
 	}
 };
 
@@ -225,12 +194,7 @@ const onRowDel = (id: number) => {
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
-		switch (state.activeName){
-			case "zgps":
-				state.zgTableData.loading = true;
-			case "jsps":
-				state.jsTableData.loading = true;
-		}
+		state.tableData.loading = true;
 		try {
 			const res = await proxy.$api.erp.projectsetting.delete(id);
 			if (res.errcode == 0) {
@@ -239,12 +203,7 @@ const onRowDel = (id: number) => {
 				}
 			}
 		} finally {
-			switch (state.activeName){
-			case "zgps":
-				state.zgTableData.loading = false;
-			case "jsps":
-				state.jsTableData.loading = false;
-			}
+			state.tableData.loading = false;
 		}
 		return false;
 	});

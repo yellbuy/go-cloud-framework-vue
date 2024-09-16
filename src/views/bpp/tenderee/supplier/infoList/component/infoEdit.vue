@@ -11,7 +11,7 @@
 			<el-col :span="24">
 				<el-form-item label="工商信息：" prop="No"/>
 				<el-descriptions :column="2">
-					<el-descriptions-item label="企业全称：">test</el-descriptions-item>
+					<el-descriptions-item label="企业全称：">{{ ruleForm.Name }}</el-descriptions-item>
 					<el-descriptions-item label="客商编码：">test</el-descriptions-item>
 					<el-descriptions-item label="营业执照编码：">test</el-descriptions-item>
 					<el-descriptions-item label="登录用户名：">test</el-descriptions-item>
@@ -127,20 +127,14 @@ export default {
 		});
 
 		//表格数据
-		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			if (gotoFirstPage) {
-				state.tableData.param.current = 1;
-			}
-			state.tableData.loading = true;
+		const onGetTableData = async (id: string) => {
 			try {
-				const res = await proxy.$api.common.enterprise.getList(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.base.tenant.getCacheById(id);
 				if (res.errcode != 0) {
 					return;
 				}
-				state.tableData.data = res.data;
-				state.tableData.total = res.total;
+				state.ruleForm = res.data;
 			} finally {
-				state.tableData.loading = false;
 			}
 		};
 		//重置查询条件
@@ -226,7 +220,9 @@ export default {
 		};
 		
 		// 打开页面
-		const openPage = async () => {
+		const openPage = async (id: string) => {
+			console.log("测试", id)
+			onGetTableData(id)
 			state.isShowPage = true;
 		};
 		const closeDialog = async() => {

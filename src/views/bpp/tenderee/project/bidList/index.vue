@@ -46,7 +46,7 @@
 				<el-table-column prop="fanwei" label="招标范围" width="200" show-overflow-tooltip/>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="info" @click="onProjectSee()">项目详情</el-button>
+						<el-button text bg type="info" @click="onProjectSee(scope.row.Id, true)">项目详情</el-button>
 						<el-button text bg type="primary" @click="onProjectBidEdit()">项目评选</el-button>
 					</template>
 				</el-table-column>

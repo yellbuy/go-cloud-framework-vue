@@ -61,7 +61,6 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
-import { fa } from 'element-plus/es/locale';
 export default {
 	name: 'projectEdit',
 	components: { Upload },
