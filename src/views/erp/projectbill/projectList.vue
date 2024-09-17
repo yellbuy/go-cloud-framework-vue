@@ -46,22 +46,23 @@
 						:data="mainTableData.data"
 						@current-change="onMainCurrentChange"
 						v-loading="mainTableData.loading"
+						:default-sort="{ prop: 'Sn' }"
 						style="width: 100%"
 						:height="proxy.$calcMainHeight(-125)"
 						border
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
-						<el-table-column prop="Sn" label="流水号" width="110" fixed></el-table-column>
-						<el-table-column prop="Name" label="项目名称" width="160" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="State" label="状态" width="70" align="center">
+						<el-table-column prop="Sn" label="流水号" width="110" sortable  fixed></el-table-column>
+						<el-table-column prop="Name" label="项目名称" width="160" sortable  show-overflow-tooltip></el-table-column>
+						<el-table-column prop="State" label="状态" width="70" sortable align="center">
 							<template #default="scope">
 								<el-tag type="danger"  v-if="scope.row.State==0" effect="dark">未开始</el-tag> 
 								<el-tag type="success" v-else-if="scope.row.State==1" effect="dark">进行中</el-tag>
 								<el-tag type="primary" v-else-if="scope.row.State==2" effect="dark">已结束</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="StartTime" label="开始时间" width="90" :formatter="dateFormatYMD" ></el-table-column>
+						<el-table-column prop="StartTime" label="开始时间" width="90" sortable  :formatter="dateFormatYMD" ></el-table-column>
 						<el-table-column prop="Content" label="合同内容" width="240" show-overflow-tooltip ></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope">
@@ -170,6 +171,7 @@
 							:data="childTableData.data"
 							v-loading="childTableData.loading"
 							style="width: 100%"
+							:default-sort="{ prop: 'BillTime' }"
 							:height="proxy.$calcMainHeight(-145)"
 							border
 							show-summary
@@ -189,16 +191,16 @@
 									</el-card>
 								</template>
 							</el-table-column> -->
-							<el-table-column prop="Sn" label="流水号" width="110" fixed></el-table-column>
-							<el-table-column prop="Name" label="科目" align="center" width="90" fixed show-overflow-tooltip>
+							<el-table-column prop="Sn" label="流水号" width="110" sortable fixed></el-table-column>
+							<el-table-column prop="Name" label="科目" align="center" sortable width="90" fixed show-overflow-tooltip>
 							</el-table-column>
-							<el-table-column prop="BillType" label="账目类型" width="70" align="center">
+							<el-table-column prop="BillType" label="账目类型" width="90" sortable align="center">
 								<template #default="scope">
 									<el-tag type="success" v-if="scope.row.BillType==1" effect="dark">收入</el-tag>
 									<el-tag type="danger" v-else-if="scope.row.BillType==-1" effect="dark">支出</el-tag>
 								</template>
 							</el-table-column>
-							<el-table-column label="应收付日期" prop="BillTime" width="90" align="center" :formatter="dateFormatYMD" >
+							<el-table-column label="应收付日" prop="BillTime" width="90" align="center" sortable :formatter="dateFormatYMD" >
 								<template #default="scope">
 									<el-text type="danger" effect="plain" v-if="!scope.row.FinishState && dayjs(new Date()).isAfter(dayjs(scope.row.BillTime))">{{dayjs(scope.row.BillTime).format("YYYY-MM-DD")}}</el-text>
 									<el-text type="warning" effect="plain" v-else-if="!scope.row.FinishState && dayjs(new Date()).isAfter(dayjs(scope.row.RemindTime))">{{dayjs(scope.row.BillTime).format("YYYY-MM-DD")}}</el-text>
@@ -206,7 +208,7 @@
 								</template>
 							</el-table-column>
 							
-							<el-table-column label="支付完成" width="80" align="center" >
+							<el-table-column label="支付完成" width="90"  sortable align="center" >
 								<template #default="scope">
 									<el-switch
 										v-model="scope.row.FinishState"
@@ -222,22 +224,22 @@
 									<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.BillEdit'">{{ $t('message.action.no') }}</el-tag>
 								</template>
 							</el-table-column>
-							<el-table-column label="支付日期" prop="FinishTime" width="90" align="center" :formatter="dateFormatYMD" >
+							<el-table-column label="支付日期" prop="FinishTime" width="90" align="center"  sortable :formatter="dateFormatYMD" >
 								<template #default="scope">
 									{{scope.row.FinishState ? dayjs(scope.row.FinishTime).format("YYYY-MM-DD"):''}}
 								</template>
 							</el-table-column>
-							<el-table-column label="科目单位" prop="Unit" width="80" align="center" >
+							<el-table-column label="科目单位" prop="Unit" width="90" sortable align="center" >
 							</el-table-column>
-							<el-table-column label="合计金额" prop="Total" width="80" align="right" >
+							<el-table-column label="合计金额" prop="Total" width="90" sortable align="right" >
 								<template #default="scope">
 									<el-text type="danger" effect="plain" v-if="scope.row.BillType<0">{{scope.row.Total}}</el-text>
 									<el-text type="success" effect="plain" v-else>{{scope.row.Total}}</el-text>
 								</template>
 							</el-table-column>
-							<el-table-column label="往来单位名称" prop="EntityName" width="130" show-overflow-tooltip>
+							<el-table-column label="往来单位名称" prop="EntityName" sortable width="130" show-overflow-tooltip>
 							</el-table-column>
-							<el-table-column label="往来单位电话" prop="EntityPhone" width="100" show-overflow-tooltip>
+							<el-table-column label="往来单位电话" prop="EntityPhone" sortable width="110" show-overflow-tooltip>
 							</el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 								<template #default="scope">

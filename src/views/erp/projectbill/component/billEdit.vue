@@ -6,7 +6,6 @@
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="科目" prop="Name">
 							<el-select v-model="ruleForm.Name" placeholder="请选择" >
-								<el-option :label="请选择" value=""> </el-option>
 								<el-option v-for="(item, index) in nameList" :key="index" :label="item.Name" :value="item.Name"> </el-option>	
 							</el-select>
 						</el-form-item>
