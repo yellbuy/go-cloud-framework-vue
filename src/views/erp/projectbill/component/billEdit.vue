@@ -1,77 +1,179 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
+		<el-dialog :title="title+(projectName?'：':'')+projectName" v-model="isShowDialog" width="60%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="车牌号码" prop="VehicleNumber">
-							<el-input v-model="ruleForm.VehicleNumber" /> 
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="科目" prop="Subject">
+							<el-select v-model="ruleForm.Subject" placeholder="请选择" >
+								<el-option label="工程款" value="工程款" />									
+								<el-option label="阶段款" value="阶段款" />															
+								<el-option label="质保金" value="质保金" />
+								<el-option label="赔偿金" value="赔偿金" />
+								<el-option label="货款" value="货款" />	
+								<el-option label="其他" value="其他" />	
+								<el-option label="坏账" value="坏账" />				
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="账目类型" prop="BillType">
+							<el-radio-group
+								v-model="ruleForm.BillType">
+								<el-radio :label="1">收入</el-radio>
+								<el-radio :label="-1">支出</el-radio>
+							</el-radio-group>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-divider content-position="left">发货信息*</el-divider>
+				<el-row :gutter="0">
+					
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="所属项目" prop="ProjectId">
+							<el-select v-model="ruleForm.ProjectId" placeholder="请选择" >
+								<el-option v-for="(item, index) in projectList" :key="index" :label="item.Name" :value="item.Id"> </el-option>	
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="往来账名称" prop="Title">
+							<el-input v-model="ruleForm.Title" /> 
+						</el-form-item>
+					</el-col>
+					
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="科目单位" prop="Unit">
+							<el-input v-model="ruleForm.Unit" /> 
+						</el-form-item>
+					</el-col>
+				</el-row>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="是否发货" prop="BeginState">
-							<el-switch v-model="ruleForm.BeginState" :width="50" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
+						<el-form-item label="金额" prop="Amount">
+							<el-input-number
+								v-model="ruleForm.Amount"
+								:min="0"
+								controls-position="right"
+								:precision="2"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item :label="'发货'+getModeName" prop="SenderNetWeight">
-							<el-input-number v-model="ruleForm.SenderNetWeight" min="0" max="10000" :precision="2" /> 
+						<el-form-item label="" prop="IsIncludeTax">
+							<el-checkbox v-model="ruleForm.IsIncludeTax" :true-label="1" :false-label="0">金额含税</el-checkbox>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="税率" prop="TaxRate">
+							<el-input-number
+								v-model="ruleForm.TaxRate"
+								:min="0"
+								controls-position="right"
+								:precision="2"/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="发货时间" prop="BeginTime">
+						<el-form-item label="税费" prop="Tax" >
+							{{getTax}}
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="含税合计" prop="Total">
+							{{getTotal}}
+							<!-- <el-input-number :disabled="true"
+								v-model="getTotal"
+								:min="0"
+								controls-position="right"
+								:precision="2"/> -->
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="应收付日期" prop="BillTime">
 							<el-date-picker
-								v-model="ruleForm.BeginTime"
-								type="datetime"
-								placeholder="发货时间"
-								format="YYYY-MM-DD HH:mm" />
+								v-model="ruleForm.BillTime"
+								type="date"
+								placeholder="应收付日期"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="提醒日期" prop="RemindTime">
+							<el-date-picker
+								v-model="ruleForm.RemindTime"
+								type="date"
+								placeholder="提醒日期"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="下次收款日" prop="PlanTime">
+							<el-date-picker
+								v-model="ruleForm.PlanTime"
+								type="date"
+								placeholder="下次收款日期"
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-divider content-position="left">卸货信息*</el-divider>
+				<el-divider content-position="left">完成信息*</el-divider>
 				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="是否卸货" prop="FinishState">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="是否完成" prop="FinishState">
 							<el-switch v-model="ruleForm.FinishState" :width="50" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item :label="'卸货'+getModeName" prop="ReceiverNetWeight">
-							<el-input-number v-model="ruleForm.ReceiverNetWeight" min="0" max="10000" :precision="2" /> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="卸货时间" prop="FinishTime">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="完成时间" prop="FinishTime">
 							<el-date-picker
 								v-model="ruleForm.FinishTime"
 								type="datetime"
-								placeholder="卸货时间"
+								placeholder="完成时间"
 								format="YYYY-MM-DD HH:mm" />
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row :gutter="0">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
-						<el-form-item label="发货照" prop="SenderPics">
-							<imgList :ids="ruleForm.SenderPics"></imgList>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="往来账说明" prop="Content">
+							<el-input v-model="ruleForm.Content" :autosize="{ minRows: 3, maxRows: 6 }"
+							type="textarea"/> 
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-divider content-position="left">往来单位信息*</el-divider>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="单位名称" prop="EntityName">
+							<el-input v-model="ruleForm.EntityName" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="联系电话" prop="EntityPhone">
+							<el-input v-model="ruleForm.EntityPhone" /> 
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row :gutter="0">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
-						<el-form-item label="收货照" prop="ReceiverPics">
-							<imgList :ids="ruleForm.ReceiverPics"></imgList>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="单位备注" prop="EntityRemark">
+							<el-input v-model="ruleForm.EntityRemark" placeholder="单位收付款对公信息等" :autosize="{ minRows: 3, maxRows: 6 }"
+							type="textarea"/> 
 						</el-form-item>
 					</el-col>
 				</el-row>
+				
+				
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.BillEdit', 'btn.BillAdd']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
@@ -81,7 +183,6 @@
 </template>
 
 <script lang="ts">
-import { Plus } from '@element-plus/icons-vue';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import imgList from '/@/components/image/index.vue';
@@ -89,7 +190,7 @@ import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
-	name: 'freightLineEdit',
+	name: 'projectBillEdit',
 	components: { imgList },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -102,29 +203,11 @@ export default {
 			return store.state.userInfos.userInfos;
 		});
 
-		const getModeName=computed(() => {
-		 	const mode= state.ruleForm?.Waybill?.Mode;
-			if(!mode){
-				return ""
-			}
-			if(mode==1){
-				return "(吨)"
-			}
-			if(mode==2){
-				return "(台班)"
-			}
-			if(mode==3){
-				return "(月)"
-			}
-			if(mode==4){
-				return "(队用)"
-			}
-			return ""
-		});
 		
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
+			projectName:'',
 			loading: false,
 			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
@@ -132,49 +215,64 @@ export default {
 			ruleForm: {
 				Id: 0,
 				Name: '',
-				Kind: 'info',
-				VehicleNumber: '',
-				IsExternal:0,
-				VehicleType: '',
-				EnergyType: '',
-				PlateColor:'',
-				Vin: '',
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
-				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
-				Waybill:{Mode:0}
-			},
-			tableItem: {
-				Id: '0',
-				CategoryId: '',
-				Name: '',
-				Files: '',
-				StartTime: '',
-				EndTime:'',
-				Kind: 'info',
+				Kind: 'default',
+				Title: '',
+				Subject:'',
+				BillType: 1,
+				Amount:0,
+				IsIncludeTax:1,
+				TaxRate:0,
+				Tax:0,
+				Total:0,
 			},
 			dialogVisible: false,
-			truckTypeList: [],
-			plateColorList:[],
-			energyTypeList:[],
+			projectList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
-
+		//	税费计算
+		const getTax = computed(() => {
+			if(state.ruleForm.IsIncludeTax){
+				state.ruleForm.Tax=0
+				return 0;
+			}
+			const tax= Number.parseFloat((state.ruleForm.Amount*state.ruleForm.TaxRate).toFixed(4));
+			state.ruleForm.Tax=tax
+			return tax;
+		});
+		//	含税合计计算
+		const getTotal = computed(() => {
+			if(state.ruleForm.IsIncludeTax){
+				state.ruleForm.Total=state.ruleForm.Amount
+				return state.ruleForm.Amount;
+			}
+			const amount= Number.parseFloat((state.ruleForm.Amount*(1+state.ruleForm.TaxRate)).toFixed(2));
+			state.ruleForm.Total=amount
+			return amount;
+		});
 		const token = Session.get('token');
 
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			VehicleNumber: [
+			Subject: [
+				{
+					required: true,
+					message: computed(()=>t('message.validRule.required')),
+					trigger: 'blur',
+				},
+			],
+			ProjectId: [
+				{
+					required: true,
+					message: computed(()=>t('message.validRule.required')),
+					trigger: 'blur',
+				},
+			],
+			BillType: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
@@ -182,46 +280,32 @@ export default {
 				},
 			],
 			
+			BillTime: [
+				{
+					required: true,
+					message: computed(()=>t('message.validRule.required')),
+					trigger: 'blur',
+				},
+			],
 		});
 		
 		// 打开弹窗
-		const openDialog = async (kind: string, id: string, disable: boolean) => {
+		const openDialog = async (kind: string, id: string,projectId:string,projectName:'', disable: boolean) => {
 			state.Files = [];
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
+			state.projectName=projectName;
 			try {
-				const resTruckTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_type', 0, 2);
-				if (resTruckTypes.errcode == 0) {
-					state.truckTypeList = resTruckTypes.data;
-				}else{
-					console.log("error:",resTruckTypes.errmsg)
-				}
-				const resPlateColors = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColors.errcode == 0) {
-					state.plateColorList = resPlateColors.data;
-				}else{
-					console.log("error:",resPlateColors.errmsg)
-				}
-				const resEnergyTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('energy_type', 0, 2);
-				if (resEnergyTypes.errcode == 0) {
-					state.energyTypeList = resEnergyTypes.data;
-				}else{
-					console.log("error:",resEnergyTypes.errmsg)
-				}
-				const resPlateColorTypes = await proxy.$api.common.commondata.getConcreteDataListByScope('plate_color', 0, 2);
-				if (resPlateColorTypes.errcode == 0) {
-					state.plateColorList = resPlateColorTypes.data;
-				}else{
-					console.log("error:",resPlateColorTypes.errmsg)
-				}
+				await loadProjectList(kind)
 				state.disable = disable;
 				if (id && id != '0') {
 					getByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
-					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal=0;
+					state.ruleForm.Id = '0';
+					state.ruleForm.ProjectId=projectId;
+					state.ruleForm.BillTime=new Date()
+					state.ruleForm.RemindTime=new Date()
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -232,7 +316,7 @@ export default {
 
 		const getByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.erp.waybillLine.getById(Id);
+				const res = await proxy.$api.erp.projectBill.getById(Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -247,7 +331,14 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-
+		const loadProjectList = async (kind:string) => {
+			const res = await proxy.$api.erp.project.getListByScope(kind, 0, 2, {finishState:0,pageSize:100000});
+				if (res.errcode == 0) {
+					state.projectList=res.data
+				}else{
+					console.log("error:",res.errmsg)
+				}
+		};
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
@@ -263,7 +354,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
-						const res = await proxy.$api.erp.waybillLine.save(state.ruleForm);
+						const res = await proxy.$api.erp.projectBill.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
@@ -271,7 +362,7 @@ export default {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id = 0;
 							}
-							proxy.$parent.onMainGetTableData();
+							proxy.$parent.onChildGetTableData();
 						}
 					} finally {
 						state.loading = false;
@@ -294,15 +385,13 @@ export default {
 			getByIdRow,
 			dateFormatYMD,
 			getUserInfos,
+			getTax,
+			getTotal,
 			rules,
 			token,
-			getModeName,
 			onSubmit,
 			...toRefs(state),
 		};
-	},
-	components: {
-		Plus,
 	},
 	data() {
 		return {};

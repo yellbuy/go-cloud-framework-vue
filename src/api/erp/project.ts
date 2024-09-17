@@ -56,7 +56,15 @@ export default {
         const url = `/v1/admin/erp/projects/${kind}`;
         return await http.post(url, data);
     },
-
+    /**
+     * 复制
+     * @param data 信息
+     * @returns 返回接口数据
+     */
+    copy: async (id: number|string) => {
+        const url = `/v1/admin/erp/project/copy/${id}`;
+        return await http.post(url, id);
+    },
     /**
      * 删除
      * @param ids 标识，字符串或数组

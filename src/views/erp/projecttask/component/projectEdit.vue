@@ -12,10 +12,10 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="状态" prop="WaybillMode">
+						<el-form-item label="状态" prop="State">
 							<div mb-2 flex items-center>
 								<el-radio-group
-									v-model="ruleForm.WaybillMode">
+									v-model="ruleForm.State">
 									<el-radio :label="0">未开始</el-radio>
 									<el-radio :label="1">进行中</el-radio>
 									<el-radio :label="2">已结束</el-radio>
@@ -46,6 +46,14 @@
 						</el-form-item>
 					</el-col>
 				</el-row>	
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="项目备注" prop="Remark">
+							<el-input v-model="ruleForm.Remark" :autosize="{ minRows: 3, maxRows: 6 }"
+							type="textarea"/> 
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">

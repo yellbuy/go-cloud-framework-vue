@@ -10,14 +10,23 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="所属项目" prop="ProjectId">
+							<el-select v-model="ruleForm.ProjectId" placeholder="请选择" >
+								<el-option v-for="(item, index) in projectList" :key="index" :label="item.Name" :value="item.Id"> </el-option>	
+							</el-select>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="工单类型" prop="Title">
 							<el-select v-model="ruleForm.TaskType" placeholder="请选择" >
-									<el-option label="运维" value="运维" />									
-									<el-option label="质保内" value="质保" />	
-									<el-option label="巡检" value="巡检" />								
-									<el-option label="质保外" value="质保外" />
-								</el-select>
+								<el-option label="运维" value="运维" />									
+								<el-option label="质保内" value="质保" />	
+								<el-option label="巡检" value="巡检" />								
+								<el-option label="质保外" value="质保外" />
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -115,19 +124,8 @@ export default {
 				TaskMode:2,
 				TaskType: '',
 			},
-			tableItem: {
-				Id: '0',
-				CategoryId: '',
-				Name: '',
-				Files: '',
-				StartTime: '',
-				EndTime:'',
-				Kind: 'info',
-			},
 			dialogVisible: false,
-			truckTypeList: [],
-			plateColorList:[],
-			energyTypeList:[],
+			projectList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -141,6 +139,13 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			Title: [
+				{
+					required: true,
+					message: computed(()=>t('message.validRule.required')),
+					trigger: 'blur',
+				},
+			],
+			ProjectId: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
@@ -176,8 +181,8 @@ export default {
 			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.projectName=projectName;
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: kind, StartTime: '' };
 			try {
+				await loadProjectList(kind)
 				state.disable = disable;
 				if (id && id != '0') {
 					getByIdRow(id);
@@ -212,7 +217,14 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
-
+		const loadProjectList = async (kind:string) => {
+			const res = await proxy.$api.erp.project.getListByScope(kind, 0, 2, {finishState:0,pageSize:100000});
+				if (res.errcode == 0) {
+					state.projectList=res.data
+				}else{
+					console.log("error:",res.errmsg)
+				}
+		};
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
@@ -236,7 +248,7 @@ export default {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id = 0;
 							}
-							proxy.$parent.onMainGetTableData();
+							proxy.$parent.onChildGetTableData();
 						}
 					} finally {
 						state.loading = false;

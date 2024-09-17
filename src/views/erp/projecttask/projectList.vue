@@ -51,9 +51,9 @@
 						border
 						stripe
 						highlight-current-row>
-						<el-table-column type="index" label="序号" align="right" width="60" fixed />
-						
-						<el-table-column prop="Name" label="项目名称" width="180"></el-table-column>
+						<el-table-column type="index" label="序号" align="right" width="50" fixed />
+						<el-table-column prop="Sn" label="流水号" width="110" fixed></el-table-column>
+						<el-table-column prop="Name" label="项目名称" width="160" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="State" label="状态" width="70" align="center">
 							<template #default="scope">
 								<el-tag type="danger"  v-if="scope.row.State==0" effect="dark">未开始</el-tag> 
@@ -62,13 +62,14 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="StartTime" label="开始时间" width="90" :formatter="dateFormatYMD" ></el-table-column>
+						<el-table-column prop="Remark" label="项目备注" width="240" show-overflow-tooltip></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope">
 								<el-dropdown split-button >
 									{{ $t('message.action.operate') }}
 									<template #dropdown>
 										<el-dropdown-menu>
-											<el-dropdown-item @click="onMainCopy(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ProjectCopy'">
+											<el-dropdown-item @click="onMainCopy(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ProjectAdd'">
 												<el-text type="primary" >{{ $t('message.action.copy') }}</el-text>
 											</el-dropdown-item>
 											<el-dropdown-item @click="onMainOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.ProjectEdit'">
@@ -172,6 +173,7 @@
 									</el-card>
 								</template>
 							</el-table-column> -->
+							<el-table-column prop="Sn" label="流水号" width="110" fixed></el-table-column>
 							<el-table-column prop="Title" label="工单标题" width="150" show-overflow-tooltip>
 							</el-table-column>
 							<el-table-column prop="TaskType" label="工单类型" width="70" align="center">
@@ -182,13 +184,8 @@
 									<el-tag type="primary" v-else-if="scope.row.TaskMode==2" effect="dark">远程</el-tag>
 								</template>
 							</el-table-column>
-							<el-table-column prop="Content" label="处理内容" show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column label="处理结果" width="80" align="center" >
-								<!-- <template #default="scope">
-									<el-tag type="success" effect="plain" v-if="scope.row.FinishState">{{ $t('message.action.yes') }}</el-tag>
-									<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
-								</template> -->
+							
+							<el-table-column label="处理完成" width="80" align="center" >
 								<template #default="scope">
 									<el-switch
 										v-model="scope.row.FinishState"
@@ -204,13 +201,16 @@
 									<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.TaskEdit'">{{ $t('message.action.no') }}</el-tag>
 								</template>
 							</el-table-column>
+							<el-table-column prop="TaskTime" label="工单时间" width="90" :formatter="dateFormatYMD" ></el-table-column>
+							<el-table-column prop="Content" label="处理内容" show-overflow-tooltip>
+							</el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 								<template #default="scope">
 									<el-dropdown split-button>
 										{{ $t('message.action.operate') }}
 										<template #dropdown>
 											<el-dropdown-menu>
-												<el-dropdown-item @click="onChildCopy(scope.row.Id, false)" v-auth:[moduleKey]="'btn.TaskCopy'">
+												<el-dropdown-item @click="onChildCopy(scope.row.Id, false)" v-auth:[moduleKey]="'btn.TaskAdd'">
 													<el-text type="primary" >{{ $t('message.action.copy') }}</el-text>
 												</el-dropdown-item>
 												<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.TaskEdit'">
@@ -219,7 +219,7 @@
 												<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, true)">
 													<el-text  >{{ $t('message.action.see') }}</el-text>
 												</el-dropdown-item>
-												<el-dropdown-item @click="onChildDel(scope.row.Id,scope.row.projectId)" divided v-auth:[moduleKey]="'btn.TaskdDel'">
+												<el-dropdown-item @click="onChildDel(scope.row.Id,scope.row.projectId)" divided v-auth:[moduleKey]="'btn.TaskDel'">
 													<el-text type="danger">{{ $t('message.action.delete') }}</el-text>
 												</el-dropdown-item>
 											</el-dropdown-menu>
@@ -258,7 +258,7 @@ import editMainDlg from './component/projectEdit.vue';
 import editChildDlg from './component/taskEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
-	name: 'freightList',
+	name: 'projectTaskList',
 	components: { editMainDlg, editChildDlg, Splitpanes, Pane },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -417,10 +417,10 @@ export default {
 				state.childTableData.param.pageNum = 1;
 			}
 			state.childTableData.loading = true;
-			if(state.childTableData.param.allProject && state.mainCurrentRow){
-				state.childTableData.param.projectId=state.mainCurrentRow.Id
+			if(state.childTableData.param.allProject || !state.mainCurrentRow){
+				state.childTableData.param.projectId='0'				
 			} else{
-				state.childTableData.param.projectId='0'
+				state.childTableData.param.projectId=state.mainCurrentRow.Id
 			}
 			try {
 				const res = await proxy.$api.erp.projectTask.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.childTableData.param);
@@ -457,8 +457,8 @@ export default {
 			editChildDlgRef.value.openDialog(state.kind, '0', state.mainCurrentRow.Id,state.mainCurrentRow.Name, ishow);
 		};
 		//	打开弹窗
-		const onChildOpenEditDlg = (id: string,projectName:string, ishow: boolean) => {
-			editChildDlgRef.value.openDialog(state.kind, id, '0',projectName, ishow);
+		const onChildOpenEditDlg = (id: string, ishow: boolean) => {
+			editChildDlgRef.value.openDialog(state.kind, id, '0','', ishow);
 		};
 		//批量结束
 		const onChildBatchFinish= async ()=>{
