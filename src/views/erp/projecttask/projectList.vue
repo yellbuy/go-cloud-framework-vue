@@ -174,7 +174,9 @@
 								</template>
 							</el-table-column> -->
 							<el-table-column prop="Sn" label="流水号" width="110" fixed></el-table-column>
-							<el-table-column prop="Title" label="工单标题" width="150" show-overflow-tooltip>
+							<el-table-column prop="Name" label="工单分类" width="90" align="center" fixed show-overflow-tooltip>
+							</el-table-column>
+							<el-table-column prop="Title" label="工单标题" width="120" show-overflow-tooltip>
 							</el-table-column>
 							<el-table-column prop="TaskType" label="工单类型" width="70" align="center">
 							</el-table-column>
@@ -202,6 +204,7 @@
 								</template>
 							</el-table-column>
 							<el-table-column prop="TaskTime" label="工单时间" width="90" :formatter="dateFormatYMD" ></el-table-column>
+							<el-table-column prop="Address" label="地点" align="center" width="70" show-overflow-tooltip></el-table-column>
 							<el-table-column prop="Content" label="处理内容" show-overflow-tooltip>
 							</el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
@@ -249,7 +252,7 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
 import { Pane, Splitpanes } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
@@ -450,11 +453,7 @@ export default {
 
 		//	打开弹窗
 		const onChildOpenAddDlg = (id: string, ishow: boolean) => {
-			if(!state.mainCurrentRow){
-				ElMessage.warning('请选择项目后再添加记录');
-				return;
-			}
-			editChildDlgRef.value.openDialog(state.kind, '0', state.mainCurrentRow.Id,state.mainCurrentRow.Name, ishow);
+			editChildDlgRef.value.openDialog(state.kind, '0', state.mainCurrentRow?.Id||'',state.mainCurrentRow?.Name||"", ishow);
 		};
 		//	打开弹窗
 		const onChildOpenEditDlg = (id: string, ishow: boolean) => {

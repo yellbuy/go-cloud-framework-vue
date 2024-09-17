@@ -47,6 +47,43 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="金额" prop="Amount">
+							<el-input-number
+								v-model="ruleForm.Amount"
+								:min="0"
+								controls-position="right"
+								:precision="2"/>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="" prop="IsIncludeRate">
+							<el-checkbox v-model="ruleForm.IsIncludeRate" :true-label="1" :false-label="0">金额含税</el-checkbox>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="税率" prop="TaxRate">
+							<el-input-number
+								v-model="ruleForm.TaxRate"
+								:min="0"
+								controls-position="right"
+								:precision="2"/>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="税费" prop="Tax" >
+							{{getTax}}
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="含税合计" prop="Total">
+							{{getTotal}}
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="对接人姓名" prop="ProjectManagerName">
 							<el-input
@@ -131,25 +168,11 @@ export default {
 				Id: 0,
 				Name: '',
 				Kind: 'info',
-				CustomerId:"",
-				GoodsCategoryId: "0",
-				WaybillMode: 1,
-				Mode: 1,
-				GoodsId: "",
-				VehicleNumber: '',
-				IsExternal:0,
-				VehicleType: '',
-				EnergyType: '',
-				PlateColor:'',
-				Vin: '',
-				EngineNumber: '',
-				Linkman: '',
-				BusinessScope: '',
-				State: 1,
-				TaxpayerKind: '',
-				WebSite: '',
-				Fax: '',
-				Im: '',
+				Amount:0,
+				IsIncludeTax:0,
+				TaxRate:0,
+				Tax:0,
+				RealAmount:0,
 			},
 			
 			dialogVisible: false,
@@ -179,7 +202,26 @@ export default {
 				},
 			],
 		});
-		
+		//	税费计算
+		const getTax = computed(() => {
+			if(state.ruleForm.IsIncludeRate){
+				state.ruleForm.Tax=0
+				return 0;
+			}
+			const tax= Number.parseFloat((state.ruleForm.Amount*state.ruleForm.TaxRate).toFixed(4));
+			state.ruleForm.Tax=tax
+			return tax;
+		});
+		//	含税合计计算
+		const getTotal = computed(() => {
+			if(state.ruleForm.IsIncludeRate){
+				state.ruleForm.RealAmount=state.ruleForm.Amount
+				return state.ruleForm.RealAmount;
+			}
+			const amount= Number.parseFloat((state.ruleForm.Amount*(1+state.ruleForm.TaxRate)).toFixed(2));
+			state.ruleForm.RealAmount=amount
+			return amount;
+		});
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			state.Files = [];
@@ -271,6 +313,8 @@ export default {
 			onModelEdit,
 			showImage,
 			dateFormatYMD,
+			getTax,
+			getTotal,
 			getUserInfos,
 			rules,
 			token,

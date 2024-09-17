@@ -4,15 +4,9 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="科目" prop="Subject">
-							<el-select v-model="ruleForm.Subject" placeholder="请选择" >
-								<el-option label="工程款" value="工程款" />									
-								<el-option label="阶段款" value="阶段款" />															
-								<el-option label="质保金" value="质保金" />
-								<el-option label="赔偿金" value="赔偿金" />
-								<el-option label="货款" value="货款" />	
-								<el-option label="其他" value="其他" />	
-								<el-option label="坏账" value="坏账" />				
+						<el-form-item label="科目" prop="Name">
+							<el-select v-model="ruleForm.Name" placeholder="请选择" >
+								<el-option v-for="(item, index) in nameList" :key="index" :label="item.Name" :value="item.Name"> </el-option>	
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -45,7 +39,17 @@
 					
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="科目单位" prop="Unit">
-							<el-input v-model="ruleForm.Unit" /> 
+							<el-select
+								v-model="ruleForm.Unit"
+								filterable
+								allow-create
+								clearable
+								default-first-option
+								:reserve-keyword="false"
+								placeholder="请输入或选择">
+								<el-option v-for="(item,index) in unitList" :key="index" :label="item" :value="item">
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -83,11 +87,6 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="含税合计" prop="Total">
 							{{getTotal}}
-							<!-- <el-input-number :disabled="true"
-								v-model="getTotal"
-								:min="0"
-								controls-position="right"
-								:precision="2"/> -->
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -123,12 +122,12 @@
 				</el-row>
 				<el-divider content-position="left">完成信息*</el-divider>
 				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="是否完成" prop="FinishState">
 							<el-switch v-model="ruleForm.FinishState" :width="50" inline-prompt :active-text="$t('message.action.yes')" :inactive-text="$t('message.action.no')" :active-value="1" :inactive-value="0"/>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="完成时间" prop="FinishTime">
 							<el-date-picker
 								v-model="ruleForm.FinishTime"
@@ -150,12 +149,56 @@
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="单位名称" prop="EntityName">
-							<el-input v-model="ruleForm.EntityName" /> 
+							<el-select
+								v-model="ruleForm.EntityName"
+								filterable
+								allow-create
+								clearable
+								default-first-option
+								:reserve-keyword="false"
+								placeholder="请输入或选择">
+								<el-option
+									v-for="(item,index) in entityList"
+									:key="index"
+									:label="item.EntityName"
+									:value="item.EntityName"
+									>
+									<div>
+										<span style="float:left">{{ item.EntityName }}</span>
+										<span style="color: var(--el-text-color-secondary);margin-left:4px">
+											{{ item.EntityPhone }}
+										</span>
+									</div>
+									
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="联系电话" prop="EntityPhone">
-							<el-input v-model="ruleForm.EntityPhone" /> 
+							<el-select
+								v-model="ruleForm.EntityPhone"
+								filterable
+								allow-create
+								clearable
+								default-first-option
+								:reserve-keyword="false"
+								placeholder="请输入或选择">
+								<el-option
+									v-for="(item,index) in entityList"
+									:key="index"
+									:label="item.EntityPhone"
+									:value="item.EntityPhone"
+									>
+									<div>
+										<span style="float:left;color: var(--el-text-color-secondary)">{{ item.EntityName }}</span>
+										<span style="margin-left:4px">
+											{{ item.EntityPhone }}
+										</span>
+									</div>
+									
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -226,6 +269,9 @@ export default {
 				Total:0,
 			},
 			dialogVisible: false,
+			nameList:[],
+			unitList:[],
+			entityList:[],
 			projectList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
@@ -258,7 +304,7 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			Subject: [
+			Name: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
@@ -296,6 +342,7 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.projectName=projectName;
 			try {
+				await loadCommonDataList()
 				await loadProjectList(kind)
 				state.disable = disable;
 				if (id && id != '0') {
@@ -308,6 +355,7 @@ export default {
 					state.ruleForm.RemindTime=new Date()
 					state.title = t('message.action.add');
 				}
+				await loadBillList(kind)
 				state.isShowDialog = true;
 			} finally {
 				state.isShowDialog = true;
@@ -331,14 +379,47 @@ export default {
 				state.isShowDialog = true;
 			}
 		};
+		// 加载最近的信息
+		const loadBillList = async (kind:string) => {
+			
+			const res = await proxy.$api.erp.projectBill.getListByScope(kind, 0, 0, {pageSize:1000});
+			if (res.errcode != 0) {
+				return;
+			}
+			console.log("res.data",res.data)
+			state.titleList=[];
+			const titleArr=res.data.map((item:any)=>item.Title);
+			const titleSet = new Set(titleArr);
+			const titleList = [...titleSet];
+			state.titleList=titleList;
+
+			state.unitList=[];
+			const unitArr=res.data.map((item:any)=>item.Unit);
+			const unitSet = new Set(unitArr);
+			const unitList = [...unitSet];
+			state.unitList=unitList;
+
+			state.entityList=[];
+			const resMap = new Map();
+			state.entityList=res.data.filter(item =>item.EntityName && !resMap.has(item.EntityName) && resMap.set(item.EntityName, item));
+		};
 		const loadProjectList = async (kind:string) => {
-			const res = await proxy.$api.erp.project.getListByScope(kind, 0, 2, {finishState:0,pageSize:100000});
+			const res = await proxy.$api.erp.project.getListByScope(kind, 0, 0, {finishState:0,pageSize:100000});
 				if (res.errcode == 0) {
 					state.projectList=res.data
 				}else{
 					console.log("error:",res.errmsg)
 				}
 		};
+		const loadCommonDataList=async()=>{
+			try {
+				const res = await proxy.$api.common.commondata.getList({ type: 'project_bill_name', pateSize: 100000 });
+				if (res.errcode == 0) {
+					state.nameList = res.data;
+				}
+			} finally {
+			}
+		}
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();

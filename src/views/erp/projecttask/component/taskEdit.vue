@@ -4,8 +4,19 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						
 						<el-form-item label="工单标题" prop="Title">
-							<el-input v-model="ruleForm.Title" /> 
+							<el-select
+								v-model="ruleForm.Title"
+								filterable
+								allow-create
+								clearable
+								default-first-option
+								:reserve-keyword="false"
+								placeholder="请输入或选择">
+								<el-option v-for="(item,index) in titleList" :key="index" :label="item" :value="item">
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -13,6 +24,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="所属项目" prop="ProjectId">
 							<el-select v-model="ruleForm.ProjectId" placeholder="请选择" >
+								<el-option :label="请选择" value=""> </el-option>	
 								<el-option v-for="(item, index) in projectList" :key="index" :label="item.Name" :value="item.Id"> </el-option>	
 							</el-select>
 						</el-form-item>
@@ -20,12 +32,29 @@
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="工单类型" prop="Title">
-							<el-select v-model="ruleForm.TaskType" placeholder="请选择" >
-								<el-option label="运维" value="运维" />									
-								<el-option label="质保内" value="质保" />	
-								<el-option label="巡检" value="巡检" />								
-								<el-option label="质保外" value="质保外" />
+						
+						<el-form-item label="工单分类" prop="Name">
+							<el-select
+								v-model="ruleForm.Name"
+								filterable
+								default-first-option
+								:reserve-keyword="false"
+								placeholder="请输入或选择">
+								<el-option v-for="(item,index) in nameList" :key="index" :label="item.Name" :value="item.Name">
+								</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="工单类型" prop="TaskType">
+							<el-select
+								v-model="ruleForm.TaskType"
+								filterable
+								default-first-option
+								:reserve-keyword="false"
+								placeholder="请输入或选择">
+								<el-option v-for="(item,index) in taskTypeList" :key="index" :label="item.Name" :value="item.Name">
+								</el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -38,6 +67,10 @@
 								</el-radio-group>
 						</el-form-item>
 					</el-col>
+				</el-row>
+				
+				<el-row :gutter="0">
+					
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="工单时间" prop="TaskTime">
 							<el-date-picker
@@ -45,6 +78,22 @@
 								type="datetime"
 								placeholder="工单时间"
 								format="YYYY-MM-DD HH:mm" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						
+						<el-form-item label="地址" prop="Address">
+							<el-select
+								v-model="ruleForm.Address"
+								filterable
+								allow-create
+								clearable
+								default-first-option
+								:reserve-keyword="false"
+								placeholder="请输入或选择">
+								<el-option v-for="(item,index) in addressList" :key="index" :label="item" :value="item">
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -70,6 +119,15 @@
 								type="datetime"
 								placeholder="完成时间"
 								format="YYYY-MM-DD HH:mm" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="收款金额" prop="Amount">
+							<el-input-number
+								v-model="ruleForm.Amount"
+								:min="0"
+								controls-position="right"
+								:precision="2"/>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -121,11 +179,18 @@ export default {
 				Name: '',
 				Kind: 'default',
 				Title: '',
+				Names: '',
 				TaskMode:2,
 				TaskType: '',
+				Amount:0,
 			},
 			dialogVisible: false,
 			projectList: [],
+			titleList:[],
+			nameList:[],
+			unitList:[],
+			taskTypeList:[],
+			addressList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -139,6 +204,13 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			Title: [
+				{
+					required: true,
+					message: computed(()=>t('message.validRule.required')),
+					trigger: 'blur',
+				},
+			],
+			Name: [
 				{
 					required: true,
 					message: computed(()=>t('message.validRule.required')),
@@ -182,6 +254,7 @@ export default {
 			state.ruleForm.Kind = kind;
 			state.projectName=projectName;
 			try {
+				await loadCommonDataList()
 				await loadProjectList(kind)
 				state.disable = disable;
 				if (id && id != '0') {
@@ -194,6 +267,7 @@ export default {
 					state.ruleForm.FinishTime=new Date()
 					state.title = t('message.action.add');
 				}
+				await loadTaskList(kind)
 				state.isShowDialog = true;
 			} finally {
 				state.isShowDialog = true;
@@ -218,13 +292,55 @@ export default {
 			}
 		};
 		const loadProjectList = async (kind:string) => {
-			const res = await proxy.$api.erp.project.getListByScope(kind, 0, 2, {finishState:0,pageSize:100000});
+			const res = await proxy.$api.erp.project.getListByScope(kind, 0, 0, {finishState:0,pageSize:100000});
 				if (res.errcode == 0) {
 					state.projectList=res.data
 				}else{
 					console.log("error:",res.errmsg)
 				}
 		};
+		// 加载最近的信息
+		const loadTaskList = async (kind:string) => {
+			
+			const res = await proxy.$api.erp.projectTask.getListByScope(kind, 0, 0, {pageSize:1000});
+			if (res.errcode != 0) {
+				return;
+			}
+			console.log("res.data",res.data)
+			state.titleList=[];
+			const titleArr=res.data.map((item:any)=>item.Title);
+			const titleSet = new Set(titleArr);
+			const titleList = [...titleSet];
+			state.titleList=titleList;
+
+			state.unitList=[];
+			const unitArr=res.data.map((item:any)=>item.Unit);
+			const unitSet = new Set(unitArr);
+			const unitList = [...unitSet];
+			state.unitList=unitList;
+
+			state.addressList=[];
+			const addressArr=res.data.filter((item:any)=>!item.ProjectId||item.ProjectId==state.ruleForm.ProjectId).map((item:any)=>item.Address);
+			const addressSet = new Set(addressArr);
+			const addressList = [...addressSet];
+			state.addressList=addressList;
+		};
+		const loadCommonDataList=async()=>{
+			try {
+				const res = await proxy.$api.common.commondata.getList({ type: 'project_task_name', pateSize: 100000 });
+				if (res.errcode == 0) {
+					state.nameList = res.data;
+				}
+			} finally {
+			}
+			try {
+				const res = await proxy.$api.common.commondata.getList({ type: 'project_task_type', pateSize: 100000 });
+				if (res.errcode == 0) {
+					state.taskTypeList = res.data;
+				}
+			} finally {
+			}
+		}
 		// 关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();

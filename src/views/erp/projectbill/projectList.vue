@@ -190,7 +190,7 @@
 								</template>
 							</el-table-column> -->
 							<el-table-column prop="Sn" label="流水号" width="110" fixed></el-table-column>
-							<el-table-column prop="Subject" label="科目" width="90" show-overflow-tooltip>
+							<el-table-column prop="Name" label="科目" align="center" width="90" fixed show-overflow-tooltip>
 							</el-table-column>
 							<el-table-column prop="BillType" label="账目类型" width="70" align="center">
 								<template #default="scope">
@@ -285,7 +285,7 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
 import { Pane, Splitpanes } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
@@ -367,7 +367,7 @@ export default {
 							return prev
 							}
 						}, 0)
-						sums[index] = total+''
+						sums[index] = total.toFixed(2)+''
 						console.log("column.property:",total)
 					} else {
 						sums[index] = 'N/A'
@@ -522,11 +522,7 @@ export default {
 
 		//	打开弹窗
 		const onChildOpenAddDlg = (id: string, ishow: boolean) => {
-			if(!state.mainCurrentRow){
-				ElMessage.warning('请选择项目后再添加记录');
-				return;
-			}
-			editChildDlgRef.value.openDialog(state.kind, '0', state.mainCurrentRow.Id,state.mainCurrentRow.Name, ishow);
+			editChildDlgRef.value.openDialog(state.kind, '0', state.mainCurrentRow?.Id||'',state.mainCurrentRow?.Name||"", ishow);
 		};
 		//	打开弹窗
 		const onChildOpenEditDlg = (id: string, ishow: boolean) => {
