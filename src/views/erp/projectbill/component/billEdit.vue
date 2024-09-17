@@ -1,11 +1,12 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="title+(projectName?'：':'')+projectName" v-model="isShowDialog" width="60%" :before-close="closeDialog">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
+			<el-form ref="childRuleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="科目" prop="Name">
 							<el-select v-model="ruleForm.Name" placeholder="请选择" >
+								<el-option :label="请选择" value=""> </el-option>
 								<el-option v-for="(item, index) in nameList" :key="index" :label="item.Name" :value="item.Name"> </el-option>	
 							</el-select>
 						</el-form-item>
@@ -256,12 +257,16 @@ export default {
 			baseUrl: import.meta.env.VITE_API_URL,
 			//	表单
 			ruleForm: {
-				Id: 0,
+				Id: '0',
+				Title:'',
 				Name: '',
 				Kind: 'default',
-				Title: '',
 				Subject:'',
+				Unit:'',
 				BillType: 1,
+				EntityName:'',
+				EntityPhone:'',
+				Remark:'',
 				Amount:0,
 				IsIncludeTax:1,
 				TaxRate:0,
@@ -338,7 +343,6 @@ export default {
 		// 打开弹窗
 		const openDialog = async (kind: string, id: string,projectId:string,projectName:'', disable: boolean) => {
 			state.Files = [];
-			console.log('类型', kind);
 			state.ruleForm.Kind = kind;
 			state.projectName=projectName;
 			try {
@@ -422,15 +426,15 @@ export default {
 		}
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.$refs.ruleFormRef.resetFields();
+			proxy.$refs.childRuleFormRef.resetFields();
 			state.loading = false;
 			state.isShowDialog = false;
-			proxy.$parent.onMainGetTableData();
+			proxy.$parent.onChildGetTableData();
 		};
 	
 		// 提交
 		const onSubmit = (isCloseDlg: boolean) => {
-			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
+			proxy.$refs.childRuleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
@@ -440,7 +444,7 @@ export default {
 							if (isCloseDlg) {
 								closeDialog();
 							} else {
-								proxy.$refs.ruleFormRef.resetFields();
+								proxy.$refs.childRuleFormRef.resetFields();
 								state.ruleForm.Id = 0;
 							}
 							proxy.$parent.onChildGetTableData();
