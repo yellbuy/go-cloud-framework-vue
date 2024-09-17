@@ -64,6 +64,7 @@
 						</el-table-column>
 						<el-table-column prop="StartTime" label="开始时间" width="90" sortable  :formatter="dateFormatYMD" ></el-table-column>
 						<el-table-column prop="Remark" label="项目备注" width="240" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="CreateBy" label="录入人" width="90" sortable show-overflow-tooltip></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope">
 								<el-dropdown split-button >
