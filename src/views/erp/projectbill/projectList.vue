@@ -498,7 +498,7 @@ export default {
 			}
 			if (state.timeRange && state.timeRange.length>1) {
 				state.childTableData.param.startTime = state.timeRange[0]
-				state.childTableData.param.endTime = state.timeRange[1]
+				state.childTableData.param.endTime = dayjs(state.timeRange[1]).add(1,"day").format("YYYY-MM-DD")
 			}
 			state.childTableData.loading = true;
 			if(state.childTableData.param.allProject || !state.mainCurrentRow){
