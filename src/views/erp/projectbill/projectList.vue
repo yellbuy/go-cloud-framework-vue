@@ -124,10 +124,11 @@
 										<el-option label="支出" :value="-1"></el-option>										
 									</el-select>
 								</el-form-item>
-								<el-form-item label="日期" style="width:250px; white-space: nowrap;" >
+								<el-form-item label="日期" style="width:260px; white-space: nowrap;" >
 									<el-date-picker
 										v-model="timeRange"
 										type="daterange"
+										:shortcuts="dateShortcuts()"
 										unlink-panels
 										range-separator="至"
 										start-placeholder="开始时间"
@@ -498,7 +499,7 @@ export default {
 			}
 			if (state.timeRange && state.timeRange.length>1) {
 				state.childTableData.param.startTime = state.timeRange[0]
-				state.childTableData.param.endTime = dayjs(state.timeRange[1]).add(1,"day").format("YYYY-MM-DD")
+				state.childTableData.param.endTime = dayjs(state.timeRange[1]).endOf("day").toDate()
 			}
 			state.childTableData.loading = true;
 			if(state.childTableData.param.allProject || !state.mainCurrentRow){
@@ -593,7 +594,7 @@ export default {
 			onChildGetTableData();
 		});
 
-		const { dateFormatYMD } = commonFunction();
+		const { dateFormatYMD ,dateShortcuts} = commonFunction();
 
 		return {
 			proxy,
@@ -622,6 +623,7 @@ export default {
 			onChildHandleSizeChange,
 			onChildHandleCurrentChange,
 			dateFormatYMD,
+			dateShortcuts,
 			...toRefs(state),
 		};
 	},

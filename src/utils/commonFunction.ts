@@ -1,10 +1,10 @@
 // 通用函数
 import CryptoJS from 'crypto-js';
+import dayjs from 'dayjs';
 import { ElMessage } from 'element-plus';
 import useClipboard from 'vue-clipboard3';
 import { useI18n } from 'vue-i18n';
 import { formatDate } from '/@/utils/formatTime';
-
 export default function () {
 
 	const { toClipboard } = useClipboard();
@@ -55,6 +55,116 @@ export default function () {
 	/* 日期格式化 */
 	const dateFormat = (date: any, fmt = 'YYYY-mm-dd HH:MM:SS') => {
 		return formatDate(new Date(date), fmt)
+	}
+	/* 日期快速配置数组 */
+	const dateShortcuts  = () => {
+		const shortcuts = [
+			{
+			  text: '今日',
+			  value: () => {
+				const start = dayjs().startOf("day").toDate()
+				const end = dayjs().endOf("day").toDate()
+				return [start, end]
+			  },
+			}, {
+			  text: '昨日',
+			  value: () => {
+				const time=dayjs().subtract(1,"day")
+				const start = time.startOf("day").toDate()
+				const end = time.endOf("day").toDate()
+				return [start, end]
+			  },
+			}, {
+			  text: '近两日',
+			  value: () => {
+				const time=dayjs()
+				const start = time.subtract(1,"day").startOf("day").toDate()
+				const end = time.endOf("day").toDate()
+				return [start, end]
+			  },
+			}, {
+				text: '本周',
+				value: () => {
+				  const time=dayjs()
+				  const start = time.startOf("week").toDate()
+				  const end = time.endOf("week").toDate()
+				  return [start, end]
+				},
+			  }, {
+				text: '近一周',
+				value: () => {
+					const time=dayjs()
+					const start = time.subtract(6,"day").startOf("day").toDate()
+					const end = time.endOf("day").toDate()
+					return [start, end]
+				},
+			  }, {
+				text: '本月',
+				value: () => {
+					const time=dayjs()
+				  	const start = time.startOf("month").toDate()
+				  	const end = time.endOf("month").toDate()
+				  	return [start, end]
+				},
+			  }, {
+				text: '上月',
+				value: () => {
+					const time=dayjs().subtract(1,"month")
+					const start = time.startOf("month").toDate()
+					const end = time.endOf("month").toDate()
+					return [start, end]
+				},
+			  }, {
+				text: '近一月',
+				value: () => {
+					const time=dayjs()
+					const start = time.subtract(1,"month").add(1,"day").startOf("day").toDate()
+					const end = time.endOf("day").toDate()
+					return [start, end]
+				},
+			  }, {
+				text: '近三月',
+				value: () => {
+					const time=dayjs()
+					const start = time.subtract(3,"month").add(1,"day").startOf("day").toDate()
+					const end = time.endOf("day").toDate()
+					return [start, end]
+				},
+			  }, {
+				text: '本年',
+				value: () => {
+					const time=dayjs()
+				  	const start = time.startOf("year").toDate()
+				  	const end = time.endOf("year").toDate()
+				  	return [start, end]
+				},
+			  }, {
+				text: '去年',
+				value: () => {
+					const time=dayjs().subtract(1,"year")
+					const start = time.startOf("day").toDate()
+					const end = time.endOf("day").toDate()
+					return [start, end]
+				},
+			  }, {
+				text: '近一年',
+				value: () => {
+					const time=dayjs()
+					const start = time.subtract(1,"year").add(1,"day").startOf("day").toDate()
+					const end = time.endOf("day").toDate()
+					return [start, end]
+				},
+			  }, {
+				text: '近三年',
+				value: () => {
+					const time=dayjs()
+					const start = time.subtract(3,"year").add(1,"day").startOf("day").toDate()
+					const end = time.endOf("day").toDate()
+					return [start, end]
+				},
+			  }
+		  ]
+		  return  shortcuts
 	}
 	// 小数格式化
 	const scaleFormat = (value: any = 0, scale: number = 4) => {
@@ -195,6 +305,8 @@ export default function () {
 		dateFormatYMDHMS,
 		dateFormatHMS,
 		dateFormatHM,
+		dateShortcuts,
+
 		scaleFormat,
 		scale2Format,
 		groupSeparator,
