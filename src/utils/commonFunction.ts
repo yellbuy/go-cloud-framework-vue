@@ -60,14 +60,14 @@ export default function () {
 	const dateShortcuts  = () => {
 		const shortcuts = [
 			{
-			  text: '今 日',
+			  text: '今日',
 			  value: () => {
 				const start = dayjs().startOf("day").toDate()
 				const end = dayjs().endOf("day").toDate()
 				return [start, end]
 			  },
 			}, {
-			  text: '昨 日',
+			  text: '昨日',
 			  value: () => {
 				const time=dayjs().subtract(1,"day")
 				const start = time.startOf("day").toDate()
@@ -75,17 +75,33 @@ export default function () {
 				return [start, end]
 			  },
 			}, {
-			  text: '近两日',
+				text: '明日',
+				value: () => {
+				  const time=dayjs().add(1,"day")
+				  const start = time.startOf("day").toDate()
+				  const end = time.endOf("day").toDate()
+				  return [start, end]
+				},
+			}, {
+			  text: '近三日',
 			  value: () => {
 				const time=dayjs()
-				const start = time.subtract(1,"day").startOf("day").toDate()
+				const start = time.subtract(2,"day").startOf("day").toDate()
 				const end = time.endOf("day").toDate()
 				return [start, end]
 			  },
 			}, {
-				text: '本 周',
+				text: '本周',
 				value: () => {
 				  const time=dayjs()
+				  const start = time.startOf("week").toDate()
+				  const end = time.endOf("week").toDate()
+				  return [start, end]
+				},
+			  }, {
+				text: '下周',
+				value: () => {
+				  const time=dayjs().add(1,"week")
 				  const start = time.startOf("week").toDate()
 				  const end = time.endOf("week").toDate()
 				  return [start, end]
@@ -99,7 +115,7 @@ export default function () {
 					return [start, end]
 				},
 			  }, {
-				text: '本 月',
+				text: '本月',
 				value: () => {
 					const time=dayjs()
 				  	const start = time.startOf("month").toDate()
@@ -107,12 +123,20 @@ export default function () {
 				  	return [start, end]
 				},
 			  }, {
-				text: '上 月',
+				text: '上月',
 				value: () => {
 					const time=dayjs().subtract(1,"month")
 					const start = time.startOf("month").toDate()
 					const end = time.endOf("month").toDate()
 					return [start, end]
+				},
+			  }, {
+				text: '下月',
+				value: () => {
+					const time=dayjs().add(1,"month")
+				  	const start = time.startOf("month").toDate()
+				  	const end = time.endOf("month").toDate()
+				  	return [start, end]
 				},
 			  }, {
 				text: '近一月',
@@ -131,7 +155,7 @@ export default function () {
 					return [start, end]
 				},
 			  }, {
-				text: '本 年',
+				text: '本年',
 				value: () => {
 					const time=dayjs()
 				  	const start = time.startOf("year").toDate()
@@ -139,12 +163,20 @@ export default function () {
 				  	return [start, end]
 				},
 			  }, {
-				text: '去 年',
+				text: '去年',
 				value: () => {
 					const time=dayjs().subtract(1,"year")
 					const start = time.startOf("day").toDate()
 					const end = time.endOf("day").toDate()
 					return [start, end]
+				},
+			  }, {
+				text: '明年',
+				value: () => {
+					const time=dayjs().add(1,"year")
+				  	const start = time.startOf("year").toDate()
+				  	const end = time.endOf("year").toDate()
+				  	return [start, end]
 				},
 			  }, {
 				text: '近一年',

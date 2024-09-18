@@ -483,6 +483,7 @@ export default {
 		//	重置查询条件
 		const onChildResetSearch = () => {
 			state.childTableData.param.keyword = '';
+			state.timeRange=[];
 			onChildGetTableData(true);
 		};
 
