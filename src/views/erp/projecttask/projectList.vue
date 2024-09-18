@@ -416,6 +416,7 @@ export default {
 		//	重置查询条件
 		const onChildResetSearch = () => {
 			state.childTableData.param.keyword = '';
+			state.timeRange=[];
 			onChildGetTableData(true);
 		};
 
@@ -432,6 +433,9 @@ export default {
 			if (state.timeRange && state.timeRange.length>1) {
 				state.childTableData.param.startTime = state.timeRange[0]
 				state.childTableData.param.endTime = dayjs(state.timeRange[1]).endOf("day").toDate()
+			} else {
+				state.childTableData.param.startTime = ''
+				state.childTableData.param.endTime = ''
 			}
 			state.childTableData.loading = true;
 			if(state.childTableData.param.allProject || !state.mainCurrentRow){

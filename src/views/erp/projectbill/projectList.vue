@@ -241,7 +241,7 @@
 							</el-table-column>
 							<el-table-column label="往来单位名称" prop="EntityName" sortable width="130" show-overflow-tooltip>
 							</el-table-column>
-							<el-table-column label="往来单位电话" prop="EntityPhone" sortable width="110" show-overflow-tooltip>
+							<el-table-column label="单位电话" prop="EntityPhone" sortable width="110" show-overflow-tooltip>
 							</el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 								<template #default="scope">
@@ -483,7 +483,6 @@ export default {
 		//	重置查询条件
 		const onChildResetSearch = () => {
 			state.childTableData.param.keyword = '';
-			state.childTableData.param.isTodayAll=state.childTableData.isTodayAll
 			onChildGetTableData(true);
 		};
 
@@ -500,6 +499,9 @@ export default {
 			if (state.timeRange && state.timeRange.length>1) {
 				state.childTableData.param.startTime = state.timeRange[0]
 				state.childTableData.param.endTime = dayjs(state.timeRange[1]).endOf("day").toDate()
+			} else {
+				state.childTableData.param.startTime = ''
+				state.childTableData.param.endTime = ''
 			}
 			state.childTableData.loading = true;
 			if(state.childTableData.param.allProject || !state.mainCurrentRow){

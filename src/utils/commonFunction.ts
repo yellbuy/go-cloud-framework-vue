@@ -60,14 +60,14 @@ export default function () {
 	const dateShortcuts  = () => {
 		const shortcuts = [
 			{
-			  text: '今日',
+			  text: '今 日',
 			  value: () => {
 				const start = dayjs().startOf("day").toDate()
 				const end = dayjs().endOf("day").toDate()
 				return [start, end]
 			  },
 			}, {
-			  text: '昨日',
+			  text: '昨 日',
 			  value: () => {
 				const time=dayjs().subtract(1,"day")
 				const start = time.startOf("day").toDate()
@@ -83,7 +83,7 @@ export default function () {
 				return [start, end]
 			  },
 			}, {
-				text: '本周',
+				text: '本 周',
 				value: () => {
 				  const time=dayjs()
 				  const start = time.startOf("week").toDate()
@@ -99,7 +99,7 @@ export default function () {
 					return [start, end]
 				},
 			  }, {
-				text: '本月',
+				text: '本 月',
 				value: () => {
 					const time=dayjs()
 				  	const start = time.startOf("month").toDate()
@@ -107,7 +107,7 @@ export default function () {
 				  	return [start, end]
 				},
 			  }, {
-				text: '上月',
+				text: '上 月',
 				value: () => {
 					const time=dayjs().subtract(1,"month")
 					const start = time.startOf("month").toDate()
@@ -131,7 +131,7 @@ export default function () {
 					return [start, end]
 				},
 			  }, {
-				text: '本年',
+				text: '本 年',
 				value: () => {
 					const time=dayjs()
 				  	const start = time.startOf("year").toDate()
@@ -139,7 +139,7 @@ export default function () {
 				  	return [start, end]
 				},
 			  }, {
-				text: '去年',
+				text: '去 年',
 				value: () => {
 					const time=dayjs().subtract(1,"year")
 					const start = time.startOf("day").toDate()
