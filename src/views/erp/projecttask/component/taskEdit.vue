@@ -70,15 +70,7 @@
 				
 				<el-row :gutter="0">
 					
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="工单时间" prop="TaskTime">
-							<el-date-picker
-								v-model="ruleForm.TaskTime"
-								type="datetime"
-								placeholder="工单时间"
-								format="YYYY-MM-DD HH:mm" />
-						</el-form-item>
-					</el-col>
+					
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						
 						<el-form-item label="地址" prop="Address">
@@ -93,6 +85,24 @@
 								<el-option v-for="(item,index) in addressList" :key="index" :label="item" :value="item">
 								</el-option>
 							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="工单时间" prop="TaskTime">
+							<el-date-picker
+								v-model="ruleForm.TaskTime"
+								type="datetime"
+								placeholder="工单时间"
+								format="YYYY-MM-DD HH:mm" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
+						<el-form-item label="收款金额" prop="Amount">
+							<el-input-number
+								v-model="ruleForm.Amount"
+								:min="0"
+								controls-position="right"
+								:precision="2"/>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -120,15 +130,7 @@
 								format="YYYY-MM-DD HH:mm" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="收款金额" prop="Amount">
-							<el-input-number
-								v-model="ruleForm.Amount"
-								:min="0"
-								controls-position="right"
-								:precision="2"/>
-						</el-form-item>
-					</el-col>
+					
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -144,6 +146,7 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import imgList from '/@/components/image/index.vue';
@@ -262,8 +265,8 @@ export default {
 				} else {
 					state.ruleForm.Id = '0';
 					state.ruleForm.ProjectId=projectId;
-					state.ruleForm.TaskTime=new Date()
-					state.ruleForm.FinishTime=new Date()
+					state.ruleForm.TaskTime=dayjs().subtract(2, 'h').format('YYYY-MM-DD HH')
+					state.ruleForm.FinishTime=dayjs().format('YYYY-MM-DD HH')
 					state.title = t('message.action.add');
 				}
 				await loadTaskList(kind)

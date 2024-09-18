@@ -53,8 +53,9 @@
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
-						<el-table-column prop="Sn" label="流水号" width="110" sortable  fixed></el-table-column>
-						<el-table-column prop="Name" label="项目名称" width="160" sortable  show-overflow-tooltip></el-table-column>
+						<el-table-column prop="Name" label="项目名称" width="130" sortable fixed show-overflow-tooltip></el-table-column>
+						<el-table-column prop="Sn" label="流水号" width="110" sortable  ></el-table-column>
+						
 						<el-table-column prop="State" label="状态" width="70" sortable align="center">
 							<template #default="scope">
 								<el-tag type="danger"  v-if="scope.row.State==0" effect="dark">未开始</el-tag> 
@@ -407,6 +408,7 @@ export default {
 			if (gotoFirstPage) {
 				state.mainTableData.param.pageNum = 1;
 			}
+			
 			state.mainTableData.loading = true;
 			try {
 				const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.mainTableData.param);
@@ -428,6 +430,10 @@ export default {
 				const res = await proxy.$api.erp.project.copy(id);
 				if (res.errcode == 0) {
 					onMainGetTableData(true)
+					if(res.data>0){
+						const id=res.data;
+						onMainOpenEditDlg(id,false)
+					}
 				}
 			} finally {
 				state.mainTableData.loading = false;
@@ -490,6 +496,10 @@ export default {
 			if (gotoFirstPage) {
 				state.childTableData.param.pageNum = 1;
 			}
+			if (state.timeRange && state.timeRange.length>1) {
+				state.childTableData.param.startTime = state.timeRange[0]
+				state.childTableData.param.endTime = state.timeRange[1]
+			}
 			state.childTableData.loading = true;
 			if(state.childTableData.param.allProject || !state.mainCurrentRow){
 				state.childTableData.param.projectId='0'				
@@ -515,6 +525,10 @@ export default {
 				const res = await proxy.$api.erp.projectBill.copy(id);
 				if (res.errcode == 0) {
 					onChildGetTableData(true)
+					if(res.data>0){
+						const id=res.data;
+						onChildOpenEditDlg(id,false)
+					}
 				}
 			} finally {
 				state.childTableData.loading = false;

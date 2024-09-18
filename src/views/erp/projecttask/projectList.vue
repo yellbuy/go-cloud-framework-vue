@@ -53,8 +53,9 @@
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
-						<el-table-column prop="Sn" label="流水号" width="110" sortable  fixed></el-table-column>
-						<el-table-column prop="Name" label="项目名称" width="160" sortable  show-overflow-tooltip></el-table-column>
+						<el-table-column prop="Name" label="项目名称" width="130" sortable fixed show-overflow-tooltip></el-table-column>
+						<el-table-column prop="Sn" label="流水号" width="110" sortable  ></el-table-column>
+						
 						<el-table-column prop="State" label="状态" width="70" sortable align="center">
 							<template #default="scope">
 								<el-tag type="danger"  v-if="scope.row.State==0" effect="dark">未开始</el-tag> 
@@ -64,7 +65,6 @@
 						</el-table-column>
 						<el-table-column prop="StartTime" label="开始时间" width="90" sortable  :formatter="dateFormatYMD" ></el-table-column>
 						<el-table-column prop="Remark" label="项目备注" width="240" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="CreateBy" label="录入人" width="90" sortable show-overflow-tooltip></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 							<template #default="scope">
 								<el-dropdown split-button >
@@ -175,20 +175,17 @@
 									</el-card>
 								</template>
 							</el-table-column> -->
-							<el-table-column prop="Sn" label="流水号" width="110" sortable fixed></el-table-column>
-							<el-table-column prop="Name" label="工单分类" width="90" sortable align="center" fixed show-overflow-tooltip>
+							
+							<el-table-column prop="Title" label="工单标题" width="120" sortable fixed show-overflow-tooltip>
 							</el-table-column>
-							<el-table-column prop="Title" label="工单标题" width="120" sortable show-overflow-tooltip>
-							</el-table-column>
-							<el-table-column prop="TaskType" label="工单类型" width="90" sortable align="center">
-							</el-table-column>
-							<el-table-column prop="TaskMode" label="处理方式" width="90" sortable align="center">
-								<template #default="scope">
-									<el-tag type="success" v-if="scope.row.TaskMode==1" effect="dark">现场</el-tag>
-									<el-tag type="primary" v-else-if="scope.row.TaskMode==2" effect="dark">远程</el-tag>
-								</template>
+							<el-table-column prop="Sn" label="流水号" width="110" sortable></el-table-column>
+							<el-table-column prop="Name" label="工单分类" width="90" sortable align="center"  show-overflow-tooltip>
 							</el-table-column>
 							
+							<el-table-column prop="TaskType" label="工单类型" width="90" sortable align="center">
+							</el-table-column>
+							
+							<el-table-column prop="TaskTime" label="工单时间" width="90" sortable :formatter="dateFormatYMD" ></el-table-column>
 							<el-table-column label="处理完成" width="90" sortable align="center" >
 								<template #default="scope">
 									<el-switch
@@ -205,10 +202,16 @@
 									<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.TaskEdit'">{{ $t('message.action.no') }}</el-tag>
 								</template>
 							</el-table-column>
-							<el-table-column prop="TaskTime" label="工单时间" width="90" sortable :formatter="dateFormatYMD" ></el-table-column>
+							<el-table-column prop="TaskMode" label="处理方式" width="90" sortable align="center">
+								<template #default="scope">
+									<el-tag type="success" v-if="scope.row.TaskMode==1" effect="dark">现场</el-tag>
+									<el-tag type="primary" v-else-if="scope.row.TaskMode==2" effect="dark">远程</el-tag>
+								</template>
+							</el-table-column>
 							<el-table-column prop="Address" label="地点" align="center" width="70" sortable show-overflow-tooltip></el-table-column>
 							<el-table-column prop="Content" label="处理内容" show-overflow-tooltip>
 							</el-table-column>
+							<el-table-column prop="CreateBy" label="录入人" width="90" sortable show-overflow-tooltip></el-table-column>
 							<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 								<template #default="scope">
 									<el-dropdown split-button>
@@ -360,6 +363,10 @@ export default {
 				if (res.errcode == 0) {
 					onMainGetTableData(true)
 				}
+				if(res.data>0){
+					const id=res.data;
+					onMainOpenEditDlg(id,false)
+				}
 			} finally {
 				state.mainTableData.loading = false;
 			}
@@ -407,7 +414,6 @@ export default {
 		//	重置查询条件
 		const onChildResetSearch = () => {
 			state.childTableData.param.keyword = '';
-			state.childTableData.param.isTodayAll=state.childTableData.isTodayAll
 			onChildGetTableData(true);
 		};
 
@@ -420,6 +426,10 @@ export default {
 		const onChildGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (gotoFirstPage) {
 				state.childTableData.param.pageNum = 1;
+			}
+			if (state.timeRange && state.timeRange.length>1) {
+				state.childTableData.param.startTime = state.timeRange[0]
+				state.childTableData.param.endTime = state.timeRange[1]
 			}
 			state.childTableData.loading = true;
 			if(state.childTableData.param.allProject || !state.mainCurrentRow){
@@ -446,6 +456,10 @@ export default {
 				const res = await proxy.$api.erp.projectTask.copy(id);
 				if (res.errcode == 0) {
 					onChildGetTableData(true)
+					if(res.data>0){
+						const id=res.data;
+						onChildOpenEditDlg(id,false)
+					}
 				}
 			} finally {
 				state.childTableData.loading = false;
