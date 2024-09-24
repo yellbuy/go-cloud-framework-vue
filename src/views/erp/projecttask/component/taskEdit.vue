@@ -265,8 +265,8 @@ export default {
 				} else {
 					state.ruleForm.Id = '0';
 					state.ruleForm.ProjectId=projectId;
-					state.ruleForm.TaskTime=dayjs().subtract(2, 'h').format('YYYY-MM-DD HH')
-					state.ruleForm.FinishTime=dayjs().format('YYYY-MM-DD HH')
+					state.ruleForm.TaskTime=dayjs().subtract(2, 'h').startOf("hour").toDate()
+					state.ruleForm.FinishTime=dayjs().startOf("hour").toDate()
 					state.title = t('message.action.add');
 				}
 				await loadTaskList(kind)
