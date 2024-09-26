@@ -121,26 +121,27 @@ const onSubmit = () => {
 	}).then(async () => {
 		let form = {}
 		infoEditRef.value.outData().then(result => {
-			Object.assign(form, result);
+			form = Object.assign(form, result);
 		});
 		extEditRef.value.outData().then(result => {
-			Object.assign(form, result);
+			form = Object.assign(form, result);
 		});
 		settingLineRef.value.outData().then(result => {
-			Object.assign(form, result);
+			form = Object.assign(form, result);
 		});
-		state.ruleForm = form
+
+		console.log("测试", form)
 		try {
-			state.ruleForm.Id = "0"
-			state.ruleForm.Kind = "bid"
-			const res = proxy.$api.erp.project.saveBid(state.ruleForm);
-			if (res.errcode != 0) {
-				return
-			}
-			infoEditRef.value.closePage()
-			extEditRef.value.closePage()
-			settingLineRef.value.closePage()
-			closePage()
+			// state.ruleForm.Id = "0"
+			// state.ruleForm.Kind = "bid"
+			// const res = proxy.$api.erp.projectbid.saveBid(state.ruleForm);
+			// if (res.errcode != 0) {
+			// 	return
+			// }
+			// infoEditRef.value.closePage()
+			// extEditRef.value.closePage()
+			// settingLineRef.value.closePage()
+			// closePage()
 		} finally {
 		}
 	});
