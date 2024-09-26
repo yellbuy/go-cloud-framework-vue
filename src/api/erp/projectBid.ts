@@ -11,7 +11,7 @@ export default {
      * @returns 返回接口数据
      */
     getListByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
-        const url = `/v1/admin/erp/project/${kind}/${scopeMode}/${scopeValue}`;
+        const url = `/v1/admin/erp/projectbid/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
     
@@ -47,6 +47,20 @@ export default {
         return await http.post(url, data);
     },
 
+        /**
+     * 创建招标项目
+     * @param data 信息
+     * @returns 返回接口数据
+     */
+    saveBid: async (data: object) => {
+        if (!data.Id || data.Id == "0") {
+            const url = `/v1/admin/erp/projectbid`;
+            return await http.post(url, data);
+        }
+        const url = `/v1/admin/erp/projectbid/${data.Id}`;
+        return await http.post(url, data);
+    },
+
     /**
      * 批量保存
      * @param data 信息
@@ -56,15 +70,7 @@ export default {
         const url = `/v1/admin/erp/projects/${kind}`;
         return await http.post(url, data);
     },
-    /**
-     * 复制
-     * @param data 信息
-     * @returns 返回接口数据
-     */
-    copy: async (id: number|string) => {
-        const url = `/v1/admin/erp/project/copy/${id}`;
-        return await http.post(url, id);
-    },
+
     /**
      * 删除
      * @param ids 标识，字符串或数组

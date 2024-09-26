@@ -3,11 +3,13 @@
     <div
       class="card-item"
       :key="title"
+      :title="dataTitle"
     >
-      <div class="card-header">
+      <!-- <div class="card-header">
         <div class="card-header-left">{{ title }}</div>
         <div class="card-header-right">{{unit}}</div>
-      </div>
+      </div> -->
+      <div class="card-header-center">{{ title }}</div>
       <dv-charts class="ring-charts" :option="ring" />
       <!-- <div class="card-footer">
         <div class="card-footer-item">
@@ -59,6 +61,7 @@ export default {
       rate=100
     }
     return {
+      dataTitle:`${props.actualValue}${props.unit} / ${props.planValue}${props.unit}`,
       ring: {
           series: [
             {
@@ -67,9 +70,9 @@ export default {
               endAngle: Math.PI * 1.5,
               arcLineWidth: 13,
               radius: "80%",
-              data: [{ name: "完成进度", value: rate }],
+              data: [{ name: "完成", value: rate }],
               axisLabel: {
-                show: false,
+                show: true,
               },
               axisTick: {
                 show: false,
@@ -84,9 +87,9 @@ export default {
               },
               details: {
                 show: true,
-                formatter: "完成进度{value}%",
+                formatter: `{value}%`,
                 style: {
-                  fill: "#1ed3e5",
+                  fill: "#f89898",
                   fontSize: 14,
                 },
               },
@@ -125,6 +128,14 @@ export default {
       font-size: 12px;
       font-weight: bold;
       padding-left: 6px;
+    }
+
+    .card-header-center {
+      font-size: 12px;
+      width:100%;
+      font-weight: bold;
+      padding: 3px 6px 0px 6px;
+      text-align:center;
     }
 
     .card-header-right {
