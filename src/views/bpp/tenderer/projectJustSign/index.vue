@@ -112,8 +112,8 @@ export default {
 
 		//重置查询条件
 		const onResetSearch = () => {
-			state.tableData.param.name = '';
-			state.tableData.param.no = '';
+			state.tableData.param.name = null;
+			state.tableData.param.no = null;
 			onGetTableData();
 		};
 

@@ -1,33 +1,31 @@
 <template>
 	<div>
-		<el-card v-if="isShowPage">
-			<div>
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
-					<el-form-item label="比选编号">
-						<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no" style="width: 150px;"/>
-					</el-form-item>
-					<el-form-item label="比选项目">
-						<el-input placeholder="请输入比选项目查询" v-model="tableData.param.name" style="width: 150px;"/>
-					</el-form-item>
-					<el-form-item>
-						<el-button type="info" @click="onResetSearch">
-							<el-icon>
-								<RefreshLeft />
-							</el-icon>
-							重置
-						</el-button>
-						<el-button type="info" @click="onGetTableData(true)">
-							<el-icon>
-								<Search />
-							</el-icon>
-							搜索
-						</el-button>
-						<el-button type="primary" @click="onProjectAddEdit()">新建项目立项</el-button>
-					</el-form-item>
-					<el-form-item></el-form-item>
-				</el-form>
-			</div>
-			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
+		<el-card v-if="state.isShowPage">
+			<el-form ref="searchFormRef" :model="state.tableData.param" label-width="60px" :inline="true">
+				<el-form-item label="比选编号">
+					<el-input placeholder="请输入比选编号查询" v-model="state.tableData.param.no" style="width: 150px;"/>
+				</el-form-item>
+				<el-form-item label="比选项目">
+					<el-input placeholder="请输入比选项目查询" v-model="state.tableData.param.name" style="width: 150px;"/>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="info" @click="onResetSearch">
+						<el-icon>
+							<RefreshLeft />
+						</el-icon>
+						重置
+					</el-button>
+					<el-button type="info" @click="onGetTableData(true)">
+						<el-icon>
+							<Search />
+						</el-icon>
+						搜索
+					</el-button>
+					<el-button type="primary" @click="onProjectCreateEdit()">新建项目立项</el-button>
+				</el-form-item>
+				<el-form-item></el-form-item>
+			</el-form>
+			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
 				<el-table-column prop="No" label="招标编号" width="150" show-overflow-tooltip fixed/>
 				<el-table-column prop="Kind" label="招标类型" width="100">
@@ -43,11 +41,11 @@
 				
 				<el-table-column prop="EndTime" label="报名截止日期" width="150" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
 				<el-table-column prop="ReviewTime" label="开标日期" width="150"  :formatter="dateFormatYMDHM" show-overflow-tooltip/>
-				<el-table-column prop="fanwei" label="招标范围" width="200" show-overflow-tooltip/>
+				<el-table-column prop="fanwei" label="招标范围" show-overflow-tooltip/>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="info" @click="onProjectSee(scope.row.Id, true)">项目详情</el-button>
-						<el-button text bg type="primary" @click="onProjectBidEdit()">项目评选</el-button>
+						<el-button text bg type="primary" @click="onBidEdit(scope.row.Id)">项目评选</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -57,189 +55,137 @@
 				@current-change="onHandleCurrentChange"
 				class="mt15"
 				:page-sizes="[10, 20, 30, 50, 100]"
-				v-model:current-page="tableData.param.current"
+				v-model:current-page="state.tableData.param.current"
 				background
-				v-model:page-size="tableData.param.size"
+				v-model:page-size="state.tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"/>
+				:total="state.tableData.total"/>
 			<seeDlg ref="seeDlgRef" />
 		</el-card>
+		<projectCreateEdit ref="projectCreateEditRef"/>
 		<bidEdit ref="bidEditRef" />
-		<projectAddEdit ref="projectAddEditRef"/>
 	</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import bidEdit from './component/bidEdit.vue';
-import projectAddEdit from './component/projectAddEdit.vue';
+import projectCreateEdit from './component/projectCreateEdit.vue';
 import seeDlg from './component/projectSee.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
-export default {
-	name: 'project',
-	components: { seeDlg, bidEdit, projectAddEdit },
-	setup() {
-		const store = useStore();
-		const route = useRoute();
-		const kind = route.params.kind || 'bid';
-		const mode = route.params.mode;
-		const isBid = route.params.isBid;
-		const scopeMode = route.params.scopeMode || 0;
-		const scopeValue = route.params.scopeValue || 0;
-		const moduleKey = `api_pro_project_${kind}_${mode}`;
-		const { proxy } = getCurrentInstance() as any;
-		const seeDlgRef = ref();
-		const bidEditRef = ref();
-		const projectAddEditRef = ref();
-		const state: any = reactive({
-			moduleKey: moduleKey,
-			kind,
-			scopeMode,
-			scopeValue,
-			isShowPage: true,
-			tableData: {
-				data: [],
-				total: 0,
-				loading: false,
-				param: {
-					name: '',
-					no: '',
-					current: 1,
-					size: 20,
-					isBid: Boolean(isBid),
-				},
-			},
-			
-		});
-		state.tableData.param.pageIndex = computed(() => {
-			return state.tableData.param.current - 1;
-		});
-		//重置查询条件
-		const onResetSearch = () => {
-			state.tableData.param.name = '';
-			state.tableData.param.no = '';
-			onGetTableData(true);
-		};
 
-		// 初始化表格数据
-		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			if (gotoFirstPage) {
-				state.tableData.param.current = 1;
-			}
-			state.tableData.loading = true;
-			try {
-				const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
-				if (res.errcode != 0) {
-					return;
-				}
-				state.tableData.data = res.data;
-				state.tableData.total = res.total;
-			} finally {
-				state.tableData.loading = false;
-			}
-		};
-		// 打开项目编辑页
-		const onProjectAddEdit = () => {
-			state.isShowPage = false;
-			projectAddEditRef.value.openPage(0);
-		};
-		//打开项目查看弹窗
-
-		const onProjectSee = (Id: string, state: boolean) => {
-			seeDlgRef.value.openDialog(Id, state);
-		};
-		//打开项目开标编辑页
-		const onProjectBidEdit = () => {
-			state.isShowPage = false;
-			bidEditRef.value.GetByIdRow();
-		};
-		// 删除用户
-		const onModelDel = (Id: number) => {
-			ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(async () => {
-				state.tableData.loading = true;
-				try {
-					const res = await proxy.$api.erp.project.delete(Id);
-					if (res.errcode == 0) {
-						onGetTableData();
-					}
-				} finally {
-					state.tableData.loading = false;
-				}
-				return false;
-			});
-		};
-		// 分页改变
-		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.size = val;
-		};
-		// 分页改变
-		const onHandleCurrentChange = (val: number) => {
-			state.tableData.param.current = val;
-		};
-		const isSeletionTime = (model) => {
-			let isTime = false;
-			if (
-				model.BeginTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') &&
-				dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.FinishTime &&
-				model.State == 0
-			) {
-				isTime = true;
-			}
-			return isTime;
-		};
-		const isEditTime = (model) => {
-			let isTime = false;
-			if (model.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && model.State == 0) {
-				isTime = true;
-			}
-			return isTime;
-		};
-		const isSignUpTime = (model) => {
-			let isTime = false;
-			if (
-				model.StartTime <= dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') &&
-				dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') < model.EndTime &&
-				model.State == 0
-			) {
-				isTime = true;
-			}
-			return isTime;
-		};
-		// 页面加载时
-		onMounted(() => {
-			onGetTableData();
-		});
-
-		const { dateFormatYMDHM, dateFormat } = commonFunction();
-
-		return {
-			proxy,
-			seeDlgRef,
-			bidEditRef,
-			projectAddEditRef,
-			onGetTableData,
-			onResetSearch,
-			onProjectAddEdit,
-			onProjectSee,
-			onProjectBidEdit,
-			isSeletionTime,
-			isEditTime,
-			isSignUpTime,
-			onModelDel,
-			onHandleSizeChange,
-			onHandleCurrentChange,
-			dateFormatYMDHM,
-			...toRefs(state),
-		};
+const store = useStore();
+const route = useRoute();
+const kind = route.params.kind || 'bid';
+const mode = route.params.mode;
+const isBid = route.params.isBid;
+const scopeMode = route.params.scopeMode || 0;
+const scopeValue = route.params.scopeValue || 0;
+const moduleKey = `api_pro_project_${kind}_${mode}`;
+const { proxy } = getCurrentInstance() as any;
+const seeDlgRef = ref();
+const bidEditRef = ref();
+const projectCreateEditRef = ref();
+const state: any = reactive({
+	moduleKey: moduleKey,
+	kind,
+	scopeMode,
+	scopeValue,
+	isShowPage: true,
+	tableData: {
+		data: [],
+		total: 0,
+		loading: false,
+		param: {
+			current: 1,
+			pageSize: 20,
+			isBid: Boolean(isBid),
+		},
 	},
+	
+});
+state.tableData.param.pageIndex = computed(() => {
+	return state.tableData.param.current - 1;
+});
+//重置查询条件
+const onResetSearch = () => {
+	state.tableData.param.name = null;
+	state.tableData.param.no = null;
+	onGetTableData(true);
 };
+
+// 初始化表格数据
+const onGetTableData = async (gotoFirstPage: boolean = false) => {
+	if (gotoFirstPage) {
+		state.tableData.param.current = 1;
+	}
+	state.tableData.loading = true;
+	try {
+		const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+		if (res.errcode != 0) {
+			return;
+		}
+		state.tableData.data = res.data;
+		state.tableData.total = res.total;
+	} finally {
+		state.tableData.loading = false;
+	}
+};
+// 打开项目创建页
+const onProjectCreateEdit = () => {
+	state.isShowPage = false;
+	projectCreateEditRef.value.openPage();
+};
+//打开项目查看弹窗
+
+const onProjectSee = (dd: string, state: boolean) => {
+	seeDlgRef.value.openDialog(dd, state);
+};
+//打开项目评选页
+const onBidEdit = (id: string) => {
+	state.isShowPage = false;
+	bidEditRef.value.openPage(id);
+};
+// 删除用户
+const onModelDel = (id: number) => {
+	ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		state.tableData.loading = true;
+		try {
+			const res = await proxy.$api.erp.project.delete(id);
+			if (res.errcode == 0) {
+				onGetTableData();
+			}
+		} finally {
+			state.tableData.loading = false;
+		}
+		return false;
+	});
+};
+// 分页改变
+const onHandleSizeChange = (val: number) => {
+	state.tableData.param.size = val;
+};
+// 分页改变
+const onHandleCurrentChange = (val: number) => {
+	state.tableData.param.current = val;
+};
+
+const { dateFormatYMDHM, dateFormat } = commonFunction();
+
+// 页面加载时
+onMounted(() => {
+	onGetTableData();
+});
+
+defineExpose({onGetTableData, ...toRefs(state)})
+
 </script>
 
 <style scoped lang="scss">

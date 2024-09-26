@@ -1,5 +1,5 @@
 <template>
-	<div class="tenderee-project-bidedit" v-if="isShowPage">
+	<div class="tenderee-project-bidedit" v-if="state.isShowPage">
 		<el-container>
 			<el-aside width="200px" class="pt2">
 				<el-menu class="el-menu-vertical-demo" default-active="fileSee" @select="select">
@@ -28,56 +28,75 @@
 						<el-menu-item index="noticeEdit">发布中选公告</el-menu-item>
 					</el-sub-menu>
 				</el-menu>
-		</el-aside>
-		<el-main class="pt2" >
-			<el-card>
-				<template #header>
-					<el-row>
-						<el-col :span="8">
-							<div style="float: left">
-								<el-button type="primary" @click="changeSelection">查看公告</el-button>
-								<el-button type="primary" @click="changeSelection">刷新</el-button>
-								<el-button type="primary" @click="changeSelection">全屏</el-button>
-								<el-button type="primary" @click="GetByIdRow(true)">刷新</el-button>
-							</div>
-						</el-col>
-						<el-col :span="8">
-							<div style="float: center">
-								<h3>当前选择项目：{{ ruleForm.Name }}</h3>
-							</div>
-						</el-col>
-						<el-col :span="8">
-							<el-dropdown trigger="click" style="float: right;">
-								<el-button type="primary">其他操作</el-button>
-								<el-dropdown-menu slot="dropdown">
-									<el-dropdown-item>返回其他项目</el-dropdown-item>
-									<el-dropdown-item>修改开标时间</el-dropdown-item>
-									<el-dropdown-item>项目报废</el-dropdown-item>
-								</el-dropdown-menu>
-							</el-dropdown>
-						</el-col>
-					</el-row>
-				</template>
-				<fileSee v-if="indexLine == 'fileSee'"/>
-				<expertEdit v-else-if="indexLine == 'expert'" />
-				<reviewEdit v-else-if="indexLine == 'parameter'" />
-				<packageEdit v-else-if="indexLine == 'packageEdit'" />
-				<companyList v-else-if="indexLine == 'companyList'" />
-				<bidList v-else-if="indexLine == 'bidList'"/>
-				<zgpsGather v-else-if="indexLine == 'zgpsGather'" />
-				<jspsGather v-else-if="indexLine == 'jspsGather'" />
-				<jjpsGather v-else-if="indexLine == 'jjpsGather'" />
-				<gatherList v-else-if="indexLine == 'gatherList'" />
-				<rfeportSee v-else-if="indexLine == 'rfeportSee'"/>
-				<noticeEdit v-else-if="indexLine == 'noticeEdit'"/>
-			</el-card>
-		</el-main>
+			</el-aside>
+			<el-main class="pt2" >
+				<el-card>
+					<template #header>
+						<el-row>
+							<el-col :span="8">
+								<div style="float: left">
+									<el-button type="primary" @click="openNoticeSee">查看公告</el-button>
+									<el-button type="primary" @click="refreshPage">刷新</el-button>
+									<!-- <el-button type="primary" @click="handleClick">全屏</el-button> -->
+
+								</div>
+							</el-col>
+							<el-col :span="8">
+								<div style="float: center">
+									<h3>当前选择项目：{{ state.projectForm.Name }}</h3>
+								</div>
+							</el-col>
+							<el-col :span="8">
+								<el-dropdown style="float: right">
+									<el-button type="primary">
+										其他操作<el-icon class="el-icon--right"><arrow-down /></el-icon>
+									</el-button>
+									<template #dropdown>
+										<el-dropdown-menu>
+											<el-dropdown-item @click="closePage">返回其他项目</el-dropdown-item>
+											<el-dropdown-item @click="onDialog">修改开标时间</el-dropdown-item>
+											<el-dropdown-item @click="onModelDel">项目报废</el-dropdown-item>
+										</el-dropdown-menu>
+									</template>
+								</el-dropdown>
+							</el-col>
+						</el-row>
+					</template>
+					<fileSee ref="fileSeeRef"/>
+					<expertEdit ref="expertEditRef"/>
+					<reviewEdit ref="reviewEditRef"/>
+					<packageEdit ref="packageEditRef"/>
+					<companyList ref="companyListRef"/>
+					<bidList ref="bidListRef"/>
+					<zgpsGather ref="zgpsGatherRef"/>
+					<jspsGather ref="jspsGatherRef"/>
+					<jjpsGather ref="jjpsGatherRef"/>
+					<gatherList ref="gatherListRef"/>
+					<rfeportSee ref="rfeportSeeRef"/>
+					<noticeEdit ref="noticeEditRef"/>
+					<noticeSee ref="noticeSeeRef"/>
+				</el-card>
+				<el-dialog :title="state.title" v-model="state.isShowDialog" width="25%" :before-close="closeDialog">
+					<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="small" label-width="130px" label-suffix="：" v-loading="state.loading">
+						<el-form-item label="开标时间" prop="BidOpenTime">
+							<el-date-picker v-model="state.projectForm.BidOpenTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
+						</el-form-item>
+					</el-form>
+					<template #footer>
+						<span class="dialog-footer">
+							<el-button text bg type="primary" @click="closeDialog">取消</el-button>
+							<el-button type="primary" @click="onSubmit" >确定</el-button>
+						</span>
+					</template>
+				</el-dialog>
+			</el-main>
 		</el-container>
 	</div>
 </template>
 
-<script lang="ts">
-import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+<script setup lang="ts">
+import { ElMessageBox } from 'element-plus';
+import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import bidList from './bid/bidList.vue';
 import companyList from './bid/companyList.vue';
@@ -87,122 +106,214 @@ import gatherList from './bid/gatherList.vue';
 import jjpsGather from './bid/jjpsGather.vue';
 import jspsGather from './bid/jspsGather.vue';
 import noticeEdit from './bid/noticeEdit.vue';
+import noticeSee from './bid/noticeSee.vue';
 import packageEdit from './bid/packageEdit.vue';
 import rfeportSee from './bid/rfeportSee.vue';
 import zgpsGather from './bid/zgpsGather.vue';
-import reviewEdit from './create/parameterEdit.vue';
+import reviewEdit from './bid/parameterEdit.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
-export default {
-	name: 'api_sys_project_selection',
-	components: { fileSee, expertEdit, reviewEdit, packageEdit, companyList, bidList, zgpsGather, jspsGather, jjpsGather, gatherList, rfeportSee, noticeEdit },
-	setup() {
-		const { proxy } = getCurrentInstance() as any;
-		const { t } = useI18n();
-		const store = useStore();
-		const state = reactive({
-			isShowDialog: false,
-			title: t('message.action.see'),
-			ruleForm: {},
-			httpsText: import.meta.env.VITE_URL as any,
-			FilesList: [],
-			menuIndex: 1,
-			isShowPage: false,
-			indexLine: 'fileSee',
-		});
-		const { dateFormat } = commonFunction();
-		const GetByIdRow = async (isState: boolean) => {
-			let Id = store.state.project.projectId;
-			state.isShowPage = true;
-			// try {
-			// 	const res = await proxy.$api.erp.project.getById(Id);
-			// 	if (res.errcode != 0) {
-			// 		return;
-			// 	}
-			// 	store.commit('project/getProject', res.data);
-			// 	state.ruleForm = res.data;
-			// 	res.data.ProjectType = res.data.ProjectType.toString();
-			// 	if (state.ruleForm.Files != '') {
-			// 		let Files = res.data.Files.split(',');
-			// 		state.FilesList = [];
-			// 		for (let i = 0; i < Files.length; i++) {
-			// 			let image = { url: '' };
-			// 			image.url = state.httpsText + Files[i];
-			// 			state.FilesList.push(image);
-			// 		}
-			// 	}
-			// 	if (isState) {
-			// 		select(state.indexLine);
-			// 	}
-			// } finally {
-			// 	state.isShowPage = true;
-			// }
-		};
 
-		const select = (key: string) => {
-			state.indexLine = key;
-			switch (state.indexLine) {
-				case 'fileSee':
-					// fileSeeRef.value.getExpertList(true);
-					break;
-				case 'expert':
-					// expertEditRef.value.getExpertList(true);
-					break;
-				case 'parameter':
-					// reviewEditRef.value.onLoadTable(true);
-					break;
-				case 'packageEdit':
-					// packageEditRef.value.getBidList();
-					break;
-				case 'companyList':
-					// companyListRef.value.getCompanyList(true);
-					break;
-				case 'bidList':
-					// bidListRef.value.getCompanyList(true);
-					break;
-				case 'zgpsGather':
-					// zgpsGatherRef.value.GetSignUpList(true, true);
-					break;
-				case 'jspsGather':
-					// jspsGatherRef.value.GetSignUpList(true, true);
-					break;
-				case 'jjpsGather':
-					// jjpsGatherRef.value.GetSignUpList(true, true);
-					break;
-				case 'gatherList':
-					// gatherListRef.value.GetSignUpList(true, true);
-					break;
-				case 'rfeportSee':
-					// rfeportSeeRef.value.getExpertList(true);
-					break;
-				case 'noticeEdit':
-					// noticeEditRef.value.GetByIdRow(0);
-					break;
-			}
-		};
-		const changeSelection = () => {
-			state.isShowPage = false
-			state.indexLine = 'fileSee';
-			proxy.$parent.isShowPage = true;
-		};
-		const handleClick = () => {
-			alert('button click');
-		}
+const { proxy } = getCurrentInstance() as any;
+const { t } = useI18n();
+const store = useStore()
+const fileSeeRef = ref();
+const expertEditRef = ref();
+const reviewEditRef = ref();
+const packageEditRef = ref();
+const companyListRef = ref();
+const bidListRef = ref();
+const zgpsGatherRef = ref();
+const jspsGatherRef = ref();
+const jjpsGatherRef = ref();
+const gatherListRef = ref();
+const rfeportSeeRef = ref();
+const noticeEditRef = ref();
+const noticeSeeRef = ref();
+const state = reactive({
+	project: store.state.project.project,
+	httpsText: import.meta.env.VITE_URL as any,
+	isShowPage: false,
+	indexLine: 'fileSee',
+	isShowDialog: false,
+	loading: false,
+	title: t('message.action.Edit'),
+	projectId: "",
+	FilesList: [],
+	projectForm: {},
+	ruleForm: {},
+});
 
-		// 页面加载时
-		onMounted(() => {});
-		return {
-			proxy,
-			dateFormat,
-			handleClick,
-			changeSelection,
-			select,
-			t,
-			GetByIdRow,
-			...toRefs(state),
-		};
-	},
+//	打开页面
+const openPage = async (id: string) => {
+	state.isShowPage = true
+	state.projectId = id
+	state.indexLine = 'fileSee';
+	GetByIdRow()
 };
+
+//	关闭页面
+const closePage = async () => {
+	state.isShowPage = false
+	state.indexLine = 'fileSee';
+	proxy.$parent.isShowPage = true;
+	proxy.$parent.onGetTableData();
+}
+
+//	刷新页面
+const refreshPage = async () => {
+	GetByIdRow()
+	select(state.indexLine)
+}
+
+//	查看公告
+const openNoticeSee = async () => {
+	noticeSeeRef.value.openDialog()
+};
+
+const select = (val: string) => {
+	state.indexLine = val
+	fileSeeRef.value.closePage();
+	expertEditRef.value.closePage();
+	reviewEditRef.value.closePage();
+	packageEditRef.value.closePage();
+	companyListRef.value.closePage();
+	bidListRef.value.closePage();
+	zgpsGatherRef.value.closePage();
+	jspsGatherRef.value.closePage();
+	jjpsGatherRef.value.closePage();
+	gatherListRef.value.closePage();
+	rfeportSeeRef.value.closePage();
+	noticeEditRef.value.closePage();
+
+	switch (val) {
+		case 'fileSee':
+			fileSeeRef.value.openPage();
+			break;
+		case 'expert':
+			expertEditRef.value.openPage();
+			break;
+		case 'parameter':
+			reviewEditRef.value.openPage();
+			break;
+		case 'packageEdit':
+			packageEditRef.value.openPage();
+			break;
+		case 'companyList':
+			companyListRef.value.openPage();
+			break;
+		case 'bidList':
+			bidListRef.value.openPage();
+			break;
+		case 'zgpsGather':
+			zgpsGatherRef.value.openPage();
+			break;
+		case 'jspsGather':
+			jspsGatherRef.value.openPage();
+			break;
+		case 'jjpsGather':
+			jjpsGatherRef.value.openPage();
+			break;
+		case 'gatherList':
+			gatherListRef.value.openPage();
+			break;
+		case 'rfeportSee':
+			rfeportSeeRef.value.openPage();
+			break;
+		case 'noticeEdit':
+			noticeEditRef.value.openPage();
+			break;
+	}
+};
+
+//	打开修改开标时间编辑弹窗
+const onDialog = async () => {
+	state.isShowDialog = true;
+	state.title = t('message.action.edit');
+};
+
+//	关闭修改开标时间编辑窗口
+const closeDialog = async () => {
+	state.isShowDialog = false
+	state.ruleForm = {};
+};
+
+// 项目作废
+const onModelDel = () => {
+	ElMessageBox.confirm(`确定要作废该项目吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		try {
+			const res = await proxy.$api.erp.project.delete(state.projectForm.Id);
+			if (res.errcode != 0) {
+				return;
+			}
+		} finally {
+		}
+		
+		closePage()
+		return false;
+	});
+};
+
+//	获取项目信息
+const GetByIdRow = async () => {
+	try {
+		const res = await proxy.$api.erp.project.getById(state.projectId);
+		if (res.errcode != 0) {
+			return;
+		}
+		store.commit('project/getProject', res.data);
+		state.projectForm = res.data;
+		res.data.ProjectType = res.data.ProjectType.toString();
+		if (state.projectForm.Files != '') {
+			let Files = res.data.Files.split(',');
+			state.FilesList = [];
+			for (let i = 0; i < Files.length; i++) {
+				let image = { url: '' };
+				image.url = state.httpsText + Files[i];
+				state.FilesList.push(image);
+			}
+		}
+	} finally {
+		state.isShowPage = true;
+	}
+};
+
+//	确定提交创建项
+const onSubmit = () => {
+	ElMessageBox.confirm(`确定要修改该项目开标时间吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		try {
+			state.ruleForm.Id = state.projectForm.Id
+			state.ruleForm.BidOpenTime = state.projectForm.BidOpenTime
+			const res = proxy.$api.erp.project.save(state.ruleForm);
+			if (res.errcode != 0) {
+				return
+			}
+		} finally {
+		}
+		closeDialog()
+	});
+};
+
+const handleClick = () => {
+	alert('button click');
+}
+
+const { dateFormat } = commonFunction();
+
+//	页面加载时
+onMounted(() => {});
+
+//	公开方法属性
+defineExpose({openPage, closePage, ...toRefs(state)})
+
 </script>
 <style  lang="scss">
 .tenderee-project-bidedit {
