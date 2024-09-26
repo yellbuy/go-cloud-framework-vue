@@ -26,4 +26,11 @@ export default {
 		btnText: '登 录',
 	},
 	signInText: '欢迎回来！',
+	changePassword: {
+		title: '更改密码',
+		oldPassword:'原密码',
+		newPassword:'新密码',
+		confirmPassword:'确认密码',
+		remark: '警告：出于安全考虑，需更改密码后才能继续使用本系统',
+	},
 };

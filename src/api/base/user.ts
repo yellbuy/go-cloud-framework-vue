@@ -95,6 +95,10 @@ export default {
 		const url = `/v1/admin/base/user/profile/${data.Id}`;
 		return await http.post(url, data);
 	},
+	changePassword:async(data:object) => {
+		const url = `/v2/admin/base/user/changepassword/${data.Id}`;
+		return await http.post(url, data);
+	},
 	/**
 	 * 新增或更新用户
 	 * @param data 用户信息

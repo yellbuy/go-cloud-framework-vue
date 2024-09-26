@@ -26,4 +26,11 @@ export default {
 		btnText: 'Sign in',
 	},
 	signInText: 'welcome back!',
+	changePassword: {
+		title: 'change password',
+		oldPassword:'old password',
+		newPassword:'new password',
+		confirmPassword:'confirm password',
+		remark: 'Warning: For security reasons, you need to change your password before using the system',
+	},
 };

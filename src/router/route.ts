@@ -1155,6 +1155,14 @@ export const staticRoutes: Array<RouteRecordRaw> = [
 		},
 	},
 	{
+		path: '/changepassword',
+		name: 'changepassword',
+		component: () => import('/@/views/login/changePassword.vue'),
+		meta: {
+			title: '更改密码',
+		},
+	},
+	{
 		path: '/register',
 		name: 'register',
 		component: () => import('../views/base/register/index.vue'),

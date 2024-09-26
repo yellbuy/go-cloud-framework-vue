@@ -1,5 +1,6 @@
 <template>
 	<el-form class="login-content-form" size="large" @keyup.enter="onSignIn">
+		
 		<el-form-item class="login-animation-one">
 			<el-input type="text" :placeholder="$t('pages.login.account.accountPlaceholder1')" v-model="ruleForm.username" 
 			clearable autocomplete="new-Password">

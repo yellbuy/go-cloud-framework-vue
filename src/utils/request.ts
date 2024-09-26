@@ -102,6 +102,16 @@ service.interceptors.response.use(
 				// 	})
 				// 	.catch(() => {});
 
+			} else if (res.errcode == 100007){
+				Session.clear(); // 清除浏览器全部临时缓存
+				ElMessage.error({
+					showClose: true,
+					message: `${res.errmsg}`,
+					onClose: async function () {
+						window.location.href = `/#changepassword?appid=${res.data.Appid}&userId=${res.data.Id}&username=${res.data.Username}`; // 去更改密码页面
+					},
+				});
+				
 			}
 			//return Promise.reject(service.interceptors.response);
 		} else {
