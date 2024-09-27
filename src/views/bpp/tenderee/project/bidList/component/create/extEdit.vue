@@ -273,6 +273,7 @@ const outData = async () => {
 
 //	关闭页面
 const closePage = async () => {
+	state.FilesList = []
 	state.projectLineTableData.data = []
 	state.ruleForm = {Number: null, StartTime: "", EndTime: "", BeginTime: "", FinishTime: "", ReviewTime: "", AutoSwitchState: null, ProjectManagerUid: "", ProjectLineList: [],}
 	state.isShowPage = false

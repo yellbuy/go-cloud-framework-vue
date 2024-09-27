@@ -144,7 +144,7 @@ const getExpertVipList = async () => {
 	state.tableData.projectId = state.project.Id;
 	state.tableData.state = 1;
 	try {
-		const res = await proxy.$api.erp.project.expertList(state.project.Id);
+		const res = await proxy.$api.erp.project.expertList(proxy.$parent.projectId);
 		if (res.errcode == 0) {
 			state.tableData.data = res.data;
 		}

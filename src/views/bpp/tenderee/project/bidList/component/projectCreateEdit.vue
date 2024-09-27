@@ -21,7 +21,7 @@
 				</el-col>
 			</el-row>
 		</div>
-		<infoEdit ref="infoEditRef"/>
+		<infoEdit ref="infoEditRef" id="infoEditComponent"/>
 		<extEdit ref="extEditRef"/>
 		<settingLine ref="settingLineRef"/>
 	</el-card>
@@ -37,6 +37,7 @@ import { useStore } from '/@/store/index';
 import infoEdit from './create/infoEdit.vue';
 import extEdit from './create/extEdit.vue';
 import settingLine from './create/settingLine.vue';
+import { nextTick } from 'vue';
 
 const store = useStore();
 const route = useRoute();
@@ -121,30 +122,30 @@ const onSubmit = () => {
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
-		let form = {}
-		infoEditRef.value.outData().then(result => {
-			form = Object.assign(form, result);
-		});
-		extEditRef.value.outData().then(result => {
-			form = Object.assign(form, result);
-		});
-		settingLineRef.value.outData().then(result => {
-			form = Object.assign(form, result);
-		});
-
-		console.log("测试", form)
+		state.ruleForm = {}
+		const promises = [
+            infoEditRef.value.outData(),
+            extEditRef.value.outData(),
+            settingLineRef.value.outData()
+        ];
+		const results = await Promise.all(promises);
+		results.forEach(result => {
+            state.ruleForm = Object.assign(state.ruleForm, result);
+        });
 		try {
-			// state.ruleForm.Id = "0"
-			// state.ruleForm.Kind = "bid"
-			// const res = proxy.$api.erp.projectbid.saveBid(state.ruleForm);
-			// if (res.errcode != 0) {
-			// 	return
-			// }
-			// infoEditRef.value.closePage()
-			// extEditRef.value.closePage()
-			// settingLineRef.value.closePage()
-			// ElMessage('项目创建成功')
-			// closePage()
+			state.ruleForm.Id = "0"
+			state.ruleForm.Kind = "bid"
+			const res = proxy.$api.erp.projectbid.saveBid(state.ruleForm);
+			res.then(result => {
+				if (result.errcode != 0) {
+				return
+				}
+			})
+			infoEditRef.value.closePage()
+			extEditRef.value.closePage()
+			settingLineRef.value.closePage()
+			ElMessage('项目创建成功')
+			closePage()
 		} finally {
 		}
 	});

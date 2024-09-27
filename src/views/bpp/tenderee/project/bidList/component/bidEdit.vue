@@ -7,7 +7,7 @@
 						<template #title>评选准备</template>
 						<el-menu-item index="fileSee">招标文件</el-menu-item>
 						<el-menu-item index="expert">选择评选专家</el-menu-item>
-						<el-menu-item index="parameter">复核评选参数</el-menu-item>
+						<el-menu-item index="settingLine">复核评选参数</el-menu-item>
 					</el-sub-menu>
 					<el-sub-menu index="2">
 						<template #title>项目开标</template>
@@ -38,7 +38,6 @@
 									<el-button type="primary" @click="openNoticeSee">查看公告</el-button>
 									<el-button type="primary" @click="refreshPage">刷新</el-button>
 									<!-- <el-button type="primary" @click="handleClick">全屏</el-button> -->
-
 								</div>
 							</el-col>
 							<el-col :span="8">
@@ -64,7 +63,7 @@
 					</template>
 					<fileSee ref="fileSeeRef"/>
 					<expertEdit ref="expertEditRef"/>
-					<reviewEdit ref="reviewEditRef"/>
+					<settingLineList ref="settingLineListRef"/>
 					<packageEdit ref="packageEditRef"/>
 					<companyList ref="companyListRef"/>
 					<bidList ref="bidListRef"/>
@@ -110,7 +109,7 @@ import noticeSee from './bid/noticeSee.vue';
 import packageEdit from './bid/packageEdit.vue';
 import rfeportSee from './bid/rfeportSee.vue';
 import zgpsGather from './bid/zgpsGather.vue';
-import reviewEdit from './bid/parameterEdit.vue';
+import settingLineList from './bid/settingLineList.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 
@@ -119,7 +118,7 @@ const { t } = useI18n();
 const store = useStore()
 const fileSeeRef = ref();
 const expertEditRef = ref();
-const reviewEditRef = ref();
+const settingLineListRef = ref();
 const packageEditRef = ref();
 const companyListRef = ref();
 const bidListRef = ref();
@@ -175,7 +174,7 @@ const select = (val: string) => {
 	state.indexLine = val
 	fileSeeRef.value.closePage();
 	expertEditRef.value.closePage();
-	reviewEditRef.value.closePage();
+	settingLineListRef.value.closePage();
 	packageEditRef.value.closePage();
 	companyListRef.value.closePage();
 	bidListRef.value.closePage();
@@ -193,8 +192,8 @@ const select = (val: string) => {
 		case 'expert':
 			expertEditRef.value.openPage();
 			break;
-		case 'parameter':
-			reviewEditRef.value.openPage();
+		case 'settingLine':
+			settingLineListRef.value.openPage();
 			break;
 		case 'packageEdit':
 			packageEditRef.value.openPage();

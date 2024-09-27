@@ -99,7 +99,7 @@ const state = reactive({
 		EnsureFee: 0,
 		Location: '',
 		Content: '',
-		ProjectManagerUid: '0',
+		ProjectManagerUid: '',
 	},
 	ProjectManagerData: {
 		data: [],

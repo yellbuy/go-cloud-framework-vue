@@ -11,6 +11,7 @@
                 <el-table :data="state.zgTableData.data" v-loading="state.zgTableData.loading" :height="proxy.$calcMainHeight(-240)" style="width: 100%" border stripe highlight-current-row>
                     <el-table-column type="index" label="序号" width="70" align="right" show-overflow-tooltip fixed />
                     <el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
+                    <el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
                     <el-table-column prop="State" label="评分方式" width="120" show-overflow-tooltip>
                         <template #default="scope">
                             <div v-if="scope.row.State == 0" style="display: flex; align-items: center;">
@@ -26,7 +27,7 @@
                     <el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
                         <template #default="scope">
                             <el-button type="primary" @click="onSettingLineDialog(scope.row, scope.$index)">编辑</el-button>
-                            <el-button text bg type="danger" @click="onDelSetting(scope.$index)">删除</el-button>
+                            <el-button type="danger" @click="onDelSetting(scope.$index)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -236,6 +237,7 @@ const outData = async () => {
 
 // 关闭页面
 const closePage = async () => {
+    state.activeName = 'zgps'
     state.ruleForm = {ProjectSettingLineList: [],},
     state.settingTableData.data = []
     state.zgTableData.data = []
@@ -262,22 +264,25 @@ const onGetSettingTableData = async () => {
 			return;
 		}
         state.settingTableData.data = res.data
-        let settingForm = {}
+        let settingLineForm = {}
         for (let item of res.data) {
-            settingForm = {}
-            settingForm.Id = "0"
-            settingForm.Kind = item.Kind
-            settingForm.ProjectSettingId = item.Id
-            settingForm.Content = item.Content
-            settingForm.Standard = item.Standard
+            settingLineForm = {}
+            settingLineForm.Id = "0"
+            settingLineForm.Kind = item.Kind
+            settingLineForm.State = 0
+            settingLineForm.ProjectSettingId = item.Id
+            settingLineForm.Content = item.Content
+            settingLineForm.Standard = item.Standard
+            settingLineForm.TechnicalMaxScore = item.TechnicalMaxScore
             switch (item.Kind) {
             case 'zgps':
-                state.zgTableData.data.push(settingForm)
+                state.zgTableData.data.push(settingLineForm)
                 break
             case 'jsps':
-                state.jsTableData.data.push(settingForm)
+                state.jsTableData.data.push(settingLineForm)
                 break
             }
+            getScore()
         }
 	} finally {
 	}

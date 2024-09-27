@@ -139,7 +139,6 @@
 			</el-form>
 			</el-tab-pane>
 		</el-tabs>
-		<settingLineEdit ref="settingLineEditRef"/>
 	</div>
 </template>
 
@@ -152,7 +151,6 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
 import { useRoute } from 'vue-router';
-import settingLineEdit from '../create/settingLineEdit.vue'
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
