@@ -1,38 +1,39 @@
 <template>
-	<div class="tenderee-project-bidedit" v-if="state.isShowPage">
-		<el-container>
-			<el-aside width="200px" class="pt2">
-				<el-menu class="el-menu-vertical-demo" default-active="fileSee" @select="select">
-					<el-sub-menu index="before">
-						<template #title>评选准备</template>
-						<el-menu-item index="fileSee">招标文件</el-menu-item>
-						<el-menu-item index="expert">选择评选专家</el-menu-item>
-						<el-menu-item index="settingLine">复核评选参数</el-menu-item>
-					</el-sub-menu>
-					<el-sub-menu index="2">
-						<template #title>项目开标</template>
-						<el-menu-item index="packageEdit">选择项目包号</el-menu-item>
-						<el-menu-item index="companyList">投标人名单</el-menu-item>
-						<el-menu-item index="bidList">开标一览表</el-menu-item>
-					</el-sub-menu>
-					<el-sub-menu index="3">
-						<template #title>项目评标</template>
-						<el-menu-item index="zgpsGather">资格评分汇总</el-menu-item>
-						<el-menu-item index="jspsGather">技术评分汇总</el-menu-item>
-						<el-menu-item index="jjpsGather">价格评分汇总</el-menu-item>
-					</el-sub-menu>
-					<el-sub-menu index="4">
-						<template #title>评标结果</template>
-						<el-menu-item index="gatherList">评分汇总</el-menu-item>
-						<el-menu-item index="rfeportSee">评标报告</el-menu-item>
-						<el-menu-item index="noticeEdit">发布中选公告</el-menu-item>
-					</el-sub-menu>
-				</el-menu>
-			</el-aside>
-			<el-main class="pt2" >
+		<el-row>
+			<el-col class="tenderee-project-bidedit" :span="3" style="padding-top: 20px; padding-bottom: 20px;" v-if="state.isShowPage">
+				<el-aside width="200px" class="pt2">
+					<el-menu class="el-menu-vertical-demo" default-active="fileSee" @select="select">
+						<el-sub-menu index="before">
+							<template #title>评选准备</template>
+							<el-menu-item index="fileSee">招标文件</el-menu-item>
+							<el-menu-item index="expert">选择评选专家</el-menu-item>
+							<el-menu-item index="settingLine">复核评选参数</el-menu-item>
+						</el-sub-menu>
+						<el-sub-menu index="2">
+							<template #title>项目开标</template>
+							<el-menu-item index="packageEdit">选择项目包号</el-menu-item>
+							<el-menu-item index="companyList">投标人名单</el-menu-item>
+							<el-menu-item index="bidList">开标一览表</el-menu-item>
+						</el-sub-menu>
+						<el-sub-menu index="3">
+							<template #title>项目评标</template>
+							<el-menu-item index="zgpsGather">资格评分汇总</el-menu-item>
+							<el-menu-item index="jspsGather">技术评分汇总</el-menu-item>
+							<el-menu-item index="jjpsGather">价格评分汇总</el-menu-item>
+						</el-sub-menu>
+						<el-sub-menu index="4">
+							<template #title>评标结果</template>
+							<el-menu-item index="gatherList">评分汇总</el-menu-item>
+							<el-menu-item index="rfeportSee">评标报告</el-menu-item>
+							<el-menu-item index="noticeEdit">发布中选公告</el-menu-item>
+						</el-sub-menu>
+					</el-menu>
+				</el-aside>
+			</el-col>
+			<el-col :span="21" style="padding-top: 20px; padding-bottom: 20px;">
 				<el-card>
 					<template #header>
-						<el-row>
+						<el-row v-if="state.isShowPage">
 							<el-col :span="8">
 								<div style="float: left">
 									<el-button type="primary" @click="openNoticeSee">查看公告</el-button>
@@ -75,22 +76,21 @@
 					<noticeEdit ref="noticeEditRef"/>
 					<noticeSee ref="noticeSeeRef"/>
 				</el-card>
-				<el-dialog :title="state.title" v-model="state.isShowDialog" width="25%" :before-close="closeDialog">
-					<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="small" label-width="130px" label-suffix="：" v-loading="state.loading">
-						<el-form-item label="开标时间" prop="BidOpenTime">
-							<el-date-picker v-model="state.projectForm.BidOpenTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
-						</el-form-item>
-					</el-form>
-					<template #footer>
-						<span class="dialog-footer">
-							<el-button text bg type="primary" @click="closeDialog">取消</el-button>
-							<el-button type="primary" @click="onSubmit" >确定</el-button>
-						</span>
-					</template>
-				</el-dialog>
-			</el-main>
-		</el-container>
-	</div>
+			</el-col>
+			<el-dialog :title="state.title" v-model="state.isShowDialog" width="25%" :before-close="closeDialog">
+				<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="small" label-width="130px" label-suffix="：" v-loading="state.loading">
+					<el-form-item label="开标时间" prop="BidOpenTime">
+						<el-date-picker v-model="state.projectForm.BidOpenTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
+					</el-form-item>
+				</el-form>
+				<template #footer>
+					<span class="dialog-footer">
+						<el-button text bg type="primary" @click="closeDialog">取消</el-button>
+						<el-button type="primary" @click="onSubmit" >确定</el-button>
+					</span>
+				</template>
+			</el-dialog>
+		</el-row>
 </template>
 
 <script setup lang="ts">
@@ -149,6 +149,7 @@ const openPage = async (id: string) => {
 	state.projectId = id
 	state.indexLine = 'fileSee';
 	GetByIdRow()
+	fileSeeRef.value.openPage();
 };
 
 //	关闭页面
@@ -184,8 +185,7 @@ const select = (val: string) => {
 	gatherListRef.value.closePage();
 	rfeportSeeRef.value.closePage();
 	noticeEditRef.value.closePage();
-
-	switch (val) {
+	switch (state.indexLine) {
 		case 'fileSee':
 			fileSeeRef.value.openPage();
 			break;

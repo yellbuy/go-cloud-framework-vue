@@ -18,13 +18,14 @@
 			<el-tab-pane label="资格评审" name="zgps">
 				<el-form :model="state.zgTableData.param" label-width="60px" :inline="true" style="margin-bottom: 10px;">
 					<el-form-item>
-						<el-button type="primary" @click="onSettingLineDialog()">创建</el-button>
-						<el-button text bg type="info" @click="onGetSettingTableData()">恢复默认</el-button>
+						<el-button type="primary" @click="onSettingLineEditDialog()">创建</el-button>
+						<el-button type="info" @click="onGetSettingTableData()">恢复默认</el-button>
 					</el-form-item>
 				</el-form>
 				<el-table :data="state.zgTableData.data" v-loading="state.zgTableData.loading" :height="proxy.$calcMainHeight(-240)" style="width: 100%" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" width="70" align="right" show-overflow-tooltip fixed />
 					<el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
+					<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
 					<el-table-column prop="State" label="评分方式" width="120" show-overflow-tooltip>
 						<template #default="scope">
 							<div v-if="scope.row.State === 0" style="display: flex; align-items: center;">
@@ -39,8 +40,8 @@
 					</el-table-column>
 					<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
 						<template #default="scope">
-							<el-button type="primary" @click="onSettingLineDialog(scope.row, scope.$index)">编辑</el-button>
-							<el-button text bg type="danger" @click="onSettingLineDel(scope.row.Id, scope.$index)">删除</el-button>
+							<el-button type="primary" @click="onSettingLineEditDialog(scope.row.Id)">编辑</el-button>
+							<el-button type="danger" @click="onSettingLineDel(scope.row.Id, scope.$index)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -48,8 +49,8 @@
 			<el-tab-pane label="技术评审" name="jsps">
 				<el-form :model="state.jsTableData.param" label-width="60px" :inline="true" style="margin-bottom: 10px;">
 					<el-form-item>
-						<el-button type="primary" @click="onSettingLineDialog()">创建</el-button>
-						<el-button text bg type="info" @click="onGetSettingTableData()">恢复默认</el-button>
+						<el-button type="primary" @click="onSettingLineEditDialog()">创建</el-button>
+						<el-button type="info" @click="onGetSettingTableData()">恢复默认</el-button>
 					</el-form-item>
 				</el-form>
 				<el-table :data="state.jsTableData.data" style="width: 100%" v-loading="state.jsTableData.loading" :height="proxy.$calcMainHeight(-240)" border stripe highlight-current-row>
@@ -59,8 +60,8 @@
 					<el-table-column prop="TechnicalMaxScore" label="最高评分" show-overflow-tooltip />
 					<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
 						<template #default="scope">
-							<el-button type="primary" @click="onSettingLineDialog(scope.row, scope.$index)">编辑</el-button>
-							<el-button text bg type="danger" @click="onSettingLineDel(scope.row.Id, scope.$index)">删除</el-button>
+							<el-button type="primary" @click="onSettingLineEditDialog(scope.row.Id)">编辑</el-button>
+							<el-button type="danger" @click="onSettingLineDel(scope.row.Id, scope.$index)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -139,6 +140,7 @@
 			</el-form>
 			</el-tab-pane>
 		</el-tabs>
+		<settingLineEdit ref="settingLineEditRef" />
 	</div>
 </template>
 
@@ -151,6 +153,7 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
 import { useRoute } from 'vue-router';
+import settingLineEdit from './settingLineEdit.vue';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
@@ -271,13 +274,22 @@ const openPage = async () => {
 
 //	关闭页面
 const closePage = async () => {
+	try {
+		getScore()
+        const res = proxy.$api.erp.projectsettingline.save(state.jjForm);
+        res.then(result => {
+            if (result.errcode != 0) {
+            return
+            }
+        })
+    } finally {
+    }
 	state.isShowPage = false
 }
 
 //	打开评审参数编辑弹窗
-const onSettingLineDialog = async (row: object, index: number) => {
-	settingLineEditRef.value.openDialog(state.activeName, row, index)
-	onGetSettingLineTableData();
+const onSettingLineEditDialog = async (id: string) => {
+	settingLineEditRef.value.openDialog(id, state.activeName)
 };
 
 const getScore = () => {

@@ -144,7 +144,7 @@ const getExpertVipList = async () => {
 	state.tableData.projectId = state.project.Id;
 	state.tableData.state = 1;
 	try {
-		const res = await proxy.$api.erp.project.expertList(proxy.$parent.projectId);
+		const res = await proxy.$api.erp.project.expertList(state.project.Id);
 		if (res.errcode == 0) {
 			state.tableData.data = res.data;
 		}
@@ -155,7 +155,7 @@ const getExpertVipList = async () => {
 //	获取专家列表
 const getExpertList = async () => {
 	state.state = false;
-	if (store.state.project.project.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && store.state.project.project.State == 0) {
+	if (store.state.project.project.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && state.project.State == 0) {
 		state.state = true;
 	}
 	state.tableData.loading = true;

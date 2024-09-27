@@ -73,48 +73,6 @@ const loadPdf = async (pdfPath: string) => {
 	});
 }
 
-const onSubmit = async () => {
-	proxy.$refs.ruleFormRef.validate(async (valid: any) => {
-		if (valid) {
-			let newModel = getAjaxData();
-			//判断当前角色是什么
-			if (state.ruleForm.Roles == 0) {
-				//添加为评审
-				if (state.ruleForm.NameId == newModel.SupervisionId) {
-					//当前专家是监审
-					newModel.SupervisionId = '';
-					newModel.list.push(state.ruleForm.NameId);
-				} else {
-					newModel.list.push(state.ruleForm.NameId);
-				}
-			} else {
-				//添加为监审
-				for (let i = 0; i <= newModel.list.length; i++) {
-					if (newModel.list[i] == state.ruleForm.NameId) {
-						newModel.list.splice(i, 1);
-					}
-				}
-				newModel.SupervisionId = state.ruleForm.NameId;
-			}
-			let model = {
-				projectId: store.state.project.projectId,
-				SupervisionId: newModel.SupervisionId,
-				ExpertIds: newModel.list.toString(),
-			};
-			try {
-				const res = await proxy.$api.erp.project.expertSave(model);
-				if (res.errcode != 0) {
-					return;
-				}
-				closeDialog();
-				getExpertList(true);
-			} finally {
-			}
-		} else {
-			return false;
-		}
-	});
-};
 
 const { dateFormat } = commonFunction();
 
