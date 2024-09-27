@@ -1,96 +1,96 @@
 <template>
-		<el-row>
-			<el-col class="tenderee-project-bidedit" :span="3" style="padding-top: 20px; padding-bottom: 20px;" v-if="state.isShowPage">
-				<el-aside width="200px" class="pt2">
-					<el-menu class="el-menu-vertical-demo" default-active="fileSee" @select="select">
-						<el-sub-menu index="before">
-							<template #title>评选准备</template>
-							<el-menu-item index="fileSee">招标文件</el-menu-item>
-							<el-menu-item index="expert">选择评选专家</el-menu-item>
-							<el-menu-item index="settingLine">复核评选参数</el-menu-item>
-						</el-sub-menu>
-						<el-sub-menu index="2">
-							<template #title>项目开标</template>
-							<el-menu-item index="packageEdit">选择项目包号</el-menu-item>
-							<el-menu-item index="companyList">投标人名单</el-menu-item>
-							<el-menu-item index="bidList">开标一览表</el-menu-item>
-						</el-sub-menu>
-						<el-sub-menu index="3">
-							<template #title>项目评标</template>
-							<el-menu-item index="zgpsGather">资格评分汇总</el-menu-item>
-							<el-menu-item index="jspsGather">技术评分汇总</el-menu-item>
-							<el-menu-item index="jjpsGather">价格评分汇总</el-menu-item>
-						</el-sub-menu>
-						<el-sub-menu index="4">
-							<template #title>评标结果</template>
-							<el-menu-item index="gatherList">评分汇总</el-menu-item>
-							<el-menu-item index="rfeportSee">评标报告</el-menu-item>
-							<el-menu-item index="noticeEdit">发布中选公告</el-menu-item>
-						</el-sub-menu>
-					</el-menu>
-				</el-aside>
-			</el-col>
-			<el-col :span="21" style="padding-top: 20px; padding-bottom: 20px;">
-				<el-card>
-					<template #header>
-						<el-row v-if="state.isShowPage">
-							<el-col :span="8">
-								<div style="float: left">
-									<el-button type="primary" @click="openNoticeSee">查看公告</el-button>
-									<el-button type="primary" @click="refreshPage">刷新</el-button>
-									<!-- <el-button type="primary" @click="handleClick">全屏</el-button> -->
-								</div>
-							</el-col>
-							<el-col :span="8">
-								<div style="float: center">
-									<h3>当前选择项目：{{ state.projectForm.Name }}</h3>
-								</div>
-							</el-col>
-							<el-col :span="8">
-								<el-dropdown style="float: right">
-									<el-button type="primary">
-										其他操作<el-icon class="el-icon--right"><arrow-down /></el-icon>
-									</el-button>
-									<template #dropdown>
-										<el-dropdown-menu>
-											<el-dropdown-item @click="closePage">返回其他项目</el-dropdown-item>
-											<el-dropdown-item @click="onDialog">修改开标时间</el-dropdown-item>
-											<el-dropdown-item @click="onModelDel">项目报废</el-dropdown-item>
-										</el-dropdown-menu>
-									</template>
-								</el-dropdown>
-							</el-col>
-						</el-row>
-					</template>
-					<fileSee ref="fileSeeRef"/>
-					<expertEdit ref="expertEditRef"/>
-					<settingLineList ref="settingLineListRef"/>
-					<packageEdit ref="packageEditRef"/>
-					<companyList ref="companyListRef"/>
-					<bidList ref="bidListRef"/>
-					<zgpsGather ref="zgpsGatherRef"/>
-					<jspsGather ref="jspsGatherRef"/>
-					<jjpsGather ref="jjpsGatherRef"/>
-					<gatherList ref="gatherListRef"/>
-					<rfeportSee ref="rfeportSeeRef"/>
-					<noticeEdit ref="noticeEditRef"/>
-					<noticeSee ref="noticeSeeRef"/>
-				</el-card>
-			</el-col>
-			<el-dialog :title="state.title" v-model="state.isShowDialog" width="25%" :before-close="closeDialog">
-				<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="small" label-width="130px" label-suffix="：" v-loading="state.loading">
-					<el-form-item label="开标时间" prop="BidOpenTime">
-						<el-date-picker v-model="state.projectForm.BidOpenTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
-					</el-form-item>
-				</el-form>
-				<template #footer>
-					<span class="dialog-footer">
-						<el-button text bg type="primary" @click="closeDialog">取消</el-button>
-						<el-button type="primary" @click="onSubmit" >确定</el-button>
-					</span>
+	<el-row>
+		<el-col class="tenderee-project-bidedit" :span="3" style="padding-top: 20px; padding-bottom: 20px;" v-if="state.isShowPage">
+			<el-aside width="200px" class="pt2">
+				<el-menu class="el-menu-vertical-demo" default-active="fileSee" @select="select">
+					<el-sub-menu index="before">
+						<template #title>评选准备</template>
+						<el-menu-item index="fileSee">招标文件</el-menu-item>
+						<el-menu-item index="expert">选择评选专家</el-menu-item>
+						<el-menu-item index="settingLine">复核评选参数</el-menu-item>
+					</el-sub-menu>
+					<el-sub-menu index="2">
+						<template #title>项目开标</template>
+						<el-menu-item index="packageEdit">选择项目包号</el-menu-item>
+						<el-menu-item index="companyList">投标人名单</el-menu-item>
+						<el-menu-item index="bidList">开标一览表</el-menu-item>
+					</el-sub-menu>
+					<el-sub-menu index="3">
+						<template #title>项目评标</template>
+						<el-menu-item index="zgpsGather">资格评分汇总</el-menu-item>
+						<el-menu-item index="jspsGather">技术评分汇总</el-menu-item>
+						<el-menu-item index="jjpsGather">价格评分汇总</el-menu-item>
+					</el-sub-menu>
+					<el-sub-menu index="4">
+						<template #title>评标结果</template>
+						<el-menu-item index="gatherList">评分汇总</el-menu-item>
+						<el-menu-item index="rfeportSee">评标报告</el-menu-item>
+						<el-menu-item index="noticeEdit">发布中选公告</el-menu-item>
+					</el-sub-menu>
+				</el-menu>
+			</el-aside>
+		</el-col>
+		<el-col :span="21" style="padding-top: 20px; padding-bottom: 20px;">
+			<el-card>
+				<template #header>
+					<el-row v-if="state.isShowPage">
+						<el-col :span="8">
+							<div style="float: left">
+								<el-button type="primary" @click="openNoticeSee">查看公告</el-button>
+								<el-button type="primary" @click="refreshPage">刷新</el-button>
+								<!-- <el-button type="primary" @click="handleClick">全屏</el-button> -->
+							</div>
+						</el-col>
+						<el-col :span="8">
+							<div style="float: center">
+								<h3>当前选择项目：{{ state.projectForm.Name }}</h3>
+							</div>
+						</el-col>
+						<el-col :span="8">
+							<el-dropdown style="float: right">
+								<el-button type="primary">
+									其他操作<el-icon class="el-icon--right"><arrow-down /></el-icon>
+								</el-button>
+								<template #dropdown>
+									<el-dropdown-menu>
+										<el-dropdown-item @click="closePage">返回其他项目</el-dropdown-item>
+										<el-dropdown-item @click="onDialog">修改开标时间</el-dropdown-item>
+										<el-dropdown-item @click="onModelDel">项目报废</el-dropdown-item>
+									</el-dropdown-menu>
+								</template>
+							</el-dropdown>
+						</el-col>
+					</el-row>
 				</template>
-			</el-dialog>
-		</el-row>
+				<fileSee ref="fileSeeRef"/>
+				<expertEdit ref="expertEditRef"/>
+				<settingLineList ref="settingLineListRef"/>
+				<packageEdit ref="packageEditRef"/>
+				<companyList ref="companyListRef"/>
+				<bidList ref="bidListRef"/>
+				<zgpsGather ref="zgpsGatherRef"/>
+				<jspsGather ref="jspsGatherRef"/>
+				<jjpsGather ref="jjpsGatherRef"/>
+				<gatherList ref="gatherListRef"/>
+				<rfeportSee ref="rfeportSeeRef"/>
+				<noticeEdit ref="noticeEditRef"/>
+				<noticeSee ref="noticeSeeRef"/>
+			</el-card>
+		</el-col>
+		<el-dialog :title="state.title" v-model="state.isShowDialog" width="25%" :before-close="closeDialog">
+			<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="small" label-width="130px" label-suffix="：" v-loading="state.loading">
+				<el-form-item label="开标时间" prop="BidOpenTime">
+					<el-date-picker v-model="state.projectForm.BidOpenTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
+				</el-form-item>
+			</el-form>
+			<template #footer>
+				<span class="dialog-footer">
+					<el-button text bg type="primary" @click="closeDialog">取消</el-button>
+					<el-button type="primary" @click="onSubmit" >确定</el-button>
+				</span>
+			</template>
+		</el-dialog>
+	</el-row>
 </template>
 
 <script setup lang="ts">

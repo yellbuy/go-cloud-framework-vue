@@ -38,7 +38,6 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="Name" label="招标项目" width="200" show-overflow-tooltip/>
-				
 				<el-table-column prop="EndTime" label="报名截止日期" width="150" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
 				<el-table-column prop="ReviewTime" label="开标日期" width="150"  :formatter="dateFormatYMDHM" show-overflow-tooltip/>
 				<el-table-column prop="fanwei" label="招标范围" show-overflow-tooltip/>
