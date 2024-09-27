@@ -1,30 +1,30 @@
 <template>
-		<el-card v-if="state.isShowPage">
+	<el-card>
+		<div v-if="state.isShowPage">
 			<el-row>
-				<el-col :span="24" style="padding-top: 20px; padding-bottom: 20px;">
+				<el-col :span="20" style="padding-top: 20px; padding-bottom: 20px;">
 					<el-steps :active="state.activeIndex" align-center>
 						<el-step title="发布招标项目"/>
 						<el-step title="设置招标信息"/>
 						<el-step title="评标参数复核"/>
 					</el-steps>
 				</el-col>
-				<el-col :span="24">
-					<infoEdit ref="infoEditRef"/>
-					<extEdit ref="extEditRef"/>
-					<settingLine ref="settingLineRef"/>
-				</el-col>
-				<el-col :span="24">
+				<el-col :span="4">
 					<div class="mt20">
 						<span style="float: right; padding-bottom: 20px; padding-right: 20px;">
-							<el-button text bg type="info" @click="closePage">取消</el-button>
+							<el-button type="danger" @click="closePage">取消</el-button>
 							<el-button v-if="state.activeIndex > 1" type="primary" @click="stepChange(-1)">上一步</el-button>
 							<el-button v-if="state.activeIndex < 3" type="primary" @click="stepChange(1)">下一步</el-button>
-							<el-button v-if="state.activeIndex == 3" text bg type="info" @click="onSubmit()">完成</el-button>
+							<el-button v-if="state.activeIndex == 3" type="success" @click="onSubmit()">完成</el-button>
 						</span>
 					</div>
 				</el-col>
 			</el-row>
-		</el-card>
+		</div>
+		<infoEdit ref="infoEditRef"/>
+		<extEdit ref="extEditRef"/>
+		<settingLine ref="settingLineRef"/>
+	</el-card>
 </template>
 
 <script setup lang="ts">
@@ -49,8 +49,6 @@ const infoEditRef = ref()
 const extEditRef = ref()
 const settingLineRef = ref()
 const state = reactive({
-	baseUrl: import.meta.env.VITE_API_URL,
-	httpsText: import.meta.env.VITE_URL as any,
 	uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 	moduleKey,
 	token: token,
@@ -63,11 +61,15 @@ const state = reactive({
 //	打开页面
 const openPage = async () => {
 	state.isShowPage = true
+    infoEditRef.value.openPage();
 };
 
 //	关闭页面
 const closePage = async () => {
 	state.isShowPage = false
+	infoEditRef.value.isShowPage = false
+	extEditRef.value.isShowPage = false
+	settingLineRef.value.isShowPage = false
 	proxy.$parent.isShowPage = true
 	state.activeIndex = 1
 	state.FilesList = []
@@ -141,6 +143,7 @@ const onSubmit = () => {
 			// infoEditRef.value.closePage()
 			// extEditRef.value.closePage()
 			// settingLineRef.value.closePage()
+			// ElMessage('项目创建成功')
 			// closePage()
 		} finally {
 		}

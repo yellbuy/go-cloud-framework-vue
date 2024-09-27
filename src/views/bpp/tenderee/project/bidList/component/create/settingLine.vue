@@ -5,7 +5,7 @@
                 <el-form :model="state.zgTableData.param" label-width="60px" :inline="true" style="margin-bottom: 10px;">
                     <el-form-item>
                         <el-button type="primary" @click="onSettingLineDialog()">创建</el-button>
-                        <el-button text bg type="info" @click="onGetSettingTableData()">恢复默认</el-button>
+                        <el-button type="info" @click="onGetSettingTableData()">恢复默认</el-button>
                     </el-form-item>
                 </el-form>
                 <el-table :data="state.zgTableData.data" v-loading="state.zgTableData.loading" :height="proxy.$calcMainHeight(-240)" style="width: 100%" border stripe highlight-current-row>
@@ -35,7 +35,7 @@
                 <el-form :model="state.jsTableData.param" label-width="60px" :inline="true" style="margin-bottom: 10px;">
                     <el-form-item>
                         <el-button type="primary" @click="onSettingLineDialog()">创建</el-button>
-                        <el-button text bg type="info" @click="onGetSettingTableData()">恢复默认</el-button>
+                        <el-button type="info" @click="onGetSettingTableData()">恢复默认</el-button>
                     </el-form-item>
                 </el-form>
                 <el-table :data="state.jsTableData.data" style="width: 100%" v-loading="state.jsTableData.loading" :height="proxy.$calcMainHeight(-240)" border stripe highlight-current-row>
@@ -46,7 +46,7 @@
                     <el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
                         <template #default="scope">
                             <el-button type="primary" @click="onSettingLineDialog(scope.row, scope.$index)">编辑</el-button>
-                            <el-button text bg type="danger" @click="onDelSetting(scope.$index)">删除</el-button>
+                            <el-button type="danger" @click="onDelSetting(scope.$index)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -131,8 +131,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button text bg type="info" @click="closeSettingDialog()">取消</el-button>
-					<el-button type="primary" @click="submitSetting()">确定</el-button>
+					<el-button type="danger" @click="closeSettingDialog()">取消</el-button>
+					<el-button type="success" @click="submitSetting()">保存</el-button>
 				</span>
 			</template>
 		</el-dialog>

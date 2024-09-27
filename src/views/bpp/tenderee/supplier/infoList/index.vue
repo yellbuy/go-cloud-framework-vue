@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-card v-if="isShowPage">
-			<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
+			<el-form ref="searchFormRef" :model="tableData.param" label-suffix="：" label-width="80px" :inline="true">
 				<el-form-item label="名称">
 					<el-input placeholder="请输入关键字" v-model="tableData.param.no" style="width: 120px;"/>
 				</el-form-item>

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-card v-if="state.isShowPage">
-			<el-form ref="searchFormRef" :model="state.tableData.param" label-width="60px" :inline="true">
+			<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
 				<el-form-item label="项目编号">
 					<el-input placeholder="请输入比选编号查询" v-model="state.tableData.param.no" style="width: 150px;"/>
 				</el-form-item>

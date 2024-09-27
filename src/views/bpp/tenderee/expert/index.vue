@@ -2,7 +2,7 @@
 	<div class="base-user-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-suffix="：" label-width="80px" :inline="true">
 					<el-form-item label="手机号">
 						<el-input placeholder="请输入关键字" v-model="tableData.param.mobile" style="width: 150px;"/>
 					</el-form-item>

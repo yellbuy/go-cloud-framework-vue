@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-card v-if="state.isShowPage">
-			<el-form ref="searchFormRef" :model="state.tableData.param" label-width="60px" :inline="true">
+			<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
 				<el-form-item label="比选编号">
 					<el-input placeholder="请输入比选编号查询" v-model="state.tableData.param.no" style="width: 150px;"/>
 				</el-form-item>
@@ -15,7 +15,7 @@
 						</el-icon>
 						重置
 					</el-button>
-					<el-button type="info" @click="onGetTableData(true)">
+					<el-button type="primary" @click="onGetTableData(true)">
 						<el-icon>
 							<Search />
 						</el-icon>
@@ -44,8 +44,8 @@
 				<el-table-column prop="fanwei" label="招标范围" show-overflow-tooltip/>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="info" @click="onProjectSee(scope.row.Id, true)">项目详情</el-button>
-						<el-button text bg type="primary" @click="onBidEdit(scope.row.Id)">项目评选</el-button>
+						<el-button type="info" @click="onProjectSee(scope.row.Id, true)">项目详情</el-button>
+						<el-button type="primary" @click="onBidEdit(scope.row.Id)">项目评选</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

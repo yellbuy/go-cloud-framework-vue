@@ -85,10 +85,10 @@ const getUserInfos = computed(() => {
 });
 
 const state = reactive({
-	isShowPage: true,
+	isShowPage: false,
 	loading: false,
 	ruleForm: {
-		Id: 0,
+		Id: '0',
 		Kind: '',
 		Name: '',
 		No: '',
@@ -99,6 +99,7 @@ const state = reactive({
 		EnsureFee: 0,
 		Location: '',
 		Content: '',
+		ProjectManagerUid: '0',
 	},
 	ProjectManagerData: {
 		data: [],
@@ -122,7 +123,6 @@ const rules = reactive({
 // 打开页面
 const openPage = async () => {
 	state.isShowPage = true
-	onGetProjectManagerList()
 };
 
 //  传出数据
@@ -149,7 +149,9 @@ const onGetProjectManagerList = async () => {
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	onGetProjectManagerList()
+});
 
 defineExpose({openPage, closePage, outData, ...toRefs(state)})
 </script>

@@ -3,7 +3,7 @@
 		<el-card shadow="hover">
 			<el-tabs v-model="activeName" type="card" class="demo-tabs" @tab-change="tabsName">
 				<el-tab-pane label="资格评审" name="zgps">
-					<el-form :model="jsTableData.param" label-width="60px" :inline="true">
+					<el-form :model="jsTableData.param" label-suffix="：" label-width="80px" :inline="true">
 						<el-form-item label="名称">
 							<el-input placeholder="请输入名称" v-model="jsTableData.param.name" style="width: 150px;"/>
 						</el-form-item>

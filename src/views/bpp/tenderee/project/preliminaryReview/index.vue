@@ -2,7 +2,7 @@
 	<div>
 		<el-card v-if="isShowPage">
 			<div>
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-suffix="：" label-width="80px" :inline="true">
 					<el-form-item label="编号">
 						<el-input placeholder="请输入" v-model="tableData.param.no" style="width: 150px;"/>
 					</el-form-item>
