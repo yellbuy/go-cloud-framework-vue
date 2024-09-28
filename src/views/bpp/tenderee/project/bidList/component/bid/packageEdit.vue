@@ -1,12 +1,12 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -61,6 +61,7 @@ const store = useStore();
 const state: any = reactive({
 	project: store.state.project.project,
 	isShowPage: false,
+	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
@@ -77,13 +78,15 @@ const state: any = reactive({
 });
 
 //	打开页面
-const openPage = async () => {
+const openPage = async (row: {}) => {
+	state.projectForm = row
 	state.isShowPage = true
-	getBidList()
 };
 
 //	关闭页面
 const closePage = async () => {
+	state.projectForm = {}
+	state.tableData.data = []
 	state.isShowPage = false
 };
 
@@ -92,9 +95,8 @@ const getBidList = async () => {
 	//重新请求数据
 	await proxy.$parent.$parent.$parent.$parent.GetByIdRow(false);
 	//获取存储的项目数据
-	state.project = store.state.project.project;
 	if (state.project.ProjectLineList) {
-		state.tableData.data = state.project.ProjectLineList;
+		state.tableData.data = state.projectForm.ProjectLineList;
 	}
 };
 
@@ -102,7 +104,7 @@ const onModelChange = async (id: string, state: number) => {
 	let params = {};
 	try {
 		params.Id = id;
-		params.ProjectId = store.state.project.projectId;
+		params.ProjectId = state.projectForm.Id
 		params.State = state;
 		const res = await proxy.$api.erp.projectline.changeBid(params);
 		if (res.errcode != 0) {
@@ -124,7 +126,10 @@ const onHandleCurrentChange = (val: number) => {
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	state.projectForm = proxy.$parent.projectForm
+	getBidList()
+});
 
 defineExpose({openPage, closePage})
 </script>

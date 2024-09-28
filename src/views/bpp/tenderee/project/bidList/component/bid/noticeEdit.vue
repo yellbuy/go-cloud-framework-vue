@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row>
 			<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" label-suffix="：" size="small" label-width="120px" v-loading="state.loading">
 				<el-row>
@@ -83,6 +83,7 @@ const state = reactive({
 	dialogImageUrl: [],
 	dialogTitle: '',
 	dialogVisible: false,
+	projectForm: {},
 	tableData:{
 		data: [],
 		loading: false,
@@ -213,12 +214,15 @@ const rules = reactive({
 });
 
 //	打开页面
-const openPage = async () => {
+const openPage = async (row: {}) => {
+	state.projectForm = row
 	state.isShowPage = true
 };
 
 //	关闭页面
 const closePage = async () => {
+	state.projectForm = {}
+	state.tableData.data = []
 	state.isShowPage = false
 };
 
@@ -279,7 +283,9 @@ const onSubmit = () => {
 
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	state.projectForm = proxy.$parent.projectForm
+});
 
 defineExpose({openPage, closePage})
 

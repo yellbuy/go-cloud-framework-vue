@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<div style="float: left; padding-bottom: 15px;">
@@ -8,10 +8,10 @@
 			</el-col>
 			<el-col :span="24">
 				<el-descriptions :column="2" >
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -62,6 +62,7 @@ const store = useStore();
 const state: any = reactive({
 	project: store.state.project.project,
 	isShowPage: false,
+	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
@@ -80,21 +81,21 @@ state.tableData.param.pageIndex = computed(() => {
 });
 
 //	打开页面
-const openPage = async () => {
+const openPage = async (row: {}) => {
 	state.isShowPage = true
-	getCompanyList()
+	state.projectForm = row
 };
 
 //	关闭页面
 const closePage = async () => {
+	state.projectForm = {}
+	state.tableData.data = []
 	state.isShowPage = false
 }
 
 //获取项目品目信息
 const getCompanyList = async () => {
-	state.project = store.state.project.project;
-	state.tableData.projectId = state.project.Id;
-	state.tableData.state = 1;
+	state.tableData.loading = true
 	try {
 		//重新请求数据
 		const res = await proxy.$api.erp.projectcompany.comparisonList(state.tableData.param);
@@ -105,6 +106,7 @@ const getCompanyList = async () => {
 		state.tableData.data = res.data;
 		state.tableData.total = res.total
 	} finally {
+		state.tableData.loading = false
 	}
 };
 
@@ -119,7 +121,10 @@ const onHandleCurrentChange = (val: number) => {
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	state.projectForm = proxy.$parent.projectForm
+	getCompanyList()
+});
 
 defineExpose({openPage, closePage})
 

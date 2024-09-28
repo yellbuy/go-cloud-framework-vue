@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-button type="primary" @click="">PDF预览</el-button>
         <div>
 			<div ref="pdfContainer"></div>
@@ -27,6 +27,7 @@ const state: any = reactive({
 	project: store.state.project.project,
 	isShowPage: false,
 	pdfSrc: '',
+	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
@@ -35,13 +36,15 @@ const state: any = reactive({
 });
 
 //	打开页面
-const openPage = async () => {
+const openPage = async (row: {}) => {
+	state.projectForm = row
 	state.isShowPage = true
-	loadPdf('path/to/your/pdf.pdf')
 };
 
 //	关闭页面
 const closePage = async () => {
+	state.projectForm = {}
+	state.tableData.data = []
 	state.isShowPage = false
 }
 
@@ -77,7 +80,9 @@ const loadPdf = async (pdfPath: string) => {
 const { dateFormat } = commonFunction();
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	state.projectForm = proxy.$parent.projectForm
+});
 
 defineExpose({openPage, closePage})
 </script>

@@ -1,16 +1,16 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 					<el-descriptions-item label="请选择当前项目包号：">
 						<el-select v-model="state.projectLineIndex" placeholder="请选择" @change="changeLine">
 							<el-option
-								v-for="item in state.project.ProjectLineList"
+								v-for="item in state.projectForm.ProjectLineList"
 								:key="item.Id"
 								:label="item.Name"
 								:value="item.Id"/>
@@ -19,7 +19,7 @@
 					<el-descriptions-item label="评委编号：">
 						<el-select v-model="state.projectLineIndex" placeholder="请选择" @change="changeLine">
 							<el-option
-								v-for="item in state.project.ProjectLineList"
+								v-for="item in state.projectForm.ProjectLineList"
 								:key="item.Id"
 								:label="item.Name"
 								:value="item.Id"/>
@@ -51,6 +51,7 @@ const store = useStore();
 const state: any = reactive({
 	project: store.state.project.project,
 	isShowPage: false,
+	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
@@ -60,10 +61,6 @@ const state: any = reactive({
 	expertList: [],
 	uid: 0,
 	companyId: 0,
-	ruleForm: {
-		Roles: 0,
-		NameId: '',
-	},
 	kind: 'zgps',
 	gatherKind: 'zgpsGather',
 	isGather: 0,
@@ -72,13 +69,15 @@ const state: any = reactive({
 });
 
 //	打开页面
-const openPage = async () => {
+const openPage = async (row: {}) => {
+	state.projectForm = row
 	state.isShowPage = true
-	getExpertList()
 };
 
 //	关闭页面
 const closePage = async () => {
+	state.projectForm = {}
+	state.tableData.data = []
 	state.isShowPage = false
 };
 
@@ -93,7 +92,7 @@ const getExpertList = async () => {
 		} else {
 			state.isGather = 0;
 		}
-		const res = await proxy.$api.erp.projectreview.expertGather(state.project.Id, {
+		const res = await proxy.$api.erp.projectreview.expertGather(state.projectForm.Id, {
 			kind: kind,
 			companyId: state.companyId,
 			uid: state.uid,
@@ -111,7 +110,7 @@ const getExpertList = async () => {
 const GetSignUpList = async (isState: boolean, isShow: boolean) => {
 	state.state = isShow;
 	try {
-		const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: state.project.Id });
+		const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: state.projectForm.Id });
 		if (res.errcode != 0) {
 			return;
 		}
@@ -119,7 +118,7 @@ const GetSignUpList = async (isState: boolean, isShow: boolean) => {
 		state.signUpList = res.data;
 		state.companyId = res.data[0].CompanyId;
 		try {
-			const expertRes = await proxy.$api.erp.project.expertList(state.project.Id);
+			const expertRes = await proxy.$api.erp.project.expertList(state.projectForm.Id);
 			if (expertRes.errcode == 0) {
 				state.expertList = [];
 				expertRes.data.forEach((item) => {
@@ -167,7 +166,7 @@ const onSubmit = async () => {
 			cancelButtonText: '取消',
 			type: 'warning',
 		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.project.Id, {
+			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.projectForm.Id, {
 				Kind: state.kind,
 				NextKind: state.nextKind,
 				GatherKind: state.gatherKind,
@@ -187,7 +186,7 @@ const onReturn = async () => {
 			cancelButtonText: '取消',
 			type: 'warning',
 		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherReturn(state.project.Id);
+			const res = await proxy.$api.erp.projectreview.expertGatherReturn(state.projectForm.Id);
 			if (res.errcode == 0) {
 				ElMessage.success('操作成功');
 				getExpertList();
@@ -198,7 +197,10 @@ const onReturn = async () => {
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	state.projectForm = proxy.$parent.projectForm
+	getExpertList()
+});
 
 defineExpose({openPage, closePage})
 </script>

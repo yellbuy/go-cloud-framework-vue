@@ -1,6 +1,6 @@
 <template>
 	<el-row>
-		<el-col class="tenderee-project-bidedit" :span="3" style="padding-top: 20px; padding-bottom: 20px;" v-if="state.isShowPage">
+		<el-col class="tenderee-project-bidedit" :span="3" style="padding-top: 20px; padding-bottom: 20px;">
 			<el-aside width="200px" class="pt2">
 				<el-menu class="el-menu-vertical-demo" default-active="fileSee" @select="select">
 					<el-sub-menu index="before">
@@ -33,7 +33,7 @@
 		<el-col :span="21" style="padding-top: 20px; padding-bottom: 20px;">
 			<el-card>
 				<template #header>
-					<el-row v-if="state.isShowPage">
+					<el-row>
 						<el-col :span="8">
 							<div style="float: left">
 								<el-button type="primary" @click="openNoticeSee">查看公告</el-button>
@@ -62,23 +62,23 @@
 						</el-col>
 					</el-row>
 				</template>
-				<fileSee ref="fileSeeRef"/>
-				<expertEdit ref="expertEditRef"/>
-				<settingLineList ref="settingLineListRef"/>
-				<packageEdit ref="packageEditRef"/>
-				<companyList ref="companyListRef"/>
-				<bidList ref="bidListRef"/>
-				<zgpsGather ref="zgpsGatherRef"/>
-				<jspsGather ref="jspsGatherRef"/>
-				<jjpsGather ref="jjpsGatherRef"/>
-				<gatherList ref="gatherListRef"/>
-				<rfeportSee ref="rfeportSeeRef"/>
-				<noticeEdit ref="noticeEditRef"/>
-				<noticeSee ref="noticeSeeRef"/>
+				<fileSee ref="fileSeeRef" v-if="state.indexLine === 'fileSee'"/>
+				<expertEdit ref="expertEditRef" v-if="state.indexLine === 'expert'"/>
+				<settingLineList ref="settingLineListRef" v-if="state.indexLine === 'settingLine'"/>
+				<packageEdit ref="packageEditRef" v-if="state.indexLine === 'packageEdit'"/>
+				<companyList ref="companyListRef" v-if="state.indexLine === 'companyList'"/>
+				<bidList ref="bidListRef" v-if="state.indexLine === 'bidList'"/>
+				<zgpsGather ref="zgpsGatherRef" v-if="state.indexLine === 'zgpsGather'"/>
+				<jspsGather ref="jspsGatherRef" v-if="state.indexLine === 'jspsGather'"/>
+				<jjpsGather ref="jjpsGatherRef" v-if="state.indexLine === 'jjpsGather'"/>
+				<gatherList ref="gatherListRef" v-if="state.indexLine === 'gatherList'"/>
+				<rfeportSee ref="rfeportSeeRef" v-if="state.indexLine === 'rfeportSee'"/>
+				<noticeEdit ref="noticeEditRef" v-if="state.indexLine === 'noticeEdit'"/>
+				<noticeSee ref="noticeSeeRef" v-if="state.indexLine === 'noticeSee'"/>
 			</el-card>
 		</el-col>
 		<el-dialog :title="state.title" v-model="state.isShowDialog" width="25%" :before-close="closeDialog">
-			<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="small" label-width="130px" label-suffix="：" v-loading="state.loading">
+			<el-form ref="ruleFormRef" :model="state.projectForm" :rules="rules" size="small" label-suffix="：" label-width="130px" v-loading="state.loading">
 				<el-form-item label="开标时间" prop="BidOpenTime">
 					<el-date-picker v-model="state.projectForm.BidOpenTime" type="datetime" placeholder="请选择时间" style="width: 100%"/>
 				</el-form-item>
@@ -132,97 +132,42 @@ const noticeSeeRef = ref();
 const state = reactive({
 	project: store.state.project.project,
 	httpsText: import.meta.env.VITE_URL as any,
-	isShowPage: false,
 	indexLine: 'fileSee',
 	isShowDialog: false,
 	loading: false,
 	title: t('message.action.Edit'),
-	projectId: "",
-	FilesList: [],
 	projectForm: {},
 	ruleForm: {},
 });
 
 //	打开页面
-const openPage = async (id: string) => {
-	state.isShowPage = true
-	state.projectId = id
-	state.indexLine = 'fileSee';
-	GetByIdRow()
-	fileSeeRef.value.openPage();
+const openPage = async (row: {}) => {
+	fileSeeRef.value.openPage(state.projectForm);
 };
 
 //	关闭页面
 const closePage = async () => {
-	state.isShowPage = false
-	state.indexLine = 'fileSee';
-	proxy.$parent.isShowPage = true;
 	proxy.$parent.onGetTableData();
+	state.indexLine = 'fileSee';
+	state.projectForm = {}
+	proxy.$parent.isShowPage = true;
+	proxy.$parent.isShowBidEdit = false;
+
 }
 
 //	刷新页面
 const refreshPage = async () => {
-	GetByIdRow()
+	// GetByIdRow()
 	select(state.indexLine)
 }
 
 //	查看公告
 const openNoticeSee = async () => {
-	noticeSeeRef.value.openDialog()
+	noticeSeeRef.value.openDialog(state.projectForm)
 };
 
 const select = (val: string) => {
 	state.indexLine = val
-	fileSeeRef.value.closePage();
-	expertEditRef.value.closePage();
-	settingLineListRef.value.closePage();
-	packageEditRef.value.closePage();
-	companyListRef.value.closePage();
-	bidListRef.value.closePage();
-	zgpsGatherRef.value.closePage();
-	jspsGatherRef.value.closePage();
-	jjpsGatherRef.value.closePage();
-	gatherListRef.value.closePage();
-	rfeportSeeRef.value.closePage();
-	noticeEditRef.value.closePage();
-	switch (state.indexLine) {
-		case 'fileSee':
-			fileSeeRef.value.openPage();
-			break;
-		case 'expert':
-			expertEditRef.value.openPage();
-			break;
-		case 'settingLine':
-			settingLineListRef.value.openPage();
-			break;
-		case 'packageEdit':
-			packageEditRef.value.openPage();
-			break;
-		case 'companyList':
-			companyListRef.value.openPage();
-			break;
-		case 'bidList':
-			bidListRef.value.openPage();
-			break;
-		case 'zgpsGather':
-			zgpsGatherRef.value.openPage();
-			break;
-		case 'jspsGather':
-			jspsGatherRef.value.openPage();
-			break;
-		case 'jjpsGather':
-			jjpsGatherRef.value.openPage();
-			break;
-		case 'gatherList':
-			gatherListRef.value.openPage();
-			break;
-		case 'rfeportSee':
-			rfeportSeeRef.value.openPage();
-			break;
-		case 'noticeEdit':
-			noticeEditRef.value.openPage();
-			break;
-	}
 };
 
 //	打开修改开标时间编辑弹窗
@@ -245,7 +190,7 @@ const onModelDel = () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.project.delete(state.projectForm.Id);
+			const res = await proxy.$api.erp.project.delete(state.projectId);
 			if (res.errcode != 0) {
 				return;
 			}
@@ -257,29 +202,19 @@ const onModelDel = () => {
 	});
 };
 
-//	获取项目信息
-const GetByIdRow = async () => {
-	try {
-		const res = await proxy.$api.erp.project.getById(state.projectId);
-		if (res.errcode != 0) {
-			return;
-		}
-		store.commit('project/getProject', res.data);
-		state.projectForm = res.data;
-		res.data.ProjectType = res.data.ProjectType.toString();
-		if (state.projectForm.Files != '') {
-			let Files = res.data.Files.split(',');
-			state.FilesList = [];
-			for (let i = 0; i < Files.length; i++) {
-				let image = { url: '' };
-				image.url = state.httpsText + Files[i];
-				state.FilesList.push(image);
-			}
-		}
-	} finally {
-		state.isShowPage = true;
-	}
-};
+// //	获取项目信息
+// const GetByIdRow = async () => {
+// 	try {
+// 		const res = await proxy.$api.erp.project.getById(state.projectId);
+// 		if (res.errcode != 0) {
+// 			return;
+// 		}
+// 		store.commit('project/getProject', res.data);
+// 		state.projectForm = res.data
+// 	} finally {
+// 		state.isShowPage = true;
+// 	}
+// };
 
 //	确定提交创建项
 const onSubmit = () => {
@@ -308,7 +243,10 @@ const handleClick = () => {
 const { dateFormat } = commonFunction();
 
 //	页面加载时
-onMounted(() => {});
+onMounted(() => {
+	state.projectForm = proxy.$parent.projectForm
+	fileSeeRef.value.openPage(state.projectForm);
+});
 
 //	公开方法属性
 defineExpose({openPage, closePage, ...toRefs(state)})

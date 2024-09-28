@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row>
 			<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 				<el-form-item label="请选择当前项目包号：">
@@ -17,10 +17,10 @@
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -62,6 +62,7 @@ const state: any = reactive({
 	project: store.state.project.project,
 	isShowPage: false,
 	projectLineIndex: '',
+	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
@@ -73,14 +74,8 @@ const state: any = reactive({
 			categoryId: null,
 		},
 	},
-	ruleForm: {
-		Roles: 0,
-		NameId: '',
-	},
-	kind: 'gather',
 	nextKind: 'recommend',
 	nextKind2: 'signature',
-	state: false,
 });
 
 state.tableData.param.pageIndex = computed(() => {
@@ -88,22 +83,22 @@ state.tableData.param.pageIndex = computed(() => {
 });
 
 //	打开页面
-const openPage = async () => {
+const openPage = async (row: {}) => {
+	state.projectForm = row
 	state.isShowPage = true
-	GetSignUpList()
 };
 
 //	关闭页面
 const closePage = async () => {
+	state.projectForm = {}
+	state.tableData.data = []
 	state.isShowPage = false
 };
 
 const GetSignUpList = async () => {
 	state.tableData.loading = true;
-	state.tableData.projectId = state.project.Id;
-	state.tableData.state = 1;
 	try {
-		const res = await proxy.$api.erp.projectreview.expertList(state.project.Id, { kind: state.nextKind2 });
+		const res = await proxy.$api.erp.projectreview.expertList(state.projectForm.Id, { kind: state.nextKind2 });
 		if (res.errcode == 0) {
 			state.tableData.data = res.data;
 			state.tableData.total = res.total;
@@ -120,13 +115,13 @@ const onSubmit = async () => {
 			cancelButtonText: '取消',
 			type: 'warning',
 		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.project.Id, {
+			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.projectForm.Id, {
 				Kind: state.kind,
 				NextKind: state.nextKind,
 			});
 			if (res.errcode == 0) {
 				ElMessage.success('操作成功');
-				GetSignUpList(true, state.state);
+				GetSignUpList();
 			}
 		});
 	} finally {
@@ -142,14 +137,14 @@ const onLeader = async (row) => {
 		}).then(async () => {
 			let data = JSON.parse(JSON.stringify(row));
 			data.IsLeader = 1;
-			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.project.Id, {
+			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.projectForm.Id, {
 				Kind: state.nextKind,
 				NextKind: state.nextKind2,
 				ProjectReview: data,
 			});
 			if (res.errcode == 0) {
 				ElMessage.success('操作成功');
-				GetSignUpList(true, state.state);
+				GetSignUpList();
 			}
 		});
 	} finally {
@@ -163,10 +158,10 @@ const onReturn = async () => {
 			cancelButtonText: '取消',
 			type: 'warning',
 		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherReturn(state.project.Id);
+			const res = await proxy.$api.erp.projectreview.expertGatherReturn(state.projectForm.Id);
 			if (res.errcode == 0) {
 				ElMessage.success('操作成功');
-				GetSignUpList(true, state.state);
+				GetSignUpList();
 			}
 		});
 	} finally {
@@ -184,7 +179,10 @@ const onHandleCurrentChange = (val: number) => {
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	state.projectForm = proxy.$parent.projectForm
+	GetSignUpList()
+});
 
 defineExpose({openPage, closePage})
 </script>

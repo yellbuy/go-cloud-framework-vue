@@ -15,7 +15,7 @@
 						</el-icon>
 						重置
 					</el-button>
-					<el-button type="primary" @click="onGetTableData(true)">
+					<el-button type="primary" @click="onGetTableData()">
 						<el-icon>
 							<Search />
 						</el-icon>
@@ -44,7 +44,7 @@
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button type="info" @click="onProjectSee(scope.row.Id, true)">项目详情</el-button>
-						<el-button type="primary" @click="onBidEdit(scope.row.Id)">项目评选</el-button>
+						<el-button type="primary" @click="onBidEdit(scope.row)">项目评选</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -61,8 +61,8 @@
 				:total="state.tableData.total"/>
 			<seeDlg ref="seeDlgRef" />
 		</el-card>
-		<projectCreateEdit ref="projectCreateEditRef"/>
-		<bidEdit ref="bidEditRef" />
+		<projectCreateEdit v-if="state.isShowCreateEdit"/>
+		<bidEdit v-if="state.isShowBidEdit"/>
 	</div>
 </template>
 
@@ -86,14 +86,15 @@ const scopeValue = route.params.scopeValue || 0;
 const moduleKey = `api_pro_project_${kind}_${mode}`;
 const { proxy } = getCurrentInstance() as any;
 const seeDlgRef = ref();
-const bidEditRef = ref();
-const projectCreateEditRef = ref();
 const state: any = reactive({
 	moduleKey: moduleKey,
 	kind,
 	scopeMode,
 	scopeValue,
 	isShowPage: true,
+	isShowCreateEdit: false,
+	isShowBidEdit:false,
+	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
@@ -113,14 +114,11 @@ state.tableData.param.pageIndex = computed(() => {
 const onResetSearch = () => {
 	state.tableData.param.name = null;
 	state.tableData.param.no = null;
-	onGetTableData(true);
+	onGetTableData();
 };
 
 // 初始化表格数据
-const onGetTableData = async (gotoFirstPage: boolean = false) => {
-	if (gotoFirstPage) {
-		state.tableData.param.current = 1;
-	}
+const onGetTableData = async () => {
 	state.tableData.loading = true;
 	try {
 		const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
@@ -133,44 +131,33 @@ const onGetTableData = async (gotoFirstPage: boolean = false) => {
 		state.tableData.loading = false;
 	}
 };
+
 // 打开项目创建页
 const onProjectCreateEdit = () => {
+	state.isShowCreateEdit = true;
 	state.isShowPage = false;
-	projectCreateEditRef.value.openPage();
 };
-//打开项目查看弹窗
 
-const onProjectSee = (dd: string, state: boolean) => {
-	seeDlgRef.value.openDialog(dd, state);
+//打开项目查看弹窗
+const onProjectSee = (row: {}, state: boolean) => {
+	store.commit('project/getProject', row);
+	seeDlgRef.value.openDialog(row.Id, state);
+	
 };
+
 //打开项目评选页
-const onBidEdit = (id: string) => {
+const onBidEdit = (row: {}) => {
+	store.commit('project/getProject', row);
+	state.projectForm = row
+	state.isShowBidEdit = true;
 	state.isShowPage = false;
-	bidEditRef.value.openPage(id);
 };
-// 删除用户
-const onModelDel = (id: number) => {
-	ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
-		confirmButtonText: '确认',
-		cancelButtonText: '取消',
-		type: 'warning',
-	}).then(async () => {
-		state.tableData.loading = true;
-		try {
-			const res = await proxy.$api.erp.project.delete(id);
-			if (res.errcode == 0) {
-				onGetTableData();
-			}
-		} finally {
-			state.tableData.loading = false;
-		}
-		return false;
-	});
-};
+
 // 分页改变
 const onHandleSizeChange = (val: number) => {
 	state.tableData.param.size = val;
 };
+
 // 分页改变
 const onHandleCurrentChange = (val: number) => {
 	state.tableData.param.current = val;

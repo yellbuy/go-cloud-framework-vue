@@ -1,29 +1,27 @@
 <template>
 	<el-card>
-		<div v-if="state.isShowPage">
-			<el-row>
-				<el-col :span="20" style="padding-top: 20px; padding-bottom: 20px;">
-					<el-steps :active="state.activeIndex" align-center>
-						<el-step title="发布招标项目"/>
-						<el-step title="设置招标信息"/>
-						<el-step title="评标参数复核"/>
-					</el-steps>
-				</el-col>
-				<el-col :span="4">
-					<div class="mt20">
-						<span style="float: right; padding-bottom: 20px; padding-right: 20px;">
-							<el-button type="danger" @click="closePage">取消</el-button>
-							<el-button v-if="state.activeIndex > 1" type="primary" @click="stepChange(-1)">上一步</el-button>
-							<el-button v-if="state.activeIndex < 3" type="primary" @click="stepChange(1)">下一步</el-button>
-							<el-button v-if="state.activeIndex == 3" type="success" @click="onSubmit()">完成</el-button>
-						</span>
-					</div>
-				</el-col>
-			</el-row>
-		</div>
-		<infoEdit ref="infoEditRef" id="infoEditComponent"/>
-		<extEdit ref="extEditRef"/>
-		<settingLine ref="settingLineRef"/>
+		<el-row>
+			<el-col :span="24" style="padding-top: 20px; padding-bottom: 20px;">
+				<el-steps :active="state.activeIndex" align-center>
+					<el-step title="发布招标项目"/>
+					<el-step title="设置招标信息"/>
+					<el-step title="评标参数复核"/>
+				</el-steps>
+			</el-col>
+			<infoEdit ref="infoEditRef"/>
+			<extEdit ref="extEditRef"/>
+			<settingLine ref="settingLineRef"/>
+			<el-col :span="24">
+				<div class="mt20">
+					<span style="float: right; padding-bottom: 20px; padding-right: 20px;">
+						<el-button type="danger" @click="closePage">取消</el-button>
+						<el-button v-if="state.activeIndex > 1" type="primary" @click="stepChange(-1)">上一步</el-button>
+						<el-button v-if="state.activeIndex < 3" type="primary" @click="stepChange(1)">下一步</el-button>
+						<el-button v-if="state.activeIndex == 3" type="success" @click="onSubmit()">完成</el-button>
+					</span>
+				</div>
+			</el-col>
+		</el-row>
 	</el-card>
 </template>
 
@@ -56,22 +54,17 @@ const state = reactive({
 	isShowPage: false,
 	activeName: "zgps",
 	activeIndex: 1,
+	FilesList: [],
 	ruleForm: {},
 });
 
-//	打开页面
-const openPage = async () => {
-	state.isShowPage = true
-    infoEditRef.value.openPage();
-};
-
 //	关闭页面
 const closePage = async () => {
-	state.isShowPage = false
 	infoEditRef.value.isShowPage = false
 	extEditRef.value.isShowPage = false
 	settingLineRef.value.isShowPage = false
 	proxy.$parent.isShowPage = true
+	proxy.$parent.isShowCreateEdit = false
 	state.activeIndex = 1
 	state.FilesList = []
 	state.ruleForm = {}
@@ -152,9 +145,11 @@ const onSubmit = () => {
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	infoEditRef.value.openPage();
+});
 
-defineExpose({openPage, closePage, ...toRefs(state)})
+defineExpose({closePage, ...toRefs(state)})
 </script>
 <style scoped lang="scss">
 </style>

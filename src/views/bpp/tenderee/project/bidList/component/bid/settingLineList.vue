@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row>
 			<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 				<el-form-item label="请选择当前项目包号：">
@@ -154,6 +154,7 @@ import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
 import { useRoute } from 'vue-router';
 import settingLineEdit from './settingLineEdit.vue';
+import { stat } from 'fs';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
@@ -182,6 +183,7 @@ const state = reactive({
 	dialogVisible: false,
 	isParameterReview: true,
 	projectLineIndex: '',
+	projectForm: {},
 	settingForm: {},
 	tableData:{
 		data: [],
@@ -267,8 +269,8 @@ state.jsTableData.param.pageIndex = computed(() => {
 });
 
 //	打开页面
-const openPage = async () => {
-	onGetSettingLineTableData()
+const openPage = async (row: {}) => {
+	state.projectForm = row
 	state.isShowPage = true
 };
 
@@ -284,6 +286,16 @@ const closePage = async () => {
         })
     } finally {
     }
+	state.projectForm = {}
+	state.tableData.data = []
+	state.zgTableData.data = []
+	state.jsTableData.data = []
+	state.jjForm = {}
+	state.SupplierIds = []
+	state.companyOption = []
+	state.methodList = []
+	state.Files = []
+	state.FilesList = []
 	state.isShowPage = false
 }
 
@@ -309,7 +321,7 @@ const onGetSettingLineTableData = async () => {
 			state.zgTableData.loading = true;
 			try {
 				state.zgTableData.param.kind = state.activeName
-				state.zgTableData.param.projectId = state.project.Id
+				state.zgTableData.param.projectId = state.projectForm.Id
 				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.zgTableData.param);
 				if (res.errcode != 0) {
 					return;
@@ -323,7 +335,7 @@ const onGetSettingLineTableData = async () => {
 			state.jsTableData.loading = true;
 			try {
 				state.jsTableData.param.kind = state.activeName
-				state.jsTableData.param.projectId = state.project.Id
+				state.jsTableData.param.projectId = state.projectForm.Id
 				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.jsTableData.param);
 				if (res.errcode != 0) {
 					return;
@@ -337,6 +349,7 @@ const onGetSettingLineTableData = async () => {
 		case "jjps":
 			try {
 				state.jjForm.param.kind = state.activeName
+				state.jjForm.param.projectId = state.projectForm.Id
 				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.jjForm.param);
 				if (res.errcode != 0) {
 					return;
@@ -419,7 +432,10 @@ const onSettingLineDel = (id: number, index: number) => {
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	state.projectForm = proxy.$parent.projectForm
+	onGetSettingLineTableData()
+});
 
 defineExpose({openPage, closePage, onGetSettingLineTableData})
 </script>

@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<div style="text-align: center;font-size: 30px; padding-bottom: 15px;">
@@ -8,8 +8,8 @@
 			</el-col>
 			<el-col :span="24">
 				<el-descriptions >
-					<el-descriptions-item label="开标地点：">{{ state.project.BidOpenTime }}</el-descriptions-item>
-					<el-descriptions-item label="时间：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="开标地点：">{{ state.projectForm.BidOpenTime }}</el-descriptions-item>
+					<el-descriptions-item label="时间：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -57,6 +57,7 @@ const store = useStore();
 const state: any = reactive({
 	project: store.state.project.project,
 	isShowPage: false,
+	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
@@ -75,21 +76,21 @@ state.tableData.param.pageIndex = computed(() => {
 });
 
 //	打开页面
-const openPage = async () => {
+const openPage = async (row: {}) => {
 	state.isShowPage = true
-	getCompanyList()
+	state.projectForm = row
 };
 
 //	关闭页面
 const closePage = async () => {
+	state.projectForm = {}
+	state.tableData.data = []
 	state.isShowPage = false
 }
 
 //获取项目品目信息
 const getCompanyList = async () => {
-	state.project = store.state.project.project;
-	state.tableData.projectId = state.project.Id;
-	state.tableData.state = 1;
+	state.tableData.loading = true
 	try {
 		//重新请求数据
 		const res = await proxy.$api.erp.projectcompany.comparisonList(state.tableData.param);
@@ -100,6 +101,7 @@ const getCompanyList = async () => {
 		state.tableData.data = res.data;
 		state.tableData.total = res.total
 	} finally {
+		state.tableData.loading = false
 	}
 };
 
@@ -114,7 +116,10 @@ const onHandleCurrentChange = (val: number) => {
 };
 
 // 页面加载时
-onMounted(() => {getCompanyList()});
+onMounted(() => {
+	state.projectForm = proxy.$parent.projectForm
+	getCompanyList()
+});
 
 defineExpose({openPage, closePage})
 </script>

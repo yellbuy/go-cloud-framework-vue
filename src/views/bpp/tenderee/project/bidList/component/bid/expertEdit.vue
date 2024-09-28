@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<div style="float: left; padding-bottom: 15px;">
@@ -99,6 +99,7 @@ const state: any = reactive({
 	vipList: [],
 	expertList: [],
 	title: '添加人员',
+	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
@@ -129,33 +130,35 @@ state.tableData.param.pageIndex = computed(() => {
 });
 
 //	打开页面
-const openPage = async () => {
+const openPage = async (row: {}) => {
 	state.isShowPage = true
-	getExpertVipList()
+	state.projectForm = row
 };
 
 //	关闭页面
 const closePage = async () => {
+	state.projectForm = {}
+	state.tableData.data = []
 	state.isShowPage = false
 }
 
 //	获取该项目专家列表
 const getExpertVipList = async () => {
-	state.tableData.projectId = state.project.Id;
-	state.tableData.state = 1;
+	state.tableData.loading = true
 	try {
-		const res = await proxy.$api.erp.project.expertList(state.project.Id);
+		const res = await proxy.$api.erp.project.expertList(state.projectForm.Id);
 		if (res.errcode == 0) {
 			state.tableData.data = res.data;
 		}
 	} finally {
+		state.tableData.loading = false
 	}
 };
 
 //	获取专家列表
 const getExpertList = async () => {
 	state.state = false;
-	if (store.state.project.project.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && state.project.State == 0) {
+	if (state.projectForm.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && state.projectForm.State == 0) {
 		state.state = true;
 	}
 	state.tableData.loading = true;
@@ -175,11 +178,11 @@ const openDialog = async () => {
 };
 
 const closeDialog = () => {
+	state.ruleForm = {Roles: null, NameId: '',},
 	proxy.$refs.ruleFormRef.resetFields();
 	state.loading = false;
 	state.isShowDialog = false;
-	state.ruleForm.Roles = null;
-	state.ruleForm.NameId = "";
+
 };
 
 const getAjaxData = () => {
@@ -278,7 +281,10 @@ const onHandleCurrentChange = (val: number) => {
 const { dateFormat } = commonFunction();
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	state.projectForm = proxy.$parent.projectForm
+	getExpertVipList()
+});
 
 defineExpose({openPage, closePage})
 

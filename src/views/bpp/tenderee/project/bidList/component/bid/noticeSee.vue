@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="state.title" v-model="state.isShowDialog" width="40%" :before-close="closeDialog">
-			<p>{{ state.project.Content }}</p>
+			<p>{{ state.projectForm.Content }}</p>
 		</el-dialog>
 	</div>
 </template>
@@ -15,20 +15,25 @@ const state = reactive({
 	project: store.state.project.project,
 	isShowDialog: false,
 	title: "查看公告",
+	projectForm: {},
 });
 
 // 打开弹窗
-const openDialog = () => {
+const openDialog = (row: {}) => {
+	state.projectForm = row
 	state.isShowDialog = true;
 };
 
 // 关闭弹窗
 const closeDialog = () => {
+	state.projectForm = {}
 	state.isShowDialog = false;
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	state.projectForm = proxy.$parent.projectForm
+});
 
 defineExpose({openDialog})
 
