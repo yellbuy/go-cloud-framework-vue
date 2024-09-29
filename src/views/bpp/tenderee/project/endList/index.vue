@@ -61,7 +61,7 @@
 				:total="state.tableData.total"/>
 			<seeDlg ref="seeDlgRef" />
 		</el-card>
-		<bidEdit ref="bidEditRef"/>
+		<!-- <bidEdit ref="bidEditRef"/> -->
 	</div>
 </template>
 

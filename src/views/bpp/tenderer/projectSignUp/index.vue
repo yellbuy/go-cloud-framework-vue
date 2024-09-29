@@ -101,6 +101,7 @@ export default {
 				loading: false,
 				param: {
 					kind: "bid",
+					isBid: true,
 					current: 1,
 					pageSize: 20,
 				},
