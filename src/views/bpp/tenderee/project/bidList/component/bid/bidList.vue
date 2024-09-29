@@ -8,8 +8,8 @@
 			</el-col>
 			<el-col :span="24">
 				<el-descriptions >
-					<el-descriptions-item label="开标地点：">{{ state.projectForm.BidOpenTime }}</el-descriptions-item>
-					<el-descriptions-item label="时间：">{{ state.projectForm.Location }}</el-descriptions-item>
+					<el-descriptions-item label="开标地点：">{{ state.project.BidOpenTime }}</el-descriptions-item>
+					<el-descriptions-item label="时间：">{{ state.project.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -117,7 +117,6 @@ const onHandleCurrentChange = (val: number) => {
 
 // 页面加载时
 onMounted(() => {
-	state.projectForm = proxy.$parent.projectForm
 	getCompanyList()
 });
 

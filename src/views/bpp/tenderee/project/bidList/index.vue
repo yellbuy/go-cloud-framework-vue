@@ -44,7 +44,7 @@
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button type="info" @click="onProjectSee(scope.row.Id, true)">项目详情</el-button>
-						<el-button type="primary" @click="onBidEdit(scope.row)">项目评选</el-button>
+						<el-button type="primary" @click="onBidEdit(scope.row.Id)">项目评选</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -62,7 +62,7 @@
 			<seeDlg ref="seeDlgRef" />
 		</el-card>
 		<projectCreateEdit v-if="state.isShowCreateEdit"/>
-		<bidEdit v-if="state.isShowBidEdit"/>
+		<bidEdit v-if="state.isShowBidEdit" />
 	</div>
 </template>
 
@@ -94,7 +94,6 @@ const state: any = reactive({
 	isShowPage: true,
 	isShowCreateEdit: false,
 	isShowBidEdit:false,
-	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
@@ -107,6 +106,7 @@ const state: any = reactive({
 	},
 	
 });
+
 state.tableData.param.pageIndex = computed(() => {
 	return state.tableData.param.current - 1;
 });
@@ -139,16 +139,14 @@ const onProjectCreateEdit = () => {
 };
 
 //打开项目查看弹窗
-const onProjectSee = (row: {}, state: boolean) => {
-	store.commit('project/getProject', row);
-	seeDlgRef.value.openDialog(row.Id, state);
-	
+const onProjectSee = (id: string, state: boolean) => {
+	store.commit('project/getProjectId', id);
+	seeDlgRef.value.openDialog(id, state);
 };
 
 //打开项目评选页
-const onBidEdit = (row: {}) => {
-	store.commit('project/getProject', row);
-	state.projectForm = row
+const onBidEdit = (id: string) => {
+	store.commit('project/getProjectId', id);
 	state.isShowBidEdit = true;
 	state.isShowPage = false;
 };
@@ -167,7 +165,7 @@ const { dateFormatYMDHM, dateFormat } = commonFunction();
 
 // 页面加载时
 onMounted(() => {
-	onGetTableData();
+	onGetTableData()
 });
 
 defineExpose({onGetTableData, ...toRefs(state)})

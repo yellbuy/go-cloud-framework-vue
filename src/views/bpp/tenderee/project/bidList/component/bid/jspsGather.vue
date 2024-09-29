@@ -3,10 +3,10 @@
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
 					<el-descriptions-item label="请选择当前项目包号：">
 						<el-select v-model="state.projectLineIndex" placeholder="请选择" @change="changeLine">
 							<el-option
@@ -114,7 +114,7 @@ const getExpertList = async () => {
 		} else {
 			state.isGather = 0;
 		}
-		const res = await proxy.$api.erp.projectreview.expertGather(state.projectForm.Id, {
+		const res = await proxy.$api.erp.projectreview.expertGather(state.project.Id, {
 			kind: kind,
 			companyId: state.companyId,
 			uid: state.uid,
@@ -134,14 +134,14 @@ const GetSignUpList = async (isState: boolean, isShow: boolean) => {
 	console.log('是否显示按钮', isShow);
 	state.state = isShow;
 	try {
-		const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: state.projectForm.Id, state: 1, auditState: 1 });
+		const res = await proxy.$api.erp.projectcompany.signUpList({ projectId: state.project.Id, state: 1, auditState: 1 });
 		if (res.errcode != 0) {
 			return;
 		}
 		state.signUpList = res.data;
 		state.companyId = res.data[0].CompanyId;
 		try {
-			const expertRes = await proxy.$api.erp.project.expertList(state.projectForm.Id);
+			const expertRes = await proxy.$api.erp.project.expertList(state.project.Id);
 			if (expertRes.errcode == 0) {
 				state.expertList = [];
 				expertRes.data.forEach((item) => {
@@ -172,7 +172,7 @@ const onSubmit = async () => {
 			cancelButtonText: '取消',
 			type: 'warning',
 		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.projectForm.Id, {
+			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.project.Id, {
 				Kind: state.kind,
 				NextKind: state.nextKind,
 				GatherKind: state.gatherKind,
@@ -192,7 +192,7 @@ const onReturn = async () => {
 			cancelButtonText: '取消',
 			type: 'warning',
 		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherReturn(state.projectForm.Id);
+			const res = await proxy.$api.erp.projectreview.expertGatherReturn(state.project.Id);
 			if (res.errcode == 0) {
 				getExpertList();
 			}
@@ -203,7 +203,6 @@ const onReturn = async () => {
 
 // 页面加载时
 onMounted(() => {
-	state.projectForm = proxy.$parent.projectForm
 	getExpertList()
 });
 

@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-user-container">
 		<el-dialog :title="state.title" v-model="state.isShowDialog" width="40%" :before-close="closeDialog">
-			<p>{{ state.projectForm.Content }}</p>
+			<p>{{ state.project.Content }}</p>
 		</el-dialog>
 	</div>
 </template>
@@ -32,7 +32,6 @@ const closeDialog = () => {
 
 // 页面加载时
 onMounted(() => {
-	state.projectForm = proxy.$parent.projectForm
 });
 
 defineExpose({openDialog})

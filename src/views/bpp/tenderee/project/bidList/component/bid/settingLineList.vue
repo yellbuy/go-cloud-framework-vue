@@ -321,7 +321,7 @@ const onGetSettingLineTableData = async () => {
 			state.zgTableData.loading = true;
 			try {
 				state.zgTableData.param.kind = state.activeName
-				state.zgTableData.param.projectId = state.projectForm.Id
+				state.zgTableData.param.projectId = state.project.Id
 				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.zgTableData.param);
 				if (res.errcode != 0) {
 					return;
@@ -335,7 +335,7 @@ const onGetSettingLineTableData = async () => {
 			state.jsTableData.loading = true;
 			try {
 				state.jsTableData.param.kind = state.activeName
-				state.jsTableData.param.projectId = state.projectForm.Id
+				state.jsTableData.param.projectId = state.project.Id
 				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.jsTableData.param);
 				if (res.errcode != 0) {
 					return;
@@ -349,7 +349,7 @@ const onGetSettingLineTableData = async () => {
 		case "jjps":
 			try {
 				state.jjForm.param.kind = state.activeName
-				state.jjForm.param.projectId = state.projectForm.Id
+				state.jjForm.param.projectId = state.project.Id
 				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.jjForm.param);
 				if (res.errcode != 0) {
 					return;
@@ -433,7 +433,6 @@ const onSettingLineDel = (id: number, index: number) => {
 
 // 页面加载时
 onMounted(() => {
-	state.projectForm = proxy.$parent.projectForm
 	onGetSettingLineTableData()
 });
 

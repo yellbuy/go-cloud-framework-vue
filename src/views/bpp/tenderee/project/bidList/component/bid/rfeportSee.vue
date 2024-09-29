@@ -11,7 +11,7 @@
 			<el-col :span="24">
 				<el-descriptions border>
 					<el-descriptions-item label-align="left" align="left" label="《评标报告》" v-if="state.project.Files != ''">
-						<el-link type="primary" @click="onDownloadFile('评标报告', state.projectForm.Files)">下载</el-link>
+						<el-link type="primary" @click="onDownloadFile('评标报告', state.project.Files)">下载</el-link>
 					</el-descriptions-item>
 					<el-descriptions-item label-align="left" align="left" label="★该项目没有上传评标报告,无法下载" v-else/>
 				</el-descriptions>
@@ -59,7 +59,6 @@ const onDownloadFile = async (fileName: string, path: string) => {
 
 // 页面加载时
 onMounted(() => {
-	state.projectForm = proxy.$parent.projectForm
 });
 
 defineExpose({openPage, closePage})

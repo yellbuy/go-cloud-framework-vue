@@ -17,10 +17,10 @@
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -98,7 +98,7 @@ const closePage = async () => {
 const GetSignUpList = async () => {
 	state.tableData.loading = true;
 	try {
-		const res = await proxy.$api.erp.projectreview.expertList(state.projectForm.Id, { kind: state.nextKind2 });
+		const res = await proxy.$api.erp.projectreview.expertList(state.project.Id, { kind: state.nextKind2 });
 		if (res.errcode == 0) {
 			state.tableData.data = res.data;
 			state.tableData.total = res.total;
@@ -115,7 +115,7 @@ const onSubmit = async () => {
 			cancelButtonText: '取消',
 			type: 'warning',
 		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.projectForm.Id, {
+			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.project.Id, {
 				Kind: state.kind,
 				NextKind: state.nextKind,
 			});
@@ -137,7 +137,7 @@ const onLeader = async (row) => {
 		}).then(async () => {
 			let data = JSON.parse(JSON.stringify(row));
 			data.IsLeader = 1;
-			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.projectForm.Id, {
+			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.project.Id, {
 				Kind: state.nextKind,
 				NextKind: state.nextKind2,
 				ProjectReview: data,
@@ -158,7 +158,7 @@ const onReturn = async () => {
 			cancelButtonText: '取消',
 			type: 'warning',
 		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherReturn(state.projectForm.Id);
+			const res = await proxy.$api.erp.projectreview.expertGatherReturn(state.project.Id);
 			if (res.errcode == 0) {
 				ElMessage.success('操作成功');
 				GetSignUpList();
@@ -180,7 +180,6 @@ const onHandleCurrentChange = (val: number) => {
 
 // 页面加载时
 onMounted(() => {
-	state.projectForm = proxy.$parent.projectForm
 	GetSignUpList()
 });
 

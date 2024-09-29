@@ -8,10 +8,10 @@
 			</el-col>
 			<el-col :span="24">
 				<el-descriptions :column="2" >
-					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -122,7 +122,6 @@ const onHandleCurrentChange = (val: number) => {
 
 // 页面加载时
 onMounted(() => {
-	state.projectForm = proxy.$parent.projectForm
 	getCompanyList()
 });
 

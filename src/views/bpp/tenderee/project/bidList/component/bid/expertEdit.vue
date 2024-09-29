@@ -146,7 +146,7 @@ const closePage = async () => {
 const getExpertVipList = async () => {
 	state.tableData.loading = true
 	try {
-		const res = await proxy.$api.erp.project.expertList(state.projectForm.Id);
+		const res = await proxy.$api.erp.project.expertList(state.project.Id);
 		if (res.errcode == 0) {
 			state.tableData.data = res.data;
 		}
@@ -158,7 +158,7 @@ const getExpertVipList = async () => {
 //	获取专家列表
 const getExpertList = async () => {
 	state.state = false;
-	if (state.projectForm.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && state.projectForm.State == 0) {
+	if (state.project.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && state.project.State == 0) {
 		state.state = true;
 	}
 	state.tableData.loading = true;
@@ -282,7 +282,6 @@ const { dateFormat } = commonFunction();
 
 // 页面加载时
 onMounted(() => {
-	state.projectForm = proxy.$parent.projectForm
 	getExpertVipList()
 });
 

@@ -95,7 +95,7 @@
 
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { getCurrentInstance, onMounted, reactive, inject, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import bidList from './bid/bidList.vue';
 import companyList from './bid/companyList.vue';
@@ -130,19 +130,19 @@ const rfeportSeeRef = ref();
 const noticeEditRef = ref();
 const noticeSeeRef = ref();
 const state = reactive({
-	project: store.state.project.project,
 	httpsText: import.meta.env.VITE_URL as any,
 	indexLine: 'fileSee',
 	isShowDialog: false,
 	loading: false,
 	title: t('message.action.Edit'),
+	projectId: store.state.project.projectId,
 	projectForm: {},
 	ruleForm: {},
 });
 
 //	打开页面
-const openPage = async (row: {}) => {
-	fileSeeRef.value.openPage(state.projectForm);
+const openPage = async (id: string) => {
+	state.projectId = id
 };
 
 //	关闭页面
@@ -190,6 +190,7 @@ const onModelDel = () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
+			console.log("测试", state.projectId)
 			const res = await proxy.$api.erp.project.delete(state.projectId);
 			if (res.errcode != 0) {
 				return;
@@ -202,19 +203,18 @@ const onModelDel = () => {
 	});
 };
 
-// //	获取项目信息
-// const GetByIdRow = async () => {
-// 	try {
-// 		const res = await proxy.$api.erp.project.getById(state.projectId);
-// 		if (res.errcode != 0) {
-// 			return;
-// 		}
-// 		store.commit('project/getProject', res.data);
-// 		state.projectForm = res.data
-// 	} finally {
-// 		state.isShowPage = true;
-// 	}
-// };
+//	获取项目信息
+const GetByIdRow = async () => {
+	try {
+		const res = await proxy.$api.erp.project.getById(state.projectId);
+		if (res.errcode != 0) {
+			return;
+		}
+		store.commit('project/getProject', res.data);
+		state.projectForm = res.data
+	} finally {
+	}
+};
 
 //	确定提交创建项
 const onSubmit = () => {
@@ -244,7 +244,7 @@ const { dateFormat } = commonFunction();
 
 //	页面加载时
 onMounted(() => {
-	state.projectForm = proxy.$parent.projectForm
+	GetByIdRow()
 	fileSeeRef.value.openPage(state.projectForm);
 });
 

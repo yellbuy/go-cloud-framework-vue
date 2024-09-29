@@ -284,7 +284,6 @@ const onSubmit = () => {
 
 // 页面加载时
 onMounted(() => {
-	state.projectForm = proxy.$parent.projectForm
 });
 
 defineExpose({openPage, closePage})
