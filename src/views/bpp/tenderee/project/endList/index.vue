@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-card v-if="state.isShowPage">
-			<el-form ref="searchFormRef" :model="state.tableData.param" label-width="60px" :inline="true">
+			<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
 				<el-form-item label="项目编号">
 					<el-input placeholder="请输入比选编号查询" v-model="state.tableData.param.no" style="width: 150px;"/>
 				</el-form-item>
@@ -42,8 +42,8 @@
 				<el-table-column prop="ReviewTime" label="开标日期" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(360)" fixed="right">
 					<template #default="scope">
-						<el-button type="primary" @click="onModelSee(scope.row.Id, false)">项目详情</el-button>
-						<el-button text bg type="info" @click="onModelEdit(scope.row.Id)">重新评选</el-button>
+						<el-button type="primary" @click="onProjectSee(scope.row.Id, false)">项目详情</el-button>
+						<el-button text bg type="info" @click="onBidEdit(scope.row.Id)">重新评选</el-button>
 						<el-button text bg type="primary" v-if="scope.row.state==0" @click="">查看废标理由</el-button>
 					</template>
 				</el-table-column>
@@ -61,7 +61,7 @@
 				:total="state.tableData.total"/>
 			<seeDlg ref="seeDlgRef" />
 		</el-card>
-		<projectAddEdit ref="projectAddEditRef"/>
+		<!-- <bidEdit ref="bidEditRef"/> -->
 	</div>
 </template>
 
@@ -71,7 +71,7 @@ import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import seeDlg from '../bidList/component/projectSee.vue';
-import projectAddEdit from '../bidList/component/projectAddEdit.vue';
+import bidEdit from '../bidList/component/bidEdit.vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 
@@ -85,7 +85,7 @@ const scopeValue = route.params.scopeValue || 0;
 const moduleKey = `api_pro_project_${kind}_${mode}`;
 const { proxy } = getCurrentInstance() as any;
 const seeDlgRef = ref();
-const projectAddEditRef = ref();
+const bidEditRef = ref();
 const state: any = reactive({
 	moduleKey: moduleKey,
 	kind,
@@ -133,15 +133,15 @@ const onGetTableData = async () => {
 	}
 };
 
-// 打开编辑弹窗
-const onModelEdit = (id: number) => {
-	state.isShowPage = false;
-	projectAddEditRef.value.openPage(id);
+//打开查看详情页面
+const onProjectSee = (Id: string, state: boolean) => {
+	seeDlgRef.value.openDialog(Id, state);
 };
 
-//打开查看弹窗
-const onModelSee = (Id: string, state: boolean) => {
-	seeDlgRef.value.openDialog(Id, state);
+// 打开重新评选页面
+const onBidEdit = (id: string) => {
+	state.isShowPage = false;
+	bidEditRef.value.openPage(id);
 };
 
 //跳转
@@ -181,12 +181,14 @@ const onHandleCurrentChange = (val: number) => {
 	state.tableData.param.current = val;
 };
 
+const { dateFormatYMDHM, dateFormat } = commonFunction();
+
 // 页面加载时
 onMounted(() => {
 	onGetTableData();
 });
 
-const { dateFormatYMDHM, dateFormat } = commonFunction();
+defineExpose({...toRefs(state)})
 
 </script>
 

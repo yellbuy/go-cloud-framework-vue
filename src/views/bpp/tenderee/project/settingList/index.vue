@@ -3,7 +3,7 @@
 		<el-card shadow="hover">
 			<el-tabs v-model="state.activeName" type="card" class="demo-tabs" @tab-change="onResetSearch">
 				<el-tab-pane label="资格评审" name="zgps">
-					<el-form :model="state.tableData.param" label-width="60px" :inline="true">
+					<el-form :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
 						<el-form-item label="评审内容">
 							<el-input placeholder="请输入关键词" v-model="state.tableData.param.content" style="width: 150px;"/>
 						</el-form-item>
@@ -14,7 +14,7 @@
 								</el-icon>
 								重置
 							</el-button>
-							<el-button type="info" @click="onGetTableData()">
+							<el-button type="primary" @click="onGetTableData()">
 								<el-icon>
 									<Search />
 								</el-icon>
@@ -59,8 +59,8 @@
 						<el-table-column prop="Remark" label="备注" show-overflow-tooltip />
 						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" show-overflow-tooltip>
 							<template #default="scope">
-								<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id)">编辑</el-button>
-								<el-button text bg type="danger" @click="onRowDel(scope.row.Id)">删除</el-button>
+								<el-button type="primary" @click="onOpenEditDlg(scope.row.Id)">编辑</el-button>
+								<el-button type="danger" @click="onRowDel(scope.row.Id)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -118,8 +118,8 @@
 						<el-table-column prop="Remark" label="备注" show-overflow-tooltip />
 						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" show-overflow-tooltip>
 							<template #default="scope">
-								<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id)">编辑</el-button>
-								<el-button text bg type="danger" @click="onRowDel(scope.row.Id)">删除</el-button>
+								<el-button type="primary" @click="onOpenEditDlg(scope.row.Id)">编辑</el-button>
+								<el-button type="danger" @click="onRowDel(scope.row.Id)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -178,7 +178,7 @@ const onResetSearch = () => {
 const onGetTableData = async () => {
 	state.tableData.loading = true;
 	try {
-		const res = await proxy.$api.erp.projectsetting.getListByScope(scopeMode, scopeValue, state.tableData.param);
+		const res = await proxy.$api.erp.projectsetting.getListByScope(state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}

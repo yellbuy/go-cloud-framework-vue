@@ -24,7 +24,6 @@
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 							项目共用包1个：
 							<el-table :data="packageTableData.data" v-loading="packageTableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
-								<el-table-column type="selection" width="50" fixed />
 								<el-table-column type="index" label="序号" width="60" align="right" show-overflow-tooltip fixed />
 								<el-table-column prop="PackageId" label="包号" width="150" show-overflow-tooltip fixed/>
 								<el-table-column prop="LineName" label="设备名称" width="150" show-overflow-tooltip/>
@@ -39,19 +38,19 @@
 						<el-row :gutter="20">
 							<el-col :span="24">
 								<el-descriptions :column="2">
-									<el-descriptions-item label="采购项目编号：">test</el-descriptions-item>
-									<el-descriptions-item label="采购方式：">test</el-descriptions-item>
+									<el-descriptions-item label="采购项目编号：">{{ ruleForm.No }}</el-descriptions-item>
+									<el-descriptions-item label="采购方式：">{{  }}</el-descriptions-item>
 									<el-descriptions-item label="行政区划：">test</el-descriptions-item>
 									<el-descriptions-item label="采购人：">{{ ruleForm.PurchaseManangerName }}</el-descriptions-item>
-									<el-descriptions-item label="采购人地址：">test</el-descriptions-item>
+									<el-descriptions-item label="采购人地址：">{{ ruleForm.Location }}</el-descriptions-item>
 									<el-descriptions-item label="采购人联系方式：">{{ ruleForm.PurchaseManangerMobile }}</el-descriptions-item>
 									<el-descriptions-item label="项目联系人：">{{ ruleForm.ProjectManagerName }}</el-descriptions-item>
-									<el-descriptions-item label="供应商资格条件：">test</el-descriptions-item>
+									<el-descriptions-item label="供应商资格条件：">{{ ruleForm.Qualification }}</el-descriptions-item>
 									<el-descriptions-item label="标书发售方式：">test</el-descriptions-item>
-									<el-descriptions-item label="项目包个数：">test</el-descriptions-item>
-									<el-descriptions-item label="报名时间：">test</el-descriptions-item>
+									<el-descriptions-item label="项目包个数：">{{ ruleForm.Qty }}</el-descriptions-item>
+									<el-descriptions-item label="报名时间：">{{ ruleForm.StartTime }}-{{ ruleForm.EndTime }}</el-descriptions-item>
 									<el-descriptions-item label="标书售价：">{{ ruleForm.BidFee }}</el-descriptions-item>
-									<el-descriptions-item label="投标时间：">test</el-descriptions-item>
+									<el-descriptions-item label="投标时间：">{{ ruleForm.BeginTime }}-{{ ruleForm.FinishTime }}</el-descriptions-item>
 								</el-descriptions>
 							</el-col>
 						</el-row>
@@ -98,6 +97,7 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.see'),
 			ruleForm: {},
+			testForm: {},
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 			projectType: '',
@@ -172,6 +172,11 @@ export default {
 						state.FilesList.push(image);
 					}
 				}
+				// const res = await proxy.$api.erp.projectcompany.projectcompany('bid', Id);
+				// if (res.errcode != 0) {
+				// 	return;
+				// }
+				// state.testForm = res
 			} finally {
 				state.isShowDialog = true;
 			}

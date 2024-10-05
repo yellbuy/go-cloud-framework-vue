@@ -3,10 +3,10 @@
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">test</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">test</el-descriptions-item>
-					<el-descriptions-item label="开标时间：">test</el-descriptions-item>
-					<el-descriptions-item label="开标地点：">test</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -29,7 +29,7 @@
 		</el-row>
 		<el-row>
 			<el-col :span="24">
-				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
+				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="selection" width="50" fixed />
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
 					<el-table-column prop="Id" label="材料名称" show-overflow-tooltip/>
@@ -68,7 +68,7 @@
 		</el-row>
 		<el-row>
 			<el-col :span="24">
-				<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
+				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="selection" width="50" fixed />
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
 					<el-table-column prop="Id" label="材料名称" show-overflow-tooltip/>
@@ -96,102 +96,74 @@
 	</el-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import request from '/@/utils/request';
-import { toRefs, reactive, onMounted, ref, getCurrentInstance } from 'vue';
+import { toRefs, reactive, computed, onMounted, ref, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
 import { useI18n } from 'vue-i18n';
-export default {
-	name: 'companyEdit',
-	setup() {
-		const { proxy } = getCurrentInstance() as any;
-		const { t } = useI18n();
-		const store = useStore();
-		const state: any = reactive({
-			project: {},
-			tableData: {
-				data: [{Id:"AXDF123",Name: "张三", CheckState: 1,VoteState: 1, VoteCount: 5, LeaderState: 1}],
-				total: 0,
-				loading: false,
-				param: {
-					mode: 2,
-					current: 1,
-					size: 20,
-					projectId: 0,
-					categoryId: null,
-					name: '',
-				},
-			},
-		});
-		//获取项目品目信息
-		const getCompanyList = async (isState: boolean) => {
-			if (isState) {
-				let params = {};
-				state.project = store.state.project.project;
-				state.tableData.data = [];
-				try {
-					params.projectId = store.state.project.projectId;
-					params.state = 1;
-					//重新请求数据
 
-					const res = await proxy.$api.erp.projectcompany.comparisonList(params);
-					//获取存储的项目数据
-					if (res.errcode != 0) {
-						return;
-					}
-					state.tableData.data = res.data;
-				} finally {
-				}
-			}
-		};
+const { proxy } = getCurrentInstance() as any;
+const { t } = useI18n();
+const store = useStore();
+const state: any = reactive({
+	project: store.state.project.project,
+	tableData: {
+		data: [],
+		total: 0,
+		loading: false,
+		param: {},
+	},
+});
 
-		const onCompile = async (Id: Number) => {
-			if (!Id) {
-				ElMessage.error('选中列表都已签章！');
+//获取项目品目信息
+const getCompanyList = async (isState: boolean) => {
+	if (isState) {
+		let params = {};
+		state.project = store.state.project.project;
+		state.tableData.data = [];
+		try {
+			params.projectId = store.state.project.projectId;
+			params.state = 1;
+			//重新请求数据
+
+			const res = await proxy.$api.erp.projectcompany.comparisonList(params);
+			//获取存储的项目数据
+			if (res.errcode != 0) {
 				return;
 			}
-			ElMessageBox.confirm(`确定批量签章吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(async () => {
-				// try {
-				// 	const res = await proxy.$api.common.enterprise.audit(state.ruleForm);
-				// 	if (res.errcode != 0) {
-				// 		return;
-				// 	}
-				// 	state.ruleForm.AuditState = 0;
-				// } finally {
-				// 	onGetTableData(true);
-				// }
-				return false;
-			});
-		};
-
-		// 分页改变
-		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.size = val;
-		};
-		// 分页改变
-		const onHandleCurrentChange = (val: number) => {
-			state.tableData.param.current = val;
-		};
-
-		// 页面加载时
-		onMounted(() => {});
-
-		return {
-			proxy,
-			getCompanyList,
-			onCompile,
-			onHandleSizeChange,
-			onHandleCurrentChange,
-			t,
-			...toRefs(state),
-		};
-	},
+			state.tableData.data = res.data;
+		} finally {
+		}
+	}
 };
+
+const onCompile = async (Id: Number) => {
+	if (!Id) {
+		ElMessage.error('选中列表都已签章！');
+		return;
+	}
+	ElMessageBox.confirm(`确定批量签章吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		// try {
+		// 	const res = await proxy.$api.common.enterprise.audit(state.ruleForm);
+		// 	if (res.errcode != 0) {
+		// 		return;
+		// 	}
+		// 	state.ruleForm.AuditState = 0;
+		// } finally {
+		// 	onGetTableData(true);
+		// }
+		return false;
+	});
+};
+
+// 页面加载时
+onMounted(() => {});
+
 </script>
 
 <style scoped lang="scss">

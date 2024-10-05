@@ -19,8 +19,8 @@
 				<el-descriptions :column="2">
 					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
 					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="开标时间：">{{ state.project.BidOpenTime }}</el-descriptions-item>
-					<el-descriptions-item label="开标地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>

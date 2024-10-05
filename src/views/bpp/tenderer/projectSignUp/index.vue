@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-card v-if="isShowPage">
-			<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
+			<el-form ref="searchFormRef" :model="tableData.param" label-suffix="：" label-width="80px" :inline="true">
 				<el-form-item label="项目编号">
 					<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no" style="width: 150px;"/>
 				</el-form-item>
@@ -29,7 +29,7 @@
 				<el-table-column prop="No" label="项目编号"  width="160" show-overflow-tooltip fixed/>
 				<el-table-column prop="Name" label="项目名称" show-overflow-tooltip/>
 				<el-table-column prop="LineName" label="项目包号" width="70"/>
-				<el-table-column prop="Kind" label="参与方式" width="100">
+				<el-table-column prop="Kind" label="参与方式" width="100" align="center">
 					<template #default="scope">
 						<span v-if="scope.row.ProjectType == 1">公开招标</span>
 						<span v-else-if="scope.row.ProjectType == 2">邀请招标</span>
@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { ElMessageBox } from 'element-plus';
+import { ElMessageBox, ElMessage } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import projectDetail from './component/projectDetail.vue';
@@ -101,6 +101,7 @@ export default {
 				loading: false,
 				param: {
 					kind: "bid",
+					isBid: true,
 					current: 1,
 					pageSize: 20,
 				},
@@ -114,10 +115,11 @@ export default {
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.current - 1;
 		});
+
 		//重置查询条件
 		const onResetSearch = () => {
-			state.tableData.param.name = '';
-			state.tableData.param.no = '';
+			state.tableData.param.name = null;
+			state.tableData.param.no = null;
 			onGetTableData();
 		};
 
@@ -136,15 +138,33 @@ export default {
 			}
 		};
 
-		//	项目登记
+		//	项目报名
 		const onSubmit = (id: string) => {
 			try {
 				state.ruleForm.projectId = id
 				state.ruleForm.companyId = "0"
 				const res = proxy.$api.erp.projectcompany.signup(state.ruleForm);
-				if (res.errcode == 0) {
-					return
-				}
+				res.then(res => {
+					if (res.errcode == 0) {
+						ElMessage({
+							message: '报名成功',
+							type: 'success',
+							plain: true,
+							})
+					} else {
+						ElMessage({
+							message: '报名失败',
+							type: 'error',
+							plain: true,
+							})
+					}
+				}).catch(error => {
+					ElMessage({
+						message: '报名失败，出现错误：'+ error,
+						type: 'error',
+						plain: true,
+						})
+				});
 			} finally {
 			}
 		};

@@ -2,7 +2,7 @@
 	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-suffix="：" label-width="80px" :inline="true">
 					<el-form-item label="比选编号">
 						<el-input placeholder="请输入比选编号查询" v-model="tableData.param.no"> </el-input>
 					</el-form-item>
