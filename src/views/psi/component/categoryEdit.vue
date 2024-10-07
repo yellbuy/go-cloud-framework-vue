@@ -11,11 +11,20 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="图标" prop="GoodsImg">
-							<el-input
-								v-model="ruleForm.GoodsImg"
-								placeholder="请输入"/>
+						<el-form-item label="所属父级" prop="Parentid">
+							<el-tree-select
+								v-model="ruleForm.Parentid"
+								placeholder="请选择父级"
+								default-expand-all
+								node-key="Id"
+								:value-key="Id"
+								:current-node-key="ruleForm.Parentid"
+								:data="categoryList"
+								:props="{ label: 'Name', value: 'Id', children: 'Children' }"
+								check-strictly
+							/>
 						</el-form-item>
+						
 					</el-col>
 				</el-row>
 				<el-row :gutter="0"> 
@@ -30,9 +39,11 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="状态" prop="SupplierState">
+						<el-form-item label="状态" prop="State">
 							<el-switch
-								v-model.number="ruleForm.SupplierState"
+								v-model.number="ruleForm.State"
+								inline-prompt
+								width="50"
 								active-text="启用"
 								inactive-text="禁用"
 								:active-value="1"
@@ -71,7 +82,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.Edit', 'btn.Add']">{{
+					<el-button text bg type="primary" @click="onSubmit(true)" v-if="!disable" v-auths:[$parent.moduleKey]="['btn.CategoryEdit', 'btn.CategoryAdd']">{{
 						$t('message.action.save')
 					}}</el-button>
 				</span>
@@ -82,6 +93,7 @@
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -131,15 +143,6 @@ export default {
 		
 		const handleChange = (value: number) => {
 		}
-
-		const tableData = reactive({
-			data: [],
-			loading: false,
-			param: {
-				pageNum: 1,
-				pageSize: 10000,
-			},
-		});
 		
 		const state = reactive({
 			isShowDialog: false,
@@ -153,25 +156,11 @@ export default {
 				Parentid:"0",				
 				Kind: 'product',
 				Name: '',
-				GoodsUnit:'',
-				GoodsSn:'',
 				Order:0,
-				SupplierState:1,
-				GoodsImg:'',
-				SellerNote:'',
-			},
-			tableItem: {
-				Id: '0',				
-				Kind: 'repair',
-				Name: '',
-				No: '',
-				Qty: 0,
-				Content:"",
-				Remark: '',
+				State:1,
 			},
 			dialogVisible: false,
-			goodsUnitList: [],
-			brandList: [],
+			categoryList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -184,14 +173,14 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			GoodsName: [
+			Name: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			GoodsUnit: [
+			Parentid: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -201,30 +190,20 @@ export default {
 		});
 		
 		//	打开弹窗
-		const openDialog = async (kind: string, id: string,parentid:string, disable: boolean) => {
+		const openDialog = async (kind: string, id: string, list:any, parentid:string, disable: boolean) => {
 			state.Files = [];
 			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
+			state.categoryList=[{Id:'0',Name:'顶级'},...list];
 			try {
-				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_unit', 0, 2);
-				if (goodsUnits.errcode == 0) {
-					state.goodsUnitList = goodsUnits.data;
-				}else{
-					console.log("error:",goodsUnits.errmsg)
-				}
-				const resBrands = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_brand', 0, 2);
-				if (resBrands.errcode == 0) {
-					state.brandList = resBrands.data;
-				}else{
-					console.log("error:",resBrands.errmsg)
-				}
+				
 				state.disable = disable;
 				if (id && id != '0') {
 					getByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
-					state.ruleForm.Id = 0;
-					state.ruleForm.Parentid = parentid;
+					state.ruleForm.Id = '0';
+					state.ruleForm.Parentid = parentid||'0';
+					state.ruleForm.State=1;
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -283,8 +262,6 @@ export default {
 		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
-			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
 			proxy.$parent.onGetMainTableData();
@@ -294,6 +271,10 @@ export default {
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
+					if(state.ruleForm.Id && state.ruleForm.Id!="0" && state.ruleForm.Id==state.ruleForm.Parentid){
+						ElMessage.error("父级不能为自身");
+						return 
+					}
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
@@ -348,7 +329,6 @@ export default {
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
-			tableData,
 			rules,
 			token,
 			onSubmit,

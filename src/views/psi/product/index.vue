@@ -25,7 +25,6 @@
 					<el-table
 						:data="mainTableData.data"
 						v-loading="mainTableData.loading"
-						style="width: 100%"
 						:height="proxy.$calcMainHeight(-35)"
 						border
 						stripe
@@ -34,16 +33,56 @@
 						row-key="Id"
 						:tree-props="{ children: 'Children' }"
 						@cell-click="onMainCellClick">
-						<el-table-column prop="Name" label="分类名称" show-overflow-tooltip fixed></el-table-column>
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="left">
+						<el-table-column prop="Name" label="分类名称" width="180" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="State" label="状态" width="80" align="center" show-overflow-tooltip>
 							<template #default="scope">
-								<el-button text bg type="primary" @click="onOpenCategoryDlg(0, scope.row.Id)" v-auth:[moduleKey]="'btn.Add'">
+								<el-switch
+									v-model="scope.row.State"
+									inline-prompt
+									:width="46"
+									v-auth:[moduleKey]="'btn.CategoryEdit'"
+									@change="proxy.$api.common.table.updateById('common_category', 'State', scope.row.Id, scope.row.State)"
+									:active-text="$t('message.action.enable')"
+									:inactive-text="$t('message.action.disable')"
+									:active-value="1"
+									:inactive-value="0"
+								/>
+								<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{
+									$t('message.action.enable')
+								}}</el-tag>
+								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{ $t('message.action.disable') }}</el-tag>
+							</template>
+						</el-table-column>
+						<!-- <el-table-column prop="Order" label="排序" :width="80" align="center">
+							<template #header>
+								<el-button
+									type="text"
+									v-if="mainTableData.data"
+									@click="proxy.$api.common.table.update('common_category', 'Order', mainTableData.data || [], 0)"
+									v-auth:[moduleKey]="'btn.CategoryEdit'"
+								>
+									<el-icon>
+										<Edit />
+									</el-icon>
+									&#8197;排序{{ $t('message.action.update') }}
+								</el-button>
+								<span v-no-auth:[moduleKey]="'btn.CategoryEdit'">排序</span>
+							</template>
+							<template #default="scope">
+								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.CategoryEdit'">
+								</el-input>
+								<span v-no-auth:[moduleKey]="'btn.CategoryEdit'">{{ scope.row.Order }}</span>
+							</template>
+						</el-table-column> -->
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+							<template #default="scope">
+								<el-button text bg type="primary" @click="onOpenCategoryDlg(0, scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryAdd'">
 									{{ $t('message.action.add') }}
 								</el-button>
-								<el-button text bg type="primary" @click="onOpenCategoryDlg(scope.row.Id, scope.row.Parentid,false)" v-auth:[moduleKey]="'btn.Edit'">
+								<el-button text bg type="primary" @click="onOpenCategoryDlg(scope.row.Id, scope.row.Parentid,false)" v-auth:[moduleKey]="'btn.CategoryEdit'">
 									{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button text bg type="danger" @click="onCategoryDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+								<el-button text bg type="danger" @click="onCategoryDel(scope.row.Id)" v-auth:[moduleKey]="'btn.CategoryDel'">
 									{{ $t('message.action.delete') }}
 								</el-button>
 							</template>
@@ -69,7 +108,7 @@
 									</el-icon>
 									&#8197;{{ $t('message.action.search') }}
 								</el-button>
-								<el-button type="primary" @click="onOpenProductDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
+								<el-button type="primary" @click="onOpenChildDlg(0, false)" v-auth:[moduleKey]="'btn.Add'">
 									<el-icon>
 										<CirclePlusFilled />
 									</el-icon>
@@ -88,52 +127,66 @@
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" fixed />
-						<el-table-column prop="GoodsName" label="产品名称" width="120" show-overflow-tooltip fixed />
-						<el-table-column prop="GoodsSn" label="产品编码" width="90" show-overflow-tooltip />
-						<el-table-column prop="GoodsUnit" label="产品单位" width="70" align="right" />
-						<el-table-column label="供货状态" show-overflow-tooltip>
+						<el-table-column prop="Name" label="仓库名称" width="120" show-overflow-tooltip fixed />
+						<el-table-column prop="Code" label="仓库编码" width="90" show-overflow-tooltip />
+						<el-table-column prop="Pinyin" label="助记符" width="90" show-overflow-tooltip />
+						<el-table-column prop="Alias" label="别名" width="90" />
+						
+						<el-table-column prop="State" label="状态" width="80" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-switch
-									v-model="scope.row.SupplierState"
+									v-model="scope.row.State"
 									inline-prompt
 									:width="46"
 									v-auth:[moduleKey]="'btn.Edit'"
-									@change="proxy.$api.common.table.updateById('wms_goods', 'supplier_state', scope.row.Id, scope.row.SupplierState)"
+									@change="proxy.$api.common.table.updateById('psi_product', 'State', scope.row.Id, scope.row.State)"
 									:active-text="$t('message.action.enable')"
 									:inactive-text="$t('message.action.disable')"
 									:active-value="1"
-									:inactive-value="0" />
-								<el-tag type="success" effect="plain" v-if="scope.row.SupplierState" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.enable') }}</el-tag>
+									:inactive-value="0"
+								/>
+								<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.Edit'">{{
+									$t('message.action.enable')
+								}}</el-tag>
 								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="GoodsPics" label="产品图片" show-overflow-tooltip>
-							<template #default="scope">		
-								<el-image
-									style="width: 30px; height: 30px"
-									:src="imgUrl(scope.row.GoodsPics)"
-									:zoom-rate="1.2"
-									:max-scale="7"
-									:min-scale="0.2"
-									:preview-src-list="imgUrlList(scope.row.GoodsPics)"
-									fit="cover"
-									:preview-teleported="true" />			
+						<el-table-column prop="Order" label="排序" :width="90" align="center">
+							<template #header>
+								<el-button
+									type="text"
+									v-if="mainTableData.data"
+									@click="proxy.$api.common.table.update('psi_product', 'Order', mainTableData.data || [], 0)"
+									v-auth:[moduleKey]="'btn.Edit'"
+								>
+									<el-icon>
+										<Edit />
+									</el-icon>
+									&#8197;排序{{ $t('message.action.update') }}
+								</el-button>
+								<span v-no-auth:[moduleKey]="'btn.CategoryEdit'">排序</span>
+							</template>
+							<template #default="scope">
+								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'">
+								</el-input>
+								<span v-no-auth:[moduleKey]="'btn.Edit'">{{ scope.row.Order }}</span>
 							</template>
 						</el-table-column>
+						<el-table-column prop="Remark" label="备注" show-overflow-tooltip />
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(200)" fixed="right">
 							<template #default="scope">
-								<el-button text bg type="primary" @click="onOpenProductDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
+								<el-button text bg type="primary" @click="onOpenChildDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
 									{{ $t('message.action.edit') }}
 								</el-button>
-								<el-button text bg @click="onOpenProductDlg(scope.row.Id, true)">
+								<el-button text bg @click="onOpenChildDlg(scope.row.Id, true)">
 									{{ $t('message.action.see') }}
 								</el-button>
-								<el-button text bg type="danger" @click="onModelDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
+								<el-button text bg type="danger" @click="onChildDel(scope.row.Id)" v-auth:[moduleKey]="'btn.Del'">
 									{{ $t('message.action.delete') }}
 								</el-button>
 							</template>
 						</el-table-column>
-						<el-table-column prop="SellerNote" label="备注" show-overflow-tooltip />
+						
 					</el-table>
 					<el-pagination
 						small
@@ -149,7 +202,7 @@
 				</el-col>
 			</el-row>
 		</el-card>
-		<prodDlg ref="prodDlgRef" />
+		<childDlg ref="childDlgRef" />
 		<cateDlg ref="cateDlgRef" />
 	</div>
 </template>
@@ -158,31 +211,33 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import cateDlg from './component/categoryEdit.vue';
-import prodDlg from './component/productEdit.vue';
+import cateDlg from '../component/categoryEdit.vue';
+import childDlg from './component/productEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
-	name: 'projectList',
-	components: { prodDlg, cateDlg},
+	name: 'productList',
+	components: { childDlg, cateDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 
 		const route = useRoute();
 
 		const kind = route.params.kind;
+		const categoryKind=`product_${kind}`;
 
 		const scopeMode = route.params.scopeMode || 0;
 
 		const scopeValue = route.params.scopeValue || 0;
 
-		const moduleKey = `api_wms_goods_${kind}`;
+		const moduleKey = `api_psi_product`;
 
-		const prodDlgRef = ref();
+		const childDlgRef = ref();
 
 		const cateDlgRef = ref();
 
 		const state: any = reactive({
 			moduleKey: moduleKey,
+			categoryKind,
 			kind,
 			scopeMode,
 			scopeValue,
@@ -214,36 +269,14 @@ export default {
 			return state.tableData.param.pageNum - 1;
 		});
 
-		//	重置查询条件
-		const onResetSearch = () => {
-			state.tableData.param.keyword = '';
-			onGetTableData(true);
-		};
-
-		//	初始化表格数据
-		const onGetTableData = async (gotoFirstPage: boolean = false) => {
-			if (gotoFirstPage) {
-				state.tableData.param.pageNum = 1;
-			}
-			state.tableData.loading = true;
-			try {
-				const res = await proxy.$api.wms.goods.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
-				if (res.errcode != 0) {
-					return;
-				}
-				state.tableData.data = res.data;
-				state.tableData.total = res.total;
-			} finally {
-				state.tableData.loading = false;
-			}
-		};
+		
 
 		// 初始化表格数据
 		const onGetMainTableData = async (loadFirstChildData: boolean = false) => {
 			state.mainTableData.loading = true;
 			state.mainTableData.data = [];
 			try {
-				const res = await proxy.$api.common.category.getHierarchyDataList(state.kind, state.scopeMode, state.scopeValue, state.mainTableData.param);
+				const res = await proxy.$api.common.category.getHierarchyDataList(state.categoryKind, state.scopeMode, state.scopeValue, state.mainTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -254,37 +287,12 @@ export default {
 			}
 		};
 
-		//	打开弹窗
-		const onOpenProductDlg = (id: string, ishow: boolean) => {
-			console.log(state.CategoryId)
-			prodDlgRef.value.openDialog(state.kind, id, ishow,state.CategoryId);
-		};
-
 		// 打开弹窗
-		const onOpenCategoryDlg = (id: string, ishow: boolean) => {
-			cateDlgRef.value.openDialog(state.kind, id, ishow);
-		};
+		const onOpenCategoryDlg = (id: string,parentid:string, disable: boolean) => {
+			cateDlgRef.value.openDialog(state.categoryKind, id, state.mainTableData.data, parentid, disable);
+		};		
 
-		// 删除用户
-		const onModelDel = (Id: string) => {
-			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
-				confirmButtonText: '确认',
-				cancelButtonText: '取消',
-				type: 'warning',
-			}).then(async () => {
-				try {
-					const res = await proxy.$api.wms.goods.delete(Id);
-					if (res.errcode == 0) {
-						onGetTableData();
-					}
-				} finally {
-					state.tableData.loading = false;
-				}
-				return false;
-			});
-		};
-
-		// 删除用户
+		// 删除类别
 		const onCategoryDel = (Id: string) => {
 			ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 				confirmButtonText: '确认',
@@ -294,7 +302,7 @@ export default {
 				try {
 					const res = await proxy.$api.common.category.delete(Id);
 					if (res.errcode == 0) {
-						onGetTableData();
+						onGetMainTableData();
 					}
 				} finally {
 					state.mainTableData.loading = false;
@@ -320,6 +328,53 @@ export default {
 		const onHandleCurrentChange = (val: number) => {
 			state.tableData.param.pageNum = val;
 			onGetTableData();
+		};
+
+		//	重置查询条件
+		const onResetSearch = () => {
+			state.tableData.param.keyword = '';
+			onGetTableData(true);
+		};
+
+		//	打开弹窗
+		const onOpenChildDlg = (id: string, disable: boolean) => {
+			childDlgRef.value.openDialog(state.kind, id, state.mainTableData.data, state.CategoryId, disable);
+		};
+		//	初始化表格数据
+		const onGetTableData = async (gotoFirstPage: boolean = false) => {
+			if (gotoFirstPage) {
+				state.tableData.param.pageNum = 1;
+			}
+			state.tableData.loading = true;
+			try {
+				const res = await proxy.$api.psi.product.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				if (res.errcode != 0) {
+					return;
+				}
+				state.tableData.data = res.data;
+				state.tableData.total = res.total;
+			} finally {
+				state.tableData.loading = false;
+			}
+		};
+
+		// 删除记录
+		const onChildDel = (Id: string) => {
+			ElMessageBox.confirm(`确定要删除当前记录吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				try {
+					const res = await proxy.$api.psi.product.delete(Id);
+					if (res.errcode == 0) {
+						onGetTableData();
+					}
+				} finally {
+					state.tableData.loading = false;
+				}
+				return false;
+			});
 		};
 
 		//	页面加载时
@@ -356,15 +411,15 @@ export default {
 
 		return {
 			proxy,
-			prodDlgRef,
+			childDlgRef,
 			cateDlgRef,
 			onGetTableData,
 			onGetMainTableData,
 			onMainCellClick,
 			onResetSearch,
-			onOpenProductDlg,
+			onOpenChildDlg,
 			onOpenCategoryDlg,
-			onModelDel,
+			onChildDel,
 			onCategoryDel,
 			onHandleSizeChange,
 			onHandleCurrentChange,
