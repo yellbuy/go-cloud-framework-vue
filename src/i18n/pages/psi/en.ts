@@ -2,6 +2,8 @@
 export default {
 	router: {
 		warehouse: 'warehouse',
+		product: 'product',
+		unit: 'product unit',
 	},
 	case: {
 		no: 'no',
