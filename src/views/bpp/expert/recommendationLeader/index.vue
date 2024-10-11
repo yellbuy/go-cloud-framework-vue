@@ -13,31 +13,30 @@
 		<el-row>
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
-					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column prop="User.Id" label="专家编号" width="120" show-overflow-tooltip/>
-					<el-table-column prop="User.Name" label="专家姓名" width="120" show-overflow-tooltip/>
-					<el-table-column prop="User.CheckState" label="是否签到" width="150" show-overflow-tooltip>
+					<el-table-column type="index" label="序号" align="right" width="60" fixed />
+					<el-table-column prop="Name" label="专家姓名" width="120" show-overflow-tooltip/>
+					<el-table-column prop="IsSignIn" label="是否签到" width="100" align="center" show-overflow-tooltip>
 						<template #default="scope">
-							<span v-if="scope.row.CheckState == 0">是</span>
-							<span v-else-if="scope.row.CheckState == 1">否</span>
+							<span v-if="scope.row.IsSignIn == 0">否</span>
+							<span v-else-if="scope.row.IsSignIn == 1">是</span>
 						</template>
 					</el-table-column>
-					<el-table-column prop="User.VoteState" label="是否投票" width="150" show-overflow-tooltip>
+					<el-table-column prop="LeaderUid" label="是否投票" width="100" align="center" show-overflow-tooltip>
 						<template #default="scope">
-							<span v-if="scope.row.VoteState == 0">是</span>
-							<span v-else-if="scope.row.VoteState == 1">否</span>
+							<span v-if="scope.row.LeaderUid != '0'">是</span>
+							<span v-else>否</span>
 						</template>
 					</el-table-column>
-					<el-table-column prop="User.VoteCount" label="的票数" show-overflow-tooltip/>
-					<el-table-column prop="User.LeaderState" label="是否是组长" width="150" show-overflow-tooltip>
+					<el-table-column prop="PollNum" label="的票数" show-overflow-tooltip/>
+					<el-table-column prop="IsLeader" label="是否是组长" width="100" align="center" show-overflow-tooltip>
 						<template #default="scope">
-							<span v-if="scope.row.LeaderState == 0">是</span>
-							<span v-else-if="scope.row.LeaderState == 1">否</span>
+							<span v-if="scope.row.IsLeader == 0">否</span>
+							<span v-else-if="scope.row.IsLeader == 1">是</span>
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(360)" fixed="right">
 						<template #default="scope">
-							<el-button type="primary" @click="onModelSave(scope.row.User.Id)">{{ '推荐组长' }}</el-button>
+							<el-button type="primary" @click="onModelSave(scope.row)">推荐组长</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -76,6 +75,8 @@ const state: any = reactive({
 		param: {
 			current: 1,
 			pageSize: 20,
+			projectId: '',
+			roles: 1,
 		},
 	},
 });
@@ -84,38 +85,41 @@ state.tableData.param.pageIndex = computed(() => {
 	return state.tableData.param.current - 1;
 });
 
-//获取项目专家列表信息
+//	获取该项目专家列表
 const onGetTableData = async () => {
+	state.tableData.loading = true
 	try {
-		//请求获取列表
-		const res = await proxy.$api.erp.project.expertList(state.project.Id);
-		//获取存储的项目数据
+		state.tableData.param.projectId = state.project.Id
+		state.tableData.param.roles = 0
+		const res = await proxy.$api.erp.projectexpert.getListByScope("bid", 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
-			return;
+			return
 		}
-		state.tableData.data = res.data
+		state.tableData.data = res.data;
+		state.tableData.total = res.total
 	} finally {
+		state.tableData.loading = false
 	}
 };
 
-const onModelSave = async (id: string) => {
-	if (!id) {
+const onModelSave = async (data: {}) => {
+	if (!data.Id) {
 		ElMessage.error('请选择人员进行推荐！');
 		return;
 	}
-	ElMessageBox.confirm(`确定要推荐他为组长吗?`, '提示', {
+	ElMessageBox.confirm(`推荐机会只有一次，确定要推荐他为组长吗?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.expertLeader(state.project.Id);
+			const res = await proxy.$api.erp.projectexpert.expertLeader(data.Id, data);
 			if (res.errcode != 0) {
 				return;
 			}
-			state.ruleForm.AuditState = 0;
+			ElMessage('推荐成功')
+			onGetTableData()
 		} finally {
-			onGetTableData();
 		}
 		return false;
 	});

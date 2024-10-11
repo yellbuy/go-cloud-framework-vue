@@ -95,7 +95,7 @@
 
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { getCurrentInstance, onMounted, reactive, inject, ref, toRefs } from 'vue';
+import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import bidList from './bid/bidList.vue';
 import companyList from './bid/companyList.vue';
@@ -157,7 +157,7 @@ const closePage = async () => {
 
 //	刷新页面
 const refreshPage = async () => {
-	// GetByIdRow()
+	GetByIdRow()
 	select(state.indexLine)
 }
 
@@ -191,7 +191,7 @@ const onModelDel = () => {
 	}).then(async () => {
 		try {
 			console.log("测试", state.projectId)
-			const res = await proxy.$api.erp.project.delete(state.projectId);
+			const res = await proxy.$api.erp.projectbid.delete(state.projectId);
 			if (res.errcode != 0) {
 				return;
 			}
@@ -206,7 +206,7 @@ const onModelDel = () => {
 //	获取项目信息
 const GetByIdRow = async () => {
 	try {
-		const res = await proxy.$api.erp.project.getById(state.projectId);
+		const res = await proxy.$api.erp.projectbid.getById(state.projectId);
 		if (res.errcode != 0) {
 			return;
 		}
@@ -226,7 +226,7 @@ const onSubmit = () => {
 		try {
 			state.ruleForm.Id = state.projectForm.Id
 			state.ruleForm.BidOpenTime = state.projectForm.BidOpenTime
-			const res = proxy.$api.erp.project.save(state.ruleForm);
+			const res = proxy.$api.erp.projectbid.save(state.ruleForm);
 			if (res.errcode != 0) {
 				return
 			}
@@ -249,7 +249,7 @@ onMounted(() => {
 });
 
 //	公开方法属性
-defineExpose({openPage, closePage, ...toRefs(state)})
+defineExpose({openPage, closePage, GetByIdRow, ...toRefs(state)})
 
 </script>
 <style  lang="scss">

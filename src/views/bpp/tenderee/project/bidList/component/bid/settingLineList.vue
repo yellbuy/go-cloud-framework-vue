@@ -371,7 +371,12 @@ const onGetSettingLineTableData = async () => {
 
 //获取评审参数模版列表
 const onGetSettingTableData = async () => {
-	switch (state.activeName){
+	ElMessageBox.confirm(`确定要恢复默认模板参数吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		switch (state.activeName){
 		case "zgps":
 			state.zgTableData.loading = true;
 			try {
@@ -401,7 +406,8 @@ const onGetSettingTableData = async () => {
 				state.jsTableData.loading = false;
 			}
 			break;
-	}
+		}
+	});
 };
 
 //切换页面

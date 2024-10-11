@@ -8,12 +8,6 @@
 							<el-input v-model="ruleForm.Name" placeholder="请输入" maxlength="32" clearable/>
 						</el-form-item>
 					</el-col>
-					
-					<el-col :span="24" class="mb20">
-						<el-form-item label="专家手机号" prop="Mobile">
-							<el-input v-model="ruleForm.Mobile" placeholder="请输入" maxlength="24" clearable/>
-						</el-form-item>
-					</el-col>
 					<el-col :span="24" class="mb20">
 						<el-form-item label="性别" prop="Gender">
 							<el-radio-group v-model="ruleForm.Gender">
@@ -22,7 +16,11 @@
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-					
+					<el-col :span="24" class="mb20">
+						<el-form-item label="专家手机号" prop="Mobile">
+							<el-input v-model="ruleForm.Mobile" placeholder="请输入" maxlength="24" clearable/>
+						</el-form-item>
+					</el-col>
 					<el-col :span="24" class="mb20">
 						<el-form-item label="工作单位/科室" prop="WorkPlace">
 							<el-input v-model="ruleForm.WorkPlace" placeholder="请输入" maxlength="50" clearable/>
@@ -275,113 +273,8 @@ export default {
 			}
 		};
 
-		//Go语言数据库模型结构体转换工具
-		const dataModelCrossoverTool = () => {
-			let str = "id	kind	sn	no	name	subject	content	project_id	company_id	bid_fee	bid_pics	bid_files	bid_pay_state	bid_pay_uid	bid_pay_by	bid_pay_time	bid_audit_state	bid_audit_uid	bid_audit_by	bid_audit_time	bid_audit_remark	ensure_fee	ensure_pics	ensure_files	ensure_pay_state	ensure_pay_uid	ensure_pay_by	ensure_pay_time	ensure_audit_state	ensure_audit_uid	ensure_audit_by	ensure_audit_time	ensure_audit_remark	state	step	progress	price_mode	price_desc	price	qty	amount	quoted_price	tax	pics	files	win_state	win_time	win_uid	win_by	win_pics	win_files	win_remark	ext_id	ext_model	extattr	start_time	end_time	begin_time	finish_time	review_time	remark	outer_id	sync_time	audit_state	audit_uid	audit_by	audit_remark	audit_time	create_uid	create_by	create_time	update_uid	update_by	update_time	delete_uid	delete_by	delete_time	is_del	uid	tid	appid".split("	")
-			let strKind = "int8	varchar".split("	")
-			let strMaxSize = "64	36".split("	")
-			let outModelStr = []
-			let outDbSelectStr = []
-			let outStr = []
-			for (let i = 0;	i < strKind.length; i++) {
-				switch (strKind[i]) {
-					case 'varchar':
-						strKind[i] = 'string'
-						break;
-
-					case 'text':
-						strKind[i] = 'string'
-						break;
-
-					case 'numeric':
-						strKind[i] = 'float64'
-						break;
-				
-					case 'timestamptz':
-						strKind[i] = 'libs.DateTime'
-						break;
-
-					case 'int8':
-						strKind[i] = 'int64'
-						break;
-
-					case 'int4':
-						strKind[i] = 'int'
-						break;
-
-					case 'int2':
-						strKind[i] = 'uint8'
-						break;
-
-					default:
-						break;
-				}
-
-			}
-
-			for (let i = 0; i < str.length; i++) {
-				let saveStr = ""
-				for (let j = 0; j < str[i].length; j++) {
-					switch (str[i][j]){
-						case '_':
-							saveStr += str[i][j+1].toUpperCase()
-							j++
-							break;
-						default:
-							(j > 0 ) ? saveStr += str[i][j] : saveStr += str[i][j].toUpperCase()
-							break;
-					}
-				}
-				if(strMaxSize[i] == 0){
-					outModelStr.push(saveStr + "		" + strKind[i])
-				}else{
-					outModelStr.push(saveStr + "		" + strKind[i] + '		`valid:"MaxSize(' + strMaxSize[i] + ')"')
-					switch (strKind[i]) {
-					case 'libs.DateTime':
-						outModelStr.push(', orm:"type(timestamptz)"`')
-						break;
-
-					case 'uint8':
-						outModelStr.push(' json:",string"`')
-						break;
-
-					case 'int':
-						outModelStr.push(' json:",string"`')
-						break;
-
-					case 'int64':
-						outModelStr.push(' json:",string"`')
-						break;
-
-					case 'float64':
-						outModelStr.push(' json:",string"`')
-						break;
-
-					default:
-						outModelStr.push('`')
-						break;
-					}
-				}
-				
-				outStr.push('"' + saveStr + '"')
-				outDbSelectStr.push('d.'+ str[i])
-
-				if(i != str.length - 1){
-					outModelStr.push('\n')
-					outDbSelectStr.push(', ')
-					outStr.push(', ')
-				}
-			}
-
-			console.log('输出模型字符串\n', outModelStr.join(""))
-			console.log('输出数据库查询字段符串\n', outDbSelectStr.join(""))
-			console.log('输出字段字符串\n', outStr.join(""))
-			return
-		}
-
 		// 页面加载时
 		onMounted(() => {
-			dataModelCrossoverTool()
 			// initTableData();
 		});
 		return {

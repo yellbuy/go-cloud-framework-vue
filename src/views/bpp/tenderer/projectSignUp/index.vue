@@ -83,7 +83,7 @@ export default {
 		const kind = route.params.kind || 'bid';
 		const mode = route.params.mode;
 		const isBid = route.params.isBid;
-		const scopeMode = route.params.scopeMode || 0;
+		const scopeMode = route.params.scopeMode || 1;
 		const scopeValue = route.params.scopeValue || 0;
 		const moduleKey = `api_pro_project_${kind}_${mode}`;
 		const { proxy } = getCurrentInstance() as any;
@@ -127,7 +127,7 @@ export default {
 		const onGetTableData = async () => {
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.projectbid.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}

@@ -103,6 +103,17 @@ export default {
         return await http.post(url, data);
     },
 
+    /**
+    * 项目专家信息
+    * @returns 返回接口数据
+    */
+    expertDel: async (data: object) => {
+        const url = `/v1/admin/erp/project/expertdel`;
+        return await http.post(url, data);
+    },
+
+    
+
      /**
     * 监审专家授权
     * @returns 返回接口数据

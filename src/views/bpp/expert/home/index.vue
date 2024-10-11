@@ -7,22 +7,22 @@
 						<img :src="getUserInfos.avatar" />
 						<div class="ml20 p5">
 							<div class="mt12">
-								<div class="font18">{{ currentTime }}，{{ tenant.Name || getUserInfos.realname || getUserInfos.account }}！</div>
+								<div class="font18">{{ state.currentTime }}，{{ state.tenant.Name || getUserInfos.realname || getUserInfos.account }}！</div>
 								<div class="home-card-first-right-msg mt6">招采方</div>
 							</div>
 						</div>
 					</div>
-					<div class="ml10 mt50" v-no-auth:[moduleKey]="'btn.Update'">
-						<el-alert title="待实名认证！请进行实名认证" type="warning" v-if="tenant.State == 0" :closable="false"></el-alert>
-						<el-alert title="实名认证已成功" type="success" v-else-if="tenant.State == 1" :closable="false"></el-alert>
-						<el-alert title="实名认证未通过" type="danger" v-else-if="tenant.State == -1" :closable="false"></el-alert>
+					<div class="ml10 mt50" v-no-auth:[state.moduleKey]="'btn.Update'">
+						<el-alert title="待实名认证！请进行实名认证" type="warning" v-if="state.tenant.State == 0" :closable="false"></el-alert>
+						<el-alert title="实名认证已成功" type="success" v-else-if="state.tenant.State == 1" :closable="false"></el-alert>
+						<el-alert title="实名认证未通过" type="danger" v-else-if="state.tenant.State == -1" :closable="false"></el-alert>
 					</div>
-					<div class="ml10 mt50" v-auth:[moduleKey]="'btn.Update'">
-						<el-button type="warning" @click="onGotoEdit" size="default" v-if="tenant.State == 0">待实名认证！点击立即去进行实名认证</el-button>
-						<el-button type="success" @click="onGotoEdit" size="default" v-else-if="tenant.State == 1" plain
+					<div class="ml10 mt50" v-auth:[state.moduleKey]="'btn.Update'">
+						<el-button type="warning" @click="onGotoEdit" size="default" v-if="state.tenant.State == 0">待实名认证！点击立即去进行实名认证</el-button>
+						<el-button type="success" @click="onGotoEdit" size="default" v-else-if="state.tenant.State == 1" plain
 							>已实名认证！点击去更新实名认证信息</el-button
 						>
-						<el-button type="danger" @click="onGotoEdit" size="default" v-else-if="tenant.State == 2"
+						<el-button type="danger" @click="onGotoEdit" size="default" v-else-if="state.tenant.State == 2"
 							>实名认证未通过！点击立即重新进行实名认证</el-button
 						>
 					</div>
@@ -72,7 +72,7 @@
 		<el-row :gutter="15" class="mb15">
 			<el-col :xs="24" :sm="14" :md="14" :lg="16" :xl="16" class="home-warning-media">
 				<el-card shadow="hover" header="进行中的项目" class="home-warning-card">
-					<el-table :data="tableData.data" style="width: 100%" stripe>
+					<el-table :data="state.tableData.data" style="width: 100%" stripe>
 						<el-table-column prop="date" :label="$t('message.table.th1')"></el-table-column>
 						<el-table-column prop="name" :label="$t('message.table.th2')"></el-table-column>
 						<el-table-column prop="address" :label="$t('message.table.th3')"></el-table-column>
@@ -83,7 +83,7 @@
 				<el-card shadow="hover" :header="$t('message.card.title4')">
 					<div class="home-dynamic">
 						<el-scrollbar>
-							<div class="home-dynamic-item" v-for="(v, k) in activitiesList" :key="k">
+							<div class="home-dynamic-item" v-for="(v, k) in state.activitiesList" :key="k">
 								<div class="home-dynamic-item-left">
 									<div class="home-dynamic-item-left-time1 mb5">{{ v.time1 }}</div>
 									<div class="home-dynamic-item-left-time2">{{ v.time2 }}</div>
@@ -107,7 +107,7 @@
 		<el-row :gutter="15" class="mb15">
 			<el-col :xs="24" :sm="14" :md="14" :lg="16" :xl="16" class="home-warning-media">
 				<el-card shadow="hover" header="已参与项目" class="home-warning-card">
-					<el-table :data="tableData.data" style="width: 100%" stripe>
+					<el-table :data="state.tableData.data" style="width: 100%" stripe>
 						<el-table-column prop="date" :label="$t('message.table.th1')"></el-table-column>
 						<el-table-column prop="name" :label="$t('message.table.th2')"></el-table-column>
 						<el-table-column prop="address" :label="$t('message.table.th3')"></el-table-column>
@@ -118,7 +118,7 @@
 				<el-card shadow="hover" :header="$t('message.card.title4')">
 					<div class="home-dynamic">
 						<el-scrollbar>
-							<div class="home-dynamic-item" v-for="(v, k) in activitiesList" :key="k">
+							<div class="home-dynamic-item" v-for="(v, k) in state.activitiesList" :key="k">
 								<div class="home-dynamic-item-left">
 									<div class="home-dynamic-item-left-time1 mb5">{{ v.time1 }}</div>
 									<div class="home-dynamic-item-left-time2">{{ v.time2 }}</div>
@@ -149,7 +149,7 @@
 				<el-card shadow="hover" :header="$t('message.card.title2')">
 					<div class="home-monitor">
 						<div class="flex-warp">
-							<div class="flex-warp-item" v-for="(v, k) in environmentList" :key="k">
+							<div class="flex-warp-item" v-for="(v, k) in state.environmentList" :key="k">
 								<div class="flex-warp-item-box">
 									<i :class="v.icon" :style="{ color: v.iconColor }"></i>
 									<span class="pl5">{{ v.label }}</span>
@@ -168,103 +168,117 @@
 				</el-card>
 			</el-col>
 		</el-row>
+		<el-dialog v-model="state.isShowDialog" width="50%">
+			<h>是否签到</h>
+			<template #footer>
+				<span class="dialog-footer">
+					<el-button type="primary" @click="onModelSave">签到</el-button>
+				</span>
+			</template>
+		</el-dialog>
 	</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ElMessageBox, ElMessage } from 'element-plus';
 import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { formatAxis } from '/@/utils/formatTime';
-export default {
-	name: 'admin',
-	setup() {
-		const moduleKey = 'api_sys_home_alias';
-		const router = useRouter();
-		console.debug('router：', router.currentRoute.value);
-		//console.debug("route:",$route)
-		const { proxy } = getCurrentInstance() as any;
-		const store = useStore();
-		const state = reactive({
-			moduleKey: moduleKey,
-			tenant: {},
-			tableData: {
-				data: [
-					{
-						date: '2016-05-02',
-						name: '1号实验室',
-						address: '烟感2.1%OBS/M',
-					},
-					{
-						date: '2016-05-04',
-						name: '2号实验室',
-						address: '温度30℃',
-					},
-					{
-						date: '2016-05-01',
-						name: '3号实验室',
-						address: '湿度57%RH',
-					},
-				],
+
+const moduleKey = 'api_sys_home_alias';
+const router = useRouter();
+console.debug('router：', router.currentRoute.value);
+//console.debug("route:",$route)
+const { proxy } = getCurrentInstance() as any;
+const store = useStore();
+const state = reactive({
+	moduleKey: moduleKey,
+	isShowDialog: true,
+	tenant: {},
+	tableData: {
+		data: [
+			{
+				date: '2016-05-02',
+				name: '1号实验室',
+				address: '烟感2.1%OBS/M',
 			},
-			myCharts: [],
-		});
-		const onGotoEdit = () => {
-			router.push(`/bpp/home/tenantEdit/bpp`);
-		};
-		// 获取用户信息 vuex
-		const getUserInfos = computed(() => {
-			return store.state.userInfos.userInfos;
-		});
-		// 当前时间提示语
-		const currentTime = computed(() => {
-			return formatAxis(new Date());
-		});
-
-		const loadTenant = async () => {
-			const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
-			if (res.errcode == 0) {
-				state.tenant = res.data;
-			}
-		};
-
-		// 批量设置 echarts resize
-		const initEchartsResizeFun = () => {
-			nextTick(() => {
-				for (let i = 0; i < state.myCharts.length; i++) {
-					state.myCharts[i].resize();
-				}
-			});
-		};
-		// 批量设置 echarts resize
-		const initEchartsResize = () => {
-			window.addEventListener('resize', initEchartsResizeFun);
-		};
-		// 页面加载时
-		onMounted(() => {
-			initEchartsResize();
-			loadTenant();
-		});
-		// 由于页面缓存原因，keep-alive
-		onActivated(() => {
-			initEchartsResizeFun();
-		});
-		// 监听 vuex 中的 tagsview 开启全屏变化，重新 resize 图表，防止不出现/大小不变等
-		watch(
-			() => store.state.tagsViewRoutes.isTagsViewCurrenFull,
-			() => {
-				initEchartsResizeFun();
-			}
-		);
-
-		return {
-			onGotoEdit,
-			getUserInfos,
-			currentTime,
-			...toRefs(state),
-		};
+			{
+				date: '2016-05-04',
+				name: '2号实验室',
+				address: '温度30℃',
+			},
+			{
+				date: '2016-05-01',
+				name: '3号实验室',
+				address: '湿度57%RH',
+			},
+		],
 	},
+	myCharts: [],
+});
+const onGotoEdit = () => {
+	router.push(`/bpp/home/tenantEdit/bpp`);
 };
+// 获取用户信息 vuex
+const getUserInfos = computed(() => {
+	return store.state.userInfos.userInfos;
+});
+// 当前时间提示语
+const currentTime = computed(() => {
+	return formatAxis(new Date());
+});
+
+const loadTenant = async () => {
+	const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
+	if (res.errcode == 0) {
+		state.tenant = res.data;
+	}
+};
+
+// 批量设置 echarts resize
+const initEchartsResizeFun = () => {
+	nextTick(() => {
+		for (let i = 0; i < state.myCharts.length; i++) {
+			state.myCharts[i].resize();
+		}
+	});
+};
+// 批量设置 echarts resize
+const initEchartsResize = () => {
+	window.addEventListener('resize', initEchartsResizeFun);
+};
+
+// 签到
+const onModelSave = async () => {
+	try {
+		const res = await proxy.$api.erp.projectexpert.expertIsSignIn();
+		if (res.errcode != 0) {
+			return;
+		}
+		ElMessage('签到成功')
+		state.isShowDialog = false
+	} finally {
+	}
+	return false;
+};
+// 页面加载时
+onMounted(() => {
+	initEchartsResize();
+	loadTenant();
+});
+// 由于页面缓存原因，keep-alive
+onActivated(() => {
+	initEchartsResizeFun();
+});
+// 监听 vuex 中的 tagsview 开启全屏变化，重新 resize 图表，防止不出现/大小不变等
+watch(
+	() => store.state.tagsViewRoutes.isTagsViewCurrenFull,
+	() => {
+		initEchartsResizeFun();
+	}
+);
+
 </script>
 
 <style scoped lang="scss">

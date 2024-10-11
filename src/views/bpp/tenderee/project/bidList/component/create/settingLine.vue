@@ -1,5 +1,5 @@
 <template>
-    <div v-if="state.isShowPage">
+    <div style="width: 100%;" v-if="state.isShowPage">
         <el-tabs v-model="state.activeName" type="card" class="demo-tabs" style="width: 100%;" @tab-change="state.activeName">
             <el-tab-pane label="资格评审" name="zgps">
                 <el-form :model="state.zgTableData.param" label-width="60px" :inline="true" style="margin-bottom: 10px;">
@@ -248,7 +248,12 @@ const closePage = async () => {
 
 //获取评审参数模版列表
 const onGetSettingTableData = async () => {
-    switch (state.activeName) {
+    ElMessageBox.confirm(`确定要恢复默认模板参数吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+        switch (state.activeName) {
         case 'zgps':
             state.zgTableData.data = []
             state.settingTableData.param.kind = 'zgps'
@@ -257,35 +262,36 @@ const onGetSettingTableData = async () => {
             state.jsTableData.data = []
             state.settingTableData.param.kind = 'jsps'
             break
-    }
-	try {
-		const res = await proxy.$api.erp.projectsetting.getListByScope(state.settingTableData.param);
-		if (res.errcode != 0) {
-			return;
-		}
-        state.settingTableData.data = res.data
-        let settingLineForm = {}
-        for (let item of res.data) {
-            settingLineForm = {}
-            settingLineForm.Id = "0"
-            settingLineForm.Kind = item.Kind
-            settingLineForm.State = 0
-            settingLineForm.ProjectSettingId = item.Id
-            settingLineForm.Content = item.Content
-            settingLineForm.Standard = item.Standard
-            settingLineForm.TechnicalMaxScore = item.TechnicalMaxScore
-            switch (item.Kind) {
-            case 'zgps':
-                state.zgTableData.data.push(settingLineForm)
-                break
-            case 'jsps':
-                state.jsTableData.data.push(settingLineForm)
-                break
-            }
-            getScore()
         }
-	} finally {
-	}
+        try {
+            const res = await proxy.$api.erp.projectsetting.getListByScope(state.settingTableData.param);
+            if (res.errcode != 0) {
+                return;
+            }
+            state.settingTableData.data = res.data
+            let settingLineForm = {}
+            for (let item of res.data) {
+                settingLineForm = {}
+                settingLineForm.Id = "0"
+                settingLineForm.Kind = item.Kind
+                settingLineForm.State = 0
+                settingLineForm.ProjectSettingId = item.Id
+                settingLineForm.Content = item.Content
+                settingLineForm.Standard = item.Standard
+                settingLineForm.TechnicalMaxScore = item.TechnicalMaxScore
+                switch (item.Kind) {
+                case 'zgps':
+                    state.zgTableData.data.push(settingLineForm)
+                    break
+                case 'jsps':
+                    state.jsTableData.data.push(settingLineForm)
+                    break
+                }
+                getScore()
+            }
+        } finally {
+        }
+	});
 };
 
 //	删除评审参数
