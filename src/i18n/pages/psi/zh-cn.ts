@@ -2,6 +2,9 @@
 export default {
 	router: {
 		warehouse: '仓库管理',
+		product: '商品管理',
+		unit: '商品单位',
+		entity: '往来单位',
 	},
 	case: {
 		no: '案件编号',

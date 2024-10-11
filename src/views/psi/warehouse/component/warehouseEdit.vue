@@ -2,68 +2,81 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
-				<el-row :gutter="0"> 
+				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="类别名称" prop="Name">
+						<el-form-item label="仓库名称" prop="Name">
 							<el-input
 								v-model="ruleForm.Name"
-								placeholder="请输入"/>
+								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="图标" prop="GoodsImg">
+						<el-form-item label="仓库编码" prop="Code">
 							<el-input
-								v-model="ruleForm.GoodsImg"
-								placeholder="请输入"/>
+								v-model="ruleForm.Code"
+								placeholder="请输入">
+							</el-input> 
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="0"> 
+				
+				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="排序号" prop="Order">
-							<el-input-number
-								v-model.number="ruleForm.Order"
-								size="small"
-								controls-position="right"
-								placeholder="请输入"
-								@change="handleChange"/>
+						<el-form-item label="仓库类别" prop="CategoryId">
+							<el-tree-select
+								v-model="ruleForm.CategoryId"
+								placeholder="请选择仓库类别"
+								default-expand-all
+								node-key="Id"
+								:value-key="Id"
+								:current-node-key="ruleForm.CategoryId"
+								:data="categoryList"
+								:props="{ label: 'Name', value: 'Id', children: 'Children' }"
+								check-strictly
+							/>
 						</el-form-item>
+						
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="状态" prop="SupplierState">
+						<el-form-item label="状态" prop="State">
 							<el-switch
-								v-model.number="ruleForm.SupplierState"
+								v-model="ruleForm.State"
+								inline-prompt
+								width="50"
 								active-text="启用"
 								inactive-text="禁用"
 								:active-value="1"
-								:inactive-value="0"/>				
+								:inactive-value="0"/>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="0"> 
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
-						<el-form-item label="封面图" prop="GoodsPics">
-							<div>
-								<el-upload
-									class="upload-demo"
-									:action="uploadURL"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="onSuccessFile"
-									:on-preview="onPreview"
-									:on-remove="onRemove"
-									:file-list="FilesList"
-									:accept:="`image/png, image/jpeg,image/bmp,image/jpg,application/pdf,application/docx,application/doc,application/xls,application/xlsx`"
-									multiple
-									show-file-list>
-									<template #default>
-										<el-button
-											><el-icon class="el-icon--right"><Upload /></el-icon>上传</el-button>
-									</template>
-								</el-upload>
-							</div>
-							<div>
-								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
-							</div>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="助记符" prop="Pinyin">
+							<el-input
+								v-model="ruleForm.Pinyin"
+								placeholder="请输入">
+							</el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="别名" prop="Alias">
+							<el-input
+								v-model="ruleForm.Alias"
+								placeholder="请输入">
+							</el-input> 
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">	
+						<el-form-item label="备注" prop="Remark" >
+							<el-input
+								v-model="ruleForm.Remark"
+								:rows="3"
+								type="textarea"
+								placeholder="请输入"/>
 						</el-form-item>
 					</el-col>
 				</el-row> 
@@ -76,12 +89,16 @@
 					}}</el-button>
 				</span>
 			</template>
+		</el-dialog>
+		<el-dialog v-model="ImageVisible">
+			<img class="dialog-image" w-full :src="dialogImageUrl" alt="Preview Image" />
 		</el-dialog>		
 	</div>
 </template>
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
+import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -89,7 +106,7 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
-	name: 'categoryEdit',
+	name: 'productEdit',
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 
@@ -97,16 +114,13 @@ export default {
 
 		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
-			console.log('触发图片上传');
 			state.Files.push(file.data.src);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
-			console.log(state.FilesList);
 		};
 
 		const onRemove = (file: UploadFile) => {
-			console.log(file);
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
+			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.Files.length; i++) {
 				if (state.Files[i] == removeUrl) {
 					state.Files.splice(i, 1);
@@ -116,22 +130,16 @@ export default {
 
 		const store = useStore();
 
-		//	获取用户信息
 		const getUserInfos = computed(() => {
 			return store.state.userInfos.userInfos;
 		});
 
 		//	显示表格图片
-		const showImage = (Files: string) => {
-			let fileUrl = '';
-			let filList = Files.split(',');
-			fileUrl = state.httpsText + filList[0];
-			return fileUrl;
-		};
-		
-		const handleChange = (value: number) => {
+		const showImage: UploadProps['onPreview'] = (uploadFile) => {
+			state.dialogImageUrl = uploadFile.url!
+			state.ImageVisible = true
 		}
-
+		
 		const tableData = reactive({
 			data: [],
 			loading: false,
@@ -147,31 +155,21 @@ export default {
 			loading: false,
 			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
+			dialogImageUrl: "",
+			ImageVisible: false,
 			//	表单
 			ruleForm: {
-				Id: '0',
-				Parentid:"0",				
-				Kind: 'product',
-				Name: '',
-				GoodsUnit:'',
-				GoodsSn:'',
-				Order:0,
-				SupplierState:1,
-				GoodsImg:'',
-				SellerNote:'',
-			},
-			tableItem: {
 				Id: '0',				
-				Kind: 'repair',
+				Kind: 'info',
 				Name: '',
-				No: '',
-				Qty: 0,
-				Content:"",
-				Remark: '',
+				Code:'',
+				Pinyin:'',
+				State:1,
+				Pics:'',
+				CategoryId:'0',
 			},
 			dialogVisible: false,
-			goodsUnitList: [],
-			brandList: [],
+			categoryList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
 			Files: [],
@@ -184,14 +182,21 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			GoodsName: [
+			Name: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			GoodsUnit: [
+			Code: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			CategoryId: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -201,30 +206,22 @@ export default {
 		});
 		
 		//	打开弹窗
-		const openDialog = async (kind: string, id: string,parentid:string, disable: boolean) => {
+		const openDialog = async (kind: string, id: string, categoryList:any,categoryId:string, disable: boolean) => {
 			state.Files = [];
 			state.ruleForm.Kind = kind;
-			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
+			state.ruleForm.CategoryId = categoryId;
+			state.categoryList = categoryList;
 			try {
-				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_unit', 0, 2);
-				if (goodsUnits.errcode == 0) {
-					state.goodsUnitList = goodsUnits.data;
-				}else{
-					console.log("error:",goodsUnits.errmsg)
-				}
-				const resBrands = await proxy.$api.common.commondata.getConcreteDataListByScope('vehicle_brand', 0, 2);
-				if (resBrands.errcode == 0) {
-					state.brandList = resBrands.data;
-				}else{
-					console.log("error:",resBrands.errmsg)
-				}
 				state.disable = disable;
-				if (id && id != '0') {
+				if (disable) {
+					state.title = t('message.action.see');
+					getByIdRow(id);
+				} else if (id && id != '0') {
 					getByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
-					state.ruleForm.Id = 0;
-					state.ruleForm.Parentid = parentid;
+					state.ruleForm.Id = '0';
+					state.ruleForm.State=1;
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -235,12 +232,9 @@ export default {
 
 		const getByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.common.category.getById(Id);
+				const res = await proxy.$api.psi.warehouse.getById(Id);
 				if (res.errcode != 0) {
 					return;
-				}
-				if(res.data.EndTime < '2000-01-01'){
-					res.data.EndTime='';
 				}
 				state.ruleForm = res.data;
 			} finally {
@@ -275,7 +269,6 @@ export default {
 			} else {
 				//	下载文件
 				state.dialogVisible = false;
-				//	openWindow(fileurl, { target: "_self" });
 				window.open(fileurl, '_self');
 			}
 		};
@@ -283,11 +276,10 @@ export default {
 		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Kind: 'supplier', StartTime: '' };
 			tableData.data = [];
 			state.loading = false;
 			state.isShowDialog = false;
-			proxy.$parent.onGetMainTableData();
+			proxy.$parent.onGetTableData();
 		};
 
 		//	提交
@@ -296,31 +288,20 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					if (state.Files) {
+						state.ruleForm.Pics = state.Files.join(',');
+					}
 					try {
-						if (state.ruleForm.Id==0){
-							let res = await proxy.$api.common.category.insert(state.ruleForm);
-								if (res.errcode == 0) {
+						const res = await proxy.$api.psi.warehouse.save(state.ruleForm);
+						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
 							} else {
 								proxy.$refs.ruleFormRef.resetFields();
 								state.ruleForm.Id = 0;
 							}
-							proxy.$parent.onGetMainTableData();
+							proxy.$parent.onGetTableData();
 						}
-						}else{
-							let res = await proxy.$api.common.category.update(state.ruleForm);
-							if (res.errcode == 0) {
-							if (isCloseDlg) {
-								closeDialog();
-							} else {
-								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id = 0;
-							}
-							proxy.$parent.onGetMainTableData();
-						}
-						}
-						
 					} finally {
 						state.loading = false;
 					}
@@ -330,7 +311,26 @@ export default {
 				}
 			});
 		};
-		
+
+		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
+			if (
+				rawFile.type !== 'image/jpeg' &&
+				rawFile.type !== 'image/jpg' &&
+				rawFile.type !== 'image/png' &&
+				rawFile.type !== 'image/ico' &&
+				rawFile.type !== 'image/bmp' &&
+				rawFile.type !== 'image/gif' &&
+				rawFile.type !== 'image/svg'
+			) {
+				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
+				return false;
+			} else if (rawFile.size / 1024 / 1024 > 10) {
+				ElMessage.error('图片大小不能超过10MB!');
+				return false;
+			}
+			return true;
+		};
+
 		const { dateFormatYMD } = commonFunction();
 
 		//	页面加载时
@@ -345,6 +345,7 @@ export default {
 			onSuccessFile,
 			onPreview,
 			onRemove,
+			onBeforeImageUpload,
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
@@ -352,7 +353,6 @@ export default {
 			rules,
 			token,
 			onSubmit,
-            handleChange,
 			...toRefs(state),
 		};
 	},

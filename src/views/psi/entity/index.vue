@@ -127,10 +127,10 @@
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" fixed />
-						<el-table-column prop="Name" label="仓库名称" width="120" show-overflow-tooltip fixed />
-						<el-table-column prop="Code" label="仓库编码" width="90" show-overflow-tooltip />
+						<el-table-column prop="Name" label="往来单位名称" width="130" show-overflow-tooltip fixed />
+						<el-table-column prop="Code" label="往来单位编码" width="110" show-overflow-tooltip />
 						<el-table-column prop="Pinyin" label="助记符" width="90" show-overflow-tooltip />
-						<el-table-column prop="Alias" label="别名" width="90" />
+						<el-table-column prop="Alias" label="别名" width="100" />
 						
 						<el-table-column prop="State" label="状态" width="80" align="center" show-overflow-tooltip>
 							<template #default="scope">
@@ -139,7 +139,7 @@
 									inline-prompt
 									:width="46"
 									v-auth:[moduleKey]="'btn.Edit'"
-									@change="proxy.$api.common.table.updateById('psi_product', 'State', scope.row.Id, scope.row.State)"
+									@change="proxy.$api.common.table.updateById('psi_entity', 'State', scope.row.Id, scope.row.State)"
 									:active-text="$t('message.action.enable')"
 									:inactive-text="$t('message.action.disable')"
 									:active-value="1"
@@ -155,8 +155,8 @@
 							<template #header>
 								<el-button
 									type="text"
-									v-if="mainTableData.data"
-									@click="proxy.$api.common.table.update('psi_product', 'Order', mainTableData.data || [], 0)"
+									v-if="tableData.data"
+									@click="proxy.$api.common.table.update('psi_entity', 'Order', tableData.data || [], 0)"
 									v-auth:[moduleKey]="'btn.Edit'"
 								>
 									<el-icon>
@@ -164,7 +164,7 @@
 									</el-icon>
 									&#8197;排序{{ $t('message.action.update') }}
 								</el-button>
-								<span v-no-auth:[moduleKey]="'btn.CategoryEdit'">排序</span>
+								<span v-no-auth:[moduleKey]="'btn.Edit'">排序</span>
 							</template>
 							<template #default="scope">
 								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'">
@@ -212,10 +212,10 @@ import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import cateDlg from '../component/categoryEdit.vue';
-import childDlg from './component/productEdit.vue';
+import childDlg from './component/entityEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
-	name: 'productList',
+	name: 'entityList',
 	components: { childDlg, cateDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -223,13 +223,13 @@ export default {
 		const route = useRoute();
 
 		const kind = route.params.kind;
-		const categoryKind=`product_${kind}`;
+		const categoryKind=`entity_${kind}`;
 
 		const scopeMode = route.params.scopeMode || 0;
 
 		const scopeValue = route.params.scopeValue || 0;
 
-		const moduleKey = `api_psi_product`;
+		const moduleKey = `api_psi_entity`;
 
 		const childDlgRef = ref();
 
@@ -347,7 +347,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.psi.product.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.psi.entity.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -366,7 +366,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.psi.product.delete(Id);
+					const res = await proxy.$api.psi.entity.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}

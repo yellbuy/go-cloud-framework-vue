@@ -1,105 +1,180 @@
 <template>
-	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
+	<div class="psi-edit-product-container">
+		<el-dialog :title="title" v-model="isShowDialog" width="90%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="产品名称" prop="GoodsName">
-							<el-input
-								v-model="ruleForm.GoodsName"
-								placeholder="请输入" /> 
-						</el-form-item>
+					<el-col :xs="24" :sm="18" :md="18" :lg="18" class="mb20">
+						<el-row :gutter="0">
+							<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb20">
+								<el-form-item label="产品名称" prop="Name">
+									<el-input
+										v-model="ruleForm.Name"
+										placeholder="请输入" /> 
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb20">
+								<el-form-item label="产品编码" prop="Code">
+									<el-input
+										v-model="ruleForm.Code"
+										placeholder="请输入">
+									</el-input> 
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb20">
+								<el-form-item label="助记符" prop="Pinyin">
+									<el-input
+										v-model="ruleForm.Pinyin"
+										placeholder="请输入">
+									</el-input> 
+								</el-form-item>
+							</el-col>
+						</el-row>
+						<el-row :gutter="0">
+							<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb20">
+								<el-form-item label="别名" prop="Alias">
+									<el-input
+										v-model="ruleForm.Alias"
+										placeholder="请输入">
+									</el-input> 
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb20">
+								<el-form-item label="产品类别" prop="CategoryId">
+									<el-tree-select
+										v-model="ruleForm.CategoryId"
+										placeholder="请选择产品类别"
+										default-expand-all
+										node-key="Id"
+										:value-key="Id"
+										:current-node-key="ruleForm.CategoryId"
+										:data="categoryList"
+										:props="{ label: 'Name', value: 'Id', children: 'Children' }"
+										check-strictly
+									/>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb20">
+								<el-form-item label="状态" prop="State">
+									<el-switch
+										v-model.number="ruleForm.State"
+										inline-prompt
+										width="50"
+										active-text="启用"
+										inactive-text="禁用"
+										:active-value="1"
+										:inactive-value="0"/>				
+								</el-form-item>
+							</el-col>
+						</el-row>
+						<el-row :gutter="0">
+							<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb20">
+								<el-form-item label="产地" prop="ProductOrigin">
+									<el-input
+										v-model="ruleForm.ProductOrigin"
+										placeholder="请输入">
+									</el-input> 
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb20">
+								<el-form-item label="规格" prop="ProductSpec">
+									<el-input
+										v-model="ruleForm.ProductSpec"
+										placeholder="请输入">
+									</el-input> 
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="8" :md="8" :lg="8" class="mb20">
+								<el-form-item label="型号" prop="ProductModel">
+									<el-input
+										v-model="ruleForm.ProductModel"
+										placeholder="请输入">
+									</el-input> 
+								</el-form-item>
+							</el-col>
+						</el-row>
+						<el-row :gutter="0">
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
+								<el-form-item label="备注" prop="Remark">
+									<el-input
+										v-model="ruleForm.Remark"
+										placeholder="请输入">
+									</el-input> 
+								</el-form-item>
+							</el-col>
+						</el-row>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="产品编码" prop="GoodsSn">
-							<el-input
-								v-model="ruleForm.GoodsSn"
-								placeholder="请输入">
-							</el-input> 
-						</el-form-item>
+					<el-col :xs="24" :sm="6" :md="6" :lg="6" class="mb20">
+						<el-row :gutter="0">
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
+								<el-form-item label="商品图片" prop="Files">
+									<div style="width: 50%">
+										<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
+											:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+											:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
+											:on-preview="showImage" :before-upload="onBeforeImageUpload">
+											<template #default>
+												<el-icon>
+													<plus />
+												</el-icon>
+											</template>
+										</el-upload>
+									</div>
+									<div>
+										<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
+									</div> 
+								</el-form-item>
+							</el-col>
+						</el-row>
 					</el-col>
 				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="产品单位" prop="GoodsUnit">
-							<el-select
-								v-model="ruleForm.GoodsUnit"
-								class="m-2"
-								placeholder="请选择"
-								size="small">
-    							<el-option
-									v-for="item in goodsUnitList"
-									:key="item.Id"
-									:label="item.Name"
-									:value="item.Name"/>
-  							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="产品类别" prop="CategoryId">
-							<el-select
-								v-model="ruleForm.CategoryId"
-								class="m-2"
-								placeholder="请选择"
-								size="small">
-    							<el-option
-									v-for="item in CategoryList"
-									:key="item.Id"
-									:label="item.Name"
-									:value="item.Id"/>
-  							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="助记符" prop="Piny">
-							<el-input
-								v-model="ruleForm.Piny"
-								placeholder="请输入" /> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="状态" prop="SupplierState">
-							<el-switch
-								v-model="ruleForm.SupplierState"
-								active-text="有效"
-								inactive-text="停用"
-								:active-value="1"
-								:inactive-value="0"/>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
-						<el-form-item label="商品图片" prop="Files">
-							<div style="width: 50%">
-								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
-									:on-preview="showImage" :before-upload="onBeforeImageUpload">
-									<template #default>
-										<el-icon>
-											<plus />
-										</el-icon>
-									</template>
-								</el-upload>
-							</div>
-							<div>
-								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
-							</div> 
-						</el-form-item>
-					</el-col>
-				</el-row>
+				
+				
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">	
-						<el-form-item label="备注" prop="SellerNote" >
-							<el-input
-								v-model="ruleForm.SellerNote"
-								:rows="3"
-								type="textarea"
-								placeholder="请输入"/>
-						</el-form-item>
+						<el-tabs type="border-card">
+							<el-tab-pane label="单位价格">
+								<el-table :data="tableData" style="width: 100%">
+									<el-table-column label="Date" width="180">
+									<template #default="scope">
+										<div style="display: flex; align-items: center">
+										<el-icon><timer /></el-icon>
+										<span style="margin-left: 10px">{{ scope.row.date }}</span>
+										</div>
+									</template>
+									</el-table-column>
+									<el-table-column label="Name" width="180">
+									<template #default="scope">
+										<el-popover effect="light" trigger="hover" placement="top" width="auto">
+										<template #default>
+											<div>name: {{ scope.row.name }}</div>
+											<div>address: {{ scope.row.address }}</div>
+										</template>
+										<template #reference>
+											<el-tag>{{ scope.row.name }}</el-tag>
+										</template>
+										</el-popover>
+									</template>
+									</el-table-column>
+									<el-table-column label="Operations">
+									<template #default="scope">
+										<el-button size="small" @click="handleEdit(scope.$index, scope.row)">
+										Edit
+										</el-button>
+										<el-button
+										size="small"
+										type="danger"
+										@click="handleDelete(scope.$index, scope.row)"
+										>
+										Delete
+										</el-button>
+									</template>
+									</el-table-column>
+								</el-table>
+							</el-tab-pane>
+							<el-tab-pane label="条码">
+
+							</el-tab-pane>
+						</el-tabs>
 					</el-col>
 				</el-row> 
 			</el-form>
@@ -182,7 +257,7 @@ export default {
 			//	表单
 			ruleForm: {
 				Id: '0',				
-				Kind: 'repair',
+				Kind: 'info',
 				GoodsName: '',
 				GoodsUnit:'',
 				GoodsSn:'',
@@ -193,10 +268,11 @@ export default {
 				CategoryId:'',
 				Name:'',
 				GoodsPics:'',
+				ProductPrice:[{Id:"0",Name:"基本单位"}]
 			},
 			tableItem: {
 				Id: '0',				
-				Kind: 'repair',
+				Kind: 'info',
 				Name: '',
 				No: '',
 				Qty: 0,
@@ -205,8 +281,8 @@ export default {
 				Files: '',
 			},
 			dialogVisible: false,
-			GoodsTypeList: [],
-			CategoryList:[],
+			goodsTypeList: [],
+			categoryList:[],
 			goodsUnitList: [],
 			brandList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
@@ -221,14 +297,14 @@ export default {
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			GoodsName: [
+			Name: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			GoodsSn: [
+			CategoryId: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -245,21 +321,17 @@ export default {
 		});
 		
 		//	打开弹窗
-		const openDialog = async (kind: string, id: string, disable: boolean,categoryId:string) => {
+		const openDialog = async (kind: string, id: string, categoryList:any,categoryId:string, disable: boolean) => {
 			state.Files = [];
 			state.ruleForm.Kind = kind;
 			state.ruleForm.CategoryId = categoryId;
+			state.categoryList = categoryList;
 			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
-				const res = await proxy.$api.common.category.getHierarchyDataList(kind, 0, 2);
-				if (res.errcode == 0) {
-					state.CategoryList = res.data;
-				}else{
-					console.log("error:",res.errmsg)
-				}
+				
 				const GoodsType = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_type', 0, 2);
 				if (GoodsType.errcode == 0) {
-					state.GoodsTypeList = GoodsType.data;
+					state.goodsTypeList = GoodsType.data;
 				}else{
 					console.log("error:",GoodsType.errmsg)
 				}
@@ -272,13 +344,13 @@ export default {
 				state.disable = disable;
 				if (disable) {
 					state.title = t('message.action.see');
-					GetByIdRow(id);
+					getByIdRow(id);
 				} else if (id && id != '0') {
-					GetByIdRow(id);
+					getByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
-					state.ruleForm.IsExternal = 0;
+					state.ruleForm.State = 1;
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -287,7 +359,7 @@ export default {
 			}
 		};
 
-		const GetByIdRow = async (Id: string) => {
+		const getByIdRow = async (Id: string) => {
 			try {
 				const res = await proxy.$api.wms.goods.getById(Id);
 				if (res.errcode != 0) {
@@ -413,7 +485,7 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
-			GetByIdRow,
+			getByIdRow,
 			onSuccessFile,
 			onPreview,
 			onRemove,

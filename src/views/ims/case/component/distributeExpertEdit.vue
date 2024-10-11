@@ -196,11 +196,11 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, onMounted, getCurrentInstance } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElMessage, ElMessageBox } from 'element-plus';
-import imgList from '/@/components/image/index.vue';
 import checkTag from '/@/components/checkTag/index.vue';
+import imgList from '/@/components/image/index.vue';
 export default {
 	name: 'auditEdit',
 	props: {
