@@ -268,6 +268,7 @@ export default {
 				CategoryId:'',
 				Name:'',
 				GoodsPics:'',
+				ProductPrice:[{Id:"0",Name:"基本单位"}]
 			},
 			tableItem: {
 				Id: '0',				

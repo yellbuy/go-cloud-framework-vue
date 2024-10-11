@@ -4,6 +4,7 @@ export default {
 		warehouse: 'warehouse',
 		product: 'product',
 		unit: 'product unit',
+		entity: 'entity',
 	},
 	case: {
 		no: 'no',

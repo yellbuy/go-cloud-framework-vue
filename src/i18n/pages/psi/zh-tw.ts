@@ -4,6 +4,7 @@ export default {
 		warehouse: '仓库管理',
 		product: '商品管理',
 		unit: '商品单位',
+		entity: '往来单位',
 	},
 	case: {
 		no: 'no',
