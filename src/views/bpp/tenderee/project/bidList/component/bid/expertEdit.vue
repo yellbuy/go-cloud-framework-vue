@@ -195,6 +195,7 @@ const onModelDel = (id: string) => {
 				return;
 			}
 			getProjectExpertList();
+			ElMessage('删除成功')
 		} finally {
 		}
 		return false;

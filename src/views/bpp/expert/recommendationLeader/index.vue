@@ -73,10 +73,10 @@ const state: any = reactive({
 		total: 0,
 		loading: false,
 		param: {
+			projectId: '',
 			current: 1,
 			pageSize: 20,
-			projectId: '',
-			roles: 1,
+			roles: 0,
 		},
 	},
 });

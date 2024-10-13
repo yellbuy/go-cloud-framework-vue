@@ -211,7 +211,7 @@
 				</el-col>
 			</el-row>
 		</div>
-		<div v-else-if="tabIndex==1">
+		<div v-else-if="state.tabIndex==1">
 			<div class="text-center">
 				<el-steps style="max-width: 720px;margin-left: auto;margin-right:auto;" :active="state.stepIndex" finish-status="finish" align-center>
 					<el-step title="上传商务文件" />
@@ -224,7 +224,7 @@
 			<el-divider border-style="dashed" />			
 			<el-row>
 				<el-col :span="24" >
-					<div v-if="stepIndex==0">
+					<div v-if="state.stepIndex==0">
 						<el-table :data="state.ProjectCompanyLineTableData.data" v-loading="state.ProjectCompanyLineTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" />
 							<el-table-column prop="Name" label="商务文件" width="350">
@@ -308,7 +308,7 @@
 							<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
 						</p>						
 					</div>		
-					<div v-else-if="stepIndex==2">
+					<div v-else-if="state.stepIndex==2">
 						<el-table :data="state.ProjectCompanyLineTableData.data" v-loading="state.ProjectCompanyLineTableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" />
 							<el-table-column prop="Name" label="其他文件" width="350">
@@ -351,7 +351,7 @@
 							<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
 						</p>					
 					</div>	
-					<div v-else-if="stepIndex==3">
+					<div v-else-if="state.stepIndex==3">
 						<el-table :data="state.ProjectCompanyLineTableData.data" v-loading="state.ProjectCompanyLineTableData.loading" show-summary style="width: 900px;margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="60" show-overflow-tooltip fixed />
 							<el-table-column prop="No" label="物资编码"  width="100" show-overflow-tooltip fixed/>
@@ -430,7 +430,7 @@
 					<el-button @click="onGoToPrevious" v-if="state.stepIndex>0" type="primary" size="large">
 						<SvgIcon name="fa fa-arrow-left" class="mr3"/>上一步
 					</el-button>
-					<el-button @click="onGoToNext" type="primary" v-if="stepIndex<4" size="large">
+					<el-button @click="onGoToNext" type="primary" v-if="state.stepIndex<4" size="large">
 						<SvgIcon name="fa fa-arrow-right" class="mr3"/>下一步
 					</el-button>
 					<el-button @click="submit" type="primary" v-if="state.stepIndex == 4 && state.projectCompanyData.data.State == 0" size="large">
@@ -655,6 +655,7 @@ const onDelProjectCompanyLineTableData = async (id: Number, select : number) => 
 			}
 			state.ProjectCompanyLineTableData.data = []
 			onGetProjectCompanyLineTableData(select)
+			ElMessage('删除成功')
 		} finally {
 		}
 		return false;
@@ -671,6 +672,7 @@ const onDelProjectCompanyTableData = async () => {
 		try {
 			state.projectCompanyData.data.Files = ""
 			onUpdateProjectCompanyFileData("jjps")
+			ElMessage('删除成功')
 		} finally {
 		}
 		return false;
@@ -767,6 +769,7 @@ const submit = () => {
 		try {
 			onUpdateProjectCompanyFileData("submit");
 			onGoToList(1)
+			ElMessage('提交成功')
 		} finally {
 		}
 		return false;
