@@ -4,59 +4,28 @@
 			<el-col :span="24">
 				<div style="float: left; padding-bottom: 15px;">
 					<el-button type="primary" @click="openDialog">添加人员</el-button>
-					<el-button text bg type="info" @click="state.isShowDialog = true">批量发送秘钥</el-button>
+					<!-- <el-button text bg type="info" @click="state.isShowDialog = true">批量发送秘钥</el-button> -->
 				</div>
 			</el-col>
 		</el-row>
-		<el-card style="margin-top: 20px; margin-left: 10px; margin-right: 10px; background-color: #DAEFFF;" v-for="(item, index) in state.tableData.data" :key="index" :value="item">
-			<el-row>
-				<el-col :span="21">
-					<el-row>
-						<el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-							<el-form-item label="角色名称：" prop="Role">{{item.User.Role}}</el-form-item>
-						</el-col>
-						<el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-							<el-form-item label="评标范围：" prop="BidScope">{{item.User.Remark}}</el-form-item>
-						</el-col>
-						<el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-							<el-form-item label="姓名：" prop="Name">{{item.User.Name}}</el-form-item>
-						</el-col>
-					</el-row>
-					<el-row>
-						<el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-							<el-form-item label="部门职位：" prop="Department">{{item.User.Position}}</el-form-item>
-						</el-col>
-						<el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-							<el-form-item label="秘钥状态：" prop="KeyStatus">
-								<a v-if="item.KeyStatus===0">已发送</a>
-								<a v-else-if="item.KeyStatus===1">未发送</a>
-							</el-form-item>
-						</el-col>
-						<el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-							<el-form-item label="联系电话：" prop="Phone">{{item.User.Mobile}}</el-form-item>
-						</el-col>
-					</el-row>
-				</el-col>
-				<el-col :span="3" style="display: flex; align-items: center; justify-content: end;">
-					<span>
-						<el-button type="primary" @click="onModelDel(index)">删除</el-button>
-						<el-button type="primary">发送秘钥</el-button>
-					</span>
-				</el-col>
-			</el-row>
-		</el-card>
-		<el-pagination
-			small
-			@size-change="onHandleSizeChange"
-			@current-change="onHandleCurrentChange"
-			class="mt15"
-			:page-sizes="[10, 20, 30]"
-			v-model:current-page="state.tableData.param.current"
-			background
-			v-model:page-size="state.tableData.param.pageSize"
-			layout="->, total, sizes, prev, pager, next, jumper"
-			:total="state.tableData.total">
-		</el-pagination>
+		<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-180)" border stripe highlight-current-row>
+			<el-table-column type="index" label="序号" align="right" width="60" show-overflow-tooltip fixed />
+			<el-table-column prop="Name" label="专家姓名" width="150" show-overflow-tooltip fixed/>
+			<el-table-column prop="Mobile" label="联系电话" width="150" align="right" show-overflow-tooltip/>
+			<el-table-column prop="Roles" label="角色名称" width="150" show-overflow-tooltip>
+				<template #default="scope">
+					<span v-if="scope.row.Roles==0">评审</span>
+					<span v-else-if="scope.row.Roles==1">监审</span>
+				</template>
+			</el-table-column>
+			<el-table-column prop="Position" label="部门职位" width="150" show-overflow-tooltip/>
+			<el-table-column prop="Remark" label="评标范围" show-overflow-tooltip/>
+			<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(70)" fixed="right">
+				<template #default="scope">
+					<el-button type="danger" @click="onModelDel(scope.row.Id)">删除</el-button>
+				</template>
+			</el-table-column>
+		</el-table>
 		<el-dialog :title="state.title" v-model="state.isShowDialog" width="25%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" label-suffix="：" size="small" label-width="130px" v-loading="state.loading">
 				<el-form-item label="角色名称" prop="Roles">
@@ -65,16 +34,16 @@
 						<el-radio :label="1">监审</el-radio>
 					</el-radio-group>
 				</el-form-item>
-				<el-form-item label="专家姓名" prop="NameId">
-					<el-select v-model="state.ruleForm.NameId" class="m-2" placeholder="请选择专家姓名" clearable>
-						<el-option v-for="(item, index) in state.expertList" :key="index" :label="item.Name" :value="item.Id"/>
+				<el-form-item label="专家姓名" prop="ExpertUid">
+					<el-select v-model="state.ruleForm.ExpertUid" class="m-2" placeholder="请选择专家姓名" clearable>
+						<el-option v-for="(item, index) in state.expertTableData.data" :key="index" :label="item.Name" :value="item.Id"/>
 					</el-select>
 				</el-form-item>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
-					<el-button text bg type="primary" @click="onSubmit()">{{ $t('message.action.save') }}</el-button>
+					<el-button type="info" @click="closeDialog">取消</el-button>
+					<el-button type="primary" @click="onSubmit">保存</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -96,33 +65,39 @@ const store = useStore();
 const state: any = reactive({
 	project: store.state.project.project,
 	isShowPage: false,
-	vipList: [],
-	expertList: [],
 	title: '添加人员',
-	projectForm: {},
+	expertTableData: {
+		data: [],
+		loading: false,
+		param: {
+			isExternal: 1, 
+			pageIndex: 0, 
+			pageSize: 10000
+		},
+	},
 	tableData: {
 		data: [],
-		total: 0,
 		loading: false,
 		param: {
 			current: 1,
 			pageSize: 20,
-			projectId: "0",
-			categoryId: null,
+			projectId: '0',
 		},
 	},
 	isShowDialog: false,
+	loading: false,
 	ruleForm: {
+		ProjectId: '',
+		ExpertUid: '',
 		Roles: null,
-		NameId: '',
+		Kind: 'bid'
 	},
-	state: true,
 });
 
 const rules = reactive({
 	isShowDialog: false,
 	Roles: [{required: true, message: t('message.validRule.required'), trigger: 'blur',},],
-	NameId: [{required: true, message: t('message.validRule.required'), trigger: 'blur',},],
+	ExpertUid: [{required: true, message: t('message.validRule.required'), trigger: 'blur',},],
 });
 
 state.tableData.param.pageIndex = computed(() => {
@@ -143,13 +118,16 @@ const closePage = async () => {
 }
 
 //	获取该项目专家列表
-const getExpertVipList = async () => {
+const getProjectExpertList = async () => {
 	state.tableData.loading = true
 	try {
-		const res = await proxy.$api.erp.project.expertList(state.project.Id);
-		if (res.errcode == 0) {
-			state.tableData.data = res.data;
+		state.tableData.param.projectId = state.project.Id
+		const res = await proxy.$api.erp.projectexpert.getListByScope("bid", 0, 0, state.tableData.param);
+		if (res.errcode != 0) {
+			return
 		}
+		state.tableData.data = res.data;
+		state.tableData.total = res.total
 	} finally {
 		state.tableData.loading = false
 	}
@@ -157,17 +135,15 @@ const getExpertVipList = async () => {
 
 //	获取专家列表
 const getExpertList = async () => {
-	state.state = false;
-	if (state.project.BeginTime > dateFormat(new Date(), 'YYYY-mm-dd HH:MM:SS') && state.project.State == 0) {
-		state.state = true;
-	}
-	state.tableData.loading = true;
+	state.expertTableData.loading = true;
 	try {
-		const res = await proxy.$api.base.user.getList({isExternal: 1, pageIndex: 0, pageSize: 10000});
-		if (res.errcode == 0) {
-			state.expertList = res.data;
+		const res = await proxy.$api.base.user.getList(state.expertTableData.param);
+		if (res.errcode != 0) {
+			return
 		}
+		state.expertTableData.data = res.data;
 	} finally {
+		state.expertTableData.loading = false;
 	}
 };
 
@@ -178,63 +154,27 @@ const openDialog = async () => {
 };
 
 const closeDialog = () => {
-	state.ruleForm = {Roles: null, NameId: '',},
-	proxy.$refs.ruleFormRef.resetFields();
 	state.loading = false;
 	state.isShowDialog = false;
-
-};
-
-const getAjaxData = () => {
-	let model = {
-		list: [],
-		SupervisionId: '',
-	};
-	for (let item of state.tableData.data) {
-		if (item.State == 0) {
-			model.list.push(item.User.Id);
-		} else {
-			model.SupervisionId = item.User.Id;
-		}
-	}
-	return model;
+	state.ruleForm.ProjectId = '';
+	state.ruleForm.ExpertUid = '',
+	state.ruleForm.Roles = null,
+	state.ruleForm.Kind = 'bid'
+	getProjectExpertList()
 };
 
 const onSubmit = async () => {
 	proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 		if (valid) {
-			let newModel = getAjaxData();
-			//判断当前角色是什么
-			if (state.ruleForm.Roles == 0) {
-				//添加为评审
-				if (state.ruleForm.NameId == newModel.SupervisionId) {
-					//当前专家是监审
-					newModel.SupervisionId = '';
-					newModel.list.push(state.ruleForm.NameId);
-				} else {
-					newModel.list.push(state.ruleForm.NameId);
-				}
-			} else {
-				//添加为监审
-				for (let i = 0; i <= newModel.list.length; i++) {
-					if (newModel.list[i] == state.ruleForm.NameId) {
-						newModel.list.splice(i, 1);
-					}
-				}
-				newModel.SupervisionId = state.ruleForm.NameId;
-			}
-			let model = {
-				projectId: state.project.Id,
-				SupervisionId: newModel.SupervisionId,
-				ExpertIds: newModel.list.toString(),
-			};
 			try {
-				const res = await proxy.$api.erp.project.expertSave(model);
+				state.ruleForm.ProjectId = state.project.Id
+				const res = await proxy.$api.erp.projectexpert.save(state.ruleForm);
 				if (res.errcode != 0) {
+					closeDialog();
 					return;
 				}
 				closeDialog();
-				getExpertVipList();
+				getProjectExpertList();
 			} finally {
 			}
 		} else {
@@ -243,46 +183,30 @@ const onSubmit = async () => {
 	});
 };
 
-const onModelDel = (index: number) => {
+const onModelDel = (id: string) => {
 	ElMessageBox.confirm(`确定要删除这条记录吗?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
-		state.tableData.data.splice(index, 1);
-		let newModel = getAjaxData();
-		let model = {
-			projectId: state.project.Id,
-			SupervisionId: newModel.SupervisionId,
-			ExpertIds: newModel.list.toString(),
-		};
 		try {
-			const res = await proxy.$api.erp.project.expertSave(model);
+			const res = await proxy.$api.erp.projectexpert.delete(id);
 			if (res.errcode != 0) {
 				return;
 			}
-			getExpertList(true);
+			getProjectExpertList();
+			ElMessage('删除成功')
 		} finally {
 		}
 		return false;
 	});
-};
-
-// 分页改变
-const onHandleSizeChange = (val: number) => {
-	state.tableData.param.pageSize = val;
-};
-
-// 分页改变
-const onHandleCurrentChange = (val: number) => {
-	state.tableData.param.current = val;
-};
+}
 
 const { dateFormat } = commonFunction();
 
 // 页面加载时
 onMounted(() => {
-	getExpertVipList()
+	getProjectExpertList()
 });
 
 defineExpose({openPage, closePage})

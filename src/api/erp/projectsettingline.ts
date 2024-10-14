@@ -39,6 +39,16 @@ export default {
     },
 
     /**
+     * 批量更新
+     * @param data 信息
+     * @returns 返回接口数据
+     */
+    muitUpdate: async (data: object) => {
+        const url = `/v1/admin/erp/projectsettinglines`;
+        return await http.post(url, data);
+    },
+
+    /**
      * 批量新增
      * @param data 信息
      * @returns 返回接口数据
