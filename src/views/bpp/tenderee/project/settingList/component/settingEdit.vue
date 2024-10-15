@@ -2,33 +2,15 @@
 	<div class="system-edit-user-container">
 		<el-dialog :title="state.title" v-model="state.isShowDialog" width="40%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="mini" label-width="130px" v-loading="state.loading">
-				<!-- <el-form-item label="评审项" prop="Name">
-					<el-input v-model="state.ruleForm.Name"/>
-				</el-form-item> -->
 				<el-form-item label="评审内容" prop="Content">
 					<el-input v-model="state.ruleForm.Content"/>
 				</el-form-item>
 				<el-form-item label="评审标准" prop="Standard">
 					<el-input v-model="state.ruleForm.Standard" type="textarea"/>
 				</el-form-item>
-				
-				
-				<!-- <el-form-item label="评审结果" v-if="ruleForm.Kind == 'zgps'" prop="TechnicalMaxScore">
-					<el-switch
-							v-model="state.ruleForm.State"
-							inline-prompt
-							active-text="通过"
-							inactive-text="不通过"
-							:active-value="1"
-							:inactive-value="0"
-						/>
-				</el-form-item>				 -->
 				<el-form-item label="最高评分" v-if="state.ruleForm.Kind == 'jsps'" prop="TechnicalMaxScore">
 					<el-input-number v-model="state.ruleForm.TechnicalMaxScore" :min="0" controls-position="right" :precision="1" />
 				</el-form-item>
-				<!-- <el-form-item label="排序：" prop="Order">
-					<el-input-number v-model="state.ruleForm.Order" :min="0" :max="10000000" controls-position="right" :precision="0" /> 
-				</el-form-item> -->
 				<el-form-item label="备注" prop="Remark">
 					<el-input v-model="state.ruleForm.Remark" type="textarea"/>
 				</el-form-item>
@@ -45,6 +27,7 @@
 
 <script setup lang="ts">
 import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { ElMessageBox, ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 
 const { proxy } = getCurrentInstance() as any;
@@ -109,6 +92,7 @@ const onSubmit = () => {
 				if (res.errcode != 0) {
 					return
 				}
+				ElMessage('保存成功')
 				closeDialog();
 				proxy.$parent.onGetZgTableData();
 			} finally {

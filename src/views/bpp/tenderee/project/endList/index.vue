@@ -1,12 +1,12 @@
 <template>
 	<div>
 		<el-card v-if="state.isShowPage">
-			<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
+			<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="85px" :inline="true">
 				<el-form-item label="项目编号">
-					<el-input placeholder="请输入比选编号查询" v-model="state.tableData.param.no" style="width: 150px;"/>
+					<el-input placeholder="请输入关键字" v-model="state.tableData.param.no" style="width: 150px;"/>
 				</el-form-item>
-				<el-form-item label="招标项目">
-					<el-input placeholder="请输入比选项目查询" v-model="state.tableData.param.name" style="width: 150px;"/>
+				<el-form-item label="项目名称">
+					<el-input placeholder="请输入关键字" v-model="state.tableData.param.name" style="width: 150px;"/>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="info" @click="onResetSearch()">
@@ -15,7 +15,7 @@
 						</el-icon>
 						重置
 					</el-button>
-					<el-button type="info" @click="onGetTableData()">
+					<el-button type="primary" @click="onGetTableData()">
 						<el-icon>
 							<Search />
 						</el-icon>
@@ -27,7 +27,7 @@
 			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
 				<el-table-column prop="No" label="项目编号" show-overflow-tooltip fixed/>
-				<el-table-column prop="Name" label="招标项目" show-overflow-tooltip/>
+				<el-table-column prop="Name" label="项目名称" show-overflow-tooltip/>
 				<el-table-column prop="Kind" label="招标类型" show-overflow-tooltip>
 					<template #default="scope">
 						<span v-if="scope.row.ProjectType == 1">公开招标</span>
@@ -122,7 +122,7 @@ const onResetSearch = () => {
 const onGetTableData = async () => {
 	state.tableData.loading = true;
 	try {
-		const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+		const res = await proxy.$api.erp.projectbid.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}

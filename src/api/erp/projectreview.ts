@@ -14,6 +14,20 @@ export default {
         const url = `/v1/admin/erp/projectreview/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
+
+    /**
+     * 获取汇总列表
+     * @param kind 菜单分类
+     * @param scopeMode：模式，0按scopeLevel，多少级有多少个Filter参数；1按scopeKind，始终3个参数，按所在层级不足时填充0
+     * @param scopeValue：层级值，0：当前用户所在层级，1：系统，2：应用，3：租户，4：用户
+     * @param params 要传的参数值
+     * @returns 返回接口数据
+     */
+    getList: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+        const url = `/v1/admin/erp/projectreview/review/${kind}/${scopeMode}/${scopeValue}`;
+        return await http.get(url, params);
+    },
+
      /**
      * 获取列表
      * @param kind 文章分类
@@ -103,7 +117,7 @@ export default {
     * 获取专家汇总信息
     * @returns 返回接口数据
     */
-    expertGather: async (id: number | string,params: object = {}) => {
+    expertGather: async (id: string, params: object = {}) => {
         const url = `v1/admin/erp/projectreview/gather/${id}`;
         return await http.get(url, params);
     },
@@ -111,7 +125,7 @@ export default {
     * 专家提交汇总信息
     * @returns 返回接口数据
     */
-    expertGatherSave: async (id: number | string,data: object) => {
+    expertGatherSave: async (id: string, data: object) => {
         const url = `v1/admin/erp/projectreview/gather/${id}`;
         return await http.post(url, data);
     },
@@ -119,7 +133,7 @@ export default {
     * 专家退回
     * @returns 返回接口数据
     */
-    expertGatherReturn: async (id: number | string,data: object) => {
+    expertGatherReturn: async (id: string, data: object) => {
         const url = `v1/admin/erp/projectreview/return/${id}`;
         return await http.post(url, data);
     },

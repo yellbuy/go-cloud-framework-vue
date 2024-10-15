@@ -70,7 +70,7 @@ const state: any = reactive({
 		data: [],
 		loading: false,
 		param: {
-			isExternal: 1, 
+			isExternal: 0, 
 			pageIndex: 0, 
 			pageSize: 10000
 		},

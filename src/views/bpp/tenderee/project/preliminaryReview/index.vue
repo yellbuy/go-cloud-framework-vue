@@ -2,15 +2,15 @@
 	<div>
 		<el-card v-if="state.isShowPage">
 			<div>
-				<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
-					<el-form-item label="编号">
-						<el-input placeholder="请输入" v-model="state.tableData.param.no" style="width: 150px;"/>
-					</el-form-item>
-					<el-form-item label="供应商名">
-						<el-input placeholder="请输入" v-model="state.tableData.param.companyName" style="width: 150px;"/>
+				<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="85px" :inline="true">
+					<el-form-item label="项目编号">
+						<el-input placeholder="请输入关键字" v-model="state.tableData.param.no" style="width: 150px;"/>
 					</el-form-item>
 					<el-form-item label="项目名称">
-						<el-input placeholder="请输入" v-model="state.tableData.param.projectName" style="width: 150px;"/>
+						<el-input placeholder="请输入关键字" v-model="state.tableData.param.projectName" style="width: 150px;"/>
+					</el-form-item>
+					<el-form-item label="供应商名称">
+						<el-input placeholder="请输入关键字" v-model="state.tableData.param.companyName" style="width: 150px;"/>
 					</el-form-item>
 					<el-form-item label="审核状态">
 						<el-select
@@ -26,13 +26,13 @@
 							<el-icon>
 								<RefreshLeft />
 							</el-icon>
-							{{ $t('message.action.reset') }}
+							重置
 						</el-button>
 						<el-button type="primary" @click="onGetTableData(true)">
 							<el-icon>
 								<Search />
 							</el-icon>
-							&#8197;{{ $t('message.action.search') }}
+							查询
 						</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
@@ -40,9 +40,9 @@
 			</div>
 			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="60" show-overflow-tooltip fixed />
-				<el-table-column prop="No" label="编号" width="150" show-overflow-tooltip fixed/>
-				<el-table-column prop="CompanyName" label="供应商名称" width="300" show-overflow-tooltip fixed/>
-				<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip/>
+				<el-table-column prop="No" label="项目编号" width="150" show-overflow-tooltip fixed/>
+				<el-table-column prop="ProjectName" label="项目名称" width="150" show-overflow-tooltip/>
+				<el-table-column prop="CompanyName" label="供应商名称" show-overflow-tooltip/>
 				<el-table-column prop="BidFiles" label="资料凭证" width="80" show-overflow-tooltip>
 					<template #default="scope">
 						<div style="display: flex; align-items: center; justify-content: center;">
@@ -69,7 +69,7 @@
 				<el-table-column prop="EnsureFiles" label="保证金凭证" width="80" show-overflow-tooltip>
 					<template #default="scope">
 						<div style="display: flex; align-items: center; justify-content: center;">
-							<img :src="baseUrl + scope.row.EnsurePics" alt="保证金凭证图片" width="30" height="30" v-if="scope.row.EnsurePayState == 1" @click="showImage(scope.row.EnsurePics)"/>
+							<img :src="state.baseUrl + scope.row.EnsurePics" alt="保证金凭证图片" width="30" height="30" v-if="scope.row.EnsurePayState == 1" @click="showImage(scope.row.EnsurePics)"/>
 							<span v-else>—</span>
 						</div>
 					</template>

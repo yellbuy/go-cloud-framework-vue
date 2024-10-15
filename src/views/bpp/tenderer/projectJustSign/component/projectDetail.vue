@@ -473,8 +473,8 @@ const state = reactive({
 	ImageVisible: false,
 	dialogVisible: false,
 	myCharts: [],
-	projectId: store.state.project.projectId,
-	projectCompanyId: store.state.project.projectCompanyId,
+	projectId: "0",
+	projectCompanyId: "0",
 	projectForm: {},
 	projectCompanyData: {
 		data: {},
@@ -513,7 +513,9 @@ state.ProjectCompanyLineTableData.param.pageIndex = computed(() => {
 const token = Session.get('token');
 
 // 跳转页面
-const openPage = async () => {
+const openPage = async (data: {}) => {
+	state.projectId = data.ProjectId
+	state.projectCompanyId = data.Id
 	onGetprojectData()
 	onGetprojectCompanyData();
 	onGetBidTableData();
@@ -549,7 +551,7 @@ const onGetprojectData = async () => {
 // 获取公司已报名详细信息
 const onGetprojectCompanyData = async () => {
 	try {
-		const res = await proxy.$api.erp.projectcompany.projectcompany(kind, store.state.project.projectCompanyId);
+		const res = await proxy.$api.erp.projectcompany.projectcompany(kind, state.projectCompanyId);
 		if (res.errcode != 0) {
 			return;
 		}
@@ -562,6 +564,7 @@ const onGetprojectCompanyData = async () => {
 const onGetBidTableData = async () => {
 	state.bidTableData.loading = true;
 	try {
+		state.bidTableData.param.projectId = state.projectId
 		const res = await proxy.$api.erp.projectline.getListByScope(state.bidTableData.param);
 		if (res.errcode != 0) {
 			return;
@@ -578,7 +581,7 @@ const onGetProjectCompanyLineTableData = async (select: string) => {
 	try {
 		state.ProjectCompanyLineTableData.param.kind = select
 		if (select == "jjps") {
-			state.ProjectCompanyLineTableData.param.projectLineId =  '298664702576164898'
+			state.ProjectCompanyLineTableData.param.projectLineId =  ''
 		}else{
 			state.ProjectCompanyLineTableData.param.projectLineId =  ''
 		}
@@ -621,16 +624,17 @@ const onMultiUpdateProjectCompanyLineTableData = async (select: string) => {
 		state.ProjectCompanyLineTableData.param.kind = select
 		for (let i = 0; i < state.ProjectCompanyLineTableData.data.length; i++) {
 			model = {}
-			model.Id = state.ProjectCompanyLineTableData.data[i].Id
-			model.Kind = state.ProjectCompanyLineTableData.data[i].Kind
-			model.Name = state.ProjectCompanyLineTableData.data[i].Name
-			model.Files = state.ProjectCompanyLineTableData.data[i].Files
-			model.ProjectId = state.ProjectCompanyLineTableData.data[i].ProjectId
-			model.ProjectCompanyId = state.ProjectCompanyLineTableData.data[i].ProjectCompanyId
+			model.id = state.ProjectCompanyLineTableData.data[i].Id
+			model.kind = state.ProjectCompanyLineTableData.data[i].Kind
+			model.name = state.ProjectCompanyLineTableData.data[i].Name
+			model.files = state.ProjectCompanyLineTableData.data[i].Files
+			model.projectId = state.ProjectCompanyLineTableData.data[i].ProjectId
+			model.projectCompanyId = state.ProjectCompanyLineTableData.data[i].ProjectCompanyId
 			state.ProjectCompanyLineTableData.list.push(model)
 		}
-		const jsres = await proxy.$api.erp.projectcompanyline.saveMulti(select, state.ProjectCompanyLineTableData.list)
-		if (jsres.errcode != 0) {
+		console.log("测试", state.ProjectCompanyLineTableData.list)
+		const res = await proxy.$api.erp.projectcompanyline.saveMulti(select, state.ProjectCompanyLineTableData.list)
+		if (res.errcode != 0) {
 			return;
 		}
 	} finally {
@@ -773,14 +777,17 @@ const submit = () => {
 		} finally {
 		}
 		return false;
+	}).catch(async () => {
+		onGoToList(1)
+		ElMessage('取消提交')
 	});
 };
 
 //	更新公司报名信息文件表上传的文件
 const onSuccessFile = (file: UploadFile, select: string) => {
 	let model = {}
-	model.ProjectId = store.state.project.projectId
-	model.ProjectCompanyId = state.projectCompanyData.Id
+	model.ProjectId = state.projectId
+	model.ProjectCompanyId = state.projectCompanyId
 	switch (select) {
 		case 'bid':
 			state.projectCompanyData.data.BidPics = file.data.src
@@ -793,16 +800,19 @@ const onSuccessFile = (file: UploadFile, select: string) => {
 		case 'zgps':
 			model.Kind = 'zgps'
 			model.Name = "商务文件"+formatTimestamp(Date.now())
+			model.Files = file.data.src
 			state.ProjectCompanyLineTableData.data.push(model)
 			break;
 		case 'jsps':
 			model.Kind = 'jsps'
 			model.Name = "技术文件"+formatTimestamp(Date.now())
+			model.Files = file.data.src
 			state.ProjectCompanyLineTableData.data.push(model)
 			break;
 		case 'qt':
 			model.Kind = 'qt'
 			model.Name = "其他文件"+formatTimestamp(Date.now())
+			model.Files = file.data.src
 			state.ProjectCompanyLineTableData.data.push(model)
 			break;
 		case 'jjps':

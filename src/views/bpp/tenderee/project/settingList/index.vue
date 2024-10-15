@@ -2,60 +2,43 @@
 	<div class="base-user-container">
 		<el-card shadow="hover">
 			<el-tabs v-model="state.activeName" type="card" class="demo-tabs" @tab-change="onResetSearch">
+				<el-form :model="state.tableData.param" label-suffix="：" label-width="85px" :inline="true">
+					<el-form-item label="评审内容">
+						<el-input placeholder="请输入关键词" v-model="state.tableData.param.content" style="width: 150px;"/>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="info" @click="onResetSearch()">
+							<el-icon>
+								<RefreshLeft />
+							</el-icon>
+							重置
+						</el-button>
+						<el-button type="primary" @click="onGetTableData()">
+							<el-icon>
+								<Search />
+							</el-icon>
+							搜索
+						</el-button>
+						<el-button type="primary" @click="onOpenEditDlg(0)">
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							创建
+						</el-button>
+					</el-form-item>
+					<el-form-item></el-form-item>
+				</el-form>
 				<el-tab-pane label="资格评审" name="zgps">
-					<el-form :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
-						<el-form-item label="评审内容">
-							<el-input placeholder="请输入关键词" v-model="state.tableData.param.content" style="width: 150px;"/>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="info" @click="onResetSearch()">
-								<el-icon>
-									<RefreshLeft />
-								</el-icon>
-								重置
-							</el-button>
-							<el-button type="primary" @click="onGetTableData()">
-								<el-icon>
-									<Search />
-								</el-icon>
-								搜索
-							</el-button>
-							<el-button type="primary" @click="onOpenEditDlg(0)">创建</el-button>
-						</el-form-item>
-					</el-form>
 					<el-table :data="state.tableData.data" style="width: 100%; margin-top: 10px;" v-loading="state.tableData.loading" :height="proxy.$calcMainHeight(-170)" border stripe highlight-current-row>
-						<el-table-column type="index" label="序号" width="70" align="right" show-overflow-tooltip fixed />
-						<!-- <el-table-column prop="Name" label="评审项" width="120" show-overflow-tooltip /> -->
+						<el-table-column type="index" label="序号" width="60" align="right" show-overflow-tooltip fixed />
 						<el-table-column prop="Content" label="评审内容" width="240" show-overflow-tooltip />
 						<el-table-column prop="Standard" label="评审标准" width="300" show-overflow-tooltip />
-						<el-table-column prop="State" label="评分方式" width="120" show-overflow-tooltip>
+						<el-table-column prop="State" label="评分方式" width="150" show-overflow-tooltip>
 							<template #default="scope">
-								<div v-if="scope.row.State === 0" style="display: flex; align-items: center;">
-									<span style="color: green; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-									<span >通过</span>
-								</div>
-								<div v-else-if="scope.row.State === 1" style="display: flex; align-items: center;">
-									<span style="color: red; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-									<span>不通过</span>
-								</div>
+								<el-radio v-model="scope.row.State" disabled :value="0">通过</el-radio>
+								<el-radio v-model="scope.row.State" disabled :value="1">不通过</el-radio>
 							</template>
 						</el-table-column>
-						<!-- <el-table-column prop="Order" label="排序" width="100" align="center">
-							<template #header>
-								<el-button  type="text" v-if="state.tableData.data" 
-									@click="proxy.$api.common.table.update('erp_project_setting','Order', state.tableData.data||[], 0)" v-auth:[moduleKey]="'btn.Edit'">
-									<el-icon>
-										<Edit />
-									</el-icon>
-									&#8197;排序{{ $t('message.action.update') }}
-								</el-button>
-								<span v-no-auth:[moduleKey]="'btn.Edit'">排序</span>
-							</template>
-							<template #default="scope">
-								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'"> </el-input>
-								<span v-no-auth:[moduleKey]="'btn.Edit'">{{scope.row.Order}}</span>
-							</template>
-						</el-table-column> -->
 						<el-table-column prop="Remark" label="备注" show-overflow-tooltip />
 						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" show-overflow-tooltip>
 							<template #default="scope">
@@ -66,26 +49,6 @@
 					</el-table>
 				</el-tab-pane>
 				<el-tab-pane label="技术评审" name="jsps">
-					<el-form :model="state.tableData.param" label-width="60px" :inline="true">
-						<el-form-item label="评审内容">
-							<el-input placeholder="请输入关键词" v-model="state.tableData.param.content" style="width: 150px;"/>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="info" @click="onResetSearch">
-								<el-icon>
-									<RefreshLeft />
-								</el-icon>
-								重置
-							</el-button>
-							<el-button type="info" @click="onGetTableData()">
-								<el-icon>
-									<Search />
-								</el-icon>
-								搜索
-							</el-button>
-							<el-button type="primary" @click="onOpenEditDlg(0)">创建</el-button>
-						</el-form-item>
-					</el-form>
 					<el-table
 						:data="state.tableData.data"
 						style="width: 100%; margin-top: 10px;"
@@ -94,27 +57,10 @@
 						border
 						stripe
 						highlight-current-row>
-						<el-table-column type="index" label="序号" width="70" align="right" show-overflow-tooltip fixed/>
+						<el-table-column type="index" label="序号" width="60" align="right" show-overflow-tooltip fixed/>
 						<el-table-column prop="Content" label="评审内容" width="240" show-overflow-tooltip />
 						<el-table-column prop="Standard" label="评审标准" width="300" show-overflow-tooltip />
-						<el-table-column prop="TechnicalMaxScore" label="最高评分" align="right" width="90" />
-						
-						<!-- <el-table-column prop="Order" label="排序" width="100" align="center">
-							<template #header>
-								<el-button  type="text" v-if="state.jsTableData.data" 
-									@click="proxy.$api.common.table.update('erp_project_setting','Order', state.jsTableData.data||[], 0)" v-auth:[moduleKey]="'btn.Edit'">
-									<el-icon>
-										<Edit />
-									</el-icon>
-									&#8197;排序{{ $t('message.action.update') }}
-								</el-button>
-								<span v-no-auth:[moduleKey]="'btn.Edit'">排序</span>
-							</template>
-							<template #default="scope">
-								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'"> </el-input>
-								<span v-no-auth:[moduleKey]="'btn.Edit'">{{scope.row.Order}}</span>
-							</template>
-						</el-table-column> -->
+						<el-table-column prop="TechnicalMaxScore" label="最高评分" align="right" width="150" />
 						<el-table-column prop="Remark" label="备注" show-overflow-tooltip />
 						<el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" show-overflow-tooltip>
 							<template #default="scope">
@@ -131,8 +77,8 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { ElMessageBox, ElMessage } from 'element-plus';
 import { useRoute } from 'vue-router';
 import settingEdit from './component/settingEdit.vue';
 
@@ -144,16 +90,17 @@ const moduleKey = 'tenderee_project_setting';
 const { proxy } = getCurrentInstance() as any;
 const state = reactive({
 	moduleKey: moduleKey,
+	loading: false,
 	activeName: 'zgps',
 	scopeMode,
 	scopeValue,
 	tableData: {
 		data: [],
+		loading: false,
 		total: 0,
 		param: {
 			kind: 'zgps',
 			current: 1,
-			pageIndex: 0,
 			pageSize: 10000,
 		},
 	},
@@ -170,6 +117,7 @@ const onOpenEditDlg = (id: string) => {
 
 //	重置搜索
 const onResetSearch = () => {
+	state.tableData.param.content = null
 	state.tableData.param.kind = state.activeName
 	onGetTableData();
 };
@@ -194,16 +142,15 @@ const onRowDel = (id: number) => {
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
-		state.tableData.loading = true;
 		try {
 			const res = await proxy.$api.erp.projectsetting.delete(id);
-			if (res.errcode == 0) {
-				if (res.errcode == 0) {
-					onGetTableData()
-				}
+			if (res.errcode != 0) {
+				return
 			}
+			onGetTableData()
+			ElMessage('删除成功')
 		} finally {
-			state.tableData.loading = false;
+			state.loading = false;
 		}
 		return false;
 	});

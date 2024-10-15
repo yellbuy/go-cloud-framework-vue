@@ -1,12 +1,12 @@
 <template>
 	<div>
 		<el-card v-if="state.isShowPage">
-			<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
-				<el-form-item label="比选编号">
-					<el-input placeholder="请输入比选编号查询" v-model="state.tableData.param.no" style="width: 150px;"/>
+			<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="85px" :inline="true">
+				<el-form-item label="项目编号">
+					<el-input placeholder="请输入关键字" v-model="state.tableData.param.no" style="width: 150px;"/>
 				</el-form-item>
-				<el-form-item label="比选项目">
-					<el-input placeholder="请输入比选项目查询" v-model="state.tableData.param.name" style="width: 150px;"/>
+				<el-form-item label="项目名称">
+					<el-input placeholder="请输入关键字" v-model="state.tableData.param.name" style="width: 150px;"/>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="info" @click="onResetSearch">
@@ -21,13 +21,19 @@
 						</el-icon>
 						搜索
 					</el-button>
-					<el-button type="primary" @click="onProjectCreateEdit()">新建项目立项</el-button>
+					<el-button type="primary" @click="onProjectCreateEdit()">
+						<el-icon>
+							<CirclePlusFilled />
+						</el-icon>
+						新建项目立项
+					</el-button>
 				</el-form-item>
 				<el-form-item></el-form-item>
 			</el-form>
 			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
-				<el-table-column prop="No" label="招标编号" width="150" show-overflow-tooltip fixed/>
+				<el-table-column prop="No" label="项目编号" width="150" show-overflow-tooltip fixed/>
+				<el-table-column prop="Name" label="项目名称" width="200" show-overflow-tooltip/>
 				<el-table-column prop="Kind" label="招标类型" width="100">
 					<template #default="scope">
 						<span v-if="scope.row.ProjectType == 1">公开招标</span>
@@ -37,7 +43,6 @@
 						<span v-else-if="scope.row.ProjectType == 5">询价采购</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Name" label="招标项目" width="200" show-overflow-tooltip/>
 				<el-table-column prop="EndTime" label="报名截止日期" width="150" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
 				<el-table-column prop="ReviewTime" label="开标日期" width="150"  :formatter="dateFormatYMDHM" show-overflow-tooltip/>
 				<el-table-column prop="fanwei" label="招标范围" show-overflow-tooltip/>

@@ -3,7 +3,7 @@
 		<div>
 			<el-card shadow="hover">
 				<div class="">
-					<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
+					<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="85px" :inline="true">
 						<el-form-item label="姓名">
 							<el-input placeholder="请输入关键字" v-model="state.tableData.param.no" style="width: 150px;"/>
 						</el-form-item>
@@ -23,30 +23,24 @@
 								<el-icon>
 									<RefreshLeft />
 								</el-icon>
-								{{ $t('message.action.reset') }}
+								重置
 							</el-button>
-							<el-button type="info" @click="onGetTableData(true)">
+							<el-button type="primary" @click="onGetTableData(true)">
 								<el-icon>
 									<Search />
 								</el-icon>
-								&#8197;{{ $t('message.action.search') }}
+								搜索
 							</el-button>
-							<!-- <el-button type="primary" @click="onModelEdit(0)" >
-								<el-icon>
-									<CirclePlusFilled />
-								</el-icon>
-								&#8197;{{ $t('message.action.add') }}
-							</el-button> -->
 						</el-form-item>
 						<el-form-item></el-form-item>
 					</el-form>
 				</div>
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
-					<el-table-column prop="Username" label="用户名" width="300" fixed />
-					<el-table-column prop="Name" label="姓名" width="120" show-overflow-tooltip fixed/>
-					<el-table-column prop="department" label="所属部门" width="120" show-overflow-tooltip/>
+					<el-table-column prop="Username" label="用户名" width="150" fixed />
+					<el-table-column prop="Name" label="姓名" width="150" show-overflow-tooltip fixed/>
+					<el-table-column prop="department" label="所属部门" width="200" show-overflow-tooltip/>
 					<el-table-column prop="type" label="管理类别" show-overflow-tooltip/>
-					<el-table-column prop="Mobile" label="手机号" align="right" width="180" show-overflow-tooltip/>
+					<el-table-column prop="Mobile" label="手机号" align="right" width="120" show-overflow-tooltip/>
 					<el-table-column label="账号状态" width="70" show-overflow-tooltip>
 						<template #default="scope">
 							<el-switch
@@ -60,7 +54,7 @@
 								:inactive-value="0"/>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
+					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" fixed="right">
 						<template #default="scope">
 							<el-button text bg type="primary" @click="onModelEdit(scope.row.Id, false)">
 								编辑

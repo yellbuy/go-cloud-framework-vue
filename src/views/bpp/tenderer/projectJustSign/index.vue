@@ -4,23 +4,23 @@
 			<div>
 				<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
 					<el-form-item label="项目编号">
-						<el-input placeholder="请输入比选编号查询" v-model="state.tableData.param.no" style="width: 150px;"/>
+						<el-input placeholder="请输入关键字" v-model="state.tableData.param.no" style="width: 150px;"/>
 					</el-form-item>
 					<el-form-item label="项目名称">
-						<el-input placeholder="请输入比选项目查询" v-model="state.tableData.param.name" style="width: 150px;"/>
+						<el-input placeholder="请输入关键字" v-model="state.tableData.param.name" style="width: 150px;"/>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
 							<el-icon>
 								<RefreshLeft />
 							</el-icon>
-							{{ $t('message.action.reset') }}
+							重置
 						</el-button>
-						<el-button type="info" @click="onGetTableData(true)">
+						<el-button type="primary" @click="onGetTableData(true)">
 							<el-icon>
 								<Search />
 							</el-icon>
-							&#8197;{{ $t('message.action.search') }}
+							搜索
 						</el-button>
 					</el-form-item>
 					<el-form-item></el-form-item>
@@ -28,7 +28,7 @@
 			</div>
 			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
-				<el-table-column prop="CompanyNo" label="项目编号"  width="160" show-overflow-tooltip fixed/>
+				<el-table-column prop="No" label="项目编号"  width="160" show-overflow-tooltip fixed/>
 				<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip/>
 				<el-table-column prop="LineName" label="项目包号" width="70"/>
 				<el-table-column prop="Kind" label="参与方式" width="100">
@@ -46,7 +46,7 @@
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, false)">详情</el-button>
-						<el-button text bg type="primary" @click="onToDetail(scope.row.Id, scope.row.ProjectId)">待办</el-button>
+						<el-button text bg type="primary" @click="onToDetail(scope.row)">待办</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -145,10 +145,10 @@ const onModelSee = (id: string, state: boolean) => {
 	seeDlgRef.value.openDialog(id, state);
 };
 // 跳转
-const onToDetail = (id: string|number, projectId: string|number) => {
-	store.commit('project/getProjectCompanyId', id)
-	store.commit('project/getProjectId', projectId);
-	projectDetailRef.value.openPage();
+const onToDetail = (data: {}) => {
+	store.commit('project/getProjectCompanyId', data.id)
+	store.commit('project/getProjectId', data.projectId);
+	projectDetailRef.value.openPage(data);
 	state.isShowPage = false;
 };
 // 删除用户

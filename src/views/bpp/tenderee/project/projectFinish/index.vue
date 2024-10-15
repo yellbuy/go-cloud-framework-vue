@@ -3,7 +3,7 @@
 		<div>
 			<el-card shadow="hover">
 				<div class="">
-					<el-form ref="searchFormRef" :model="tableData.param" label-suffix="：" label-width="80px" :inline="true">
+					<el-form ref="searchFormRef" :model="tableData.param" label-suffix="：" label-width="85px" :inline="true">
 						<el-form-item label="名称">
 							<el-input placeholder="请输入关键字" v-model="tableData.param.no" style="width: 150px;"/>
 						</el-form-item>
@@ -17,13 +17,13 @@
 								<el-icon>
 									<RefreshLeft />
 								</el-icon>
-								{{ $t('message.action.reset') }}
+								重置
 							</el-button>
 							<el-button type="info" @click="onGetTableData(true)">
 								<el-icon>
 									<Search />
 								</el-icon>
-								&#8197;{{ $t('message.action.search') }}
+								查询
 							</el-button>
 						</el-form-item>
 						<el-form-item></el-form-item>

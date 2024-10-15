@@ -1,24 +1,25 @@
 <template>
 	<div>
 		<el-card v-if="isShowPage">
-			<el-form ref="searchFormRef" :model="tableData.param" label-suffix="：" label-width="80px" :inline="true">
+			<el-form ref="searchFormRef" :model="tableData.param" label-suffix="：" label-width="85px" :inline="true">
 				<el-form-item label="名称">
-					<el-input placeholder="请输入关键字" v-model="tableData.param.no" style="width: 120px;"/>
+					<el-input placeholder="请输入关键字" v-model="tableData.param.no" style="width: 150px;"/>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="info" @click="onResetSearch">
 						<el-icon>
 							<RefreshLeft />
 						</el-icon>
-						{{ $t('message.action.reset') }}
+						重置
 					</el-button>
-					<el-button type="info" @click="onGetTableData(true)">
+					<el-button type="primary" @click="onGetTableData(true)">
 						<el-icon>
 							<Search />
 						</el-icon>
-						&#8197;{{ $t('message.action.search') }}
+						搜索
 					</el-button>
 				</el-form-item>
+				<el-form-item> </el-form-item>
 			</el-form>
 			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%; margin-top: 15px;" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" width="70" align="right" show-overflow-tooltip fixed />

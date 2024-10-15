@@ -18,8 +18,8 @@
 			</el-col>
 			<el-col :span="8">
 				<el-form-item label="评委编号：">
-					<el-select v-model="state.projectLineIndex" placeholder="请选择" @change="">
-						<el-option v-for="(item, index) in state.project.ProjectLineList" :key="index" :label="item.Name" :value="item.Id"/>
+					<el-select v-model="state.ruleForm.Id" placeholder="请选择" @change="">
+						<el-option v-for="(item, index) in state.projectExpertTableData.data" :key="index" :label="item.Name" :value="item.Id"/>
 					</el-select>
 				</el-form-item>
 			</el-col>
@@ -67,6 +67,15 @@ const store = useStore();
 const state: any = reactive({
 	project: store.state.project.project,
 	projectLineIndex:'',
+	projectExpertTableData: {
+		data: [],
+		total: 0,
+		loading: false,
+		param: {
+			current: 1,
+			pageSize: 20,
+		},
+	},
 	tableData: {
 		data: [],
 		total: 0,
@@ -76,11 +85,47 @@ const state: any = reactive({
 			pageSize: 20,
 		},
 	},
+	ruleForm: {},
 });
 
+state.projectExpertTableData.param.pageIndex = computed(() => {
+	return state.projectExpertTableData.param.current - 1;
+});
 state.tableData.param.pageIndex = computed(() => {
 	return state.tableData.param.current - 1;
 });
+
+//	获取该项目专家列表
+const getProjectExpertList = async () => {
+	console.log("测试")
+	state.projectExpertTableData.loading = true
+	try {
+		state.projectExpertTableData.param.projectId = state.project.Id
+		const res = await proxy.$api.erp.projectexpert.getListByScope("bid", 0, 0, state.projectExpertTableData.param);
+		if (res.errcode != 0) {
+			return
+		}
+		state.projectExpertTableData.data = res.data;
+		state.projectExpertTableData.total = res.total
+	} finally {
+		state.projectExpertTableData.loading = false
+	}
+};
+
+//	获取专家汇总信息
+const getProjectReviewList = async (id: string) => {
+	state.tableData.loading = true
+	try {
+		const res = await proxy.$api.erp.projectreview.expertGather(id);
+		if (res.errcode != 0) {
+			return
+		}
+		state.tableData.data = res.data;
+		state.tableData.total = res.total
+	} finally {
+		state.tableData.loading = false
+	}
+};
 
 //获取项目品目信息
 const getCompanyList = async (isState: boolean) => {
@@ -137,7 +182,9 @@ const onHandleCurrentChange = (val: number) => {
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	getProjectExpertList()
+});
 
 </script>
 
