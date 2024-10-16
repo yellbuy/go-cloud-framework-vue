@@ -16,7 +16,7 @@
 					<el-col :span="18">
 						<el-form-item label="投标方名称：">
 							<el-select v-model="state.ruleForm" placeholder="请选择" @change="selectCompany()">
-								<el-option v-for="(item, index) in state.projectCompanyTableData.data" :key="index" :label="item.CompanyName" :value="item"/>
+								<el-option v-for="(item, index) in state.projectCompanyList" :key="index" :label="item.CompanyName" :value="item"/>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -28,14 +28,14 @@
 				</el-row>
 				<el-row>
 					<el-col>
-						<el-table :data="state.projectReview.data" v-loading="state.projectReview.loading" style="width: 100%" size="small" border stripe highlight-current-row>
+						<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" fixed />
 							<el-table-column prop="Content" label="评审内容" width="200" show-overflow-tooltip/>
 							<el-table-column prop="Standard" label="评审标准" show-overflow-tooltip/>
 							<el-table-column label="评审" width="70" show-overflow-tooltip>
 								<template #default="scope">
 									<el-switch
-										v-model="scope.row.State"
+										v-model="scope.row.ReviewState"
 										inline-prompt
 										:width="55"
 										@change=""
@@ -51,7 +51,7 @@
 				<el-row style="padding: 15px;">
 					<el-col :span="24">
 						<el-card>
-							<el-collapse v-model="state.activeNames" @change="handleChange">
+							<el-collapse v-model="state.activeName" @change="handleChange">
 								<el-collapse-item title="商务文件：" name="1">
 									<el-row v-for="(item, index) in state.swFile"  :key="index" :label="item.Name" :value="item">
 										<el-col :span="24">
@@ -99,32 +99,16 @@ const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	project: store.state.project.project,
-	projectLineIndex:'',
-	activeNames: '',
+	activeName: '',
+	projectCompanyList: [],
 	swFile:[],
 	jsFile:[],
 	qtFile:[],
-	projectCompanyTableData: {
-		data: [],
-		param: {
-			kind: 'bid',
-			current: 1,
-			pageSize: 20,
-		},
-	},
-	projectCompanyLineTableData: {
-		data: [],
-		param: {
-			current: 1,
-			pageSize: 20,
-		},
-	},
-	projectReview: {
+	tableData: {
 		data: [],
 		total: 0,
 		loading: false,
 		param: {
-			kind: 'zgps',
 			current: 1,
 			pageSize: 20,
 		},
@@ -155,45 +139,67 @@ const state: any = reactive({
 // 	return data
 // });
 
-state.projectCompanyTableData.param.pageIndex = computed(() => {
-	return state.projectCompanyTableData.param.current - 1;
-});
-state.projectCompanyLineTableData.param.pageIndex = computed(() => {
-	return state.projectCompanyLineTableData.param.current - 1;
-});
-state.projectReview.param.pageIndex = computed(() => {
-	return state.projectReview.param.current - 1;
+state.tableData.param.pageIndex = computed(() => {
+	return state.tableData.param.current - 1;
 });
 
 //获取投标方列表
-const getProjectCompanyList = async () => {
+const onGetProjectCompanyList = async () => {
 	try {
-		const res = await proxy.$api.erp.projectcompany.signUpList(state.projectCompanyTableData.param);
+		const res = await proxy.$api.erp.projectcompany.signUpList({kind: 'bid', pageIndex: 0, pageSize: 20,});
 		if (res.errcode != 0) {
 			return;
 		}
-		state.projectCompanyTableData.data = res.data;
+		state.projectCompanyList = res.data;
 	} finally {
 	}
 };
 
-//获取文件列表
-const getProjectCompanyLineList = async () => {
+//获取评标参数信息
+const onGetTableData = async () => {
+	state.tableData.total = true
 	try {
-		state.projectCompanyLineTableData.param.projectId = state.ruleForm.ProjectId
-		state.projectCompanyLineTableData.param.projectCompanyId = state.ruleForm.ProjectCompanyId
-		const res = await proxy.$api.erp.projectcompanyline.getListByScope(state.projectCompanyLineTableData.param);
-		if (res.errcode != 0) {
+		//获取项目评审参数表
+		state.tableData.param.projectId = state.ruleForm.ProjectId
+		const projectSettingLineRes = await proxy.$api.erp.projectsettingline.getListByScope("zgps", 0, 0, state.tableData.param);
+		if (projectSettingLineRes.errcode != 0) {
 			return;
 		}
-		state.swFile = [];
-		state.jsFile = [];
-		state.qtFile = [];
-		for (let item of res.data) {
+		state.tableData.data = projectSettingLineRes.data
+		//获取项目专家评审结果表
+		state.tableData.param.companyId = state.ruleForm.CompanyId
+		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("zgps", 0, 0, state.tableData.param);
+		if (projectReviewRes.errcode != 0) {
+			return;
+		}
+		state.tableData.param.companyId = null
+		for (let i = 0; i < projectSettingLineRes.data.length; i++) {
+			state.tableData.data[i].ProjectSettingLineId = state.tableData.data[i].Id
+			state.tableData.data[i].CompanyId = state.ruleForm.CompanyId
+			for (let j = 0; j < projectReviewRes.data.length; j++) {
+				if (projectSettingLineRes.data[i].Id == projectReviewRes.data[j].ProjectSettingLineId) {
+					state.tableData.data[i].ProjectSettingLineId = projectReviewRes.data[j].ProjectSettingLineId
+					state.tableData.data[i].CompanyId = projectReviewRes.data[j].CompanyId
+					state.tableData.data[i].ReviewState = projectReviewRes.data[j].ReviewState
+					state.tableData.data[i].Id = projectReviewRes.data[j].Id
+				} 
+			}
+		}
+		//获取项目报名文件表
+		state.tableData.param.projectCompanyId = state.ruleForm.ProjectCompanyId
+		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope(state.tableData.param);
+		state.tableData.param.projectCompanyId = null
+		if (projectCompanyLineRes.errcode != 0) {
+			return;
+		}
+		state.swFile = []
+		state.jsFile = []
+		state.qtFile = []
+		for (let item of projectCompanyLineRes.data) {
 			if (item.Kind == "zgps") {
 				state.swFile.push(item)
 			}
-			if (item.Kind == "jjps") {
+			if (item.Kind == "jsps") {
 				state.jsFile.push(item)
 			}
 			if (item.Kind == "qt") {
@@ -201,29 +207,12 @@ const getProjectCompanyLineList = async () => {
 			}
 		}
 	} finally {
-	}
-};
-
-//获取评标参数信息
-const getProjectReviewTableData = async () => {
-	state.projectReview.total = true
-	try {
-		state.projectReview.param.projectId = state.ruleForm.ProjectId
-		state.projectReview.param.companyId = state.ruleForm.CompanyId
-		const res = await proxy.$api.erp.projectreview.getListByScope("zgps", 0, 0, state.projectReview.param);
-		//获取存储的项目数据
-		if (res.errcode != 0) {
-			return;
-		}
-		state.projectReview.data = res.data;
-	} finally {
-		state.projectReview.total = false
+		state.tableData.total = false
 	}
 };
 
 const selectCompany = async () => {
-	getProjectReviewTableData()
-	getProjectCompanyLineList()
+	onGetTableData()
 }
 
 const onModelSave = async () => {
@@ -233,22 +222,24 @@ const onModelSave = async () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.expertSave("zgps", state.projectReview.data);
+			const res = await proxy.$api.erp.projectreview.expertSave("zgps", state.tableData.data);
 			if (res.errcode != 0) {
 				return;
 			}
-			getProjectReviewTableData();
-			getProjectCompanyLineList();
+			onGetTableData()
 			ElMessage('评审参数提交成功')
 		} finally {
 		}
 		return false;
+	}).catch(async () => {
+		onGetTableData()
+		ElMessage('取消提交')
 	});
 };
 
 // 页面加载时
 onMounted(() => {
-	getProjectCompanyList()
+	onGetProjectCompanyList()
 });
 
 </script>

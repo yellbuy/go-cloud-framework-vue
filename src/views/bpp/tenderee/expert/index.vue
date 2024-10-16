@@ -2,7 +2,7 @@
 	<div>
 		<el-card>
 			<div>
-				<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
+				<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="85px" :inline="true">
 					<el-form-item label="手机号">
 						<el-input placeholder="请输入关键字" v-model="state.tableData.param.mobile" style="width: 150px;"/>
 					</el-form-item>
@@ -19,19 +19,19 @@
 							<el-icon>
 								<RefreshLeft />
 							</el-icon>
-							&#8197;{{ $t('message.action.reset') }}
+							重置
 						</el-button>
-						<el-button type="info" @click="onGetTableData(true)">
+						<el-button type="primary" @click="onGetTableData(true)">
 							<el-icon>
 								<Search />
 							</el-icon>
-							&#8197;{{ $t('message.action.search') }}
+							查询
 						</el-button>
 						<el-button type="primary" @click="onOpenAddUser">
 							<el-icon>
 								<CirclePlusFilled />
 							</el-icon>
-							&#8197;{{ '创建' }}
+							创建
 						</el-button>
 					</el-form-item>
 					<el-form-item> </el-form-item>
@@ -121,7 +121,7 @@ const state: any = reactive({
 		total: 0,
 		loading: false,
 		param: {
-			isExternal: 1,
+			isExternal: 0,
 			name: '',
 			current: 1,
 			pageSize: 20,
