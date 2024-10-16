@@ -268,7 +268,6 @@ import * as XLSX from "xlsx"; //引入
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-import { Console } from 'console';
 export default {
 	name: 'oilEdit',
 	setup() {
@@ -444,6 +443,10 @@ export default {
 		 	state.ruleForm.EnergyBillLines=[]
 		};
 
+		const onDelRow = (index:number) => {
+			state.ruleForm.EnergyBillLines.splice(index,1)
+		};
+		
 		// 下载导入模板
 		const onDownloadTpl = async () => {
 			var a = document.createElement('a');
@@ -452,9 +455,7 @@ export default {
 			a.click();
 		};
 
-		const onDelRow = (index:number) => {
-			state.ruleForm.EnergyBillLines.splice(index,1)
-		};
+		
 
 		//	分页改变
 		const paginatedData = computed(() => {

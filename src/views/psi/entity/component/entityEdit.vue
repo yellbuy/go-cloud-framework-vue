@@ -1,16 +1,16 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
+		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="150px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="单位名称" prop="Name">
 							<el-input
 								v-model="ruleForm.Name"
 								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="单位编码" prop="Code">
 							<el-input
 								v-model="ruleForm.Code"
@@ -18,10 +18,7 @@
 							</el-input> 
 						</el-form-item>
 					</el-col>
-				</el-row>
-				
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="所属类别" prop="CategoryId">
 							<el-tree-select
 								v-model="ruleForm.CategoryId"
@@ -37,7 +34,8 @@
 						</el-form-item>
 						
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+					
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="状态" prop="State">
 							<el-switch
 								v-model="ruleForm.State"
@@ -49,9 +47,7 @@
 								:inactive-value="0"/>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="助记符" prop="Pinyin">
 							<el-input
 								v-model="ruleForm.Pinyin"
@@ -59,7 +55,7 @@
 							</el-input> 
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="别名" prop="Alias">
 							<el-input
 								v-model="ruleForm.Alias"
@@ -67,17 +63,291 @@
 							</el-input> 
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="单位证件号" prop="Idno">
+							<el-input
+								v-model="ruleForm.Idno"
+								placeholder="请输入">
+							</el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="开户行" prop="BankName">
+							<el-input
+								v-model="ruleForm.BankName"
+								placeholder="请输入">
+							</el-input> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="银行账号" prop="BankAccount">
+							<el-input
+								v-model="ruleForm.BankAccount"
+								placeholder="请输入">
+							</el-input> 
+						</el-form-item>
+					</el-col>
 				</el-row>
 				<el-row :gutter="0">
-
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">	
+					<el-col :xs="24" :sm="24" :md="8" :lg="8" class="mb20">	
+						<el-form-item label="网址" prop="Website" >
+							<el-input
+								v-model="ruleForm.Website"
+								placeholder="请输入"/>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="8" :lg="8" class="mb20">	
 						<el-form-item label="备注" prop="Remark" >
 							<el-input
 								v-model="ruleForm.Remark"
-								:rows="3"
-								type="textarea"
 								placeholder="请输入"/>
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">	
+						<el-tabs type="border-card">
+							<el-tab-pane label="联系人">
+								<el-row :gutter="0">
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="联系人" prop="Linkman">
+											<el-input
+												v-model="ruleForm.Linkman"
+												placeholder="请输入">
+											</el-input> 
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="联系电话" prop="Tel">
+											<el-input
+												v-model="ruleForm.Tel"
+												placeholder="请输入">
+											</el-input> 
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="传真" prop="BankAccount">
+											<el-input
+												v-model="ruleForm.BankAccount"
+												placeholder="请输入">
+											</el-input> 
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="移动电话" prop="Mobile">
+											<el-input
+												v-model="ruleForm.Mobile"
+												placeholder="请输入">
+											</el-input> 
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="邮编" prop="Zip">
+											<el-input
+												v-model="ruleForm.Zip"
+												placeholder="请输入">
+											</el-input> 
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="邮箱" prop="Email">
+											<el-input
+												v-model="ruleForm.Email"
+												placeholder="请输入">
+											</el-input> 
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="联系地址" prop="Address">
+											<el-input
+												v-model="ruleForm.Address"
+												placeholder="请输入">
+											</el-input> 
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="出生日期" prop="Birthdate">
+											<el-date-picker
+												v-model="ruleForm.Birthdate"
+												type="date"
+												placeholder="出生日期"
+												format="YYYY-MM-DD">
+											</el-date-picker>
+										</el-form-item>
+									</el-col>
+								</el-row>
+							</el-tab-pane>
+							<el-tab-pane label="预设价">
+								<el-row :gutter="0">
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="预设售价（入库）" prop="PrepriceInState">
+											<el-select
+												v-model="ruleForm.PrepriceInState"
+												filterable
+												default-first-option
+												placeholder="请选择">
+												<el-option label="不启用" :value="0"></el-option>
+												<el-option label="预设售价一" :value="1"></el-option>
+												<el-option label="预设售价二" :value="2"></el-option>
+												<el-option label="预设售价三" :value="3"></el-option>
+												<el-option label="预设售价四" :value="4"></el-option>
+												<el-option label="预设售价五" :value="4"></el-option>
+												<el-option label="零售价" :value="10"></el-option>
+											</el-select>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="预设售价（出库）" prop="PrepriceOutState">
+											<el-select
+												v-model="ruleForm.PrepriceOutState"
+												filterable
+												default-first-option
+												placeholder="请选择">
+												<el-option label="不启用" :value="0"></el-option>
+												<el-option label="预设售价一" :value="1"></el-option>
+												<el-option label="预设售价二" :value="2"></el-option>
+												<el-option label="预设售价三" :value="3"></el-option>
+												<el-option label="预设售价四" :value="4"></el-option>
+												<el-option label="预设售价五" :value="4"></el-option>
+												<el-option label="零售价" :value="10"></el-option>
+											</el-select>
+										</el-form-item>
+									</el-col>
+								</el-row>
+								<el-row :gutter="0">
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="预设售价（入库）比率" prop="PrepriceInRate">
+											<el-input-number
+												v-model="ruleForm.PrepriceInRate"
+												:min="0" :max="10000"
+												placeholder="请输入">
+												<template #suffix>
+													<span>%</span>
+												</template>
+											</el-input-number> 
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="预设售价（出库）比率" prop="PrepriceOutRate">
+											<el-input-number
+												v-model="ruleForm.PrepriceOutRate"
+												:min="0" :max="10000"
+												placeholder="请输入">
+												<template #suffix>
+													<span>%</span>
+												</template>
+											</el-input-number> 
+										</el-form-item>
+									</el-col>
+								</el-row>
+								
+							</el-tab-pane>
+							<el-tab-pane label="送货地址">
+								<el-row :gutter="0">
+									<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">	
+										<el-table :data="ruleForm.LinkmanList" style="width: 100%">
+											<el-table-column label="地址" width="180">
+												<template #default="scope">
+													<el-input v-model="scope.row.Address" ></el-input> 
+												</template>
+											</el-table-column>
+											<el-table-column label="联系人" width="120">
+												<template #default="scope">
+													<el-input v-model="scope.row.Linkman" ></el-input> 
+												</template>
+											</el-table-column>
+											<el-table-column label="联系电话" width="180">
+												<template #default="scope">
+													<el-input v-model="scope.row.Tel" ></el-input> 
+												</template>
+											</el-table-column>
+											<el-table-column label="手机" width="180">
+												<template #default="scope">
+													<el-input v-model="scope.row.Mobile" ></el-input> 
+												</template>
+											</el-table-column>
+											<el-table-column label="传真" width="180">
+												<template #default="scope">
+													<el-input v-model="scope.row.Fax" ></el-input> 
+												</template>
+											</el-table-column>
+											<el-table-column label="邮编" width="120">
+												<template #default="scope">
+													<el-input v-model="scope.row.Zip" ></el-input> 
+												</template>
+											</el-table-column>
+											<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
+												<template #header>
+													<el-button bg type="primary" @click="onAddRow()">
+														{{ $t('message.action.add') }}
+													</el-button>
+												</template>
+												<template #default="scope">
+													<el-button text bg type="danger" @click="onDelRow(scope.$index)">
+														{{ $t('message.action.delete') }}
+													</el-button>
+												</template>
+											</el-table-column>
+											</el-table>
+									</el-col>
+								</el-row> 
+							</el-tab-pane>
+							<el-tab-pane label="其他">
+								<el-row :gutter="0">
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="换货期限" prop="ExchangeDays">
+											<el-input-number
+												v-model="ruleForm.ExchangeDays"
+												:min="0" :max="10000"
+												:precision="0"
+												placeholder="请输入">
+												<template #suffix>
+													<span>天</span>
+												</template>
+											</el-input-number> 
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="换货比率" prop="ExchangeRate">
+											<el-input-number
+												v-model="ruleForm.ExchangeRate"
+												:min="0" :max="10000"
+												placeholder="请输入">
+												<template #suffix>
+													<span>%</span>
+												</template>
+											</el-input-number> 
+										</el-form-item>
+									</el-col>
+								</el-row>
+								<el-row :gutter="0">
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="信用额度" prop="CreditMoney">
+											<el-input-number
+												v-model="ruleForm.CreditMoney"
+												:min="0" :max="1000000000000"
+												:step="100"
+												placeholder="请输入">
+												<template #prefix>
+													<span>¥</span>
+												</template>
+											</el-input-number> 
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+										<el-form-item label="保证金" prop="CautionMoney">
+											<el-input-number
+												v-model="ruleForm.CautionMoney"
+												:min="0" :max="10000000000000"
+												:step="100"
+												placeholder="请输入">
+												<template #prefix>
+													<span>¥</span>
+												</template>
+											</el-input-number> 
+										</el-form-item>
+									</el-col>
+								</el-row>
+							</el-tab-pane>
+						</el-tabs>
 					</el-col>
 				</el-row> 
 			</el-form>
@@ -98,7 +368,7 @@
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps } from 'element-plus';
+import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -128,6 +398,22 @@ export default {
 			}
 		};
 
+		//新增联系人
+		const onAddRow = () => {
+		 	state.ruleForm.LinkmanList=[{},...state.ruleForm.LinkmanList]
+		};
+		//删除联系人
+		const onDelRow = (index:number) => {
+			ElMessageBox.confirm('确定删除当前记录吗？', '温馨提示', {
+					type: 'error',
+					closeOnClickModal: false,
+					//center: true,
+				}).then(() => {
+					state.ruleForm.LinkmanList.splice(index,1)
+				}).catch(() => { })
+			
+		};
+
 		const store = useStore();
 
 		const getUserInfos = computed(() => {
@@ -139,15 +425,6 @@ export default {
 			state.dialogImageUrl = uploadFile.url!
 			state.ImageVisible = true
 		}
-		
-		const tableData = reactive({
-			data: [],
-			loading: false,
-			param: {
-				pageNum: 1,
-				pageSize: 10000,
-			},
-		});
 		
 		const state = reactive({
 			isShowDialog: false,
@@ -167,6 +444,7 @@ export default {
 				State:1,
 				Pics:'',
 				CategoryId:'0',
+				LinkmanList:[],
 			},
 			dialogVisible: false,
 			categoryList:[],
@@ -344,12 +622,13 @@ export default {
 			getByIdRow,
 			onSuccessFile,
 			onPreview,
+			onAddRow,
+			onDelRow,
 			onRemove,
 			onBeforeImageUpload,
 			showImage,
 			dateFormatYMD,
 			getUserInfos,
-			tableData,
 			rules,
 			token,
 			onSubmit,
