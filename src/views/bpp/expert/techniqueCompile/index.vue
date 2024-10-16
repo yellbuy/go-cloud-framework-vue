@@ -2,24 +2,33 @@
 	<el-card>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
+				<el-form-item label="选择参与项目：" prop="Id">
+					<el-select v-model="state.projectId" filterable placeholder="请选择" @change="selectProject">
+						<el-option v-for="(item, index) in state.projectList" :key="index" :label="item.Name" :value="item.Id" />
+					</el-select>
+				</el-form-item>
+			</el-col>
+		</el-row>
+		<el-row style="padding: 15px;">
+			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
 		<el-row>
 			<el-col :span="8">
 				<div>
-					<el-button type="primary" @click="onCompile">汇总</el-button>
+					<el-button type="primary" @click="onCompile()">汇总</el-button>
 				</div>
 			</el-col>
 			<el-col :span="8">
 				<el-form-item label="评委编号：">
-					<el-select v-model="state.ruleForm.Id" placeholder="请选择" @change="">
-						<el-option v-for="(item, index) in state.projectExpertTableData.data" :key="index" :label="item.Name" :value="item.Id"/>
+					<el-select v-model="state.expertUid" placeholder="请选择" @change="getProjectReviewList">
+						<el-option v-for="(item, index) in state.projectExpert" :key="index" :label="item.Name" :value="item.Uid"/>
 					</el-select>
 				</el-form-item>
 			</el-col>
@@ -32,23 +41,12 @@
 		<el-row>
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
-					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column prop="Id" label="评分点" width="120" show-overflow-tooltip/>
-					<el-table-column prop="Name" label="评审标准" show-overflow-tooltip/>
-					<el-table-column prop="Name" label="满分" show-overflow-tooltip/>
-					<el-table-column prop="Name" label="一号公司" show-overflow-tooltip/>
+					<el-table-column type="index" label="序号" align="right" width="60" fixed />
+					<el-table-column prop="QualificationScore" label="评分点" width="100" show-overflow-tooltip/>
+					<el-table-column prop="Standard" label="评审标准" width="200" show-overflow-tooltip/>
+					<el-table-column prop="TechnicalMaxScore" label="最高分" width="100" show-overflow-tooltip/>
+					<el-table-column width="200" show-overflow-tooltip v-for="(item, index) in state.tableData.headerList" :key="index" :label="item.CompanyName" :prop="item.HeaderName"/>
 				</el-table>
-				<el-pagination
-					small
-					@size-change="onHandleSizeChange"
-					@current-change="onHandleCurrentChange"
-					class="mt15"
-					:page-sizes="[10, 20, 30]"
-					v-model:current-page="state.tableData.param.current"
-					background
-					v-model:page-size="state.tableData.param.pageSize"
-					layout="->, total, sizes, prev, pager, next, jumper"
-					:total="state.tableData.total"/>
 			</el-col>
 		</el-row>
 	</el-card>
@@ -60,97 +58,75 @@ import { toRefs, reactive, computed, onMounted, ref, getCurrentInstance } from '
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
 import { useI18n } from 'vue-i18n';
+import project from '/@/api/erp/project';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
-	projectLineIndex:'',
-	projectExpertTableData: {
-		data: [],
-		total: 0,
-		loading: false,
-		param: {
-			current: 1,
-			pageSize: 20,
-		},
-	},
+	projectId: '',
+	expertUid: '',
+	projectList: [],
+	projectForm: {Id: ""},
+	projectExpert: [],
 	tableData: {
+		headerList: [],
 		data: [],
 		total: 0,
 		loading: false,
-		param: {
-			current: 1,
-			pageSize: 20,
-		},
+		param: {},
 	},
 	ruleForm: {},
 });
 
-state.projectExpertTableData.param.pageIndex = computed(() => {
-	return state.projectExpertTableData.param.current - 1;
-});
-state.tableData.param.pageIndex = computed(() => {
-	return state.tableData.param.current - 1;
-});
+const selectProject = async (event) => {
+    state.projectForm = state.projectList.find(item => item.Id === event);
+	getProjectExpertList()
+}
 
-//	获取该项目专家列表
-const getProjectExpertList = async () => {
-	console.log("测试")
-	state.projectExpertTableData.loading = true
+//	获取专家参与的项目列表
+const onGetProjectTableData = async () => {
 	try {
-		state.projectExpertTableData.param.projectId = state.project.Id
-		const res = await proxy.$api.erp.projectexpert.getListByScope("bid", 0, 0, state.projectExpertTableData.param);
+		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
 		if (res.errcode != 0) {
-			return
+			return;
 		}
-		state.projectExpertTableData.data = res.data;
-		state.projectExpertTableData.total = res.total
+		state.projectList = res.data;
 	} finally {
-		state.projectExpertTableData.loading = false
 	}
 };
 
-//	获取专家汇总信息
-const getProjectReviewList = async (id: string) => {
-	state.tableData.loading = true
+//	获取该项目参与的所有专家列表
+const getProjectExpertList = async () => {
 	try {
-		const res = await proxy.$api.erp.projectreview.expertGather(id);
+		const res = await proxy.$api.erp.projectexpert.getListByScope("bid", 0, 0, {projectId: state.projectId, current: 1, pageSize: 20,});
 		if (res.errcode != 0) {
 			return
 		}
-		state.tableData.data = res.data;
-		state.tableData.total = res.total
+		state.projectExpert = res.data;
+	} finally {
+	}
+};
+
+//	获取专家汇总信息列表
+const getProjectReviewList = async () => {
+	state.tableData.loading = true
+	try {
+		state.tableData.param.expertUid = state.expertUid
+		state.tableData.param.projectId = state.projectId
+		const res = await proxy.$api.erp.projectreview.getList("jsps", 0, 0, state.tableData.param);
+		if (res.errcode != 0) {
+			return
+		}
+		state.tableData.data = res.data.RecordList;
+		state.tableData.headerList = res.data.HeaderList
 	} finally {
 		state.tableData.loading = false
 	}
 };
 
-//获取项目品目信息
-const getCompanyList = async (isState: boolean) => {
-	if (isState) {
-		let params = {};
-		state.project = store.state.project.project;
-		state.tableData.data = [];
-		try {
-			params.projectId = store.state.project.projectId;
-			params.state = 1;
-			//重新请求数据
-
-			const res = await proxy.$api.erp.projectcompany.comparisonList(params);
-			//获取存储的项目数据
-			if (res.errcode != 0) {
-				return;
-			}
-			state.tableData.data = res.data;
-		} finally {
-		}
-	}
-};
-
-const onCompile = async (Id: Number) => {
-	if (!Id) {
+const onCompile = async (id: Number) => {
+	if (!id) {
 		ElMessage.error('当前没有正在评选的项目包，请刷新重试。');
 		return;
 	}
@@ -159,31 +135,17 @@ const onCompile = async (Id: Number) => {
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
-		// try {
-		// 	const res = await proxy.$api.common.enterprise.audit(state.ruleForm);
-		// 	if (res.errcode != 0) {
-		// 		return;
-		// 	}
-		// 	state.ruleForm.AuditState = 0;
-		// } finally {
-		// 	onGetTableData(true);
-		// }
-		return false;
-	});
-};
 
-// 分页改变
-const onHandleSizeChange = (val: number) => {
-	state.tableData.param.pageSize = val;
-};
-// 分页改变
-const onHandleCurrentChange = (val: number) => {
-	state.tableData.param.current = val;
+		ElMessage('汇总完成')
+		return false;
+	}).catch(async () => {
+		ElMessage('取消汇总')
+	});
 };
 
 // 页面加载时
 onMounted(() => {
-	getProjectExpertList()
+	onGetProjectTableData()
 });
 
 </script>

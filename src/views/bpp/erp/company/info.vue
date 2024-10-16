@@ -2,58 +2,58 @@
 	<div class="system-edit-user-container">
 		<el-row :gutter="20">
 			<el-col :offset="21">
-				<el-button text bg type="primary" @click="onSubmit" v-if="!disable" v-auths:[moduleKey]="['btn.Edit', 'btn.Add']">
-					{{ $t('message.action.save') }}
-				</el-button>
-				<el-button text bg type="primary" @click="disable = !disable" v-auth:[moduleKey]="'btn.Edit'">
-					{{ $t('message.action.edit') }}
-				</el-button></el-col
-			>
+				<el-button text bg type="primary" @click="onSubmit" v-if="!disable" v-auths:[moduleKey]="['btn.Edit', 'btn.Add']">保存</el-button>
+				<el-button text bg type="primary" @click="disable = !disable" v-auth:[moduleKey]="'btn.Edit'">修改</el-button>
+			</el-col>
 		</el-row>
 		<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="small" label-width="130px" v-loading="loading" :disabled="disable">
 			<el-divider content-position="left">工商信息*</el-divider>
 			<el-row>
-				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
-					><el-form-item label="供应商全名：" prop="CompanyName">
-						<el-input v-model="ruleForm.CompanyName" placeholder="全名"></el-input> </el-form-item
-				></el-col>
+				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-form-item label="供应商全名：" prop="CompanyName">
+						<el-input v-model="ruleForm.CompanyName" placeholder="全名"/>
+					</el-form-item>
+				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 					<el-form-item label="供应商别名：" prop="CompanyAlias">
-						<el-input v-model="ruleForm.CompanyAlias" placeholder="别名"></el-input> </el-form-item
-				></el-col>
+						<el-input v-model="ruleForm.CompanyAlias" placeholder="别名"/>
+					</el-form-item>
+				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-					<el-form-item label="供应商商号：" prop="EsNo"> <el-input v-model="ruleForm.EsNo" placeholder="供应商商号"></el-input> </el-form-item
-				></el-col>
+					<el-form-item label="供应商商号：" prop="EsNo">
+						<el-input v-model="ruleForm.EsNo" placeholder="供应商商号"/>
+					</el-form-item>
+				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 					<el-form-item label="货币类型：" prop="CurrencyType">
-						<el-input v-model="ruleForm.CurrencyType" placeholder="货币类型"></el-input> </el-form-item
-				></el-col>
+						<el-input v-model="ruleForm.CurrencyType" placeholder="货币类型"/>
+					</el-form-item>
+				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 					<el-form-item label="开户人：" prop="BankAccountName">
-						<el-input v-model="ruleForm.BankAccountName" placeholder="开户人"></el-input> </el-form-item
-				></el-col>
+						<el-input v-model="ruleForm.BankAccountName" placeholder="开户人"/>
+					</el-form-item>
+				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-					<el-form-item label="注册地址：" prop="Address"> <el-input v-model="ruleForm.Address" placeholder="注册地址"></el-input> </el-form-item
-				></el-col>
+					<el-form-item label="注册地址：" prop="Address">
+						<el-input v-model="ruleForm.Address" placeholder="注册地址"/>
+					</el-form-item>
+				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 					<el-form-item label="经营范围：" prop="BusinessScope">
-						<el-input v-model="ruleForm.BusinessScope" placeholder="经营范围"></el-input> </el-form-item
-				></el-col>
+						<el-input v-model="ruleForm.BusinessScope" placeholder="经营范围"/>
+					</el-form-item>
+				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 					<el-form-item label="纳税人类型：" prop="TaxpayerKind">
-						<el-input v-model="ruleForm.TaxpayerKind" placeholder="纳税人类型"></el-input> </el-form-item
-				></el-col>
+						<el-input v-model="ruleForm.TaxpayerKind" placeholder="纳税人类型"/>
+					</el-form-item>
+				</el-col>
 				<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 					<el-form-item label="经营期限：" required>
 						<el-col :span="11">
 							<el-form-item prop="BusinessStartTime">
-								<el-date-picker
-									v-model="ruleForm.BusinessStartTime"
-									type="date"
-									placeholder="开始日期"
-									format="YYYY-MM-DD"
-									style="width: 100%"
-								></el-date-picker>
+								<el-date-picker v-model="ruleForm.BusinessStartTime" type="date" placeholder="开始日期" format="YYYY-MM-DD" style="width: 100%"/>
 							</el-form-item>
 						</el-col>
 						<el-col class="text-center" :span="2">
@@ -61,13 +61,7 @@
 						</el-col>
 						<el-col :span="11">
 							<el-form-item prop="BusinessEndTime">
-								<el-date-picker
-									v-model="ruleForm.BusinessEndTime"
-									type="date"
-									placeholder="- 结束日期"
-									format="YYYY-MM-DD"
-									style="width: 100%"
-								></el-date-picker>
+								<el-date-picker v-model="ruleForm.BusinessEndTime" type="date" placeholder="- 结束日期" format="YYYY-MM-DD" style="width: 100%"/>
 							</el-form-item>
 						</el-col>
 					</el-form-item>
@@ -78,7 +72,7 @@
 				<el-icon>
 					<CirclePlusFilled />
 				</el-icon>
-				&#8197;{{ $t('message.action.add') }}
+				新增
 			</el-button>
 			<el-table :data="tableData.data" v-loading="tableData.loading" style="width: 100%" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
@@ -98,42 +92,41 @@
 				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(160)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.CompanyLineEdit'">
-							<!-- <el-icon>
-									<Edit />
-								</el-icon> -->
-							{{ $t('message.action.edit') }}
-						</el-button>
-						<el-button text bg type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.CompanyLineDel'">
-							<!-- <el-icon>
-									<CloseBold />
-								</el-icon> -->
-							{{ $t('message.action.delete') }}
-						</el-button>
+						<el-button text bg type="primary" @click="onModelEdit(scope.row)" v-auth:[$parent.moduleKey]="'btn.CompanyLineEdit'">修改</el-button>
+						<el-button text bg type="danger" @click="onModelDel(scope.row, scope.$index)" v-auth:[$parent.moduleKey]="'btn.CompanyLineDel'">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
 			<el-divider content-position="left">基本信息*</el-divider>
 			<el-row :gutter="20">
-				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
-					><el-form-item label="网站：" prop="WebSite"> <el-input v-model="ruleForm.WebSite" placeholder="网站"></el-input> </el-form-item
-				></el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-					<el-form-item label="企业邮箱：" prop="Im"> <el-input v-model="ruleForm.Im" placeholder="企业邮箱"></el-input> </el-form-item
-				></el-col>
+					<el-form-item label="网站：" prop="WebSite">
+						<el-input v-model="ruleForm.WebSite" placeholder="网站"/>
+					</el-form-item>
+				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-					<el-form-item label="Email：" prop="Email"> <el-input v-model="ruleForm.Email" placeholder="Email"></el-input> </el-form-item
-				></el-col>
+					<el-form-item label="企业邮箱：" prop="Im">
+						<el-input v-model="ruleForm.Im" placeholder="企业邮箱"/>
+					</el-form-item>
+				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-					<el-form-item label="传真：" prop="Fax"> <el-input v-model="ruleForm.Fax" placeholder="传真"></el-input> </el-form-item
-				></el-col>
+					<el-form-item label="Email：" prop="Email">
+						<el-input v-model="ruleForm.Email" placeholder="Email"/>
+					</el-form-item>
+				</el-col>
+				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-form-item label="传真：" prop="Fax">
+						<el-input v-model="ruleForm.Fax" placeholder="传真"/>
+					</el-form-item>
+				</el-col>
 			</el-row>
 			<el-divider content-position="left">联系人信息*</el-divider>
 			<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-				<el-form-item label="联系人：" prop="Linkman"> <el-input v-model="ruleForm.Linkman" placeholder="联系人"></el-input> </el-form-item
-			></el-col>
+				<el-form-item label="联系人：" prop="Linkman">
+					<el-input v-model="ruleForm.Linkman" placeholder="联系人"/>
+				</el-form-item>
+			</el-col>
 		</el-form>
-
 		<el-dialog v-model="dialogVisible" title="证件信息" width="50%">
 			<el-form ref="categoryFormRef" :model="tableItem" :rules="categoryRules" size="mini" label-width="130px" v-loading="loading">
 				<el-row :gutter="20">
@@ -141,23 +134,21 @@
 						<el-form-item label="供应商类别：" prop="CategoryId">
 							<el-select v-model="tableItem.CategoryId" class="m-2" placeholder="请选择公司类别" clearable>
 								<el-option v-for="item in supKindData" :key="item.Id" :label="item.Name" :value="item.Id"> </el-option>
-							</el-select> </el-form-item
-					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
-						><el-form-item label="证件名称：" prop="Name"> <el-input v-model="tableItem.Name" placeholder="证件名称"></el-input> </el-form-item
-					></el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20"
-						><el-form-item label="有效期限：" prop="StartTime">
-							<el-date-picker
-								v-model="tableItem.StartTime"
-								type="date"
-								placeholder="有效期限"
-								format="YYYY-MM-DD"
-								style="width: 100%"
-							></el-date-picker> </el-form-item
-					></el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20"
-						><el-form-item label="上传附件：" prop="Files">
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="证件名称：" prop="Name">
+							<el-input v-model="tableItem.Name" placeholder="证件名称"/>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="有效期限：" prop="StartTime">
+							<el-date-picker v-model="tableItem.StartTime" type="date" placeholder="有效期限" format="YYYY-MM-DD" style="width: 100%"/>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="上传附件：" prop="Files">
 							<div class="mt10" style="border: 1px gray dashed">
 								<el-upload
 									:action="`${baseUrl}/v1/file/upload`"
@@ -166,14 +157,14 @@
 									:on-success="onSuccessFile"
 									:file-list="FilesList"
 									:on-remove="onRemove"
-									:before-upload="onBeforeImageUpload"
-								>
+									:before-upload="onBeforeImageUpload">
 									<template #default>
 										<el-icon><plus /></el-icon>
 									</template>
 								</el-upload>
-							</div> </el-form-item
-					></el-col>
+							</div>
+						</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>

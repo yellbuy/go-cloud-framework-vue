@@ -2,11 +2,20 @@
 	<el-card>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
+				<el-form-item label="选择参与项目：" prop="Id">
+					<el-select v-model="state.projectId" filterable placeholder="请选择" @change="selectProject">
+						<el-option v-for="(item, index) in state.projectList" :key="index" :label="item.Name" :value="item.Id" />
+					</el-select>
+				</el-form-item>
+			</el-col>
+		</el-row>
+		<el-row style="padding: 15px;">
+			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -15,14 +24,14 @@
 				<el-row>
 					<el-col :span="18">
 						<el-form-item label="投标方名称：">
-							<el-select v-model="state.ruleForm" placeholder="请选择" @change="selectCompany">
-								<el-option v-for="(item, index) in state.projectCompanyList" :key="index" :label="item.CompanyName" :value="item"/>
+							<el-select v-model="state.companyId" placeholder="请选择" @change="selectProjectCompany">
+								<el-option v-for="(item, index) in state.projectCompanyList" :key="index" :label="item.CompanyName" :value="item.CompanyId"/>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
 						<div style="float: right;">
-							<el-button type="primary" @click="onModelSave()">确认提交</el-button>
+							<el-button type="primary" @click="onCompile()">确认提交</el-button>
 						</div>
 					</el-col>
 				</el-row>
@@ -44,7 +53,7 @@
 				<el-row style="padding: 15px;">
 					<el-col :span="24">
 						<el-card>
-							<el-collapse v-model="state.activeNames" @change="handleChange">
+							<el-collapse v-model="state.activeName" @change="handleChange">
 								<el-collapse-item title="商务文件：" name="1">
 									<el-row v-for="(item, index) in state.swFile"  :key="index" :label="item.Name" :value="item">
 										<el-col :span="24">
@@ -91,9 +100,14 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
-	activeName: '',
+	projectId: '',
+	companyId: '',
+	projectList: [],
+	projectForm: {},
 	projectCompanyList: [],
+	projectCompanyForm: {},
+	activeName: '',
+
 	swFile:[],
 	jsFile:[],
 	qtFile:[],
@@ -136,10 +150,32 @@ state.tableData.param.pageIndex = computed(() => {
 	return state.tableData.param.current - 1;
 });
 
+const selectProject = async (event) => {
+    state.projectForm = state.projectList.find(item => item.Id === event);
+	onGetProjectCompanyList()
+}
+
+const selectProjectCompany = async (event) => {
+    state.projectCompanyForm = state.projectCompanyList.find(item => item.CompanyId === event);
+	onGetTableData()
+}
+
+//	获取专家参与的项目列表
+const onGetProjectTableData = async () => {
+	try {
+		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
+		if (res.errcode != 0) {
+			return;
+		}
+		state.projectList = res.data;
+	} finally {
+	}
+};
+
 //获取投标方列表
 const onGetProjectCompanyList = async () => {
 	try {
-		const res = await proxy.$api.erp.projectcompany.signUpList({kind: 'bid', pageIndex: 0, pageSize: 20,});
+		const res = await proxy.$api.erp.projectcompany.signUpList({projectId: state.projectForm.Id, kind: 'bid', pageIndex: 0, pageSize: 20,});
 		if (res.errcode != 0) {
 			return;
 		}
@@ -153,14 +189,14 @@ const onGetTableData = async () => {
 	state.tableData.total = true
 	try {
 		//获取项目评审参数表
-		state.tableData.param.projectId = state.ruleForm.ProjectId
+		state.tableData.param.projectId = state.projectId
 		const projectSettingLineRes = await proxy.$api.erp.projectsettingline.getListByScope("jsps", 0, 0, state.tableData.param);
 		if (projectSettingLineRes.errcode != 0) {
 			return;
 		}
 		state.tableData.data = projectSettingLineRes.data
 		//获取项目专家评审结果表
-		state.tableData.param.companyId = state.ruleForm.CompanyId
+		state.tableData.param.companyId = state.companyId
 		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("jsps", 0, 0, state.tableData.param);
 		if (projectReviewRes.errcode != 0) {
 			return;
@@ -168,7 +204,7 @@ const onGetTableData = async () => {
 		state.tableData.param.companyId = null
 		for (let i = 0; i < projectSettingLineRes.data.length; i++) {
 			state.tableData.data[i].ProjectSettingLineId = state.tableData.data[i].Id
-			state.tableData.data[i].CompanyId = state.ruleForm.CompanyId
+			state.tableData.data[i].CompanyId = state.companyId
 			for (let j = 0; j < projectReviewRes.data.length; j++) {
 				if (projectSettingLineRes.data[i].Id == projectReviewRes.data[j].ProjectSettingLineId) {
 					state.tableData.data[i].ProjectSettingLineId = projectReviewRes.data[j].ProjectSettingLineId
@@ -179,7 +215,7 @@ const onGetTableData = async () => {
 			}
 		}
 		//获取项目报名文件表
-		state.tableData.param.projectCompanyId = state.ruleForm.ProjectCompanyId
+		state.tableData.param.projectCompanyId = state.projectCompanyForm.Id
 		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope(state.tableData.param);
 		state.tableData.param.projectCompanyId = null
 		if (projectCompanyLineRes.errcode != 0) {
@@ -204,11 +240,7 @@ const onGetTableData = async () => {
 	}
 };
 
-const selectCompany = async () => {
-	onGetTableData()
-}
-
-const onModelSave = async () => {
+const onCompile = async () => {
 	ElMessageBox.confirm(`确定要提交评审参数吗?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
@@ -232,7 +264,7 @@ const onModelSave = async () => {
 
 // 页面加载时
 onMounted(() => {
-	onGetProjectCompanyList()
+	onGetProjectTableData()
 });
 
 </script>
