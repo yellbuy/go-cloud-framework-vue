@@ -28,8 +28,8 @@ export default {
      * 获取信息
      * @returns 返回接口数据
      */
-    getById: async (id: number | string) => {
-        const url = `/psi/v1/admin/entity/${id}`;
+    getById: async (id: number | string,loadLinkmanList=false) => {
+        const url = `/psi/v1/admin/entity/${id}?loadLinkmanList=${loadLinkmanList}`;
         return await http.get(url);
     },
 

@@ -400,7 +400,7 @@ export default {
 
 		//新增联系人
 		const onAddRow = () => {
-		 	state.ruleForm.LinkmanList=[{},...state.ruleForm.LinkmanList]
+		 	state.ruleForm.LinkmanList.push({})
 		};
 		//删除联系人
 		const onDelRow = (index:number) => {
@@ -487,6 +487,7 @@ export default {
 		const openDialog = async (kind: string, id: string, categoryList:any,categoryId:string, disable: boolean) => {
 			state.Files = [];
 			state.ruleForm.Kind = kind;
+			state.ruleForm.LinkmanList=[];
 			state.ruleForm.CategoryId = categoryId;
 			state.categoryList = categoryList;
 			try {
@@ -510,7 +511,7 @@ export default {
 
 		const getByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.psi.entity.getById(Id);
+				const res = await proxy.$api.psi.entity.getById(Id,true);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -554,7 +555,7 @@ export default {
 		//	关闭弹窗
 		const closeDialog = () => {
 			proxy.$refs.ruleFormRef.resetFields();
-			tableData.data = [];
+			state.ruleForm.LinkmanList=[];
 			state.loading = false;
 			state.isShowDialog = false;
 			proxy.$parent.onGetTableData();
@@ -576,7 +577,8 @@ export default {
 								closeDialog();
 							} else {
 								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id = 0;
+								state.ruleForm.LinkmanList=[];
+								state.ruleForm.Id = '0';
 							}
 							proxy.$parent.onGetTableData();
 						}
