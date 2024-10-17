@@ -2,11 +2,20 @@
 	<el-card>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
+				<el-form-item label="选择参与项目：" prop="Id">
+					<el-select v-model="state.tableData.param.projectId" filterable placeholder="请选择" @change="selectProject">
+						<el-option v-for="(item, index) in state.projectTableData.data" :key="index" :label="item.Name" :value="item.Id" />
+					</el-select>
+				</el-form-item>
+			</el-col>
+		</el-row>
+		<el-row style="padding: 15px;">
+			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectTableData.ruleForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectTableData.ruleForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectTableData.ruleForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectTableData.ruleForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 			<el-col :span="24">
@@ -38,6 +47,16 @@ const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	project: store.state.project.project,
+	projectTableData: {
+		data: [],
+		ruleForm: {},
+		total: 0,
+		loading: false,
+		param: {
+			current: 1,
+			pageSize: 20,
+		},
+	},
 	tableData: {
 		data: [],
 		total: 0,
@@ -45,6 +64,28 @@ const state: any = reactive({
 		param: {},
 	},
 });
+
+state.projectTableData.param.pageIndex = computed(() => {
+	return state.projectTableData.param.current - 1;
+});
+
+const selectProject = async (event) => {
+    state.projectTableData.ruleForm = state.projectTableData.data.find(item => item.Id === event);
+}
+
+const onGetProjectTableData = async () => {
+	state.projectTableData.loading = true;
+	try {
+		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
+		if (res.errcode != 0) {
+			return;
+		}
+		state.projectTableData.data = res.data;
+		state.projectTableData.total = res.total;
+	} finally {
+		state.projectTableData.loading = false;
+	}
+};
 
 // 下载文件
 const onDownloadFile = async () => {
@@ -55,7 +96,9 @@ const onDownloadFile = async () => {
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	onGetProjectTableData()
+});
 
 </script>
 <style scoped lang="scss">

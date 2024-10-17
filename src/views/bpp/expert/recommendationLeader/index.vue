@@ -2,11 +2,20 @@
 	<el-card>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
+				<el-form-item label="选择参与项目：" prop="Id">
+					<el-select v-model="state.tableData.param.projectId" filterable placeholder="请选择" @change="selectProject">
+						<el-option v-for="(item, index) in state.projectList" :key="index" :label="item.Name" :value="item.Id" />
+					</el-select>
+				</el-form-item>
+			</el-col>
+		</el-row>
+		<el-row style="padding: 15px;">
+			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -36,7 +45,7 @@
 					</el-table-column>
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(360)" fixed="right">
 						<template #default="scope">
-							<el-button type="primary" @click="onModelSave(scope.row)">推荐组长</el-button>
+							<el-button type="primary" @click="onCompile(scope.row)">推荐组长</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -67,13 +76,13 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
+	projectList: [],
+	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
 		loading: false,
 		param: {
-			projectId: '',
 			current: 1,
 			pageSize: 20,
 			roles: 0,
@@ -85,12 +94,29 @@ state.tableData.param.pageIndex = computed(() => {
 	return state.tableData.param.current - 1;
 });
 
+const selectProject = async (event) => {
+    state.projectForm = state.projectList.find(item => item.Id === event);
+	onGetTableData()
+}
+
+//	获取专家参与的项目列表
+const onGetProjectTableData = async () => {
+	try {
+		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
+		if (res.errcode != 0) {
+			return;
+		}
+		state.projectList = res.data;
+	} finally {
+	}
+};
+
 //	获取该项目专家列表
 const onGetTableData = async () => {
 	state.tableData.loading = true
 	try {
-		state.tableData.param.projectId = state.project.Id
 		state.tableData.param.roles = 0
+		state.tableData.param.projectId = state.projectForm.Id
 		const res = await proxy.$api.erp.projectexpert.getListByScope("bid", 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return
@@ -102,7 +128,7 @@ const onGetTableData = async () => {
 	}
 };
 
-const onModelSave = async (data: {}) => {
+const onCompile = async (data: {}) => {
 	if (!data.Id) {
 		ElMessage.error('请选择人员进行推荐！');
 		return;
@@ -122,7 +148,9 @@ const onModelSave = async (data: {}) => {
 		} finally {
 		}
 		return false;
-	});
+	}).catch(async () => {
+		ElMessage('取消推荐')
+	});;
 };
 
 // 分页改变
@@ -136,7 +164,7 @@ const onHandleCurrentChange = (val: number) => {
 
 // 页面加载时
 onMounted(() => {
-	onGetTableData()
+	onGetProjectTableData()
 });
 
 </script>
