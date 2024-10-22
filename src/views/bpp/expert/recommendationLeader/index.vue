@@ -3,13 +3,13 @@
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<el-form-item label="选择参与项目：" prop="Id">
-					<el-select v-model="state.tableData.param.projectId" filterable placeholder="请选择" @change="selectProject">
+					<el-select v-model="state.projectId" filterable placeholder="请选择" @change="selectProject">
 						<el-option v-for="(item, index) in state.projectList" :key="index" :label="item.Name" :value="item.Id" />
 					</el-select>
 				</el-form-item>
 			</el-col>
 		</el-row>
-		<el-row style="padding: 15px;">
+		<el-row style="padding: 15px;" v-if="state.projectId > 0">
 			<el-col :span="24">
 				<el-descriptions :column="2">
 					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
@@ -19,7 +19,7 @@
 				</el-descriptions>
 			</el-col>
 		</el-row>
-		<el-row>
+		<el-row v-if="state.projectId > 0">
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="60" fixed />
@@ -45,7 +45,7 @@
 					</el-table-column>
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(360)" fixed="right">
 						<template #default="scope">
-							<el-button type="primary" @click="onCompile(scope.row)">推荐组长</el-button>
+							<el-button type="primary" @click="onSubmit(scope.row)">推荐组长</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -76,6 +76,7 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
+	projectId: '',
 	projectList: [],
 	projectForm: {},
 	tableData: {
@@ -128,7 +129,7 @@ const onGetTableData = async () => {
 	}
 };
 
-const onCompile = async (data: {}) => {
+const onSubmit = async (data: {}) => {
 	if (!data.Id) {
 		ElMessage.error('请选择人员进行推荐！');
 		return;

@@ -9,7 +9,7 @@
 				</el-form-item>
 			</el-col>
 		</el-row>
-		<el-row style="padding: 15px;">
+		<el-row style="padding: 15px;" v-if="state.projectId > 0">
 			<el-col :span="24">
 				<el-descriptions :column="2">
 					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
@@ -19,7 +19,7 @@
 				</el-descriptions>
 			</el-col>
 		</el-row>
-		<el-row>
+		<el-row v-if="state.projectId > 0">
 			<el-col :span="12">
 				<el-row>
 					<el-col :span="18">
@@ -30,12 +30,12 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
-						<div style="float: right;">
-							<el-button type="primary" @click="onCompile()">确认提交</el-button>
+						<div style="float: right;" v-if="state.companyId > 0">
+							<el-button type="primary" @click="onSubmit()">确认提交</el-button>
 						</div>
 					</el-col>
 				</el-row>
-				<el-row>
+				<el-row v-if="state.companyId > 0">
 					<el-col>
 						<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 							<el-table-column type="index" label="序号" align="right" width="70" fixed />
@@ -57,7 +57,7 @@
 						</el-table>
 					</el-col>
 				</el-row>
-				<el-row style="padding: 15px;">
+				<el-row style="padding: 15px;" v-if="state.companyId > 0">
 					<el-col :span="24">
 						<el-card>
 							<el-collapse v-model="state.activeName" @change="handleChange">
@@ -87,8 +87,8 @@
 					</el-col>
 				</el-row>
 			</el-col>
-			<el-col :span="12" >
-				<div style=" float: center; font-size: 50px;">
+			<el-col :span="12">
+				<div style=" float: center; font-size: 50px;" v-if="state.swFile.length > 0 || state.jsFile.length > 0 || state.qtFile.length > 0">
 					<h>PDF预览</h>
 				</div>
 			</el-col>
@@ -114,7 +114,6 @@ const state: any = reactive({
 	projectCompanyList: [],
 	projectCompanyForm: {},
 	activeName: '',
-
 	swFile:[],
 	jsFile:[],
 	qtFile:[],
@@ -159,6 +158,11 @@ state.tableData.param.pageIndex = computed(() => {
 
 const selectProject = async (event) => {
     state.projectForm = state.projectList.find(item => item.Id === event);
+	state.companyId = null
+	state.tableData.data = []
+	state.swFile = []
+	state.jsFile = []
+	state.qtFile = []
 	onGetProjectCompanyList()
 }
 
@@ -182,7 +186,7 @@ const onGetProjectTableData = async () => {
 //获取投标方列表
 const onGetProjectCompanyList = async () => {
 	try {
-		const res = await proxy.$api.erp.projectcompany.signUpList({projectId: state.projectForm.Id, kind: 'bid', pageIndex: 0, pageSize: 20,});
+		const res = await proxy.$api.erp.projectcompany.signUpList({projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
 		if (res.errcode != 0) {
 			return;
 		}
@@ -204,6 +208,7 @@ const onGetTableData = async () => {
 		state.tableData.data = projectSettingLineRes.data
 		//获取项目专家评审结果表
 		state.tableData.param.companyId = state.companyId
+		state.tableData.param.isGather = 0
 		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("zgps", 0, 0, state.tableData.param);
 		if (projectReviewRes.errcode != 0) {
 			return;
@@ -247,7 +252,7 @@ const onGetTableData = async () => {
 	}
 };
 
-const onCompile = async () => {
+const onSubmit = async () => {
 	ElMessageBox.confirm(`确定要提交评审参数吗?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
