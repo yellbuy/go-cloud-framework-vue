@@ -169,6 +169,7 @@
 												v-model="ruleForm.Birthdate"
 												type="date"
 												placeholder="出生日期"
+												:default-value="new Date()"
 												format="YYYY-MM-DD">
 											</el-date-picker>
 										</el-form-item>
@@ -400,10 +401,14 @@ export default {
 
 		//新增联系人
 		const onAddRow = () => {
-		 	state.ruleForm.LinkmanList.push({})
+		 	state.ruleForm.LinkmanList.push({Address:"",Name:""})
 		};
 		//删除联系人
 		const onDelRow = (index:number) => {
+			if(state.ruleForm.LinkmanList[index].Address==""){
+				state.ruleForm.LinkmanList.splice(index,1)
+				return;
+			}
 			ElMessageBox.confirm('确定删除当前记录吗？', '温馨提示', {
 					type: 'error',
 					closeOnClickModal: false,
@@ -565,6 +570,12 @@ export default {
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
+					for(const val of state.ruleForm.LinkmanList){
+						if(val.Address==""){
+							ElMessage.warning("送货地址不能为空")
+							return;
+						}
+					}
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					if (state.Files) {
