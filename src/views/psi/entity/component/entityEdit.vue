@@ -287,7 +287,7 @@
 													</el-button>
 												</template>
 											</el-table-column>
-											</el-table>
+										</el-table>
 									</el-col>
 								</el-row> 
 							</el-tab-pane>

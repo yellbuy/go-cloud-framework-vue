@@ -1,6 +1,6 @@
 <template>
 	<div class="psi-edit-product-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="90%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="95%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="18" :md="18" :lg="18" class="mb20">
@@ -133,46 +133,152 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">	
 						<el-tabs type="border-card">
 							<el-tab-pane label="单位价格">
-								<el-table :data="tableData" style="width: 100%">
-									<el-table-column label="Date" width="180">
-									<template #default="scope">
-										<div style="display: flex; align-items: center">
-										<el-icon><timer /></el-icon>
-										<span style="margin-left: 10px">{{ scope.row.date }}</span>
-										</div>
-									</template>
-									</el-table-column>
-									<el-table-column label="Name" width="180">
-									<template #default="scope">
-										<el-popover effect="light" trigger="hover" placement="top" width="auto">
-										<template #default>
-											<div>name: {{ scope.row.name }}</div>
-											<div>address: {{ scope.row.address }}</div>
-										</template>
-										<template #reference>
-											<el-tag>{{ scope.row.name }}</el-tag>
-										</template>
-										</el-popover>
-									</template>
-									</el-table-column>
-									<el-table-column label="Operations">
-									<template #default="scope">
-										<el-button size="small" @click="handleEdit(scope.$index, scope.row)">
-										Edit
-										</el-button>
-										<el-button
-										size="small"
-										type="danger"
-										@click="handleDelete(scope.$index, scope.row)"
-										>
-										Delete
-										</el-button>
-									</template>
-									</el-table-column>
-								</el-table>
+								<el-row :gutter="0">
+									<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">	
+										<el-table :data="ruleForm.ProductPriceList" style="width: 100%">
+											<el-table-column prop="Name" label="#" width="80" show-overflow-tooltip  fixed>
+											</el-table-column>
+											<el-table-column label="*单位" width="90">
+												<template #default="scope">
+													<el-select
+														v-model="scope.row.UnitId"
+														filterable
+														default-first-option
+														placeholder="请选择">
+														<el-option label=" " value="0" ></el-option>
+														<el-option :label="val.Name" :value="val.Id" v-for="(val,index) in productUnitList" :key="index"></el-option>
+													</el-select>
+												</template>
+											</el-table-column>
+											<el-table-column label="*换算率" width="80" align="center">
+												<template #default="scope">
+													<el-input-number :min="0" :controls="false" :readonly="scope.row.UnitType==0"
+														v-model="scope.row.UnitRate" style="width:70px"></el-input-number> 
+												</template>
+											</el-table-column>
+											<el-table-column label="零售价" width="90" align="center">
+												<template #default="scope">
+													<el-input-number v-model="scope.row.Price" 
+														:min="0"  :precision="2" :controls="false"
+														placeholder="请输入" style="width:80px">
+													</el-input-number> 
+												</template>
+											</el-table-column>
+											<el-table-column label="价格1" width="90" align="center">
+												<template #default="scope">
+													<el-input-number v-model="scope.row.Price1" 
+														:min="0" :precision="2" :controls="false"
+														placeholder="请输入" style="width:80px">
+													</el-input-number> 
+												</template>
+											</el-table-column>
+											<el-table-column label="价格2" width="90" align="center">
+												<template #default="scope">
+													<el-input-number v-model="scope.row.Price2" 
+														:min="0" :precision="2" :controls="false"
+														placeholder="请输入" style="width:80px">
+													</el-input-number> 
+												</template>
+											</el-table-column>
+											<el-table-column label="价格3" width="90" align="center">
+												<template #default="scope">
+													<el-input-number v-model="scope.row.Price3" 
+														:min="0" :precision="2" :controls="false"
+														placeholder="请输入" style="width:80px">
+													</el-input-number> 
+												</template>
+											</el-table-column>
+											<el-table-column label="价格4" width="90" align="center">
+												<template #default="scope">
+													<el-input-number v-model="scope.row.Price4" 
+														:min="0" :precision="2" :controls="false"
+														placeholder="请输入" style="width:80px">
+													</el-input-number> 
+												</template>
+											</el-table-column>
+											<el-table-column label="价格5" width="90" align="center">
+												<template #default="scope">
+													<el-input-number v-model="scope.row.Price5" 
+														:min="0" :precision="2" :controls="false"
+														placeholder="请输入" style="width:80px">
+													</el-input-number> 
+												</template>
+											</el-table-column>
+											<el-table-column label="最近进价" width="90" align="center">
+												<template #default="scope">
+													<el-input-number v-model="scope.row.RecentPurchasePrice" 
+														:min="0" :precision="2" :controls="false"
+														placeholder="请输入" style="width:80px">
+													</el-input-number> 
+												</template>
+											</el-table-column>
+											<el-table-column label="最近售价" width="90" align="center">
+												<template #default="scope">
+													<el-input-number v-model="scope.row.RecentSalePrice" 
+														:min="0" :precision="2" :controls="false"
+														placeholder="请输入" style="width:80px">
+													</el-input-number> 
+												</template>
+											</el-table-column>
+											<el-table-column label="最低售价" width="90" align="center">
+												<template #default="scope">
+													<el-input-number v-model="scope.row.LowestPrice" 
+														:min="0" :precision="2" :controls="false"
+														placeholder="请输入" style="width:80px">
+													</el-input-number> 
+												</template>
+											</el-table-column>
+											<el-table-column label="会员价" width="90" align="center">
+												<template #default="scope">
+													<el-input-number v-model="scope.row.VipPrice" 
+														:min="0" :precision="2" :controls="false"
+														placeholder="请输入" style="width:80px">
+													</el-input-number> 
+												</template>
+											</el-table-column>
+											<el-table-column label="条码" width="100" align="center">
+												<template #default="scope">
+													<el-input v-model="scope.row.Barcode" ></el-input> 
+												</template>
+											</el-table-column>
+											<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
+												<!-- <template #header>
+													<el-button bg type="primary" @click="onAddRow()">
+														{{ $t('message.action.add') }}
+													</el-button>
+												</template> -->
+												<template #default="scope">
+													<el-button text bg type="danger" @click="onDelUnitRow(scope.$index)">
+														{{ $t('message.action.delete') }}
+													</el-button>
+												</template>
+											</el-table-column>
+										</el-table>
+									</el-col>
+								</el-row> 
+								<el-row :gutter="0" v-if="rateMessage">
+									<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
+										换算率：{{ rateMessage }}	
+									</el-col>
+								</el-row> 
 							</el-tab-pane>
 							<el-tab-pane label="条码">
-
+								<el-row :gutter="0">
+									<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">	
+										<el-table :data="ruleForm.ProductBarcodeList" style="width: 100%">
+											<el-table-column prop="UnitName" label="单位" width="100" show-overflow-tooltip  fixed :readonly="true">
+											</el-table-column>
+											
+											<el-table-column label="条码" width="300">
+												<template #default="scope">
+													<el-input v-model="scope.row.Barcode" 
+														placeholder="请输入" >
+													</el-input> 
+												</template>
+											</el-table-column>
+										</el-table>
+									</el-col>
+								</el-row>
 							</el-tab-pane>
 						</el-tabs>
 					</el-col>
@@ -195,8 +301,8 @@
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
-import { ElMessage, UploadProps } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
@@ -259,38 +365,118 @@ export default {
 				Id: '0',				
 				Kind: 'info',
 				GoodsName: '',
-				GoodsUnit:'',
+				UnitId:'0',
 				GoodsSn:'',
 				SupplierState:1,
 				GoodsImg:'',
 				SellerNote:'',
-                Piny:'',
+                Pinyin:'',
 				CategoryId:'',
 				Name:'',
 				GoodsPics:'',
-				ProductPrice:[{Id:"0",Name:"基本单位"}]
-			},
-			tableItem: {
-				Id: '0',				
-				Kind: 'info',
-				Name: '',
-				No: '',
-				Qty: 0,
-				Content:"",
-				Remark: '',
-				Files: '',
+				ProductBarcodeList:[{Id:"0",Name:"",UnitId:"0",UnitName:""},{Id:"0",Name:"",UnitId:"0",UnitName:""},{Id:"0",Name:"",UnitId:"0",UnitName:""}],
+				ProductPriceList:[{Id:"0",UnitRate:1,UnitType:0,Name:"基本单位"},{Id:"0",UnitType:1,Name:"辅助单位1"},{Id:"0",UnitType:1,Name:"辅助单位2"}]
 			},
 			dialogVisible: false,
-			goodsTypeList: [],
 			categoryList:[],
-			goodsUnitList: [],
+			productUnitList: [],
 			brandList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			saveState: false,
+			rateMessage:'',
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
+
+		watch(
+			() => state.ruleForm.ProductPriceList,
+			(newArray, oldArray) => {
+				console.log("newArray:",newArray)
+				const list=newArray.filter((val)=>val.UnitId && val.UnitId != "0")
+				const barcodeList=[]
+				for(let index=0;index<list.length;index++){
+					const priceObj=list[index]
+					let barcodeObj={Id:"0",Name:"",UnitId:"0",UnitName:""}
+					if(state.ruleForm.ProductBarcodeList.length>index){
+						barcodeObj=state.ruleForm.ProductBarcodeList[index]
+					}
+					barcodeObj.UnitId=priceObj.UnitId
+					const unit=state.productUnitList.find(val=>val.Id==barcodeObj.UnitId)
+					if(unit){
+						barcodeObj.UnitName=unit.Name
+						barcodeList.push(barcodeObj)
+					}
+				}
+				//设置换算率公示的内容
+				state.rateMessage=""
+				if(state.ruleForm.ProductPriceList.length>0){
+					//更新基本单位名称
+					const baseUnit=state.ruleForm.ProductPriceList[0]
+					const unit = state.productUnitList.find(val=>val.Id == baseUnit.UnitId)
+					if(unit){
+						baseUnit.UnitName=unit.Name
+					}
+				}
+				if(state.ruleForm.ProductPriceList.length>1){
+					//更新辅助单位名称
+					const assestUnit=state.ruleForm.ProductPriceList[1]
+					const unit=state.productUnitList.find(val=>val.Id==assestUnit.UnitId)
+					if(unit){
+						assestUnit.UnitName=unit.Name
+					}
+					//设置换算率公式
+					const baseUnit=state.ruleForm.ProductPriceList[0]
+					if(assestUnit.UnitName && baseUnit.UnitName){
+						state.rateMessage=`1 ${assestUnit.UnitName} = ${assestUnit.UnitRate??0} ${baseUnit.UnitName}`
+					}
+				}
+				if(state.ruleForm.ProductPriceList.length>2){
+					//更新辅助单位名称
+					const assestUnit=state.ruleForm.ProductPriceList[2]
+					const unit=state.productUnitList.find(val=>val.Id==assestUnit.UnitId)
+					if(unit){
+						assestUnit.UnitName=unit.Name
+					}
+					//设置换算率公式
+					const baseUnit=state.ruleForm.ProductPriceList[0]
+					if(assestUnit.UnitName && baseUnit.UnitName){
+						if(state.rateMessage){
+							state.rateMessage=state.rateMessage+", "
+						}
+						state.rateMessage=`${state.rateMessage}1 ${assestUnit.UnitName} = ${assestUnit.UnitRate??0} ${baseUnit.UnitName}`
+					}
+				}
+				state.ruleForm.ProductBarcodeList=barcodeList
+			},{ deep: true }
+		);
+
+		//获取换算率汇总数据
+		const getRateSummaries = (param: SummaryMethodProps) => {
+			const { columns, data } = param
+			const sums: (string | VNode)[] = []
+			columns.forEach((column, index) => {
+				if (index === 0) {
+					sums[index] = '换算公式'
+					return
+				}
+				const values = data.map((item) => Number(item[column.property]))
+				if (!values.every((value) => Number.isNaN(value))) {
+				sums[index] = `$ ${values.reduce((prev, curr) => {
+					const value = Number(curr)
+					if (!Number.isNaN(value)) {
+					return prev + curr
+					} else {
+					return prev
+					}
+				}, 0)}`
+				} else {
+				sums[index] = 'N/A'
+				}
+			})
+
+			return sums
+			}
 
 		const token = Session.get('token');
 
@@ -311,46 +497,41 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			GoodsUnit: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			]
 		});
 		
 		//	打开弹窗
-		const openDialog = async (kind: string, id: string, categoryList:any,categoryId:string, disable: boolean) => {
+		const openDialog = async (kind: string, id: string, categoryList:any, categoryId:string, disable: boolean) => {
 			state.Files = [];
 			state.ruleForm.Kind = kind;
 			state.ruleForm.CategoryId = categoryId;
 			state.categoryList = categoryList;
-			state.tableItem = { Id: '0', No: '', Name: '', Files: '', Kind: kind, Content: '' };
 			try {
 				
-				const GoodsType = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_type', 0, 2);
-				if (GoodsType.errcode == 0) {
-					state.goodsTypeList = GoodsType.data;
-				}else{
-					console.log("error:",GoodsType.errmsg)
+				const res = await proxy.$api.psi.unit.getListByScope(kind, 0, 0);
+				if (res.errcode != 0) {
+					return
 				}
-				const goodsUnits = await proxy.$api.common.commondata.getConcreteDataListByScope('goods_unit', 0, 2);
-				if (goodsUnits.errcode == 0) {
-					state.goodsUnitList = goodsUnits.data;
-				}else{
-					console.log("error:",goodsUnits.errmsg)
-				}
+				state.productUnitList=res.data
+				
 				state.disable = disable;
 				if (disable) {
 					state.title = t('message.action.see');
 					getByIdRow(id);
 				} else if (id && id != '0') {
 					getByIdRow(id);
+					if(state.ruleForm.ProductPriceList.length==0){
+						state.ruleForm.ProductPriceList=[{Id:"0",UnitRate:1,UnitType:0,Name:"基本单位"},{Id:"0",UnitType:1,Name:"辅助单位1"},{Id:"0",UnitType:1,Name:"辅助单位2"}]
+					}else if(state.ruleForm.ProductPriceList.length==1){
+						state.ruleForm.ProductPriceList.push({Id:"0",UnitType:1,Name:"辅助单位1"})
+						state.ruleForm.ProductPriceList.push({Id:"0",UnitType:1,Name:"辅助单位2"})
+					}else if(state.ruleForm.ProductPriceList.length==2){
+						state.ruleForm.ProductPriceList.push({Id:"0",UnitType:1,Name:"辅助单位2"})
+					}
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = 0;
 					state.ruleForm.State = 1;
+					state.ruleForm.ProductPriceList=[{Id:"0",UnitRate:1,UnitType:0,Name:"基本单位"},{Id:"0",UnitType:1,Name:"辅助单位1"},{Id:"0",UnitType:1,Name:"辅助单位2"}]
 					state.title = t('message.action.add');
 				}
 				state.isShowDialog = true;
@@ -361,7 +542,7 @@ export default {
 
 		const getByIdRow = async (Id: string) => {
 			try {
-				const res = await proxy.$api.wms.goods.getById(Id);
+				const res = await proxy.$api.psi.product.getById(Id,true);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -382,6 +563,53 @@ export default {
 				state.ruleForm = res.data;
 			} finally {
 				state.isShowDialog = true;
+			}
+		};
+		//删除单位价格
+		const onDelUnitRow = (index:number) => {
+			const productPrice=state.ruleForm.ProductPriceList[index]
+			if(productPrice.UnitId && productPrice.UnitId!="0"){
+				ElMessageBox.confirm('确定删除当前记录吗？', '温馨提示', {
+					type: 'error',
+					closeOnClickModal: false,
+					//center: true,
+				}).then(() => {
+					productPrice.UnitId="0"
+					if(index>1){
+						productPrice.UnitRate="0"
+					}
+					productPrice.Barcode=""
+					productPrice.Qrcode=""
+					productPrice.Price=0
+					productPrice.Price1=0
+					productPrice.Price2=0
+					productPrice.Price3=0
+					productPrice.Price4=0
+					productPrice.Price5=0
+					productPrice.Price6=0
+					productPrice.RecentPurchasePrice=0
+					productPrice.RecentSalePrice=0
+					productPrice.LowestPrice=0
+					productPrice.VipPrice=0
+				}).catch(() => { })
+			}else{
+				productPrice.UnitId="0"
+				if(index>1){
+					productPrice.UnitRate="0"
+				}
+				productPrice.Barcode=""
+				productPrice.Qrcode=""
+				productPrice.Price=0
+				productPrice.Price1=0
+				productPrice.Price2=0
+				productPrice.Price3=0
+				productPrice.Price4=0
+				productPrice.Price5=0
+				productPrice.Price6=0
+				productPrice.RecentPurchasePrice=0
+				productPrice.RecentSalePrice=0
+				productPrice.LowestPrice=0
+				productPrice.VipPrice=0
 			}
 		};
 
@@ -433,16 +661,22 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					if (state.Files) {
-						state.ruleForm.GoodsPics = state.Files.join(',');
+						state.ruleForm.Pics = state.Files.join(',');
+					}
+					for(const val of state.ruleForm.ProductPriceList){
+						if(val.UnitId && val.UnitId!="0" && val.UnitRate<=0){
+							ElMessage.warning("单位换算率必须大于0")
+							return;
+						}
 					}
 					try {
-						const res = await proxy.$api.wms.goods.save(state.ruleForm);
+						const res = await proxy.$api.psi.product.save(state.ruleForm);
 						if (res.errcode == 0) {
 							if (isCloseDlg) {
 								closeDialog();
 							} else {
 								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id = 0;
+								state.ruleForm.Id = '0';
 							}
 							proxy.$parent.onGetTableData();
 						}
@@ -487,6 +721,7 @@ export default {
 			closeDialog,
 			getByIdRow,
 			onSuccessFile,
+			getRateSummaries,
 			onPreview,
 			onRemove,
 			onBeforeImageUpload,
@@ -496,6 +731,7 @@ export default {
 			tableData,
 			rules,
 			token,
+			onDelUnitRow,
 			onSubmit,
 			...toRefs(state),
 		};
