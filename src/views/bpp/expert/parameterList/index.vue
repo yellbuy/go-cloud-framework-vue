@@ -9,7 +9,7 @@
 				</el-form-item>
 			</el-col>
 		</el-row>
-		<el-row style="padding: 15px;">
+		<el-row style="padding: 15px;" v-if="state.projectId > 0">
 			<el-col :span="24">
 				<el-descriptions :column="2">
 					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
@@ -19,7 +19,7 @@
 				</el-descriptions>
 			</el-col>
 		</el-row>
-		<el-tabs v-model="state.activeName" type="card" class="demo-tabs" @tab-change="onGetTableData">
+		<el-tabs v-model="state.activeName" type="card" class="demo-tabs" @tab-change="onGetTableData" v-if="state.projectId > 0">
 			<el-tab-pane label="资格评审" name="zgps">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" :height="proxy.$calcMainHeight(-170)" style="width: 100%" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" width="60" align="right" show-overflow-tooltip fixed />

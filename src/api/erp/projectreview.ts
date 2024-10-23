@@ -130,6 +130,23 @@ export default {
         return await http.post(url, data);
     },
     /**
+    * 专家报价得分
+    * @returns 返回接口数据
+    */
+    bidScoreSave: async (kind: string, data: object) => {
+        const url = `v1/admin/erp/projectreview/bidscore/${kind}`;
+        return await http.post(url, data);
+    },
+    /**
+    * 评分汇总
+    * @returns 返回接口数据
+    */
+    scoreGatherSave: async (id: string, data: object) => {
+        const url = `v1/admin/erp/projectreview/scoregather/${id}`;
+        return await http.post(url, data);
+    },
+    
+    /**
     * 专家退回
     * @returns 返回接口数据
     */

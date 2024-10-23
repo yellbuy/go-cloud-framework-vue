@@ -3,64 +3,73 @@
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<el-form-item label="选择参与项目：" prop="Id">
-					<el-select v-model="state.tableData.param.projectId" filterable placeholder="请选择" @change="selectProject">
-						<el-option v-for="(item, index) in state.projectTableData.data" :key="index" :label="item.Name" :value="item.Id" />
+					<el-select v-model="state.projectId" filterable placeholder="请选择" @change="selectProject">
+						<el-option v-for="(item, index) in state.projectList" :key="index" :label="item.Name" :value="item.Id" />
 					</el-select>
 				</el-form-item>
 			</el-col>
 		</el-row>
-		<el-row style="padding: 15px;">
+		<el-row style="padding: 15px;" v-if="state.projectId > 0">
 			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.projectTableData.ruleForm.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.projectTableData.ruleForm.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.projectTableData.ruleForm.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.projectTableData.ruleForm.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
 		<el-row>
 			<el-col :span="8">
-				<div>
-					<el-button text bg type="primary" @click="onCompile">组长确认</el-button>
-					<el-button text bg type="primary" @click="">退回重评</el-button>
+				<div v-if="state.expertId > 0">
+					<el-button type="primary" @click="">组长确认</el-button>
 				</div>
 			</el-col>
 			<el-col :span="8">
-				<el-form-item label="评委编号：">
-					<el-select v-model="state.ruleForm.Id" placeholder="请选择" @change="getProjectReviewList">
-						<el-option v-for="(item, index) in state.projectExpertTableData.data" :key="index" :label="item.Name" :value="item.Id"/>
+				<el-form-item label="评委编号：" v-if="state.projectExpertList.length > 0">
+					<el-select v-model="state.expertId" placeholder="请选择" @change="selectProjectExpert">
+						<el-option v-for="(item, index) in state.projectExpertList" :key="index" :label="item.Name" :value="item.Uid"/>
 					</el-select>
 				</el-form-item>
 			</el-col>
 			<el-col :span="8">
+				<div style="float: right;" v-if="state.expertId > 0">
+					<el-button type="primary" @click="">退回重评</el-button>
+				</div>
 			</el-col>
 		</el-row>
-		<el-col :span="24">
-			<div style="text-align: center;font-size: 20px; padding-bottom: 15px;">
-				<h>报价得分表</h>
-			</div>
-		</el-col>
-		<el-row>
+		<el-row v-if="state.expertId > 0">
+			<el-col :span="8">
+				<div>
+					<el-button type="primary" @click="onSubmit()">提交</el-button>
+				</div>
+			</el-col>
+			<el-col :span="24">
+				<div style="text-align: center;font-size: 20px; padding-bottom: 15px;">
+					<h>报价得分表</h>
+				</div>
+			</el-col>
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
-					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column prop="Id" label="投标方名称" width="120" show-overflow-tooltip/>
-					<el-table-column prop="Name" label="总报价（元）" show-overflow-tooltip/>
-					<el-table-column prop="Name" label="最终评审报价（元）" show-overflow-tooltip/>
-					<el-table-column prop="Name" label="价格得分" show-overflow-tooltip/>
+					<el-table-column type="index" label="序号" align="right" width="60" fixed />
+					<el-table-column prop="CompanyName" label="投标方名称" width="300" show-overflow-tooltip/>
+					<el-table-column prop="Amount" label="总报价（元）" align="right" width="200" show-overflow-tooltip/>
+					<el-table-column prop="ReviewPrice" label="最终评审报价（元）" align="right" show-overflow-tooltip>
+						<template #default="scope">
+							<el-input-number style="width: 100%;" v-model="scope.row.ReviewPrice" :precision="2" :step="1" :min="0"/>
+						</template>
+					</el-table-column>
+					<el-table-column prop="PriceScore" label="价格得分" align="right" show-overflow-tooltip>
+						<template #default="scope">
+							<el-input-number style="width: 100%;" v-model="scope.row.PriceScore" :precision="0" :step="1" :min="0"/>
+						</template>
+					</el-table-column>
+					<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(70)" fixed="right">
+						<template #default="scope">
+							<el-button text bg type="primary" @click="onSubmit(scope.row)">保存</el-button>
+						</template>
+					</el-table-column> -->
 				</el-table>
-				<el-pagination
-					small
-					@size-change="onHandleSizeChange"
-					@current-change="onHandleCurrentChange"
-					class="mt15"
-					:page-sizes="[10, 20, 30]"
-					v-model:current-page="state.tableData.param.current"
-					background
-					v-model:page-size="state.tableData.param.pageSize"
-					layout="->, total, sizes, prev, pager, next, jumper"
-					:total="state.tableData.total"/>
 			</el-col>
 		</el-row>
 	</el-card>
@@ -77,20 +86,15 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
-	projectLineIndex:'',
+	projectId: '',
+	expertId: '',
+	projectList: [],
+	projectForm: {},
+	projectExpertList: [],
+	projectExpertForm: {},
 	projectTableData: {
 		data: [],
 		ruleForm: {},
-		total: 0,
-		loading: false,
-		param: {
-			current: 1,
-			pageSize: 20,
-		},
-	},
-	projectExpertTableData: {
-		data: [],
 		total: 0,
 		loading: false,
 		param: {
@@ -103,9 +107,10 @@ const state: any = reactive({
 		total: 0,
 		loading: false,
 		param: {
-			current: 1,
-			size: 20,
-		},
+			kind: 'bjdf', 
+			current: 1, 
+			pageSize: 20,
+		}
 	},
 	ruleForm: {},
 });
@@ -119,109 +124,101 @@ state.tableData.param.pageIndex = computed(() => {
 });
 
 const selectProject = async (event) => {
-    state.projectTableData.ruleForm = state.projectTableData.data.find(item => item.Id === event);
-	getProjectExpertList()
+    state.projectForm = state.projectList.find(item => item.Id === event);
+	state.expertId = null
+	state.tableData.data = []
+	onGetProjectExpertList()
 }
 
+const selectProjectExpert = async (event) => {
+    state.projectExpertForm = state.projectExpertList.find(item => item.CompanyId === event);
+	onGetTableData()
+}
+
+//	获取专家参与的项目列表
 const onGetProjectTableData = async () => {
-	state.projectTableData.loading = true;
 	try {
 		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
 		if (res.errcode != 0) {
 			return;
 		}
-		state.projectTableData.data = res.data;
-		state.projectTableData.total = res.total;
+		state.projectList = res.data;
 	} finally {
-		state.projectTableData.loading = false;
 	}
 };
 
-//	获取该项目专家列表
-const getProjectExpertList = async () => {
-	state.projectExpertTableData.loading = true
+//	获取该项目参与的所有专家列表
+const onGetProjectExpertList = async () => {
 	try {
-		state.projectExpertTableData.param.projectId = state.project.Id
-		const res = await proxy.$api.erp.projectexpert.getListByScope("bid", 0, 0, state.projectExpertTableData.param);
+		const res = await proxy.$api.erp.projectexpert.getListByScope("bid", 0, 0, {projectId: state.projectId, pageIndex: 0, pageSize: 20,});
 		if (res.errcode != 0) {
 			return
 		}
-		state.projectExpertTableData.data = res.data;
-		state.projectExpertTableData.total = res.total
+		state.projectExpertList = res.data;
 	} finally {
-		state.projectExpertTableData.loading = false
 	}
 };
 
-
-//	获取专家汇总信息
-const getProjectReviewList = async () => {
-	state.tableData.loading = true
+//获取投标方列表
+const onGetTableData = async () => {
 	try {
-		state.tableData.param.projectId = state.project.Id
-		state.tableData.param.expertUid = state.ruleForm.Id
-		const res = await proxy.$api.erp.projectreview.getList("zgps", 0, 0, state.tableData.param);
-		if (res.errcode != 0) {
-			return
+		const projectCompanyRes = await proxy.$api.erp.projectcompany.signUpList({projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
+		if (projectCompanyRes.errcode != 0) {
+			return;
 		}
-		state.tableData.data = res.data.RecordList;
-	} finally {
-		state.tableData.loading = false
-	}
-};
-
-//获取项目品目信息
-const getCompanyList = async (isState: boolean) => {
-	if (isState) {
-		let params = {};
-		state.project = store.state.project.project;
-		state.tableData.data = [];
-		try {
-			params.projectId = store.state.project.projectId;
-			params.state = 1;
-			//重新请求数据
-
-			const res = await proxy.$api.erp.projectcompany.comparisonList(params);
-			//获取存储的项目数据
-			if (res.errcode != 0) {
-				return;
+		//获取项目专家评审结果表
+		state.tableData.param.projectId = state.projectId
+		state.tableData.param.expertId = state.expertId
+		state.tableData.param.isGather = 0
+		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("bjdf", 0, 0, state.tableData.param);
+		if (projectReviewRes.errcode != 0) {
+			return;
+		}
+		state.tableData.data = []
+		for (let val of projectCompanyRes.data) {
+			let model = {}
+			model.Id = "0"
+			model.Kind = "bjdf"
+			model.ProjectId = state.projectId
+			model.CompanyId = val.CompanyId
+			model.CompanyName = val.CompanyName
+			model.ReviewPrice = 0
+			model.PriceScore = 0
+			model.Amount = val.Amount
+			state.tableData.data.push(model)
+			for	(let item of projectReviewRes.data){
+				if (item.CompanyId == val.CompanyId) {
+					model.Id = item.Id
+					model.ReviewPrice = item.ReviewPrice
+					model.PriceScore = item.PriceScore
+				}
 			}
-			state.tableData.data = res.data;
-		} finally {
+
 		}
+	} finally {
 	}
 };
 
-const onCompile = async (Id: Number) => {
-	if (!Id) {
-		ElMessage.error('当前页面没有数据，不能汇总！');
-		return;
-	}
-	ElMessageBox.confirm(`确定汇总吗?`, '提示', {
+const onSubmit = async () => {
+	ElMessageBox.confirm(`确定要提交报价分数吗?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
-		// try {
-		// 	const res = await proxy.$api.common.enterprise.audit(state.ruleForm);
-		// 	if (res.errcode != 0) {
-		// 		return;
-		// 	}
-		// 	state.ruleForm.AuditState = 0;
-		// } finally {
-		// 	onGetTableData(true);
-		// }
+		try {
+			const res = await proxy.$api.erp.projectreview.bidScoreSave("bjdf", state.tableData.data);
+			if (res.errcode != 0) {
+				return;
+			}
+			onGetTableData()
+			ElMessage('报价分数提交成功')
+		} finally {
+		}
 		return false;
+	}).catch(async () => {
+		onGetTableData()
+		ElMessage('取消提交')
 	});
-};
-
-// 分页改变
-const onHandleSizeChange = (val: number) => {
-	state.tableData.param.pageSize = val;
-};
-// 分页改变
-const onHandleCurrentChange = (val: number) => {
-	state.tableData.param.current = val;
 };
 
 // 页面加载时

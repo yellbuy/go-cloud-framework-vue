@@ -65,13 +65,13 @@
 							<el-icon>
 								<Edit />
 							</el-icon>
-							&#8197;{{ '编辑' }}
+							编辑
 						</el-button>
 						<el-button text bg type="danger" @click="onRowDel(scope.row)">
 							<el-icon>
 								<CloseBold />
 							</el-icon>
-							&#8197;{{ $t('message.action.delete') }}
+							删除
 						</el-button>
 					</template>
 				</el-table-column>
