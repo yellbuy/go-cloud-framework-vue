@@ -5,6 +5,8 @@ export default {
 		product: 'product',
 		unit: 'product unit',
 		entity: 'entity',
+		fixAsset: 'fixed asset',
+		financeSubject: 'finance subject',
 	},
 	case: {
 		no: 'no',
