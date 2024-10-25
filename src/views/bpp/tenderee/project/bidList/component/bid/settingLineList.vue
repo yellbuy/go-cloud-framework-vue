@@ -19,7 +19,7 @@
 				<el-form :model="state.zgTableData.param" label-width="60px" :inline="true" style="margin-bottom: 10px;">
 					<el-form-item>
 						<el-button type="primary" @click="onSettingLineEditDialog()">创建</el-button>
-						<el-button type="info" @click="onGetSettingTableData()">恢复默认</el-button>
+						<el-button type="info" @click="onGetDefault()">恢复默认</el-button>
 					</el-form-item>
 				</el-form>
 				<el-table :data="state.zgTableData.data" v-loading="state.zgTableData.loading" :height="proxy.$calcMainHeight(-240)" style="width: 100%" border stripe highlight-current-row>
@@ -44,7 +44,7 @@
 				<el-form :model="state.jsTableData.param" label-width="60px" :inline="true" style="margin-bottom: 10px;">
 					<el-form-item>
 						<el-button type="primary" @click="onSettingLineEditDialog()">创建</el-button>
-						<el-button type="info" @click="onGetSettingTableData()">恢复默认</el-button>
+						<el-button type="info" @click="onGetDefault">恢复默认</el-button>
 					</el-form-item>
 				</el-form>
 				<el-table :data="state.jsTableData.data" style="width: 100%" v-loading="state.jsTableData.loading" :height="proxy.$calcMainHeight(-240)" border stripe highlight-current-row>
@@ -308,6 +308,34 @@ const getScore = () => {
 	}
 };
 
+//恢复默认模板参数
+const onGetDefault = async () => {
+	switch (state.activeName){
+		case "zgps":
+			try {
+				const res = await proxy.$api.erp.projectsettingline.default(state.activeName, state.project.Id);
+				if (res.errcode != 0) {
+					return;
+				}
+				onGetSettingLineTableData()
+			} finally {
+			}
+			break;
+		case "jsps":
+			state.jsTableData.loading = true;
+			try {
+				const res = await proxy.$api.erp.projectsettingline.default(state.activeName, state.project.Id);
+				if (res.errcode != 0) {
+					return;
+				}
+				onGetSettingLineTableData()
+			} finally {
+				state.jsTableData.loading = false;
+			}
+			break;
+	}
+};
+
 //获取评审参数列表
 const onGetSettingLineTableData = async () => {
 	switch (state.activeName){
@@ -316,7 +344,7 @@ const onGetSettingLineTableData = async () => {
 			try {
 				state.zgTableData.param.kind = state.activeName
 				state.zgTableData.param.projectId = state.project.Id
-				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.zgTableData.param);
+				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.activeName, 0, 0, state.zgTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -330,7 +358,7 @@ const onGetSettingLineTableData = async () => {
 			try {
 				state.jsTableData.param.kind = state.activeName
 				state.jsTableData.param.projectId = state.project.Id
-				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.jsTableData.param);
+				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.activeName, 0, 0, state.jsTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -344,7 +372,7 @@ const onGetSettingLineTableData = async () => {
 			try {
 				state.jjForm.param.kind = state.activeName
 				state.jjForm.param.projectId = state.project.Id
-				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.jjForm.param);
+				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.activeName, 0, 0, state.jjForm.param);
 				if (res.errcode != 0) {
 					return;
 				}

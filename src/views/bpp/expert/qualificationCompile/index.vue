@@ -19,26 +19,26 @@
 				</el-descriptions>
 			</el-col>
 		</el-row>
-		<el-row>
+		<el-row v-if="state.projectId > 0">
 			<el-col :span="8">
-				<div v-if="state.tableData.data.length > 0">
+				<div >
 					<el-button type="primary" @click="onSubmit()">汇总</el-button>
 				</div>
 			</el-col>
 			<el-col :span="8">
-				<el-form-item label="评委编号：" v-if="state.projectExpertList.length > 0">
+				<el-form-item label="评委编号：">
 					<el-select v-model="state.expertId" placeholder="请选择" @change="selectProjectExpert">
 						<el-option v-for="(item, index) in state.projectExpertList" :key="index" :label="item.Name" :value="item.Uid"/>
 					</el-select>
 				</el-form-item>
 			</el-col>
 			<el-col :span="8">
-				<div style="float: right;" v-if="state.tableData.data.length > 0">
-					<el-button type="primary" @click="">退回重评</el-button>
+				<div style="float: right;" >
+					<el-button type="primary" @click="onReturn">退回重评</el-button>
 				</div>
 			</el-col>
 		</el-row>
-		<el-row v-if="state.tableData.data.length > 0">
+		<el-row v-if="state.projectId > 0">
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="60" fixed />
@@ -81,7 +81,10 @@ const state: any = reactive({
 		data: [],
 		total: 0,
 		loading: false,
-		param: {},
+		param: {
+			current: 1,
+			pageSize: 20,
+		},
 	},
 	ruleForm: {},
 });
@@ -94,8 +97,8 @@ const selectProject = async (event) => {
 };
 
 const selectProjectExpert = async (event) => {
-    state.projectExpertForm = state.projectExpertList.find(item => item.CompanyId === event);
-	getProjectReviewList()
+    state.projectExpertForm = state.projectExpertList.find(item => item.Uid === event);
+	onGetTableData()
 }
 
 //	获取专家参与的项目列表
@@ -124,12 +127,12 @@ const getProjectExpertList = async () => {
 };
 
 //	获取专家汇总信息列表
-const getProjectReviewList = async () => {
+const onGetTableData = async () => {
 	state.tableData.loading = true
 	try {
 		state.tableData.param.expertId = state.expertId
 		state.tableData.param.projectId = state.projectId
-		const res = await proxy.$api.erp.projectreview.getList("zgps", 0, 0, state.tableData.param);
+		const res = await proxy.$api.erp.projectreview.getGatherListByScope('zgps', 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return
 		}
@@ -141,29 +144,53 @@ const getProjectReviewList = async () => {
 };
 
 const onSubmit = async () => {
-	if (state.projectId <= 0) {
-		ElMessage.error('当前没有正在评选的项目包，请刷新重试。');
-		return;
-	}
-	ElMessageBox.confirm(`确定汇总吗?`, '提示', {
+	ElMessageBox.confirm(`确定要汇总吗?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.projectId, {kind: 'zgps', expertId: state.expertId});
-			if (res.errcode != 0) {
-				return
+			const selfGatherRes = await proxy.$api.erp.projectreview.selfGatherSave("zgps", state.projectId);
+			if (selfGatherRes.errcode != 0) {
+				return;
 			}
+			const gatherRes = await proxy.$api.erp.projectreview.gatherSave("zgps", state.projectId);
+			if (gatherRes.errcode != 0) {
+				return;
+			}
+			onGetTableData()
+			ElMessage('汇总成功')
 		} finally {
 		}
-		getProjectReviewList()
-		ElMessage('汇总完成')
 		return false;
 	}).catch(async () => {
+		onGetTableData()
 		ElMessage('取消汇总')
 	});
 };
+
+const onReturn = async () => {
+	ElMessageBox.confirm(`确定要回退重评吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		try {
+			const res = await proxy.$api.erp.projectreview.gatherReturnSave(state.projectId);
+			if (res.errcode != 0) {
+				return;
+			}
+			onGetTableData()
+			ElMessage('回退成功')
+		} finally {
+		}
+		return false;
+	}).catch(async () => {
+		onGetTableData()
+		ElMessage('回退汇总')
+	});
+};
+
 
 // 页面加载时
 onMounted(() => {

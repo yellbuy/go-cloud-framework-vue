@@ -1,19 +1,5 @@
 <template>
 	<div>
-		<el-row>
-			<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-				<el-form-item label="请选择当前项目包号：">
-					<el-select v-model="state.projectLineIndex" placeholder="请选择" @change="changeLine">
-						<el-option
-							v-if="state.project.ProjectLineList && state.project.ProjectLineList.length > 0"
-							v-for="item in state.project.ProjectLineList"
-							:key="item.Id"
-							:label="item.Name"
-							:value="item.Id"/>
-					</el-select>
-				</el-form-item>
-			</el-col>
-		</el-row>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
 				<el-descriptions :column="2">
@@ -32,36 +18,19 @@
 			<el-table-column prop="TechnicalScore" label="技术得分" show-overflow-tooltip align="right" />
 			<el-table-column prop="GatherScore" label="最终得分" show-overflow-tooltip align="right" />
 		</el-table>
-		<el-pagination
-			small
-			@size-change="onHandleSizeChange"
-			@current-change="onHandleCurrentChange"
-			class="mt15"
-			:page-sizes="[10, 20, 30]"
-			v-model:current-page="state.tableData.param.current"
-			background
-			v-model:page-size="state.tableData.param.pageSize"
-			layout="->, total, sizes, prev, pager, next, jumper"
-			:total="state.tableData.total"/>
 	</div>
 </template>
 
 <script setup lang="ts">
-import request from '/@/utils/request';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { reactive, onMounted, computed, getCurrentInstance } from 'vue';
 import { useStore } from '/@/store/index';
-// import project from '/@/api/erp/project';
 import { useI18n } from 'vue-i18n';
-import { Item } from 'ant-design-vue/lib/menu';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	project: store.state.project.project,
-	isShowPage: false,
-	projectLineIndex: '',
 	projectForm: {},
 	tableData: {
 		data: [],
@@ -70,12 +39,8 @@ const state: any = reactive({
 		param: {
 			current: 1,
 			pageSize: 20,
-			projectId: "0",
-			categoryId: null,
 		},
 	},
-	nextKind: 'recommend',
-	nextKind2: 'signature',
 });
 
 state.tableData.param.pageIndex = computed(() => {
@@ -85,102 +50,59 @@ state.tableData.param.pageIndex = computed(() => {
 //	打开页面
 const openPage = async (row: {}) => {
 	state.projectForm = row
-	state.isShowPage = true
 };
 
 //	关闭页面
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-	state.isShowPage = false
 };
 
-const GetSignUpList = async () => {
-	state.tableData.loading = true;
+//获取评分汇总
+const onGetTableData = async () => {
 	try {
-		const res = await proxy.$api.erp.projectreview.expertList(state.project.Id, { kind: state.nextKind2 });
-		if (res.errcode == 0) {
-			state.tableData.data = res.data;
-			state.tableData.total = res.total;
+		state.tableData.param.projectId = state.project.Id
+		state.tableData.param.kind = "bid"
+		const projectCompanyRes = await proxy.$api.erp.projectcompany.signUpList(state.tableData.param);
+		if (projectCompanyRes.errcode != 0) {
+			return;
+		}
+		state.tableData.param.kind = null
+		//获取项目专家评审结果表
+
+		state.tableData.param.isGather = 2
+		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("gather", 0, 0, state.tableData.param);
+		if (projectReviewRes.errcode != 0) {
+			return;
+		}
+		state.tableData.param.isGather = null
+		state.tableData.data = []
+		for (let val of projectCompanyRes.data) {
+			let model = {}
+			model.CompanyName = val.CompanyName
+			model.ReviewPrice = 0
+			model.PriceScore = 0
+			model.GatherScore = 0
+			model.TechnicalScore = 0
+			state.tableData.data.push(model)
+			for	(let item of projectReviewRes.data){
+				if (item.CompanyId == val.CompanyId) {
+					model.Id = item.Id
+					model.ReviewPrice = item.ReviewPrice
+					model.PriceScore = item.PriceScore
+					model.GatherScore = item.GatherScore
+					model.TechnicalScore = item.TechnicalScore
+				}
+			}
+
 		}
 	} finally {
-		state.tableData.loading = false;
 	}
-};
-
-const onSubmit = async () => {
-	try {
-		ElMessageBox.confirm(`确定要汇总吗?`, '提示', {
-			confirmButtonText: '确认',
-			cancelButtonText: '取消',
-			type: 'warning',
-		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.project.Id, {
-				Kind: state.kind,
-				NextKind: state.nextKind,
-			});
-			if (res.errcode == 0) {
-				ElMessage.success('操作成功');
-				GetSignUpList();
-			}
-		});
-	} finally {
-	}
-};
-
-const onLeader = async (row) => {
-	try {
-		ElMessageBox.confirm(`确定要推荐吗?`, '提示', {
-			confirmButtonText: '确认',
-			cancelButtonText: '取消',
-			type: 'warning',
-		}).then(async () => {
-			let data = JSON.parse(JSON.stringify(row));
-			data.IsLeader = 1;
-			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.project.Id, {
-				Kind: state.nextKind,
-				NextKind: state.nextKind2,
-				ProjectReview: data,
-			});
-			if (res.errcode == 0) {
-				ElMessage.success('操作成功');
-				GetSignUpList();
-			}
-		});
-	} finally {
-	}
-};
-
-const onReturn = async () => {
-	try {
-		ElMessageBox.confirm(`确定要退回重评吗?`, '提示', {
-			confirmButtonText: '确认',
-			cancelButtonText: '取消',
-			type: 'warning',
-		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherReturn(state.project.Id);
-			if (res.errcode == 0) {
-				ElMessage.success('操作成功');
-				GetSignUpList();
-			}
-		});
-	} finally {
-	}
-};
-
-// 分页改变
-const onHandleSizeChange = (val: number) => {
-	state.tableData.param.pageSize = val;
-};
-
-// 分页改变
-const onHandleCurrentChange = (val: number) => {
-	state.tableData.param.current = val;
 };
 
 // 页面加载时
 onMounted(() => {
-	GetSignUpList()
+	onGetTableData()
 });
 
 defineExpose({openPage, closePage})

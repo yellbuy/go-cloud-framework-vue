@@ -41,7 +41,7 @@
 					<el-table-column prop="ReviewPrice" label="投标评审价（元）" width="150" show-overflow-tooltip/>
 					<el-table-column prop="PriceScore" label="报价得分" width="150" show-overflow-tooltip/>
 					<el-table-column prop="TechnicalScore" label="技术得分" width="150" show-overflow-tooltip/>
-					<el-table-column prop="" label="最终得分" width="150" show-overflow-tooltip/>
+					<el-table-column prop="GatherScore" label="最终得分" width="150" show-overflow-tooltip/>
 				</el-table>
 				<el-pagination
 					small
@@ -78,7 +78,6 @@ const state: any = reactive({
 		total: 0,
 		loading: false,
 		param: {
-			kind: 'pfhz',
 			current: 1,
 			pageSize: 20,
 		},
@@ -116,7 +115,7 @@ const onGetTableData = async () => {
 		}
 		//获取项目专家评审结果表
 		state.tableData.param.projectId = state.projectId
-		state.tableData.param.isGather = 1
+		state.tableData.param.isGather = 2
 		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("gather", 0, 0, state.tableData.param);
 		if (projectReviewRes.errcode != 0) {
 			return;
@@ -152,7 +151,7 @@ const onSubmit = async () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.scoreGatherSave(state.projectId, {kind: "gather"});
+			const res = await proxy.$api.erp.projectreview.gatherSave("jjps", state.projectId);
 			if (res.errcode != 0) {
 				return;
 			}
@@ -164,6 +163,28 @@ const onSubmit = async () => {
 	}).catch(async () => {
 		onGetTableData()
 		ElMessage('取消汇总')
+	});
+};
+
+const onReturn = async () => {
+	ElMessageBox.confirm(`确定要回退重评吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		try {
+			const res = await proxy.$api.erp.projectreview.gatherReturnSave(state.projectId);
+			if (res.errcode != 0) {
+				return;
+			}
+			onGetTableData()
+			ElMessage('回退成功')
+		} finally {
+		}
+		return false;
+	}).catch(async () => {
+		onGetTableData()
+		ElMessage('回退汇总')
 	});
 };
 

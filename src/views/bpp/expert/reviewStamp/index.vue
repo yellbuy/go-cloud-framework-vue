@@ -38,11 +38,11 @@
 		</el-row>
 		<el-row v-if="state.projectId > 0">
 			<el-col :span="24">
-				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
+				<el-table :data="state.selfMaterial" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="selection" width="50" fixed />
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column prop="Id" label="材料名称" show-overflow-tooltip/>
-					<el-table-column prop="CheckState" label="状态" width="150" show-overflow-tooltip>
+					<el-table-column prop="Name" label="材料名称" show-overflow-tooltip/>
+					<el-table-column prop="State" label="状态" width="150" show-overflow-tooltip>
 						<template #default="scope">
 							<div v-if="scope.row.State === 0" style="display: flex; align-items: center;">
 								<span style="color: green; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
@@ -77,11 +77,11 @@
 		</el-row>
 		<el-row v-if="state.projectId > 0">
 			<el-col :span="24">
-				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
+				<el-table :data="state.allMaterial" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="selection" width="50" fixed />
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column prop="Id" label="材料名称" show-overflow-tooltip/>
-					<el-table-column prop="CheckState" label="状态" width="150" show-overflow-tooltip>
+					<el-table-column prop="Name" label="材料名称" show-overflow-tooltip/>
+					<el-table-column prop="State" label="状态" width="150" show-overflow-tooltip>
 						<template #default="scope">
 							<div v-if="scope.row.State === 0" style="display: flex; align-items: center;">
 								<span style="color: green; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
@@ -119,6 +119,8 @@ const state: any = reactive({
 	projectId: '',
 	projectList: [],
 	projectForm: {},
+	selfMaterial:[{Name: "资格评审个人表", State: 1,}, {Name: "技术评审个人表", State: 1,}, {Name: "经济评审个人表", State: 1,}],
+	allMaterial:[{Name: "资格评审汇总表", State: 1,}, {Name: "技术评审汇总表", State: 1,}, {Name: "经济评审汇总表", State: 1,}, {Name: "得分汇总表", State: 1,}],
 	projectTableData: {
 		data: [],
 		ruleForm: {},
@@ -205,8 +207,8 @@ const onSubmit = async () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.scoreGatherSave(state.projectId, {kind: "gather"});
-			if (res.errcode != 0) {
+			const gatherRes = await proxy.$api.erp.projectreview.gatherSave("signature", state.projectId);
+			if (gatherRes.errcode != 0) {
 				return;
 			}
 			onGetTableData()

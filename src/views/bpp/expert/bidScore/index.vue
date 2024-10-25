@@ -40,13 +40,15 @@
 		</el-row>
 		<el-row v-if="state.expertId > 0">
 			<el-col :span="8">
-				<div>
-					<el-button type="primary" @click="onSubmit()">提交</el-button>
-				</div>
 			</el-col>
-			<el-col :span="24">
+			<el-col :span="8">
 				<div style="text-align: center;font-size: 20px; padding-bottom: 15px;">
 					<h>报价得分表</h>
+				</div>
+			</el-col>
+			<el-col :span="8">
+				<div style="float: right;">
+					<el-button type="primary" @click="onSubmit()">提交</el-button>
 				</div>
 			</el-col>
 			<el-col :span="24">
@@ -131,7 +133,7 @@ const selectProject = async (event) => {
 }
 
 const selectProjectExpert = async (event) => {
-    state.projectExpertForm = state.projectExpertList.find(item => item.CompanyId === event);
+    state.projectExpertForm = state.projectExpertList.find(item => item.Uid === event);
 	onGetTableData()
 }
 
@@ -170,7 +172,7 @@ const onGetTableData = async () => {
 		state.tableData.param.projectId = state.projectId
 		state.tableData.param.expertId = state.expertId
 		state.tableData.param.isGather = 0
-		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("bjdf", 0, 0, state.tableData.param);
+		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("jjps", 0, 0, state.tableData.param);
 		if (projectReviewRes.errcode != 0) {
 			return;
 		}
@@ -206,7 +208,7 @@ const onSubmit = async () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.bidScoreSave("bjdf", state.tableData.data);
+			const res = await proxy.$api.erp.projectreview.reviewSave("jjps", state.projectId, state.tableData.data);
 			if (res.errcode != 0) {
 				return;
 			}
