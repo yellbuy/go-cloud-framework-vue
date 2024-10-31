@@ -259,7 +259,7 @@ const onSubmit = async () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.expertSave("zgps", state.tableData.data);
+			const res = await proxy.$api.erp.projectreview.reviewSave("zgps", state.projectId, state.tableData.data);
 			if (res.errcode != 0) {
 				return;
 			}

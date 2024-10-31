@@ -253,7 +253,7 @@ const onSubmit = async () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.expertSave("jsps", state.tableData.data);
+			const res = await proxy.$api.erp.projectreview.reviewSave("jsps", state.projectId, state.tableData.data);
 			if (res.errcode != 0) {
 				return;
 			}

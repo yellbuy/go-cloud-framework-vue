@@ -7,13 +7,9 @@
 					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
 					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
 					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
-					<el-descriptions-item label="当前项目包号：">
-						<el-select v-model="state.projectLineIndex" placeholder="请选择" @change="changeLine">
-							<el-option
-								v-for="item in state.project.ProjectLineList"
-								:key="item.Id"
-								:label="item.Name"
-								:value="item.Id"/>
+					<el-descriptions-item label="评委编号：">
+						<el-select v-model="state.expertId" placeholder="请选择" @change="selectProjectExpert">
+							<el-option v-for="(item, index) in state.projectExpertList" :key="index" :label="item.Name" :value="item.Uid"/>
 						</el-select>
 					</el-descriptions-item>
 				</el-descriptions>
@@ -39,139 +35,77 @@
 </template>
 
 <script setup lang="ts">
-import request from '/@/utils/request';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { reactive, onMounted, getCurrentInstance } from 'vue';
 import { useStore } from '/@/store/index';
-// import project from '/@/api/erp/project';
 import { useI18n } from 'vue-i18n';
-import { Item } from 'ant-design-vue/lib/menu';
-import StatAge from '/@/views/hcis/healthRecord/statAge.vue';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	project: store.state.project.project,
-	isShowPage: false,
 	projectForm: {},
+	expertId: "",
+	projectExpertList: [],
+	projectExpertForm: {},
 	tableData: {
 		data: [],
 		total: 0,
 		loading: false,
 	},
-	expertList: [],
-	uid: 0,
-	kind: 'jjps',
-	gatherKind: 'jjpsGather',
-	isGather: 0,
-	nextKind: 'gather',
-	state: false,
 });
 
 //	打开页面
 const openPage = async (row: {}) => {
 	state.projectForm = row
-	state.isShowPage = true
 };
 
 //	关闭页面
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-	state.expertList = []
-	state.isShowPage = false
 };
 
-const getExpertList = async () => {
-	state.tableData.loading = true;
+const selectProjectExpert = async (event) => {
+    state.projectExpertForm = state.projectExpertList.find(item => item.Uid === event);
+	onGetTableData()
+}
+
+//	获取该项目参与的所有专家列表
+const getProjectExpertList = async () => {
 	try {
-		let kind = state.kind;
-		if (state.uid == 'gather') {
-			state.isGather = 1;
-			kind = state.gatherKind;
-		} else {
-			state.isGather = 0;
+		state.tableData.param.projectId = state.project.Id
+		const res = await proxy.$api.erp.projectexpert.getListByScope("jjps", 0, 0, state.tableData.param);
+		if (res.errcode != 0) {
+			return
 		}
-		const res = await proxy.$api.erp.projectreview.expertGather(state.project.Id, {
-			kind: kind,
-			uid: state.uid,
-			isGather: state.isGather,
-			settingKind: state.kind,
-		});
-		if (res.errcode == 0) {
-			state.tableData.data = res.data;
-		}
+		state.projectExpertList = []
+		state.projectExpertList = res.data;
+		state.projectExpertList.push({Name: "全部汇总", Uid: "0"})
 	} finally {
-		state.tableData.loading = false;
 	}
 };
 
-const GetSignUpList = async (isState: boolean, isShow: boolean) => {
-	state.state = isShow;
-	state.tableData.loading = true;
+//	获取专家汇总信息列表
+const onGetTableData = async () => {
+	state.tableData.loading = true
 	try {
-		const expertRes = await proxy.$api.erp.project.expertList(state.project.Id);
-		if (expertRes.errcode == 0) {
-			state.expertList = [];
-			expertRes.data.forEach((item) => {
-				if (item.State <= 0) {
-					state.expertList.push(item.User);
-				}
-			});
-			state.expertList.push({
-				Id: 'gather',
-				Name: '汇总',
-			});
-			state.uid = state.expertList[0].Id;
+		state.tableData.param.expertId = state.expertId
+		state.tableData.param.projectId = state.projectId
+		const res = await proxy.$api.erp.projectreview.getGatherListByScope('jjps', 0, 0, state.tableData.param);
+		if (res.errcode != 0) {
+			return
 		}
-		if (isState) {
-			getExpertList();
-		}
+		state.tableData.data = res.data.RecordList;
+		state.tableData.headerList = res.data.HeaderList
 	} finally {
-		state.tableData.loading = false;
-	}
-};
-const onSubmit = async () => {
-	try {
-		ElMessageBox.confirm(`确定要汇总吗?`, '提示', {
-			confirmButtonText: '确认',
-			cancelButtonText: '取消',
-			type: 'warning',
-		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherSave(state.project.Id, {
-				Kind: state.kind,
-				NextKind: state.nextKind,
-				GatherKind: state.gatherKind,
-			});
-			if (res.errcode == 0) {
-				ElMessage.success('操作成功');
-				getExpertList();
-			}
-		});
-	} finally {
-	}
-};
-const onReturn = async () => {
-	try {
-		ElMessageBox.confirm(`确定要退回重评吗?`, '提示', {
-			confirmButtonText: '确认',
-			cancelButtonText: '取消',
-			type: 'warning',
-		}).then(async () => {
-			const res = await proxy.$api.erp.projectreview.expertGatherReturn(state.project.Id);
-			if (res.errcode == 0) {
-				ElMessage.success('操作成功');
-				getExpertList();
-			}
-		});
-	} finally {
+		state.tableData.loading = false
 	}
 };
 
 // 页面加载时
 onMounted(() => {
-	getExpertList()
+	getProjectExpertList()
 });
 
 defineExpose({openPage, closePage})

@@ -19,15 +19,15 @@
 				</el-descriptions>
 			</el-col>
 		</el-row>
-		<el-row style="padding: 15px;">
+		<el-row style="padding: 15px;" v-if="state.projectId > 0">
 			<el-col :span="24">
 				<div>
 					<el-button type="primary" @click="onSubmit">组长确认</el-button>
-					<el-button type="primary" @click="">退回重评</el-button>
+					<el-button type="primary" @click="onReturn">退回重评</el-button>
 				</div>
 			</el-col>
 		</el-row>
-		<el-row>
+		<el-row v-if="state.projectId > 0">
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="60" fixed />
@@ -129,7 +129,7 @@ const onGetTableData = async () => {
 		}
 		//获取项目专家评审结果表
 		state.tableData.param.projectId = state.projectId
-		state.tableData.param.isGather = 1
+		state.tableData.param.isGather = 2
 		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("gather", 0, 0, state.tableData.param);
 		if (projectReviewRes.errcode != 0) {
 			return;
@@ -159,24 +159,46 @@ const onGetTableData = async () => {
 };
 
 const onSubmit = async () => {
-	ElMessageBox.confirm(`确定推荐供应商吗?`, '提示', {
+	ElMessageBox.confirm(`确定要推荐供应商吗?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.scoreGatherSave(state.projectId, {kind: "gather"});
+			const res = await proxy.$api.erp.projectreview.gatherSave("recommend", state.projectId);
 			if (res.errcode != 0) {
 				return;
 			}
 			onGetTableData()
-			ElMessage('推荐成功')
+			ElMessage('推荐供应商成功')
 		} finally {
 		}
 		return false;
 	}).catch(async () => {
 		onGetTableData()
-		ElMessage('取消推荐')
+		ElMessage('取消推荐供应商')
+	});
+};
+
+const onReturn = async () => {
+	ElMessageBox.confirm(`确定要回退重评吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		try {
+			const res = await proxy.$api.erp.projectreview.gatherReturnSave(state.projectId);
+			if (res.errcode != 0) {
+				return;
+			}
+			onGetTableData()
+			ElMessage('回退成功')
+		} finally {
+		}
+		return false;
+	}).catch(async () => {
+		onGetTableData()
+		ElMessage('回退汇总')
 	});
 };
 

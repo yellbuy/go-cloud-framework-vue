@@ -77,4 +77,14 @@ export default {
         const url = `/v1/admin/erp/projectsettingline/disable`;
         return await http.post(url, data);
     },
+    
+    /**
+     * 恢复默认模板参数
+     * @param id 标识，字符串或数组
+     * @returns 返回接口数据
+     */
+    default: async (kind: string, id: string, data: object) => {
+        const url = `/v1/admin/erp/projectsettingline/default/${kind}/${id}`;
+        return await http.post(url, data);
+    },
 }
