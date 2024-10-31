@@ -6,6 +6,7 @@ export default {
 		menu: 'systemMenu',
 		role: 'systemRole',
 		user: 'systemUser',
+		person: 'systemPerson',
 		org: 'systemOrg',
 		tenant: 'systemTenant',
 		subUnit: 'subordinate unit',
