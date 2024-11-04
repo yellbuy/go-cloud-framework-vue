@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<el-row style="padding: 15px;">
+	<div v-if="state.isShowPage">
+		<el-row>
 			<el-col :span="24">
 				<div style="float: left; padding-bottom: 15px;">
 					<el-button type="primary" @click="">公布投标人名单</el-button>
@@ -8,10 +8,10 @@
 			</el-col>
 			<el-col :span="24">
 				<el-descriptions :column="2" >
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -20,13 +20,13 @@
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
 					<el-table-column prop="CompanyName" label="单位名称" width="120" show-overflow-tooltip/>
-					<el-table-column prop="LineState" label="比选状态" show-overflow-tooltip>
+					<el-table-column prop="State" label="投标状态" show-overflow-tooltip>
 						<template #default="scope">
-							<span v-if="scope.row.LineState == 0">未投标</span>
-							<span v-else-if="scope.row.LineState == 1">已投标</span>
+							<el-tag effect="success" v-if="scope.row.State == 0">未投标</el-tag>
+							<el-tag effect="danger" v-else-if="scope.row.State == 1">已投标</el-tag>
 						</template>
 					</el-table-column>
-					<el-table-column prop="BiddingTime" label="比选文件送达时间" show-overflow-tooltip>
+					<el-table-column prop="BiddingTime" label="投标文件送达时间" show-overflow-tooltip>
 						<template #default="scope">
 							<span v-if="scope.row.BiddingTime > '0001.01.01 00:00:00'">{{ scope.row.BiddingTime }}</span>
 							<span v-else></span>
@@ -60,7 +60,6 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
 	isShowPage: false,
 	projectForm: {},
 	tableData: {
@@ -70,8 +69,6 @@ const state: any = reactive({
 		param: {
 			current: 1,
 			pageSize: 20,
-			projectId: "0",
-			categoryId: null,
 		},
 	},
 });
@@ -81,9 +78,10 @@ state.tableData.param.pageIndex = computed(() => {
 });
 
 //	打开页面
-const openPage = async (row: {}) => {
+const openPage = async (data: {}) => {
 	state.isShowPage = true
-	state.projectForm = row
+	state.projectForm = data
+	getCompanyList()
 };
 
 //	关闭页面
@@ -93,12 +91,13 @@ const closePage = async () => {
 	state.isShowPage = false
 }
 
-//获取项目品目信息
+//获取投标人名单
 const getCompanyList = async () => {
 	state.tableData.loading = true
 	try {
 		//重新请求数据
-		const res = await proxy.$api.erp.projectcompany.comparisonList(state.tableData.param);
+		state.tableData.param.projectId = state.projectForm.Id
+		const res = await proxy.$api.erp.projectcompany.signUpList(state.tableData.param);
 		//获取存储的项目数据
 		if (res.errcode != 0) {
 			return;
@@ -122,7 +121,7 @@ const onHandleCurrentChange = (val: number) => {
 
 // 页面加载时
 onMounted(() => {
-	getCompanyList()
+
 });
 
 defineExpose({openPage, closePage})

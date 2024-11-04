@@ -151,7 +151,7 @@ const onSubmit = async () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.gatherSave("jjps", state.projectId);
+			const res = await proxy.$api.erp.projectreview.gatherSave("jjpsGather", state.projectId);
 			if (res.errcode != 0) {
 				return;
 			}

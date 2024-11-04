@@ -1,12 +1,12 @@
 <template>
-	<div>
-		<el-row style="padding: 15px;">
+	<div v-if="state.isShowPage">
+		<el-row>
 			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.project.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -30,7 +30,7 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
+	isShowPage: false,
 	projectForm: {},
 	tableData: {
 		data: [],
@@ -48,20 +48,23 @@ state.tableData.param.pageIndex = computed(() => {
 });
 
 //	打开页面
-const openPage = async (row: {}) => {
-	state.projectForm = row
+const openPage = async (data: {}) => {
+	state.projectForm = data
+	state.isShowPage = true
+	onGetTableData()
 };
 
 //	关闭页面
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
+	state.isShowPage = false
 };
 
 //获取评分汇总
 const onGetTableData = async () => {
 	try {
-		state.tableData.param.projectId = state.project.Id
+		state.tableData.param.projectId = state.projectForm.Id
 		state.tableData.param.kind = "bid"
 		const projectCompanyRes = await proxy.$api.erp.projectcompany.signUpList(state.tableData.param);
 		if (projectCompanyRes.errcode != 0) {
@@ -102,7 +105,7 @@ const onGetTableData = async () => {
 
 // 页面加载时
 onMounted(() => {
-	onGetTableData()
+
 });
 
 defineExpose({openPage, closePage})

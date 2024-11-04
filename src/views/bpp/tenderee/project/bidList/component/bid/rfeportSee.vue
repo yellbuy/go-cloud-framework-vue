@@ -1,8 +1,8 @@
 <template>
-	<div>
+	<div v-if="state.isShowPage">
 		<!-- <el-row class="mt10">
 			<el-col :span="24">
-				<el-link :state.href="state.baseUrl+state.project.file" style="color: blue; text-decoration: underline;" v-if="state.project.Files" target="_blank">下载评标报告</el-link>	
+				<el-link :state.href="state.baseUrl+state.projectForm.file" style="color: blue; text-decoration: underline;" v-if="state.projectForm.Files" target="_blank">下载评标报告</el-link>	
 				<h v-else>该项目没有上传评标报告</h>
 			</el-col>
 		</el-row> -->
@@ -10,8 +10,8 @@
 			<el-divider border-style="dashed" />
 			<el-col :span="24">
 				<el-descriptions border>
-					<el-descriptions-item label-align="left" align="left" label="《评标报告》" v-if="state.project.Files != ''">
-						<el-link type="primary" @click="onDownloadFile('评标报告', state.project.Files)">下载</el-link>
+					<el-descriptions-item label-align="left" align="left" label="《评标报告》" v-if="state.projectForm.Files != ''">
+						<el-link type="primary" @click="onDownloadFile('评标报告', state.projectForm.Files)">下载</el-link>
 					</el-descriptions-item>
 					<el-descriptions-item label-align="left" align="left" label="★该项目没有上传评标报告,无法下载" v-else/>
 				</el-descriptions>
@@ -31,15 +31,14 @@ import { useStore } from '/@/store/index';
 
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
-	baseUrl: import.meta.env.VITE_API_URL,
 	isShowPage: false,
+	baseUrl: import.meta.env.VITE_API_URL,
 	projectForm: {},
 });
 
 //	打开页面
-const openPage = async (row: {}) => {
-	state.projectForm = row
+const openPage = async (data: {}) => {
+	state.projectForm = data
 	state.isShowPage = true
 };
 

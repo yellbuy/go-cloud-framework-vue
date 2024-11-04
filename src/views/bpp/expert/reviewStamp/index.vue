@@ -84,12 +84,12 @@
 					<el-table-column prop="State" label="状态" width="150" show-overflow-tooltip>
 						<template #default="scope">
 							<div v-if="scope.row.State === 0" style="display: flex; align-items: center;">
-								<span style="color: green; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-								<span >签章完成</span>
-							</div>
-							<div v-else-if="scope.row.State === 1" style="display: flex; align-items: center;">
 								<span style="color: red; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
 								<span>尚未签章</span>
+							</div>
+							<div v-else-if="scope.row.State === 1" style="display: flex; align-items: center;">
+								<span style="color: green; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
+								<span >签章完成</span>
 							</div>
 						</template>
 					</el-table-column>
@@ -119,8 +119,8 @@ const state: any = reactive({
 	projectId: '',
 	projectList: [],
 	projectForm: {},
-	selfMaterial:[{Name: "资格评审个人表", State: 1,}, {Name: "技术评审个人表", State: 1,}, {Name: "经济评审个人表", State: 1,}],
-	allMaterial:[{Name: "资格评审汇总表", State: 1,}, {Name: "技术评审汇总表", State: 1,}, {Name: "经济评审汇总表", State: 1,}, {Name: "得分汇总表", State: 1,}],
+	selfMaterial:[{Name: "资格评审个人表", State: 0,}, {Name: "技术评审个人表", State: 0,}, {Name: "经济评审个人表", State: 0,}],
+	allMaterial:[{Name: "资格评审汇总表", State: 0,}, {Name: "技术评审汇总表", State: 0,}, {Name: "经济评审汇总表", State: 0,}, {Name: "得分汇总表", State: 0,}],
 	projectTableData: {
 		data: [],
 		ruleForm: {},

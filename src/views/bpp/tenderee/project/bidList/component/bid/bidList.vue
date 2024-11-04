@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<el-row style="padding: 15px;">
+	<div v-if="state.isShowPage">
+		<el-row>
 			<el-col :span="24">
 				<div style="text-align: center;font-size: 30px; padding-bottom: 15px;">
 					<h>开标一览表</h>
@@ -8,8 +8,8 @@
 			</el-col>
 			<el-col :span="24">
 				<el-descriptions >
-					<el-descriptions-item label="开标地点：">{{ state.project.BidOpenTime }}</el-descriptions-item>
-					<el-descriptions-item label="时间：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="开标地点：">{{ state.projectForm.BidOpenTime }}</el-descriptions-item>
+					<el-descriptions-item label="时间：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -55,7 +55,6 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
 	isShowPage: false,
 	projectForm: {},
 	tableData: {
@@ -65,8 +64,6 @@ const state: any = reactive({
 		param: {
 			current: 1,
 			pageSize: 20,
-			projectId: "0",
-			categoryId: null,
 		},
 	},
 });
@@ -76,9 +73,10 @@ state.tableData.param.pageIndex = computed(() => {
 });
 
 //	打开页面
-const openPage = async (row: {}) => {
+const openPage = async (data: {}) => {
 	state.isShowPage = true
-	state.projectForm = row
+	state.projectForm = data
+	getCompanyList()
 };
 
 //	关闭页面
@@ -117,7 +115,7 @@ const onHandleCurrentChange = (val: number) => {
 
 // 页面加载时
 onMounted(() => {
-	getCompanyList()
+
 });
 
 defineExpose({openPage, closePage})

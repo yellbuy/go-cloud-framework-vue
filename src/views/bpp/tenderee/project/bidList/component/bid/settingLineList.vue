@@ -1,12 +1,12 @@
 <template>
-	<div>
+	<div v-if="state.isShowPage">
 		<el-row>
 			<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 				<el-form-item label="请选择当前项目包号：">
 					<el-select v-model="state.projectLineIndex" placeholder="请选择" @change="changeLine">
 						<el-option
-							v-if="state.project.ProjectLineList && state.project.ProjectLineList.length > 0"
-							v-for="item in state.project.ProjectLineList"
+							v-if="state.projectForm.ProjectLineList && state.projectForm.ProjectLineList.length > 0"
+							v-for="item in state.projectForm.ProjectLineList"
 							:key="item.Id"
 							:label="item.Name"
 							:value="item.Id"/>
@@ -163,8 +163,6 @@ const getUserInfos = computed(() => {
 	return store.state.userInfos.userInfos;
 });
 const state = reactive({
-	project: store.state.project.project,
-	isShowPage: false,
 	moduleKey,
 	activeName:"zgps",
 	isShowDialog: false,
@@ -263,9 +261,10 @@ state.jsTableData.param.pageIndex = computed(() => {
 });
 
 //	打开页面
-const openPage = async (row: {}) => {
-	state.projectForm = row
+const openPage = async (data: {}) => {
+	state.projectForm = data
 	state.isShowPage = true
+	onGetSettingLineTableData()
 };
 
 //	关闭页面
@@ -313,7 +312,7 @@ const onGetDefault = async () => {
 	switch (state.activeName){
 		case "zgps":
 			try {
-				const res = await proxy.$api.erp.projectsettingline.default(state.activeName, state.project.Id);
+				const res = await proxy.$api.erp.projectsettingline.default(state.activeName, state.projectForm.Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -324,7 +323,7 @@ const onGetDefault = async () => {
 		case "jsps":
 			state.jsTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectsettingline.default(state.activeName, state.project.Id);
+				const res = await proxy.$api.erp.projectsettingline.default(state.activeName, state.projectForm.Id);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -343,7 +342,7 @@ const onGetSettingLineTableData = async () => {
 			state.zgTableData.loading = true;
 			try {
 				state.zgTableData.param.kind = state.activeName
-				state.zgTableData.param.projectId = state.project.Id
+				state.zgTableData.param.projectId = state.projectForm.Id
 				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.activeName, 0, 0, state.zgTableData.param);
 				if (res.errcode != 0) {
 					return;
@@ -357,7 +356,7 @@ const onGetSettingLineTableData = async () => {
 			state.jsTableData.loading = true;
 			try {
 				state.jsTableData.param.kind = state.activeName
-				state.jsTableData.param.projectId = state.project.Id
+				state.jsTableData.param.projectId = state.projectForm.Id
 				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.activeName, 0, 0, state.jsTableData.param);
 				if (res.errcode != 0) {
 					return;
@@ -371,7 +370,7 @@ const onGetSettingLineTableData = async () => {
 		case "jjps":
 			try {
 				state.jjForm.param.kind = state.activeName
-				state.jjForm.param.projectId = state.project.Id
+				state.jjForm.param.projectId = state.projectForm.Id
 				const res = await proxy.$api.erp.projectsettingline.getListByScope(state.activeName, 0, 0, state.jjForm.param);
 				if (res.errcode != 0) {
 					return;
@@ -461,7 +460,7 @@ const onSettingLineDel = (id: number, index: number) => {
 
 // 页面加载时
 onMounted(() => {
-	onGetSettingLineTableData()
+
 });
 
 defineExpose({openPage, closePage, onGetSettingLineTableData})

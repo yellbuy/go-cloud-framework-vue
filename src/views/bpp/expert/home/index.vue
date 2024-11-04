@@ -170,8 +170,17 @@
 		</el-row>
 		<el-dialog v-model="state.isShowDialog" width="50%">
 			<h>是否签到</h>
+			<el-row style="padding: 15px;">
+				<el-col :span="24">
+					<el-form-item label="选择参与项目：" prop="Id">
+						<el-select v-model="state.projectId" filterable placeholder="请选择" @change="selectProject">
+							<el-option v-for="(item, index) in state.projectList" :key="index" :label="item.Name" :value="item.Id" />
+						</el-select>
+					</el-form-item>
+				</el-col>
+			</el-row>
 			<template #footer>
-				<span class="dialog-footer">
+				<span class="dialog-footer" v-if="state.projectId > 0">
 					<el-button type="primary" @click="onModelSave">签到</el-button>
 				</span>
 			</template>
@@ -194,6 +203,9 @@ const { proxy } = getCurrentInstance() as any;
 const store = useStore();
 const state = reactive({
 	moduleKey: moduleKey,
+	projectId: '',
+	projectList: [],
+	projectForm: {},
 	isShowDialog: true,
 	tenant: {},
 	tableData: {
@@ -217,6 +229,23 @@ const state = reactive({
 	},
 	myCharts: [],
 });
+
+const selectProject = async (event) => {
+    state.projectForm = state.projectList.find(item => item.Id === event);
+}
+
+//	获取专家参与的项目列表
+const onGetProjectTableData = async () => {
+	try {
+		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
+		if (res.errcode != 0) {
+			return;
+		}
+		state.projectList = res.data;
+	} finally {
+	}
+};
+
 const onGotoEdit = () => {
 	router.push(`/bpp/home/tenantEdit/bpp`);
 };
@@ -252,7 +281,7 @@ const initEchartsResize = () => {
 // 签到
 const onModelSave = async () => {
 	try {
-		const res = await proxy.$api.erp.projectexpert.expertIsSignIn();
+		const res = await proxy.$api.erp.projectexpert.expertIsSignIn(state.projectId);
 		if (res.errcode != 0) {
 			return;
 		}
@@ -264,6 +293,7 @@ const onModelSave = async () => {
 };
 // 页面加载时
 onMounted(() => {
+	onGetProjectTableData()
 	initEchartsResize();
 	loadTenant();
 });

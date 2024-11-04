@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-if="state.isShowPage">
 		<el-button type="primary" @click="">PDF预览</el-button>
         <div>
 			<div ref="pdfContainer"></div>
@@ -24,20 +24,20 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
 	isShowPage: false,
-	pdfSrc: '',
 	projectForm: {},
+	pdfSrc: '',
 	tableData: {
 		data: [],
 		total: 0,
 		loading: false,
+		param:{},
 	},
 });
 
 //	打开页面
-const openPage = async (row: {}) => {
-	state.projectForm = row
+const openPage = async (data: {}) => {
+	state.projectForm = data
 	state.isShowPage = true
 };
 

@@ -261,6 +261,8 @@ const onSubmit = async () => {
 		try {
 			const res = await proxy.$api.erp.projectreview.reviewSave("zgps", state.projectId, state.tableData.data);
 			if (res.errcode != 0) {
+				onGetTableData()
+				ElMessage('提交失败')
 				return;
 			}
 			onGetTableData()

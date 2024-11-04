@@ -109,7 +109,6 @@ const state: any = reactive({
 		total: 0,
 		loading: false,
 		param: {
-			kind: 'bjdf', 
 			current: 1, 
 			pageSize: 20,
 		}
@@ -180,7 +179,7 @@ const onGetTableData = async () => {
 		for (let val of projectCompanyRes.data) {
 			let model = {}
 			model.Id = "0"
-			model.Kind = "bjdf"
+			model.Kind = "jjps"
 			model.ProjectId = state.projectId
 			model.CompanyId = val.CompanyId
 			model.CompanyName = val.CompanyName
@@ -210,6 +209,8 @@ const onSubmit = async () => {
 		try {
 			const res = await proxy.$api.erp.projectreview.reviewSave("jjps", state.projectId, state.tableData.data);
 			if (res.errcode != 0) {
+				onGetTableData()
+				ElMessage('提交失败')
 				return;
 			}
 			onGetTableData()

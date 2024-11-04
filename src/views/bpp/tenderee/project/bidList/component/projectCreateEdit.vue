@@ -1,5 +1,5 @@
 <template>
-	<el-card>
+	<el-card v-if="state.isShowPage">
 		<el-row>
 			<el-col :span="24" style="padding-top: 20px; padding-bottom: 20px;">
 				<el-steps :active="state.activeIndex" align-center>
@@ -15,8 +15,8 @@
 				<div class="mt20">
 					<span style="float: right; padding-bottom: 20px; padding-right: 20px;">
 						<el-button type="danger" @click="closePage">取消</el-button>
-						<el-button v-if="state.activeIndex > 1" type="primary" @click="stepChange(-1)">上一步</el-button>
-						<el-button v-if="state.activeIndex < 3" type="primary" @click="stepChange(1)">下一步</el-button>
+						<el-button v-if="state.activeIndex > 1" type="primary" @click="onStepChange(-1)">上一步</el-button>
+						<el-button v-if="state.activeIndex < 3" type="primary" @click="onStepChange(1)">下一步</el-button>
 						<el-button v-if="state.activeIndex == 3" type="success" @click="onSubmit()">完成</el-button>
 					</span>
 				</div>
@@ -48,18 +48,24 @@ const infoEditRef = ref()
 const extEditRef = ref()
 const settingLineRef = ref()
 const state = reactive({
+	isShowPage: false,
 	uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 	moduleKey,
 	token: token,
-	isShowPage: false,
 	activeName: "zgps",
 	activeIndex: 1,
 	FilesList: [],
 	ruleForm: {},
 });
 
+//	打开页面
+const openPage = async () => {
+	state.isShowPage = true
+};
+
 //	关闭页面
 const closePage = async () => {
+	state.isShowPage = false
 	infoEditRef.value.isShowPage = false
 	extEditRef.value.isShowPage = false
 	settingLineRef.value.isShowPage = false
@@ -72,7 +78,7 @@ const closePage = async () => {
 
 //	上一步下一步切换
 //	0：恢复到第一步  1：下一步   -1：上一步
-const stepChange = (val: number) => {
+const onStepChange = (val: number) => {
 	switch (val) {
 		case 0:
 			state.activeIndex = 1
@@ -146,10 +152,9 @@ const onSubmit = () => {
 
 // 页面加载时
 onMounted(() => {
-	infoEditRef.value.openPage();
 });
 
-defineExpose({closePage, ...toRefs(state)})
+defineExpose({openPage, closePage, ...toRefs(state)})
 </script>
 <style scoped lang="scss">
 </style>

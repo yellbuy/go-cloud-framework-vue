@@ -66,8 +66,8 @@
 				:total="state.tableData.total"/>
 			<seeDlg ref="seeDlgRef" />
 		</el-card>
-		<projectCreateEdit v-if="state.isShowCreateEdit"/>
-		<bidEdit v-if="state.isShowBidEdit" />
+		<projectCreateEdit ref="projectCreateEditRef"/>
+		<bidEdit ref="bidEditRef"/>
 	</div>
 </template>
 
@@ -84,21 +84,21 @@ import commonFunction from '/@/utils/commonFunction';
 const store = useStore();
 const route = useRoute();
 const kind = route.params.kind || 'bid';
-const mode = route.params.mode;
-const isBid = route.params.isBid;
 const scopeMode = route.params.scopeMode || 0;
 const scopeValue = route.params.scopeValue || 0;
+const mode = route.params.mode;
+const isBid = route.params.isBid;
 const moduleKey = `api_pro_project_${kind}_${mode}`;
 const { proxy } = getCurrentInstance() as any;
 const seeDlgRef = ref();
+const projectCreateEditRef = ref();
+const bidEditRef = ref();
 const state: any = reactive({
+	isShowPage: true,
 	moduleKey: moduleKey,
 	kind,
 	scopeMode,
 	scopeValue,
-	isShowPage: true,
-	isShowCreateEdit: false,
-	isShowBidEdit:false,
 	tableData: {
 		data: [],
 		total: 0,
@@ -115,6 +115,7 @@ const state: any = reactive({
 state.tableData.param.pageIndex = computed(() => {
 	return state.tableData.param.current - 1;
 });
+
 //重置查询条件
 const onResetSearch = () => {
 	state.tableData.param.name = null;
@@ -139,21 +140,20 @@ const onGetTableData = async () => {
 
 // 打开项目创建页
 const onProjectCreateEdit = () => {
-	state.isShowCreateEdit = true;
 	state.isShowPage = false;
+	projectCreateEditRef.value.openPage()
 };
 
 //打开项目查看弹窗
 const onProjectSee = (id: string, state: boolean) => {
-	store.commit('project/getProjectId', id);
+	// store.commit('project/getProjectId', id);
 	seeDlgRef.value.openDialog(id, state);
 };
 
 //打开项目评选页
 const onBidEdit = (id: string) => {
-	store.commit('project/getProjectId', id);
-	state.isShowBidEdit = true;
 	state.isShowPage = false;
+	bidEditRef.value.openPage(id)
 };
 
 // 分页改变

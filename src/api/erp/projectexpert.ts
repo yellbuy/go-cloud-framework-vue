@@ -136,8 +136,8 @@ export default {
     * 专家报名
     * @returns 返回接口数据
     */
-    expertIsSignIn: async (data: object) => {
-        const url = `/v1/admin/erp/projectexpert/issignin`;
+    expertIsSignIn: async (id: number | string, data: object) => {
+        const url = `/v1/admin/erp/projectexpert/issignin/${id}`;
         return await http.post(url, data);
     },
 

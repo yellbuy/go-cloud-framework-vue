@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-if="state.isShowPage">
 		<el-row>
 			<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" label-suffix="：" size="small" label-width="120px" v-loading="state.loading">
 				<el-row>
@@ -74,7 +74,6 @@ const getUserInfos = computed(() => {
 
 const state = reactive({
 	moduleKey,
-	project: store.state.project.project,
 	isShowPage: false,
 	title: t('message.action.add'),
 	loading: false,
@@ -214,8 +213,8 @@ const rules = reactive({
 });
 
 //	打开页面
-const openPage = async (row: {}) => {
-	state.projectForm = row
+const openPage = async (data: {}) => {
+	state.projectForm = data
 	state.isShowPage = true
 };
 
