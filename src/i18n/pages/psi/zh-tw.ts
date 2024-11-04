@@ -5,6 +5,7 @@ export default {
 		product: '商品管理',
 		unit: '商品单位',
 		entity: '往来单位',
+		customer: '往来单位',
 		fixAsset: '固定资产',
 		financeSubject: '财务科目',
 	},

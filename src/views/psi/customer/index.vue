@@ -139,7 +139,7 @@
 									inline-prompt
 									:width="46"
 									v-auth:[moduleKey]="'btn.Edit'"
-									@change="proxy.$api.common.table.updateById('psi_entity', 'State', scope.row.Id, scope.row.State)"
+									@change="proxy.$api.common.table.updateById('psi_customer', 'State', scope.row.Id, scope.row.State)"
 									:active-text="$t('message.action.enable')"
 									:inactive-text="$t('message.action.disable')"
 									:active-value="1"
@@ -156,7 +156,7 @@
 								<el-button
 									type="text"
 									v-if="tableData.data"
-									@click="proxy.$api.common.table.update('psi_entity', 'Order', tableData.data || [], 0)"
+									@click="proxy.$api.common.table.update('psi_customer', 'Order', tableData.data || [], 0)"
 									v-auth:[moduleKey]="'btn.Edit'"
 								>
 									<el-icon>
@@ -212,10 +212,10 @@ import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import cateDlg from '../component/categoryEdit.vue';
-import childDlg from './component/entityEdit.vue';
+import childDlg from './component/customerEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
-	name: 'entityList',
+	name: 'customerList',
 	components: { childDlg, cateDlg},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -223,13 +223,13 @@ export default {
 		const route = useRoute();
 
 		const kind = route.params.kind;
-		const categoryKind=`entity_${kind}`;
+		const categoryKind=`customer_${kind}`;
 
 		const scopeMode = route.params.scopeMode || 0;
 
 		const scopeValue = route.params.scopeValue || 0;
 
-		const moduleKey = `api_psi_entity`;
+		const moduleKey = `api_psi_customer`;
 
 		const childDlgRef = ref();
 
@@ -347,7 +347,7 @@ export default {
 			}
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.psi.entity.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.psi.customer.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -366,7 +366,7 @@ export default {
 				type: 'warning',
 			}).then(async () => {
 				try {
-					const res = await proxy.$api.psi.entity.delete(Id);
+					const res = await proxy.$api.psi.customer.delete(Id);
 					if (res.errcode == 0) {
 						onGetTableData();
 					}

@@ -5,6 +5,7 @@ export default {
 		product: 'product',
 		unit: 'product unit',
 		entity: 'entity',
+		customer: 'customer',
 		fixAsset: 'fixed asset',
 		financeSubject: 'finance subject',
 	},
