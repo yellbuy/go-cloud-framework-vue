@@ -6,8 +6,8 @@
 						<el-sub-menu index="before">
 							<template #title>评选准备</template>
 							<el-menu-item index="fileSee">招标文件</el-menu-item>
-							<el-menu-item index="expert">选择评选专家</el-menu-item>
-							<el-menu-item index="settingLine">复核评选参数</el-menu-item>
+							<el-menu-item index="expertEdit">选择评选专家</el-menu-item>
+							<el-menu-item index="settingLineList">复核评选参数</el-menu-item>
 						</el-sub-menu>
 						<el-sub-menu index="2">
 							<template #title>项目开标</template>
@@ -62,19 +62,19 @@
 							</el-col>
 						</el-row>
 					</template>
-					<fileSee ref="fileSeeRef"/>
-					<expertEdit ref="expertEditRef"/>
-					<settingLineList ref="settingLineListRef"/>
-					<packageEdit ref="packageEditRef"/>
-					<companyList ref="companyListRef"/>
-					<bidList ref="bidListRef"/>
-					<zgpsGather ref="zgpsGatherRef"/>
-					<jspsGather ref="jspsGatherRef"/>
-					<jjpsGather ref="jjpsGatherRef"/>
-					<gatherList ref="gatherListRef"/>
-					<rfeportSee ref="rfeportSeeRef"/>
-					<noticeEdit ref="noticeEditRef"/>
-					<noticeSee ref="noticeSeeRef"/>
+					<fileSee ref="fileSeeRef" v-if="state.indexLine === 'fileSee'"/>
+					<expertEdit ref="expertEditRef" v-else-if="state.indexLine === 'expertEdit'"/>
+					<settingLineList ref="settingLineListRef" v-else-if="state.indexLine === 'settingLineList'"/>
+					<packageEdit ref="packageEditRef" v-else-if="state.indexLine === 'packageEdit'"/>
+					<companyList ref="companyListRef" v-else-if="state.indexLine === 'companyList'"/>
+					<bidList ref="bidListRef" v-else-if="state.indexLine === 'bidList'"/>
+					<zgpsGather ref="zgpsGatherRef" v-else-if="state.indexLine === 'zgpsGather'"/>
+					<jspsGather ref="jspsGatherRef" v-else-if="state.indexLine === 'jspsGather'"/>
+					<jjpsGather ref="jjpsGatherRef" v-else-if="state.indexLine === 'jjpsGather'"/>
+					<gatherList ref="gatherListRef" v-else-if="state.indexLine === 'gatherList'"/>
+					<rfeportSee ref="rfeportSeeRef" v-else-if="state.indexLine === 'rfeportSee'"/>
+					<noticeSee ref="noticeSeeRef" v-else-if="state.indexLine === 'noticeSee'"/>
+					<noticeEdit ref="noticeEditRef" v-else-if="state.indexLine === 'noticeEdit'"/>
 				</el-card>
 			</el-col>
 			<el-dialog :title="state.title" v-model="state.isShowDialog" width="25%" :before-close="closeDialog">
@@ -97,21 +97,21 @@
 import { ElMessageBox } from 'element-plus';
 import { getCurrentInstance, onMounted, nextTick, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import bidList from './bid/bidList.vue';
-import companyList from './bid/companyList.vue';
-import expertEdit from './bid/expertEdit.vue';
-import fileSee from './bid/fileSee.vue';
-import gatherList from './bid/gatherList.vue';
-import jjpsGather from './bid/jjpsGather.vue';
-import jspsGather from './bid/jspsGather.vue';
-import noticeEdit from './bid/noticeEdit.vue';
-import noticeSee from './bid/noticeSee.vue';
-import packageEdit from './bid/packageEdit.vue';
-import rfeportSee from './bid/rfeportSee.vue';
-import zgpsGather from './bid/zgpsGather.vue';
-import settingLineList from './bid/settingLineList.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
+import fileSee from './bid/fileSee.vue';
+import expertEdit from './bid/expertEdit.vue';
+import settingLineList from './bid/settingLineList.vue';
+import packageEdit from './bid/packageEdit.vue';
+import companyList from './bid/companyList.vue';
+import bidList from './bid/bidList.vue';
+import zgpsGather from './bid/zgpsGather.vue';
+import jspsGather from './bid/jspsGather.vue';
+import jjpsGather from './bid/jjpsGather.vue';
+import gatherList from './bid/gatherList.vue';
+import rfeportSee from './bid/rfeportSee.vue';
+import noticeSee from './bid/noticeSee.vue';
+import noticeEdit from './bid/noticeEdit.vue';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
@@ -127,8 +127,9 @@ const jspsGatherRef = ref();
 const jjpsGatherRef = ref();
 const gatherListRef = ref();
 const rfeportSeeRef = ref();
-const noticeEditRef = ref();
 const noticeSeeRef = ref();
+const noticeEditRef = ref();
+
 const state = reactive({
 	isShowPage: false,
 	isShowDialog: false,
@@ -147,9 +148,8 @@ const openPage = async (id: string) => {
 	state.isShowPage = true
 	state.indexLine = 'fileSee'
 	GetByIdRow()
-	nextTick(() => {
-		select(state.indexLine)
-    });
+	select(state.indexLine)
+
 };
 
 //	关闭页面
@@ -170,93 +170,56 @@ const refreshPage = async () => {
 
 //	查看公告
 const openNoticeSee = async () => {
-	noticeSeeRef.value.openDialog(state.projectForm)
+	nextTick(() => {
+		noticeSeeRef.value.openDialog(state.projectForm)
+	});
 };
 
 const select = (val: string) => {
-	switch (state.indexLine) {
-		case 'fileSee':
-			fileSeeRef.value.closePage()
-			break
-		case 'expert':
-			expertEditRef.value.closePage()
-			break
-		case 'settingLine':
-			settingLineListRef.value.closePage()
-			break
-		case'packageEdit':
-			packageEditRef.value.closePage()
-			break
-		case 'companyList':
-			companyListRef.value.closePage()
-			break
-		case 'bidList':
-			bidListRef.value.closePage()
-			break
-		case 'zgpsGather':
-			zgpsGatherRef.value.closePage()
-			break
-		case 'jspsGather':
-			jspsGatherRef.value.closePage()
-			break
-		case 'jjpsGather':
-			jjpsGatherRef.value.closePage()
-			break
-		case 'gatherList':
-			gatherListRef.value.closePage()
-			break
-		case 'rfeportSee':
-			rfeportSeeRef.value.closePage()
-			break
-		case 'noticeEdit':
-			noticeEditRef.value.closePage()
-			break
-		case 'noticeSee':
-			noticeSeeRef.value.closePage()
-			break
-	}
 	state.indexLine = val
-	switch (val) {
-		case 'fileSee':
-			fileSeeRef.value.openPage(state.projectForm)
-			break
-		case 'expert':
-			expertEditRef.value.openPage(state.projectForm)
-			break
-		case 'settingLine':
-			settingLineListRef.value.openPage(state.projectForm)
-			break
-		case'packageEdit':
-			packageEditRef.value.openPage(state.projectForm)
-			break
-		case 'companyList':
-			companyListRef.value.openPage(state.projectForm)
-			break
-		case 'bidList':
-			bidListRef.value.openPage(state.projectForm)
-			break
-		case 'zgpsGather':
-			zgpsGatherRef.value.openPage(state.projectForm)
-			break
-		case 'jspsGather':
-			jspsGatherRef.value.openPage(state.projectForm)
-			break
-		case 'jjpsGather':
-			jjpsGatherRef.value.openPage(state.projectForm)
-			break
-		case 'gatherList':
-			gatherListRef.value.openPage(state.projectForm)
-			break
-		case 'rfeportSee':
-			rfeportSeeRef.value.openPage(state.projectForm)
-			break
-		case 'noticeEdit':
-			noticeEditRef.value.openPage(state.projectForm)
-			break
-		case 'noticeSee':
-			noticeSeeRef.value.openPage(state.projectForm)
-			break
-	}
+	nextTick(() => {
+		switch (val) {
+			case 'fileSee':
+				fileSeeRef.value.openPage(state.projectForm)
+				break
+			case 'expertEdit':
+				expertEditRef.value.openPage(state.projectForm)
+				break
+			case 'settingLineList':
+				settingLineListRef.value.openPage(state.projectForm)
+				break
+			case'packageEdit':
+				packageEditRef.value.openPage(state.projectForm)
+				break
+			case 'companyList':
+				companyListRef.value.openPage(state.projectForm)
+				break
+			case 'bidList':
+				bidListRef.value.openPage(state.projectForm)
+				break
+			case 'zgpsGather':
+				zgpsGatherRef.value.openPage(state.projectForm)
+				break
+			case 'jspsGather':
+				jspsGatherRef.value.openPage(state.projectForm)
+				break
+			case 'jjpsGather':
+				jjpsGatherRef.value.openPage(state.projectForm)
+				break
+			case 'gatherList':
+				gatherListRef.value.openPage(state.projectForm)
+				break
+			case 'rfeportSee':
+				rfeportSeeRef.value.openPage(state.projectForm)
+				break
+			case 'noticeEdit':
+				noticeEditRef.value.openPage(state.projectForm)
+				break
+			case 'noticeSee':
+				noticeSeeRef.value.openPage(state.projectForm)
+				break
+		}
+	});
 };
 
 //	打开修改开标时间编辑弹窗

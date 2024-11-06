@@ -2,22 +2,31 @@
 	<el-card>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
+				<el-form-item label="选择参与项目：" prop="Id">
+					<el-select v-model="state.projectId" filterable placeholder="请选择" @change="selectProject">
+						<el-option v-for="(item, index) in state.projectList" :key="index" :label="item.Name" :value="item.Id" />
+					</el-select>
+				</el-form-item>
+			</el-col>
+		</el-row>
+		<el-row style="padding: 15px;" v-if="state.projectId > 0">
+			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="开标时间：">{{ state.project.BidOpenTime }}</el-descriptions-item>
-					<el-descriptions-item label="开标地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
-		<el-row>
+		<el-row v-if="state.projectId > 0">
 			<el-col :span="24">
 				<el-card>
 					<div style="text-align: center; margin-bottom: 50px; font-size: 20px;">
 						<h >评审报告</h>
 					</div>
-					<div style="text-align: center;">
-						<el-button style="width: 300px; height: 80px; font-size: 50px;" type="primary" @click="">确认签章</el-button>
+					<div style="text-align: center;" v-if="state.tableData.data.length > 0">
+						<el-button style="width: 300px; height: 80px; font-size: 50px;" type="primary" @click="onSubmit">确认签章</el-button>
 					</div>
 				</el-card>
 			</el-col>
@@ -36,8 +45,9 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
-	projectLineIndex:'',
+	projectId: '',
+	projectList: [],
+	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
@@ -53,48 +63,55 @@ state.tableData.param.pageIndex = computed(() => {
 	return state.tableData.param.current - 1;
 });
 
-//获取项目品目信息
-const onGetTableData = async (isState: boolean) => {
-	if (isState) {
-		let params = {};
-		state.project = store.state.project.project;
-		state.tableData.data = [];
-		try {
-			params.projectId = store.state.project.projectId;
-			params.state = 1;
-			//重新请求数据
+const selectProject = async (event) => {
+    state.projectForm = state.projectList.find(item => item.Id === event);
+	onGetTableData()
+}
 
-			const res = await proxy.$api.erp.projectcompany.comparisonList(params);
-			//获取存储的项目数据
-			if (res.errcode != 0) {
-				return;
-			}
-			state.tableData.data = res.data;
-		} finally {
+//	获取专家参与的项目列表
+const onGetProjectTableData = async () => {
+	try {
+		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
+		if (res.errcode != 0) {
+			return;
 		}
+		state.projectList = res.data;
+	} finally {
 	}
 };
 
-const onModelSave = async (Id: Number) => {
-	if (!Id) {
-		ElMessage.error('请选择人员进行推荐！');
-		return;
+//	获取报告
+const onGetTableData = async () => {
+	try {
+		state.tableData.param.projectId = state.projectForm.Id
+		const res = await proxy.$api.erp.projectcompanyline.getListByScope("report", 0, 0, state.tableData.param)
+		if (res.errcode != 0) {
+			return;
+		}
+		state.tableData.data = res.data;
+	} finally {
 	}
-	ElMessageBox.confirm(`确定要推荐他为组长吗?`, '提示', {
+};
+
+const onSubmit = async () => {
+	ElMessageBox.confirm(`确定要签章报告吗?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
-		// try {
-		// 	const res = await proxy.$api.common.enterprise.audit(state.ruleForm);
-		// 	if (res.errcode != 0) {
-		// 		return;
-		// 	}
-		// 	state.ruleForm.AuditState = 0;
-		// } finally {
-		// 	onGetTableData(true);
-		// }
+		try {
+			const res = await proxy.$api.erp.projectreview.reportSignatureSave(state.projectId);
+			if (res.errcode != 0) {
+				return;
+			}
+			onGetTableData()
+			ElMessage('签章成功')
+		} finally {
+		}
 		return false;
+	}).catch(async () => {
+		onGetTableData()
+		ElMessage('取消签章')
 	});
 };
 
@@ -108,7 +125,9 @@ const onHandleCurrentChange = (val: number) => {
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	onGetProjectTableData()
+});
 
 </script>
 

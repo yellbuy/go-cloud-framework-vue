@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row>
 			<el-col :span="24">
 				<div style="float: left; padding-bottom: 15px;">
@@ -63,7 +63,6 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	isShowPage: false,
 	isShowDialog: false,
 	loading: false,
 	title: '添加人员',
@@ -105,7 +104,6 @@ state.tableData.param.pageIndex = computed(() => {
 
 //	打开页面
 const openPage = async (data: {}) => {
-	state.isShowPage = true
 	state.projectForm = data
 	getProjectExpertList()
 };
@@ -114,7 +112,6 @@ const openPage = async (data: {}) => {
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-	state.isShowPage = false
 }
 
 //	获取该项目专家列表
@@ -205,9 +202,7 @@ const onModelDel = (id: string) => {
 const { dateFormat } = commonFunction();
 
 // 页面加载时
-onMounted(() => {
-
-});
+onMounted(() => {});
 
 defineExpose({openPage, closePage})
 

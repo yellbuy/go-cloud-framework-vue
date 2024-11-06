@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row>
 			<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" label-suffix="：" size="small" label-width="120px" v-loading="state.loading">
 				<el-row>
@@ -74,7 +74,6 @@ const getUserInfos = computed(() => {
 
 const state = reactive({
 	moduleKey,
-	isShowPage: false,
 	title: t('message.action.add'),
 	loading: false,
 	token: token,
@@ -198,7 +197,6 @@ const startTimeRule = (rule: any, value: any, callback: any) => {
 	}
 };
 const rules = reactive({
-	isShowPage: false,
 	title: t('message.action.add'),
 	No: [{required: true, message: t('message.validRule.required'), trigger: 'blur',},],
 	Sn: [{required: true, message: t('message.validRule.required'), trigger: 'blur',},],
@@ -215,14 +213,12 @@ const rules = reactive({
 //	打开页面
 const openPage = async (data: {}) => {
 	state.projectForm = data
-	state.isShowPage = true
 };
 
 //	关闭页面
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-	state.isShowPage = false
 };
 
 // 取消
@@ -233,7 +229,6 @@ const onCancel = () => {
 	state.Files = [];
 	state.jsTableData.data = [];
 	state.zgTableData.data = [];
-	state.isShowPage = false
 };
 
 // 新增

@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row>
 			<el-col :span="24">
 				<el-descriptions :column="2">
@@ -40,7 +40,6 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	isShowPage: false,
 	projectForm: {},
 	expertId: "",
 	projectExpertList: [],
@@ -59,7 +58,6 @@ const state: any = reactive({
 //	打开页面
 const openPage = async (data: {}) => {
 	state.projectForm = data
-	state.isShowPage = true
 	onGetProjectExpertList()
 };
 
@@ -67,7 +65,6 @@ const openPage = async (data: {}) => {
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-	state.isShowPage = false
 };
 
 const selectProjectExpert = async (event) => {
@@ -96,7 +93,7 @@ const onGetTableData = async () => {
 	try {
 		state.tableData.param.expertId = state.expertId
 		state.tableData.param.projectId = state.projectForm.Id
-		const res = await proxy.$api.erp.projectreview.getGatherListByScope('zgps', 0, 0, state.tableData.param);
+		const res = await proxy.$api.erp.projectreview.getGatherListByScope('zgpsGather', 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return
 		}

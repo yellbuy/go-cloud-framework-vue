@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row>
 			<el-col :span="24">
 				<el-descriptions :column="2">
@@ -30,7 +30,6 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	isShowPage: false,
 	projectForm: {},
 	tableData: {
 		data: [],
@@ -50,7 +49,6 @@ state.tableData.param.pageIndex = computed(() => {
 //	打开页面
 const openPage = async (data: {}) => {
 	state.projectForm = data
-	state.isShowPage = true
 	onGetTableData()
 };
 
@@ -58,7 +56,6 @@ const openPage = async (data: {}) => {
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-	state.isShowPage = false
 };
 
 //获取评分汇总

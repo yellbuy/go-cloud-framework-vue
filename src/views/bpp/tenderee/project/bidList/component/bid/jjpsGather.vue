@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row>
 			<el-col :span="24">
 				<el-descriptions :column="2">
@@ -62,7 +62,6 @@ const state: any = reactive({
 //	打开页面
 const openPage = async (data: {}) => {
 	state.projectForm = data
-	state.isShowPage = true
 	onGetProjectExpertList()
 };
 
@@ -70,7 +69,6 @@ const openPage = async (data: {}) => {
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-	state.isShowPage = false
 };
 
 const selectProjectExpert = async (event) => {
@@ -101,7 +99,7 @@ const onGetTableData = async () => {
 		//获取项目专家评审结果表
 		state.tableData.param.expertId = state.expertId
 		state.tableData.param.isGather = 0
-		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("jjps", 0, 0, state.tableData.param);
+		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("jjpsGather", 0, 0, state.tableData.param);
 		if (projectReviewRes.errcode != 0) {
 			return;
 		}

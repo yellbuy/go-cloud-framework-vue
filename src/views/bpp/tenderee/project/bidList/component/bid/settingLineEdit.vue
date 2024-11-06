@@ -1,5 +1,5 @@
 <template>
-    <el-dialog :title="state.title" v-model="state.isShowDialog" width="40%" :before-close="closeDialog" v-if="state.isShowPage">
+    <el-dialog :title="state.title" v-model="state.isShowDialog" width="40%" :before-close="closeDialog">
         <el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="mini" label-width="130px" v-loading="state.loading">
             <el-form-item label="评审内容" prop="Content">
                 <el-input v-model="state.ruleForm.Content"/>

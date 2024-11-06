@@ -1,6 +1,6 @@
 <template>
-	<div v-if="state.isShowPage">
-		<el-row>
+	<div>
+		<!-- <el-row>
 			<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 				<el-form-item label="请选择当前项目包号：">
 					<el-select v-model="state.projectLineIndex" placeholder="请选择" @change="changeLine">
@@ -13,7 +13,7 @@
 					</el-select>
 				</el-form-item>
 			</el-col>
-		</el-row>
+		</el-row> -->
 		<el-tabs v-model="state.activeName" type="card" class="demo-tabs" @tab-change="tabsName">
 			<el-tab-pane label="资格评审" name="zgps">
 				<el-form :model="state.zgTableData.param" label-width="60px" :inline="true" style="margin-bottom: 10px;">
@@ -263,7 +263,6 @@ state.jsTableData.param.pageIndex = computed(() => {
 //	打开页面
 const openPage = async (data: {}) => {
 	state.projectForm = data
-	state.isShowPage = true
 	onGetSettingLineTableData()
 };
 
@@ -289,7 +288,6 @@ const closePage = async () => {
 	state.methodList = []
 	state.Files = []
 	state.FilesList = []
-	state.isShowPage = false
 }
 
 //	打开评审参数编辑弹窗
@@ -463,5 +461,5 @@ onMounted(() => {
 
 });
 
-defineExpose({openPage, closePage, onGetSettingLineTableData})
+defineExpose({openPage, closePage})
 </script>

@@ -21,9 +21,28 @@
 		</el-row>
 		<el-row v-if="state.projectId > 0">
 			<el-col :span="24">
-				<div>
-					<el-button text bg type="primary" @click="onDownloadFile">下载评标报告</el-button>
-					<el-button text bg type="primary" @click="">刷新</el-button>
+				<div v-if="state.tableData.data.length < 1">
+					<el-upload
+						class="upload-demo"
+						:action="state.uploadURL"
+						:accept:="`application/pdf,application/docx,application/doc`"
+						:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+						:on-success="onSuccessFile"
+						:on-remove="onRemove"
+						:limit="1"
+						:file-list="state.filesList">
+						<template #default>
+							<el-button>
+								<el-icon class="el-icon--right">
+									<Upload />
+								</el-icon>
+								上传评标报告
+							</el-button>
+						</template>
+					</el-upload>
+				</div>
+				<div v-else>
+					<el-button type="primary" @click="onDownloadFile">下载</el-button>
 				</div>
 			</el-col>
 		</el-row>
@@ -39,26 +58,34 @@
 
 <script setup lang="ts">
 import { reactive, computed, onMounted, ref, getCurrentInstance } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { useStore } from '/@/store/index';
 import { useI18n } from 'vue-i18n';
+import { Session } from '/@/utils/storage';
 
+const getUserInfos = computed(() => {return store.state.userInfos.userInfos;});
+const token = Session.get('token');
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	projectId: '',
+	uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 	projectList: [],
 	projectForm: {},
+	filesList: [],
 	tableData: {
 		data: [],
 		total: 0,
 		loading: false,
 		param: {},
 	},
+	ruleForm: {},
 });
 
 const selectProject = async (event) => {
     state.projectForm = state.projectList.find(item => item.Id === event);
+	onGetTableData()
 }
 
 //	获取专家参与的项目列表
@@ -73,12 +100,60 @@ const onGetProjectTableData = async () => {
 	}
 };
 
+//	获取报告
+const onGetTableData = async () => {
+	try {
+		state.tableData.param.projectId = state.projectForm.Id
+		const res = await proxy.$api.erp.projectcompanyline.getListByScope("report", 0, 0, state.tableData.param)
+		if (res.errcode != 0) {
+			return;
+		}
+		state.tableData.data = res.data;
+	} finally {
+	}
+};
+
+//	上传成功
+const onSuccessFile = (file: UploadFile) => {
+	state.filesList.push(file.data)
+	state.ruleForm.Files = file.data.src
+	state.ruleForm.ProjectId = state.projectForm.Id
+	state.ruleForm.Id = "0"
+	state.ruleForm.kind = 'report'
+	onSubmit()
+};
+
+//	删除上传文件
+const onRemove = () => {
+	ElMessageBox.confirm(`确定要删除文件吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		state.filesList = []
+		state.ruleForm.Files = ''
+	});
+};
+
 // 下载文件
 const onDownloadFile = async () => {
 	var a = document.createElement('a');
-	a.href = import.meta.env.VITE_URL + state.project.Files;
-	a.download = state.project.Name + '《评标报告》'; // 下载后的文件名称
+	a.href = import.meta.env.VITE_URL + state.tableData.data[0].Files;
+	a.download = state.tableData.data[0].Name; // 下载后的文件名称
 	a.click();
+};
+
+const onSubmit = async () => {
+	try {
+		const gatherRes = await proxy.$api.erp.projectcompanyline.reportUpload(state.projectForm.Id, state.ruleForm);
+		if (gatherRes.errcode != 0) {
+			return;
+		}
+		onGetTableData()
+		ElMessage('上传报告成功')
+	} finally {
+	}
+	return false;
 };
 
 // 页面加载时

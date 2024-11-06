@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-row>
 			<el-col :span="24">
 				<div style="float: left; padding-bottom: 15px;">
@@ -60,7 +60,6 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	isShowPage: false,
 	projectForm: {},
 	tableData: {
 		data: [],
@@ -79,7 +78,6 @@ state.tableData.param.pageIndex = computed(() => {
 
 //	打开页面
 const openPage = async (data: {}) => {
-	state.isShowPage = true
 	state.projectForm = data
 	getCompanyList()
 };
@@ -88,7 +86,6 @@ const openPage = async (data: {}) => {
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-	state.isShowPage = false
 }
 
 //获取投标人名单

@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-button type="primary" @click="">PDF预览</el-button>
         <div>
 			<div ref="pdfContainer"></div>
@@ -24,7 +24,6 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	isShowPage: false,
 	projectForm: {},
 	pdfSrc: '',
 	tableData: {
@@ -38,15 +37,15 @@ const state: any = reactive({
 //	打开页面
 const openPage = async (data: {}) => {
 	state.projectForm = data
-	state.isShowPage = true
 };
 
 //	关闭页面
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-	state.isShowPage = false
 }
+
+
 
 const loadPdf = async (pdfPath: string) => {
 	// 设置 PDF.js 的路径
