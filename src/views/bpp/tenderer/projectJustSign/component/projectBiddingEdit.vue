@@ -329,7 +329,7 @@ const onGetprojectCompanyData = async () => {
 // 获取已报名信息详细信息文件表
 const onGetTableData = async () => {
 	try {
-		const res = await proxy.$api.erp.projectcompanyline.getListByScope(state.tableData.param);
+		const res = await proxy.$api.erp.projectcompanyline.getListByScope("", 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}

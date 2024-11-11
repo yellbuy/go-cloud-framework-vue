@@ -287,7 +287,7 @@ const onBeginBid = ()=>{
 //	获取项目信息
 const onGetprojectData = async () => {
 	try {
-		const res = await proxy.$api.erp.project.getById(state.projectId);
+		const res = await proxy.$api.erp.projectbid.getById(state.projectId);
 		if (res.errcode != 0) {
 			return;
 		}

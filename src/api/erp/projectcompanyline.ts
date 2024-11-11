@@ -6,8 +6,8 @@ export default {
      * @param params 要传的参数值
      * @returns 返回接口数据
      */
-    getListByScope: async (id: number | string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
-        const url = `/v1/admin/erp/projectcompanyline/${id}/${scopeMode}/${scopeValue}`;
+    getListByScope: async (kind: number | string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+        const url = `/v1/admin/erp/projectcompanyline/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
 

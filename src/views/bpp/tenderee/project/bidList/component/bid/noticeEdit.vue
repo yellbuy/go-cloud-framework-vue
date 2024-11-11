@@ -1,54 +1,64 @@
 <template>
 	<div>
-		<el-row>
-			<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" label-suffix="：" size="small" label-width="120px" v-loading="state.loading">
-				<el-row>
-					<el-col :span="24">
-						<div style="text-align: center;font-size: 25px; padding-bottom: 15px;">
-							<h>发布中标公告</h>
-						</div>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb12">
-						<el-form-item label="比选编号" prop="No">
-							<el-input v-model="state.ruleForm.No"/>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mb12">
-						<el-form-item label="公告名称" prop="Name">
-							<el-input v-model="state.ruleForm.Name"/>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
-						<el-form-item label="公示截止时间" prop="Location">
-							<el-date-picker v-model="state.ruleForm.Location" type="datetime" placeholder="请选择时间"/>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb12">
-						<el-form-item label="中标公告" prop="Content">
-							<vue-ueditor-wrap
-								:editor-id="`editor-content`"
-								:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js', 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css']"
-								v-model="state.ruleForm.Content"
-								style=" z-index: 1"
-								:config="{
-									UEDITOR_HOME_URL: '/ueditor/',
-									serverUrl: `${state.baseUrl}/v1/common/editor/${getUserInfos.appid}`,
-									headers: { Authorization: token, Appid: getUserInfos.appid },
-								}" >
-							</vue-ueditor-wrap>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col>
-						<span style="float: right; padding: 15px;">
-							<el-button text bg type="info" @click="onCancel()">取消</el-button>
-							<el-button type="primary" @click="">确定发布</el-button>
-						</span>
-					</el-col>
-				</el-row>
-			</el-form>
-		</el-row>	
+		<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" label-suffix="：" size="small" label-width="120px" v-loading="state.loading">
+			<el-row>
+				<el-col :span="24">
+					<div style="text-align: center;font-size: 25px; padding-bottom: 15px;">
+						<h>发布中标公告</h>
+					</div>
+				</el-col>
+				<el-col :span="8" style="padding-top: 10px; padding-bottom: 10px;">
+					<el-form-item label="招标编号" prop="No">
+						<el-input v-model="state.ruleForm.No"/>
+					</el-form-item>
+				</el-col>
+				<el-col :span="8" style="padding-top: 10px; padding-bottom: 10px;">
+					<el-form-item label="项目名称" prop="Name">
+						<el-input v-model="state.ruleForm.Name"/>
+					</el-form-item>
+				</el-col>
+				<el-col :span="8" style="padding-top: 10px; padding-bottom: 10px;">
+					<el-form-item label="中标金额">
+						<el-select v-model="state.companyId" placeholder="请选择" @change="selectProjectCompany">
+							<el-option v-for="(item, index) in state.projectCompanyList" :key="index" :label="item.CompanyName" :value="item.CompanyId"/>
+						</el-select>
+					</el-form-item>
+				</el-col>
+				<el-col :span="8" style="padding-top: 10px; padding-bottom: 10px;">
+					<el-form-item label="中标单位">
+						<el-select v-model="state.companyId" placeholder="请选择" @change="selectProjectCompany">
+							<el-option v-for="(item, index) in state.projectCompanyList" :key="index" :label="item.CompanyName" :value="item.CompanyId"/>
+						</el-select>
+					</el-form-item>
+				</el-col>
+				<el-col :span="8" style="padding-top: 10px; padding-bottom: 10px;">
+					<el-form-item label="公示截止时间" prop="Location">
+						<el-date-picker v-model="state.ruleForm.Location" type="datetime" placeholder="请选择时间"/>
+					</el-form-item>
+				</el-col>
+				<el-col :span="24" style="padding-top: 10px; padding-bottom: 10px;">
+					<el-form-item label="中标公告" prop="Content">
+						<vue-ueditor-wrap
+							:editor-id="`editor-content`"
+							:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js', 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css']"
+							v-model="state.ruleForm.Content"
+							style=" z-index: 1"
+							:config="{
+								UEDITOR_HOME_URL: '/ueditor/',
+								serverUrl: `${state.baseUrl}/v1/common/editor/${getUserInfos.appid}`,
+								headers: { Authorization: token, Appid: getUserInfos.appid },
+							}" >
+						</vue-ueditor-wrap>
+					</el-form-item>
+				</el-col>
+				<el-col>
+					<span style="float: right; padding: 15px;">
+						<el-button text bg type="info" @click="onCancel()">取消</el-button>
+						<el-button type="primary" @click="">确定发布</el-button>
+					</span>
+				</el-col>
+			</el-row>
+		</el-form>
 	</div>
 </template>
 

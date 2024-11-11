@@ -36,9 +36,9 @@
 					<el-table-column prop="PriceScore" label="报价得分" width="150" show-overflow-tooltip/>
 					<el-table-column prop="TechnicalScore" label="技术得分" width="150" show-overflow-tooltip/>
 					<el-table-column prop="TechnicalScore" label="最终得分" width="150" show-overflow-tooltip/>
-					<el-table-column prop="Extattr" label="推荐中标候选人" width="150" show-overflow-tooltip>
-						<template #default="scope">
-							<el-input style="width: 100%;" v-model="scope.row.Extattr" :precision="2" :step="1" :min="0"/>
+					<el-table-column prop="RecommendRemark" label="推荐中标候选人" width="150" show-overflow-tooltip>
+						<template #default="scope" >
+							<el-input style="width: 100%;" v-model="scope.row.RecommendRemark" :precision="2" :step="1" :min="0"/>
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
@@ -80,16 +80,6 @@ const state: any = reactive({
 	projectList: [],
 	projectForm: {},
 	projectCompany: [],
-	projectTableData: {
-		data: [],
-		ruleForm: {},
-		total: 0,
-		loading: false,
-		param: {
-			current: 1,
-			pageSize: 20,
-		},
-	},
 	tableData: {
 		data: [],
 		total: 0,
@@ -147,7 +137,8 @@ const onGetTableData = async () => {
 			model.PriceScore = 0
 			model.GatherScore = 0
 			model.TechnicalScore = 0
-			model.Extattr = val.Extattr
+			model.IsRecommend = val.IsRecommend
+			model.RecommendRemark = val.RecommendRemark
 			state.tableData.data.push(model)
 			for	(let item of projectReviewRes.data){
 				if (item.CompanyId == val.CompanyId) {
@@ -172,10 +163,13 @@ const onSubmit = async (data: {}) => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			let model = {}
-			model.Id = data.ProjectCompanyId
-			model.Extattr = data.Extattr
-			const res = await proxy.$api.erp.projectcompany.recommendationUpdate(data.ProjectCompanyId, model);
+			let list = []
+			if (!data) {
+				list = state.tableData.data
+			}else{
+				list.push(data)
+			}
+			const res = await proxy.$api.erp.projectcompany.recommendationUpdate(data.ProjectCompanyId, list);
 			if (res.errcode != 0) {
 				return;
 			}
