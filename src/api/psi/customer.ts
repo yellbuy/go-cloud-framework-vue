@@ -11,7 +11,7 @@ export default {
      * @returns 返回接口数据
      */
     getListByScope: async (kind: string, scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
-        const url = `/psi/v1/admin/entity/${kind}/${scopeMode}/${scopeValue}`;
+        const url = `/psi/v1/admin/customer/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
     
@@ -20,7 +20,7 @@ export default {
      * @returns 返回接口数据
      */
     getList: async (params: object = {}) => {
-        const url = `/psi/v1/admin/entity`;
+        const url = `/psi/v1/admin/customer`;
         return await http.get(url, params);
     },
 
@@ -29,7 +29,7 @@ export default {
      * @returns 返回接口数据
      */
     getById: async (id: number | string,loadLinkmanList=false) => {
-        const url = `/psi/v1/admin/entity/${id}?loadLinkmanList=${loadLinkmanList}`;
+        const url = `/psi/v1/admin/customer/${id}?loadLinkmanList=${loadLinkmanList}`;
         return await http.get(url);
     },
 
@@ -40,10 +40,10 @@ export default {
      */
     save: async (data: object) => {
         if (!data.Id || data.Id == "0") {
-            const url = `/psi/v1/admin/entity`;
+            const url = `/psi/v1/admin/customer`;
             return await http.post(url, data);
         }
-        const url = `/psi/v1/admin/entity/${data.Id}`;
+        const url = `/psi/v1/admin/customer/${data.Id}`;
         return await http.post(url, data);
     },
 
@@ -53,7 +53,7 @@ export default {
      * @returns 返回接口数据
      */
     delete: async (id: number | string) => {
-        const url = `/psi/v1/admin/entity/delete/${id}`;
+        const url = `/psi/v1/admin/customer/delete/${id}`;
         return await http.post(url);
     },
 }

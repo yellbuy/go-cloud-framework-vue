@@ -32,6 +32,7 @@
 						:height="proxy.$calcMainHeight(-35)"
 						@cell-click="onMainCellClick"
 						default-expand-all
+						border
 						stripe
 						highlight-current-row
 						:tree-props="{ children: 'Children' }"
@@ -60,26 +61,7 @@
 						<el-table-column prop="Code" label="编码" width="90">
 						</el-table-column>
 						
-						<el-table-column prop="Order" label="排序" :width="80" align="center">
-							<template #header>
-								<el-button
-									type="text"
-									v-if="mainTableData.data"
-									@click="proxy.$api.common.table.update('base_org', 'Order', mainTableData.data || [], 0)"
-									v-auth:[moduleKey]="'btn.OrgEdit'"
-								>
-									<el-icon>
-										<Edit />
-									</el-icon>
-									&#8197;排序{{ $t('message.action.update') }}
-								</el-button>
-								<span v-no-auth:[moduleKey]="'btn.OrgEdit'">排序</span>
-							</template>
-							<template #default="scope">
-								<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.OrgEdit'">
-								</el-input>
-								<span v-no-auth:[moduleKey]="'btn.OrgEdit'">{{ scope.row.Order }}</span>
-							</template>
+						<el-table-column prop="Order" label="排序" :width="70" align="right">
 						</el-table-column>
 						<el-table-column prop="Id" label="标识" :width="160" align="right"> </el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(138)" fixed="right">
@@ -119,7 +101,7 @@
 									</el-icon>
 									&#8197;{{ $t('message.action.search') }}
 								</el-button>
-								<el-button type="primary" @click="onOpenChildEditDlg()" v-auth:[moduleKey]="'btn.ArticleAdd'">
+								<el-button type="primary" @click="onOpenChildEditDlg()" v-auth:[moduleKey]="'btn.Add'">
 									<el-icon>
 										<CirclePlusFilled />
 									</el-icon>
@@ -250,9 +232,8 @@
 			</pane>
 		</splitpanes>
 
-		<dlgMainEdit ref="dlgMainEditRef" :allow-edit-category="false" :allow-edit-special="false" :step="25" />
-		<dlgChildEdit ref="dlgChildEditRef" :allow-edit-category="false" :allow-edit-special="false" :step="25" />
-		<dlgDetail ref="dlgDetailRef" :step="25" />
+		<dlgMainEdit ref="dlgMainEditRef" :allow-edit-category="false" :step="25" />
+		<dlgChildEdit ref="dlgChildEditRef" :allow-edit-category="false" :step="25" />
 	</div>
 </template>
 
@@ -262,11 +243,12 @@ import { Pane, Splitpanes } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import dlgMainEdit, { default as dlgChildEdit, default as dlgDetail } from './component/orgEdit.vue';
+import dlgMainEdit from './component/orgEdit.vue';
+import dlgChildEdit from './component/personEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'BaseOrgList',
-	components: { dlgMainEdit, dlgChildEdit, dlgDetail, Splitpanes, Pane },
+	components: { dlgMainEdit, dlgChildEdit, Splitpanes, Pane },
 	setup() {
 		const route = useRoute();
 		const kind = route.params.kind;
@@ -310,7 +292,7 @@ export default {
 		};
 
 		// 初始化表格数据
-		const onGetMainTableData = async (loadFirstChildData: boolean = false) => {
+		const onGetMainTableData = async () => {
 			state.mainTableData.loading = true;
 			state.mainTableData.data = [];
 			try {
@@ -388,7 +370,7 @@ export default {
 			state.childTableData.loading = true;
 			state.childTableData.data = [];
 			try {
-				const res = await proxy.$api.base.person.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.childTableData.param);
+				const res = await proxy.$api.base.person.getListByScope(state.kind,state.scopeMode, state.scopeValue, state.childTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -401,27 +383,19 @@ export default {
 
 		// 打开修改弹窗
 		const onOpenChildEditDlg = async (row: Object) => {
-			if (!row) {
-				row = { Kind: state.kind, SpecialId: '0' };
-				if (state.childTableData.param.categoryId == '0') {
-					row.CategoryId = state.childTableData.param.categoryId;
-				}
-			} else {
-				row.CategoryId = row.Category.Id;
-			}
 			console.log(row);
 			dlgChildEditRef.value.openDialog(row, state.mainTableData.data);
 		};
 		// 删除记录
 		const onChildRowDel = (row: Object) => {
-			ElMessageBox.confirm(`确定要删除记录“${row.Title}”吗?`, '提示', {
+			ElMessageBox.confirm(`确定要删除记录“${row.Name}”吗?`, '提示', {
 				confirmButtonText: '确认',
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(async () => {
 				state.childTableData.loading = true;
 				try {
-					const res = await proxy.$api.cms.article.delete(row.Id);
+					const res = await proxy.$api.cms.person.delete(row.Id);
 					if (res.errcode == 0) {
 						onGetChildTableData();
 					}

@@ -1,7 +1,7 @@
 <template>
 	<div class="system-edit-org-container">
 		<el-dialog :title="title" v-model="isShowDialog" width="60%">
-			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" size="mini" label-width="90px" v-loading="loading">
+			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="90px" v-loading="loading">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="名称" prop="Name">
@@ -96,7 +96,7 @@ export default {
 			title: t('message.action.add'),
 			loading: false,
 			ruleForm: {
-				Id: 0,
+				Id: '0',
 				Name: '', // 名称
 				Code: '',
 				OrgKind:'',
@@ -105,7 +105,7 @@ export default {
 				Mobile: '',
 				Tel: '',
 				Email: '',
-				Parentid: '',
+				Parentid: '0',
 				Vip: 0,
 			},
 			orgList: [], // 部门数据
@@ -131,8 +131,8 @@ export default {
 		// 打开弹窗
 		const openDialog = (id: string, orgList:any,parentid:string, disable: boolean) => {
 			state.loading = false;
-			state.ruleForm.Parentid = parentid;
-			state.orgList = orgList;
+			state.ruleForm.Parentid = parentid||"0";
+			state.orgList = [{Id:"0",Name:"顶级"},...orgList];
 			try {
 				state.disable = disable;
 				if (disable) {
@@ -146,7 +146,7 @@ export default {
 					state.ruleForm.Enable=1;
 					state.title = t('message.action.add');
 				}
-				state.isShowDialog = true;
+				
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -165,6 +165,7 @@ export default {
 		// 关闭弹窗
 		const closeDialog = () => {
 			state.isShowDialog = false;
+			proxy.$refs.ruleFormRef.resetFields();
 		};
 		// 取消
 		const onCancel = () => {
@@ -186,9 +187,9 @@ export default {
 								closeDialog();
 							} else {
 								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id = 0;
+								state.ruleForm.Id = '0';
 							}
-							proxy.$parent.onGetTableData();
+							proxy.$parent.onGetMainTableData();
 						}
 					} finally {
 						state.loading = false;
