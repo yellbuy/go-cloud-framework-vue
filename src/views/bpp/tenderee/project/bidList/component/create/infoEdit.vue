@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="small" label-width="120px" label-suffix="：" v-loading="state.loading">
 			<el-row>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
@@ -33,16 +33,11 @@
 						<el-input-number v-model="state.ruleForm.BidFee" :min="0" controls-position="right" :precision="2"/>
 					</el-form-item>
 				</el-col>
-				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
+				<!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 					<el-form-item label="项目管理员" prop="ProjectManagerUid">
 						<el-select v-model="state.ruleForm.ProjectManagerUid" filterable placeholder="请选择">
 							<el-option v-for="(item, index) in state.ProjectManagerData.data" :key="index" :label="item.Name" :value="item.Id" />
 						</el-select>
-					</el-form-item>
-				</el-col>
-				<!-- <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" class="mb16">
-					<el-form-item prop="RemoteState">
-						<el-checkbox v-model="state.ruleForm.RemoteState" :true-label="1" :false-label="0">视频会议</el-checkbox>
 					</el-form-item>
 				</el-col> -->
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
@@ -112,7 +107,6 @@ const state = reactive({
 });
 
 const rules = reactive({
-	isShowPage: false,
 	No: [{required: true, message: t('message.validRule.required'), trigger: 'blur',},],
 	Name: [{required: true, message: t('message.validRule.required'), trigger: 'blur',},],
 	ProjectType: [{required: true, message: t('message.validRule.required'), trigger: 'blur',},],
@@ -122,7 +116,6 @@ const rules = reactive({
 
 // 打开页面
 const openPage = async () => {
-	state.isShowPage = true
 };
 
 //  传出数据
@@ -133,7 +126,6 @@ const outData = async () => {
 //	关闭页面
 const closePage = async () => {
 	state.ruleForm = {Id: 0, Kind: '', Name: '', No: '', Sn: '', ProjectType: 1, RemoteState: 0, BidFee: 0, EnsureFee: 0, Location: '', Content: '',}
-	state.isShowPage = false
 };
 
 // 获取项目管理员列表

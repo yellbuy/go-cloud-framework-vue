@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 100%;" v-if="state.isShowPage">
+    <div style="width: 100%;">
         <el-tabs v-model="state.activeName" type="card" class="demo-tabs" style="width: 100%;" @tab-change="state.activeName">
             <el-tab-pane label="资格评审" name="zgps">
                 <el-form :model="state.zgTableData.param" label-width="60px" :inline="true" style="margin-bottom: 10px;">
@@ -210,7 +210,6 @@ const rules = reactive({
 
 // 打开页面
 const openPage = async () => {
-	state.isShowPage = true
 };
 
 //  传出数据
@@ -238,12 +237,12 @@ const outData = async () => {
 // 关闭页面
 const closePage = async () => {
     state.activeName = 'zgps'
-    state.ruleForm = {ProjectSettingLineList: [],},
+    state.ruleForm = {ProjectSettingLineList: [],}
     state.settingTableData.data = []
     state.zgTableData.data = []
     state.jsTableData.date = []
-    state.jjForm = {Id: "0", Kind: "jjps", PurchasePrice: null, ScoreMode: null, PriceScore: null, PricePercentage: null, QualificationScore: null, TechnicalScore: null, TechnicalMaxScore: null,},
-    state.isShowPage = false
+    state.jjForm = {Id: "0", Kind: "jjps", PurchasePrice: null, ScoreMode: null, PriceScore: null, PricePercentage: null, QualificationScore: null, TechnicalScore: null, TechnicalMaxScore: null,}
+
 };
 
 //获取评审参数模版列表

@@ -8,9 +8,15 @@
 					<el-step title="评标参数复核"/>
 				</el-steps>
 			</el-col>
-			<infoEdit ref="infoEditRef"/>
-			<extEdit ref="extEditRef"/>
-			<settingLine ref="settingLineRef"/>
+		</el-row>
+		<el-row>
+			<el-col :span="24">
+				<infoEdit ref="infoEditRef" v-if="state.activeIndex == 1"/>
+				<extEdit ref="extEditRef" v-else-if="state.activeIndex == 2"/>
+				<settingLine ref="settingLineRef" v-else-if="state.activeIndex == 3"/>
+			</el-col>
+		</el-row>
+		<el-row>
 			<el-col :span="24">
 				<div class="mt20">
 					<span style="float: right; padding-bottom: 20px; padding-right: 20px;">
@@ -28,14 +34,13 @@
 <script setup lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Session } from '/@/utils/storage';
-import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { computed, getCurrentInstance, onMounted, nextTick, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 import infoEdit from './create/infoEdit.vue';
 import extEdit from './create/extEdit.vue';
 import settingLine from './create/settingLine.vue';
-import { nextTick } from 'vue';
 
 const store = useStore();
 const route = useRoute();
@@ -56,6 +61,10 @@ const state = reactive({
 	activeIndex: 1,
 	FilesList: [],
 	ruleForm: {},
+	infoForm: {},
+	extForm: {},
+	settingLineForm: {},
+
 });
 
 //	打开页面
@@ -66,9 +75,6 @@ const openPage = async () => {
 //	关闭页面
 const closePage = async () => {
 	state.isShowPage = false
-	infoEditRef.value.isShowPage = false
-	extEditRef.value.isShowPage = false
-	settingLineRef.value.isShowPage = false
 	proxy.$parent.isShowPage = true
 	proxy.$parent.isShowCreateEdit = false
 	state.activeIndex = 1
@@ -79,6 +85,23 @@ const closePage = async () => {
 //	上一步下一步切换
 //	0：恢复到第一步  1：下一步   -1：上一步
 const onStepChange = (val: number) => {
+	switch (state.activeIndex) {
+		case 1:
+			nextTick(() => {
+				infoEditRef.value.outData()
+			});
+			break
+		case 2:
+			nextTick(() => {
+				extEditRef.value.outData()
+			});
+			break
+		case 3:
+			nextTick(() => {
+				settingLineRef.value.outData()
+			});
+			break
+	}
 	switch (val) {
 		case 0:
 			state.activeIndex = 1
@@ -96,20 +119,6 @@ const onStepChange = (val: number) => {
 			}else{
 				state.activeIndex = 1
 			}
-			break
-	}
-	infoEditRef.value.isShowPage = false
-	extEditRef.value.isShowPage = false
-	settingLineRef.value.isShowPage = false
-	switch (state.activeIndex) {
-		case 1:
-			infoEditRef.value.openPage()
-			break
-		case 2:
-			extEditRef.value.openPage()
-			break
-		case 3:
-			settingLineRef.value.openPage()
 			break
 	}
 };

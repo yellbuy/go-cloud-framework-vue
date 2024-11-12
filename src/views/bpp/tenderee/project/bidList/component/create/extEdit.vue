@@ -1,5 +1,5 @@
 <template>
-	<div v-if="state.isShowPage">
+	<div>
 		<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="small" label-width="120px" label-suffix="：" v-loading="state.updateLoading">
 			<el-row>
 				<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb16">
@@ -257,7 +257,6 @@ const onRemove = () => {
 
 //	打开页面
 const openPage = async () => {
-	state.isShowPage = true
 };
 
 //  传出数据
@@ -276,7 +275,6 @@ const closePage = async () => {
 	state.FilesList = []
 	state.projectLineTableData.data = []
 	state.ruleForm = {Number: null, StartTime: "", EndTime: "", BeginTime: "", FinishTime: "", ReviewTime: "", AutoSwitchState: null, ProjectManagerUid: "", ProjectLineList: [],}
-	state.isShowPage = false
 };
 
 //	删除品目
