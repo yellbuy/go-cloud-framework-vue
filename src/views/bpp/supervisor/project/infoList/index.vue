@@ -2,15 +2,24 @@
 	<el-card>
 		<el-row style="padding: 15px;">
 			<el-col :span="24">
+				<el-form-item label="选择参与项目：" prop="Id">
+					<el-select v-model="state.projectId" filterable placeholder="请选择" @change="selectProject">
+						<el-option v-for="(item, index) in state.projectList" :key="index" :label="item.Name" :value="item.Id" />
+					</el-select>
+				</el-form-item>
+			</el-col>
+		</el-row>
+		<el-row style="padding: 15px;" v-if="state.projectId > 0">
+			<el-col :span="24">
 				<el-descriptions :column="2">
-					<el-descriptions-item label="项目名称：">{{ state.project.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.project.No }}</el-descriptions-item>
-					<el-descriptions-item label="开标时间：">{{ state.project.BidOpenTime }}</el-descriptions-item>
-					<el-descriptions-item label="开标地点：">{{ state.project.Location }}</el-descriptions-item>
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
-		<el-row>
+		<el-row v-if="state.projectId > 0">
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
@@ -62,7 +71,9 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
+	projectId: '',
+	projectList: [],
+	projectForm: {},
 	tableData: {
 		data: [],
 		total: 0,
@@ -78,25 +89,37 @@ state.tableData.param.pageIndex = computed(() => {
 	return state.tableData.param.current - 1;
 });
 
-//获取项目品目信息
-const onGetTableData = async (isState: boolean) => {
-	if (isState) {
-		let params = {};
-		state.project = store.state.project.project;
-		state.tableData.data = [];
-		try {
-			params.projectId = store.state.project.projectId;
-			params.state = 1;
-			//重新请求数据
+const selectProject = async (event) => {
+    state.projectForm = state.projectList.find(item => item.Id === event);
+	onGetTableData()
+}
 
-			const res = await proxy.$api.erp.projectcompany.comparisonList(params);
-			//获取存储的项目数据
-			if (res.errcode != 0) {
-				return;
-			}
-			state.tableData.data = res.data;
-		} finally {
+//	获取专家参与的项目列表
+const onGetProjectTableData = async () => {
+	try {
+		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
+		if (res.errcode != 0) {
+			return;
 		}
+		state.projectList = res.data;
+	} finally {
+	}
+};
+
+// 初始化表格数据
+const onGetTableData = async (gotoFirstPage: boolean = false) => {
+	if (gotoFirstPage) {
+		state.tableData.param.current = 1;
+	}
+	state.tableData.loading = true;
+	try {
+		const res = await proxy.$api.base.user.getList(state.tableData.param);
+		if (res.errcode == 0) {
+			state.tableData.data = res.data;
+			state.tableData.total = res.total;
+		}
+	} finally {
+		state.tableData.loading = false;
 	}
 };
 
@@ -133,7 +156,9 @@ const onHandleCurrentChange = (val: number) => {
 };
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+	onGetProjectTableData()
+});
 
 </script>
 

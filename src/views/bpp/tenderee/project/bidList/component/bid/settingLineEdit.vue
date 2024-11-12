@@ -31,9 +31,8 @@ const { t } = useI18n();
 const store = useStore();
 const moduleKey = proxy.$parent.moduleKey;
 const state = reactive({
-    project: store.state.project.project,
-	moduleKey,
     isShowDialog: false,
+	moduleKey,
     loading: false,
     title: t('message.action.add'),
     ruleForm: {},
@@ -46,16 +45,16 @@ const rules = reactive({
 });
 
 // 打开弹窗
-const openDialog = (id: string, kind: string, ) => {
+const openDialog = (id: string) => {
     state.loading = false
 	if (id && id != '0') {
 		getRowById(id);
 		state.title = t('message.action.edit');
 	} else {
         state.ruleForm.Id = '0';
-        state.ruleForm.Kind = kind;
+        state.ruleForm.Kind = 'bid';
 		state.ruleForm.State = 0
-        state.ruleForm.ProjectId = state.project.Id
+        state.ruleForm.ProjectId = state.projectForm.Id
 		state.title = t('message.action.add');
 	}
 	

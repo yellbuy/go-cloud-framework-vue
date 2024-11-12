@@ -132,7 +132,7 @@ const onGetTableData = async () => {
 	try {
 		state.tableData.param.expertId = state.expertId
 		state.tableData.param.projectId = state.projectId
-		const res = await proxy.$api.erp.projectreview.getGatherListByScope('zgps', 0, 0, state.tableData.param);
+		const res = await proxy.$api.erp.projectreview.getGatherListByScope('zgpsGather', 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return
 		}
@@ -150,12 +150,8 @@ const onSubmit = async () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const selfGatherRes = await proxy.$api.erp.projectreview.selfGatherSave("zgps", state.projectId);
-			if (selfGatherRes.errcode != 0) {
-				return;
-			}
-			const gatherRes = await proxy.$api.erp.projectreview.gatherSave("zgps", state.projectId);
-			if (gatherRes.errcode != 0) {
+			const res = await proxy.$api.erp.projectreview.gatherSave("zgpsGather", state.projectId);
+			if (res.errcode != 0) {
 				return;
 			}
 			onGetTableData()

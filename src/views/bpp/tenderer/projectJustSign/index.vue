@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-card v-if="state.isShowPage">
+		<el-card v-if="state.isShowPage === 'list'">
 			<div>
 				<el-form ref="searchFormRef" :model="state.tableData.param" label-suffix="：" label-width="80px" :inline="true">
 					<el-form-item label="项目编号">
@@ -29,8 +29,7 @@
 			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
 				<el-table-column prop="No" label="项目编号"  width="160" show-overflow-tooltip fixed/>
-				<el-table-column prop="ProjectName" label="项目名称" show-overflow-tooltip/>
-				<el-table-column prop="LineName" label="项目包号" width="70"/>
+				<el-table-column prop="Name" label="项目名称" show-overflow-tooltip/>
 				<el-table-column prop="Kind" label="参与方式" width="100">
 					<template #default="scope">
 						<span v-if="scope.row.ProjectType == 1">公开招标</span>
@@ -42,11 +41,10 @@
 				</el-table-column>
 				<el-table-column prop="EndTime" label="报名截止日期" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
 				<el-table-column prop="ReviewTime" label="开标时间" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
-				<el-table-column prop="State" label="状态" width="90"/>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, false)">详情</el-button>
-						<el-button text bg type="primary" @click="onToDetail(scope.row)">待办</el-button>
+						<el-button text bg type="primary" @click="onTodo(scope.row)">待办</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -62,15 +60,15 @@
 				layout="->, total, sizes, prev, pager, next, jumper"
 				:total="state.tableData.total"/>
 		</el-card>
-		<projectDetail ref="projectDetailRef"/>
+		<projectTodoEdit ref="projectTodoEditRef" v-if="state.isShowPage === 'todo'"/>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { computed, getCurrentInstance, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import projectDetail from './component/projectDetail.vue';
+import projectTodoEdit from './component/projectTodoEdit.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 
@@ -84,8 +82,9 @@ const scopeValue = route.params.scopeValue || 0;
 const moduleKey = `api_pro_project_${kind}_${mode}`;
 const { proxy } = getCurrentInstance() as any;
 const seeDlgRef = ref();
-const projectDetailRef = ref();
+const projectTodoEditRef = ref();
 const state: any = reactive({
+	isShowPage: 'list',
 	moduleKey: moduleKey,
 	kind,
 	scopeMode,
@@ -100,7 +99,6 @@ const state: any = reactive({
 			pageSize: 20,
 		},
 	},
-	isShowPage: true,
 });
 
 state.tableData.param.pageIndex = computed(() => {
@@ -129,47 +127,21 @@ const onGetTableData = async () => {
 	}
 };
 
-// 打开修改界面
-const onModelEdit = (id: number) => {
-	store.commit('project/getProjectId', id);
-	state.isShowPage = false;
-	projectDetailRef.value.openPage()
-};
-// 打开列表
-const onModelList = () => {
-	state.isShowPage = true;
-};
 //打开查看数据弹窗
-
 const onModelSee = (id: string, state: boolean) => {
-	seeDlgRef.value.openDialog(id, state);
-};
-// 跳转
-const onToDetail = (data: {}) => {
-	store.commit('project/getProjectCompanyId', data.id)
-	store.commit('project/getProjectId', data.projectId);
-	projectDetailRef.value.openPage(data);
-	state.isShowPage = false;
-};
-// 删除用户
-const onModelDel = (id: number) => {
-	ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
-		confirmButtonText: '确认',
-		cancelButtonText: '取消',
-		type: 'warning',
-	}).then(async () => {
-		state.tableData.loading = true;
-		try {
-			const res = await proxy.$api.erp.project.delete(id);
-			if (res.errcode == 0) {
-				onGetTableData();
-			}
-		} finally {
-			state.tableData.loading = false;
-		}
-		return false;
+	nextTick(() => {
+		seeDlgRef.value.openDialog(id, state);
 	});
 };
+
+// 打开待办
+const onTodo = (data: {}) => {
+	state.isShowPage = 'todo';
+	nextTick(() => {
+		projectTodoEditRef.value.openPage(data);
+	});
+};
+
 // 分页改变
 const onHandleSizeChange = (val: number) => {
 	state.tableData.param.pageSize = val;
@@ -184,7 +156,7 @@ onMounted(() => {
 	onGetTableData();
 });
 
-defineExpose({...toRefs(state)})
+defineExpose({onGetTableData, ...toRefs(state)})
 
 const { dateFormatYMDHM, dateFormat } = commonFunction();
 

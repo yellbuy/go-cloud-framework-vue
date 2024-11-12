@@ -1,7 +1,18 @@
 import { http } from '/@/utils/request';
 
 export default {
-/**
+    
+    /**
+   * 公司报名详细信息
+   * @param data 标识，字符串或数组
+   * @returns 返回接口数据
+   */
+    getById: async (id: number | string) => {
+        const url = `/v1/admin/erp/projectcompany/${id}`;
+        return await http.get(url);
+    },
+
+    /**
    * 公司报名
    * @param data 标识，字符串或数组
    * @returns 返回接口数据
@@ -10,7 +21,7 @@ export default {
         const url = `/v1/admin/erp/projectcompany/signup`;
         return await http.post(url, data);
     },
- /**
+    /**
    * 公司报价
    * @param data 标识，字符串或数组
    * @returns 返回接口数据
@@ -19,6 +30,17 @@ export default {
         const url = `/v1/admin/erp/projectcompany/quoted`;
         return await http.post(url, data);
     },
+
+    /**
+   * 公司投标
+   * @param data 文件列表
+   * @returns 返回接口数据
+   */
+    biding: async (id: number | string, data: object) => {
+        const url = `/v1/admin/erp/projectcompany/bidding/${id}`;
+        return await http.post(url, data);
+    },
+
 /**
  * 公司报名列表
  * @param data 标识，字符串或数组
@@ -91,5 +113,28 @@ export default {
     auditUpdate: async ( id: string|number, data: object) => {
         const url = `/v1/admin/erp/projectcompany/updateaudit/${id}`;
         return await http.post(url, data);
+    },
+
+
+/**
+ * 中标公司推荐
+ * @param id 公司报名信息id
+ * @param data 标识，字符串或数组
+ * @returns 返回接口数据
+ */
+    recommendationUpdate: async ( id: string|number, data: object) => {
+        const url = `/v1/admin/erp/projectcompany/recommendation/${id}`;
+        return await http.post(url, data);
+    },
+
+/**
+ * 中标公司推荐
+ * @param id 项目id
+ * @param data 标识，字符串或数组
+ * @returns 返回接口数据
+ */
+    confirmUpdate: async ( id: string|number) => {
+        const url = `/v1/admin/erp/projectcompany/confirm/${id}`;
+        return await http.post(url);
     },
 }

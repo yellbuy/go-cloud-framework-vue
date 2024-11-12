@@ -28,7 +28,6 @@
 				<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
 				<el-table-column prop="No" label="项目编号"  width="160" show-overflow-tooltip fixed/>
 				<el-table-column prop="Name" label="项目名称" show-overflow-tooltip/>
-				<el-table-column prop="LineName" label="项目包号" width="70"/>
 				<el-table-column prop="Kind" label="参与方式" width="100" align="center">
 					<template #default="scope">
 						<span v-if="scope.row.ProjectType == 1">公开招标</span>
@@ -40,7 +39,6 @@
 				</el-table-column>
 				<el-table-column prop="EndTime" label="报名截止日期" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
 				<el-table-column prop="ReviewTime" label="开标时间" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
-				<el-table-column prop="State" label="状态" width="90"/>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="info" @click="onModelSee(scope.row.Id, true)">详情</el-button>
@@ -196,7 +194,7 @@ const onModelDel = (id: number) => {
 	}).then(async () => {
 		state.tableData.loading = true;
 		try {
-			const res = await proxy.$api.erp.project.delete(id);
+			const res = await proxy.$api.erp.projectbid.delete(id);
 			if (res.errcode == 0) {
 				onGetTableData();
 			}

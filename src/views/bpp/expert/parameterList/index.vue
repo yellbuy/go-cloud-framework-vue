@@ -137,7 +137,7 @@ const getUserInfos = computed(() => {
 });
 const state = reactive({
 	projectList: [],
-	projectForm: {Id: '0'},
+	projectForm: {},
 	activeName:"zgps",
 	state: true,
 	tableData:{

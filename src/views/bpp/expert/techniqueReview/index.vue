@@ -222,7 +222,7 @@ const onGetTableData = async () => {
 		}
 		//获取项目报名文件表
 		state.tableData.param.projectCompanyId = state.projectCompanyForm.Id
-		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope(state.tableData.param);
+		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope("bid", 0, 0, state.tableData.param);
 		state.tableData.param.projectCompanyId = null
 		if (projectCompanyLineRes.errcode != 0) {
 			return;
@@ -255,6 +255,8 @@ const onSubmit = async () => {
 		try {
 			const res = await proxy.$api.erp.projectreview.reviewSave("jsps", state.projectId, state.tableData.data);
 			if (res.errcode != 0) {
+				onGetTableData()
+				ElMessage('提交失败')
 				return;
 			}
 			onGetTableData()

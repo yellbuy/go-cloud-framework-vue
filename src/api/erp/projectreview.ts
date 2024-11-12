@@ -98,4 +98,22 @@ export default {
         const url = `v1/admin/erp/projectreview/return/${id}/`;
         return await http.post(url, data);
     },
+    
+    /**
+    * 组长签章
+    * @returns 返回接口数据
+    */
+    signatureSave: async (id: string, data: object) => {
+        const url = `v1/admin/erp/projectreview/signature/${id}/`;
+        return await http.post(url, data);
+    },
+
+    /**
+    * 监审报告签章
+    * @returns 返回接口数据
+    */
+    reportSignatureSave: async (id: string) => {
+        const url = `v1/admin/erp/projectreview/reportsignature/${id}/`;
+        return await http.post(url);
+    },
 }

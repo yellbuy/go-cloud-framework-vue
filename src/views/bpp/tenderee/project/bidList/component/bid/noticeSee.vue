@@ -1,9 +1,7 @@
 <template>
-	<div class="system-edit-user-container">
-		<el-dialog :title="state.title" v-model="state.isShowDialog" width="40%" :before-close="closeDialog">
-			<p>{{ state.project.Content }}</p>
-		</el-dialog>
-	</div>
+	<el-dialog :title="state.title" v-model="state.isShowDialog" width="40%" :before-close="closeDialog">
+		<p>{{ state.projectForm.Content }}</p>
+	</el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -12,15 +10,14 @@ import { useStore } from '/@/store/index';
 
 const store = useStore();
 const state = reactive({
-	project: store.state.project.project,
 	isShowDialog: false,
 	title: "查看公告",
 	projectForm: {},
 });
 
 // 打开弹窗
-const openDialog = (row: {}) => {
-	state.projectForm = row
+const openDialog = (data: {}) => {
+	state.projectForm = data
 	state.isShowDialog = true;
 };
 
@@ -34,6 +31,6 @@ const closeDialog = () => {
 onMounted(() => {
 });
 
-defineExpose({openDialog})
+defineExpose({openDialog, closeDialog})
 
 </script>

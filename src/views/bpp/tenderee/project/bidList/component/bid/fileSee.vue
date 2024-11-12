@@ -24,29 +24,28 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
-	isShowPage: false,
-	pdfSrc: '',
 	projectForm: {},
+	pdfSrc: '',
 	tableData: {
 		data: [],
 		total: 0,
 		loading: false,
+		param:{},
 	},
 });
 
 //	打开页面
-const openPage = async (row: {}) => {
-	state.projectForm = row
-	state.isShowPage = true
+const openPage = async (data: {}) => {
+	state.projectForm = data
 };
 
 //	关闭页面
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-	state.isShowPage = false
 }
+
+
 
 const loadPdf = async (pdfPath: string) => {
 	// 设置 PDF.js 的路径

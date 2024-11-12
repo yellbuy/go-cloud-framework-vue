@@ -22,7 +22,7 @@
 		<el-row style="padding: 15px;" v-if="state.projectId > 0">
 			<el-col :span="24">
 				<div>
-					<el-button type="primary" @click="onSubmit">组长确认</el-button>
+					<el-button type="primary" @click="confirm">组长确认</el-button>
 					<el-button type="primary" @click="onReturn">退回重评</el-button>
 				</div>
 			</el-col>
@@ -36,13 +36,14 @@
 					<el-table-column prop="PriceScore" label="报价得分" width="150" show-overflow-tooltip/>
 					<el-table-column prop="TechnicalScore" label="技术得分" width="150" show-overflow-tooltip/>
 					<el-table-column prop="TechnicalScore" label="最终得分" width="150" show-overflow-tooltip/>
-					<el-table-column prop="Name" label="推荐中标候选人" width="150" show-overflow-tooltip>
-						<template #default="scope">
-							<el-input style="width: 100%;" v-model="scope.row.Name" :precision="2" :step="1" :min="0"/>
+					<el-table-column prop="RecommendRemark" label="推荐中标候选人" width="150" show-overflow-tooltip>
+						<template #default="scope" >
+							<el-input style="width: 100%;" v-model="scope.row.RecommendRemark" :precision="2" :step="1" :min="0"/>
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
+						<el-button bg type="primary" @click="onSubmit(scope.row)">保存</el-button>
 						<el-button text bg type="primary" @click="">编辑</el-button>
 					</template>
 				</el-table-column>
@@ -69,6 +70,7 @@ import { toRefs, reactive, computed, onMounted, ref, getCurrentInstance } from '
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
 import { useI18n } from 'vue-i18n';
+import { StampAnnotationElement } from 'pdfjs-dist/types/src/display/annotation_layer';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
@@ -77,16 +79,7 @@ const state: any = reactive({
 	projectId: '',
 	projectList: [],
 	projectForm: {},
-	projectTableData: {
-		data: [],
-		ruleForm: {},
-		total: 0,
-		loading: false,
-		param: {
-			current: 1,
-			pageSize: 20,
-		},
-	},
+	projectCompany: [],
 	tableData: {
 		data: [],
 		total: 0,
@@ -127,6 +120,7 @@ const onGetTableData = async () => {
 		if (projectCompanyRes.errcode != 0) {
 			return;
 		}
+		state.projectCompany = projectCompanyRes.data
 		//获取项目专家评审结果表
 		state.tableData.param.projectId = state.projectId
 		state.tableData.param.isGather = 2
@@ -137,11 +131,14 @@ const onGetTableData = async () => {
 		state.tableData.data = []
 		for (let val of projectCompanyRes.data) {
 			let model = {}
+			model.ProjectCompanyId = val.ProjectCompanyId
 			model.CompanyName = val.CompanyName
 			model.ReviewPrice = 0
 			model.PriceScore = 0
 			model.GatherScore = 0
 			model.TechnicalScore = 0
+			model.IsRecommend = val.IsRecommend
+			model.RecommendRemark = val.RecommendRemark
 			state.tableData.data.push(model)
 			for	(let item of projectReviewRes.data){
 				if (item.CompanyId == val.CompanyId) {
@@ -158,14 +155,21 @@ const onGetTableData = async () => {
 	}
 };
 
-const onSubmit = async () => {
+//保存推荐
+const onSubmit = async (data: {}) => {
 	ElMessageBox.confirm(`确定要推荐供应商吗?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.gatherSave("recommend", state.projectId);
+			let list = []
+			if (!data) {
+				list = state.tableData.data
+			}else{
+				list.push(data)
+			}
+			const res = await proxy.$api.erp.projectcompany.recommendationUpdate(data.ProjectCompanyId, list);
 			if (res.errcode != 0) {
 				return;
 			}
@@ -180,6 +184,7 @@ const onSubmit = async () => {
 	});
 };
 
+//组长回退
 const onReturn = async () => {
 	ElMessageBox.confirm(`确定要回退重评吗?`, '提示', {
 		confirmButtonText: '确认',
@@ -199,6 +204,29 @@ const onReturn = async () => {
 	}).catch(async () => {
 		onGetTableData()
 		ElMessage('回退汇总')
+	});
+};
+
+//组长确认
+const confirm = async () => {
+	ElMessageBox.confirm(`确定完成评审吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		try {
+			const res = await proxy.$api.erp.projectcompany.confirmUpdate(state.projectForm.Id);
+			if (res.errcode != 0) {
+				return;
+			}
+			onGetTableData()
+			ElMessage('评审已完成')
+		} finally {
+		}
+		return false;
+	}).catch(async () => {
+		onGetTableData()
+		ElMessage('取消')
 	});
 };
 

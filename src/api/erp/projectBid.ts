@@ -38,7 +38,7 @@ export default {
      * @returns 返回接口数据
      */
     getById: async (id: number | string) => {
-        const url = `/v1/admin/erp/project/${id}`;
+        const url = `/v1/admin/erp/projectbid/${id}`;
         return await http.get(url);
     },
 

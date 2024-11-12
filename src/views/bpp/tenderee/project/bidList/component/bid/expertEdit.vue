@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-row style="padding: 15px;">
+		<el-row>
 			<el-col :span="24">
 				<div style="float: left; padding-bottom: 15px;">
 					<el-button type="primary" @click="openDialog">添加人员</el-button>
@@ -63,8 +63,8 @@ const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
-	project: store.state.project.project,
-	isShowPage: false,
+	isShowDialog: false,
+	loading: false,
 	title: '添加人员',
 	expertTableData: {
 		data: [],
@@ -84,8 +84,6 @@ const state: any = reactive({
 			projectId: '0',
 		},
 	},
-	isShowDialog: false,
-	loading: false,
 	ruleForm: {
 		ProjectId: '',
 		ExpertUid: '',
@@ -105,23 +103,22 @@ state.tableData.param.pageIndex = computed(() => {
 });
 
 //	打开页面
-const openPage = async (row: {}) => {
-	state.isShowPage = true
-	state.projectForm = row
+const openPage = async (data: {}) => {
+	state.projectForm = data
+	getProjectExpertList()
 };
 
 //	关闭页面
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-	state.isShowPage = false
 }
 
 //	获取该项目专家列表
 const getProjectExpertList = async () => {
 	state.tableData.loading = true
 	try {
-		state.tableData.param.projectId = state.project.Id
+		state.tableData.param.projectId = state.projectForm.Id
 		const res = await proxy.$api.erp.projectexpert.getListByScope("bid", 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return
@@ -167,7 +164,7 @@ const onSubmit = async () => {
 	proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 		if (valid) {
 			try {
-				state.ruleForm.ProjectId = state.project.Id
+				state.ruleForm.ProjectId = state.projectForm.Id
 				const res = await proxy.$api.erp.projectexpert.save(state.ruleForm);
 				if (res.errcode != 0) {
 					closeDialog();
@@ -205,9 +202,7 @@ const onModelDel = (id: string) => {
 const { dateFormat } = commonFunction();
 
 // 页面加载时
-onMounted(() => {
-	getProjectExpertList()
-});
+onMounted(() => {});
 
 defineExpose({openPage, closePage})
 
