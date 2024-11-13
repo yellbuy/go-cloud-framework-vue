@@ -203,7 +203,7 @@
 										<el-icon><DocumentCopy /></el-icon>
 										&#8197;{{ $t('message.action.copy') }}
 									</el-button> -->
-									<el-button text bg type="primary" @click="onOpenChildEditDlg(scope.row)" v-auth:[moduleKey]="'btn.Edit'">
+									<el-button text bg type="primary" @click="onOpenChildEditDlg(scope.row.Id)" v-auth:[moduleKey]="'btn.Edit'">
 										<el-icon><Edit /></el-icon>
 										&#8197;{{ $t('message.action.edit') }}
 									</el-button>
@@ -271,6 +271,7 @@ export default {
 				param: {
 				},
 			},
+			curOrgId:"0",
 			childTableData: {
 				data: [],
 				total: 0,
@@ -336,7 +337,8 @@ export default {
 
 		const onMainCellClick = async (row: any, column: any, cell: any, event: any) => {
 			console.log(column);
-			state.childTableData.param.cateId = row.Id || '0';
+			state.curOrgId = row.Id || '0';
+			state.childTableData.param.OrgFpath = row.Fpath;
 			onGetChildTableData();
 			// if(row && column.property=="Title"){
 			// 	// const res=await proxy.$api.cms.article.getById(row.Id)
@@ -382,9 +384,8 @@ export default {
 		};
 
 		// 打开修改弹窗
-		const onOpenChildEditDlg = async (row: Object) => {
-			console.log(row);
-			dlgChildEditRef.value.openDialog(row, state.mainTableData.data);
+		const onOpenChildEditDlg = async (id: String='0') => {
+			dlgChildEditRef.value.openDialog(id, state.mainTableData.data, state.curOrgId);
 		};
 		// 删除记录
 		const onChildRowDel = (row: Object) => {

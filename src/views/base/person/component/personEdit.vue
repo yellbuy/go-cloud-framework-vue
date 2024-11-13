@@ -60,7 +60,7 @@
 					
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
 						<el-form-item label="出生年月" prop="Birthdate">
-							<el-date-picker
+							<el-date-picker show-now
 								v-model="ruleForm.Birthdate"
 								type="date"
 								placeholder="请选择时间"
@@ -83,7 +83,7 @@
 				<el-divider content-position="left">详细信息</el-divider>
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
-						<el-form-item label="入职日期" prop="Hiredate">
+						<el-form-item label="入职日期" :show-now="true" prop="Hiredate">
 							<el-date-picker
 								v-model="ruleForm.Hiredate"
 								type="date"
@@ -203,11 +203,14 @@ export default {
 					state.title = t('message.action.see');
 					getByIdRow(id);
 				} else if (id && id != '0') {
+					console.log("id:",id)
 					getByIdRow(id);
 					state.title = t('message.action.edit');
 				} else {
 					state.ruleForm.Id = '0';
 					state.ruleForm.Enable=1;
+					state.ruleForm.Hiredate=new Date()
+					state.ruleForm.Birthdate=new Date()
 					state.title = t('message.action.add');
 				}
 				
