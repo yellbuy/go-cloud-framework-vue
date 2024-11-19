@@ -49,77 +49,85 @@ const { t } = useI18n();
 const moduleKey = proxy.$parent.moduleKey;
 const token = Session.get('token');
 const getUserInfos = computed(() => {return store.state.userInfos.userInfos;});
-const infoEditRef = ref()
-const extEditRef = ref()
-const settingLineRef = ref()
 const state = reactive({
 	isShowPage: false,
 	uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 	moduleKey,
 	token: token,
-	activeName: "zgps",
 	activeIndex: 1,
-	FilesList: [],
 	ruleForm: {},
 	infoForm: {},
-	extForm: {},
-	settingLineForm: {},
+	extForm: {
+		ProjectLineList: [],
+		FilesList: [],
+	},
+	settingLineForm: {
+		ProjectSettingLineList: [],
+	},
 
 });
-
+const infoEditRef = ref()
+const extEditRef = ref()
+const settingLineRef = ref()
 //	打开页面
 const openPage = async () => {
+	onStepChange(0)
 	state.isShowPage = true
 };
 
 //	关闭页面
 const closePage = async () => {
+	proxy.$parent.onGetTableData()
 	state.isShowPage = false
 	proxy.$parent.isShowPage = true
 	proxy.$parent.isShowCreateEdit = false
 	state.activeIndex = 1
-	state.FilesList = []
 	state.ruleForm = {}
+	state.infoForm = {}
+	state.extForm = {}
+	state.settingLineForm = {}
+
 }
 
 //	上一步下一步切换
 //	0：恢复到第一步  1：下一步   -1：上一步
 const onStepChange = (val: number) => {
-	switch (state.activeIndex) {
-		case 1:
-			nextTick(() => {
-				infoEditRef.value.outData()
-			});
-			break
-		case 2:
-			nextTick(() => {
-				extEditRef.value.outData()
-			});
-			break
-		case 3:
-			nextTick(() => {
-				settingLineRef.value.outData()
-			});
-			break
+	if (val == 0) {
+		state.activeIndex = 1
+	} else if (val == 1) {
+		if (state.activeIndex == 1) {
+			state.infoForm = infoEditRef.value.getPageData()
+		} else if (state.activeIndex == 2) {
+			state.extForm = extEditRef.value.getPageData()
+		} else if (state.activeIndex == 3) {
+			state.settingLineForm = settingLineRef.value.getPageData()
+		}
+		if(state.activeIndex < 3){
+			state.activeIndex += 1
+		}
+	} else if ( val == -1) {
+		if (state.activeIndex == 2) {
+			state.extForm = extEditRef.value.getPageData()
+		} else if (state.activeIndex == 3) {
+			state.settingLineForm = settingLineRef.value.getPageData()
+		} else if (state.activeIndex == 4) {
+		}
+		if(state.activeIndex > 1){
+			state.activeIndex -= 1
+		}
 	}
-	switch (val) {
-		case 0:
-			state.activeIndex = 1
-			break
-		case 1:
-			if(state.activeIndex < 3){
-				state.activeIndex += 1
-			}else{
-				state.activeIndex = 1
-			}
-			break
-		case -1:
-			if(state.activeIndex > 1){
-				state.activeIndex -= 1
-			}else{
-				state.activeIndex = 1
-			}
-			break
+	if (state.activeIndex == 1) {
+		nextTick(() => {
+			infoEditRef.value.openPage(state.infoForm)
+		});
+	} else if (state.activeIndex == 2) {
+		nextTick(() => {
+			extEditRef.value.openPage(state.extForm)
+		});
+	} else if (state.activeIndex == 3) {
+		nextTick(() => {
+			settingLineRef.value.openPage(state.settingLineForm)
+		});
 	}
 };
 
@@ -132,28 +140,27 @@ const onSubmit = () => {
 	}).then(async () => {
 		state.ruleForm = {}
 		const promises = [
-            infoEditRef.value.outData(),
-            extEditRef.value.outData(),
-            settingLineRef.value.outData()
+            state.infoForm,
+            state.extForm,
+            state.settingLineForm,
         ];
 		const results = await Promise.all(promises);
 		results.forEach(result => {
             state.ruleForm = Object.assign(state.ruleForm, result);
         });
 		try {
-			state.ruleForm.Id = "0"
-			state.ruleForm.Kind = "bid"
+			Form.Id = "0"
+			Form.Kind = "bid"
 			const res = proxy.$api.erp.projectbid.saveBid(state.ruleForm);
 			res.then(result => {
 				if (result.errcode != 0) {
 				return
 				}
 			})
-			infoEditRef.value.closePage()
-			extEditRef.value.closePage()
-			settingLineRef.value.closePage()
-			ElMessage('项目创建成功')
-			closePage()
+			ElMessage('项目创建成功,等待2秒后返回项目列表！')
+			setTimeout(() => {
+				closePage();
+			}, 2000);
 		} finally {
 		}
 	});

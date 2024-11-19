@@ -174,7 +174,7 @@ const selectProjectCompany = async (event) => {
 //	获取专家参与的项目列表
 const onGetProjectTableData = async () => {
 	try {
-		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
+		const res = await proxy.$api.erp.projectexpert.expertParticipateList();
 		if (res.errcode != 0) {
 			return;
 		}

@@ -26,7 +26,7 @@
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="(file) => onSuccessFile(file, state.stepName)"
+									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
 									v-if="state.projectCompanyForm.State == 0">
 									<template #default>
@@ -37,7 +37,7 @@
 							<template #default="scope">
 								<el-row>
 									<el-col :span="8">
-										<el-button text bg type="primary" @click="onDownloadFile(scope.row.Files, state.stepName)">
+										<el-button text bg type="primary" @click="onDownloadFile(scope.row.Files)">
 											下载
 										</el-button>
 									</el-col>
@@ -70,7 +70,7 @@
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="(file) => onSuccessFile(file, state.stepName)"
+									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
 									v-if="state.projectCompanyForm.State == 0">
 									<template #default>
@@ -81,7 +81,7 @@
 							<template #default="scope">
 								<el-row>
 									<el-col :span="8">
-										<el-button text bg type="primary"  @click="onDownloadFile(scope.row.Files, state.stepName)">
+										<el-button text bg type="primary"  @click="onDownloadFile(scope.row.filters)">
 											下载
 										</el-button>
 									</el-col>
@@ -114,7 +114,7 @@
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="(file) => onSuccessFile(file, state.stepName)"
+									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
 									v-if="state.projectCompanyForm.State == 0">
 									<template #default>
@@ -125,7 +125,7 @@
 							<template #default="scope">
 								<el-row>
 									<el-col :span="8">
-										<el-button text bg type="primary"  @click="onDownloadFile(scope.row.Files, state.stepName)">
+										<el-button text bg type="primary"  @click="onDownloadFile(scope.row.Files)">
 											下载
 										</el-button>
 									</el-col>
@@ -143,14 +143,14 @@
 					</p>					
 				</div>	
 				<div v-else-if="state.stepIndex==3">
-					<el-table :data="state.tableData.bidList" v-loading="state.tableData.loading" show-summary style="width: 900px;margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
+					<el-table :data="state.projectLineTableData.data" v-loading="state.projectLineTableData.loading" show-summary style="width: 900px;margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="60" show-overflow-tooltip fixed />
 						<el-table-column prop="No" label="物资编码"  width="100" show-overflow-tooltip fixed/>
 						<el-table-column prop="Name" label="名称" show-overflow-tooltip/>
 						<el-table-column prop="Content" label="明细项" width="150"/>
 						<el-table-column prop="Unit" label="明细项单位" width="80"/>
 						<el-table-column prop="Qty" label="采购数量" align="right" width="70"/>
-						<el-table-column prop="Price" label="单价" align="right" width="80" >
+						<el-table-column prop="Amount" label="单价" align="right" width="80" >
 							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
 								<el-input-number v-model="scope.row.Price" :min="0" :max="1000000000000" style="width:90px" :step="10" :value-on-clear="0" :precision="2" :controls="false" controls-position="right" /> 
 							</template>	
@@ -164,7 +164,7 @@
 									:action="state.uploadURL"
 									:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="(file) => onSuccessFile(file, state.stepName)"
+									:on-success="(file) => onSuccessFile(file)"
 									:limit="1"
 									:show-file-list="false"
 									v-if="state.projectCompanyForm.State == 0">
@@ -184,7 +184,7 @@
 						<el-col :span="24">
 							<el-descriptions border style="width:900px;margin-left:auto;margin-right:auto;margin-top: 10px;" v-for="(item, index) in state.tableData.bidFileList" :key="index" >
 								<el-descriptions-item label-align="left" width="85%" align="left" :label="item.Name">
-									<el-button text bg type="primary"  @click="onDownloadFile(item.Files, state.stepName)">
+									<el-button text bg type="primary"  @click="onDownloadFile(item.FilesList)">
 										下载
 									</el-button>
 									<el-button text bg type="danger" v-if="state.projectCompanyForm.State == 0" @click="onDelProjectCompanyLineTableData(index)">
@@ -227,7 +227,7 @@
 				<el-button @click="onStepChange(1)" type="primary" v-if="state.stepIndex < 4" size="large">
 					<SvgIcon name="fa fa-arrow-right" class="mr3"/>下一步
 				</el-button>
-				<el-button @click="submit" type="primary" v-if="state.stepIndex == 4" size="large">
+				<el-button @click="submit" type="primary" v-if="state.stepIndex == 4 && state.projectCompanyForm.state == 0" size="large">
 					<SvgIcon name="fa fa-rotate-right" class="mr3"/>确认投递
 				</el-button>
 			</el-col>
@@ -250,6 +250,10 @@ const router = useRouter();
 const { proxy } = getCurrentInstance() as any;
 const store = useStore();
 const token = Session.get('token');
+// 获取用户信息 vuex
+const getUserInfos = computed(() => {
+	return store.state.userInfos.userInfos;
+});
 const state = reactive({
 	stepIndex: 0,
 	stepName: '',
@@ -261,6 +265,15 @@ const state = reactive({
 	projectCompanyId: "",
 	projectForm: {},
 	projectCompanyForm:{},
+	projectLineTableData: {
+		data: [],
+		total: 0,
+		loading: false,
+		param: {
+			current: 1,
+			pageSize: 20,
+		},
+	},
 	tableData:{
 		data: [],
 		swFileList:[],
@@ -283,6 +296,9 @@ const state = reactive({
 state.tableData.param.pageIndex = computed(() => {
 	return state.tableData.param.current - 1;
 });
+state.projectLineTableData.param.pageIndex = computed(() => {
+	return state.projectLineTableData.param.current - 1;
+});
 
 state.stepName = computed(() => {
 	switch (state.stepIndex) {
@@ -298,9 +314,12 @@ state.stepName = computed(() => {
 });
 
 //	打开页面
-const openPage = async (id: string) => {
-	state.projectCompanyId = id
-	onGetprojectCompanyData()
+const openPage = async (data: object) => {
+	state.projectCompanyId = data.projectCompanyId
+	state.projectId = data.projectId
+	console.log("测试", state.projectId )
+	onGetProjectCompanyData()
+	onGetProjectLineTableData()
 	onGetTableData()
 };
 
@@ -308,14 +327,12 @@ const openPage = async (id: string) => {
 const closePage = async () => {
 	nextTick(() => {
 		proxy.$parent.$parent.isShowIndex = 'info';
-		proxy.$parent.$parent.onGetprojectData()
-		proxy.$parent.$parent.onGetprojectCompanyData();
-		proxy.$parent.$parent.onGetBidTableData();
+		proxy.$parent.$parent.onGetTableData()
     });
 }
 
 //	获取公司已报名详细信息
-const onGetprojectCompanyData = async () => {
+const onGetProjectCompanyData = async () => {
 	try {
 		const res = await proxy.$api.erp.projectcompany.getById(state.projectCompanyId);
 		if (res.errcode != 0) {
@@ -326,10 +343,28 @@ const onGetprojectCompanyData = async () => {
 	}
 };
 
-// 获取已报名信息详细信息文件表
+//	获取标的物项目信息
+const onGetProjectLineTableData = async () => {
+	//	获取标的物项目信息
+	state.projectLineTableData.loading = true;
+	try {
+		state.projectLineTableData.param.projectId = state.projectId
+		const res = await proxy.$api.erp.projectline.getListByScope(state.projectLineTableData.param);
+		if (res.errcode != 0) {
+			return;
+		}
+		state.projectLineTableData.data = res.data;
+		state.projectLineTableData.total = res.total;
+	} finally {
+		state.projectLineTableData.loading = false;
+	}
+};
+
 const onGetTableData = async () => {
 	try {
-		const res = await proxy.$api.erp.projectcompanyline.getListByScope("", 0, 0, state.tableData.param);
+		// 获取已报名信息详细信息文件表
+		state.tableData.param.projectCompanyId = state.projectCompanyId
+		const res = await proxy.$api.erp.projectcompanyline.getListByScope(0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}
@@ -338,14 +373,19 @@ const onGetTableData = async () => {
 		state.tableData.qtFileList = []
 		state.tableData.bidFileList = []
 		for (let item of res.data) {
-			if (item.Kind == "swFile") {
-				state.tableData.swFileList.push(item)
-			} else if (item.Kind == "jsFile") {
-				state.tableData.jsFileList.push(item)
-			} else if (item.Kind == "qtFile") {
-				state.tableData.qtFileList.push(item)
-			} else if (item.Kind == "bidFile") {
-				state.tableData.bidFileList.push(item)
+			switch (item.Kind) {
+				case "swFile":
+					state.tableData.swFileList.push(item)
+					break
+				case "jsFile":
+					state.tableData.jsFileList.push(item)
+					break
+				case "qtFile":
+					state.tableData.qtFileList.push(item)
+					break
+				case "bidFile":
+					state.tableData.bidFileList.push(item)
+					break
 			}
 		}
 	} finally {
@@ -359,7 +399,6 @@ const onDelProjectCompanyLineTableData = async (index: Number) => {
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
-		console.log("测试", index)
 		switch (state.stepName) {
 		case 'swFile':
 			state.tableData.swFileList.splice(index, 1)
@@ -379,33 +418,25 @@ const onDelProjectCompanyLineTableData = async (index: Number) => {
 };
 
 const onStepChange = (val: number) => {
-	switch (val) {
-		case 0:
-			state.stepIndex = 0
-			break
-		case 1:
-			if(state.stepIndex < 4){
-				state.stepIndex += 1
-			}else{
-				state.stepIndex = 0
-			}
-			break
-		case -1:
-			if(state.stepIndex > 0){
-				state.stepIndex -= 1
-			}else{
-				state.stepIndex = 0
-			}
-			break
+	if (val == 0) {
+		state.stepIndex = 0
+	} else if (val == 1) {
+		if(state.stepIndex < 4){
+			state.stepIndex += 1
+		}
+	} else if ( val == -1) {
+		if(state.stepIndex > 0){
+			state.stepIndex -= 1
+		}
 	}
 };
 
 //	更新公司报名信息文件表上传的文件
-const onSuccessFile = (file: UploadFile, select: string) => {
+const onSuccessFile = (file: UploadFile) => {
 	let model = {}
-	model.Kind = select
+	model.Kind = state.stepName
 	model.Files = file.data.src
-	switch (select) {
+	switch (state.stepName) {
 		case 'swFile':
 			model.Name = "《商务文件》"+formatTimestamp(Date.now())
 			state.tableData.swFileList.push(model)
@@ -430,10 +461,10 @@ const onSuccessFile = (file: UploadFile, select: string) => {
 };
 
 // 下载文件
-const onDownloadFile = async (path: string, select: string) => {
+const onDownloadFile = async (path: string) => {
 	var a = document.createElement('a');
 	a.href = import.meta.env.VITE_URL + path;
-	switch (select) {
+	switch (state.stepName) {
 		case 'swFile':
 			a.download = "《商务文件》";
 			break;
@@ -459,7 +490,7 @@ const submit = () => {
 	}).then(async () => {
 		try {
 			state.ruleForm.fileList = [...state.tableData.swFileList, ...state.tableData.jsFileList, ...state.tableData.qtFileList, ...state.tableData.bidFileList]
-			const res = await proxy.$api.erp.projectcompany.biding(state.projectCompanyId, state.ruleForm.fileList)
+			const res = await proxy.$api.erp.projectcompanyline.saveBiding(state.projectCompanyId, state.ruleForm.fileList)
 			if (res.errcode != 0) {
 				return;
 			}

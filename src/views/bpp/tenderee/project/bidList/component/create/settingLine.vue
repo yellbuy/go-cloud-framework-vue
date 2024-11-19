@@ -209,23 +209,40 @@ const rules = reactive({
 });
 
 // 打开页面
-const openPage = async () => {
+const openPage = (data: Object) => {
+    state.zgTableData.data = []
+    state.jsTableData.data = []
+    if (data.ProjectSettingLineList.length > 0) {
+        for (let item of data.ProjectSettingLineList) {
+            if (item.Kind == 'zgps') {
+                state.zgTableData.data.push(item)
+            }
+            if (item.Kind == 'jsps') {
+                state.jsTableData.data.push(item)
+            }
+            if (item.Kind == 'jjps') {
+                state.jjForm = item
+            }
+        }
+    }
+    state.ruleForm = data
 };
 
 //  传出数据
-const outData = async () => {
+const getPageData = () => {
+    state.ruleForm.ProjectSettingLineList = []
     if (state.zgTableData.data.length > 0) {
         for (let item of state.zgTableData.data) {
-        item.Id = "0"
-        item.Kind = 'zgps'
-        state.ruleForm.ProjectSettingLineList.push(item)
+            item.Id = "0"
+            item.Kind = 'zgps'
+            state.ruleForm.ProjectSettingLineList.push(item)
         }
     }
     if (state.jsTableData.data.length > 0) {
         for (let item of state.jsTableData.data) {
-        item.Id = "0"
-        item.Kind = 'jsps'
-        state.ruleForm.ProjectSettingLineList.push(item)
+            item.Id = "0"
+            item.Kind = 'jsps'
+            state.ruleForm.ProjectSettingLineList.push(item)
         }
     }
     if (state.jjForm.PurchasePrice) {
@@ -233,17 +250,6 @@ const outData = async () => {
     }
     return state.ruleForm
 }
-
-// 关闭页面
-const closePage = async () => {
-    state.activeName = 'zgps'
-    state.ruleForm = {ProjectSettingLineList: [],}
-    state.settingTableData.data = []
-    state.zgTableData.data = []
-    state.jsTableData.date = []
-    state.jjForm = {Id: "0", Kind: "jjps", PurchasePrice: null, ScoreMode: null, PriceScore: null, PricePercentage: null, QualificationScore: null, TechnicalScore: null, TechnicalMaxScore: null,}
-
-};
 
 //获取评审参数模版列表
 const onGetSettingTableData = async () => {
@@ -376,5 +382,5 @@ const getScore = () => {
 // 页面加载时
 onMounted(() => {});
 
-defineExpose({openPage, closePage, outData, ...toRefs(state)})
+defineExpose({openPage, getPageData, ...toRefs(state)})
 </script>

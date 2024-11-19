@@ -132,6 +132,16 @@ export default {
         return await http.get(url);
     },
 
+    
+    /**
+    * 获取专家参与的项目列表
+    * @returns 返回接口数据
+    */
+    expertParticipateList: async (params: object = {}) => {
+        const url = `/v1/admin/erp/projectexpert/participate`;
+        return await http.get(url, params);
+    },
+
     /**
     * 专家报名
     * @returns 返回接口数据

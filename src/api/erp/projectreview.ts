@@ -109,6 +109,17 @@ export default {
     },
 
     /**
+     * 上传报告
+     * @param id 项目id
+     * @param params 要传的参数值
+     * @returns 返回接口数据
+     */
+    reportUpload: async (id: number | string, params: object = {}) => {
+        const url = `/v1/admin/erp/projectreview/reportadd/${id}`;
+        return await http.post(url, params);
+    },
+
+    /**
     * 监审报告签章
     * @returns 返回接口数据
     */
