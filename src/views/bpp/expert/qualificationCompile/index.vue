@@ -27,7 +27,7 @@
 			</el-col>
 			<el-col :span="8">
 				<el-form-item label="评委编号：">
-					<el-select v-model="state.expertId" placeholder="请选择" @change="selectProjectExpert">
+					<el-select v-model="state.expertUid" placeholder="请选择" @change="selectProjectExpert">
 						<el-option v-for="(item, index) in state.projectExpertList" :key="index" :label="item.Name" :value="item.Uid"/>
 					</el-select>
 				</el-form-item>
@@ -71,7 +71,7 @@ const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	projectId: '',
-	expertId: '',
+	expertUid: '',
 	projectList: [],
 	projectForm: {},
 	projectExpertList: [],
@@ -91,7 +91,7 @@ const state: any = reactive({
 
 const selectProject = async (event) => {
     state.projectForm = state.projectList.find(item => item.Id === event);
-	state.expertId = null
+	state.expertUid = null
 	state.tableData.data = []
 	getProjectExpertList()
 };
@@ -130,7 +130,7 @@ const getProjectExpertList = async () => {
 const onGetTableData = async () => {
 	state.tableData.loading = true
 	try {
-		state.tableData.param.expertId = state.expertId
+		state.tableData.param.expertUid = state.expertUid
 		state.tableData.param.projectId = state.projectId
 		const res = await proxy.$api.erp.projectreview.getGatherListByScope('zgpsGather', 0, 0, state.tableData.param);
 		if (res.errcode != 0) {

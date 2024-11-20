@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, nextTick, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import bidEdit from './component/bidEdit.vue';
 import projectCreateEdit from './component/projectCreateEdit.vue';
@@ -141,19 +141,24 @@ const onGetTableData = async () => {
 // 打开项目创建页
 const onProjectCreateEdit = () => {
 	state.isShowPage = false;
-	projectCreateEditRef.value.openPage()
+	nextTick(() => {
+		projectCreateEditRef.value.openPage()
+	});
 };
 
 //打开项目查看弹窗
 const onProjectSee = (id: string, state: boolean) => {
-	// store.commit('project/getProjectId', id);
-	seeDlgRef.value.openDialog(id, state);
+	nextTick(() => {
+		seeDlgRef.value.openDialog(id, state);
+	});
 };
 
 //打开项目评选页
 const onBidEdit = (id: string) => {
 	state.isShowPage = false;
-	bidEditRef.value.openPage(id)
+	nextTick(() => {
+		bidEditRef.value.openPage(id)
+	});
 };
 
 // 分页改变

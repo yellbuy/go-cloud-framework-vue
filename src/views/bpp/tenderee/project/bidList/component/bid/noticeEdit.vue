@@ -40,7 +40,7 @@
 							:editor-id="`editor-content`"
 							:editor-dependencies="['ueditor.config.js', 'ueditor.all.min.js', 'xiumi/xiumi-ue-dialog-v5.js', 'xiumi/xiumi-ue-v5.css']"
 							v-model="state.ruleForm.Content"
-							style=" z-index: 1"
+							style = "z-index: 1"
 							:config="{
 								UEDITOR_HOME_URL: '/ueditor/',
 								serverUrl: `${state.baseUrl}/v1/common/editor/${getUserInfos.appid}`,
@@ -51,7 +51,6 @@
 				</el-col>
 				<el-col>
 					<span style="float: right; padding: 15px;">
-						<el-button text bg type="info" @click="onCancel()">取消</el-button>
 						<el-button type="primary" @click="onSubmit">确定发布</el-button>
 					</span>
 				</el-col>

@@ -28,13 +28,13 @@
 				<el-table-column type="index" label="序号" align="right" width="70" show-overflow-tooltip fixed />
 				<el-table-column prop="No" label="项目编号"  width="160" show-overflow-tooltip fixed/>
 				<el-table-column prop="Name" label="项目名称" show-overflow-tooltip/>
-				<el-table-column prop="Kind" label="参与方式" width="100" align="center">
+				<el-table-column label="参与方式" width="100" align="center">
 					<template #default="scope">
-						<span v-if="scope.row.ProjectType == 1">公开招标</span>
-						<span v-else-if="scope.row.ProjectType == 2">邀请招标</span>
-						<span v-else-if="scope.row.ProjectType == 3">竞争性谈判</span>
-						<span v-else-if="scope.row.ProjectType == 4">单一来源采购</span>
-						<span v-else-if="scope.row.ProjectType == 5">询价采购</span>
+						<el-tag v-if="scope.row.ProjectType == 1">公开招标</el-tag>
+						<el-tag v-else-if="scope.row.ProjectType == 2">邀请招标</el-tag>
+						<el-tag v-else-if="scope.row.ProjectType == 3">竞争性谈判</el-tag>
+						<el-tag v-else-if="scope.row.ProjectType == 4">单一来源采购</el-tag>
+						<el-tag v-else-if="scope.row.ProjectType == 5">询价采购</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="EndTime" label="报名截止日期" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
@@ -77,8 +77,8 @@ const route = useRoute();
 const kind = route.params.kind || 'bid';
 const mode = route.params.mode;
 const isBid = route.params.isBid;
-const scopeMode = route.params.scopeMode || 1;
-const scopeValue = route.params.scopeValue || 0;
+const scopeMode = route.params.scopeMode || 0;
+const scopeValue = route.params.scopeValue || 2;
 const moduleKey = `api_pro_project_${kind}_${mode}`;
 const { proxy } = getCurrentInstance() as any;
 const seeDlgRef = ref();

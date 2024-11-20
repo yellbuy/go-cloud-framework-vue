@@ -12,18 +12,12 @@
                     <el-table-column type="index" label="序号" width="70" align="right" show-overflow-tooltip fixed />
                     <el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
                     <el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
-                    <el-table-column prop="State" label="评分方式" width="120" show-overflow-tooltip>
-                        <template #default="scope">
-                            <div v-if="scope.row.State == 0" style="display: flex; align-items: center;">
-                                <span style="color: green; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-                                <span >通过</span>
-                            </div>
-                            <div v-else-if="scope.row.State == 1" style="display: flex; align-items: center;">
-                                <span style="color: red; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-                                <span>不通过</span>
-                            </div>
-                        </template>
-                    </el-table-column>
+					<el-table-column prop="State" label="评分方式" width="150" show-overflow-tooltip>
+						<template #default="scope">
+							<el-radio v-model="scope.row.State" disabled :value="0">通过</el-radio>
+							<el-radio v-model="scope.row.State" disabled :value="1">不通过</el-radio>
+						</template>
+					</el-table-column>
                     <el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
                         <template #default="scope">
                             <el-button type="primary" @click="onSettingLineDialog(scope.row, scope.$index)">编辑</el-button>
@@ -327,8 +321,9 @@ const onSettingLineDialog = (row: object, index: number) => {
 		state.title = t('message.action.edit');
 	} else {
         state.isAdd = true;
-		state.settingTableData.form.Id = "0";
+		state.settingTableData.form.Id = "0"
 		state.settingTableData.form.Kind = state.activeName
+        state.settingTableData.form.State = 0
 		state.title = t('message.action.add');
 	}
 	state.isShowDialog = true;

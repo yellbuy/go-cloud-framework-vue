@@ -11,9 +11,9 @@
 		</el-row>
 		<el-row>
 			<el-col :span="24">
-				<infoEdit ref="infoEditRef" v-if="state.activeIndex == 1"/>
-				<extEdit ref="extEditRef" v-else-if="state.activeIndex == 2"/>
-				<settingLine ref="settingLineRef" v-else-if="state.activeIndex == 3"/>
+				<infoEdit ref="infoEditRef" v-if="state.activeIndex == 0"/>
+				<extEdit ref="extEditRef" v-else-if="state.activeIndex == 1"/>
+				<settingLine ref="settingLineRef" v-else-if="state.activeIndex == 2"/>
 			</el-col>
 		</el-row>
 		<el-row>
@@ -21,9 +21,9 @@
 				<div class="mt20">
 					<span style="float: right; padding-bottom: 20px; padding-right: 20px;">
 						<el-button type="danger" @click="closePage">取消</el-button>
-						<el-button v-if="state.activeIndex > 1" type="primary" @click="onStepChange(-1)">上一步</el-button>
-						<el-button v-if="state.activeIndex < 3" type="primary" @click="onStepChange(1)">下一步</el-button>
-						<el-button v-if="state.activeIndex == 3" type="success" @click="onSubmit()">完成</el-button>
+						<el-button v-if="state.activeIndex > 0" type="primary" @click="onStepChange(-1)">上一步</el-button>
+						<el-button v-if="state.activeIndex < 2" type="primary" @click="onStepChange(1)">下一步</el-button>
+						<el-button v-if="state.activeIndex == 2" type="success" @click="onSubmit()">完成</el-button>
 					</span>
 				</div>
 			</el-col>
@@ -49,6 +49,9 @@ const { t } = useI18n();
 const moduleKey = proxy.$parent.moduleKey;
 const token = Session.get('token');
 const getUserInfos = computed(() => {return store.state.userInfos.userInfos;});
+const infoEditRef = ref()
+const extEditRef = ref()
+const settingLineRef = ref()
 const state = reactive({
 	isShowPage: false,
 	uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
@@ -66,9 +69,7 @@ const state = reactive({
 	},
 
 });
-const infoEditRef = ref()
-const extEditRef = ref()
-const settingLineRef = ref()
+
 //	打开页面
 const openPage = async () => {
 	onStepChange(0)
@@ -81,7 +82,7 @@ const closePage = async () => {
 	state.isShowPage = false
 	proxy.$parent.isShowPage = true
 	proxy.$parent.isShowCreateEdit = false
-	state.activeIndex = 1
+	state.activeIndex = 0
 	state.ruleForm = {}
 	state.infoForm = {}
 	state.extForm = {}
@@ -93,38 +94,35 @@ const closePage = async () => {
 //	0：恢复到第一步  1：下一步   -1：上一步
 const onStepChange = (val: number) => {
 	if (val == 0) {
-		state.activeIndex = 1
+		state.activeIndex = 0
 	} else if (val == 1) {
-		if (state.activeIndex == 1) {
+		if (state.activeIndex == 0) {
 			state.infoForm = infoEditRef.value.getPageData()
-		} else if (state.activeIndex == 2) {
+		} else if (state.activeIndex == 1) {
 			state.extForm = extEditRef.value.getPageData()
-		} else if (state.activeIndex == 3) {
-			state.settingLineForm = settingLineRef.value.getPageData()
-		}
-		if(state.activeIndex < 3){
+		} 
+		if(state.activeIndex < 2){
 			state.activeIndex += 1
 		}
 	} else if ( val == -1) {
-		if (state.activeIndex == 2) {
+		if (state.activeIndex == 1) {
 			state.extForm = extEditRef.value.getPageData()
-		} else if (state.activeIndex == 3) {
+		} else if (state.activeIndex == 2) {
 			state.settingLineForm = settingLineRef.value.getPageData()
-		} else if (state.activeIndex == 4) {
 		}
-		if(state.activeIndex > 1){
+		if(state.activeIndex > 0){
 			state.activeIndex -= 1
 		}
 	}
-	if (state.activeIndex == 1) {
+	if (state.activeIndex == 0) {
 		nextTick(() => {
 			infoEditRef.value.openPage(state.infoForm)
 		});
-	} else if (state.activeIndex == 2) {
+	} else if (state.activeIndex == 1) {
 		nextTick(() => {
 			extEditRef.value.openPage(state.extForm)
 		});
-	} else if (state.activeIndex == 3) {
+	} else if (state.activeIndex == 2) {
 		nextTick(() => {
 			settingLineRef.value.openPage(state.settingLineForm)
 		});
@@ -138,6 +136,9 @@ const onSubmit = () => {
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
+		nextTick(() => {
+			state.settingLineForm = settingLineRef.value.getPageData()
+		});
 		state.ruleForm = {}
 		const promises = [
             state.infoForm,
@@ -149,8 +150,8 @@ const onSubmit = () => {
             state.ruleForm = Object.assign(state.ruleForm, result);
         });
 		try {
-			Form.Id = "0"
-			Form.Kind = "bid"
+			state.ruleForm.Id = "0"
+			state.ruleForm.Kind = "bid"
 			const res = proxy.$api.erp.projectbid.saveBid(state.ruleForm);
 			res.then(result => {
 				if (result.errcode != 0) {

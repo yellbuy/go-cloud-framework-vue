@@ -1,11 +1,5 @@
 <template>
 	<div>
-		<!-- <el-row class="mt10">
-			<el-col :span="24">
-				<el-link :state.href="state.baseUrl+state.projectForm.file" style="color: blue; text-decoration: underline;" v-if="state.projectForm.Files" target="_blank">下载评标报告</el-link>	
-				<h v-else>该项目没有上传评标报告</h>
-			</el-col>
-		</el-row> -->
 		<el-row class="mt10">
 			<el-divider border-style="dashed" />
 			<el-col :span="24">
@@ -17,17 +11,12 @@
 				</el-descriptions>
 			</el-col>
 		</el-row>
-        <!-- <div>
-            <pdf :src="pdfSrc"></pdf>
-        </div> -->
 	</div>
 </template>
 
 <script setup lang="ts">
 import { toRefs, computed, reactive, onMounted, ref, getCurrentInstance } from 'vue';
 import { useStore } from '/@/store/index';
-// import pdf from 'vue-pdf';
-// import project from '/@/api/erp/project';
 
 const { proxy } = getCurrentInstance() as any;
 const store = useStore();
@@ -60,7 +49,7 @@ const closePage = async () => {
 const onGetTableData = async () => {
 	try {
 		state.tableData.param.projectId = state.projectForm.Id
-		const res = await proxy.$api.erp.projectcompanyline.getListByScope("report", 0, 0, state.tableData.param)
+		const res = await proxy.$api.erp.projectreview.getListByScope("report", 0, 0, state.tableData.param)
 		if (res.errcode != 0) {
 			return;
 		}

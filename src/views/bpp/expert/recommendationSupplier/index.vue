@@ -70,7 +70,6 @@ import { toRefs, reactive, computed, onMounted, ref, getCurrentInstance } from '
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
 import { useI18n } from 'vue-i18n';
-import { StampAnnotationElement } from 'pdfjs-dist/types/src/display/annotation_layer';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
