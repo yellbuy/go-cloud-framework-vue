@@ -22,7 +22,7 @@
 		<el-row>
 			<el-col :span="8">
 				<div v-if="state.expertUid > 0">
-					<el-button type="primary" @click="">组长确认</el-button>
+					<el-button type="primary" @click="onSubmit()">提交</el-button>
 				</div>
 			</el-col>
 			<el-col :span="8">
@@ -34,7 +34,7 @@
 			</el-col>
 			<el-col :span="8">
 				<div style="float: right;" v-if="state.expertUid > 0">
-					<el-button type="primary" @click="">退回重评</el-button>
+					<el-button type="primary" @click="onReturn">退回重评</el-button>
 				</div>
 			</el-col>
 		</el-row>
@@ -47,15 +47,12 @@
 				</div>
 			</el-col>
 			<el-col :span="8">
-				<div style="float: right;">
-					<el-button type="primary" @click="onSubmit()">提交</el-button>
-				</div>
 			</el-col>
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="60" fixed />
 					<el-table-column prop="CompanyName" label="投标方名称" width="300" show-overflow-tooltip/>
-					<el-table-column prop="Amount" label="总报价（元）" align="right" width="200" show-overflow-tooltip/>
+					<el-table-column prop="Price" label="总报价（元）" align="right" width="200" show-overflow-tooltip/>
 					<el-table-column prop="ReviewPrice" label="最终评审报价（元）" align="right" show-overflow-tooltip>
 						<template #default="scope">
 							<el-input-number style="width: 100%;" v-model="scope.row.ReviewPrice" :precision="2" :step="1" :min="0"/>
@@ -186,6 +183,7 @@ const onGetTableData = async () => {
 			model.ReviewPrice = 0
 			model.PriceScore = 0
 			model.Amount = val.Amount
+			model.Price = val.Price
 			state.tableData.data.push(model)
 			for	(let item of projectReviewRes.data){
 				if (item.CompanyId == val.CompanyId) {
@@ -198,6 +196,28 @@ const onGetTableData = async () => {
 		}
 	} finally {
 	}
+};
+
+const onReturn = async () => {
+	ElMessageBox.confirm(`确定要回退重评吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		try {
+			const res = await proxy.$api.erp.projectreview.gatherReturnSave(state.projectId);
+			if (res.errcode != 0) {
+				return;
+			}
+			onGetTableData()
+			ElMessage('回退成功')
+		} finally {
+		}
+		return false;
+	}).catch(async () => {
+		onGetTableData()
+		ElMessage('回退汇总')
+	});
 };
 
 const onSubmit = async () => {

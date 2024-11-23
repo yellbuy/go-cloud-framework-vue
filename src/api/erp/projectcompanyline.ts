@@ -43,4 +43,15 @@ export default {
         const url = `/v1/admin/erp/projectcompanyline/bidding/${id}`;
         return await http.post(url, data);
     },
+
+   /**
+   * 查询开单一览表
+   * @param data 文件列表
+   * @returns 返回接口数据
+   */
+   getBidingList: async (params: object = {}) => {
+    const url = `/v1/admin/erp/projectcompanyline/biding`;
+    return await http.get(url, params);
+    },
+    
 }

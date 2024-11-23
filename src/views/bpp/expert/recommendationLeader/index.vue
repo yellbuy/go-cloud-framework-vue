@@ -129,7 +129,7 @@ const onGetTableData = async () => {
 	}
 };
 
-const onSubmit = async (data: {}) => {
+const onSubmit = async (data: object) => {
 	if (!data.Id) {
 		ElMessage.error('请选择人员进行推荐！');
 		return;

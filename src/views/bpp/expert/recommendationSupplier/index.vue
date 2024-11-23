@@ -130,7 +130,8 @@ const onGetTableData = async () => {
 		state.tableData.data = []
 		for (let val of projectCompanyRes.data) {
 			let model = {}
-			model.ProjectCompanyId = val.ProjectCompanyId
+			model.Id = val.ProjectCompanyId
+			model.ProjectId = val.ProjectId
 			model.CompanyName = val.CompanyName
 			model.ReviewPrice = 0
 			model.PriceScore = 0
@@ -141,7 +142,6 @@ const onGetTableData = async () => {
 			state.tableData.data.push(model)
 			for	(let item of projectReviewRes.data){
 				if (item.CompanyId == val.CompanyId) {
-					model.Id = item.Id
 					model.ReviewPrice = item.ReviewPrice
 					model.PriceScore = item.PriceScore
 					model.GatherScore = item.GatherScore
@@ -155,20 +155,14 @@ const onGetTableData = async () => {
 };
 
 //保存推荐
-const onSubmit = async (data: {}) => {
+const onSubmit = async (data: object) => {
 	ElMessageBox.confirm(`确定要推荐供应商吗?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
 		try {
-			let list = []
-			if (!data) {
-				list = state.tableData.data
-			}else{
-				list.push(data)
-			}
-			const res = await proxy.$api.erp.projectcompany.recommendationUpdate(data.ProjectCompanyId, list);
+			const res = await proxy.$api.erp.projectcompany.recommendationUpdate(data.Id, data);
 			if (res.errcode != 0) {
 				return;
 			}

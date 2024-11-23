@@ -45,21 +45,13 @@
 				<el-form ref="jjFormRef" :model="state.tableData.form" size="small">
 					<el-row :gutter="20">
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1">
-							<el-form-item label="采购控制价：" prop="PurchasePrice">
-								<el-input-number
-									v-model="state.tableData.form.PurchasePrice"
-									:min="0"
-									controls-position="right"
-									:precision="2"
-									@change="saveJjps"
-									:disabled="state.state ? false : true"/>
-							</el-form-item>
+							<el-form-item label="采购控制价：" prop="PurchasePrice">{{ state.tableData.form.PurchasePrice }}</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1">
 							<el-form-item label="价格评审得分策略：">
-								<el-radio-group v-model="state.tableData.form.ScoreMode" @change="saveJjps" :disabled="state.state ? false : true">
-									<el-radio :label="0">价格排名打分</el-radio>
-									<el-radio :label="1">基础价格打分</el-radio>
+								<el-radio-group v-model="state.tableData.form.ScoreMode" :disabled="state.state ? false : true">
+									<el-radio :label="0" disabled>价格排名打分</el-radio>
+									<el-radio :label="1" disabled>基础价格打分</el-radio>
 								</el-radio-group>
 							</el-form-item>
 						</el-col>
@@ -67,43 +59,19 @@
 							<div class="mb20">评审价格从低至高排列（最低价为第一名），第一名供应商价格得分为满分；</div>
 							<div class="mb20">
 								从第二名起，价格得分减少
-								<span>
-									<el-input-number
-										v-model="state.tableData.form.PriceScore"
-										:min="0"
-										:max="100"
-										controls-position="right"
-										@change="saveJjps"
-										:disabled="state.state ? false : true"/>
-								</span>
+								<span>{{ state.tableData.form.PriceScore }}</span>
 								分。超出采购控制价的供应商得零分。
 							</div>
 						</el-col>
 						<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" :offset="1" v-if="state.tableData.form.ScoreMode == 1">
 							<div class="mb20">
 								价格评审最高分的
-								<span>
-									<el-input-number
-										v-model="state.tableData.form.PricePercentage"
-										:min="0"
-										:max="100"
-										controls-position="right"
-										@change="saveJjps"
-										:disabled="state.state ? false : true"/>
-								</span>
+								<span>{{ state.tableData.form.PricePercentage }}</span>
 								%为基础价格得分;
 							</div>
 							<div class="mb20">
 								评审报价比招标控制价每下浮1个百分点，则得分增加
-								<span>
-									<el-input-number
-										v-model="state.tableData.form.QualificationScore"
-										:min="0"
-										:max="100"
-										controls-position="right"
-										@change="saveJjps"
-										:disabled="state.state ? false : true"/>
-								</span>
+								<span>{{ state.tableData.form.QualificationScore }}</span>
 								分;
 							</div>
 						</el-col>
@@ -182,6 +150,9 @@ const onGetTableData = async () => {
 			return;
 		}
 		state.tableData.data = res.data
+		if (state.activeName == "jjps") {
+			state.tableData.form = res.data[0]
+		}
 	} finally {
 		state.tableData.loading = false;
 	}

@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 import { ElMessageBox, ElMessage } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, ref, nextTick, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import projectDetail from './component/projectDetail.vue';
 import seeDlg from '/@/views/bpp/tenderee/project/bidList/component/projectSee.vue';
@@ -174,9 +174,10 @@ const onModelList = () => {
 	state.isShowPage = true;
 };
 //打开查看数据弹窗
-
 const onModelSee = (id: string, state: boolean) => {
-	seeDlgRef.value.openDialog(id, state);
+	nextTick(() => {
+		seeDlgRef.value.openDialog(id, state);
+	});
 };
 // 跳转
 const onToDetail = (id: string|number, projectId: string|number) => {

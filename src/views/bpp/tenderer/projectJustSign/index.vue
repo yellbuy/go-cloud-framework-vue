@@ -43,7 +43,7 @@
 				<el-table-column prop="ReviewTime" label="开标时间" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip/>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(150)" fixed="right">
 					<template #default="scope">
-						<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, false)">详情</el-button>
+						<el-button text bg type="info" @click="onModelSee(scope.row.ProjectId, true)">详情</el-button>
 						<el-button text bg type="primary" @click="onTodo(scope.row)">待办</el-button>
 					</template>
 				</el-table-column>
@@ -59,6 +59,7 @@
 				v-model:page-size="state.tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
 				:total="state.tableData.total"/>
+				<seeDlg ref="seeDlgRef" />
 		</el-card>
 		<projectTodoEdit ref="projectTodoEditRef" v-if="state.isShowPage === 'todo'"/>
 	</div>
@@ -71,6 +72,7 @@ import { useRoute } from 'vue-router';
 import projectTodoEdit from './component/projectTodoEdit.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
+import seeDlg from '/@/views/bpp/tenderee/project/bidList/component/projectSee.vue';
 
 const store = useStore();
 const route = useRoute();

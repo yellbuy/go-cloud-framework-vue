@@ -222,7 +222,7 @@ const onGetTableData = async () => {
 		}
 		//获取项目报名文件表
 		state.tableData.param.projectCompanyId = state.projectCompanyForm.Id
-		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope("bid", 0, 0, state.tableData.param);
+		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope(0, 0, state.tableData.param);
 		state.tableData.param.projectCompanyId = null
 		if (projectCompanyLineRes.errcode != 0) {
 			return;
@@ -231,13 +231,13 @@ const onGetTableData = async () => {
 		state.jsFile = []
 		state.qtFile = []
 		for (let item of projectCompanyLineRes.data) {
-			if (item.Kind == "zgps") {
+			if (item.Kind == "swFile") {
 				state.swFile.push(item)
 			}
-			if (item.Kind == "jsps") {
+			if (item.Kind == "jsFile") {
 				state.jsFile.push(item)
 			}
-			if (item.Kind == "qt") {
+			if (item.Kind == "qtFile") {
 				state.qtFile.push(item)
 			}
 		}

@@ -49,7 +49,7 @@
 							<el-tag effect="success" v-if="scope.row[item.HeaderName] == 1">通过</el-tag>
 							<el-tag effect="danger" v-else-if="scope.row[item.HeaderName] == 0">不通过</el-tag>
 							<el-tag v-else-if="scope.row[item.HeaderName] == 'notReview'">专家未评审</el-tag>
-							<el-tag v-else-if="scope.row[item.HeaderName] == 'notSummary'">待汇总</el-tag>
+							<el-tag v-else-if="scope.row[item.HeaderName] == 'notGather'">待汇总</el-tag>
 						</template>
 					</el-table-column>
 				</el-table>

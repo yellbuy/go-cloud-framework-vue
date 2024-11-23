@@ -15,8 +15,8 @@
 				<div v-if="state.stepIndex==0">
 					<el-table :data="state.tableData.swFileList" v-loading="state.tableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="60" />
-						<el-table-column prop="Name" label="文件名">
-							<template #default="scope">
+						<el-table-column prop="Name" label="文件名" >
+							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
 								<el-input v-model="scope.row.Name" placeholder="请输入"/> 
 							</template>
 						</el-table-column>
@@ -143,26 +143,57 @@
 					</p>					
 				</div>	
 				<div v-else-if="state.stepIndex==3">
-					<el-table :data="state.projectLineTableData.data" v-loading="state.projectLineTableData.loading" show-summary style="width: 900px;margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
+					<el-row>
+						<el-col>
+							<el-button type="primary" @click="onAdd">新增</el-button>
+							<el-button type="primary" @click="onReset">恢复默认</el-button>
+						</el-col>
+					</el-row>
+					<el-table :data="state.projectLineTableData.projectLineList" v-loading="state.projectLineTableData.loading" style="margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="60" show-overflow-tooltip fixed />
-						<el-table-column prop="No" label="物资编码"  width="100" show-overflow-tooltip fixed/>
-						<el-table-column prop="Name" label="名称" show-overflow-tooltip/>
-						<el-table-column prop="Content" label="明细项" width="150"/>
-						<el-table-column prop="Unit" label="明细项单位" width="80"/>
-						<el-table-column prop="Qty" label="采购数量" align="right" width="70"/>
-						<el-table-column prop="Amount" label="单价" align="right" width="80" >
+						<el-table-column prop="No" label="物资编码"  width="200" show-overflow-tooltip fixed>
 							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
-								<el-input-number v-model="scope.row.Price" :min="0" :max="1000000000000" style="width:90px" :step="10" :value-on-clear="0" :precision="2" :controls="false" controls-position="right" /> 
+								<el-input v-model="scope.row.No" style="width: 100%" placeholder="请输入" />
+							</template>
+						</el-table-column>
+						<el-table-column prop="Name" label="名称" width="200" show-overflow-tooltip>
+							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+								<el-input v-model="scope.row.Name" style="width: 100%" placeholder="请输入" />
+							</template>
+						</el-table-column>
+						<el-table-column prop="Content" label="明细项" show-overflow-tooltip>
+							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+								<el-input v-model="scope.row.Content" style="width: 240px" placeholder="请输入" />
+							</template>
+						</el-table-column>
+						<!-- <el-table-column prop="Unit" label="明细项单位" width="80" show-overflow-tooltip>
+							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+								<el-input v-model="scope.row.Unit" style="width: 240px" placeholder="请输入" />
+							</template>
+						</el-table-column> -->
+						<el-table-column prop="Qty" label="采购数量" align="right" width="70" show-overflow-tooltip>
+							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+								<el-input-number v-model="scope.row.Qty" style="width:100%" :min="0" :max="1000000000000"  :step="1" :value-on-clear="0" :controls="false" controls-position="right" @blur="getPrice(scope.$index)"/>
+							</template>
+						</el-table-column>
+						<el-table-column prop="Amount" label="单价" align="right" width="150" >
+							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+								<el-input-number v-model="scope.row.Amount" style="width:100%" :min="0" :max="1000000000000" :step="10" :value-on-clear="0" :precision="2" :controls="false" controls-position="right" @blur="getPrice(scope.$index)"/> 
 							</template>	
 						</el-table-column>
-						<el-table-column prop="Amount" label="总价" width="80" align="right"/>								
+						<el-table-column prop="Price" label="总价" width="150" align="right"/>
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(60)" fixed="right">
+							<template #default="scope">
+								<el-button text bg type="primary" v-if="state.projectCompanyForm.State == 0" @click="onDel(scope.$index)">删除</el-button>
+							</template>
+						</el-table-column>
 					</el-table>
 					<el-row>
 						<el-col :span="24" >
-							<div style="width:900px;margin-left:auto;margin-right:auto;margin-top: 10px;" >
+							<div style="margin-left:auto;margin-right:auto;margin-top: 10px;" >
 								<el-upload
 									:action="state.uploadURL"
-									:accept="'.xls,.xlsx,.doc,.docx,.png,.jpg,.jpeg,.pdf'"
+									:accept="'.xls,.xlsx,.doc,.docx,.pdf'"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="(file) => onSuccessFile(file)"
 									:limit="1"
@@ -175,16 +206,16 @@
 							</div>
 						</el-col>
 						<el-col :span="24">
-							<div style="width:900px;margin-left:auto;margin-right:auto;margin-top: 10px;">
+							<div style="margin-left:auto;margin-right:auto;margin-top: 10px;">
 								<el-text class="mx-1" type="info">支持的文件格式:xls|xlsx|doc|docx|png|jpeg|pdf</el-text>
 							</div>	
 						</el-col>
 					</el-row>
 					<el-row>
 						<el-col :span="24">
-							<el-descriptions border style="width:900px;margin-left:auto;margin-right:auto;margin-top: 10px;" v-for="(item, index) in state.tableData.bidFileList" :key="index" >
-								<el-descriptions-item label-align="left" width="85%" align="left" :label="item.Name">
-									<el-button text bg type="primary"  @click="onDownloadFile(item.FilesList)">
+							<el-descriptions border style="margin-left:auto;margin-right:auto;margin-top: 10px;" v-for="(item, index) in state.tableData.bidFileList" :key="index" >
+								<el-descriptions-item label-align="left" width="90%" align="left" :label="item.Name">
+									<el-button text bg type="primary" width="auto" @click="onDownloadFile(item.FilesList)">
 										下载
 									</el-button>
 									<el-button text bg type="danger" v-if="state.projectCompanyForm.State == 0" @click="onDelProjectCompanyLineTableData(index)">
@@ -201,7 +232,7 @@
 							<SvgIcon name="fa fa-check-circle" color="green" :size="60" ></SvgIcon>
 						</div>
 						<div class="mt30 mb30" >
-							<el-text type="info" size="default">投标文件已上传成功，确认无误后请点击确认提交，成功投标后数据将无法修改</el-text>	
+							<el-text type="info" size="default">投标资料确认无误后请点击确认提交，成功投标后数据将无法修改</el-text>	
 						</div>
 					</div>
 					<div class="text-center" v-else>
@@ -227,7 +258,7 @@
 				<el-button @click="onStepChange(1)" type="primary" v-if="state.stepIndex < 4" size="large">
 					<SvgIcon name="fa fa-arrow-right" class="mr3"/>下一步
 				</el-button>
-				<el-button @click="submit" type="primary" v-if="state.stepIndex == 4 && state.projectCompanyForm.state == 0" size="large">
+				<el-button @click="submit" type="primary" v-if="state.stepIndex == 4 && state.projectCompanyForm.State == 0" size="large">
 					<SvgIcon name="fa fa-rotate-right" class="mr3"/>确认投递
 				</el-button>
 			</el-col>
@@ -241,6 +272,8 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
+import project from '/@/api/erp/project';
+
 
 
 const moduleKey = 'api_sys_home_alias';
@@ -267,6 +300,7 @@ const state = reactive({
 	projectCompanyForm:{},
 	projectLineTableData: {
 		data: [],
+		projectLineList:[],
 		total: 0,
 		loading: false,
 		param: {
@@ -279,8 +313,7 @@ const state = reactive({
 		swFileList:[],
 		jsFileList:[],
 		qtFileList:[],
-		bidList:[],
-		bidFileList:[],
+		fjFileList:[],
 		total: 0,
 		loading: false,
 		param: {
@@ -295,9 +328,6 @@ const state = reactive({
 
 state.tableData.param.pageIndex = computed(() => {
 	return state.tableData.param.current - 1;
-});
-state.projectLineTableData.param.pageIndex = computed(() => {
-	return state.projectLineTableData.param.current - 1;
 });
 
 state.stepName = computed(() => {
@@ -317,9 +347,6 @@ state.stepName = computed(() => {
 const openPage = async (data: object) => {
 	state.projectCompanyId = data.projectCompanyId
 	state.projectId = data.projectId
-	console.log("测试", state.projectId )
-	onGetProjectCompanyData()
-	onGetProjectLineTableData()
 	onGetTableData()
 };
 
@@ -331,64 +358,64 @@ const closePage = async () => {
     });
 }
 
-//	获取公司已报名详细信息
-const onGetProjectCompanyData = async () => {
-	try {
-		const res = await proxy.$api.erp.projectcompany.getById(state.projectCompanyId);
-		if (res.errcode != 0) {
-			return;
-		}
-		state.projectCompanyForm = res.data;
-	} finally {
-	}
-};
-
-//	获取标的物项目信息
-const onGetProjectLineTableData = async () => {
-	//	获取标的物项目信息
-	state.projectLineTableData.loading = true;
-	try {
-		state.projectLineTableData.param.projectId = state.projectId
-		const res = await proxy.$api.erp.projectline.getListByScope(state.projectLineTableData.param);
-		if (res.errcode != 0) {
-			return;
-		}
-		state.projectLineTableData.data = res.data;
-		state.projectLineTableData.total = res.total;
-	} finally {
-		state.projectLineTableData.loading = false;
-	}
-};
-
 const onGetTableData = async () => {
 	try {
-		// 获取已报名信息详细信息文件表
+		state.tableData.loading = true
+		//	获取公司已报名详细信息
+		const projectCompanyRes = await proxy.$api.erp.projectcompany.getById(state.projectCompanyId);
+		if (projectCompanyRes.errcode != 0) {
+			return;
+		}
+		state.projectCompanyForm = projectCompanyRes.data;
+		//	获取已报名信息文件表
+		state.tableData.param.projectId = state.projectId
 		state.tableData.param.projectCompanyId = state.projectCompanyId
-		const res = await proxy.$api.erp.projectcompanyline.getListByScope(0, 0, state.tableData.param);
-		if (res.errcode != 0) {
+		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope(0, 0, state.tableData.param);
+		if (projectCompanyLineRes.errcode != 0) {
+			return;
+		}
+		state.projectLineTableData.param.projectId = state.projectId
+		state.projectLineTableData.param.projectCompanyId = state.projectCompanyId
+		const projectLineRes = await proxy.$api.erp.projectline.getListByScope(state.projectLineTableData.param);
+		if (projectLineRes.errcode != 0) {
 			return;
 		}
 		state.tableData.swFileList = []
 		state.tableData.jsFileList = []
 		state.tableData.qtFileList = []
 		state.tableData.bidFileList = []
-		for (let item of res.data) {
-			switch (item.Kind) {
-				case "swFile":
+		let index = 0
+		let list = []
+		for (let val of projectLineRes.data) {
+			index += 1
+			val.ProjectLineId = val.Id
+			val.Id = "0"
+			val.Price = 0
+			for (let item of projectCompanyLineRes.data) {
+				if (index == projectLineRes.data.length && item.Kind == "swFile") {
 					state.tableData.swFileList.push(item)
-					break
-				case "jsFile":
+				} else if (index == projectLineRes.data.length && item.Kind == "jsFile") {
 					state.tableData.jsFileList.push(item)
-					break
-				case "qtFile":
+				} else if (index == projectLineRes.data.length && item.Kind == "qtFile") {
 					state.tableData.qtFileList.push(item)
-					break
-				case "bidFile":
+				} else if (index == projectLineRes.data.length && item.Kind == "bidFile") {
 					state.tableData.bidFileList.push(item)
-					break
+				}
+				if (item.ProjectLineId == val.ProjectLineId && item.Kind == "bid") {
+					val.Amount = item.Amount
+					val.Qty = item.Qty
+					val.Price = item.Price
+					val.Content = item.Content
+					val.Unit = item.Unit
+				} else if (index == projectLineRes.data.length && item.Kind == "bid" && item.ProjectLineId == 0) {
+					list.push(item)
+				}
 			}
 		}
+		state.projectLineTableData.projectLineList = projectLineRes.data.concat(list)
+		state.projectLineTableData.data = projectLineRes.data
 	} finally {
+		state.tableData.loading = false
 	}
 };
 
@@ -430,6 +457,18 @@ const onStepChange = (val: number) => {
 		}
 	}
 };
+
+const onAdd = () => {
+	state.projectLineTableData.projectLineList.push({Id: "0", Kind: "bid", ProjectLineId: "0", Price: 0, Qty: 0, Amount: 0})
+}
+
+const onReset = () => {
+	state.projectLineTableData.projectLineList = state.projectLineTableData.data
+}
+
+const onDel = (index) => {
+	state.projectLineTableData.projectLineList.splice(index, 1)
+}
 
 //	更新公司报名信息文件表上传的文件
 const onSuccessFile = (file: UploadFile) => {
@@ -489,19 +528,26 @@ const submit = () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			state.ruleForm.fileList = [...state.tableData.swFileList, ...state.tableData.jsFileList, ...state.tableData.qtFileList, ...state.tableData.bidFileList]
+			state.ruleForm.fileList = [...state.tableData.swFileList, ...state.tableData.jsFileList, ...state.tableData.qtFileList, ...state.tableData.bidFileList, ...state.projectLineTableData.projectLineList]
 			const res = await proxy.$api.erp.projectcompanyline.saveBiding(state.projectCompanyId, state.ruleForm.fileList)
 			if (res.errcode != 0) {
 				return;
 			}
-			closePage()
-			ElMessage('提交成功')
+			ElMessage('提交成功,等待2秒后返回！')
+			setTimeout(() => {
+				closePage();
+			}, 2000);
 		} finally {
 		}
 		return false;
 	}).catch(async () => {
 		ElMessage('取消提交')
 	});
+};
+
+//	计算总价
+const getPrice = (index) => {
+	state.projectLineTableData.projectLineList[index].Price = state.projectLineTableData.projectLineList[index].Amount * state.projectLineTableData.projectLineList[index].Qty
 };
 
 const formatTimestamp = (timestamp) => {

@@ -24,12 +24,12 @@
 							<span v-else-if="scope.row.State == 3">废包</span>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" fixed="right">
+					<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" fixed="right">
 						<template #default="scope">
 							<el-button type="primary" @click="">设定为开标包</el-button>
 							<el-button text bg type="primary" @click="">废包</el-button>
 						</template>
-					</el-table-column>
+					</el-table-column> -->
 				</el-table>
 				<el-pagination
 					small
@@ -78,13 +78,30 @@ const state: any = reactive({
 //	打开页面
 const openPage = async (data: {}) => {
 	state.projectForm = data
-	getBidList()
+	onGetProjectLineTableData()
 };
 
 //	关闭页面
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
+};
+
+//	获取标的物项目信息
+const onGetProjectLineTableData = async () => {
+	//	获取标的物项目信息
+	state.tableData.loading = true;
+	try {
+		state.tableData.param.projectId = state.projectId
+		const res = await proxy.$api.erp.projectline.getListByScope(state.tableData.param);
+		if (res.errcode != 0) {
+			return;
+		}
+		state.tableData.data = res.data;
+		state.tableData.total = res.total;
+	} finally {
+		state.tableData.loading = false;
+	}
 };
 
 //获取项目品目信息

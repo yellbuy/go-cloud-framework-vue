@@ -31,6 +31,9 @@
 				</div>
 			</el-col>
 			<el-col :span="6">
+				<div style="float: right;" >
+					<el-button type="primary" @click="onReturn">退回重评</el-button>
+				</div>
 			</el-col>
 		</el-row>
 		<el-row v-if="state.projectId > 0">

@@ -159,8 +159,10 @@ const onSubmit = async () => {
 			ElMessage.success('操作失败！');
 			return;
 		}
-		onGetProjectNoticet()
-		ElMessage.success('操作成功！');
+		ElMessage.success('操作成功，2秒后返回项目列表！');
+		setTimeout(() => {
+			proxy.$parent.$parent.$parent.$parent.closePage()
+		}, 2000);
 	} finally {
 		state.loading = false;
 	}

@@ -141,7 +141,7 @@ const onMuitSubmit = async () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const gatherRes = await proxy.$api.erp.projectreview.signatureSave(state.projectId, state.tableData.list);
+			const gatherRes = await proxy.$api.erp.projectreview.reviewSignatureSave(state.projectId, state.tableData.list);
 			if (gatherRes.errcode != 0) {
 				return;
 			}
