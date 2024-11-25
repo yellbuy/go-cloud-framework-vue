@@ -278,7 +278,7 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
-					cateId: 0,
+					orgFpath: '',
 					pageNum: 1,
 					pageSize: 20,
 				},
@@ -338,7 +338,7 @@ export default {
 		const onMainCellClick = async (row: any, column: any, cell: any, event: any) => {
 			console.log(column);
 			state.curOrgId = row.Id || '0';
-			state.childTableData.param.OrgFpath = row.Fpath;
+			state.childTableData.param.orgFpath = row.Fpath;
 			onGetChildTableData();
 			// if(row && column.property=="Title"){
 			// 	// const res=await proxy.$api.cms.article.getById(row.Id)
