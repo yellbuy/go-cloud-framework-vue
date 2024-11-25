@@ -291,8 +291,8 @@ const closePage = async () => {
 }
 
 //	打开评审参数编辑弹窗
-const onSettingLineEditDialog = async (id: string) => {
-	settingLineEditRef.value.openDialog(id, state.activeName)
+const onSettingLineEditDialog = async (id="0") => {
+	settingLineEditRef.value.openDialog(id, state.activeName, state.projectForm)
 };
 
 const getScore = () => {

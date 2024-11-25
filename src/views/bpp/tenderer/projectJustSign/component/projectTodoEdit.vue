@@ -374,6 +374,7 @@ const onDownloadFile = async (fileName: string, path: string) => {
 	var a = document.createElement('a');
 	a.href = import.meta.env.VITE_URL + path;
 	a.download = fileName; // 下载后的文件名称
+	a.target = '_blank';
 	a.click();
 };
 

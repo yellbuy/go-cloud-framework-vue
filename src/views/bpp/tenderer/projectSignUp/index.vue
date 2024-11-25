@@ -57,9 +57,8 @@
 				v-model:page-size="state.tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
 				:total="state.tableData.total"/>
-			<seeDlg ref="seeDlgRef" />
+			<projectSeeDlg ref="projectSeeDlgRef" />
 		</el-card>
-		<projectDetail ref="projectDetailRef"/>
 	</div>
 </template>
 
@@ -67,8 +66,7 @@
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, nextTick, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import projectDetail from './component/projectDetail.vue';
-import seeDlg from '/@/views/bpp/tenderee/project/bidList/component/projectSee.vue';
+import projectSeeDlg from '/@/views/bpp/tenderee/project/bidList/component/projectSee.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 
@@ -81,8 +79,7 @@ const scopeMode = route.params.scopeMode || 0;
 const scopeValue = route.params.scopeValue || 2;
 const moduleKey = `api_pro_project_${kind}_${mode}`;
 const { proxy } = getCurrentInstance() as any;
-const seeDlgRef = ref();
-const projectDetailRef = ref();
+const projectSeeDlgRef = ref();
 const state: any = reactive({
 	moduleKey: moduleKey,
 	kind,
@@ -165,9 +162,7 @@ const onSubmit = (id: string) => {
 
 // 打开修改界面
 const onModelEdit = (id: number) => {
-	store.commit('project/getProjectId', id);
 	state.isShowPage = false;
-	projectDetailRef.value.openPage()
 };
 // 打开列表
 const onModelList = () => {
@@ -176,14 +171,11 @@ const onModelList = () => {
 //打开查看数据弹窗
 const onModelSee = (id: string, state: boolean) => {
 	nextTick(() => {
-		seeDlgRef.value.openDialog(id, state);
+		projectSeeDlgRef.value.openDialog(id, state);
 	});
 };
 // 跳转
 const onToDetail = (id: string|number, projectId: string|number) => {
-	store.commit('project/getProjectCompanyId', id)
-	store.commit('project/getProjectId', projectId);
-	projectDetailRef.value.openPage();
 	state.isShowPage = false;
 };
 // 删除用户

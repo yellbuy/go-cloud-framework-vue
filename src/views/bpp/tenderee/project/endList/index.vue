@@ -58,9 +58,9 @@
 				v-model:page-size="state.tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
 				:total="state.tableData.total"/>
-			<seeDlg ref="seeDlgRef" />
+			<projectSeeDlg ref="projectSeeDlgRef" />
 		</el-card>
-		<!-- <bidEdit ref="bidEditRef"/> -->
+		<!-- <projectSelection ref="projectSelectionRef"/> -->
 	</div>
 </template>
 
@@ -69,8 +69,8 @@ import request from '/@/utils/request';
 import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect, onMounted, ref, nextTick, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import seeDlg from '../bidList/component/projectSee.vue';
-import bidEdit from '../bidList/component/bidEdit.vue';
+import projectSeeDlg from '../bidList/component/projectSee.vue';
+import projectSelection from '../bidList/component/projectSelection.vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 
@@ -83,8 +83,8 @@ const scopeMode = route.params.scopeMode || 0;
 const scopeValue = route.params.scopeValue || 0;
 const moduleKey = `api_pro_project_${kind}_${mode}`;
 const { proxy } = getCurrentInstance() as any;
-const seeDlgRef = ref();
-const bidEditRef = ref();
+const projectSeeDlgRef = ref();
+const projectSelectionRef = ref();
 const state: any = reactive({
 	isShowPage: true,
 	moduleKey: moduleKey,
@@ -133,15 +133,15 @@ const onGetTableData = async () => {
 //打开查看详情页面
 const onProjectSee = (Id: string, state: boolean) => {
 	nextTick(() => {
-		seeDlgRef.value.openDialog(Id, state);
+		projectSeeDlgRef.value.openDialog(Id, state);
 	});
 };
 
 // 打开重新评选页面
-const onBidEdit = (id: string) => {
+const onprojectSelection = (id: string) => {
 	state.isShowPage = false;
 	nextTick(() => {
-		bidEditRef.value.openPage(id);
+		projectSelectionRef.value.openPage(id);
 	});
 };
 

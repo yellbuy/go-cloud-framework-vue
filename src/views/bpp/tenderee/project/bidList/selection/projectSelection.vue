@@ -1,31 +1,31 @@
 <template>
 		<el-row v-if="state.isShowPage">
-			<el-col class="tenderee-project-bidedit" :span="3" style="padding-top: 20px; padding-bottom: 20px;">
+			<el-col class="tenderee-project-projectselection" :span="3" style="padding-top: 20px; padding-bottom: 20px;">
 				<el-aside width="200px" class="pt2">
-					<el-menu class="el-menu-vertical-demo" default-active="fileSee" @select="select">
+					<el-menu class="el-menu-vertical-demo" default-active="bidFileSee" @select="select">
 						<el-sub-menu index="before">
 							<template #title>评选准备</template>
-							<el-menu-item index="fileSee">招标文件</el-menu-item>
+							<el-menu-item index="bidFileSee">招标文件</el-menu-item>
 							<el-menu-item index="expertEdit">选择评选专家</el-menu-item>
 							<el-menu-item index="settingLineList">复核评选参数</el-menu-item>
 						</el-sub-menu>
 						<el-sub-menu index="2">
 							<template #title>项目开标</template>
-							<el-menu-item index="packageEdit">选择项目包号</el-menu-item>
+							<el-menu-item index="packageList">选择项目包号</el-menu-item>
 							<el-menu-item index="companyList">投标人名单</el-menu-item>
-							<el-menu-item index="bidList">开标一览表</el-menu-item>
+							<el-menu-item index="bidOpenList">开标一览表</el-menu-item>
 						</el-sub-menu>
 						<el-sub-menu index="3">
 							<template #title>项目评标</template>
-							<el-menu-item index="zgpsGather">资格评分汇总</el-menu-item>
-							<el-menu-item index="jspsGather">技术评分汇总</el-menu-item>
-							<el-menu-item index="jjpsGather">价格评分汇总</el-menu-item>
+							<el-menu-item index="zgpsGatherList">资格评分汇总</el-menu-item>
+							<el-menu-item index="jspsGatherList">技术评分汇总</el-menu-item>
+							<el-menu-item index="jjpsGatherList">价格评分汇总</el-menu-item>
 						</el-sub-menu>
 						<el-sub-menu index="4">
 							<template #title>评标结果</template>
 							<el-menu-item index="gatherList">评分汇总</el-menu-item>
-							<el-menu-item index="rfeportSee">评标报告</el-menu-item>
-							<el-menu-item index="noticeEdit">发布中选公告</el-menu-item>
+							<el-menu-item index="reviewReportSee">评标报告</el-menu-item>
+							<el-menu-item index="bidNoticeEdit">发布中选公告</el-menu-item>
 						</el-sub-menu>
 					</el-menu>
 				</el-aside>
@@ -36,7 +36,7 @@
 						<el-row>
 							<el-col :span="8">
 								<div style="float: left">
-									<el-button type="primary" @click="openNoticeSee">查看公告</el-button>
+									<el-button type="primary" @click="openProjectNoticeSee">查看公告</el-button>
 									<el-button type="primary" @click="refreshPage">刷新</el-button>
 									<!-- <el-button type="primary" @click="handleClick">全屏</el-button> -->
 								</div>
@@ -62,19 +62,19 @@
 							</el-col>
 						</el-row>
 					</template>
-					<fileSee ref="fileSeeRef" v-if="state.indexLine === 'fileSee'"/>
+					<bidFileSee ref="bidFileSeeRef" v-if="state.indexLine === 'bidFileSee'"/>
 					<expertEdit ref="expertEditRef" v-else-if="state.indexLine === 'expertEdit'"/>
 					<settingLineList ref="settingLineListRef" v-else-if="state.indexLine === 'settingLineList'"/>
-					<packageEdit ref="packageEditRef" v-else-if="state.indexLine === 'packageEdit'"/>
+					<packageList ref="packageListRef" v-else-if="state.indexLine === 'packageList'"/>
 					<companyList ref="companyListRef" v-else-if="state.indexLine === 'companyList'"/>
-					<bidList ref="bidListRef" v-else-if="state.indexLine === 'bidList'"/>
-					<zgpsGather ref="zgpsGatherRef" v-else-if="state.indexLine === 'zgpsGather'"/>
-					<jspsGather ref="jspsGatherRef" v-else-if="state.indexLine === 'jspsGather'"/>
-					<jjpsGather ref="jjpsGatherRef" v-else-if="state.indexLine === 'jjpsGather'"/>
+					<bidOpenList ref="bidOpenListRef" v-else-if="state.indexLine === 'bidOpenList'"/>
+					<zgpsGatherList ref="zgpsGatherListRef" v-else-if="state.indexLine === 'zgpsGatherList'"/>
+					<jspsGatherList ref="jspsGatherListRef" v-else-if="state.indexLine === 'jspsGatherList'"/>
+					<jjpsGatherList ref="jjpsGatherListRef" v-else-if="state.indexLine === 'jjpsGatherList'"/>
 					<gatherList ref="gatherListRef" v-else-if="state.indexLine === 'gatherList'"/>
-					<rfeportSee ref="rfeportSeeRef" v-else-if="state.indexLine === 'rfeportSee'"/>
-					<noticeSee ref="noticeSeeRef" v-else-if="state.indexLine === 'noticeSee'"/>
-					<noticeEdit ref="noticeEditRef" v-else-if="state.indexLine === 'noticeEdit'"/>
+					<reviewReportSee ref="reviewReportSeeRef" v-else-if="state.indexLine === 'reviewReportSee'"/>
+					<projectNoticeSee ref="projectNoticeSeeRef" v-else-if="state.indexLine === 'projectNoticeSee'"/>
+					<bidNoticeEdit ref="bidNoticeEditRef" v-else-if="state.indexLine === 'bidNoticeEdit'"/>
 				</el-card>
 			</el-col>
 			<el-dialog :title="state.title" v-model="state.isShowDialog" width="25%" :before-close="closeDialog">
@@ -99,42 +99,42 @@ import { getCurrentInstance, onMounted, nextTick, reactive, ref, toRefs } from '
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
-import fileSee from './bid/fileSee.vue';
-import expertEdit from './bid/expertEdit.vue';
-import settingLineList from './bid/settingLineList.vue';
-import packageEdit from './bid/packageEdit.vue';
-import companyList from './bid/companyList.vue';
-import bidList from './bid/bidList.vue';
-import zgpsGather from './bid/zgpsGather.vue';
-import jspsGather from './bid/jspsGather.vue';
-import jjpsGather from './bid/jjpsGather.vue';
-import gatherList from './bid/gatherList.vue';
-import rfeportSee from './bid/rfeportSee.vue';
-import noticeSee from './bid/noticeSee.vue';
-import noticeEdit from './bid/noticeEdit.vue';
+import bidFileSee from './bidFileSee.vue';
+import expertEdit from './expertEdit.vue';
+import settingLineList from './settingLineList.vue';
+import packageList from './packageList.vue';
+import companyList from './companyList.vue';
+import bidOpenList from './bidOpenList.vue';
+import zgpsGatherList from './zgpsGatherList.vue';
+import jspsGatherList from './jspsGatherList.vue';
+import jjpsGatherList from './jjpsGatherList.vue';
+import gatherList from './gatherList.vue';
+import reviewReportSee from './reviewReportSee.vue';
+import projectNoticeSee from './projectNoticeSee.vue';
+import bidNoticeEdit from './bidNoticeEdit.vue';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore()
-const fileSeeRef = ref();
+const bidFileSeeRef = ref();
 const expertEditRef = ref();
 const settingLineListRef = ref();
-const packageEditRef = ref();
+const packageListRef = ref();
 const companyListRef = ref();
-const bidListRef = ref();
-const zgpsGatherRef = ref();
-const jspsGatherRef = ref();
-const jjpsGatherRef = ref();
+const bidOpenListRef = ref();
+const zgpsGatherListRef = ref();
+const jspsGatherListRef = ref();
+const jjpsGatherListRef = ref();
 const gatherListRef = ref();
-const rfeportSeeRef = ref();
-const noticeSeeRef = ref();
-const noticeEditRef = ref();
+const reviewReportSeeRef = ref();
+const projectNoticeSeeRef = ref();
+const bidNoticeEditRef = ref();
 
 const state = reactive({
 	isShowPage: false,
 	isShowDialog: false,
 	loading: false,
-	indexLine: 'fileSee',
+	indexLine: 'bidFileSee',
 	title: t('message.action.Edit'),
 	httpsText: import.meta.env.VITE_URL as any,
 	projectId: '',
@@ -146,7 +146,7 @@ const state = reactive({
 const openPage = async (id: string) => {
 	state.projectId = id
 	state.isShowPage = true
-	state.indexLine = 'fileSee'
+	state.indexLine = 'bidFileSee'
 	GetByIdRow()
 	select(state.indexLine)
 
@@ -155,7 +155,7 @@ const openPage = async (id: string) => {
 //	关闭页面
 const closePage = async () => {
 	state.isShowPage = false
-	state.indexLine = 'fileSee';
+	state.indexLine = 'bidFileSee';
 	state.projectId = ''
 	state.projectForm = {}
 	proxy.$parent.isShowPage = true;
@@ -169,9 +169,9 @@ const refreshPage = async () => {
 }
 
 //	查看公告
-const openNoticeSee = async () => {
+const openProjectNoticeSee = async () => {
 	nextTick(() => {
-		noticeSeeRef.value.openDialog(state.projectForm)
+		projectNoticeSeeRef.value.openDialog(state.projectForm)
 	});
 };
 
@@ -179,8 +179,8 @@ const select = (val: string) => {
 	state.indexLine = val
 	nextTick(() => {
 		switch (val) {
-			case 'fileSee':
-				fileSeeRef.value.openPage(state.projectForm)
+			case 'bidFileSee':
+				bidFileSeeRef.value.openPage(state.projectForm)
 				break
 			case 'expertEdit':
 				expertEditRef.value.openPage(state.projectForm)
@@ -188,35 +188,35 @@ const select = (val: string) => {
 			case 'settingLineList':
 				settingLineListRef.value.openPage(state.projectForm)
 				break
-			case'packageEdit':
-				packageEditRef.value.openPage(state.projectForm)
+			case'packageList':
+				packageListRef.value.openPage(state.projectForm)
 				break
 			case 'companyList':
 				companyListRef.value.openPage(state.projectForm)
 				break
-			case 'bidList':
-				bidListRef.value.openPage(state.projectForm)
+			case 'bidOpenList':
+				bidOpenListRef.value.openPage(state.projectForm)
 				break
-			case 'zgpsGather':
-				zgpsGatherRef.value.openPage(state.projectForm)
+			case 'zgpsGatherList':
+				zgpsGatherListRef.value.openPage(state.projectForm)
 				break
-			case 'jspsGather':
-				jspsGatherRef.value.openPage(state.projectForm)
+			case 'jspsGatherList':
+				jspsGatherListRef.value.openPage(state.projectForm)
 				break
-			case 'jjpsGather':
-				jjpsGatherRef.value.openPage(state.projectForm)
+			case 'jjpsGatherList':
+				jjpsGatherListRef.value.openPage(state.projectForm)
 				break
 			case 'gatherList':
 				gatherListRef.value.openPage(state.projectForm)
 				break
-			case 'rfeportSee':
-				rfeportSeeRef.value.openPage(state.projectForm)
+			case 'reviewReportSee':
+				reviewReportSeeRef.value.openPage(state.projectForm)
 				break
-			case 'noticeEdit':
-				noticeEditRef.value.openPage(state.projectForm)
+			case 'bidNoticeEdit':
+				bidNoticeEditRef.value.openPage(state.projectForm)
 				break
-			case 'noticeSee':
-				noticeSeeRef.value.openPage(state.projectForm)
+			case 'projectNoticeSee':
+				projectNoticeSeeRef.value.openPage(state.projectForm)
 				break
 		}
 	});
@@ -302,7 +302,7 @@ defineExpose({openPage, closePage, GetByIdRow, ...toRefs(state)})
 
 </script>
 <style  lang="scss">
-.tenderee-project-bidedit {
+.tenderee-project-projectselection {
 	.el-menu-item, .el-sub-menu__title{
 		color: var(--el-menu-active-color) !important;
 	}

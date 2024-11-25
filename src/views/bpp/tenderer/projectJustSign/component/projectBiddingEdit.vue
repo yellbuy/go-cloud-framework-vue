@@ -143,7 +143,7 @@
 					</p>					
 				</div>	
 				<div v-else-if="state.stepIndex==3">
-					<el-row>
+					<el-row v-if="state.projectCompanyForm.State == 0">
 						<el-col>
 							<el-button type="primary" @click="onAdd">新增</el-button>
 							<el-button type="primary" @click="onReset">恢复默认</el-button>
@@ -182,9 +182,9 @@
 							</template>	
 						</el-table-column>
 						<el-table-column prop="Price" label="总价" width="150" align="right"/>
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(60)" fixed="right">
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(60)" fixed="right" v-if="state.projectCompanyForm.State == 0">
 							<template #default="scope">
-								<el-button text bg type="primary" v-if="state.projectCompanyForm.State == 0" @click="onDel(scope.$index)">删除</el-button>
+								<el-button text bg type="primary" @click="onDel(scope.$index)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>

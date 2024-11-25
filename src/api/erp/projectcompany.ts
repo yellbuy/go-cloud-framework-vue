@@ -124,7 +124,7 @@ export default {
  * @returns 返回接口数据
  */
     confirmUpdate: async ( id: string|number) => {
-        const url = `/v1/admin/erp/projectcompany/confirm/${id}`;
+        const url = `/v1/admin/erp/projectcompany/leaderconfirm/${id}`;
         return await http.post(url);
     },
 }

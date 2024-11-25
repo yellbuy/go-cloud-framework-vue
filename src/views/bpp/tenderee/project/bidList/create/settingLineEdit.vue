@@ -4,8 +4,8 @@
             <el-tab-pane label="资格评审" name="zgps">
                 <el-form :model="state.zgTableData.param" label-width="60px" :inline="true" style="margin-bottom: 10px;">
                     <el-form-item>
-                        <el-button type="primary" @click="onSettingLineDialog()">创建</el-button>
-                        <el-button type="info" @click="onGetSettingTableData()">恢复默认</el-button>
+                        <el-button type="primary" @click="onSettingLineDialog">创建</el-button>
+                        <el-button type="info" @click="onGetSettingTableData">恢复默认</el-button>
                     </el-form-item>
                 </el-form>
                 <el-table :data="state.zgTableData.data" v-loading="state.zgTableData.loading" :height="proxy.$calcMainHeight(-240)" style="width: 100%" border stripe highlight-current-row>
@@ -29,8 +29,8 @@
             <el-tab-pane label="技术评审" name="jsps">
                 <el-form :model="state.jsTableData.param" label-width="60px" :inline="true" style="margin-bottom: 10px;">
                     <el-form-item>
-                        <el-button type="primary" @click="onSettingLineDialog()">创建</el-button>
-                        <el-button type="info" @click="onGetSettingTableData()">恢复默认</el-button>
+                        <el-button type="primary" @click="onSettingLineDialog">创建</el-button>
+                        <el-button type="info" @click="onGetSettingTableData">恢复默认</el-button>
                     </el-form-item>
                 </el-form>
                 <el-table :data="state.jsTableData.data" style="width: 100%" v-loading="state.jsTableData.loading" :height="proxy.$calcMainHeight(-240)" border stripe highlight-current-row>
@@ -135,11 +135,8 @@
 </template>
 
 <script setup lang="ts">
-import { Upload } from '@element-plus/icons-vue';
-import type { UploadFile } from 'element-plus';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
-import commonFunction from '/@/utils/commonFunction';
 import { useI18n } from 'vue-i18n';
 
 const { proxy } = getCurrentInstance() as any;
