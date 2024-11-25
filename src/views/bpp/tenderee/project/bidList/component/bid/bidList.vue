@@ -74,7 +74,7 @@ state.tableData.param.pageIndex = computed(() => {
 //	打开页面
 const openPage = async (data: {}) => {
 	state.projectForm = data
-	getCompanyList()
+	onGetProjectLineTableData()
 };
 
 //	关闭页面
@@ -82,6 +82,23 @@ const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
 }
+
+//	获取标的物项目信息
+const onGetProjectLineTableData = async () => {
+	//	获取标的物项目信息
+	state.tableData.loading = true;
+	try {
+		state.tableData.param.projectId = state.projectId
+		const res = await proxy.$api.erp.projectline.getListByScope(state.tableData.param);
+		if (res.errcode != 0) {
+			return;
+		}
+		state.tableData.data = res.data;
+		state.tableData.total = res.total;
+	} finally {
+		state.tableData.loading = false;
+	}
+};
 
 //获取项目品目信息
 const getCompanyList = async () => {

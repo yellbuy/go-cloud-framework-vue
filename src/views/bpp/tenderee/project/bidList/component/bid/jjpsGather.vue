@@ -8,7 +8,7 @@
 					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
 					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 					<el-descriptions-item label="评委编号：">
-						<el-select v-model="state.expertId" placeholder="请选择" @change="selectProjectExpert">
+						<el-select v-model="state.expertUid" placeholder="请选择" @change="selectProjectExpert">
 							<el-option v-for="(item, index) in state.projectExpertList" :key="index" :label="item.Name" :value="item.Uid"/>
 						</el-select>
 					</el-descriptions-item>
@@ -44,7 +44,7 @@ const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	projectForm: {},
-	expertId: "",
+	expertUid: "",
 	projectExpertList: [],
 	projectExpertForm: {},
 	tableData: {
@@ -97,7 +97,7 @@ const onGetTableData = async () => {
 			return;
 		}
 		//获取项目专家评审结果表
-		state.tableData.param.expertId = state.expertId
+		state.tableData.param.expertUid = state.expertUid
 		state.tableData.param.isGather = 0
 		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("jjpsGather", 0, 0, state.tableData.param);
 		if (projectReviewRes.errcode != 0) {

@@ -11,9 +11,9 @@
 		</el-row>
 		<el-row>
 			<el-col :span="24">
-				<infoEdit ref="infoEditRef" v-if="state.activeIndex == 1"/>
-				<extEdit ref="extEditRef" v-else-if="state.activeIndex == 2"/>
-				<settingLine ref="settingLineRef" v-else-if="state.activeIndex == 3"/>
+				<infoEdit ref="infoEditRef" v-if="state.activeIndex == 0"/>
+				<extEdit ref="extEditRef" v-else-if="state.activeIndex == 1"/>
+				<settingLine ref="settingLineRef" v-else-if="state.activeIndex == 2"/>
 			</el-col>
 		</el-row>
 		<el-row>
@@ -21,9 +21,9 @@
 				<div class="mt20">
 					<span style="float: right; padding-bottom: 20px; padding-right: 20px;">
 						<el-button type="danger" @click="closePage">取消</el-button>
-						<el-button v-if="state.activeIndex > 1" type="primary" @click="onStepChange(-1)">上一步</el-button>
-						<el-button v-if="state.activeIndex < 3" type="primary" @click="onStepChange(1)">下一步</el-button>
-						<el-button v-if="state.activeIndex == 3" type="success" @click="onSubmit()">完成</el-button>
+						<el-button v-if="state.activeIndex > 0" type="primary" @click="onStepChange(-1)">上一步</el-button>
+						<el-button v-if="state.activeIndex < 2" type="primary" @click="onStepChange(1)">下一步</el-button>
+						<el-button v-if="state.activeIndex == 2" type="success" @click="onSubmit()">完成</el-button>
 					</span>
 				</div>
 			</el-col>
@@ -57,69 +57,75 @@ const state = reactive({
 	uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 	moduleKey,
 	token: token,
-	activeName: "zgps",
 	activeIndex: 1,
-	FilesList: [],
 	ruleForm: {},
 	infoForm: {},
-	extForm: {},
-	settingLineForm: {},
+	extForm: {
+		ProjectLineList: [],
+		FilesList: [],
+	},
+	settingLineForm: {
+		ProjectSettingLineList: [],
+	},
 
 });
 
 //	打开页面
 const openPage = async () => {
+	onStepChange(0)
 	state.isShowPage = true
 };
 
 //	关闭页面
 const closePage = async () => {
+	proxy.$parent.onGetTableData()
 	state.isShowPage = false
 	proxy.$parent.isShowPage = true
 	proxy.$parent.isShowCreateEdit = false
-	state.activeIndex = 1
-	state.FilesList = []
+	state.activeIndex = 0
 	state.ruleForm = {}
+	state.infoForm = {}
+	state.extForm = {}
+	state.settingLineForm = {}
+
 }
 
 //	上一步下一步切换
 //	0：恢复到第一步  1：下一步   -1：上一步
 const onStepChange = (val: number) => {
-	switch (state.activeIndex) {
-		case 1:
-			nextTick(() => {
-				infoEditRef.value.outData()
-			});
-			break
-		case 2:
-			nextTick(() => {
-				extEditRef.value.outData()
-			});
-			break
-		case 3:
-			nextTick(() => {
-				settingLineRef.value.outData()
-			});
-			break
+	if (val == 0) {
+		state.activeIndex = 0
+	} else if (val == 1) {
+		if (state.activeIndex == 0) {
+			state.infoForm = infoEditRef.value.getPageData()
+		} else if (state.activeIndex == 1) {
+			state.extForm = extEditRef.value.getPageData()
+		} 
+		if(state.activeIndex < 2){
+			state.activeIndex += 1
+		}
+	} else if ( val == -1) {
+		if (state.activeIndex == 1) {
+			state.extForm = extEditRef.value.getPageData()
+		} else if (state.activeIndex == 2) {
+			state.settingLineForm = settingLineRef.value.getPageData()
+		}
+		if(state.activeIndex > 0){
+			state.activeIndex -= 1
+		}
 	}
-	switch (val) {
-		case 0:
-			state.activeIndex = 1
-			break
-		case 1:
-			if(state.activeIndex < 3){
-				state.activeIndex += 1
-			}else{
-				state.activeIndex = 1
-			}
-			break
-		case -1:
-			if(state.activeIndex > 1){
-				state.activeIndex -= 1
-			}else{
-				state.activeIndex = 1
-			}
-			break
+	if (state.activeIndex == 0) {
+		nextTick(() => {
+			infoEditRef.value.openPage(state.infoForm)
+		});
+	} else if (state.activeIndex == 1) {
+		nextTick(() => {
+			extEditRef.value.openPage(state.extForm)
+		});
+	} else if (state.activeIndex == 2) {
+		nextTick(() => {
+			settingLineRef.value.openPage(state.settingLineForm)
+		});
 	}
 };
 
@@ -130,11 +136,14 @@ const onSubmit = () => {
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
+		nextTick(() => {
+			state.settingLineForm = settingLineRef.value.getPageData()
+		});
 		state.ruleForm = {}
 		const promises = [
-            infoEditRef.value.outData(),
-            extEditRef.value.outData(),
-            settingLineRef.value.outData()
+            state.infoForm,
+            state.extForm,
+            state.settingLineForm,
         ];
 		const results = await Promise.all(promises);
 		results.forEach(result => {
@@ -149,11 +158,10 @@ const onSubmit = () => {
 				return
 				}
 			})
-			infoEditRef.value.closePage()
-			extEditRef.value.closePage()
-			settingLineRef.value.closePage()
-			ElMessage('项目创建成功')
-			closePage()
+			ElMessage('项目创建成功,等待2秒后返回项目列表！')
+			setTimeout(() => {
+				closePage();
+			}, 2000);
 		} finally {
 		}
 	});

@@ -86,9 +86,15 @@
 						<el-timeline-item :timestamp = state.projectCompanyForm.BidOpenTime placement="top" type="primary" >
 							<p class="font14"><b>开始开标</b></p>
 							<el-divider border-style="dashed" />
-							<div v-if="state.projectCompanyForm.BidAuditState==1 && state.projectCompanyForm.EnsureAuditState==1">
+							<div v-if="state.projectCompanyForm.BidAuditState==1 && state.projectCompanyForm.EnsureAuditState==1 && state.projectCompanyForm.State==0">
 								<el-button type="primary" @click="onBeginBid" style="float: right;">
 									<SvgIcon name="fa fa-cloud-download" class="mr3"/>参与投标
+								</el-button>
+							</div>
+							<div v-else-if="state.projectCompanyForm.State==1">
+								<p style="font-size: 14px;"><b>已完成投标，不可更改投标信息</b></p>
+								<el-button type="primary" @click="onBeginBid" style="float: right;">
+									<SvgIcon name="fa fa-cloud-download" class="mr3"/>查看投标
 								</el-button>
 							</div>
 							<div v-else>
@@ -260,11 +266,9 @@ state.tableData.param.pageIndex = computed(() => {
 });
 
 //	打开页面
-const openPage = async (data: {}) => {
+const openPage = async (data: object) => {
 	state.projectId = data.ProjectId
 	state.projectCompanyId = data.Id
-	onGetprojectData()
-	onGetprojectCompanyData();
 	onGetTableData();
 };
 
@@ -279,20 +283,37 @@ const closePage = async () => {
 //	参与投标
 const onBeginBid = ()=>{
 	state.isShowIndex = 'bidding'
+	let data = {
+		projectId: state.projectId,
+		projectCompanyId: state.projectCompanyId
+	}
 	nextTick(() => {
-		projectBiddingEditRef.value.openPage(state.projectCompanyId)
+		projectBiddingEditRef.value.openPage(data)
 	});
 };
 
-//	获取项目信息
-const onGetprojectData = async () => {
+//	获取标的物项目信息
+const onGetTableData = async () => {
+	//	获取项目信息
+	const res = await proxy.$api.erp.projectbid.getById(state.projectId);
+	if (res.errcode != 0) {
+		return;
+	}
+	state.projectForm = res.data
+	//	获取公司已报名详细信息
+	onGetprojectCompanyData()
+	//	获取标的物项目信息
+	state.tableData.loading = true;
 	try {
-		const res = await proxy.$api.erp.projectbid.getById(state.projectId);
+		state.tableData.param.projectId = state.projectId
+		const res = await proxy.$api.erp.projectline.getListByScope(state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}
-		state.projectForm = res.data
+		state.tableData.data = res.data;
+		state.tableData.total = res.total;
 	} finally {
+		state.tableData.loading = false;
 	}
 };
 
@@ -308,35 +329,11 @@ const onGetprojectCompanyData = async () => {
 	}
 };
 
-//	获取标的物项目信息
-const onGetTableData = async () => {
-	state.tableData.loading = true;
-	try {
-		state.tableData.param.projectId = state.projectId
-		const res = await proxy.$api.erp.projectline.getListByScope(state.tableData.param);
-		if (res.errcode != 0) {
-			return;
-		}
-		state.tableData.data = res.data;
-		state.tableData.total = res.total;
-	} finally {
-		state.tableData.loading = false;
-	}
-};
-
 //	更新公司报名信息文件表上传的文件
 const onSuccessFile = (file: UploadFile, select: string) => {
 	state.projectCompanyForm.FileKind = select
-	switch (select) {
-		case 'bid':
-			state.projectCompanyForm.BidPics = file.data.src
-			onUpdateProjectCompanyFileData();
-			break;
-		case 'ensure':
-			state.projectCompanyForm.EnsurePics = file.data.src
-			onUpdateProjectCompanyFileData();
-			break;
-		}
+	state.projectCompanyForm.PicsPath  = file.data.src
+	onUpdateProjectCompanyFileData();
 };
 
 // 更新公司报名信息上传的文件及状态
@@ -384,7 +381,7 @@ const onDownloadFile = async (fileName: string, path: string) => {
 onMounted(() => {
 });
 
-defineExpose({openPage, closePage, onGetprojectData, onGetprojectCompanyData, onGetTableData, ...toRefs(state)})
+defineExpose({openPage, closePage, onGetprojectCompanyData, onGetTableData, ...toRefs(state)})
 </script>
 
 <style scoped lang="scss">

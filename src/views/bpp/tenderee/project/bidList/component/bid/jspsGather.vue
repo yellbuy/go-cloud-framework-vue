@@ -8,7 +8,7 @@
 					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
 					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 					<el-descriptions-item label="评委编号：">
-						<el-select v-model="state.expertId" placeholder="请选择" @change="selectProjectExpert">
+						<el-select v-model="state.expertUid" placeholder="请选择" @change="selectProjectExpert">
 							<el-option v-for="(item, index) in state.projectExpertList" :key="index" :label="item.Name" :value="item.Uid"/>
 						</el-select>
 					</el-descriptions-item>
@@ -22,7 +22,7 @@
 			<el-table-column prop="TechnicalMaxScore" label="最高分" align="right" width="60" show-overflow-tooltip/>
 			<el-table-column width="150" align="right" show-overflow-tooltip v-for="(item, index) in state.tableData.headerList" :key="index" :label="item.CompanyName" :prop="item.HeaderName">
 				<template #default="scope">
-					<el-tag v-if="scope.row[item.HeaderName] == 'notSummary'">待汇总</el-tag>
+					<el-tag v-if="scope.row[item.HeaderName] == 'notGather'">待汇总</el-tag>
 					<el-tag v-else-if="scope.row[item.HeaderName] == 'notReview'">专家未评审</el-tag>
 				</template>
 			</el-table-column>
@@ -44,7 +44,7 @@ const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	projectForm: {},
-	expertId: "",
+	expertUid: "",
 	projectExpertList: [],
 	projectExpertForm: {},
 	tableData: {
@@ -91,7 +91,7 @@ const onGetProjectExpertList = async () => {
 const onGetTableData = async () => {
 	state.tableData.loading = true
 	try {
-		state.tableData.param.expertId = state.expertId
+		state.tableData.param.expertUid = state.expertUid
 		state.tableData.param.projectId = state.projectForm.Id
 		const res = await proxy.$api.erp.projectreview.getGatherListByScope('jspsGather', 0, 0, state.tableData.param);
 		if (res.errcode != 0) {

@@ -31,16 +31,6 @@ export default {
         return await http.post(url, data);
     },
 
-    /**
-   * 公司投标
-   * @param data 文件列表
-   * @returns 返回接口数据
-   */
-    biding: async (id: number | string, data: object) => {
-        const url = `/v1/admin/erp/projectcompany/bidding/${id}`;
-        return await http.post(url, data);
-    },
-
 /**
  * 公司报名列表
  * @param data 标识，字符串或数组

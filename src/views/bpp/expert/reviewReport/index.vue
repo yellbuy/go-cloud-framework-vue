@@ -91,7 +91,7 @@ const selectProject = async (event) => {
 //	获取专家参与的项目列表
 const onGetProjectTableData = async () => {
 	try {
-		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
+		const res = await proxy.$api.erp.projectexpert.expertParticipateList();
 		if (res.errcode != 0) {
 			return;
 		}
@@ -104,7 +104,7 @@ const onGetProjectTableData = async () => {
 const onGetTableData = async () => {
 	try {
 		state.tableData.param.projectId = state.projectForm.Id
-		const res = await proxy.$api.erp.projectcompanyline.getListByScope("report", 0, 0, state.tableData.param)
+		const res = await proxy.$api.erp.projectreview.getListByScope("report", 0, 0, state.tableData.param)
 		if (res.errcode != 0) {
 			return;
 		}
@@ -145,7 +145,7 @@ const onDownloadFile = async () => {
 
 const onSubmit = async () => {
 	try {
-		const gatherRes = await proxy.$api.erp.projectcompanyline.reportUpload(state.projectForm.Id, state.ruleForm);
+		const gatherRes = await proxy.$api.erp.projectreview.reportUpload(state.projectForm.Id, state.ruleForm);
 		if (gatherRes.errcode != 0) {
 			return;
 		}

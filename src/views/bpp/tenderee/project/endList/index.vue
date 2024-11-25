@@ -43,7 +43,6 @@
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(360)" fixed="right">
 					<template #default="scope">
 						<el-button type="primary" @click="onProjectSee(scope.row.Id, false)">项目详情</el-button>
-						<el-button text bg type="info" @click="onBidEdit(scope.row.Id)">重新评选</el-button>
 						<el-button text bg type="primary" v-if="scope.row.state==0" @click="">查看废标理由</el-button>
 					</template>
 				</el-table-column>
@@ -68,7 +67,7 @@
 <script setup lang="ts">
 import request from '/@/utils/request';
 import commonFunction from '/@/utils/commonFunction';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
+import { toRefs, reactive, effect, onMounted, ref, nextTick, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import seeDlg from '../bidList/component/projectSee.vue';
 import bidEdit from '../bidList/component/bidEdit.vue';
@@ -87,6 +86,7 @@ const { proxy } = getCurrentInstance() as any;
 const seeDlgRef = ref();
 const bidEditRef = ref();
 const state: any = reactive({
+	isShowPage: true,
 	moduleKey: moduleKey,
 	kind,
 	scopeMode,
@@ -102,7 +102,6 @@ const state: any = reactive({
 			isBid: Boolean(isBid),
 		},
 	},
-	isShowPage: true,
 });
 
 state.tableData.param.pageIndex = computed(() => {
@@ -111,10 +110,8 @@ state.tableData.param.pageIndex = computed(() => {
 
 //重置查询条件
 const onResetSearch = () => {
-	state.tableData.param.current = 1
-	state.tableData.param.pageSize = 20
-	state.tableData.param.finishTimeMd = 1
-	state.tableData.param.isBid = Boolean(isBid)
+	state.tableData.param.no = null
+	state.tableData.param.name = null
 	onGetTableData();
 };
 
@@ -135,20 +132,25 @@ const onGetTableData = async () => {
 
 //打开查看详情页面
 const onProjectSee = (Id: string, state: boolean) => {
-	seeDlgRef.value.openDialog(Id, state);
+	nextTick(() => {
+		seeDlgRef.value.openDialog(Id, state);
+	});
 };
 
 // 打开重新评选页面
 const onBidEdit = (id: string) => {
 	state.isShowPage = false;
-	bidEditRef.value.openPage(id);
+	nextTick(() => {
+		bidEditRef.value.openPage(id);
+	});
 };
 
 //跳转
-const onToRouter = (Id: string) => {
-	store.commit('project/getProjectId', Id);
+const onToRouter = () => {
 	state.isShowPage = false;
-	bidSelectionDlgRef.value.GetByIdRow();
+	nextTick(() => {
+		bidSelectionDlgRef.value.GetByIdRow();
+	});
 };
 
 // 删除用户
@@ -161,9 +163,10 @@ const onModelDel = (Id: number) => {
 		state.tableData.loading = true;
 		try {
 			const res = await proxy.$api.erp.project.delete(Id);
-			if (res.errcode == 0) {
-				onGetTableData();
+			if (res.errcode != 0) {
+				return
 			}
+			onGetTableData();
 		} finally {
 			state.tableData.loading = false;
 		}

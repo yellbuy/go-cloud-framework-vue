@@ -16,25 +16,7 @@ export default {
     },
 
     /**
-    * 获取专家参与的项目列表
-    * @returns 返回接口数据
-    */
-    expertParticipateList: async (kind: string, scopeMode: number = 0, scopeValue: number = 0) => {
-        const url = `/v1/admin/erp/projectbid/expertparticipate/${kind}/${scopeMode}/${scopeValue}`;
-        return await http.get(url);
-    },
-    
-    /**
-     * 获取信息
-     * @returns 返回接口数据
-     */
-    getList: async (params: object = {}) => {
-        const url = `/v1/admin/erp/project`;
-        return await http.get(url, params);
-    },
-
-    /**
-     * 获取信息
+     * 根据id获取信息
      * @returns 返回接口数据
      */
     getById: async (id: number | string) => {
@@ -56,7 +38,7 @@ export default {
         return await http.post(url, data);
     },
 
-        /**
+    /**
      * 创建招标项目
      * @param data 信息
      * @returns 返回接口数据

@@ -12,18 +12,12 @@
                     <el-table-column type="index" label="序号" width="70" align="right" show-overflow-tooltip fixed />
                     <el-table-column prop="Content" label="评审内容" show-overflow-tooltip />
                     <el-table-column prop="Standard" label="评审标准" show-overflow-tooltip />
-                    <el-table-column prop="State" label="评分方式" width="120" show-overflow-tooltip>
-                        <template #default="scope">
-                            <div v-if="scope.row.State == 0" style="display: flex; align-items: center;">
-                                <span style="color: green; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-                                <span >通过</span>
-                            </div>
-                            <div v-else-if="scope.row.State == 1" style="display: flex; align-items: center;">
-                                <span style="color: red; font-size: 30px; margin-right: 10px; margin-left: 10px;">&bull;</span>
-                                <span>不通过</span>
-                            </div>
-                        </template>
-                    </el-table-column>
+					<el-table-column prop="State" label="评分方式" width="150" show-overflow-tooltip>
+						<template #default="scope">
+							<el-radio v-model="scope.row.State" disabled :value="0">通过</el-radio>
+							<el-radio v-model="scope.row.State" disabled :value="1">不通过</el-radio>
+						</template>
+					</el-table-column>
                     <el-table-column fixed="right" :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" show-overflow-tooltip>
                         <template #default="scope">
                             <el-button type="primary" @click="onSettingLineDialog(scope.row, scope.$index)">编辑</el-button>
@@ -209,23 +203,40 @@ const rules = reactive({
 });
 
 // 打开页面
-const openPage = async () => {
+const openPage = (data: Object) => {
+    state.zgTableData.data = []
+    state.jsTableData.data = []
+    if (data.ProjectSettingLineList.length > 0) {
+        for (let item of data.ProjectSettingLineList) {
+            if (item.Kind == 'zgps') {
+                state.zgTableData.data.push(item)
+            }
+            if (item.Kind == 'jsps') {
+                state.jsTableData.data.push(item)
+            }
+            if (item.Kind == 'jjps') {
+                state.jjForm = item
+            }
+        }
+    }
+    state.ruleForm = data
 };
 
 //  传出数据
-const outData = async () => {
+const getPageData = () => {
+    state.ruleForm.ProjectSettingLineList = []
     if (state.zgTableData.data.length > 0) {
         for (let item of state.zgTableData.data) {
-        item.Id = "0"
-        item.Kind = 'zgps'
-        state.ruleForm.ProjectSettingLineList.push(item)
+            item.Id = "0"
+            item.Kind = 'zgps'
+            state.ruleForm.ProjectSettingLineList.push(item)
         }
     }
     if (state.jsTableData.data.length > 0) {
         for (let item of state.jsTableData.data) {
-        item.Id = "0"
-        item.Kind = 'jsps'
-        state.ruleForm.ProjectSettingLineList.push(item)
+            item.Id = "0"
+            item.Kind = 'jsps'
+            state.ruleForm.ProjectSettingLineList.push(item)
         }
     }
     if (state.jjForm.PurchasePrice) {
@@ -233,17 +244,6 @@ const outData = async () => {
     }
     return state.ruleForm
 }
-
-// 关闭页面
-const closePage = async () => {
-    state.activeName = 'zgps'
-    state.ruleForm = {ProjectSettingLineList: [],}
-    state.settingTableData.data = []
-    state.zgTableData.data = []
-    state.jsTableData.date = []
-    state.jjForm = {Id: "0", Kind: "jjps", PurchasePrice: null, ScoreMode: null, PriceScore: null, PricePercentage: null, QualificationScore: null, TechnicalScore: null, TechnicalMaxScore: null,}
-
-};
 
 //获取评审参数模版列表
 const onGetSettingTableData = async () => {
@@ -321,8 +321,9 @@ const onSettingLineDialog = (row: object, index: number) => {
 		state.title = t('message.action.edit');
 	} else {
         state.isAdd = true;
-		state.settingTableData.form.Id = "0";
+		state.settingTableData.form.Id = "0"
 		state.settingTableData.form.Kind = state.activeName
+        state.settingTableData.form.State = 0
 		state.title = t('message.action.add');
 	}
 	state.isShowDialog = true;
@@ -376,5 +377,5 @@ const getScore = () => {
 // 页面加载时
 onMounted(() => {});
 
-defineExpose({openPage, closePage, outData, ...toRefs(state)})
+defineExpose({openPage, getPageData, ...toRefs(state)})
 </script>

@@ -29,42 +29,10 @@ export default {
     },
 
     /**
-     * 获取信息
-     * @returns 返回接口数据
-     */
-    getById: async (id: number | string) => {
-        const url = `/v1/admin/erp/project/${id}`;
-        return await http.get(url);
-    },
-
-    /**
-   * 禁用
-   * @param ids 标识，字符串或数组
-   * @returns 返回接口数据
-   */
-    disable: async (data: object) => {
-        const url = `/v1/admin/erp/project/disable`;
-        return await http.post(url, data);
-    },
-    /**
-    * 专家推荐组长
-    * @returns 返回接口数据
-    */
-    expertLeader: async (id: number | string,data: object) => {
-        const url = `v1/admin/erp/projectreview/leader/${id}`;
-        return await http.post(url, data);
-    },
-        /**
-    * 专家推荐列表
-    * @returns 返回接口数据
-    */
-    expertList: async (id: number | string,params: object = {}) => {
-        const url = `v1/admin/erp/projectreview/expert/${id}`;
-        return await http.get(url, params);
-    },
-    
-    /**
     * 专家评审
+    * @param kind 分类
+    * @param id：项目id
+    * @param data：要传的数据
     * @returns 返回接口数据
     */
     reviewSave: async (kind: string, id: string, data: object) => {
@@ -73,16 +41,10 @@ export default {
     },
 
     /**
-    * 专家个人汇总
-    * @returns 返回接口数据
-    */
-    selfGatherSave: async (kind: string, id: string, data: object) => {
-        const url = `v1/admin/erp/projectreview/selfgather/${kind}/${id}`;
-        return await http.post(url, data);
-    },
-
-    /**
-    * 专家汇总全部
+    * 专家汇总
+    * @param kind 分类
+    * @param id 项目id
+    * @param data：要传的数据
     * @returns 返回接口数据
     */
     gatherSave: async (kind: string, id: string, data: object) => {
@@ -92,6 +54,7 @@ export default {
     
     /**
     * 专家退回从新评审
+    * @param id 项目id
     * @returns 返回接口数据
     */
     gatherReturnSave: async (id: string, data: object) => {
@@ -100,16 +63,29 @@ export default {
     },
     
     /**
-    * 组长签章
+    * 评审签章
+    * @param id 项目id
     * @returns 返回接口数据
     */
-    signatureSave: async (id: string, data: object) => {
-        const url = `v1/admin/erp/projectreview/signature/${id}/`;
+    reviewSignatureSave: async (id: string, data: object) => {
+        const url = `v1/admin/erp/projectreview/reviewsignature/${id}/`;
         return await http.post(url, data);
     },
 
     /**
+     * 上传报告
+     * @param id 项目id
+     * @param params 要传的参数值
+     * @returns 返回接口数据
+     */
+    reportUpload: async (id: number | string, params: object = {}) => {
+        const url = `/v1/admin/erp/projectreview/upreport/${id}`;
+        return await http.post(url, params);
+    },
+
+    /**
     * 监审报告签章
+    * @param id 项目id
     * @returns 返回接口数据
     */
     reportSignatureSave: async (id: string) => {

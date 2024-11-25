@@ -53,7 +53,7 @@
 				<el-table-column prop="BidPayTime" label="资料支付时间" width="120" show-overflow-tooltip>
 					<template #default="scope">
 						<div >
-							<span >{{ dateFormatYMDHM(scope, scope.row, scope.row.EnsurePayTime) }}</span>
+							<span >{{ dateFormatYMDHM(scope, scope.row, scope.row.BidPayTime) }}</span>
 						</div>
 					</template>
 				</el-table-column>

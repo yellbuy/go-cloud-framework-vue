@@ -4,17 +4,17 @@
 			<el-row>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 					<el-form-item label="项目编号" prop="No">
-						<el-input v-model="state.ruleForm.No"/>
+						<el-input v-model="state.ruleForm.No" @input="handleInput" />
 					</el-form-item>
 				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 					<el-form-item label="项目名称" prop="Name">
-						<el-input v-model="state.ruleForm.Name"/>
+						<el-input v-model="state.ruleForm.Name" @input ="handleInput"/>
 					</el-form-item>
 				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 					<el-form-item label="项目方式" prop="ProjectType">
-						<el-select v-model="state.ruleForm.ProjectType" placeholder="请选择">
+						<el-select v-model="state.ruleForm.ProjectType" placeholder="请选择" @change="handleInput">
 							<el-option label="公开招标" :value="1" />
 							<el-option label="邀请招标" :value="2" />
 							<el-option label="竞争性谈判" :value="3" />
@@ -25,12 +25,12 @@
 				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 					<el-form-item label="资格要求" prop="Qualification">
-							<el-input v-model="state.ruleForm.Qualification"/>
+							<el-input v-model="state.ruleForm.Qualification" @change="handleInput"/>
 						</el-form-item>
 				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 					<el-form-item label="标书费用(元)" prop="BidFee">
-						<el-input-number v-model="state.ruleForm.BidFee" :min="0" controls-position="right" :precision="2"/>
+						<el-input-number v-model="state.ruleForm.BidFee" :min="0" controls-position="right" :precision="2" @change="handleInput"/>
 					</el-form-item>
 				</el-col>
 				<!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
@@ -42,7 +42,7 @@
 				</el-col> -->
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 					<el-form-item label="评选地点" prop="Location">
-						<el-input v-model="state.ruleForm.Location"/>
+						<el-input v-model="state.ruleForm.Location" @change="handleInput"/>
 					</el-form-item>
 				</el-col>
 				<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb16">
@@ -56,7 +56,8 @@
 								UEDITOR_HOME_URL: '/ueditor/',
 								serverUrl: `${state.baseUrl}/v1/common/editor/${getUserInfos.appid}`,
 								headers: { Authorization: token, Appid: getUserInfos.appid },
-							}" >
+							}"
+							@change="handleInput">
 						</vue-ueditor-wrap>
 					</el-form-item>
 				</el-col>
@@ -66,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs, defineProps, defineEmits } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
@@ -78,24 +79,11 @@ const token = Session.get('token');
 const getUserInfos = computed(() => {
 	return store.state.userInfos.userInfos;
 });
-
 const state = reactive({
 	isShowPage: false,
 	loading: false,
-	ruleForm: {
-		Id: '0',
-		Kind: '',
-		Name: '',
-		No: '',
-		Sn: '',
-		ProjectType: 1,
-		RemoteState: 0,
-		BidFee: 0,
-		EnsureFee: 0,
-		Location: '',
-		Content: '',
-		ProjectManagerUid: '',
-	},
+	baseUrl: import.meta.env.VITE_API_URL,
+	ruleForm: {},
 	ProjectManagerData: {
 		data: [],
 		param: {
@@ -115,17 +103,17 @@ const rules = reactive({
 
 
 // 打开页面
-const openPage = async () => {
+const openPage = (data: Object) => {
+	state.ruleForm = data
 };
+
+const handleInput = () => {
+	proxy.$parent.$parent.infoForm = state.ruleForm
+}
 
 //  传出数据
-const outData = async () => {
+const getPageData = () => {
 	return state.ruleForm
-};
-
-//	关闭页面
-const closePage = async () => {
-	state.ruleForm = {Id: 0, Kind: '', Name: '', No: '', Sn: '', ProjectType: 1, RemoteState: 0, BidFee: 0, EnsureFee: 0, Location: '', Content: '',}
 };
 
 // 获取项目管理员列表
@@ -145,5 +133,5 @@ onMounted(() => {
 	onGetProjectManagerList()
 });
 
-defineExpose({openPage, closePage, outData, ...toRefs(state)})
+defineExpose({openPage, getPageData, ...toRefs(state)})
 </script>

@@ -8,7 +8,7 @@
 					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
 					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 					<el-descriptions-item label="评委编号：">
-						<el-select v-model="state.expertId" placeholder="请选择" @change="selectProjectExpert">
+						<el-select v-model="state.expertUid" placeholder="请选择" @change="selectProjectExpert">
 							<el-option v-for="(item, index) in state.projectExpertList" :key="index" :label="item.Name" :value="item.Uid"/>
 						</el-select>
 					</el-descriptions-item>
@@ -24,7 +24,7 @@
 					<el-tag effect="success" v-if="scope.row[item.HeaderName] == 1">通过</el-tag>
 					<el-tag effect="danger" v-else-if="scope.row[item.HeaderName] == 0">不通过</el-tag>
 					<el-tag v-else-if="scope.row[item.HeaderName] == 'notReview'">专家未评审</el-tag>
-					<el-tag v-else-if="scope.row[item.HeaderName] == 'notSummary'">待汇总</el-tag>
+					<el-tag v-else-if="scope.row[item.HeaderName] == 'notGather'">待汇总</el-tag>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -41,7 +41,7 @@ const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	projectForm: {},
-	expertId: "",
+	expertUid: "",
 	projectExpertList: [],
 	projectExpertForm: {},
 	tableData: {
@@ -91,7 +91,7 @@ const onGetProjectExpertList = async () => {
 const onGetTableData = async () => {
 	state.tableData.loading = true
 	try {
-		state.tableData.param.expertId = state.expertId
+		state.tableData.param.expertUid = state.expertUid
 		state.tableData.param.projectId = state.projectForm.Id
 		const res = await proxy.$api.erp.projectreview.getGatherListByScope('zgpsGather', 0, 0, state.tableData.param);
 		if (res.errcode != 0) {

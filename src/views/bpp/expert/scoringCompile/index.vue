@@ -31,6 +31,9 @@
 				</div>
 			</el-col>
 			<el-col :span="6">
+				<div style="float: right;" >
+					<el-button type="primary" @click="onReturn">退回重评</el-button>
+				</div>
 			</el-col>
 		</el-row>
 		<el-row v-if="state.projectId > 0">
@@ -97,7 +100,7 @@ const selectProject = async (event) => {
 //	获取专家参与的项目列表
 const onGetProjectTableData = async () => {
 	try {
-		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
+		const res = await proxy.$api.erp.projectexpert.expertParticipateList();
 		if (res.errcode != 0) {
 			return;
 		}

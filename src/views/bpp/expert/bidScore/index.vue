@@ -21,24 +21,24 @@
 		</el-row>
 		<el-row>
 			<el-col :span="8">
-				<div v-if="state.expertId > 0">
-					<el-button type="primary" @click="">组长确认</el-button>
+				<div v-if="state.expertUid > 0">
+					<el-button type="primary" @click="onSubmit()">提交</el-button>
 				</div>
 			</el-col>
 			<el-col :span="8">
 				<el-form-item label="评委编号：" v-if="state.projectExpertList.length > 0">
-					<el-select v-model="state.expertId" placeholder="请选择" @change="selectProjectExpert">
+					<el-select v-model="state.expertUid" placeholder="请选择" @change="selectProjectExpert">
 						<el-option v-for="(item, index) in state.projectExpertList" :key="index" :label="item.Name" :value="item.Uid"/>
 					</el-select>
 				</el-form-item>
 			</el-col>
 			<el-col :span="8">
-				<div style="float: right;" v-if="state.expertId > 0">
-					<el-button type="primary" @click="">退回重评</el-button>
+				<div style="float: right;" v-if="state.expertUid > 0">
+					<el-button type="primary" @click="onReturn">退回重评</el-button>
 				</div>
 			</el-col>
 		</el-row>
-		<el-row v-if="state.expertId > 0">
+		<el-row v-if="state.expertUid > 0">
 			<el-col :span="8">
 			</el-col>
 			<el-col :span="8">
@@ -47,15 +47,12 @@
 				</div>
 			</el-col>
 			<el-col :span="8">
-				<div style="float: right;">
-					<el-button type="primary" @click="onSubmit()">提交</el-button>
-				</div>
 			</el-col>
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="60" fixed />
 					<el-table-column prop="CompanyName" label="投标方名称" width="300" show-overflow-tooltip/>
-					<el-table-column prop="Amount" label="总报价（元）" align="right" width="200" show-overflow-tooltip/>
+					<el-table-column prop="Price" label="总报价（元）" align="right" width="200" show-overflow-tooltip/>
 					<el-table-column prop="ReviewPrice" label="最终评审报价（元）" align="right" show-overflow-tooltip>
 						<template #default="scope">
 							<el-input-number style="width: 100%;" v-model="scope.row.ReviewPrice" :precision="2" :step="1" :min="0"/>
@@ -89,7 +86,7 @@ const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	projectId: '',
-	expertId: '',
+	expertUid: '',
 	projectList: [],
 	projectForm: {},
 	projectExpertList: [],
@@ -126,7 +123,7 @@ state.tableData.param.pageIndex = computed(() => {
 
 const selectProject = async (event) => {
     state.projectForm = state.projectList.find(item => item.Id === event);
-	state.expertId = null
+	state.expertUid = null
 	state.tableData.data = []
 	onGetProjectExpertList()
 }
@@ -139,7 +136,7 @@ const selectProjectExpert = async (event) => {
 //	获取专家参与的项目列表
 const onGetProjectTableData = async () => {
 	try {
-		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
+		const res = await proxy.$api.erp.projectexpert.expertParticipateList();
 		if (res.errcode != 0) {
 			return;
 		}
@@ -169,7 +166,7 @@ const onGetTableData = async () => {
 		}
 		//获取项目专家评审结果表
 		state.tableData.param.projectId = state.projectId
-		state.tableData.param.expertId = state.expertId
+		state.tableData.param.expertUid = state.expertUid
 		state.tableData.param.isGather = 0
 		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("jjps", 0, 0, state.tableData.param);
 		if (projectReviewRes.errcode != 0) {
@@ -186,6 +183,7 @@ const onGetTableData = async () => {
 			model.ReviewPrice = 0
 			model.PriceScore = 0
 			model.Amount = val.Amount
+			model.Price = val.Price
 			state.tableData.data.push(model)
 			for	(let item of projectReviewRes.data){
 				if (item.CompanyId == val.CompanyId) {
@@ -198,6 +196,28 @@ const onGetTableData = async () => {
 		}
 	} finally {
 	}
+};
+
+const onReturn = async () => {
+	ElMessageBox.confirm(`确定要回退重评吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		try {
+			const res = await proxy.$api.erp.projectreview.gatherReturnSave(state.projectId);
+			if (res.errcode != 0) {
+				return;
+			}
+			onGetTableData()
+			ElMessage('回退成功')
+		} finally {
+		}
+		return false;
+	}).catch(async () => {
+		onGetTableData()
+		ElMessage('回退汇总')
+	});
 };
 
 const onSubmit = async () => {

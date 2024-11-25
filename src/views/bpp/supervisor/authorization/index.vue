@@ -32,7 +32,7 @@
 						<div>
 							<a>本授权书声明，因为（胡xx）于项目（test）的评选时间（2024-08-08 10:59）无法到达现场进行评选监审，现授权（</a>
 							<span >
-								<el-select v-model="state.expertId" placeholder="请选择" @change="" style="width: 300px;">
+								<el-select v-model="state.expertUid" placeholder="请选择" @change="" style="width: 300px;">
 									<el-option v-for="(item, index) in state.projectExpertList" :key="index" :label="item.Name" :value="item.Uid"/>
 								</el-select>
 							</span>
@@ -88,7 +88,7 @@ const state: any = reactive({
 
 const selectProject = async (event) => {
     state.projectForm = state.projectList.find(item => item.Id === event);
-	state.expertId = null
+	state.expertUid = null
 	state.tableData.data = []
 	getProjectExpertList()
 };
@@ -96,7 +96,7 @@ const selectProject = async (event) => {
 //	获取专家参与的项目列表
 const onGetProjectTableData = async () => {
 	try {
-		const res = await proxy.$api.erp.projectbid.expertParticipateList("bid", 0, 4);
+		const res = await proxy.$api.erp.projectexpert.expertParticipateList();
 		if (res.errcode != 0) {
 			return;
 		}

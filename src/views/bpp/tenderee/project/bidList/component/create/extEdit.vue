@@ -1,19 +1,20 @@
 <template>
 	<div>
-		<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="small" label-width="120px" label-suffix="：" v-loading="state.updateLoading">
+		<el-form ref="ruleFormRef" :model="state.ruleForm" :rules="rules" size="small" label-width="120px" label-suffix="：" v-loading="state.loading">
 			<el-row>
-				<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb16">
+				<el-col :span="24">
 					<el-form-item label="上传标书" prop="Files">
 						<div style="width: 50%">
 							<el-upload
-								class="upload-demo"
 								:action="state.uploadURL"
-								:accept:="`image/png, image/jpeg,image/bmp,image/jpg,application/pdf,application/docx,application/doc,application/xls,application/xlsx`"
+								name="file"
+								:accept:="`application/pdf,application/docx,application/doc`"
 								:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-								:on-success="onSuccessFile"
+								:on-success="(file) => onSuccessFile(file)"
 								:on-remove="onRemove"
+								:show-file-list="true"
 								:limit="1"
-								:file-list="state.FilesList">
+								:file-list="state.ruleForm.FilesList">
 								<template #default>
 									<el-button>
 										<el-icon class="el-icon--right">
@@ -138,7 +139,10 @@ import commonFunction from '/@/utils/commonFunction';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
-const getUserInfos = computed(() => {return store.state.userInfos.userInfos;});
+//	获取用户信息 vuex
+const getUserInfos = computed(() => {
+	return store.state.userInfos.userInfos;
+});
 const moduleKey = proxy.$parent.moduleKey;
 const store = useStore();
 const token = Session.get('token');
@@ -151,12 +155,10 @@ const state = reactive({
 	title: t('message.action.add'),
 	moduleKey,
 	token: token,
-	activeName: "zgps",
 	activeIndex: 1,
-	updateLoading: false,
+	loading: false,
 	isAdd: true,
 	index: 0,
-	FilesList: [],
 	projectLineTableData:{
 		kind: "bid",
 		data: [],
@@ -173,6 +175,7 @@ const state = reactive({
 		AutoSwitchState: null,
 		ProjectManagerUid: "",
 		ProjectLineList: [],
+		FilesList: [],
 	},
 });
 
@@ -239,7 +242,7 @@ const rules = reactive({
 
 //	上传成功
 const onSuccessFile = (file: UploadFile) => {
-	state.FilesList.push(file.data)
+	state.ruleForm.FilesList.push(file.data)
 	state.ruleForm.Files = file.data.src
 };
 
@@ -255,26 +258,17 @@ const onRemove = () => {
 	});
 };
 
-//	打开页面
-const openPage = async () => {
+// 打开页面
+const openPage = (data: Object) => {
+	state.ruleForm = data
+	// state.FilesList = []
+	// state.FilesList.push(data.Files)
+	state.projectLineTableData.data = data.ProjectLineList
 };
 
 //  传出数据
-const outData = async () => {
-	state.ruleForm.ProjectLineList = []
-	for (let item of state.projectLineTableData.data) {
-        item.Id = "0"
-        item.Kind = 'bid'
-        state.ruleForm.ProjectLineList.push(item)
-    }
+const getPageData = () => {
 	return state.ruleForm
-};
-
-//	关闭页面
-const closePage = async () => {
-	state.FilesList = []
-	state.projectLineTableData.data = []
-	state.ruleForm = {Number: null, StartTime: "", EndTime: "", BeginTime: "", FinishTime: "", ReviewTime: "", AutoSwitchState: null, ProjectManagerUid: "", ProjectLineList: [],}
 };
 
 //	删除品目
@@ -328,7 +322,8 @@ const submitProjectLine = () => {
 const { dateFormat } = commonFunction();
 
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+});
 
-defineExpose({openPage, closePage, outData, ...toRefs(state)})
+defineExpose({openPage, getPageData, ...toRefs(state)})
 </script>
