@@ -22,8 +22,9 @@
 					<el-table-column prop="CompanyName" label="单位名称" width="120" show-overflow-tooltip/>
 					<el-table-column prop="State" label="投标状态" show-overflow-tooltip>
 						<template #default="scope">
-							<el-tag effect="success" v-if="scope.row.State == 0">未投标</el-tag>
-							<el-tag effect="danger" v-else-if="scope.row.State == 1">已投标</el-tag>
+							<el-tag effect="info" v-if="scope.row.State == 0">未投标</el-tag>
+							<el-tag effect="success" v-else-if="scope.row.State == 1">已投标</el-tag>
+							<el-tag effect="success" v-else-if="scope.row.State == 2">评审完成</el-tag>
 						</template>
 					</el-table-column>
 					<el-table-column prop="BiddingTime" label="投标文件送达时间" show-overflow-tooltip>

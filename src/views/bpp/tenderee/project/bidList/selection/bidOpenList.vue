@@ -105,7 +105,7 @@ const getCompanyList = async () => {
 	state.tableData.loading = true
 	try {
 		//重新请求数据
-		const res = await proxy.$api.erp.projectcompany.comparisonList(state.tableData.param);
+		const res = await proxy.$api.erp.projectcompany.getListByScope("bid", 0, 0, state.tableData.param);
 		//获取存储的项目数据
 		if (res.errcode != 0) {
 			return;

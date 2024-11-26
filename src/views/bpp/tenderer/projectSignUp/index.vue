@@ -67,25 +67,22 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, nextTick, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import projectSeeDlg from '/@/views/bpp/tenderee/project/bidList/component/projectSee.vue';
-import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 
-const store = useStore();
 const route = useRoute();
 const kind = route.params.kind || 'bid';
 const mode = route.params.mode;
-const isBid = route.params.isBid;
 const scopeMode = route.params.scopeMode || 0;
 const scopeValue = route.params.scopeValue || 2;
 const moduleKey = `api_pro_project_${kind}_${mode}`;
 const { proxy } = getCurrentInstance() as any;
 const projectSeeDlgRef = ref();
 const state: any = reactive({
+	isShowPage: true,
 	moduleKey: moduleKey,
 	kind,
 	scopeMode,
 	scopeValue,
-	isShowPage: true,
 	tableData: {
 		data: [],
 		total: 0,
@@ -97,10 +94,7 @@ const state: any = reactive({
 			pageSize: 20,
 		},
 	},
-	ruleForm: {
-		projectId: "0",
-		companyId: "0",
-	}
+	ruleForm: {}
 });
 
 state.tableData.param.pageIndex = computed(() => {
@@ -133,7 +127,6 @@ const onGetTableData = async () => {
 const onSubmit = (id: string) => {
 	try {
 		state.ruleForm.projectId = id
-		state.ruleForm.companyId = "0"
 		const res = proxy.$api.erp.projectcompany.signup(state.ruleForm);
 		res.then(res => {
 			if (res.errcode == 0) {
@@ -160,43 +153,13 @@ const onSubmit = (id: string) => {
 	}
 };
 
-// 打开修改界面
-const onModelEdit = (id: number) => {
-	state.isShowPage = false;
-};
-// 打开列表
-const onModelList = () => {
-	state.isShowPage = true;
-};
 //打开查看数据弹窗
 const onModelSee = (id: string, state: boolean) => {
 	nextTick(() => {
 		projectSeeDlgRef.value.openDialog(id, state);
 	});
 };
-// 跳转
-const onToDetail = (id: string|number, projectId: string|number) => {
-	state.isShowPage = false;
-};
-// 删除用户
-const onModelDel = (id: number) => {
-	ElMessageBox.confirm(`确定要删除这条数据吗?`, '提示', {
-		confirmButtonText: '确认',
-		cancelButtonText: '取消',
-		type: 'warning',
-	}).then(async () => {
-		state.tableData.loading = true;
-		try {
-			const res = await proxy.$api.erp.projectbid.delete(id);
-			if (res.errcode == 0) {
-				onGetTableData();
-			}
-		} finally {
-			state.tableData.loading = false;
-		}
-		return false;
-	});
-};
+
 // 分页改变
 const onHandleSizeChange = (val: number) => {
 	state.tableData.param.pageSize = val;

@@ -93,7 +93,7 @@ const onGetProjectLineTableData = async () => {
 	state.tableData.loading = true;
 	try {
 		state.tableData.param.projectId = state.projectId
-		const res = await proxy.$api.erp.projectline.getListByScope(state.tableData.param);
+		const res = await proxy.$api.erp.projectline.getListByScope("bid", 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}
@@ -111,21 +111,6 @@ const getBidList = async () => {
 	//获取存储的项目数据
 	if (state.projectForm.ProjectLineList) {
 		state.tableData.data = state.projectForm.ProjectLineList;
-	}
-};
-
-const onModelChange = async (id: string, state: number) => {
-	let params = {};
-	try {
-		params.Id = id;
-		params.ProjectId = state.projectForm.Id
-		params.State = state;
-		const res = await proxy.$api.erp.projectline.changeBid(params);
-		if (res.errcode != 0) {
-			return;
-		}
-		getBidList();
-	} finally {
 	}
 };
 

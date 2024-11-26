@@ -34,7 +34,7 @@
 				</el-col>
 				<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb16">
 					<div style="float: right;">
-						<el-button size="small" type="primary" @click="onProjectLineDialog" class="mb16">添加品目</el-button>
+						<el-button size="small" type="primary" @click="onProjectLineDialog()" class="mb16">添加品目</el-button>
 					</div>
 				</el-col>
 				<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb16">

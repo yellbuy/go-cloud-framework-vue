@@ -194,7 +194,7 @@ const openSeePage = async (id: string) => {
 // 获取详细信息
 const GetByIdRow = async (id: string) => {
 	try {
-		const res = await proxy.$api.erp.projectcompany.projectcompany("bid", id);
+		const res = await proxy.$api.erp.projectcompany.getById(id);
 		if (res.errcode != 0) {
 			return;
 		}
@@ -205,7 +205,7 @@ const GetByIdRow = async (id: string) => {
 
 const onSubmit = async () => {
 	try {
-		const res = await proxy.$api.erp.projectcompany.auditUpdate(state.ruleForm.Id, state.param);
+		const res = await proxy.$api.erp.projectcompany.voucherAudit(state.ruleForm.Id, state.param);
 		if (res.errcode != 0) {
 			return;
 		}

@@ -1,7 +1,6 @@
 import { http } from '/@/utils/request';
 
 export default {
-
     /**
      * 获取列表
      * @param kind 分类
@@ -29,44 +28,44 @@ export default {
     },
 
     /**
-    * 专家评审
-    * @param kind 分类
-    * @param id：项目id
-    * @param data：要传的数据
-    * @returns 返回接口数据
-    */
+     * 专家评审
+     * @param kind 分类
+     * @param id：项目id
+     * @param data：要传的数据
+     * @returns 返回接口数据
+     */
     reviewSave: async (kind: string, id: string, data: object) => {
         const url = `v1/admin/erp/projectreview/review/${kind}/${id}`;
         return await http.post(url, data);
     },
 
     /**
-    * 专家汇总
-    * @param kind 分类
-    * @param id 项目id
-    * @param data：要传的数据
-    * @returns 返回接口数据
-    */
+     * 专家汇总
+     * @param kind 分类
+     * @param id 项目id
+     * @param data：要传的数据
+     * @returns 返回接口数据
+     */
     gatherSave: async (kind: string, id: string, data: object) => {
         const url = `v1/admin/erp/projectreview/gather/${kind}/${id}`;
         return await http.post(url, data);
     },
     
     /**
-    * 专家退回从新评审
-    * @param id 项目id
-    * @returns 返回接口数据
-    */
+     * 专家退回从新评审
+     * @param id 项目id
+     * @returns 返回接口数据
+     */
     gatherReturnSave: async (id: string, data: object) => {
         const url = `v1/admin/erp/projectreview/return/${id}/`;
         return await http.post(url, data);
     },
     
     /**
-    * 评审签章
-    * @param id 项目id
-    * @returns 返回接口数据
-    */
+     * 评审签章
+     * @param id 项目id
+     * @returns 返回接口数据
+     */
     reviewSignatureSave: async (id: string, data: object) => {
         const url = `v1/admin/erp/projectreview/reviewsignature/${id}/`;
         return await http.post(url, data);
@@ -84,10 +83,10 @@ export default {
     },
 
     /**
-    * 监审报告签章
-    * @param id 项目id
-    * @returns 返回接口数据
-    */
+     * 监审报告签章
+     * @param id 项目id
+     * @returns 返回接口数据
+     */
     reportSignatureSave: async (id: string) => {
         const url = `v1/admin/erp/projectreview/reportsignature/${id}/`;
         return await http.post(url);

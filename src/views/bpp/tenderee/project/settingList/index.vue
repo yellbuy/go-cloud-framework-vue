@@ -126,7 +126,7 @@ const onResetSearch = () => {
 const onGetTableData = async () => {
 	state.tableData.loading = true;
 	try {
-		const res = await proxy.$api.erp.projectsetting.getListByScope(state.tableData.param);
+		const res = await proxy.$api.erp.projectsetting.getListByScope(state.activeName, 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}

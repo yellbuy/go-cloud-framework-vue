@@ -112,7 +112,7 @@ const onGetProjectTableData = async () => {
 //获取投标方列表
 const onGetTableData = async () => {
 	try {
-		const projectCompanyRes = await proxy.$api.erp.projectcompany.signUpList({projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
+		const projectCompanyRes = await proxy.$api.erp.projectcompany.getListByScope("bid", 0, 0,{projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
 		if (projectCompanyRes.errcode != 0) {
 			return;
 		}

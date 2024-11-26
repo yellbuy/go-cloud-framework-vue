@@ -73,8 +73,8 @@
 					<jjpsGatherList ref="jjpsGatherListRef" v-else-if="state.indexLine === 'jjpsGatherList'"/>
 					<gatherList ref="gatherListRef" v-else-if="state.indexLine === 'gatherList'"/>
 					<reviewReportSee ref="reviewReportSeeRef" v-else-if="state.indexLine === 'reviewReportSee'"/>
-					<projectNoticeSee ref="projectNoticeSeeRef" v-else-if="state.indexLine === 'projectNoticeSee'"/>
 					<bidNoticeEdit ref="bidNoticeEditRef" v-else-if="state.indexLine === 'bidNoticeEdit'"/>
+					<projectNoticeSee ref="projectNoticeSeeRef"/>
 				</el-card>
 			</el-col>
 			<el-dialog :title="state.title" v-model="state.isShowDialog" width="25%" :before-close="closeDialog">
@@ -169,10 +169,8 @@ const refreshPage = async () => {
 }
 
 //	查看公告
-const openProjectNoticeSee = async () => {
-	nextTick(() => {
-		projectNoticeSeeRef.value.openDialog(state.projectForm)
-	});
+const openProjectNoticeSee = () => {
+	projectNoticeSeeRef.value.openDialog(state.projectForm)
 };
 
 const select = (val: string) => {
@@ -276,7 +274,7 @@ const onSubmit = () => {
 		try {
 			state.ruleForm.Id = state.projectForm.Id
 			state.ruleForm.BidOpenTime = state.projectForm.BidOpenTime
-			const res = proxy.$api.erp.projectbid.save(state.ruleForm);
+			const res = proxy.$api.erp.projectbid.saveBid(state.ruleForm);
 			if (res.errcode != 0) {
 				return
 			}

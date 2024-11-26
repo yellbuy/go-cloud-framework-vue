@@ -180,7 +180,7 @@ const onGetProjectTableData = async () => {
 //获取投标方列表
 const onGetProjectCompanyList = async () => {
 	try {
-		const res = await proxy.$api.erp.projectcompany.signUpList({projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
+		const res = await proxy.$api.erp.projectcompany.getListByScope("bid", 0, 0,{projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
 		if (res.errcode != 0) {
 			return;
 		}
@@ -222,7 +222,7 @@ const onGetTableData = async () => {
 		}
 		//获取项目报名文件表
 		state.tableData.param.projectCompanyId = state.projectCompanyForm.Id
-		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope(0, 0, state.tableData.param);
+		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope("", 0, 0, state.tableData.param);
 		state.tableData.param.projectCompanyId = null
 		if (projectCompanyLineRes.errcode != 0) {
 			return;

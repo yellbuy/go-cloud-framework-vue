@@ -25,7 +25,7 @@
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="60" fixed />
 					<el-table-column prop="CompanyName" label="投标方名称" width="300" show-overflow-tooltip/>
-					<el-table-column prop="Amount" label="总报价（元）" align="right" width="200" show-overflow-tooltip/>
+					<el-table-column prop="Price" label="总报价（元）" align="right" width="200" show-overflow-tooltip/>
 					<el-table-column prop="ReviewPrice" label="最终评审报价（元）" align="right" show-overflow-tooltip/>
 					<el-table-column prop="PriceScore" label="价格得分" align="right" show-overflow-tooltip/>
 				</el-table>
@@ -98,7 +98,7 @@ const onGetTableData = async () => {
 		}
 		//获取项目专家评审结果表
 		state.tableData.param.expertUid = state.expertUid
-		state.tableData.param.isGather = 0
+		state.tableData.param.isGather = 1
 		const projectReviewRes = await proxy.$api.erp.projectreview.getListByScope("jjpsGather", 0, 0, state.tableData.param);
 		if (projectReviewRes.errcode != 0) {
 			return;
@@ -113,7 +113,7 @@ const onGetTableData = async () => {
 			model.CompanyName = val.CompanyName
 			model.ReviewPrice = 0
 			model.PriceScore = 0
-			model.Amount = val.Amount
+			model.Price = val.Price
 			state.tableData.data.push(model)
 			for	(let item of projectReviewRes.data){
 				if (item.CompanyId == val.CompanyId) {

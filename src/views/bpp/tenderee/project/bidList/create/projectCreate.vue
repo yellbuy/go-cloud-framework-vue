@@ -152,7 +152,7 @@ const onSubmit = () => {
 		try {
 			state.ruleForm.Id = "0"
 			state.ruleForm.Kind = "bid"
-			const res = proxy.$api.erp.projectbid.saveBid(state.ruleForm);
+			const res = proxy.$api.erp.projectbid.projectBidCreate(state.ruleForm);
 			res.then(result => {
 				if (result.errcode != 0) {
 				return

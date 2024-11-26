@@ -320,7 +320,7 @@ const onGetTableData = async () => {
 //	获取公司已报名详细信息
 const onGetprojectCompanyData = async () => {
 	try {
-		const res = await proxy.$api.erp.projectcompany.projectcompany(kind, state.projectCompanyId);
+		const res = await proxy.$api.erp.projectcompany.getById(state.projectCompanyId);
 		if (res.errcode != 0) {
 			return;
 		}
@@ -329,18 +329,18 @@ const onGetprojectCompanyData = async () => {
 	}
 };
 
-//	更新公司报名信息文件表上传的文件
+//	上传投标凭证
 const onSuccessFile = (file: UploadFile, select: string) => {
 	state.projectCompanyForm.FileKind = select
 	state.projectCompanyForm.PicsPath  = file.data.src
-	onUpdateProjectCompanyFileData();
+	onProjectCompanyVoucherAdd();
 };
 
-// 更新公司报名信息上传的文件及状态
-const onUpdateProjectCompanyFileData = async () => {
+// 上传投标凭证
+const onProjectCompanyVoucherAdd = async () => {
 	try {
 		state.projectCompanyForm.Id = state.projectCompanyId
-		const res = await proxy.$api.erp.projectcompany.fileUpdate(state.projectCompanyId, state.projectCompanyForm)
+		const res = await proxy.$api.erp.projectcompany.voucherAdd(state.projectCompanyId, state.projectCompanyForm)
 		if (res.errcode != 0) {
 			onGetprojectCompanyData();
 			return;

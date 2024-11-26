@@ -252,15 +252,13 @@ const onGetSettingTableData = async () => {
         switch (state.activeName) {
         case 'zgps':
             state.zgTableData.data = []
-            state.settingTableData.param.kind = 'zgps'
             break
         case 'jsps':
             state.jsTableData.data = []
-            state.settingTableData.param.kind = 'jsps'
             break
         }
         try {
-            const res = await proxy.$api.erp.projectsetting.getListByScope(state.settingTableData.param);
+            const res = await proxy.$api.erp.projectsetting.getListByScope(state.activeName, 0, 0, state.settingTableData.param);
             if (res.errcode != 0) {
                 return;
             }

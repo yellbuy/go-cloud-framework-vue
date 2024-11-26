@@ -37,16 +37,16 @@
 					<el-table-column prop="TechnicalScore" label="技术得分" width="150" show-overflow-tooltip/>
 					<el-table-column prop="TechnicalScore" label="最终得分" width="150" show-overflow-tooltip/>
 					<el-table-column prop="RecommendRemark" label="推荐中标候选人" width="150" show-overflow-tooltip>
-						<template #default="scope" >
+						<template #default="scope">
 							<el-input style="width: 100%;" v-model="scope.row.RecommendRemark" :precision="2" :step="1" :min="0"/>
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
-					<template #default="scope">
-						<el-button bg type="primary" @click="onSubmit(scope.row)">保存</el-button>
-						<el-button text bg type="primary" @click="">编辑</el-button>
-					</template>
-				</el-table-column>
+						<template #default="scope">
+							<el-button bg type="primary" @click="onSubmit(scope.row)">保存</el-button>
+							<el-button text bg type="primary" @click="">编辑</el-button>
+						</template>
+					</el-table-column>
 				</el-table>
 				<el-pagination
 					small
@@ -115,7 +115,7 @@ const onGetProjectTableData = async () => {
 //获取投标方列表
 const onGetTableData = async () => {
 	try {
-		const projectCompanyRes = await proxy.$api.erp.projectcompany.signUpList({projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
+		const projectCompanyRes = await proxy.$api.erp.projectcompany.getListByScope("bid", 0, 0,{projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
 		if (projectCompanyRes.errcode != 0) {
 			return;
 		}
@@ -208,7 +208,7 @@ const confirm = async () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectcompany.confirmUpdate(state.projectForm.Id);
+			const res = await proxy.$api.erp.projectcompany.leaderConfirm(state.projectForm.Id);
 			if (res.errcode != 0) {
 				return;
 			}
