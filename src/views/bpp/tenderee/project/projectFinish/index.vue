@@ -90,7 +90,7 @@ export default {
 			scopeMode,
 			scopeValue,
 			tableData: {
-				data: [{Name:"攀枝花xx公司", Kind:"网络", Info:2, Companytime:"2024-7-19", Usertime:"2023-7-19"}],
+				data: [],
 				total: 0,
 				loading: false,
 				param: {
@@ -121,7 +121,7 @@ export default {
 		const onGetTableData = async () => {
 			state.tableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.project.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+				const res = await proxy.$api.erp.projectbid.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 				if (res.errcode != 0) {
 					return;
 				}

@@ -306,7 +306,7 @@ const onGetTableData = async () => {
 	state.tableData.loading = true;
 	try {
 		state.tableData.param.projectId = state.projectId
-		const res = await proxy.$api.erp.projectline.getListByScope(state.tableData.param);
+		const res = await proxy.$api.erp.projectline.getListByScope("bid", 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}
@@ -324,7 +324,7 @@ const onGetprojectCompanyData = async () => {
 		if (res.errcode != 0) {
 			return;
 		}
-		state.projectCompanyForm = res.data[0];
+		state.projectCompanyForm = res.data;
 	} finally {
 	}
 };

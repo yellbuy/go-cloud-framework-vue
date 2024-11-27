@@ -41,7 +41,7 @@
 			<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" :height="proxy.$calcMainHeight(-75)" border stripe highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="60" show-overflow-tooltip fixed />
 				<el-table-column prop="No" label="项目编号" width="150" show-overflow-tooltip fixed/>
-				<el-table-column prop="ProjectName" label="项目名称" width="150" show-overflow-tooltip/>
+				<el-table-column prop="Name" label="项目名称" width="150" show-overflow-tooltip/>
 				<el-table-column prop="CompanyName" label="供应商名称" show-overflow-tooltip/>
 				<el-table-column prop="BidFiles" label="资料凭证" width="80" show-overflow-tooltip>
 					<template #default="scope">
@@ -179,7 +179,7 @@ const onResetSearch = () => {
 const onGetTableData = async () => {
 	state.tableData.loading = true;
 	try {
-		const res = await proxy.$api.erp.projectcompany.signUpLists(state.tableData.param);
+		const res = await proxy.$api.erp.projectcompany.getListByScope("bid", 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}

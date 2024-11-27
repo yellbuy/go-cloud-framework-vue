@@ -16,7 +16,7 @@
 					<el-table :data="state.tableData.swFileList" v-loading="state.tableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="60" />
 						<el-table-column prop="Name" label="文件名" >
-							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+							<template #default="scope" v-if="state.projectCompanyForm.Step == 'signup'">
 								<el-input v-model="scope.row.Name" placeholder="请输入"/> 
 							</template>
 						</el-table-column>
@@ -28,7 +28,7 @@
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
-									v-if="state.projectCompanyForm.State == 0">
+									v-if="state.projectCompanyForm.Step == 'signup'">
 									<template #default>
 										<el-button type="primary" align="right">上传</el-button>
 									</template>
@@ -41,7 +41,7 @@
 											下载
 										</el-button>
 									</el-col>
-									<el-col :span="8" v-if="state.projectCompanyForm.State == 0">
+									<el-col :span="8" v-if="state.projectCompanyForm.Step == 'signup'">
 										<el-button text bg type="danger" @click="onDelProjectCompanyLineTableData(scope.$index)">
 											删除
 										</el-button>
@@ -58,7 +58,7 @@
 					<el-table :data="state.tableData.jsFileList" v-loading="state.tableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="60" />
 						<el-table-column prop="Name" label="文件名">
-							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+							<template #default="scope" v-if="state.projectCompanyForm.Step == 'signup'">
 								<el-input
 									v-model="scope.row.Name"
 									placeholder="请输入"/> 
@@ -72,7 +72,7 @@
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
-									v-if="state.projectCompanyForm.State == 0">
+									v-if="state.projectCompanyForm.Step == 'signup'">
 									<template #default>
 										<el-button type="primary" align="right">上传</el-button>
 									</template>
@@ -85,7 +85,7 @@
 											下载
 										</el-button>
 									</el-col>
-									<el-col :span="8" v-if="state.projectCompanyForm.State == 0">
+									<el-col :span="8" v-if="state.projectCompanyForm.Step == 'signup'">
 										<el-button text bg type="danger" @click="onDelProjectCompanyLineTableData(scope.$index)">
 											删除
 										</el-button>
@@ -102,7 +102,7 @@
 					<el-table :data="state.tableData.qtFileList" v-loading="state.tableData.loading" style="width: 600px;margin-left:auto;margin-right: auto;" stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="60" />
 						<el-table-column prop="Name" label="文件名">
-							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+							<template #default="scope" v-if="state.projectCompanyForm.Step == 'signup'">
 								<el-input
 									v-model="scope.row.Name"
 									placeholder="请输入"/> 
@@ -116,7 +116,7 @@
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
-									v-if="state.projectCompanyForm.State == 0">
+									v-if="state.projectCompanyForm.Step == 'signup'">
 									<template #default>
 										<el-button type="primary" align="right">上传</el-button>
 									</template>
@@ -129,7 +129,7 @@
 											下载
 										</el-button>
 									</el-col>
-									<el-col :span="8" v-if="state.projectCompanyForm.State == 0">
+									<el-col :span="8" v-if="state.projectCompanyForm.Step == 'signup'">
 										<el-button text bg type="danger" @click="onDelProjectCompanyLineTableData(scope.$index)">
 											删除
 										</el-button>
@@ -143,7 +143,7 @@
 					</p>					
 				</div>	
 				<div v-else-if="state.stepIndex==3">
-					<el-row v-if="state.projectCompanyForm.State == 0">
+					<el-row v-if="state.projectCompanyForm.Step == 'signup'">
 						<el-col>
 							<el-button type="primary" @click="onAdd">新增</el-button>
 							<el-button type="primary" @click="onReset">恢复默认</el-button>
@@ -152,37 +152,37 @@
 					<el-table :data="state.projectLineTableData.projectLineList" v-loading="state.projectLineTableData.loading" style="margin-left:auto;margin-right: auto;" border stripe highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="60" show-overflow-tooltip fixed />
 						<el-table-column prop="No" label="物资编码"  width="200" show-overflow-tooltip fixed>
-							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+							<template #default="scope" v-if="state.projectCompanyForm.Step == 'signup'">
 								<el-input v-model="scope.row.No" style="width: 100%" placeholder="请输入" />
 							</template>
 						</el-table-column>
 						<el-table-column prop="Name" label="名称" width="200" show-overflow-tooltip>
-							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+							<template #default="scope" v-if="state.projectCompanyForm.Step == 'signup'">
 								<el-input v-model="scope.row.Name" style="width: 100%" placeholder="请输入" />
 							</template>
 						</el-table-column>
 						<el-table-column prop="Content" label="明细项" show-overflow-tooltip>
-							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+							<template #default="scope" v-if="state.projectCompanyForm.Step == 'signup'">
 								<el-input v-model="scope.row.Content" style="width: 240px" placeholder="请输入" />
 							</template>
 						</el-table-column>
 						<!-- <el-table-column prop="Unit" label="明细项单位" width="80" show-overflow-tooltip>
-							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+							<template #default="scope" v-if="state.projectCompanyForm.Step == 'signup'">
 								<el-input v-model="scope.row.Unit" style="width: 240px" placeholder="请输入" />
 							</template>
 						</el-table-column> -->
 						<el-table-column prop="Qty" label="采购数量" align="right" width="70" show-overflow-tooltip>
-							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+							<template #default="scope" v-if="state.projectCompanyForm.Step == 'signup'">
 								<el-input-number v-model="scope.row.Qty" style="width:100%" :min="0" :max="1000000000000"  :step="1" :value-on-clear="0" :controls="false" controls-position="right" @blur="getPrice(scope.$index)"/>
 							</template>
 						</el-table-column>
 						<el-table-column prop="Amount" label="单价" align="right" width="150" >
-							<template #default="scope" v-if="state.projectCompanyForm.State == 0">
+							<template #default="scope" v-if="state.projectCompanyForm.Step == 'signup'">
 								<el-input-number v-model="scope.row.Amount" style="width:100%" :min="0" :max="1000000000000" :step="10" :value-on-clear="0" :precision="2" :controls="false" controls-position="right" @blur="getPrice(scope.$index)"/> 
 							</template>	
 						</el-table-column>
 						<el-table-column prop="Price" label="总价" width="150" align="right"/>
-						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(60)" fixed="right" v-if="state.projectCompanyForm.State == 0">
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(60)" fixed="right" v-if="state.projectCompanyForm.Step == 'signup'">
 							<template #default="scope">
 								<el-button text bg type="primary" @click="onDel(scope.$index)">删除</el-button>
 							</template>
@@ -198,7 +198,7 @@
 									:on-success="(file) => onSuccessFile(file)"
 									:limit="1"
 									:show-file-list="false"
-									v-if="state.projectCompanyForm.State == 0">
+									v-if="state.projectCompanyForm.Step == 'signup'">
 									<template #default>
 										<el-button type="primary">上传附件</el-button>
 									</template>
@@ -218,7 +218,7 @@
 									<el-button text bg type="primary" width="auto" @click="onDownloadFile(item.FilesList)">
 										下载
 									</el-button>
-									<el-button text bg type="danger" v-if="state.projectCompanyForm.State == 0" @click="onDelProjectCompanyLineTableData(index)">
+									<el-button text bg type="danger" v-if="state.projectCompanyForm.Step == 'signup'" @click="onDelProjectCompanyLineTableData(index)">
 										删除
 									</el-button>
 								</el-descriptions-item>
@@ -227,7 +227,7 @@
 					</el-row>		
 				</div>	
 				<div v-else-if="state.stepIndex==4">
-					<div class="text-center" v-if="state.projectCompanyForm.State == 0">
+					<div class="text-center" v-if="state.projectCompanyForm.Step == 'signup'">
 						<div>
 							<SvgIcon name="fa fa-check-circle" color="green" :size="60" ></SvgIcon>
 						</div>
@@ -258,7 +258,7 @@
 				<el-button @click="onStepChange(1)" type="primary" v-if="state.stepIndex < 4" size="large">
 					<SvgIcon name="fa fa-arrow-right" class="mr3"/>下一步
 				</el-button>
-				<el-button @click="submit" type="primary" v-if="state.stepIndex == 4 && state.projectCompanyForm.State == 0" size="large">
+				<el-button @click="submit" type="primary" v-if="state.stepIndex == 4 && state.projectCompanyForm.Step == 'signup'" size="large">
 					<SvgIcon name="fa fa-rotate-right" class="mr3"/>确认投递
 				</el-button>
 			</el-col>
@@ -366,17 +366,18 @@ const onGetTableData = async () => {
 		if (projectCompanyRes.errcode != 0) {
 			return;
 		}
+		console.log("测试", projectCompanyRes)
 		state.projectCompanyForm = projectCompanyRes.data;
 		//	获取已报名信息文件表
 		state.tableData.param.projectId = state.projectId
 		state.tableData.param.projectCompanyId = state.projectCompanyId
-		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope(0, 0, state.tableData.param);
+		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope("all", 0, 0, state.tableData.param);
 		if (projectCompanyLineRes.errcode != 0) {
 			return;
 		}
 		state.projectLineTableData.param.projectId = state.projectId
 		state.projectLineTableData.param.projectCompanyId = state.projectCompanyId
-		const projectLineRes = await proxy.$api.erp.projectline.getListByScope(state.projectLineTableData.param);
+		const projectLineRes = await proxy.$api.erp.projectline.getListByScope("bid", 0, 0, state.projectLineTableData.param);
 		if (projectLineRes.errcode != 0) {
 			return;
 		}

@@ -198,7 +198,7 @@ const GetByIdRow = async (id: string) => {
 		if (res.errcode != 0) {
 			return;
 		}
-		state.ruleForm = res.data[0];
+		state.ruleForm = res.data;
 	} finally {
 	}
 };
@@ -207,10 +207,14 @@ const onSubmit = async () => {
 	try {
 		const res = await proxy.$api.erp.projectcompany.voucherAudit(state.ruleForm.Id, state.param);
 		if (res.errcode != 0) {
+			ElMessage.error('提交失败！')
 			return;
 		}
+		ElMessage.success('提交成功！')
 		GetByIdRow(state.ruleForm.Id)
-		onCancel()
+		setTimeout(() => {
+			onCancel();
+		}, 1000);
 		state.param.AuditRemark == ''
 		state.isShowDialog = false;
 	} finally {

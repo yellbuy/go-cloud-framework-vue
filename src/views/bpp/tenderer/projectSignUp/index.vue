@@ -127,7 +127,7 @@ const onGetTableData = async () => {
 const onSubmit = (id: string) => {
 	try {
 		state.ruleForm.projectId = id
-		const res = proxy.$api.erp.projectcompany.signup(state.ruleForm);
+		const res = proxy.$api.erp.projectcompany.signUp(state.ruleForm);
 		res.then(res => {
 			if (res.errcode == 0) {
 				ElMessage({
