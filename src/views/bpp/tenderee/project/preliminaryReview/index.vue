@@ -168,10 +168,10 @@ state.tableData.param.pageIndex = computed(() => {
 
 //重置查询条件
 const onResetSearch = () => {
-	state.tableData.param.no = '';
-	state.tableData.param.projectName = '';
-	state.tableData.param.companyName = '';
-	state.tableData.param.lineState = '';
+	state.tableData.param.no = null;
+	state.tableData.param.projectName = null;
+	state.tableData.param.companyName = null;
+	state.tableData.param.lineState = 0;
 	onGetTableData();
 };
 

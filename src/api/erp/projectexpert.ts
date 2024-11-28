@@ -55,7 +55,7 @@ export default {
      * @returns 返回接口数据
      */
     projectExpertIsSignIn: async (id: number | string, data: object) => {
-        const url = `/v1/admin/erp/projectexpert/issignin/${id}`;
+        const url = `/v1/admin/erp/projectexpert/signin/${id}`;
         return await http.post(url, data);
     },
 

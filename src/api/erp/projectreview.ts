@@ -67,7 +67,7 @@ export default {
      * @returns 返回接口数据
      */
     reviewSignatureSave: async (id: string, data: object) => {
-        const url = `v1/admin/erp/projectreview/reviewsignature/${id}/`;
+        const url = `v1/admin/erp/projectreview/signature/${id}/`;
         return await http.post(url, data);
     },
 
@@ -78,7 +78,7 @@ export default {
      * @returns 返回接口数据
      */
     reportUpload: async (id: number | string, params: object = {}) => {
-        const url = `/v1/admin/erp/projectreview/upreport/${id}`;
+        const url = `/v1/admin/erp/projectreview/reportupload/${id}`;
         return await http.post(url, params);
     },
 

@@ -92,7 +92,7 @@ const onGetProjectLineTableData = async () => {
 	//	获取标的物项目信息
 	state.tableData.loading = true;
 	try {
-		state.tableData.param.projectId = state.projectId
+		state.tableData.param.projectId = state.projectForm.Id
 		const res = await proxy.$api.erp.projectline.getListByScope("bid", 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return;

@@ -55,8 +55,8 @@ export default {
      * @param data 标识，字符串或数组
      * @returns 返回接口数据
      */
-    voucherAdd: async ( id: string|number, data: object) => {
-        const url = `/v1/admin/erp/projectcompany/voucheradd/${id}`;
+    voucherUpload: async ( id: string|number, data: object) => {
+        const url = `/v1/admin/erp/projectcompany/voucherupload/${id}`;
         return await http.post(url, data);
     },
     
