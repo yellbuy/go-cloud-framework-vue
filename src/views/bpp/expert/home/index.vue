@@ -281,7 +281,7 @@ const initEchartsResize = () => {
 // 签到
 const onModelSave = async () => {
 	try {
-		const res = await proxy.$api.erp.projectexpert.expertIsSignIn(state.projectId);
+		const res = await proxy.$api.erp.projectexpert.projectExpertIsSignIn(state.projectId);
 		if (res.errcode != 0) {
 			return;
 		}

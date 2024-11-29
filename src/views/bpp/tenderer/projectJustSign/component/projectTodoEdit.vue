@@ -46,17 +46,17 @@
 											</el-row>
 										</template>
 										<el-row>
-											<el-col :span="20">	
+											<el-col :span="18">	
 												<el-link :href="state.baseUrl + state.projectCompanyForm.BidPics" v-if="state.projectCompanyForm.BidPayState == 1" target="_blank">{{ state.projectCompanyForm.BidPics }}</el-link>	
 												<a v-else-if="state.projectCompanyForm.BidAuditState == 2 && state.projectCompanyForm.BidPayState == 0">审核未通过，请重新上传提交审核</a>
 												<a v-else>待上传</a>
 											</el-col>
-											<el-col :span="4" class="text-right">
+											<el-col :span="6" class="text-right">
 												<el-upload
 													:action="state.uploadURL"
 													:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
 													:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-													:on-success="(file) => onSuccessFile(file, 'bid')"
+													:on-success="(file) => onSuccessFile(file)"
 													:before-upload="onBeforeImageUpload"
 													:limit="1"
 													v-if="state.projectCompanyForm.BidPayState == 0 && state.projectCompanyForm.BidAuditState != 1">
@@ -83,9 +83,9 @@
 										</template>
 										<el-row>
 											<el-col :span="24">
-												<el-descriptions border v-if="state.projectCompanyForm.BidPayState == 1">
+												<el-descriptions border v-if="state.projectCompanyForm.BidPayState == 1 && state.projectForm.Files != ''">
 													<el-descriptions-item label-align="left" width="85%" align="right" label="《标书文件》">
-														<el-link type="primary" @click="onDownloadFile('标书文件', '/static/upload/31/image/20240821/298509223602421761.jpg')">下载</el-link>
+														<el-link type="primary" @click="onDownloadFile('标书文件', state.projectForm.Files)">下载</el-link>
 													</el-descriptions-item>
 												</el-descriptions>
 											</el-col>
@@ -104,17 +104,17 @@
 											</el-row>
 										</template>
 										<el-row v-if="state.projectCompanyForm.BidAuditState == 1">
-											<el-col :span="12">	
+											<el-col :span="18">	
 												<el-link :href="state.baseUrl + state.projectCompanyForm.EnsurePics" v-if="state.projectCompanyForm.EnsurePayState == 1" target="_blank">{{ state.projectCompanyForm.EnsurePics }}</el-link>	
 												<a v-else-if="state.projectCompanyForm.EnsureAuditState == 2 && state.projectCompanyForm.EnsurePayState == 0">审核未通过，请重新上传提交审核</a>
 												<a v-else>待上传</a>
 											</el-col>
-											<el-col :span="12" class="text-right">
+											<el-col :span="6" class="text-right">
 												<el-upload
 													:action="state.uploadURL"
 													:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
 													:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-													:on-success="(file) => onSuccessFile(file, 'ensure')"
+													:on-success="(file) => onSuccessFile(file)"
 													:before-upload="onBeforeImageUpload"
 													:limit="1"
 													v-if="state.projectCompanyForm.EnsurePayState == 0 && state.projectCompanyForm.EnsureAuditState != 1">
@@ -141,10 +141,10 @@
 										</template>
 										<el-row>
 											<el-col :span="16">
-												<div v-if="state.projectCompanyForm.BidAuditState==1 && state.projectCompanyForm.EnsureAuditState==1 && state.projectCompanyForm.State==0">
+												<div v-if="state.projectCompanyForm.Step=='qualifications'">
 													<p><b>请提交投标材料</b></p>
 												</div>
-												<div v-else-if="state.projectCompanyForm.State==1">
+												<div v-else-if="state.projectCompanyForm.Step=='quotation'">
 													<p><b>已完成投标，只可查看提交的投标材料信息</b></p>
 												</div>
 												<div v-else>
@@ -152,14 +152,15 @@
 												</div>
 											</el-col>
 											<el-col :span="8">
-												<el-button type="info" style="float: right;" v-if="state.projectCompanyForm.BidAuditState==1 && state.projectCompanyForm.EnsureAuditState==1 && state.projectCompanyForm.State==0">
+
+												<el-button type="primary" @click="onBeginBid()" style="float: right;" v-if="state.projectCompanyForm.Step=='qualifications'">
 													<SvgIcon name="fa fa-cloud-download" class="mr3"/>参与投标
 												</el-button>
-												<el-button type="primary" @click="onBeginBid()" style="float: right;" v-else-if="state.projectCompanyForm.State==1">
-													<SvgIcon name="fa fa-cloud-download" class="mr3"/>参与投标
-												</el-button>
-												<el-button type="primary" @click="onBeginBid()" style="float: right;" v-else>
+												<el-button type="primary" @click="onBeginBid()" style="float: right;" v-else-if="state.projectCompanyForm.Step=='quotation'">
 													<SvgIcon name="fa fa-cloud-download" class="mr3"/>查看投标
+												</el-button>
+												<el-button type="info" style="float: right;" v-else>
+													<SvgIcon name="fa fa-cloud-download" class="mr3"/>参与投标
 												</el-button>
 											</el-col>
 										</el-row>
@@ -198,7 +199,7 @@
 												<p class="font14 mb10" style="text-align: center;"><b>成交通知</b></p>
 												<p>您好：我公司的[汉风生产管控系统建设] （YJ2023122102538），经评审，现确定由贵公司供应（承揽）。请收到本通知后10个工作日内,到采购单位签订合同，否则，将视为放弃供应（承揽）权利，并扣除投标/议价/竞价保证金。请到采购组织方领取纸质版成交通知书，或联系组织方领取扫描版成交通知书（电子邮件方式）。</p>
 												<p class="text-right">特此通知。</p>
-												<p class="mt10" v-if="state.projectForm.Files && state.projectForm.Files != ''"><el-link type="primary" @click="onDownloadFile('标书文件', state.projectForm.Files)">中标通知书下载</el-link></p>
+												<p class="mt10" v-if="state.projectForm.Files && state.projectForm.Files != ''"><el-link type="primary" @click="onDownloadFile('《标书文件》', state.projectForm.Files)">中标通知书下载</el-link></p>
 											</el-col>
 										</el-row>
 									</el-collapse-item>
@@ -420,8 +421,8 @@ const onGetprojectCompanyData = async () => {
 };
 
 //	上传投标凭证
-const onSuccessFile = (file: UploadFile, select: string) => {
-	state.projectCompanyForm.FileKind = select
+const onSuccessFile = (file: UploadFile) => {
+	state.projectCompanyForm.FileKind = state.projectCompanyForm.Step
 	state.projectCompanyForm.PicsPath  = file.data.src
 	onProjectCompanyVoucherUpload();
 };

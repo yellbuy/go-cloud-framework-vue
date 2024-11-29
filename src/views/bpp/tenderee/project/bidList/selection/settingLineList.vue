@@ -401,7 +401,7 @@ const onGetSettingTableData = async () => {
 			try {
 				state.zgTableData.data = []
 				state.zgTableData.param.projectId = null
-				const res = await proxy.$api.erp.projectsetting.getListByScope(state.zgTableData.param);
+				const res = await proxy.$api.erp.projectsetting.getListByScope("zgps", 0, 0, state.zgTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -415,7 +415,7 @@ const onGetSettingTableData = async () => {
 			try {
 				state.jsTableData.data = []
 				state.jsTableData.param.projectId = null
-				const res = await proxy.$api.erp.projectsetting.getListByScope(state.jsTableData.param);
+				const res = await proxy.$api.erp.projectsetting.getListByScope("jsps", 0, 0, state.jsTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}

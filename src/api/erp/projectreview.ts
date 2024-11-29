@@ -35,7 +35,7 @@ export default {
      * @returns 返回接口数据
      */
     reviewSave: async (kind: string, id: string, data: object) => {
-        const url = `v1/admin/erp/projectreview/review/${kind}/${id}`;
+        const url = `v1/admin/erp/projectreview/expertreview/${kind}/${id}`;
         return await http.post(url, data);
     },
 

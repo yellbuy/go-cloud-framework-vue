@@ -155,10 +155,11 @@ const onSubmit = () => {
 			const res = proxy.$api.erp.projectbid.projectBidCreate(state.ruleForm);
 			res.then(result => {
 				if (result.errcode != 0) {
-				return
+					ElMessage.error('提交失败！')
+					return
 				}
 			})
-			ElMessage('项目创建成功,等待2秒后返回项目列表！')
+			ElMessage.success('提交成功，等待2秒返回！')
 			setTimeout(() => {
 				closePage();
 			}, 2000);

@@ -228,7 +228,7 @@ const onGetTableData = async () => {
 		}
 		//获取项目报名文件表
 		state.tableData.param.projectCompanyId = state.projectCompanyForm.Id
-		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope("", 0, 0, state.tableData.param);
+		const projectCompanyLineRes = await proxy.$api.erp.projectcompanyline.getListByScope("allKind", 0, 0, state.tableData.param);
 		state.tableData.param.projectCompanyId = null
 		if (projectCompanyLineRes.errcode != 0) {
 			return;

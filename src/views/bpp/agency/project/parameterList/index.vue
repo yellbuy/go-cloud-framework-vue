@@ -217,7 +217,7 @@ export default {
 			}
 			state.jsTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectsetting.getListByScope(state.scopeMode, state.scopeValue, state.jsTableData.param);
+				const res = await proxy.$api.erp.projectsetting.getListByScope("jsps" ,state.scopeMode, state.scopeValue, state.jsTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}
@@ -234,7 +234,7 @@ export default {
 			}
 			state.zgTableData.loading = true;
 			try {
-				const res = await proxy.$api.erp.projectsetting.getListByScope(state.scopeMode, state.scopeValue, state.zgTableData.param);
+				const res = await proxy.$api.erp.projectsetting.getListByScope("zgps", state.scopeMode, state.scopeValue, state.zgTableData.param);
 				if (res.errcode != 0) {
 					return;
 				}

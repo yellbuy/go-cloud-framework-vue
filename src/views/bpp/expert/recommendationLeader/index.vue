@@ -140,7 +140,7 @@ const onSubmit = async (data: object) => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectexpert.expertLeader(data.Id, data);
+			const res = await proxy.$api.erp.projectexpert.projectExpertLeader(data.Id, data);
 			if (res.errcode != 0) {
 				return;
 			}
