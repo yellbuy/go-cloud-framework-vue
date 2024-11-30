@@ -85,10 +85,11 @@ export default {
     /**
      * 组长确认中标
      * @param id 项目id
+     * @param data 标识，字符串或数组
      * @returns 返回接口数据
      */
-    leaderConfirm: async ( id: string|number) => {
+    leaderConfirm: async ( id: string|number, data: object) => {
         const url = `/v1/admin/erp/projectcompany/leaderconfirm/${id}`;
-        return await http.post(url);
+        return await http.post(url, data);
     },
 }

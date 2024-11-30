@@ -31,7 +31,7 @@
 					</el-col>
 					<el-col :span="6">
 						<div style="float: right;" v-if="state.companyId > 0">
-							<el-button type="primary" @click="onSubmit()">确认提交</el-button>
+							<el-button type="primary" @click="onSubmit">确认提交</el-button>
 						</div>
 					</el-col>
 				</el-row>

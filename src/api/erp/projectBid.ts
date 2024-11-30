@@ -47,4 +47,16 @@ export default {
         const url = `/v1/admin/erp/projectbid/${data.Id}`;
         return await http.post(url, data);
     },
+    /**
+     * 创建招标项目
+     * @param id 报名表id
+     * @param data 标识，字符串或数组
+     * @returns 返回接口数据
+     */
+    recommendationSupplier: async (id: number | string, data: object) => {
+        const url = `/v1/admin/erp/projectbid/recommendationsupplier/${id}`;
+        return await http.post(url, data);
+    },
+
+
 }

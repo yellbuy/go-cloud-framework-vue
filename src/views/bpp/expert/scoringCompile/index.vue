@@ -22,7 +22,7 @@
 		<el-row style="padding: 15px;" v-if="state.projectId > 0">
 			<el-col :span="6">
 				<div>
-					<el-button type="primary" @click="onSubmit">汇总</el-button>
+					<el-button type="primary" @click="onReturn">退回重评</el-button>
 				</div>
 			</el-col>
 			<el-col :span="12">
@@ -31,8 +31,8 @@
 				</div>
 			</el-col>
 			<el-col :span="6">
-				<div style="float: right;" >
-					<el-button type="primary" @click="onReturn">退回重评</el-button>
+				<div style="float: right;">
+					<el-button type="primary" @click="onSubmit">汇总</el-button>
 				</div>
 			</el-col>
 		</el-row>
@@ -41,10 +41,10 @@
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="60" fixed />
 					<el-table-column prop="CompanyName" label="投标方名称" show-overflow-tooltip/>
-					<el-table-column prop="ReviewPrice" label="投标评审价（元）" width="150" show-overflow-tooltip/>
-					<el-table-column prop="PriceScore" label="报价得分" width="150" show-overflow-tooltip/>
-					<el-table-column prop="TechnicalScore" label="技术得分" width="150" show-overflow-tooltip/>
-					<el-table-column prop="GatherScore" label="最终得分" width="150" show-overflow-tooltip/>
+					<el-table-column prop="ReviewPrice" label="投标评审价（元）" width="120" show-overflow-tooltip/>
+					<el-table-column prop="PriceScore" label="报价得分" width="120" show-overflow-tooltip/>
+					<el-table-column prop="TechnicalScore" label="技术得分" width="120" show-overflow-tooltip/>
+					<el-table-column prop="GatherScore" label="最终得分" width="120" show-overflow-tooltip/>
 				</el-table>
 				<el-pagination
 					small

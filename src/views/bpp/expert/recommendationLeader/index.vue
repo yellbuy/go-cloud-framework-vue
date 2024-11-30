@@ -23,7 +23,7 @@
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="60" fixed />
-					<el-table-column prop="Name" label="专家姓名" width="120" show-overflow-tooltip/>
+					<el-table-column prop="Name" label="专家姓名" show-overflow-tooltip/>
 					<el-table-column prop="IsSignIn" label="是否签到" width="100" align="center" show-overflow-tooltip>
 						<template #default="scope">
 							<span v-if="scope.row.IsSignIn == 0">否</span>
@@ -36,14 +36,14 @@
 							<span v-else>否</span>
 						</template>
 					</el-table-column>
-					<el-table-column prop="PollNum" label="的票数" show-overflow-tooltip/>
+					<el-table-column prop="PollNum" label="的票数" width="100" align="right" show-overflow-tooltip/>
 					<el-table-column prop="IsLeader" label="是否是组长" width="100" align="center" show-overflow-tooltip>
 						<template #default="scope">
 							<span v-if="scope.row.IsLeader == 0">否</span>
 							<span v-else-if="scope.row.IsLeader == 1">是</span>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(360)" fixed="right">
+					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 						<template #default="scope">
 							<el-button type="primary" @click="onSubmit(scope.row)">推荐组长</el-button>
 						</template>
