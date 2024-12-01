@@ -21,7 +21,7 @@
 		</el-row>
 		<el-row v-if="state.projectId > 0">
 			<el-col :span="24">
-				<div v-if="state.tableData.data.length < 1">
+				<div v-if="state.projectForm.ReportState == 0">
 					<el-upload
 						class="upload-demo"
 						:action="state.uploadURL"
@@ -70,22 +70,17 @@ const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	projectId: '',
+	baseUrl: import.meta.env.VITE_URL as any,
 	uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 	projectList: [],
 	projectForm: {},
 	filesList: [],
-	tableData: {
-		data: [],
-		total: 0,
-		loading: false,
-		param: {},
-	},
 	ruleForm: {},
 });
 
 const selectProject = async (event) => {
     state.projectForm = state.projectList.find(item => item.Id === event);
-	onGetTableData()
+	onProjectBidGetById()
 }
 
 //	获取专家参与的项目列表
@@ -101,14 +96,13 @@ const onGetProjectTableData = async () => {
 };
 
 //	获取报告
-const onGetTableData = async () => {
+const onProjectBidGetById = async () => {
 	try {
-		state.tableData.param.projectId = state.projectForm.Id
-		const res = await proxy.$api.erp.projectreview.getListByScope("report", 0, 0, state.tableData.param)
+		const res = await proxy.$api.erp.projectbid.getById(state.projectForm.Id)
 		if (res.errcode != 0) {
 			return;
 		}
-		state.tableData.data = res.data;
+		state.projectForm = res.data;
 	} finally {
 	}
 };
@@ -116,10 +110,8 @@ const onGetTableData = async () => {
 //	上传成功
 const onSuccessFile = (file: UploadFile) => {
 	state.filesList.push(file.data)
-	state.ruleForm.Files = file.data.src
-	state.ruleForm.ProjectId = state.projectForm.Id
-	state.ruleForm.Id = "0"
-	state.ruleForm.kind = 'report'
+	state.ruleForm.ReportFiles = file.data.src
+	state.ruleForm.Id = state.projectForm.Id
 	onSubmit()
 };
 
@@ -131,26 +123,27 @@ const onRemove = () => {
 		type: 'warning',
 	}).then(async () => {
 		state.filesList = []
-		state.ruleForm.Files = ''
+		state.ruleForm.ReportFiles = ''
 	});
 };
 
 // 下载文件
 const onDownloadFile = async () => {
 	var a = document.createElement('a');
-	a.href = import.meta.env.VITE_URL + state.tableData.data[0].Files;
-	a.download = state.tableData.data[0].Name; // 下载后的文件名称
+	a.href = import.meta.env.VITE_URL + state.projectForm.ReportFiles;
+	a.download = state.projectForm.ReportRemark; // 下载后的文件名称
 	a.click();
 };
 
 const onSubmit = async () => {
 	try {
-		const gatherRes = await proxy.$api.erp.projectreview.reportUpload(state.projectForm.Id, state.ruleForm);
+		const gatherRes = await proxy.$api.erp.projectbid.reportUpload(state.projectForm.Id, state.ruleForm);
 		if (gatherRes.errcode != 0) {
+			ElMessage.warning('上传报告失败！')
 			return;
 		}
-		onGetTableData()
-		ElMessage('上传报告成功')
+		onProjectBidGetById()
+		ElMessage.success('上传报告成功！')
 	} finally {
 	}
 	return false;

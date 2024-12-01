@@ -58,5 +58,26 @@ export default {
         return await http.post(url, data);
     },
 
+    /**
+     * 上传报告
+     * @param id 项目id
+     * @param data 标识，字符串或数组
+     * @returns 返回接口数据
+     */
+    reportUpload: async (id: number | string, data: object) => {
+        const url = `/v1/admin/erp/projectbid/uploadreport/${id}`;
+        return await http.post(url, data);
+    },
+
+    /**
+     * 监审报告签章
+     * @param id 项目id
+     * @param data 标识，字符串或数组
+     * @returns 返回接口数据
+     */
+    reportSignature: async (id: number | string, data: object) => {
+        const url = `/v1/admin/erp/projectbid/reportsignature/${id}`;
+        return await http.post(url, data);
+    },
 
 }
