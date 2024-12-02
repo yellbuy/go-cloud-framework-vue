@@ -52,7 +52,7 @@
 					</el-table-column>
 					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(140)" fixed="right">
 						<template #default="scope">
-							<el-tag type="success" v-if="scope.row.CompanyId == state.projectForm.EvalSupplierId">第一候选人</el-tag>
+							<el-tag type="success" v-if="state.projectForm.EvalState == 1">第一候选人</el-tag>
 							<el-button bg type="primary" v-else @click="recommendation(scope.row)">推荐为第一候选人</el-button>
 						</template>
 					</el-table-column>
@@ -117,6 +117,7 @@ const onGetProjectTableData = async () => {
 			return;
 		}
 		state.projectList = res.data;
+		console.log("测试", res.data)
 	} finally {
 	}
 };
@@ -148,6 +149,7 @@ const onGetTableData = async () => {
 			model.GatherScore = 0
 			model.TechnicalScore = 0
 			model.Remark = val.Remark
+			model.EvalState = val.EvalState
 			state.tableData.data.push(model)
 			for	(let item of projectReviewRes.data){
 				if (item.CompanyId == val.CompanyId) {
