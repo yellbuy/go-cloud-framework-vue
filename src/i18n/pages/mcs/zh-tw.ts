@@ -41,6 +41,8 @@ export default {
 		dashboard:'大屏展示',
 		external_dashboard:'外部大屏',
 		waybill_stat:'运力分析',
+		main_business_stat:'铁运收支分析',
+		trade_stat:'贸易收支分析',
 	},
 	field: {
 

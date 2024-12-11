@@ -40,6 +40,8 @@ export default {
 		dashboard:'dashboard',
 		external_dashboard:'external dashboard',
 		waybill_stat:'waybill DA',
+		main_business_stat:'main business DA',
+		trade_stat:'main business DA',
 	},
 	field:{
 		
