@@ -58,7 +58,7 @@
 					:total="tableData.total">
 				</el-pagination>
 			</el-card>
-			<editDlg ref="editDlgRef" />
+			<!-- <editDlg ref="editDlgRef" /> -->
 		</div>
 	</div>
 </template>
@@ -67,12 +67,12 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editDlg from '../../component/companyEdit.vue';
+// import editDlg from '../../component/companyEdit.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'manager',
-	components: { editDlg },
+	// components: { editDlg },
 	setup() {
 		const store = useStore();
 		const route = useRoute();
