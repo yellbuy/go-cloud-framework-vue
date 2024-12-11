@@ -2,7 +2,12 @@
 	<div>
 		<el-row>
 			<el-col :span="24">
-				<el-descriptions :column="2">
+				<div style="float: left; padding-bottom: 15px;">
+					<el-button type="primary" @click="">公布投标人名单</el-button>
+				</div>
+			</el-col>
+			<el-col :span="24">
+				<el-descriptions :column="2" >
 					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
 					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
 					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
@@ -13,23 +18,21 @@
 		<el-row>
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
-					<el-table-column type="index" label="序号" align="right" width="60" fixed />
-					<el-table-column prop="Sn" label="项目包号" width="200" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="No" label="招标控制价" align="right" width="120" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="State" label="状态" show-overflow-tooltip>
+					<el-table-column type="index" label="序号" align="right" width="70" fixed />
+					<el-table-column prop="CompanyName" label="单位名称" width="120" show-overflow-tooltip/>
+					<el-table-column prop="State" label="投标状态" show-overflow-tooltip>
 						<template #default="scope">
-							<span v-if="scope.row.State == 0">未开标</span>
-							<span v-else-if="scope.row.State == 1">已开标</span>
-							<span v-else-if="scope.row.State == 2">已结束</span>
-							<span v-else-if="scope.row.State == 3">废包</span>
+							<el-tag effect="info" v-if="scope.row.State == 0">未投标</el-tag>
+							<el-tag effect="success" v-else-if="scope.row.State == 1">已投标</el-tag>
+							<el-tag effect="success" v-else-if="scope.row.State == 2">评审完成</el-tag>
 						</template>
 					</el-table-column>
-					<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" fixed="right">
+					<el-table-column prop="BiddingTime" label="投标文件送达时间" show-overflow-tooltip>
 						<template #default="scope">
-							<el-button type="primary" @click="">设定为开标包</el-button>
-							<el-button text bg type="primary" @click="">废包</el-button>
+							<span v-if="scope.row.BiddingTime > '0001.01.01 00:00:00'">{{ scope.row.BiddingTime }}</span>
+							<span v-else></span>
 						</template>
-					</el-table-column> -->
+					</el-table-column>
 				</el-table>
 				<el-pagination
 					small
@@ -41,8 +44,7 @@
 					background
 					v-model:page-size="state.tableData.param.pageSize"
 					layout="->, total, sizes, prev, pager, next, jumper"
-					:total="state.tableData.total">
-				</el-pagination>
+					:total="state.tableData.total"/>
 			</el-col>
 		</el-row>
 	</div>
@@ -50,7 +52,7 @@
 
 <script setup lang="ts">
 import request from '/@/utils/request';
-import { toRefs, reactive, onMounted, ref, getCurrentInstance } from 'vue';
+import { toRefs, computed, reactive, onMounted, ref, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
 import { useI18n } from 'vue-i18n';
@@ -65,67 +67,43 @@ const state: any = reactive({
 		total: 0,
 		loading: false,
 		param: {
-			mode: 2,
 			current: 1,
 			pageSize: 20,
-			projectId: 0,
-			categoryId: null,
-			name: '',
 		},
 	},
+});
+
+state.tableData.param.pageIndex = computed(() => {
+	return state.tableData.param.current - 1;
 });
 
 //	打开页面
 const openPage = async (data: {}) => {
 	state.projectForm = data
-	onGetProjectLineTableData()
+	getCompanyList()
 };
 
 //	关闭页面
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-};
+}
 
-//	获取标的物项目信息
-const onGetProjectLineTableData = async () => {
-	//	获取标的物项目信息
-	state.tableData.loading = true;
+//获取投标人名单
+const getCompanyList = async () => {
+	state.tableData.loading = true
 	try {
-		state.tableData.param.projectId = state.projectId
-		const res = await proxy.$api.erp.projectline.getListByScope(state.tableData.param);
+		//重新请求数据
+		state.tableData.param.projectId = state.projectForm.Id
+		const res = await proxy.$api.erp.projectcompany.signUpList(state.tableData.param);
+		//获取存储的项目数据
 		if (res.errcode != 0) {
 			return;
 		}
 		state.tableData.data = res.data;
-		state.tableData.total = res.total;
+		state.tableData.total = res.total
 	} finally {
-		state.tableData.loading = false;
-	}
-};
-
-//获取项目品目信息
-const getBidList = async () => {
-	//重新请求数据
-	await proxy.$parent.$parent.$parent.$parent.GetByIdRow(false);
-	//获取存储的项目数据
-	if (state.projectForm.ProjectLineList) {
-		state.tableData.data = state.projectForm.ProjectLineList;
-	}
-};
-
-const onModelChange = async (id: string, state: number) => {
-	let params = {};
-	try {
-		params.Id = id;
-		params.ProjectId = state.projectForm.Id
-		params.State = state;
-		const res = await proxy.$api.erp.projectline.changeBid(params);
-		if (res.errcode != 0) {
-			return;
-		}
-		getBidList();
-	} finally {
+		state.tableData.loading = false
 	}
 };
 
@@ -145,6 +123,7 @@ onMounted(() => {
 });
 
 defineExpose({openPage, closePage})
+
 </script>
 
 <style scoped lang="scss">

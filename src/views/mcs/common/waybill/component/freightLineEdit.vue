@@ -90,7 +90,7 @@ import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
 	name: 'freightLineEdit',
-	components: { imgList },
+	components: { imgList, Plus },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 
@@ -300,9 +300,6 @@ export default {
 			onSubmit,
 			...toRefs(state),
 		};
-	},
-	components: {
-		Plus,
 	},
 	data() {
 		return {};

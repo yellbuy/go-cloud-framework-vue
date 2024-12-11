@@ -13,7 +13,7 @@
 			<el-col :span="24">
 				<infoEdit ref="infoEditRef" v-if="state.activeIndex == 0"/>
 				<extEdit ref="extEditRef" v-else-if="state.activeIndex == 1"/>
-				<settingLine ref="settingLineRef" v-else-if="state.activeIndex == 2"/>
+				<settingLineEdit ref="settingLineEditRef" v-else-if="state.activeIndex == 2"/>
 			</el-col>
 		</el-row>
 		<el-row>
@@ -38,9 +38,9 @@ import { computed, getCurrentInstance, onMounted, nextTick, reactive, ref, toRef
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
-import infoEdit from './create/infoEdit.vue';
-import extEdit from './create/extEdit.vue';
-import settingLine from './create/settingLine.vue';
+import infoEdit from './infoEdit.vue';
+import extEdit from './extEdit.vue';
+import settingLineEdit from './settingLineEdit.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -51,7 +51,7 @@ const token = Session.get('token');
 const getUserInfos = computed(() => {return store.state.userInfos.userInfos;});
 const infoEditRef = ref()
 const extEditRef = ref()
-const settingLineRef = ref()
+const settingLineEditRef = ref()
 const state = reactive({
 	isShowPage: false,
 	uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
@@ -108,7 +108,7 @@ const onStepChange = (val: number) => {
 		if (state.activeIndex == 1) {
 			state.extForm = extEditRef.value.getPageData()
 		} else if (state.activeIndex == 2) {
-			state.settingLineForm = settingLineRef.value.getPageData()
+			state.settingLineForm = settingLineEditRef.value.getPageData()
 		}
 		if(state.activeIndex > 0){
 			state.activeIndex -= 1
@@ -124,7 +124,7 @@ const onStepChange = (val: number) => {
 		});
 	} else if (state.activeIndex == 2) {
 		nextTick(() => {
-			settingLineRef.value.openPage(state.settingLineForm)
+			settingLineEditRef.value.openPage(state.settingLineForm)
 		});
 	}
 };
@@ -137,7 +137,7 @@ const onSubmit = () => {
 		type: 'warning',
 	}).then(async () => {
 		nextTick(() => {
-			state.settingLineForm = settingLineRef.value.getPageData()
+			state.settingLineForm = settingLineEditRef.value.getPageData()
 		});
 		state.ruleForm = {}
 		const promises = [
@@ -152,13 +152,14 @@ const onSubmit = () => {
 		try {
 			state.ruleForm.Id = "0"
 			state.ruleForm.Kind = "bid"
-			const res = proxy.$api.erp.projectbid.saveBid(state.ruleForm);
+			const res = proxy.$api.erp.projectbid.projectBidCreate(state.ruleForm);
 			res.then(result => {
 				if (result.errcode != 0) {
-				return
+					ElMessage.error('提交失败！')
+					return
 				}
 			})
-			ElMessage('项目创建成功,等待2秒后返回项目列表！')
+			ElMessage.success('提交成功，等待2秒返回！')
 			setTimeout(() => {
 				closePage();
 			}, 2000);

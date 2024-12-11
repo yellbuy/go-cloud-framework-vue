@@ -22,7 +22,7 @@
 		<el-row>
 			<el-col :span="8">
 				<div v-if="state.expertUid > 0">
-					<el-button type="primary" @click="onSubmit()">提交</el-button>
+					<el-button type="primary" @click="onReturn">退回重评</el-button>
 				</div>
 			</el-col>
 			<el-col :span="8">
@@ -34,7 +34,7 @@
 			</el-col>
 			<el-col :span="8">
 				<div style="float: right;" v-if="state.expertUid > 0">
-					<el-button type="primary" @click="onReturn">退回重评</el-button>
+					<el-button type="primary" @click="onSubmit">提交</el-button>
 				</div>
 			</el-col>
 		</el-row>
@@ -51,14 +51,14 @@
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="60" fixed />
-					<el-table-column prop="CompanyName" label="投标方名称" width="300" show-overflow-tooltip/>
+					<el-table-column prop="CompanyName" label="投标方名称" show-overflow-tooltip/>
 					<el-table-column prop="Price" label="总报价（元）" align="right" width="200" show-overflow-tooltip/>
-					<el-table-column prop="ReviewPrice" label="最终评审报价（元）" align="right" show-overflow-tooltip>
+					<el-table-column prop="ReviewPrice" label="最终评审报价（元）" align="right" width="200" show-overflow-tooltip>
 						<template #default="scope">
 							<el-input-number style="width: 100%;" v-model="scope.row.ReviewPrice" :precision="2" :step="1" :min="0"/>
 						</template>
 					</el-table-column>
-					<el-table-column prop="PriceScore" label="价格得分" align="right" show-overflow-tooltip>
+					<el-table-column prop="PriceScore" label="价格得分" align="right" width="200" show-overflow-tooltip>
 						<template #default="scope">
 							<el-input-number style="width: 100%;" v-model="scope.row.PriceScore" :precision="0" :step="1" :min="0"/>
 						</template>
@@ -80,13 +80,16 @@ import { toRefs, reactive, computed, onMounted, ref, getCurrentInstance } from '
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
 import { useI18n } from 'vue-i18n';
+import { Session } from '/@/utils/storage';
 
+const token = Session.get('token');
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	projectId: '',
 	expertUid: '',
+	token: token,
 	projectList: [],
 	projectForm: {},
 	projectExpertList: [],
@@ -160,7 +163,7 @@ const onGetProjectExpertList = async () => {
 //获取投标方列表
 const onGetTableData = async () => {
 	try {
-		const projectCompanyRes = await proxy.$api.erp.projectcompany.signUpList({projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
+		const projectCompanyRes = await proxy.$api.erp.projectcompany.getListByScope("bid", 0, 0,{projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
 		if (projectCompanyRes.errcode != 0) {
 			return;
 		}
@@ -188,6 +191,7 @@ const onGetTableData = async () => {
 			for	(let item of projectReviewRes.data){
 				if (item.CompanyId == val.CompanyId) {
 					model.Id = item.Id
+					model.Uid = item.Uid
 					model.ReviewPrice = item.ReviewPrice
 					model.PriceScore = item.PriceScore
 				}

@@ -2,31 +2,34 @@
 	<div>
 		<el-row>
 			<el-col :span="24">
-				<div style="text-align: center;font-size: 30px; padding-bottom: 15px;">
-					<h>开标一览表</h>
-				</div>
-			</el-col>
-			<el-col :span="24">
-				<el-descriptions >
-					<el-descriptions-item label="开标地点：">{{ state.projectForm.BidOpenTime }}</el-descriptions-item>
-					<el-descriptions-item label="时间：">{{ state.projectForm.Location }}</el-descriptions-item>
+				<el-descriptions :column="2">
+					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
+					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
+					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
+					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
 		<el-row>
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
-					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column prop="Name" label="比选人名单" width="120" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="State" label="电子标书是否递交" width="150" show-overflow-tooltip>
+					<el-table-column type="index" label="序号" align="right" width="60" fixed />
+					<el-table-column prop="Sn" label="项目包号" width="200" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="No" label="招标控制价" align="right" width="120" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="State" label="状态" show-overflow-tooltip>
 						<template #default="scope">
-							<span v-if="scope.row.LineState == 0">是</span>
-							<span v-else-if="scope.row.LineState == 1">否</span>
+							<span v-if="scope.row.State == 0">未开标</span>
+							<span v-else-if="scope.row.State == 1">已开标</span>
+							<span v-else-if="scope.row.State == 2">已结束</span>
+							<span v-else-if="scope.row.State == 3">废包</span>
 						</template>
 					</el-table-column>
-					<el-table-column prop="TrustDeed" label="法定代表证明及授权委托书" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="Quotation" label="比选总报价" width="120" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="BidAnnouncement" label="唱标" width="120" show-overflow-tooltip></el-table-column>
+					<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(220)" fixed="right">
+						<template #default="scope">
+							<el-button type="primary" @click="">设定为开标包</el-button>
+							<el-button text bg type="primary" @click="">废包</el-button>
+						</template>
+					</el-table-column> -->
 				</el-table>
 				<el-pagination
 					small
@@ -38,7 +41,8 @@
 					background
 					v-model:page-size="state.tableData.param.pageSize"
 					layout="->, total, sizes, prev, pager, next, jumper"
-					:total="state.tableData.total"/>
+					:total="state.tableData.total">
+				</el-pagination>
 			</el-col>
 		</el-row>
 	</div>
@@ -46,7 +50,7 @@
 
 <script setup lang="ts">
 import request from '/@/utils/request';
-import { toRefs, computed, reactive, onMounted, ref, getCurrentInstance } from 'vue';
+import { toRefs, reactive, onMounted, ref, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
 import { useI18n } from 'vue-i18n';
@@ -61,14 +65,14 @@ const state: any = reactive({
 		total: 0,
 		loading: false,
 		param: {
+			mode: 2,
 			current: 1,
 			pageSize: 20,
+			projectId: 0,
+			categoryId: null,
+			name: '',
 		},
 	},
-});
-
-state.tableData.param.pageIndex = computed(() => {
-	return state.tableData.param.current - 1;
 });
 
 //	打开页面
@@ -81,15 +85,15 @@ const openPage = async (data: {}) => {
 const closePage = async () => {
 	state.projectForm = {}
 	state.tableData.data = []
-}
+};
 
 //	获取标的物项目信息
 const onGetProjectLineTableData = async () => {
 	//	获取标的物项目信息
 	state.tableData.loading = true;
 	try {
-		state.tableData.param.projectId = state.projectId
-		const res = await proxy.$api.erp.projectline.getListByScope(state.tableData.param);
+		state.tableData.param.projectId = state.projectForm.Id
+		const res = await proxy.$api.erp.projectline.getListByScope("bid", 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}
@@ -101,19 +105,12 @@ const onGetProjectLineTableData = async () => {
 };
 
 //获取项目品目信息
-const getCompanyList = async () => {
-	state.tableData.loading = true
-	try {
-		//重新请求数据
-		const res = await proxy.$api.erp.projectcompany.comparisonList(state.tableData.param);
-		//获取存储的项目数据
-		if (res.errcode != 0) {
-			return;
-		}
-		state.tableData.data = res.data;
-		state.tableData.total = res.total
-	} finally {
-		state.tableData.loading = false
+const getBidList = async () => {
+	//重新请求数据
+	await proxy.$parent.$parent.$parent.$parent.GetByIdRow(false);
+	//获取存储的项目数据
+	if (state.projectForm.ProjectLineList) {
+		state.tableData.data = state.projectForm.ProjectLineList;
 	}
 };
 

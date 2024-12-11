@@ -20,10 +20,19 @@
 			</el-col>
 		</el-row>
 		<el-row style="padding: 15px;" v-if="state.projectId > 0">
-			<el-col :span="24">
+			<el-col :span="6">
 				<div>
-					<el-button type="primary" @click="confirm">组长确认</el-button>
 					<el-button type="primary" @click="onReturn">退回重评</el-button>
+				</div>
+			</el-col>
+			<el-col :span="12">
+				<div style="text-align: center; font-size: 20px;">
+					<h>中标供应商推荐</h>
+				</div>
+			</el-col>
+			<el-col :span="6">
+				<div  style="float: right;">
+					<el-button type="primary" @click="leaderConfirm">组长确认</el-button>
 				</div>
 			</el-col>
 		</el-row>
@@ -31,22 +40,22 @@
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="60" fixed />
-					<el-table-column prop="CompanyName" label="投标方名称" show-overflow-tooltip/>
-					<el-table-column prop="ReviewPrice" label="投标评审价（元）" width="150" show-overflow-tooltip/>
-					<el-table-column prop="PriceScore" label="报价得分" width="150" show-overflow-tooltip/>
-					<el-table-column prop="TechnicalScore" label="技术得分" width="150" show-overflow-tooltip/>
-					<el-table-column prop="TechnicalScore" label="最终得分" width="150" show-overflow-tooltip/>
-					<el-table-column prop="RecommendRemark" label="推荐中标候选人" width="150" show-overflow-tooltip>
+					<el-table-column prop="CompanyName" label="投标方名称" width="300" show-overflow-tooltip/>
+					<el-table-column prop="ReviewPrice" label="投标评审价（元）" align="right" width="120" show-overflow-tooltip/>
+					<el-table-column prop="PriceScore" label="报价得分" width="120" align="right" show-overflow-tooltip/>
+					<el-table-column prop="TechnicalScore" label="技术得分" width="120" align="right" show-overflow-tooltip/>
+					<el-table-column prop="TechnicalScore" label="最终得分" width="120" align="right" show-overflow-tooltip/>
+					<el-table-column prop="Remark" label="推荐中标意见" show-overflow-tooltip>
 						<template #default="scope" >
-							<el-input style="width: 100%;" v-model="scope.row.RecommendRemark" :precision="2" :step="1" :min="0"/>
+							<el-input style="width: 100%;" v-model="scope.row.Remark" :precision="2" :step="1" :min="0" v-if="scope.row.EvalState == 0"/>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
-					<template #default="scope">
-						<el-button bg type="primary" @click="onSubmit(scope.row)">保存</el-button>
-						<el-button text bg type="primary" @click="">编辑</el-button>
-					</template>
-				</el-table-column>
+					<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(140)" fixed="right">
+						<template #default="scope">
+							<el-tag type="success" v-if="state.projectForm.EvalState == 1">第一候选人</el-tag>
+							<el-button bg type="primary" v-else @click="recommendation(scope.row)">推荐为第一候选人</el-button>
+						</template>
+					</el-table-column>
 				</el-table>
 				<el-pagination
 					small
@@ -108,6 +117,7 @@ const onGetProjectTableData = async () => {
 			return;
 		}
 		state.projectList = res.data;
+		console.log("测试", res.data)
 	} finally {
 	}
 };
@@ -115,7 +125,7 @@ const onGetProjectTableData = async () => {
 //获取投标方列表
 const onGetTableData = async () => {
 	try {
-		const projectCompanyRes = await proxy.$api.erp.projectcompany.signUpList({projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
+		const projectCompanyRes = await proxy.$api.erp.projectcompany.getListByScope("bid", 0, 0,{projectId: state.projectId, kind: 'bid', pageIndex: 0, pageSize: 20,});
 		if (projectCompanyRes.errcode != 0) {
 			return;
 		}
@@ -130,15 +140,16 @@ const onGetTableData = async () => {
 		state.tableData.data = []
 		for (let val of projectCompanyRes.data) {
 			let model = {}
-			model.Id = val.ProjectCompanyId
+			model.Id = val.Id
 			model.ProjectId = val.ProjectId
+			model.CompanyId = val.CompanyId
 			model.CompanyName = val.CompanyName
 			model.ReviewPrice = 0
 			model.PriceScore = 0
 			model.GatherScore = 0
 			model.TechnicalScore = 0
-			model.IsRecommend = val.IsRecommend
-			model.RecommendRemark = val.RecommendRemark
+			model.Remark = val.Remark
+			model.EvalState = val.EvalState
 			state.tableData.data.push(model)
 			for	(let item of projectReviewRes.data){
 				if (item.CompanyId == val.CompanyId) {
@@ -154,29 +165,6 @@ const onGetTableData = async () => {
 	}
 };
 
-//保存推荐
-const onSubmit = async (data: object) => {
-	ElMessageBox.confirm(`确定要推荐供应商吗?`, '提示', {
-		confirmButtonText: '确认',
-		cancelButtonText: '取消',
-		type: 'warning',
-	}).then(async () => {
-		try {
-			const res = await proxy.$api.erp.projectcompany.recommendationUpdate(data.Id, data);
-			if (res.errcode != 0) {
-				return;
-			}
-			onGetTableData()
-			ElMessage('推荐供应商成功')
-		} finally {
-		}
-		return false;
-	}).catch(async () => {
-		onGetTableData()
-		ElMessage('取消推荐供应商')
-	});
-};
-
 //组长回退
 const onReturn = async () => {
 	ElMessageBox.confirm(`确定要回退重评吗?`, '提示', {
@@ -187,39 +175,74 @@ const onReturn = async () => {
 		try {
 			const res = await proxy.$api.erp.projectreview.gatherReturnSave(state.projectId);
 			if (res.errcode != 0) {
+				ElMessage.error('回退失败！')
 				return;
 			}
-			onGetTableData()
-			ElMessage('回退成功')
+			ElMessage.success('回退成功！')
+			setTimeout(() => {
+				onGetProjectTableData()
+				selectProject(state.projectId)
+			}, 500);
 		} finally {
 		}
 		return false;
 	}).catch(async () => {
 		onGetTableData()
-		ElMessage('回退汇总')
+		ElMessage.info('取消')
 	});
 };
 
-//组长确认
-const confirm = async () => {
-	ElMessageBox.confirm(`确定完成评审吗?`, '提示', {
+//推荐第一候选人
+const recommendation = async (data: object) => {
+	ElMessageBox.confirm(`确定推荐(`+ data.CompanyName + `)为第一候选人吗?`, '提示', {
 		confirmButtonText: '确认',
 		cancelButtonText: '取消',
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectcompany.confirmUpdate(state.projectForm.Id);
+			const res = await proxy.$api.erp.projectbid.recommendationSupplier(data.CompanyId, data);
 			if (res.errcode != 0) {
+				ElMessage.error('推荐失败！')
 				return;
 			}
-			onGetTableData()
-			ElMessage('评审已完成')
+			ElMessage.success('推荐成功！')
+			setTimeout(() => {
+				onGetProjectTableData()
+				selectProject(state.projectId)
+			}, 500);
 		} finally {
 		}
 		return false;
 	}).catch(async () => {
 		onGetTableData()
-		ElMessage('取消')
+		ElMessage.info('取消')
+	});
+}
+
+//组长确认
+const leaderConfirm = async () => {
+	ElMessageBox.confirm(`确定提交意见并完成评审吗?`, '提示', {
+		confirmButtonText: '确认',
+		cancelButtonText: '取消',
+		type: 'warning',
+	}).then(async () => {
+		try {
+			const res = await proxy.$api.erp.projectcompany.leaderConfirm(state.projectId, state.tableData.data);
+			if (res.errcode != 0) {
+				ElMessage.error('提交失败！')
+				return;
+			}
+			ElMessage.success('提交成功！')
+			setTimeout(() => {
+				onGetProjectTableData()
+				selectProject(state.projectId)
+			}, 500);
+		} finally {
+		}
+		return false;
+	}).catch(async () => {
+		onGetTableData()
+		ElMessage.info('取消')
 	});
 };
 

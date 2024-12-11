@@ -2,16 +2,14 @@
 	<div>
 		<el-row>
 			<el-col :span="24">
-				<div style="float: left; padding-bottom: 15px;">
-					<el-button type="primary" @click="">公布投标人名单</el-button>
+				<div style="text-align: center;font-size: 30px; padding-bottom: 15px;">
+					<h>开标一览表</h>
 				</div>
 			</el-col>
 			<el-col :span="24">
-				<el-descriptions :column="2" >
-					<el-descriptions-item label="项目名称：">{{ state.projectForm.Name }}</el-descriptions-item>
-					<el-descriptions-item label="项目编号：">{{ state.projectForm.No }}</el-descriptions-item>
-					<el-descriptions-item label="评选时间：">{{ state.projectForm.ReviewTime }}</el-descriptions-item>
-					<el-descriptions-item label="评选地点：">{{ state.projectForm.Location }}</el-descriptions-item>
+				<el-descriptions >
+					<el-descriptions-item label="开标地点：">{{ state.projectForm.BidOpenTime }}</el-descriptions-item>
+					<el-descriptions-item label="时间：">{{ state.projectForm.Location }}</el-descriptions-item>
 				</el-descriptions>
 			</el-col>
 		</el-row>
@@ -19,19 +17,16 @@
 			<el-col :span="24">
 				<el-table :data="state.tableData.data" v-loading="state.tableData.loading" style="width: 100%" size="small" border stripe highlight-current-row>
 					<el-table-column type="index" label="序号" align="right" width="70" fixed />
-					<el-table-column prop="CompanyName" label="单位名称" width="120" show-overflow-tooltip/>
-					<el-table-column prop="State" label="投标状态" show-overflow-tooltip>
+					<el-table-column prop="Name" label="比选人名单" width="120" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="State" label="电子标书是否递交" width="150" show-overflow-tooltip>
 						<template #default="scope">
-							<el-tag effect="success" v-if="scope.row.State == 0">未投标</el-tag>
-							<el-tag effect="danger" v-else-if="scope.row.State == 1">已投标</el-tag>
+							<span v-if="scope.row.LineState == 0">是</span>
+							<span v-else-if="scope.row.LineState == 1">否</span>
 						</template>
 					</el-table-column>
-					<el-table-column prop="BiddingTime" label="投标文件送达时间" show-overflow-tooltip>
-						<template #default="scope">
-							<span v-if="scope.row.BiddingTime > '0001.01.01 00:00:00'">{{ scope.row.BiddingTime }}</span>
-							<span v-else></span>
-						</template>
-					</el-table-column>
+					<el-table-column prop="TrustDeed" label="法定代表证明及授权委托书" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="Quotation" label="比选总报价" width="120" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="BidAnnouncement" label="唱标" width="120" show-overflow-tooltip></el-table-column>
 				</el-table>
 				<el-pagination
 					small
@@ -79,7 +74,7 @@ state.tableData.param.pageIndex = computed(() => {
 //	打开页面
 const openPage = async (data: {}) => {
 	state.projectForm = data
-	getCompanyList()
+	onGetProjectLineTableData()
 };
 
 //	关闭页面
@@ -88,13 +83,29 @@ const closePage = async () => {
 	state.tableData.data = []
 }
 
-//获取投标人名单
+//	获取标的物项目信息
+const onGetProjectLineTableData = async () => {
+	//	获取标的物项目信息
+	state.tableData.loading = true;
+	try {
+		state.tableData.param.projectId = state.projectForm.Id
+		const res = await proxy.$api.erp.projectline.getListByScope("bid", 0, 0, state.tableData.param);
+		if (res.errcode != 0) {
+			return;
+		}
+		state.tableData.data = res.data;
+		state.tableData.total = res.total;
+	} finally {
+		state.tableData.loading = false;
+	}
+};
+
+//获取项目品目信息
 const getCompanyList = async () => {
 	state.tableData.loading = true
 	try {
 		//重新请求数据
-		state.tableData.param.projectId = state.projectForm.Id
-		const res = await proxy.$api.erp.projectcompany.signUpList(state.tableData.param);
+		const res = await proxy.$api.erp.projectcompany.getListByScope("bid", 0, 0, state.tableData.param);
 		//获取存储的项目数据
 		if (res.errcode != 0) {
 			return;
@@ -122,7 +133,6 @@ onMounted(() => {
 });
 
 defineExpose({openPage, closePage})
-
 </script>
 
 <style scoped lang="scss">

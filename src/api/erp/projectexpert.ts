@@ -1,7 +1,6 @@
 import { http } from '/@/utils/request';
 
 export default {
-
     /**
      * 获取列表
      * @param kind 分类
@@ -14,28 +13,10 @@ export default {
         const url = `/v1/admin/erp/projectexpert/${kind}/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
-    
-    /**
-     * 获取信息
-     * @returns 返回接口数据
-     */
-    getList: async (params: object = {}) => {
-        const url = `/v1/admin/erp/projectexpert`;
-        return await http.get(url, params);
-    },
-
-    /**
-     * 获取信息
-     * @returns 返回接口数据
-     */
-    getById: async (id: number | string) => {
-        const url = `/v1/admin/erp/projectexpert/${id}`;
-        return await http.get(url);
-    },
 
     /**
      * 新增或更新
-     * @param data 信息
+     * @param data 标识，字符串或数组
      * @returns 返回接口数据
      */
     save: async (data: object) => {
@@ -48,115 +29,44 @@ export default {
     },
 
     /**
-     * 批量保存
-     * @param data 信息
-     * @returns 返回接口数据
-     */
-    saveMulti: async (kind:string,data: any) => {
-        const url = `/v1/admin/erp/projectexpert/${kind}`;
-        return await http.post(url, data);
-    },
-    /**
-     * 复制
-     * @param data 信息
-     * @returns 返回接口数据
-     */
-    copy: async (id: number|string) => {
-        const url = `/v1/admin/erp/projectexpert/copy/${id}`;
-        return await http.post(url, id);
-    },
-    /**
      * 删除
-     * @param ids 标识，字符串或数组
+     * @param id 项目id
      * @returns 返回接口数据
      */
     delete: async (id: number | string) => {
         const url = `/v1/admin/erp/projectexpert/delete/${id}`;
         return await http.post(url);
     },
-
-    /**
-   * 禁用
-   * @param ids 标识，字符串或数组
-   * @returns 返回接口数据
-   */
-    disable: async (data: object) => {
-        const url = `/v1/admin/erp/projectexpert/disable`;
-        return await http.post(url, data);
-    },
-
-    /**
-    * 获取项目专家信息
-    * @returns 返回接口数据
-    */
-    expertList: async (id: number | string) => {
-        const url = `/v1/admin/erp/projectexpert/expertlist/${id}`;
-        return await http.get(url);
-    },
-
-    /**
-    * 项目专家信息
-    * @returns 返回接口数据
-    */
-    expertSave: async (data: object) => {
-        const url = `/v1/admin/erp/projectexpert/expert`;
-        return await http.post(url, data);
-    },
-
-    /**
-    * 项目专家信息
-    * @returns 返回接口数据
-    */
-    expertDel: async (data: object) => {
-        const url = `/v1/admin/erp/projectexpert/expertdel`;
-        return await http.post(url, data);
-    },
-
-    
-
-     /**
-    * 监审专家授权
-    * @returns 返回接口数据
-    */
-    empowerSave: async (data: object) => {
-        const url = `/v1/admin/erp/projectexpert/empower`;
-        return await http.post(url, data);
-    },
-
-    /**
-    * 获取公司报名信息
-    * @returns 返回接口数据
-    */
-    signUpDetail: async (id: number | string, companyId: number | string) => {
-        const url = `/v1/admin/erp/projectexpert/signup/${id}/${companyId}`;
-        return await http.get(url);
-    },
-
     
     /**
-    * 获取专家参与的项目列表
-    * @returns 返回接口数据
-    */
+     * 获取专家参与的项目列表
+     * @param params 要传的参数值
+     * @returns 返回接口数据
+     */
     expertParticipateList: async (params: object = {}) => {
         const url = `/v1/admin/erp/projectexpert/participate`;
         return await http.get(url, params);
     },
 
     /**
-    * 专家报名
-    * @returns 返回接口数据
-    */
-    expertIsSignIn: async (id: number | string, data: object) => {
-        const url = `/v1/admin/erp/projectexpert/issignin/${id}`;
+     * 专家签到
+     * @param id 项目id
+     * @param data 标识，字符串或数组
+     * @returns 返回接口数据
+     */
+    projectExpertIsSignIn: async (id: number | string, data: object) => {
+        const url = `/v1/admin/erp/projectexpert/signin/${id}`;
         return await http.post(url, data);
     },
 
     /**
-    * 推荐专家接口
-    * @returns 返回接口数据
-    */
-    expertLeader: async (id: number | string, data: object) => {
-        const url = `v1/admin/erp/projectexpert/leader/${id}`;
+     * 专家推荐组长
+     * @param id 项目id
+     * @param data 标识，字符串或数组
+     * @returns 返回接口数据
+     */
+    projectExpertLeader: async (id: number | string, data: object) => {
+        const url = `v1/admin/erp/projectexpert/recommendleader/${id}`;
         return await http.post(url, data);
     },
     

@@ -23,9 +23,9 @@
 			<el-col :span="24">
 				<el-card>
 					<div style="text-align: center; margin-bottom: 50px; font-size: 20px;">
-						<h >评审报告</h>
+						<el-link :href="state.baseUrl + state.projectForm.ReportFiles" v-if="state.projectForm.ReportState == 1" target="_blank">评审报告：{{ state.projectForm.ReportFiles }}</el-link>	
 					</div>
-					<div style="text-align: center;" v-if="state.tableData.data.length > 0">
+					<div style="text-align: center;" v-if="state.projectForm.ReportState == 1">
 						<el-button style="width: 300px; height: 80px; font-size: 50px;" type="primary" @click="onSubmit">确认签章</el-button>
 					</div>
 				</el-card>
@@ -48,24 +48,13 @@ const state: any = reactive({
 	projectId: '',
 	projectList: [],
 	projectForm: {},
-	tableData: {
-		data: [],
-		total: 0,
-		loading: false,
-		param: {
-			current: 1,
-			pageSize: 20,
-		},
-	},
-});
-
-state.tableData.param.pageIndex = computed(() => {
-	return state.tableData.param.current - 1;
+	baseUrl: import.meta.env.VITE_URL as any,
+	ruleForm: {},
 });
 
 const selectProject = async (event) => {
     state.projectForm = state.projectList.find(item => item.Id === event);
-	onGetTableData()
+	onProjectBidGetById()
 }
 
 //	获取专家参与的项目列表
@@ -81,16 +70,23 @@ const onGetProjectTableData = async () => {
 };
 
 //	获取报告
-const onGetTableData = async () => {
+const onProjectBidGetById = async () => {
 	try {
-		state.tableData.param.projectId = state.projectForm.Id
-		const res = await proxy.$api.erp.projectreview.getListByScope("report", 0, 0, state.tableData.param)
+		const res = await proxy.$api.erp.projectbid.getById(state.projectForm.Id)
 		if (res.errcode != 0) {
 			return;
 		}
-		state.tableData.data = res.data;
+		state.projectForm = res.data;
 	} finally {
 	}
+};
+
+// 下载文件
+const onDownloadFile = async () => {
+	var a = document.createElement('a');
+	a.href = import.meta.env.VITE_URL + state.projectForm.ReportFiles;
+	a.download = state.projectForm.ReportRemark; // 下载后的文件名称
+	a.click();
 };
 
 const onSubmit = async () => {
@@ -100,18 +96,21 @@ const onSubmit = async () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectreview.reportSignatureSave(state.projectId);
+			state.ruleForm.ReportSignPic = "test"
+			state.ruleForm.Id = state.projectForm.Id
+			const res = await proxy.$api.erp.projectbid.reportSignature(state.projectId, state.ruleForm);
 			if (res.errcode != 0) {
+				ElMessage.warning('报告签章失败！')
 				return;
 			}
-			onGetTableData()
-			ElMessage('签章成功')
+			onProjectBidGetById()
+			ElMessage.success('报告签章成功！')
 		} finally {
 		}
 		return false;
 	}).catch(async () => {
-		onGetTableData()
-		ElMessage('取消签章')
+		onProjectBidGetById()
+		ElMessage.info('取消报告签章')
 	});
 };
 

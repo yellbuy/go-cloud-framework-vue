@@ -59,7 +59,7 @@
 				v-model:page-size="state.tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
 				:total="state.tableData.total"/>
-				<seeDlg ref="seeDlgRef" />
+				<projectSeeDlg ref="projectSeeDlgRef" />
 		</el-card>
 		<projectTodoEdit ref="projectTodoEditRef" v-if="state.isShowPage === 'todo'"/>
 	</div>
@@ -72,7 +72,7 @@ import { useRoute } from 'vue-router';
 import projectTodoEdit from './component/projectTodoEdit.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
-import seeDlg from '/@/views/bpp/tenderee/project/bidList/component/projectSee.vue';
+import projectSeeDlg from '/@/views/bpp/tenderee/project/bidList/component/projectSee.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -83,7 +83,7 @@ const scopeMode = route.params.scopeMode || 0;
 const scopeValue = route.params.scopeValue || 3;
 const moduleKey = `api_pro_project_${kind}_${mode}`;
 const { proxy } = getCurrentInstance() as any;
-const seeDlgRef = ref();
+const projectSeeDlgRef = ref();
 const projectTodoEditRef = ref();
 const state: any = reactive({
 	isShowPage: 'list',
@@ -118,7 +118,7 @@ const onResetSearch = () => {
 const onGetTableData = async () => {
 	state.tableData.loading = true;
 	try {
-		const res = await proxy.$api.erp.projectcompany.signUpLists(state.tableData.param);
+		const res = await proxy.$api.erp.projectcompany.getListByScope("bid", 0, 0, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}
@@ -132,7 +132,7 @@ const onGetTableData = async () => {
 //打开查看数据弹窗
 const onModelSee = (id: string, state: boolean) => {
 	nextTick(() => {
-		seeDlgRef.value.openDialog(id, state);
+		projectSeeDlgRef.value.openDialog(id, state);
 	});
 };
 

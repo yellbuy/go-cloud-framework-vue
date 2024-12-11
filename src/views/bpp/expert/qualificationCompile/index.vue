@@ -20,21 +20,21 @@
 			</el-col>
 		</el-row>
 		<el-row v-if="state.projectId > 0">
-			<el-col :span="8">
-				<div >
-					<el-button type="primary" @click="onSubmit()">汇总</el-button>
+			<el-col :span="6">
+				<div>
+					<el-button type="primary" @click="onReturn">退回重评</el-button>
 				</div>
 			</el-col>
-			<el-col :span="8">
+			<el-col :span="12">
 				<el-form-item label="评委编号：">
 					<el-select v-model="state.expertUid" placeholder="请选择" @change="selectProjectExpert">
 						<el-option v-for="(item, index) in state.projectExpertList" :key="index" :label="item.Name" :value="item.Uid"/>
 					</el-select>
 				</el-form-item>
 			</el-col>
-			<el-col :span="8">
-				<div style="float: right;" >
-					<el-button type="primary" @click="onReturn">退回重评</el-button>
+			<el-col :span="6">
+				<div style="float: right;">
+					<el-button type="primary" @click="onSubmit">汇总</el-button>
 				</div>
 			</el-col>
 		</el-row>

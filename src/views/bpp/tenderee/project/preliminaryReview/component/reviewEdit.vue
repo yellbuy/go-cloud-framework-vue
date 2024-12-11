@@ -113,7 +113,7 @@
 		</el-form>
 			<span class="dialog-footer" style="float: right; margin-bottom: 20px;">
 				<el-button text bg type="primary" @click="onCancel()">返回</el-button>
-				<el-button text bg type="danger" v-if="isEdit" @click="onAudit(1)" >审核驳回</el-button>
+				<el-button text bg type="danger" v-if="state.isEdit" @click="onAudit(1)" >审核驳回</el-button>
 				<el-button type="primary" v-if="state.isEdit" @click="onAudit(0)">审核通过</el-button>
 			</span>
 		<el-dialog :title="title" v-model="state.isShowDialog" width="20%" :before-close="onAuditCancel">
@@ -194,28 +194,14 @@ const openSeePage = async (id: string) => {
 // 获取详细信息
 const GetByIdRow = async (id: string) => {
 	try {
-		const res = await proxy.$api.erp.projectcompany.projectcompany("bid", id);
+		const res = await proxy.$api.erp.projectcompany.getById(id);
 		if (res.errcode != 0) {
 			return;
 		}
-		state.ruleForm = res.data[0];
+		state.ruleForm = res.data;
 	} finally {
 	}
 };
-
-const onSubmit = async () => {
-	try {
-		const res = await proxy.$api.erp.projectcompany.auditUpdate(state.ruleForm.Id, state.param);
-		if (res.errcode != 0) {
-			return;
-		}
-		GetByIdRow(state.ruleForm.Id)
-		onCancel()
-		state.param.AuditRemark == ''
-		state.isShowDialog = false;
-	} finally {
-	}
-}
 
 // 打开审核窗口
 //auditKind: 0.通过 ， 1.驳回
@@ -224,19 +210,19 @@ const onAudit = (auditKind: number) => {
 	state.param.Id = state.ruleForm.Id
 	if (auditKind == 0 && state.ruleForm.EnsurePayState == 0) {
 		state.title = "资料支付凭证审核通过意见"
-		state.param.AuditKind = 'bid'
+		state.param.AuditKind = 'auditBidPay'
 		state.param.AuditState = 1
 	} else if (auditKind == 0 && state.ruleForm.EnsurePayState == 1) {
 		state.title = "保证金支付凭证审核通过意见"
-		state.param.AuditKind = 'ensure'
+		state.param.AuditKind = 'auditEnsurePay'
 		state.param.AuditState = 1
 	} else if (auditKind == 1 && state.ruleForm.EnsurePayState == 0) {
 		state.title = "资料支付凭证审核驳回意见"
-		state.param.AuditKind = 'bid'
+		state.param.AuditKind = 'auditBidPay'
 		state.param.AuditState = 2
 	} else if (auditKind == 1 && state.ruleForm.EnsurePayState == 1) {
 		state.title = "保证金支付凭证审核驳回意见"
-		state.param.AuditKind = 'ensure'
+		state.param.AuditKind = 'auditEnsurePay'
 		state.param.AuditState = 2
 	} else {
 		state.isShowDialog = false;
@@ -249,6 +235,24 @@ const onAuditCancel = () => {
 	state.loading = false;
 	state.isShowDialog = false;
 };
+
+// 提交
+const onSubmit = async () => {
+	try {
+		const res = await proxy.$api.erp.projectcompany.voucherAudit(state.ruleForm.Id, state.param);
+		if (res.errcode != 0) {
+			ElMessage.error('提交失败！')
+			return;
+		}
+		ElMessage.success('提交成功！')
+		setTimeout(() => {
+			GetByIdRow(state.ruleForm.Id)
+		}, 500);
+		state.param.AuditRemark == ''
+		state.isShowDialog = false;
+	} finally {
+	}
+}
 
 // 打开新标签预览图片
 const showImage = async (path: string) => {

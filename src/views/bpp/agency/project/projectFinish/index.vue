@@ -67,7 +67,7 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-// import editDlg from '../../component/companyEdit.vue';
+import editDlg from '../../../tenderee/component/companyEdit.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 export default {

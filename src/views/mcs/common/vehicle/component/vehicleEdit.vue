@@ -267,7 +267,6 @@ export default {
 			loading: false,
 			disable: true, //	是否禁用
 			baseApiUrl: import.meta.env.VITE_API_URL,
-			baseUrl: import.meta.env.VITE_URL,
 			dialogImageUrl: "",
 			ImageVisible: false,
 			//	表单

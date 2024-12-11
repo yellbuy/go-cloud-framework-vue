@@ -21,7 +21,7 @@
 						</el-icon>
 						搜索
 					</el-button>
-					<el-button type="primary" @click="onProjectCreateEdit()">
+					<el-button type="primary" @click="onProjectCreate">
 						<el-icon>
 							<CirclePlusFilled />
 						</el-icon>
@@ -49,7 +49,7 @@
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button type="info" @click="onProjectSee(scope.row.Id, true)">项目详情</el-button>
-						<el-button type="primary" @click="onBidEdit(scope.row.Id)">项目评选</el-button>
+						<el-button type="primary" @click="onProjectSelection(scope.row.Id)">项目评选</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -64,10 +64,10 @@
 				v-model:page-size="state.tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
 				:total="state.tableData.total"/>
-			<seeDlg ref="seeDlgRef" />
+			<projectSeeDlg ref="projectSeeDlgRef" />
 		</el-card>
-		<projectCreateEdit ref="projectCreateEditRef"/>
-		<bidEdit ref="bidEditRef"/>
+		<projectCreate ref="projectCreateRef"/>
+		<projectSelection ref="projectSelectionRef"/>
 	</div>
 </template>
 
@@ -75,9 +75,9 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, nextTick, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import bidEdit from './component/bidEdit.vue';
-import projectCreateEdit from './component/projectCreateEdit.vue';
-import seeDlg from './component/projectSee.vue';
+import projectSelection from './selection/projectSelection.vue';
+import projectCreate from './create/projectCreate.vue';
+import projectSeeDlg from './component/projectSee.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 
@@ -90,9 +90,9 @@ const mode = route.params.mode;
 const isBid = route.params.isBid;
 const moduleKey = `api_pro_project_${kind}_${mode}`;
 const { proxy } = getCurrentInstance() as any;
-const seeDlgRef = ref();
-const projectCreateEditRef = ref();
-const bidEditRef = ref();
+const projectSeeDlgRef = ref();
+const projectCreateRef = ref();
+const projectSelectionRef = ref();
 const state: any = reactive({
 	isShowPage: true,
 	moduleKey: moduleKey,
@@ -139,25 +139,25 @@ const onGetTableData = async () => {
 };
 
 // 打开项目创建页
-const onProjectCreateEdit = () => {
+const onProjectCreate = () => {
 	state.isShowPage = false;
 	nextTick(() => {
-		projectCreateEditRef.value.openPage()
+		projectCreateRef.value.openPage()
 	});
 };
 
 //打开项目查看弹窗
 const onProjectSee = (id: string, state: boolean) => {
 	nextTick(() => {
-		seeDlgRef.value.openDialog(id, state);
+		projectSeeDlgRef.value.openDialog(id, state);
 	});
 };
 
 //打开项目评选页
-const onBidEdit = (id: string) => {
+const onProjectSelection = (id: string) => {
 	state.isShowPage = false;
 	nextTick(() => {
-		bidEditRef.value.openPage(id)
+		projectSelectionRef.value.openPage(id)
 	});
 };
 

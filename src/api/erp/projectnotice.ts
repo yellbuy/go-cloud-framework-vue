@@ -1,7 +1,6 @@
 import { http } from '/@/utils/request';
 
 export default {
-
     /**
      * 获取列表
      * @param kind 分类
@@ -16,15 +15,6 @@ export default {
     },
 
     /**
-     * 获取信息
-     * @returns 返回接口数据
-     */
-    getById: async (id: number | string) => {
-        const url = `/v1/admin/erp/projectnotice/${id}`;
-        return await http.get(url);
-    },
-
-    /**
      * 新增
      * @param data 信息
      * @returns 返回接口数据
@@ -36,15 +26,5 @@ export default {
         }
         const url = `/v1/admin/erp/projectnotice/${data.Id}`;
         return await http.post(url, data);
-    },
-
-    /**
-     * 删除
-     * @param ids 标识，字符串或数组
-     * @returns 返回接口数据
-     */
-    delete: async (id: number | string) => {
-        const url = `/v1/admin/erp/projectnotice/delete/${id}`;
-        return await http.post(url);
     },
 }

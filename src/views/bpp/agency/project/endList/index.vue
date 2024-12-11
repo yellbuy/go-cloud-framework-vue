@@ -58,7 +58,7 @@
 				v-model:page-size="state.tableData.param.pageSize"
 				layout="->, total, sizes, prev, pager, next, jumper"
 				:total="state.tableData.total"/>
-			<seeDlg ref="seeDlgRef" />
+			<projectSeeDlg ref="projectSeeDlgRef" />
 		</el-card>
 	</div>
 </template>
@@ -68,7 +68,7 @@ import request from '/@/utils/request';
 import commonFunction from '/@/utils/commonFunction';
 import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import seeDlg from '../../../tenderee/project/bidList/component/projectSee.vue';
+import projectSeeDlg from '../../../tenderee/project/bidList/component/projectSee.vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store/index';
 
@@ -81,7 +81,7 @@ const scopeMode = route.params.scopeMode || 0;
 const scopeValue = route.params.scopeValue || 0;
 const moduleKey = `api_pro_project_${kind}_${mode}`;
 const { proxy } = getCurrentInstance() as any;
-const seeDlgRef = ref();
+const projectSeeDlgRef = ref();
 const state: any = reactive({
 	moduleKey: moduleKey,
 	kind,
@@ -131,7 +131,7 @@ const onGetTableData = async () => {
 
 //打开查看详情页面
 const onProjectSee = (id: string, state: boolean) => {
-	seeDlgRef.value.openDialog(id, state);
+	projectSeeDlgRef.value.openDialog(id, state);
 };
 
 // 分页改变

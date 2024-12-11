@@ -35,6 +35,7 @@ const state = reactive({
 	moduleKey,
     loading: false,
     title: t('message.action.add'),
+    projectForm: {},
     ruleForm: {},
 });
 
@@ -45,18 +46,25 @@ const rules = reactive({
 });
 
 // 打开弹窗
-const openDialog = (id: string) => {
+const openDialog = (id: string, kind: string, project: object) => {
+    state.projectForm = project
     state.loading = false
-	if (id && id != '0') {
+	if (id && id != '' && id != '0') {
 		getRowById(id);
 		state.title = t('message.action.edit');
-	} else {
+	} else if (kind == "zgps") {
         state.ruleForm.Id = '0';
-        state.ruleForm.Kind = 'bid';
+        state.ruleForm.Kind = 'zgps';
 		state.ruleForm.State = 0
         state.ruleForm.ProjectId = state.projectForm.Id
 		state.title = t('message.action.add');
-	}
+	} else if (kind == "jsps") {
+        state.ruleForm.Id = '0';
+        state.ruleForm.Kind = 'jsps';
+		state.ruleForm.State = 0
+        state.ruleForm.ProjectId = state.projectForm.Id
+		state.title = t('message.action.add');
+    }
 	
 	state.isShowDialog = true;
 };

@@ -16,7 +16,7 @@ const state = reactive({
 });
 
 // 打开弹窗
-const openDialog = (data: {}) => {
+const openDialog = (data: object = {}) => {
 	state.projectForm = data
 	state.isShowDialog = true;
 };
