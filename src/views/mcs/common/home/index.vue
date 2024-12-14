@@ -1,8 +1,6 @@
 <template>
 	<div>
 		<p style="font-size: 30px;">功能数据接口修改中</p>
-	</div>
-	<div>
 		<el-row :gutter="15" style="margin-bottom: 15px;">
 			<el-col :xs="8" :sm="8">
 				<el-card shadow="hover" style="background-color: #31A28E; width: 100%; height: 90px; border-radius:15px; transition: all 0.2s;">
