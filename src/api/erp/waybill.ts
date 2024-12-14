@@ -170,4 +170,13 @@ export default {
         const url = `/v1/admin/erp/waybill/delete/${id}`;
         return await http.post(url);
     },
+
+    /**
+     * 获取首页列表
+     * @returns 返回接口数据
+     */
+    getHomeList: async (scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+        const url = `/v1/admin/erp/waybillline/home/${scopeMode}/${scopeValue}`;
+        return await http.get(url, params);
+    },
 }

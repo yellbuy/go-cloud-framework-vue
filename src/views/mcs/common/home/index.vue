@@ -1,79 +1,70 @@
 <template>
-	<div class="home-container">
-		<el-row>
-			<el-col style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
-				<el-card shadow="hover" style="background-color: #31A28E; width: 100%; height: 90px; border-radius:15px; margin: 10px; transition: all 0.2s;">
+	<div>
+		<p style="font-size: 30px;">功能数据接口修改中</p>
+	</div>
+	<div>
+		<el-row :gutter="15" style="margin-bottom: 15px;">
+			<el-col :xs="8" :sm="8">
+				<el-card shadow="hover" style="background-color: #31A28E; width: 100%; height: 90px; border-radius:15px; transition: all 0.2s;">
 					<el-row>
-						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{vehicleWarning.count}}</el-row>
-							<el-row style="font-size: 15px; color: white;">车辆证件临期超期统计</el-row>
+						<el-col :xs="24" :sm="20">
+							<el-row style="font-size: 30px; color: white;">{{statData.VehicleInsideRunningCount}}	/	{{statData.VehicleInsideCount}}</el-row>
+							<el-row style="font-size: 15px; color: white;">当日自有车出勤统计（完成数 / 任务数）</el-row>
 						</el-col>
-						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+						<el-col :xs="24" :sm="4" style="display: flex; align-items: center; justify-content: flex-end;">
 							<i class="fa fa-truck" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
-				<el-card shadow="hover" style=" background-color: #029BDD; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
+			</el-col>
+			<el-col :xs="8" :sm="8">
+				<el-card shadow="hover" style=" background-color: #029BDD; width: 100%; height: 90px; border-radius:15px">
 					<el-row>
-						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{driverWarning.count}}</el-row>
-							<el-row style="font-size: 15px; color: white;">司机证件临期超期统计</el-row>
+						<el-col :xs="24" :sm="20">
+							<el-row style="font-size: 30px; color: white;">{{statData.WaybillFinishedCount}}	/	{{statData.WaybillLineCount}}</el-row>
+							<el-row style="font-size: 15px; color: white;">当日业务完成进度统计（完成数 / 任务数）</el-row>
 						</el-col>
-						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-address-card" aria-hidden="true" style="font-size: 40px; color: white;" />
-						</el-col>
-					</el-row>
-				</el-card>
-				<el-card shadow="hover" style=" background-color: #894DB8; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
-					<el-row>
-						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{vehicleInsuranceWarning.count}}</el-row>
-							<el-row style="font-size: 15px; color: white;">车辆保险临期超期统计</el-row>
-						</el-col>
-						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+						<el-col :xs="24" :sm="4" style="display: flex; align-items: center; justify-content: flex-end;">
 							<i class="fa fa-file-text" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
-				<el-card shadow="hover" style=" background-color: #E35E00; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
+			</el-col>
+			<el-col :xs="8" :sm="8">
+				<el-card shadow="hover" style=" background-color: #894DB8; width: 100%; height: 90px; border-radius:15px">
 					<el-row>
-						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{notice.threeDaysCount}}</el-row>
-							<el-row style="font-size: 15px; color: white;">3日内站内消息统计</el-row>
+						<el-col :xs="24" :sm="20">
+							<el-row style="font-size: 30px; color: white;">{{statData.VehicleStopCount}}	/	{{statData.VehicleCount}}</el-row>
+							<el-row style="font-size: 15px; color: white;">当日停驶车辆统计（停驶数 / 车辆总数）</el-row>
 						</el-col>
-						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-volume-up" aria-hidden="true" style="font-size: 40px; color: white;" />
+						<el-col :xs="24" :sm="4" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-product-hunt" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
 			</el-col>
-			<!-- 消息通知 -->
-			<el-col :xs="24" :sm="12">
-				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
+		</el-row>
+		<el-row :gutter="15">
+			<el-col :xs="8" :sm="8">
+				<el-card shadow="hover" style="border-radius:15px">
 					<template #header>
-						<span style="font-size: 16px;">车辆证件临期超期列表</span>
-						<span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span>
+						<span style="font-size: 16px;">当日自有车出勤明细</span>
+						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
-						:data="vehicleWarning.list"
-						v-loading="vehicleWarning.loading"
-						height="190px"
+						:data="attendanceTableData.list"
+						v-loading="attendanceTableData.loading"
+						:height="proxy.$calcMainHeight(-205)"
 						border
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
-						<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="80" fixed />
-						<el-table-column prop="Driver" label="司机" width="80" show-overflow-tooltip></el-table-column>		
-						<el-table-column label="外部车" width="60" show-overflow-tooltip>
-							<template #default="scope">
-								<el-tag type="success" effect="plain" v-if="scope.row.IsExternal">{{ $t('message.action.yes') }}</el-tag>
-								<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
-							</template>
-						</el-table-column>
-						<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="DrivingLicenseEndDate" label="行驶证截止日" width="110" :formatter="dateFormatYMD" align="right"></el-table-column>
-						<el-table-column prop="TransportLicenseEndDate" label="运输证截止日" width="110" :formatter="dateFormatYMD" align="right"></el-table-column>
-						<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="VehicleNumber" label="车牌号码" show-overflow-tooltip width="80" fixed />
+						<el-table-column prop="DriverName" label="驾驶员" width="60" show-overflow-tooltip/>		
+						<el-table-column prop="VehicleType" label="车型" width="80" show-overflow-tooltip/>
+						<el-table-column prop="WaybillCustomerName" label="客户单位" width="120" show-overflow-tooltip/>
+						<el-table-column prop="WaybillGoodsName" label="货物名称" width="120" show-overflow-tooltip/>
+						<el-table-column prop="RouterId" label="运输线路" width="200" show-overflow-tooltip/>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(65)" fixed="right">
 							<template #default="scope">
 								<el-button text bg @click="onVehicleEditDlg(scope.row.Id, true)">
@@ -82,40 +73,41 @@
 							</template>
 						</el-table-column>
 					</el-table>
-					<el-pagination style=""
+					<el-pagination
 						small
 						@size-change="(val) => onHandleSizeChange(val, 1)"
 						@current-change="(val) => onHandleCurrentChange(val, 1)"
 						class="mt15"
 						:page-sizes="[10, 20, 30, 50, 100]"
-						v-model:current-page="vehicleWarning.param.pageNum"
+						v-model:current-page="attendanceTableData.param.current"
 						background
-						v-model:page-size="vehicleWarning.param.pageSize"
+						v-model:page-size="attendanceTableData.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="vehicleWarning.count" />
+						:total="attendanceTableData.total" />
 				</el-card>
 			</el-col>
-			<el-col :xs="24" :sm="12">
-				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
+			<el-col :xs="8" :sm="8">
+				<el-card shadow="hover" style="border-radius:15px">
 					<template #header>
-						<span style="font-size: 16px;">司机证件临期超期列表</span>
-						<span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span>
+						<span style="font-size: 16px;">当日业务完成进度列表</span>
+						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
-						:data="driverWarning.list"
-						v-loading="driverWarning.loading"
-						height="190px"
+						:data="finishTableData.list"
+						v-loading="finishTableData.loading"
+						:height="proxy.$calcMainHeight(-205)"
 						border
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
-						<el-table-column prop="Name" label="姓名" width="80" align="left" show-overflow-tooltip fixed></el-table-column>
-						<el-table-column prop="Gender" label="性别" width="50" align="left" :formatter="formatGender" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="Mobile" label="手机号" width="100" align="right" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="IdnoEndDate" label="身份截止日" width="100" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-						<el-table-column prop="DriverLicenseType" label="驾照类型" width="70" align="left" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="IdnoEndDate" label="驾照截止日" width="100" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
-						<el-table-column prop="Tname" label="所属公司"  align="left" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="WaybillGoodsName" label="业务名称" width="120" show-overflow-tooltip fixed></el-table-column>
+						<el-table-column prop="PlanWeight" label="完成业务进度" width="90" align="center" show-overflow-tooltip fixed>
+							<template #default="scope">
+								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
+							</template>
+						</el-table-column>
+						<el-table-column prop="WaybillCustomerName" label="客户单位" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="RouterId" label="运输线路" width="200" show-overflow-tooltip></el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(65)" fixed="right">
 							<template #default="scope">
 								<el-button text bg @click="onDriverEditDlg(scope.row.Id, true)">
@@ -130,33 +122,34 @@
 						@current-change="(val) => onHandleCurrentChange(val, 2)"
 						class="mt15"
 						:page-sizes="[10, 20, 30, 50, 100]"
-						v-model:current-page="driverWarning.param.pageNum"
+						v-model:current-page="finishTableData.param.current"
 						background
-						v-model:page-size="driverWarning.param.pageSize"
+						v-model:page-size="finishTableData.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="driverWarning.count" />
+						:total="finishTableData.total" />
 				</el-card>
 			</el-col>
-			<el-col :xs="24" :sm="12">
-				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
+			<el-col :xs="8" :sm="8">
+				<el-card shadow="hover" style="border-radius:15px">
 					<template #header>
-						<span style="font-size: 16px;">车辆保险临期超期列表</span>
-						<span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span>
+						<span style="font-size: 16px;">当日停驶车辆统计</span>
+						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
-						:data="vehicleInsuranceWarning.list"
-						v-loading="vehicleInsuranceWarning.loading"
-						height="190px"
+						:data="stopTableData.list"
+						v-loading="stopTableData.loading"
+						:height="proxy.$calcMainHeight(-205)"
 						border
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
-						<el-table-column prop="VehicleNumber" label="车牌号" align="left" show-overflow-tooltip width="80" fixed />
-						<el-table-column prop="No" label="保单号" width="200" align="left" show-overflow-tooltip fixed></el-table-column>
-						<el-table-column prop="EndTime" label="保险截止日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
-						<el-table-column prop="CompulsoryEndDate" label="交强险截止日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
-						<el-table-column prop="CommercialEndDate" label="商业险截止日" width="100" align="center" :formatter="dateFormatYMD"  show-overflow-tooltip />
-						<el-table-column prop="CompanyName" label="所属公司" align="left" show-overflow-tooltip />
+						<el-table-column prop="VehicleNumber" label="车牌号码" width="80" show-overflow-tooltip/>
+						<el-table-column prop="VehicleKind" label="停驶原因" show-overflow-tooltip>
+							<template #default="scope">
+								<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.RepairState > 0">修</el-tag>
+								<el-tag type="success" class="mr4" round effect="dark" v-else-if="scope.row.WaybillLineCount = 0" >空</el-tag>
+							</template>
+						</el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(65)" fixed="right">
 							<template #default="scope">
 								<el-button text bg @click="onIndexEditDlg(scope.row.Id, true)">
@@ -171,38 +164,13 @@
 						@current-change="(val) => onHandleCurrentChange(val, 3)"
 						class="mt15"
 						:page-sizes="[10, 20, 30, 50, 100]"
-						v-model:current-page="vehicleInsuranceWarning.param.pageNum"
+						v-model:current-page="stopTableData.param.current"
 						background
-						v-model:page-size="vehicleInsuranceWarning.param.pageSize"
+						v-model:page-size="stopTableData.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="vehicleInsuranceWarning.count" />
+						:total="stopTableData.total" />
 				</el-card>
 			</el-col>
-			<el-col :xs="24" :sm="12">
-				<el-card shadow="hover" style="border-radius:15px; margin: 10px;">
-					<template #header style="flex: 0 0 auto;">
-						<span style="font-size: 16px;">消息列表</span>
-					</template>
-					<div style="height: 190px; overflow: auto;">
-						<li v-for="(item, index) in notice.list" :key="index" style="padding-bottom: 10px;">
-							<a :href="'/#/article/detail/'+item.Id" target="_block">{{ item.Title }}</a>
-						</li>
-					</div>
-					<el-pagination
-						small
-						@size-change="(val) => onHandleSizeChange(val, 4)"
-						@current-change="(val) => onHandleCurrentChange(val, 4)"
-						class="mt15"
-						:page-sizes="[10, 20, 30, 50, 100]"
-						v-model:current-page="notice.pageNum"
-						background
-						v-model:page-size="notice.param.pageSize"
-						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="notice.count" />
-				</el-card>
-			</el-col>
-		</el-row>
-		<el-row :gutter="15" style="display: flex; flex-direction: row;">
 		</el-row>
 		<vehicleEditDlg ref="vehicleEditDlg" />
 		<driverEditDlg ref="driverEditDlg" />
@@ -239,48 +207,66 @@ export default {
 			scopeMode,
 			scopeValue,
 			myCharts: [],
-			vehicleWarning: {
-				loading: false,
-				count:0,
-				list:[],
+			statData: {
+				list: [],
+				total: 0,
 				param: {
+					finishState: -1,
+					isTodayAll: 1,
+					vehicleIsExternal: -1,
 					state: -1,
 					pageNum: 1,
 					pageSize: 10,
 				}
 			},
-			driverWarning:{
+			attendanceTableData: {
 				loading: false,
-				count:0,
+				total:0,
 				list:[],
 				param: {
+					finishState: -1,
+					isTodayAll: 1,
+					vehicleIsExternal: 0,
 					state: -1,
-					pageNum: 1,
+					current: 1,
 					pageSize: 10,
 				}
 			},
-			vehicleInsuranceWarning:{
+			finishTableData:{
 				loading: false,
-				count:0,
+				total:0,
 				list:[],
 				param: {
+					finishState: -1,
+					isTodayAll: 1,
+					vehicleIsExternal: -1,
 					state: -1,
-					pageNum: 1,
+					current: 1,
 					pageSize: 10,
 				}
 			},
-			notice:{
+			stopTableData:{
 				loading: false,
-				count:0,
-				threeDaysCount:0,
+				total:0,
 				list:[],
-				pageNum:1,
 				param: {
-					state: 1,
-					pageIndex: 0,
+					finishState: -1,
+					isTodayAll: 1,
+					vehicleIsExternal: -1,
+					state: -1,
+					current: 1,
 					pageSize: 10,
 				}
 			},
+		});
+		state.attendanceTableData.param.pageIndex = computed(() => {
+			return state.attendanceTableData.param.current - 1;
+		});
+		state.finishTableData.param.pageIndex = computed(() => {
+			return state.finishTableData.param.current - 1;
+		});
+		state.stopTableData.param.pageIndex = computed(() => {
+			return state.stopTableData.param.current - 1;
 		});
 		// 获取用户信息 vuex
 		const getUserInfos = computed(() => {
@@ -295,64 +281,46 @@ export default {
 			if(status==0||status==1){
 				// 车辆证件超期预警统计
 				try {
-					const resVehicleWarning = await proxy.$api.erp.vehicle.getVehicleWarning(state.kind, state.scopeMode, state.scopeValue, state.vehicleWarning.param);
-					if (resVehicleWarning.errcode == 0) {
-						state.vehicleWarning.count = resVehicleWarning.total
-						state.vehicleWarning.list = resVehicleWarning.data
+					const attendanceRes = await proxy.$api.erp.waybill.getHomeList(0, 0, state.statData.param)
+					if (attendanceRes.errcode == 0) {
+						state.attendanceTableData.total = attendanceRes.total
+						state.attendanceTableData.list = attendanceRes.data
+						state.statData.VehicleInsideRunningCount = attendanceRes.total
+						state.statData.VehicleInsideCount = attendanceRes.total
 					}else{
-						console.log("error:",resVehicleWarning.errmsg)
 					}
 				}finally {
-					state.vehicleWarning.loading = false;
+					state.attendanceTableData.loading = false;
 				}
 			} 
 			if(status==0||status==2){
 				// 司机驾驶证超期预警统计
 				try {
-					const resDriverWarning = await proxy.$api.erp.driver.getDriverWarning(state.kind, state.scopeMode, state.scopeValue, state.driverWarning.param);
-					if (resDriverWarning.errcode == 0) {
-						state.driverWarning.count = resDriverWarning.total
-						state.driverWarning.list = resDriverWarning.data
+					const finishRes = await proxy.$api.erp.waybill.getHomeList(0, 0, state.finishTableData.param)
+					if (finishRes.errcode == 0) {
+						state.finishTableData.total = finishRes.total
+						state.finishTableData.list = finishRes.data
+						state.statData.WaybillFinishedCount = finishRes.total
+						state.statData.WaybillLineCount = finishRes.total
 					}else{
-						console.log("error:",resDriverWarning.errmsg)
 					}
 				}finally {
-					state.driverWarning.loading = false;
+					state.finishTableData.loading = false;
 				}
 			} 
 			if(status==0||status==3) {
 				// 车辆保险超期预警统计
 				try {
-					const resVehicleInsuranceWarning = await proxy.$api.erp.vehicleinsurance.getVehicleInsuranceWarning(state.kind, state.scopeMode, state.scopeValue, state.vehicleInsuranceWarning.param);
-					if (resVehicleInsuranceWarning.errcode == 0) {
-						state.vehicleInsuranceWarning.count = resVehicleInsuranceWarning.total
-						state.vehicleInsuranceWarning.list = resVehicleInsuranceWarning.data
+					const stopRes = await proxy.$api.erp.waybill.getHomeList(0, 0, state.stopTableData.param)
+					if (stopRes.errcode == 0) {
+						state.stopTableData.total = stopRes.total
+						state.stopTableData.list = stopRes.data
+						state.statData.VehicleStopCount = stopRes.total
+						state.statData.VehicleCount = stopRes.total
 					}else{
-						console.log("error:",resVehicleInsuranceWarning.errmsg)
 					}
 				}finally {
-					state.vehicleInsuranceWarning.loading = false;
-				}
-			}
-			if(status==0||status==4){
-				// 站内消息统计
-				try {
-					const resNoticeData = await proxy.$api.cms.article.getList('notice', 2, state.notice.param)
-					if (resNoticeData.errcode == 0) {
-						state.notice.list = resNoticeData.data
-						state.notice.count = resNoticeData.total
-						console.log("测试",state.notice.list)
-					}else{
-						console.log("error:",resNoticeData.errmsg)
-					}
-					const resNoticeThreeDaysCount = await proxy.$api.cms.article.getThreeDaysCount('notice', 2, state.notice.param)
-					if(resNoticeThreeDaysCount.errcode == 0){
-						state.notice.threeDaysCount = resNoticeThreeDaysCount.data
-					}else{
-						console.log("error:",resNoticeThreeDaysCount.errmsg)
-					}
-				}finally {
-					state.notice.loading = false;
+					state.stopTableData.loading = false;
 				}
 			}
 		}
@@ -374,38 +342,29 @@ export default {
 		const onHandleSizeChange = (val: number, index: number) => {
 			switch(index){
 				case 1:
-					state.vehicleWarning.param.pageSize = val;
+					state.attendanceTableData.param.pageSize = val;
 					break;
 				case 2:
-					state.driverWarning.param.pageSize = val;
+					state.finishTableData.param.pageSize = val;
 					break;
 				case 3:
-					state.vehicleInsuranceWarning.param.pageSize = val;
-					break;
-				case 4:
-					state.notice.param.pageSize = val;
+					state.stopTableData.param.pageSize = val;
 					break;
 			}
-			onGetTableData(index);
 		};
 		//	分页改变
 		const onHandleCurrentChange = (val: number, index: number) => {
 			switch(index){
 				case 1:
-					state.vehicleWarning.param.pageNum = val;
+					state.attendanceTableData.param.current = val;
 					break;
 				case 2:
-					state.driverWarning.param.pageNum = val;
+					state.finishTableData.param.current = val;
 					break;
 				case 3:
-					state.vehicleInsuranceWarning.param.pageNum = val;
-					break;
-				case 4:
-					state.notice.pageNum = val;
-					state.notice.param.pageIndex = val -1;
+					state.stopTableData.param.current = val;
 					break;
 			}
-			onGetTableData(index);
 		};
 
 		// 批量设置 echarts resize
