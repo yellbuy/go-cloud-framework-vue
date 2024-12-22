@@ -172,10 +172,10 @@ export default {
     },
 
     /**
-     * 获取首页列表
+     * 获取首页车辆统计列表
      * @returns 返回接口数据
      */
-    getHomeList: async (scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
+    getHomeVehicleList: async (scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
         const url = `/v1/admin/erp/waybillline/home/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },

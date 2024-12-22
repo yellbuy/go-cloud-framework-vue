@@ -6,6 +6,13 @@
 					<el-form-item label="关键字：">
 						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
+					<el-form-item label="性质：">
+						<el-select v-model="tableData.param.isExternal" placeholder="车辆性质" style="width: 80px">
+							<el-option label="不限" :value="-1"></el-option>
+							<el-option label="内部车" :value="0"></el-option>
+							<el-option label="外部车" :value="1"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item label="任务：">
 						<el-select v-model="tableData.param.waybillState" placeholder="任务状态" style="width: 80px">
 							<el-option label="不限" :value="-1"></el-option>
@@ -222,6 +229,7 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
+					isExternal:-1,
 					waybillState:-1,
 					repairState:-1,
 					certState:0,

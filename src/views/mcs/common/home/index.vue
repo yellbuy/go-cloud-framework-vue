@@ -1,58 +1,86 @@
 <template>
 	<div>
-		<p style="font-size: 30px;">功能数据接口修改中</p>
 		<el-row :gutter="15" style="margin-bottom: 15px;">
-			<el-col :xs="8" :sm="8">
-				<el-card shadow="hover" style="background-color: #31A28E; width: 100%; height: 90px; border-radius:15px; transition: all 0.2s;">
+			<el-col style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+				<el-card shadow="hover" style="background-color: #31A28E; width: 100%; height: 90px; border-radius:15px; margin: 10px; transition: all 0.2s;">
 					<el-row>
-						<el-col :xs="24" :sm="20">
-							<el-row style="font-size: 30px; color: white;">{{statData.VehicleInsideRunningCount}}	/	{{statData.VehicleInsideCount}}</el-row>
-							<el-row style="font-size: 15px; color: white;">当日自有车出勤统计（完成数 / 任务数）</el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">{{warningStat.VehicleCount}}</el-row>
+							<el-row style="font-size: 12px; color: white;">车辆证件提醒</el-row>
 						</el-col>
-						<el-col :xs="24" :sm="4" style="display: flex; align-items: center; justify-content: flex-end;">
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
 							<i class="fa fa-truck" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
-			</el-col>
-			<el-col :xs="8" :sm="8">
-				<el-card shadow="hover" style=" background-color: #029BDD; width: 100%; height: 90px; border-radius:15px">
+				<el-card shadow="hover" style=" background-color: #029BDD; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
 					<el-row>
-						<el-col :xs="24" :sm="20">
-							<el-row style="font-size: 30px; color: white;">{{statData.WaybillFinishedCount}}	/	{{statData.WaybillLineCount}}</el-row>
-							<el-row style="font-size: 15px; color: white;">当日业务完成进度统计（完成数 / 任务数）</el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">{{warningStat.DriverCount}}</el-row>
+							<el-row style="font-size: 12px; color: white;">司机证件提醒</el-row>
 						</el-col>
-						<el-col :xs="24" :sm="4" style="display: flex; align-items: center; justify-content: flex-end;">
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-address-card" aria-hidden="true" style="font-size: 40px; color: white;" />
+						</el-col>
+					</el-row>
+				</el-card>
+				<el-card shadow="hover" style=" background-color: #894DB8; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
+					<el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">{{warningStat.InsuranceCount}}</el-row>
+							<el-row style="font-size: 12px; color: white;">车辆保险提醒</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
 							<i class="fa fa-file-text" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
-			</el-col>
-			<el-col :xs="8" :sm="8">
-				<el-card shadow="hover" style=" background-color: #894DB8; width: 100%; height: 90px; border-radius:15px">
+				<el-card shadow="hover" style=" background-color: #E35E00; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
 					<el-row>
-						<el-col :xs="24" :sm="20">
-							<el-row style="font-size: 30px; color: white;">{{statData.VehicleStopCount}}	/	{{statData.VehicleCount}}</el-row>
-							<el-row style="font-size: 15px; color: white;">当日停驶车辆统计（停驶数 / 车辆总数）</el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">255</el-row>
+							<el-row style="font-size: 12px; color: white;">停驶车辆</el-row>
 						</el-col>
-						<el-col :xs="24" :sm="4" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-product-hunt" aria-hidden="true" style="font-size: 40px; color: white;" />
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-car" aria-hidden="true" style="font-size: 40px; color: white;" />
+						</el-col>
+					</el-row>
+				</el-card>
+				<el-card shadow="hover" style=" background-color: #67C23A; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
+					<el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 15px; color: white;">6000 / 180000</el-row>
+							<el-row style="font-size: 12px; color: white;margin-top:16px;">当日自有车完成</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-volume-up" aria-hidden="true" style="font-size: 40px; color: white;" />
+						</el-col>
+					</el-row>
+				</el-card>
+				<el-card shadow="hover" style=" background-color: #E6A23C; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
+					<el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 15px; color: white;">6000 / 180000</el-row>
+							<el-row style="font-size: 12px; color: white;margin-top:16px;">当日业务完成</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-volume-up" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
 			</el-col>
 		</el-row>
-		<el-row :gutter="15">
-			<el-col :xs="8" :sm="8">
+		<el-row :gutter="15" style="margin-bottom: 15px;">
+			<el-col :xs="12" :sm="12">
 				<el-card shadow="hover" style="border-radius:15px">
 					<template #header>
 						<span style="font-size: 16px;">当日自有车出勤明细</span>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
-						:data="attendanceTableData.list"
-						v-loading="attendanceTableData.loading"
-						:height="proxy.$calcMainHeight(-205)"
+						:data="waybillLineVehicleTableData.list"
+						v-loading="waybillLineVehicleTableData.loading"
+						:height="200"
 						border
 						stripe
 						highlight-current-row>
@@ -62,7 +90,11 @@
 						<el-table-column prop="VehicleType" label="车型" width="80" show-overflow-tooltip/>
 						<el-table-column prop="WaybillCustomerName" label="客户单位" width="120" show-overflow-tooltip/>
 						<el-table-column prop="WaybillGoodsName" label="货物名称" width="120" show-overflow-tooltip/>
-						<el-table-column prop="RouterId" label="运输线路" width="200" show-overflow-tooltip/>
+						<el-table-column prop="WaybillSenderAddress" label="运输线路" width="200" show-overflow-tooltip >
+							<template #default="scope">
+								{{ scope.row.WaybillSenderAddress }} 至 {{ scope.row.WaybillReceiverAddress }}
+							</template>
+						</el-table-column>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(65)" fixed="right">
 							<template #default="scope">
 								<el-button text bg @click="onVehicleEditDlg(scope.row.Id, true)">
@@ -84,7 +116,7 @@
 						:total="attendanceTableData.total" />
 				</el-card>
 			</el-col>
-			<el-col :xs="8" :sm="8">
+			<el-col :xs="12" :sm="12">
 				<el-card shadow="hover" style="border-radius:15px">
 					<template #header>
 						<span style="font-size: 16px;">当日业务完成进度列表</span>
@@ -93,7 +125,7 @@
 					<el-table
 						:data="finishTableData.list"
 						v-loading="finishTableData.loading"
-						:height="proxy.$calcMainHeight(-205)"
+						:height="200"
 						border
 						stripe
 						highlight-current-row>
@@ -127,7 +159,9 @@
 						:total="finishTableData.total" />
 				</el-card>
 			</el-col>
-			<el-col :xs="8" :sm="8">
+		</el-row>
+		<el-row :gutter="15">
+			<el-col :xs="12" :sm="12">
 				<el-card shadow="hover" style="border-radius:15px">
 					<template #header>
 						<span style="font-size: 16px;">当日停驶车辆统计</span>
@@ -136,7 +170,7 @@
 					<el-table
 						:data="stopTableData.list"
 						v-loading="stopTableData.loading"
-						:height="proxy.$calcMainHeight(-205)"
+						:height="200"
 						border
 						stripe
 						highlight-current-row>
@@ -167,6 +201,49 @@
 						v-model:page-size="stopTableData.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
 						:total="stopTableData.total" />
+				</el-card>
+			</el-col>
+			<el-col :xs="12" :sm="12">
+				<el-card shadow="hover" style="border-radius:15px">
+					<template #header>
+						<span style="font-size: 16px;">当年业务完成进度列表</span>
+						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
+					</template>
+					<el-table
+						:data="finishTableData.list"
+						v-loading="finishTableData.loading"
+						:height="200"
+						border
+						stripe
+						highlight-current-row>
+						<el-table-column type="index" label="序号" align="right" width="50" fixed />
+						<el-table-column prop="WaybillGoodsName" label="业务名称" width="120" show-overflow-tooltip fixed></el-table-column>
+						<el-table-column prop="PlanWeight" label="完成业务进度" width="90" align="center" show-overflow-tooltip fixed>
+							<template #default="scope">
+								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
+							</template>
+						</el-table-column>
+						<el-table-column prop="WaybillCustomerName" label="客户单位" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="RouterId" label="运输线路" width="200" show-overflow-tooltip></el-table-column>
+						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(65)" fixed="right">
+							<template #default="scope">
+								<el-button text bg @click="onDriverEditDlg(scope.row.Id, true)">
+									{{ $t('message.action.see') }}
+								</el-button>
+							</template>
+						</el-table-column>
+					</el-table>
+					<el-pagination
+						small
+						@size-change="(val) => onHandleSizeChange(val, 4)"
+						@current-change="(val) => onHandleCurrentChange(val, 4)"
+						class="mt15"
+						:page-sizes="[10, 20, 30, 50, 100]"
+						v-model:current-page="finishTableData.param.current"
+						background
+						v-model:page-size="finishTableData.param.pageSize"
+						layout="->, total, sizes, prev, pager, next, jumper"
+						:total="finishTableData.total" />
 				</el-card>
 			</el-col>
 		</el-row>
@@ -205,6 +282,24 @@ export default {
 			scopeMode,
 			scopeValue,
 			myCharts: [],
+			waybillLineVehicleTableData:{ //当然车辆出勤明细
+				loading: false,
+				total:0,
+				list:[],
+				param: {
+					finishState: -1,
+					isTodayAll: 1,
+					vehicleIsExternal: 0,
+					state: -1,
+					current: 1,
+					pageSize: 10,
+				}
+			},
+			warningStat:{
+				VehicleCount:222,
+				DriverCount:10,
+				InsuranceCount:36,
+			},
 			statData: {
 				list: [],
 				total: 0,
@@ -256,6 +351,9 @@ export default {
 					pageSize: 10,
 				}
 			},
+		});
+		state.waybillLineVehicleTableData.param.pageIndex = computed(() => {
+			return state.waybillLineVehicleTableData.param.current - 1;
 		});
 		state.attendanceTableData.param.pageIndex = computed(() => {
 			return state.attendanceTableData.param.current - 1;
@@ -321,6 +419,17 @@ export default {
 					state.stopTableData.loading = false;
 				}
 			}
+			// 当日车辆出勤明细
+			try {
+				const stopRes = await proxy.$api.erp.waybill.getHomeVehicleList(0, 0, state.waybillLineVehicleTableData.param)
+				if (stopRes.errcode == 0) {
+					state.waybillLineVehicleTableData.total = stopRes.total
+					state.waybillLineVehicleTableData.list = stopRes.data
+				}else{
+				}
+			} finally {
+				state.waybillLineVehicleTableData.loading = false;
+			}
 		}
 
 		// 打开车辆详情
@@ -340,12 +449,15 @@ export default {
 		const onHandleSizeChange = (val: number, index: number) => {
 			switch(index){
 				case 1:
-					state.attendanceTableData.param.pageSize = val;
+					state.waybillLineVehicleTableData.param.pageSize = val;
 					break;
 				case 2:
-					state.finishTableData.param.pageSize = val;
+					state.attendanceTableData.param.pageSize = val;
 					break;
 				case 3:
+					state.finishTableData.param.pageSize = val;
+					break;
+				case 4:
 					state.stopTableData.param.pageSize = val;
 					break;
 			}
