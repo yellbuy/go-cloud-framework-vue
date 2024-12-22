@@ -101,8 +101,8 @@
 				</el-table-column>
 				<el-table-column label="提醒" width="120" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.RepairState">修</el-tag>
-						<el-tag type="success" class="mr4" round effect="dark" v-else-if="scope.row.WaybillLineCount" >任</el-tag>
+						<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.RepairState > 0">修</el-tag>
+						<el-tag type="success" class="mr4" round effect="dark" v-else-if="scope.row.WaybillLineCount > 0" >任</el-tag>
 						<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
 						<el-tooltip v-if="scope.row.InsuranceState > 0"
 							class="box-item"
