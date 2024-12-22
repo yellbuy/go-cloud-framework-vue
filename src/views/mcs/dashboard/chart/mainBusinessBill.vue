@@ -132,8 +132,8 @@ const endDateBox=ref<dxDateBox>();
 const state: any = reactive({
 	dataSource:PivotGridDataSource
 });
-let startDate=dayjs(new Date()).add(-3, 'year');
-let endDate=dayjs(new Date());
+let startDate=dayjs(new Date()).startOf('week')
+let endDate=dayjs(new Date()).endOf('day');
 const createDataSource:any = ()=>{
 	const customStore = new CustomStore({
     loadMode: "raw", // omit in the DataGrid, TreeList, PivotGrid, and Scheduler 
