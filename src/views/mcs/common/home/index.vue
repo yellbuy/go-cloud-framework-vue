@@ -50,7 +50,7 @@
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 15px; color: white;">{{waybillStat.TodayInternalFinishWeight}} / {{waybillStat.TodayInternalPlanWeight}}</el-row>
-							<el-row style="font-size: 12px; color: white;margin-top:16px;">当日自有车完成</el-row>
+							<el-row style="font-size: 10px; color: white;margin-top:16px;">当日自有车完成(万吨)</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
 							<i class="fa fa-volume-up" aria-hidden="true" style="font-size: 40px; color: white;" />
@@ -61,7 +61,7 @@
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 15px; color: white;">{{waybillStat.TodayFinishWeight}} / {{waybillStat.TodayPlanWeight}}</el-row>
-							<el-row style="font-size: 12px; color: white;margin-top:16px;">当日业务完成</el-row>
+							<el-row style="font-size: 10px; color: white;margin-top:16px;">当日业务完成(万吨)</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
 							<i class="fa fa-volume-up" aria-hidden="true" style="font-size: 40px; color: white;" />
@@ -240,7 +240,7 @@
 			<el-col :xs="12" :sm="12">
 				<el-card shadow="hover" style="border-radius:15px">
 					<template #header>
-						<span style="font-size: 16px;">当年业务完成进度列表</span>
+						<span style="font-size: 12px;">当年业务完成进度列表(万吨)</span>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
