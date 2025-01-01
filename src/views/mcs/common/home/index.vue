@@ -1,78 +1,88 @@
 <template>
 	<div>
-		<el-row :gutter="15" style="margin-bottom: 15px;">
-			<el-col style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
-				<el-card shadow="hover" style="background-color: #31A28E; width: 100%; height: 90px; border-radius:15px; margin: 10px; transition: all 0.2s;">
+		<el-row>
+			<el-col :span="4">
+				<el-card style="background-color: #31A28E; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{warningStat.VehicleCount}}</el-row>
 							<el-row style="font-size: 12px; color: white;">车辆证件提醒</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-truck" aria-hidden="true" style="font-size: 40px; color: white;" />
+							<i class="fa fa-drivers-license" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
-				<el-card shadow="hover" style=" background-color: #029BDD; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
+			</el-col>
+			<el-col :span="4">
+				<el-card style=" background-color: #029BDD; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{warningStat.DriverCount}}</el-row>
 							<el-row style="font-size: 12px; color: white;">司机证件提醒</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-address-card" aria-hidden="true" style="font-size: 40px; color: white;" />
+							<i class="fa fa-vcard" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
-				<el-card shadow="hover" style=" background-color: #894DB8; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
+			</el-col>
+			<el-col :span="4">
+				<el-card style=" background-color: #894DB8; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{warningStat.InsuranceCount}}</el-row>
 							<el-row style="font-size: 12px; color: white;">车辆保险提醒</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-file-text" aria-hidden="true" style="font-size: 40px; color: white;" />
+							<i class="fa fa-paste" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
-				<el-card shadow="hover" style=" background-color: #E35E00; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
+			</el-col>
+			<el-col :span="4">
+				<el-card shadow="hover" style=" background-color: #E35E00; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{stopVehicleTableData.total}}</el-row>
 							<el-row style="font-size: 12px; color: white;">停驶车辆</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-car" aria-hidden="true" style="font-size: 40px; color: white;" />
+							<i class="fa fa-product-hunt" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
-				<el-card shadow="hover" style=" background-color: #67C23A; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
+			</el-col>
+			<el-col :span="4">
+				<el-card style=" background-color: #67C23A; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 15px; color: white;">{{waybillStat.TodayInternalFinishWeight}} / {{waybillStat.TodayInternalPlanWeight}}</el-row>
 							<el-row style="font-size: 10px; color: white;margin-top:16px;">当日自有车完成(万吨)</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-volume-up" aria-hidden="true" style="font-size: 40px; color: white;" />
+							<i class="fa fa-truck" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
-				<el-card shadow="hover" style=" background-color: #E6A23C; width: 100%; height: 90px; border-radius:15px; margin: 10px;">
+			</el-col>
+			<el-col :span="4">
+				<el-card style=" background-color: #E6A23C; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 15px; color: white;">{{waybillStat.TodayFinishWeight}} / {{waybillStat.TodayPlanWeight}}</el-row>
 							<el-row style="font-size: 10px; color: white;margin-top:16px;">当日业务完成(万吨)</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-volume-up" aria-hidden="true" style="font-size: 40px; color: white;" />
+							<i class="fa fa-stack-overflow" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
 			</el-col>
 		</el-row>
-		<el-row :gutter="15" style="margin-bottom: 15px;">
+		<el-row >
 			<el-col :xs="12" :sm="12">
-				<el-card shadow="hover" style="border-radius:15px">
+				<el-card>
 					<template #header>
 						<span style="font-size: 16px;">当日自有车出勤明细</span>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
@@ -90,7 +100,7 @@
 						<el-table-column prop="VehicleType" label="车型" width="80" show-overflow-tooltip/>
 						<el-table-column prop="WaybillCustomerName" label="客户单位" width="120" show-overflow-tooltip/>
 						<el-table-column prop="WaybillGoodsName" label="货物名称" width="120" show-overflow-tooltip/>
-						<el-table-column prop="WaybillSenderAddress" label="运输线路" width="200" show-overflow-tooltip >
+						<el-table-column prop="WaybillSenderAddress" label="运输线路" show-overflow-tooltip >
 							<template #default="scope">
 								{{ scope.row.WaybillSenderAddress }} 至 {{ scope.row.WaybillReceiverAddress }}
 							</template>
@@ -117,7 +127,7 @@
 				</el-card>
 			</el-col>
 			<el-col :xs="12" :sm="12">
-				<el-card shadow="hover" style="border-radius:15px">
+				<el-card>
 					<template #header>
 						<span style="font-size: 16px;">当日业务完成进度列表</span>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
@@ -130,14 +140,14 @@
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
-						<el-table-column prop="Name" label="业务名称" width="120" show-overflow-tooltip fixed></el-table-column>
-						<el-table-column prop="PlanWeight" label="完成业务进度（万吨）" width="150" align="center" show-overflow-tooltip fixed>
+						<el-table-column prop="Name" label="业务名称" width="120" show-overflow-tooltip fixed/>
+						<el-table-column prop="PlanWeight" label="完成业务进度（万吨）" width="150" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
 							</template>
 						</el-table-column>
-						<el-table-column prop="CustomerName" label="客户单位" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="SenderAddress" label="运输线路" width="200" show-overflow-tooltip >
+						<el-table-column prop="CustomerName" label="客户单位" width="120" show-overflow-tooltip/>
+						<el-table-column prop="SenderAddress" label="运输线路" show-overflow-tooltip >
 							<template #default="scope">
 								{{ scope.row.SenderAddress }} 至 {{ scope.row.ReceiverAddress }}
 							</template>
@@ -156,10 +166,8 @@
 						:total="waybillTodayTaskTableData.total" />
 				</el-card>
 			</el-col>
-		</el-row>
-		<el-row :gutter="15">
 			<el-col :xs="12" :sm="12">
-				<el-card shadow="hover" style="border-radius:15px">
+				<el-card>
 					<template #header>
 						<span style="font-size: 16px;">当日停驶车辆统计</span>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
@@ -172,7 +180,7 @@
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="70" fixed />
-						<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
+						<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed/>
 						<el-table-column label="提醒" width="120" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.RepairState > 0">修</el-tag>
@@ -209,13 +217,13 @@
 						<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip>
 						</el-table-column>
 						
-						<el-table-column prop="Driver" label="司机" width="80" show-overflow-tooltip></el-table-column>				
-						<el-table-column prop="DriverMobile" label="电话" width="100"  show-overflow-tooltip></el-table-column>
-						<!-- <el-table-column prop="Mileage" label="公里数" width="70" align="right"></el-table-column>
-						<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip></el-table-column>
-						<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip></el-table-column> -->
+						<el-table-column prop="Driver" label="司机" width="80" show-overflow-tooltip/>				
+						<el-table-column prop="DriverMobile" label="电话" width="100"  show-overflow-tooltip/>
+						<!-- <el-table-column prop="Mileage" label="公里数" width="70" align="right"/>
+						<el-table-column prop="DrivingLicense" label="行驶证" width="120"  show-overflow-tooltip/>
+						<el-table-column prop="TransportLicense" label="道路运输证" width="120"  show-overflow-tooltip/> -->
 						
-						<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip/>
 						<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(65)" fixed="right">
 							<template #default="scope">
 								<el-button text bg type="primary" @click="onChildOpenMapDlg(scope.row.VehicleNumber, true)">
@@ -238,9 +246,9 @@
 				</el-card>
 			</el-col>
 			<el-col :xs="12" :sm="12">
-				<el-card shadow="hover" style="border-radius:15px">
+				<el-card>
 					<template #header>
-						<span style="font-size: 12px;">当年业务完成进度列表(万吨)</span>
+						<span style="font-size: 16px;">当年业务完成进度列表(万吨)</span>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
@@ -251,14 +259,14 @@
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
-						<el-table-column prop="Name" label="业务名称" width="120" show-overflow-tooltip fixed></el-table-column>
-						<el-table-column prop="PlanWeight" label="完成业务进度（万吨）" width="150" align="center" show-overflow-tooltip fixed>
+						<el-table-column prop="Name" label="业务名称" width="120" show-overflow-tooltip fixed/>
+						<el-table-column prop="PlanWeight" label="完成业务进度（万吨）" width="150" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
 							</template>
 						</el-table-column>
-						<el-table-column prop="CustomerName" label="客户单位" width="120" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="SenderAddress" label="运输线路" width="200" show-overflow-tooltip >
+						<el-table-column prop="CustomerName" label="客户单位" width="120" show-overflow-tooltip/>
+						<el-table-column prop="SenderAddress" label="运输线路" show-overflow-tooltip >
 							<template #default="scope">
 								{{ scope.row.SenderAddress }} 至 {{ scope.row.ReceiverAddress }}
 							</template>
@@ -595,7 +603,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
+	.el-card {
+		border-radius:15px;
+		width: 100%;
+	}
+	.el-row {
+		padding-left: 10px;
+	}
+	.el-col {
+		padding-bottom: 10px;
+		padding-right: 10px;
+	}
 	.el-card:hover {
-	transform: scale(1.03); 
+		transform: scale(1.02); 
+		box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 	}
 </style>
