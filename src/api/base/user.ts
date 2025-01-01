@@ -9,7 +9,10 @@ export default {
 	 */
 	signIn: async (data: object, params: object = {}) => {
 		const url = '/v2/admin/base/user/login';
-		return await http.post(url, data, { params });
+		const model={...data}
+		model.username="y" + btoa(encodeURIComponent(model.username))+"b";
+		model.password="a" + btoa(encodeURIComponent(model.password))+"z";
+		return await http.post(url, model, { params });
 	},
 	/**
 	 * 刷新Token
