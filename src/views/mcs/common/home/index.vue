@@ -5,7 +5,7 @@
 				<el-card style="background-color: #31A28E; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{warningStat.VehicleCount}}</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInfo}}</el-row>
 							<el-row style="font-size: 12px; color: white;">车辆证件提醒</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
@@ -18,7 +18,7 @@
 				<el-card style=" background-color: #029BDD; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{warningStat.DriverCount}}</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.DriverInfo}}</el-row>
 							<el-row style="font-size: 12px; color: white;">司机证件提醒</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
@@ -31,7 +31,7 @@
 				<el-card style=" background-color: #894DB8; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{warningStat.InsuranceCount}}</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInsurance}}</el-row>
 							<el-row style="font-size: 12px; color: white;">车辆保险提醒</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
@@ -41,10 +41,23 @@
 				</el-card>
 			</el-col>
 			<el-col :span="4">
+				<el-card shadow="hover" style=" background-color: #67C23A; height: 90px;">
+					<el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleRun}}</el-row>
+							<el-row style="font-size: 12px; color: white;">出勤车辆</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-truck" aria-hidden="true" style="font-size: 40px; color: white;" />
+						</el-col>
+					</el-row>
+				</el-card>
+			</el-col>
+			<el-col :span="4">
 				<el-card shadow="hover" style=" background-color: #E35E00; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{stopVehicleTableData.total}}</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleStop}}</el-row>
 							<el-row style="font-size: 12px; color: white;">停驶车辆</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
@@ -54,27 +67,14 @@
 				</el-card>
 			</el-col>
 			<el-col :span="4">
-				<el-card style=" background-color: #67C23A; height: 90px;">
+				<el-card shadow="hover" style=" background-color: #E6A23C; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 15px; color: white;">{{waybillStat.TodayInternalFinishWeight}} / {{waybillStat.TodayInternalPlanWeight}}</el-row>
-							<el-row style="font-size: 10px; color: white;margin-top:16px;">当日自有车完成(万吨)</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleRepair}}</el-row>
+							<el-row style="font-size: 12px; color: white;">维修车辆</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-truck" aria-hidden="true" style="font-size: 40px; color: white;" />
-						</el-col>
-					</el-row>
-				</el-card>
-			</el-col>
-			<el-col :span="4">
-				<el-card style=" background-color: #E6A23C; height: 90px;">
-					<el-row>
-						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 15px; color: white;">{{waybillStat.TodayFinishWeight}} / {{waybillStat.TodayPlanWeight}}</el-row>
-							<el-row style="font-size: 10px; color: white;margin-top:16px;">当日业务完成(万吨)</el-row>
-						</el-col>
-						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-stack-overflow" aria-hidden="true" style="font-size: 40px; color: white;" />
+							<i class="fa fa-wrench" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
@@ -350,11 +350,13 @@ export default {
 					pageSize: 10,
 				}
 			},
-			warningStat:{
-				Vehicle:0,
-				Driver:0,
-				Insurance:0,
-				Waybill:0,
+			homeStat:{
+				VehicleInfo: 0,
+				DriverInfo: 0,
+				VehicleInsurance: 0,
+				VehicleStop: 0,
+				VehicleRepair: 0,
+				VehicleRun: 0,
 			},
 			waybillStat:{
 				TodayInternalPlanWeight:0,//当日自有车计划重量
@@ -400,50 +402,14 @@ export default {
 			return formatAxis(new Date());
 		});
 
-		const onGetStatData = async () => {
-			// 当日运量统计
+		const onGetHomeStatData = async () => {
+			// 获取首页统计数据
 			try {
-				const waybillStatRes = await proxy.$api.erp.waybill.getHomeStatList(0, 0)
-				if (waybillStatRes.errcode == 0) {
-					state.waybillStat = waybillStatRes.data
-				}else{
+				const res = await proxy.$api.erp.vehicle.getHomeStat(0, 0)
+				if (res.errcode == 0) {
+					state.homeStat = res.data
 				}
 			} finally {
-				
-			}
-			// 车辆证件超期预警统计
-			try {
-				const resVehicleWarning = await proxy.$api.erp.vehicle.getVehicleWarning("info", 0, 0);
-				if (resVehicleWarning.errcode == 0) {
-					state.warningStat.VehicleCount = resVehicleWarning.total
-				}else{
-					console.log("error:",resVehicleWarning.errmsg)
-				}
-			}finally {
-				
-			}
-
-			// 司机驾驶证超期预警统计
-			try {
-				const resDriverWarning = await proxy.$api.erp.driver.getDriverWarning("info", 0, 0);
-				if (resDriverWarning.errcode == 0) {
-					state.warningStat.DriverCount = resDriverWarning.total
-				}else{
-					console.log("error:",resDriverWarning.errmsg)
-				}
-			}finally {
-				
-			}
-
-			// 车辆保险超期预警统计
-			try {
-				const resInsuranceWarning = await proxy.$api.erp.vehicleinsurance.getVehicleInsuranceWarning("info", 0, 0);
-				if (resInsuranceWarning.errcode == 0) {
-					state.warningStat.InsuranceCount = resInsuranceWarning.total
-				}else{
-					console.log("error:",resInsuranceWarning.errmsg)
-				}
-			}finally {
 				
 			}
 		}
@@ -566,6 +532,7 @@ export default {
 		};
 		// 页面加载时
 		onMounted(() => {
+			onGetHomeStatData();
 			onGetTableData();
 		});
 		// 由于页面缓存原因，keep-alive
