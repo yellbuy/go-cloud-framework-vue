@@ -84,7 +84,7 @@
 			<el-col :xs="12" :sm="12">
 				<el-card>
 					<template #header>
-						<span style="font-size: 16px;">当日自有车出勤明细</span>
+						<span style="font-size: 16px;">当日自有车出勤列表</span>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
@@ -169,7 +169,7 @@
 			<el-col :xs="12" :sm="12">
 				<el-card>
 					<template #header>
-						<span style="font-size: 16px;">当日停驶车辆统计</span>
+						<span style="font-size: 16px;">当日自有车停驶列表</span>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
@@ -351,9 +351,10 @@ export default {
 				}
 			},
 			warningStat:{
-				VehicleCount:0,
-				DriverCount:0,
-				InsuranceCount:0,
+				Vehicle:0,
+				Driver:0,
+				Insurance:0,
+				Waybill:0,
 			},
 			waybillStat:{
 				TodayInternalPlanWeight:0,//当日自有车计划重量
@@ -399,7 +400,7 @@ export default {
 			return formatAxis(new Date());
 		});
 
-		const onGetTableData = async (status = 0) => {
+		const onGetStatData = async () => {
 			// 当日运量统计
 			try {
 				const waybillStatRes = await proxy.$api.erp.waybill.getHomeStatList(0, 0)
@@ -410,7 +411,6 @@ export default {
 			} finally {
 				
 			}
-
 			// 车辆证件超期预警统计
 			try {
 				const resVehicleWarning = await proxy.$api.erp.vehicle.getVehicleWarning("info", 0, 0);
@@ -446,7 +446,9 @@ export default {
 			}finally {
 				
 			}
+		}
 
+		const onGetTableData = async (status = 0) => {
 			// 当日车辆出勤明细
 			try {
 				const stopRes = await proxy.$api.erp.waybill.getHomeVehicleList(0, 0, state.waybillLineVehicleTableData.param)
@@ -533,6 +535,7 @@ export default {
 					state.waybillYearTaskTableData.param.pageSize = val;
 					break;
 			}
+			onGetTableData()
 		};
 		//	分页改变
 		const onHandleCurrentChange = (val: number, index: number) => {
@@ -550,6 +553,7 @@ export default {
 					state.waybillYearTaskTableData.param.current = val;
 					break;
 			}
+			onGetTableData()
 		};
 
 		// 批量设置 echarts resize
