@@ -63,7 +63,8 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="BillTime" label="开单时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="EndTime" label="出厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<!-- <el-table-column prop="BillTime" label="开单时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column> -->
 				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
 				<el-table-column prop="Brand" label="车辆品牌" width="100" fixed></el-table-column>
@@ -71,12 +72,13 @@
 				</el-table-column>
 				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>
 				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column  prop="ExamState" label="维修类型" width="120" show-overflow-tooltip>
+				<el-table-column  prop="ExamState" label="维修类型" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<div>{{examList[scope.row.ExamState] }}</div>
+						<div v-for="val in repairTypeList" :key="val.Id" >
+							<el-tag :type="val.Value" effect="plain"  v-if="val.Code==scope.row.ExamState">{{val.Name }}</el-tag>
+						</div>
 					</template>
 				</el-table-column>
-				<el-table-column prop="EndTime" label="出厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(240)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -156,20 +158,22 @@ export default {
 					pageSize: 20,
 				},
 			},
+			repairTypeList:[],
 			examList:{},
 		});
 		const loadExamList= async()=>{
-			const res = await proxy.$api.common.commondata.getConcreteDataListByScope("exam_state", 1, 2);
+			const res = await proxy.$api.common.commondata.getConcreteDataListByScope("repair_type", 1, 2);
 			if (res.errcode != 0) {
 				return;
 			}
 			if (res.data.length>0){
+				state.repairTypeList=res.data
 				for(let item of res.data){
 					//console.log("循环数据",item)
 					state.examList[item.Code] =item.Name
 				}
 			}
-			//console.log("数据",state.examList)
+			console.log("repair_type list:",state.examList)
 		}
 		
 		state.tableData.param.pageIndex = computed(() => {

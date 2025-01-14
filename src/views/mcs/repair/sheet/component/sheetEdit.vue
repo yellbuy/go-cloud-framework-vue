@@ -108,11 +108,11 @@
 							<el-form-item label="维修类型" prop="ExamState">
 							<el-switch
 								v-model="ruleForm.ExamState"
-    							active-text="维修中"
+    							active-text="维修"
     							inactive-text="保养"
 								:active-value="1"
 								:inactive-value="10"
-								disabled/>				
+								/>				
 						</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8" class="mb20">
@@ -616,6 +616,9 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
+				if(state.ruleForm.ExamState<1){
+					state.ruleForm.ExamState=1
+				}
 				calcTotalCost();
 			} finally {
 				state.isShowDialog = true;

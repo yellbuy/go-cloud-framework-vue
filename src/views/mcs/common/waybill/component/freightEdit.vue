@@ -75,6 +75,7 @@
 									<el-radio :label="2">台班</el-radio>
 									<el-radio :label="3">月</el-radio>
 									<el-radio :label="4">队用</el-radio>
+									<el-radio :label="5">方</el-radio>
 								</el-radio-group>
 							</div>
 						</el-form-item>
