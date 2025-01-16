@@ -2,10 +2,37 @@
 	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
 					<el-form-item label="关键字：">
 						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
+					<el-form-item label="进厂时间" style="width:250px; white-space: nowrap;" >
+						<el-date-picker
+							v-model="timeRange"
+							type="daterange"
+							unlink-panels
+							range-separator="至"
+							start-placeholder="开始时间"
+							end-placeholder="结束时间"
+							format="YYYY-MM-DD"
+							date-format="YYYY/MM/DD"/>
+					</el-form-item>
+					<el-form-item label="状态：">
+						<el-select v-model="tableData.param.state" placeholder="维修状态" style="width: 90px">
+							<el-option label="不限" :value="-1"></el-option>
+							<el-option label="未开单" :value="0"></el-option>
+							<el-option label="已开单" :value="1"></el-option>
+							<el-option label="已完工" :value="2"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="委外：">
+						<el-select v-model="tableData.param.isExternal" placeholder="是否委外" style="width: 80px">
+							<el-option label="不限" :value="-1"></el-option>
+							<el-option label="否" :value="0"></el-option>
+							<el-option label="是" :value="1"></el-option>
+						</el-select>
+					</el-form-item>
+					
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
 							<el-icon>
@@ -38,8 +65,9 @@
 				stripe
 				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="BillNo" label="维修单号" width="110" fixed></el-table-column>
-				<el-table-column label="是否委外" width="90" align="center" show-overflow-tooltip>
+				<el-table-column prop="BillNo" label="维修单号" width="110" sortable  fixed></el-table-column>
+				<el-table-column prop="VehicleNumber" label="车牌号" width="100" sortable fixed></el-table-column>
+				<el-table-column label="是否委外" prop="IsExternal" width="90" align="center" sortable show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.IsExternal"
@@ -55,24 +83,24 @@
 						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="状态" width="80" align="center" show-overflow-tooltip>
+				<el-table-column label="状态" prop="State" width="80" align="center" sortable show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="danger" effect="plain" v-if="!scope.row.State">{{ $t('pages.mcs.action.not_billing') }}</el-tag>
 						<el-tag type="warning" effect="plain" v-else-if="scope.row.State==1">{{ $t('pages.mcs.action.has_billed') }}</el-tag>
 						<el-tag type="success" effect="plain" v-else>{{ $t('pages.mcs.action.has_finished') }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="StartTime" label="进厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="EndTime" label="出厂时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="StartTime" label="进厂时间" width="120" sortable :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="EndTime" label="出厂时间" width="120" sortable :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				<!-- <el-table-column prop="BillTime" label="开单时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column> -->
-				<el-table-column prop="CompanyName" label="客户名称" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
-				<el-table-column prop="Brand" label="车辆品牌" width="100" fixed></el-table-column>
-				<el-table-column  prop="VehicleType" label="车型" width="120" show-overflow-tooltip>
+				<el-table-column prop="CompanyName" label="客户名称" width="120" sortable show-overflow-tooltip></el-table-column>
+				
+				<el-table-column prop="Brand" label="车辆品牌" width="100" sortable fixed></el-table-column>
+				<el-table-column  prop="VehicleType" label="车型" width="110" sortable align="center" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="Linkman" label="联系人" width="90"></el-table-column>
-				<el-table-column prop="Phone" label="联系电话" width="120"  show-overflow-tooltip></el-table-column>
-				<el-table-column  prop="ExamState" label="维修类型" width="70" align="center" show-overflow-tooltip>
+				<el-table-column prop="Linkman" label="联系人" sortable width="90"></el-table-column>
+				<el-table-column prop="Phone" label="联系电话" sortable width="120"  show-overflow-tooltip></el-table-column>
+				<el-table-column  prop="ExamState" label="维修类型" sortable width="90" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<div v-for="val in repairTypeList" :key="val.Id" >
 							<el-tag :type="val.Value" effect="plain"  v-if="val.Code==scope.row.ExamState">{{val.Name }}</el-tag>
@@ -148,12 +176,17 @@ export default {
 			kind,
 			scopeMode,
 			scopeValue,
+			timeRange: [],
 			tableData: {
 				data: [],
 				total: 0,
 				loading: false,
 				param: {
 					keyword: '',
+					enterStartTime:"",
+					enterEndTime:"",
+					state:-1,
+					isExternal:-1,
 					pageNum: 1,
 					pageSize: 20,
 				},
@@ -182,11 +215,17 @@ export default {
 		//重置查询条件
 		const onResetSearch = () => {
 			state.tableData.param.keyword = '';
+			state.tableData.param.state = -1;
+			state.tableData.param.isExternal = -1;
 			onGetTableData(true);
 		};
 
 		// 初始化表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
+			if (state.timeRange && state.timeRange.length>1) {
+				state.tableData.param.enterStartTime = state.timeRange[0]
+				state.tableData.param.enterEndTime = state.timeRange[1]
+			}
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;
 			}

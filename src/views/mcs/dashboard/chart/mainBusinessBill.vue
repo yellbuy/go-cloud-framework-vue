@@ -85,7 +85,7 @@
 	  <DxStateStoring
           :enabled="true"
           type="localStorage"
-          storageKey="dashboard-chart-mainbuninessbill_v1.1"
+          storageKey="dashboard-chart-mainbuninessbill_v1.2"
         />
 	  <FieldChooser :enabled="true" />
 	  <DxExport :enabled="true" />

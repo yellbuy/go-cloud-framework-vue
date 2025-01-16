@@ -13,6 +13,13 @@
 							<el-option label="有任务" :value="1"></el-option>
 						</el-select>
 					</el-form-item>
+					<el-form-item label="外部车：">
+						<el-select v-model="tableData.param.isExternal" placeholder="是否外部车" style="width: 80px">
+							<el-option label="不限" :value="-1"></el-option>
+							<el-option label="内部车" :value="0"></el-option>
+							<el-option label="外部车" :value="1"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item label="证件：">
 						<el-select v-model="tableData.param.certState" placeholder="证件状态" style="width: 90px">
 							<el-option label="不限" :value="0"></el-option>
@@ -223,6 +230,7 @@ export default {
 				param: {
 					keyword: '',
 					waybillState:-1,
+					isExternal:-1,
 					repairState:-1,
 					certState:0,
 					insuranceState:0,
@@ -235,10 +243,16 @@ export default {
 		});
 		state.tableData.param.pageIndex = computed(() => {
 			return state.tableData.param.pageNum - 1;
+			
 		});
 		//重置查询条件
 		const onResetSearch = () => {
 			state.tableData.param.keyword = '';
+			state.tableData.param.waybillState = -1;
+			state.tableData.param.isExternal = -1;
+			state.tableData.param.repairState = -1;
+			state.tableData.param.certState = 0;
+			state.tableData.param.insuranceState = 0;
 			onGetTableData(true);
 		};
 

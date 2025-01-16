@@ -9,7 +9,7 @@ export default {
 		product:'产品管理',
 		repair:'维修管理',
 		repair_reception:'报修单',
-		repair_sheet:'维修单管理',
+		repair_sheet:'维修管理',
 		repair_project:'项目管理',
 		repair_goods:'配件管理',
 		vehicle_list: '车辆列表',

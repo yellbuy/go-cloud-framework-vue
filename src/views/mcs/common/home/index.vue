@@ -2,7 +2,7 @@
 	<div>
 		<el-row>
 			<el-col :span="4">
-				<el-card shadow="hover" style=" background-color: #67C23A; height: 90px;">
+				<el-card shadow="hover" style=" background-color: #67C23A; height: 90px;" >
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleRun}}</el-row>
@@ -41,7 +41,7 @@
 				</el-card>
 			</el-col>
 			<el-col :span="4">
-				<el-card style="background-color: #31A28E; height: 90px;">
+				<el-card style="background-color: #31A28E; height: 90px;" @click="toVehicleRemind">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInfo}}</el-row>
@@ -302,6 +302,7 @@ export default {
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
 		const router = useRouter();
+		// router.push(url||path);
 		// const vehicleEditDlg = ref();
 		// const driverEditDlg = ref();
 		// const insuranceEditDlg = ref();
