@@ -2,14 +2,40 @@
 	<div>
 		<el-row>
 			<el-col :span="4">
-				<el-card shadow="hover" style=" background-color: #67C23A; height: 90px;" >
+				<el-card style="background-color: #31A28E; height: 90px;" @click="toVehicleRemind">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleRun}}</el-row>
-							<el-row style="font-size: 12px; color: white;">当日出勤车辆统计</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInfo}}</el-row>
+							<el-row style="font-size: 12px; color: white;">车辆证件提醒</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-truck" aria-hidden="true" style="font-size: 40px; color: white;" />
+							<i class="fa fa-address-card" aria-hidden="true" style="font-size: 40px; color: white;" />
+						</el-col>
+					</el-row>
+				</el-card>
+			</el-col>
+			<el-col :span="4">
+				<el-card style=" background-color: #029BDD; height: 90px;" @click="toDriverRemind">
+					<el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">{{homeStat.DriverInfo}}</el-row>
+							<el-row style="font-size: 12px; color: white;">司机证件提醒</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-drivers-license" aria-hidden="true" style="font-size: 40px; color: white;" />
+						</el-col>
+					</el-row>
+				</el-card>
+			</el-col>
+			<el-col :span="4">
+				<el-card style=" background-color: #894DB8; height: 90px;" @click="toInsuranceRemind">
+					<el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInsurance}}</el-row>
+							<el-row style="font-size: 12px; color: white;">车辆保险提醒</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-paste" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
@@ -19,7 +45,7 @@
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleStop}}</el-row>
-							<el-row style="font-size: 12px; color: white;">当日停驶车辆统计</el-row>
+							<el-row style="font-size: 12px; color: white;">停驶车辆</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
 							<i class="fa fa-product-hunt" aria-hidden="true" style="font-size: 40px; color: white;" />
@@ -28,53 +54,28 @@
 				</el-card>
 			</el-col>
 			<el-col :span="4">
+				<el-card shadow="hover" style=" background-color: #67C23A; height: 90px;" >
+					<el-row>
+						<el-col :xs="24" :sm="16">
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleRun}}</el-row>
+							<el-row style="font-size: 12px; color: white;">自有车出勤</el-row>
+						</el-col>
+						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
+							<i class="fa fa-truck" aria-hidden="true" style="font-size: 40px; color: white;" />
+						</el-col>
+					</el-row>
+				</el-card>
+			</el-col>
+			
+			<el-col :span="4">
 				<el-card shadow="hover" style=" background-color: #E6A23C; height: 90px;">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleRepair}}</el-row>
-							<el-row style="font-size: 12px; color: white;">当日维修车辆统计</el-row>
+							<el-row style="font-size: 12px; color: white;">临时车出勤</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
 							<i class="fa fa-wrench" aria-hidden="true" style="font-size: 40px; color: white;" />
-						</el-col>
-					</el-row>
-				</el-card>
-			</el-col>
-			<el-col :span="4">
-				<el-card style="background-color: #31A28E; height: 90px;" @click="toVehicleRemind">
-					<el-row>
-						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInfo}}</el-row>
-							<el-row style="font-size: 12px; color: white;">车辆证件提醒</el-row>
-						</el-col>
-						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-drivers-license" aria-hidden="true" style="font-size: 40px; color: white;" />
-						</el-col>
-					</el-row>
-				</el-card>
-			</el-col>
-			<el-col :span="4">
-				<el-card style=" background-color: #029BDD; height: 90px;">
-					<el-row>
-						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{homeStat.DriverInfo}}</el-row>
-							<el-row style="font-size: 12px; color: white;">司机证件提醒</el-row>
-						</el-col>
-						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-vcard" aria-hidden="true" style="font-size: 40px; color: white;" />
-						</el-col>
-					</el-row>
-				</el-card>
-			</el-col>
-			<el-col :span="4">
-				<el-card style=" background-color: #894DB8; height: 90px;">
-					<el-row>
-						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInsurance}}</el-row>
-							<el-row style="font-size: 12px; color: white;">车辆保险提醒</el-row>
-						</el-col>
-						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
-							<i class="fa fa-paste" aria-hidden="true" style="font-size: 40px; color: white;" />
 						</el-col>
 					</el-row>
 				</el-card>
@@ -398,6 +399,8 @@ export default {
 				if (res.errcode == 0) {
 					state.homeStat = res.data
 				}
+			}catch(er){
+				console.log("onGetHomeStatData:",er)
 			} finally {
 				
 			}
@@ -463,10 +466,39 @@ export default {
 			console.debug("childMapDlgRef",childMapDlgRef)
 			childMapDlgRef.openDialog(vehicleNumber, ishow);
 		};
-		// // 打开车辆详情
-		// const onVehicleEditDlg = (id: string, ishow: boolean) => {
-		// 	vehicleEditDlg.value.openDialog(state.kind, id, ishow);
-		// };
+		// 打开车辆详情
+		const toVehicleRemind = (id: string, ishow: boolean) => {
+			router.push({
+				name: 'api_commoninfo_vehicle',
+				params: {
+					kind: 'info',
+					scopeMode:0,
+					scopeValue:0,
+				},
+			});
+		};
+		// 打开司机详情
+		const toDriverRemind = (id: string, ishow: boolean) => {
+			router.push({
+				name: 'api_baseinfo_driver',
+				params: {
+					kind: 'info',
+					scopeMode:0,
+					scopeValue:0,
+				},
+			});
+		};
+		// 打开司机详情
+		const toInsuranceRemind = (id: string, ishow: boolean) => {
+			router.push({
+				name: 'api_baseinfo_vehicle_insurance',
+				params: {
+					kind: 'info',
+					scopeMode:0,
+					scopeValue:0,
+				},
+			});
+		};
 		// // 打开司机详情
 		// const onDriverEditDlg = (id: string, ishow: boolean) => {
 		// 	driverEditDlg.value.openDialog(state.kind, id, ishow);
@@ -558,6 +590,9 @@ export default {
 			formatGender,
 			dateFormatYMD,
 			onChildOpenMapDlg,
+			toVehicleRemind,
+			toDriverRemind,
+			toInsuranceRemind,
 			proxy,
 			getUserInfos,
 			currentTime,

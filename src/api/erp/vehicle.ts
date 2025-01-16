@@ -147,7 +147,7 @@ export default {
      * @returns 返回接口数据
      */
     getHomeStat: async (scopeMode: number = 0, scopeValue: number = 0, params: object = {}) => {
-        const url = `/v1/admin/erp/home/stat/${scopeMode}/${scopeValue}`;
+        const url = `/v1/admin/erp/vehicle/home/stat/${scopeMode}/${scopeValue}`;
         return await http.get(url, params);
     },
     
