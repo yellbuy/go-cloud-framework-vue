@@ -5,7 +5,7 @@
 				<el-card style="background-color: #31A28E; height: 90px;" @click="toVehicleRemind">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInfo}}</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleRemindCount}}</el-row>
 							<el-row style="font-size: 12px; color: white;">车辆证件提醒</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
@@ -18,7 +18,7 @@
 				<el-card style=" background-color: #029BDD; height: 90px;" @click="toDriverRemind">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{homeStat.DriverInfo}}</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.DriverRemindCount}}</el-row>
 							<el-row style="font-size: 12px; color: white;">司机证件提醒</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
@@ -31,7 +31,7 @@
 				<el-card style=" background-color: #894DB8; height: 90px;" @click="toInsuranceRemind">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInsurance}}</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.InsuranceRemindCount}}</el-row>
 							<el-row style="font-size: 12px; color: white;">车辆保险提醒</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
@@ -41,10 +41,10 @@
 				</el-card>
 			</el-col>
 			<el-col :span="4">
-				<el-card shadow="hover" style=" background-color: #E35E00; height: 90px;">
+				<el-card shadow="hover" style=" background-color: #E35E00; height: 90px;" @click="toWaybillView">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleStop}}</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInnerStopCount}}</el-row>
 							<el-row style="font-size: 12px; color: white;">停驶车辆</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
@@ -54,10 +54,10 @@
 				</el-card>
 			</el-col>
 			<el-col :span="4">
-				<el-card shadow="hover" style=" background-color: #67C23A; height: 90px;" >
+				<el-card shadow="hover" style=" background-color: #67C23A; height: 90px;" @click="toWaybillView">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleRun}}</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInnerRunCount}}</el-row>
 							<el-row style="font-size: 12px; color: white;">自有车出勤</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
@@ -68,10 +68,10 @@
 			</el-col>
 			
 			<el-col :span="4">
-				<el-card shadow="hover" style=" background-color: #E6A23C; height: 90px;">
+				<el-card shadow="hover" style=" background-color: #E6A23C; height: 90px;" @click="toWaybillView">
 					<el-row>
 						<el-col :xs="24" :sm="16">
-							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleRepair}}</el-row>
+							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleTempRunCount}}</el-row>
 							<el-row style="font-size: 12px; color: white;">临时车出勤</el-row>
 						</el-col>
 						<el-col :xs="24" :sm="8" style="display: flex; align-items: center; justify-content: flex-end;">
@@ -85,12 +85,34 @@
 			<el-col :xs="12" :sm="12">
 				<el-card>
 					<template #header>
-						<span style="font-size: 16px;">当日业务完成进度列表</span>
-						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
+						<div>
+							<el-form ref="searchFormRef" :model="waybillTableData.param" label-suffix="："  label-width="60px" :inline="true">
+								<span style="font-size: 16px;">业务完成进度</span>
+								<el-form-item label="时间" style="width:260px; white-space: nowrap;" >
+									<el-date-picker
+										v-model="waybillTableData.timeRange"
+										type="daterange"
+										unlink-panels
+										range-separator="至"
+										start-placeholder="开始时间"
+										end-placeholder="结束时间"
+										format="YYYY-MM-DD"
+										date-format="YYYY/MM/DD"/>
+								</el-form-item>
+								<el-form-ite style="margin-top:15px">
+									<el-button type="info" @click="onWaybillTableSearch">
+										<el-icon>
+											<Search />
+										</el-icon>
+										{{ $t('message.action.search') }}
+									</el-button>
+								</el-form-ite>
+							</el-form>
+						</div>
 					</template>
 					<el-table
-						:data="waybillTodayTableData.data"
-						v-loading="waybillTodayTableData.loading"
+						:data="waybillTableData.data"
+						v-loading="waybillTableData.loading"
 						:height="200"
 						border
 						stripe
@@ -115,17 +137,17 @@
 						@current-change="(val) => onHandleCurrentChange(val, 1)"
 						class="mt15"
 						:page-sizes="[10, 20, 30, 50, 100]"
-						v-model:current-page="waybillTodayTableData.param.current"
+						v-model:current-page="waybillTableData.param.current"
 						background
-						v-model:page-size="waybillTodayTableData.param.pageSize"
+						v-model:page-size="waybillTableData.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="waybillTodayTableData.total" />
+						:total="waybillTableData.total" />
 				</el-card>
 			</el-col>
 			<el-col :xs="12" :sm="12">
 				<el-card>
 					<template #header>
-						<span style="font-size: 16px;">当日自有车出勤列表</span>
+						<span style="font-size: 16px;">当日出勤自有车</span>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
@@ -168,25 +190,65 @@
 				</el-card>
 			</el-col>
 			<el-col :xs="12" :sm="12">
-				<el-card>
+				<el-card v-if="isMainBusinessState">
 					<template #header>
-						<span style="font-size: 16px;">铁运列表</span>
+						<el-button type="primary" @click="onSetBusinessState(false)">
+							年度铁运
+						</el-button>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
-						:data="businessBillLineTableData.data"
-						v-loading="businessBillLineTableData.loading"
+						:data="mainBusinessBillLineTableData.data"
+						v-loading="mainBusinessBillLineTableData.loading"
+						:height="236"
+						border
+						stripe
+						highlight-current-row>
+						<el-table-column type="index" label="序号" align="right" width="50" fixed />
+						<el-table-column prop="GoodsName" label="产品名称" width="100" show-overflow-tooltip fixed/>
+						<el-table-column prop="CustomerName" label="客户名称" width="120" show-overflow-tooltip fixed/>
+						<el-table-column prop="SenderAddress" label="发货地" show-overflow-tooltip fixed/>
+						<el-table-column prop="ReceiverAddress" label="到达地" show-overflow-tooltip fixed/>
+						<el-table-column prop="VehicleCount" label="发货列数" width="80" show-overflow-tooltip fixed/>
+						<el-table-column prop="Weight" label="吨位" width="90" show-overflow-tooltip fixed/>
+					</el-table>
+					<!-- <el-pagination
+						small
+						@size-change="(val) => onHandleSizeChange(val, 3)"
+						@current-change="(val) => onHandleCurrentChange(val, 3)"
+						class="mt15"
+						:page-sizes="[10, 20, 30, 50, 100]"
+						v-model:current-page="mainBusinessBillLineTableData.param.current"
+						background
+						v-model:page-size="mainBusinessBillLineTableData.param.pageSize"
+						layout="->, total, sizes, prev, pager, next, jumper"
+						:total="mainBusinessBillLineTableData.total" /> -->
+				</el-card>
+				<el-card v-else>
+					<template #header>
+						<el-button type="success" @click="onSetBusinessState(true)">
+							年度贸易
+						</el-button>
+						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
+					</template>
+					<el-table
+						:data="tradeBusinessBillLineTableData.data"
+						v-loading="tradeBusinessBillLineTableData.loading"
 						:height="200"
 						border
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
-						<el-table-column prop="GoodsName" label="产品名称" width="120" show-overflow-tooltip fixed/>
-						<el-table-column prop="CustomerName" label="客户名称" width="120" show-overflow-tooltip fixed/>
-						<el-table-column prop="SenderAddress" label="发货地" show-overflow-tooltip fixed/>
-						<el-table-column prop="ReceiverAddress" label="到达地" show-overflow-tooltip fixed/>
-						<el-table-column prop="VehicleCount" label="发货列数" width="80" show-overflow-tooltip fixed/>
-						<el-table-column prop="Weight" label="吨位" width="80" show-overflow-tooltip fixed/>
+						<el-table-column prop="GoodsName" label="产品名称" width="100" show-overflow-tooltip fixed/>
+						<el-table-column prop="GoodsCategoryName" label="品类" width="90"></el-table-column>
+						<el-table-column prop="CustomerName" label="供应商" width="120" show-overflow-tooltip/>
+						<el-table-column prop="PlanWeight" label="完成情况" width="120" align="center">
+							<template #default="scope">
+								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
+							</template>
+						</el-table-column>
+						<el-table-column prop="SenderPlanTime" label="开始时间" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="ReceiverPlanTime" label="结束时间" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip></el-table-column>
 					</el-table>
 					<el-pagination
 						small
@@ -194,17 +256,17 @@
 						@current-change="(val) => onHandleCurrentChange(val, 3)"
 						class="mt15"
 						:page-sizes="[10, 20, 30, 50, 100]"
-						v-model:current-page="businessBillLineTableData.param.current"
+						v-model:current-page="tradeBusinessBillLineTableData.param.current"
 						background
-						v-model:page-size="businessBillLineTableData.param.pageSize"
+						v-model:page-size="tradeBusinessBillLineTableData.param.pageSize"
 						layout="->, total, sizes, prev, pager, next, jumper"
-						:total="businessBillLineTableData.total" />
+						:total="tradeBusinessBillLineTableData.total" />
 				</el-card>
 			</el-col>
 			<el-col :xs="12" :sm="12">
 				<el-card>
 					<template #header>
-						<span style="font-size: 16px;">当日自有车停驶列表</span>
+						<span style="font-size: 16px;">当日停驶自有车</span>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
@@ -287,7 +349,7 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { computed, getCurrentInstance, nextTick, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
+import { computed, getCurrentInstance, onActivated, onMounted, reactive, toRefs, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import childMapDlg from '../../common/waybill/component/vehicleMap.vue';
 import { useStore } from '/@/store/index';
@@ -314,23 +376,24 @@ export default {
 			kind,
 			scopeMode,
 			scopeValue,
-			myCharts: [],
+			isMainBusinessState:true,
 			homeStat:{	// 首页统计数据
-				VehicleInfo: 0,
-				DriverInfo: 0,
-				VehicleInsurance: 0,
-				VehicleStop: 0,
-				VehicleRepair: 0,
-				VehicleRun: 0,
+				VehicleRemindCount: 0, //车辆证件超期预警
+				DriverRemindCount: 0, //司机证件超期预警
+				InsuranceRemindCount: 0, //自有车出勤车辆统计
+				VehicleInnerRunCount: 0, //自有车停驶车辆统计
+				VehicleInnerStopCount: 0, //自有车停驶车辆统计
+				VehicleTempRunCount: 0, //临配车辆出勤数
 			},
-			waybillTodayTableData:{ //当日任务列表
+			waybillTableData:{ //当日任务列表
 				loading: false,
 				total:0,
 				data:[],
 				param: {
 					current: 1,
 					pageSize: 10,
-				}
+				},
+				timeRange: [],
 			},
 			vehicleRunTableData:{ //当日出勤车辆列表
 				loading: false,
@@ -345,7 +408,17 @@ export default {
 					pageSize: 10,
 				}
 			},
-			businessBillLineTableData:{ //铁运列表
+			mainBusinessBillLineTableData:{ //铁运列表
+				loading: false,
+				total:0,
+				data:[],
+				param: {
+					current: 1,
+					timeSpan:'year',
+					pageSize: 1000,
+				}
+			},
+			tradeBusinessBillLineTableData:{ //贸易列表
 				loading: false,
 				total:0,
 				data:[],
@@ -371,14 +444,17 @@ export default {
 				}
 			},
 		});
-		state.waybillTodayTableData.param.pageIndex = computed(() => {
-			return state.waybillTodayTableData.param.current - 1;
+		state.waybillTableData.param.pageIndex = computed(() => {
+			return state.waybillTableData.param.current - 1;
 		});
 		state.vehicleRunTableData.param.pageIndex = computed(() => {
 			return state.vehicleRunTableData.param.current - 1;
 		});
-		state.businessBillLineTableData.param.pageIndex = computed(() => {
-			return state.businessBillLineTableData.param.current - 1;
+		state.mainBusinessBillLineTableData.param.pageIndex = computed(() => {
+			return state.mainBusinessBillLineTableData.param.current - 1;
+		});
+		state.tradeBusinessBillLineTableData.param.pageIndex = computed(() => {
+			return state.tradeBusinessBillLineTableData.param.current - 1;
 		});
 		state.vehicleStopTableData.param.pageIndex = computed(() => {
 			return state.vehicleStopTableData.param.current - 1;
@@ -405,22 +481,38 @@ export default {
 				
 			}
 		}
-
-		const onGetTableData = async (status = 0) => {
-			//	获取当日任务数据
+		const onWaybillTableSearch=async()=>{
 			try {
-				const now = dayjs();
-				state.waybillTodayTableData.param.startTime=now.startOf('day').format();
-				state.waybillTodayTableData.param.endTime=now.endOf('day').format();
-
-				const waybillTodayRes = await proxy.$api.erp.waybill.getGoodsAndCustomerStatListByScope("freight",0, 0,state.waybillTodayTableData.param);
+				const now=dayjs();
+				state.waybillTableData.param.startTime=state.waybillTableData.timeRange && state.waybillTableData.timeRange.length>0
+					?state.waybillTableData.timeRange[0]:now.startOf('day').format();
+				state.waybillTableData.param.endTime=state.waybillTableData.timeRange && state.waybillTableData.timeRange.length>1
+					?state.waybillTableData.timeRange[1]:now.endOf('day').format();
+				
+				const waybillTodayRes = await proxy.$api.erp.waybill.getGoodsAndCustomerStatListByScope("freight",0, 0,state.waybillTableData.param);
 				if(waybillTodayRes.errcode!=0){
 					return;
 				}
-				state.waybillTodayTableData.data = waybillTodayRes.data
-				state.waybillTodayTableData.total = waybillTodayRes.total
+				state.waybillTableData.data = waybillTodayRes.data
+				state.waybillTableData.total = waybillTodayRes.total
 			} finally {
-				state.waybillTodayTableData.loading = false;
+				state.waybillTableData.loading = false;
+			}
+		}
+		const onSetBusinessState=(val:Boolean)=>{
+			state.isMainBusinessState=val
+		}
+		const onGetTableData = async (status = 0) => {
+			//	获取当日任务数据
+			try {
+				const waybillTodayRes = await proxy.$api.erp.waybill.getGoodsAndCustomerStatListByScope("freight",0, 0,state.waybillTableData.param);
+				if(waybillTodayRes.errcode!=0){
+					return;
+				}
+				state.waybillTableData.data = waybillTodayRes.data
+				state.waybillTableData.total = waybillTodayRes.total
+			} finally {
+				state.waybillTableData.loading = false;
 			}
 
 			// 获取当日出勤车辆数据
@@ -437,15 +529,27 @@ export default {
 
 			// 获取铁运数据
 			try {
-				
-				const businessBillLineRes = await proxy.$api.erp.businessBillLine.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.businessBillLineTableData.param);
+				const businessBillLineRes = await proxy.$api.erp.businessBillLine.getStatListByScope("main_business", state.scopeMode, state.scopeValue, state.mainBusinessBillLineTableData.param);
 				if (businessBillLineRes.errcode != 0) {
 					return;
 				}
-				state.businessBillLineTableData.data = businessBillLineRes.data;
-				state.businessBillLineTableData.total = businessBillLineRes.total;
+				state.mainBusinessBillLineTableData.data = businessBillLineRes.data;
+				state.mainBusinessBillLineTableData.total = businessBillLineRes.data.length;
 			} finally {
-				state.businessBillLineTableData.loading = false;
+				state.mainBusinessBillLineTableData.loading = false;
+			}
+
+			// 获取贸易数据
+			try {
+				
+				const businessBillLineRes = await proxy.$api.erp.businessBill.getListByScope("trade", state.scopeMode, state.scopeValue, state.tradeBusinessBillLineTableData.param);
+				if (businessBillLineRes.errcode != 0) {
+					return;
+				}
+				state.tradeBusinessBillLineTableData.data = businessBillLineRes.data;
+				state.tradeBusinessBillLineTableData.total = businessBillLineRes.total;
+			} finally {
+				state.tradeBusinessBillLineTableData.loading = false;
 			}
 
 			//	获取当日停驶车辆数据
@@ -488,7 +592,7 @@ export default {
 				},
 			});
 		};
-		// 打开司机详情
+		// 打开保险详情
 		const toInsuranceRemind = (id: string, ishow: boolean) => {
 			router.push({
 				name: 'api_baseinfo_vehicle_insurance',
@@ -499,26 +603,29 @@ export default {
 				},
 			});
 		};
-		// // 打开司机详情
-		// const onDriverEditDlg = (id: string, ishow: boolean) => {
-		// 	driverEditDlg.value.openDialog(state.kind, id, ishow);
-		// };
-		// // 打开保险详情
-		// const onInsuranceEditDlg = (id: string, ishow: boolean) => {
-		// 	insuranceEditDlg.value.openDialog(state.kind, id, ishow);
-		// };
+		// 打开运单管理页面
+		const toWaybillView = (id: string, ishow: boolean) => {
+			router.push({
+				name: 'api_waybill_freight',
+				params: {
+					kind: 'freight',
+					scopeMode:0,
+					scopeValue:0,
+				},
+			});
+		};
 
 		//	分页改变
 		const onHandleSizeChange = (val: number, index: number) => {
 			switch(index){
 				case 1:
-					state.waybillTodayTableData.param.pageSize = val;
+					state.waybillTableData.param.pageSize = val;
 					break;
 				case 2:
 					state.vehicleRunTableData.param.pageSize = val;
 					break;
 				case 3:
-					state.businessBillLineTableData.param.pageSize = val;
+					state.mainBusinessBillLineTableData.param.pageSize = val;
 					break;
 				case 4:
 					state.vehicleStopTableData.param.pageSize = val;
@@ -531,13 +638,13 @@ export default {
 		const onHandleCurrentChange = (val: number, index: number) => {
 			switch(index){
 				case 1:
-					state.waybillTodayTableData.param.current = val;
+					state.waybillTableData.param.current = val;
 					break;
 				case 2:
 					state.vehicleRunTableData.param.current = val;
 					break;
 				case 3:
-					state.businessBillLineTableData.param.current = val;
+					state.mainBusinessBillLineTableData.param.current = val;
 					break;
 				case 4:
 					state.vehicleStopTableData.param.current = val;
@@ -547,17 +654,17 @@ export default {
 			onGetTableData()
 		};
 
-		// 批量设置 echarts resize
-		const initEchartsResizeFun = () => {
-			nextTick(() => {
-				for (let i = 0; i < state.myCharts.length; i++) {
-					state.myCharts[i].resize();
-				}
-			});
-		};
 		// 页面加载时
 		onMounted(() => {
 			onGetHomeStatData();
+			const now = dayjs();
+			state.waybillTableData.timeRange=[now.startOf('day').format(),now.endOf('day').format()]
+			state.waybillTableData.param.startTime=now.startOf('day').format();
+			state.waybillTableData.param.endTime=now.endOf('day').format();
+
+			state.mainBusinessBillLineTableData.param.startTime=now.startOf('year').format();
+			state.mainBusinessBillLineTableData.param.timeSpan="year";
+			state.tradeBusinessBillLineTableData.param.startTime=now.startOf('year').format();
 			onGetTableData();
 		});
 		// 由于页面缓存原因，keep-alive
@@ -581,18 +688,21 @@ export default {
 
 		return {
 			onGetHomeStatData,
+			onWaybillTableSearch,
 			onGetTableData,
 			// onVehicleEditDlg,
 			// onDriverEditDlg,
 			// onInsuranceEditDlg,
 			onHandleSizeChange,
 			onHandleCurrentChange,
+			onSetBusinessState,
 			formatGender,
 			dateFormatYMD,
 			onChildOpenMapDlg,
 			toVehicleRemind,
 			toDriverRemind,
 			toInsuranceRemind,
+			toWaybillView,
 			proxy,
 			getUserInfos,
 			currentTime,
