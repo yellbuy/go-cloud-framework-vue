@@ -203,12 +203,12 @@ const createDataSource:any = ()=>{
 			area: "filter"
 		},{
 			caption: "发货站",
-			dataField: "SenderName",
+			dataField: "SenderAddress",
 			expanded: true,
 			area: "filter"
 		},{
 			caption: "到达地",
-			dataField: "ReceiverName",
+			dataField: "ReceiverAddress",
 			expanded: true,
 			area: "filter"
 		},{

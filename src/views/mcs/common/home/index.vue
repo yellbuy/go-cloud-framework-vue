@@ -205,12 +205,13 @@
 						stripe
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
-						<el-table-column prop="GoodsName" label="产品名称" width="100" show-overflow-tooltip fixed/>
-						<el-table-column prop="CustomerName" label="客户名称" width="120" show-overflow-tooltip fixed/>
-						<el-table-column prop="SenderAddress" label="发货地" show-overflow-tooltip fixed/>
-						<el-table-column prop="ReceiverAddress" label="到达地" show-overflow-tooltip fixed/>
-						<el-table-column prop="VehicleCount" label="发货列数" width="80" show-overflow-tooltip fixed/>
-						<el-table-column prop="Weight" label="吨位" width="90" show-overflow-tooltip fixed/>
+						<el-table-column prop="GoodsName" label="产品名称" width="100" show-overflow-tooltip/>
+						<el-table-column prop="CustomerName" label="客户名称" width="90" show-overflow-tooltip/>
+						<el-table-column prop="SenderAddress" label="发货地" width="90" show-overflow-tooltip/>
+						<el-table-column prop="ReceiverAddress" label="到达地" width="90" show-overflow-tooltip/>
+						<el-table-column prop="TodayVehicleCount" label="日列数" width="60" show-overflow-tooltip/>
+						<el-table-column prop="TodayWeight" label="日运量" width="60" show-overflow-tooltip/>
+						<el-table-column prop="Weight" label="年运量" width="80" show-overflow-tooltip/>
 					</el-table>
 					<!-- <el-pagination
 						small
