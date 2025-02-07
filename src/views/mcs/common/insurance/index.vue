@@ -2,7 +2,16 @@
 	<div class="base-role-container">
 		<el-card shadow="hover">
 			<div class="">
-				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
+				<el-form ref="searchFormRef" :model="tableData.param.keyword" label-width="60px" :inline="true">
+					
+					<el-form-item label="状态：">
+						<el-select v-model="tableData.param.insuranceState" placeholder="保险状态" style="width: 90px">
+							<el-option label="不限" :value="0"></el-option>
+							<el-option label="正常" :value="1"></el-option>
+							<el-option label="即将到期" :value="2"></el-option>
+							<el-option label="已到期" :value="3"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item label="关键字：">
 						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword" />
 					</el-form-item>
@@ -129,6 +138,7 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
+					insuranceState:0,
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
