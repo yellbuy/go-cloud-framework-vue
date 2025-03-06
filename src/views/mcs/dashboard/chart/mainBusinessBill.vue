@@ -230,7 +230,7 @@ const createDataSource:any = ()=>{
 			format: ",##0.###",
 			area: 'data',
 		}, {
-			caption: '列数',
+			caption: '车数',
 			dataField: 'VehicleCount',
 			dataType: 'number',
 			summaryType: 'sum',

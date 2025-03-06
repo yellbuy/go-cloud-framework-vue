@@ -77,7 +77,7 @@
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12"  class="mb20">
-						<el-form-item label="列数" prop="VehicleCount">
+						<el-form-item label="车数" prop="VehicleCount">
 							<el-input-number
 								v-model="ruleForm.VehicleCount"
 								placeholder="请输入"

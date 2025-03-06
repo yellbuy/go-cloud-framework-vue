@@ -53,7 +53,7 @@
 				<el-table-column prop="CustomerName" label="客户名称" width="180" show-overflow-tooltip="true"></el-table-column>
 				
 				<el-table-column prop="PlanQty" label="计划吨位" width="80" align="right" show-overflow-tooltip="true"></el-table-column>
-				<!-- <el-table-column prop="VehicleCount" label="列数" width="80" align="right" show-overflow-tooltip="true"></el-table-column> -->
+				<!-- <el-table-column prop="VehicleCount" label="车数" width="80" align="right" show-overflow-tooltip="true"></el-table-column> -->
 				<el-table-column prop="BillTime" label="计划月份" width="80" align="left" :formatter="dateFormatYM" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="有效" width="80" align="center">
 					<template #default="scope">

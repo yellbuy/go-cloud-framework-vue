@@ -54,7 +54,7 @@
 				<el-table-column prop="SenderAddress" label="发货站" width="200" show-overflow-tooltip="true"></el-table-column>				
 				<el-table-column prop="ReceiverAddress" label="到达地" width="200" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column prop="Weight" label="实际吨位" width="80" align="right" show-overflow-tooltip="true"></el-table-column>
-				<el-table-column prop="VehicleCount" label="列数" width="80" align="right" show-overflow-tooltip="true"></el-table-column>
+				<el-table-column prop="VehicleCount" label="车数" width="80" align="right" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column prop="BillTime" label="日期" width="80" align="left" :formatter="dateFormatYMD" show-overflow-tooltip="true"></el-table-column>
 				<el-table-column label="有效" width="80" align="center">
 					<template #default="scope">

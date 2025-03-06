@@ -209,7 +209,7 @@
 						<el-table-column prop="CustomerName" label="客户名称" width="90" show-overflow-tooltip/>
 						<el-table-column prop="SenderAddress" label="发货地" width="90" show-overflow-tooltip/>
 						<el-table-column prop="ReceiverAddress" label="到达地" width="90" show-overflow-tooltip/>
-						<el-table-column prop="TodayVehicleCount" label="日列数" width="60" show-overflow-tooltip/>
+						<el-table-column prop="TodayVehicleCount" label="日车数" width="60" show-overflow-tooltip/>
 						<el-table-column prop="TodayWeight" label="日运量" width="60" show-overflow-tooltip/>
 						<el-table-column prop="Weight" label="年运量" width="80" show-overflow-tooltip/>
 					</el-table>
