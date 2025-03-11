@@ -7,7 +7,7 @@
 			<span style="margin-left:10px">进厂时间：{{ ruleForm.StartTime?.substr(0,10) }}</span>
 			<span style="margin-left:10px">出厂时间：{{ ruleForm.EndTime?.substr(0,10) }}</span>
 			<span style="margin-left:10px">操作员：{{ ruleForm.CreateBy }}</span>
-			<span style="margin-left:10px">结算时间：</span>
+			<span style="margin-left:10px">结算时间：{{ ruleForm.EndTime?.substr(0,10) }}</span>
 		</p>
 		<table class="tbDetail mt10" width="100%" border="1" cellspacing="0" cellpadding="4" >
 				<tbody>

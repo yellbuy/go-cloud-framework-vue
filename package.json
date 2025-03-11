@@ -12,7 +12,7 @@
 	"dependencies": {
 		"-": "^0.0.1",
 		"@element-plus/icons-vue": "^2.3.1",
-		"@kjgl77/datav-vue3": "^1.7.3",
+		"@kjgl77/datav-vue3": "^1.7.4",
 		"@types/crypto-js": "^4.2.2",
 		"ace-builds": "^1.35.2",
 		"axios": "^1.8.1",
