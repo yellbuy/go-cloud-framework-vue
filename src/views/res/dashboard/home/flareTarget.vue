@@ -1,7 +1,12 @@
 <template>
   <div id="flareTarget">
-    <div class="customer-board-title">指标解读</div>
-    <div ref="echart" class="echartDiv"></div>
+    <dv-border-box10>
+      <div class="flare-container">
+        <div class="flare-title" style="text-align: left;padding-left:10px">指标解读</div>
+        <div ref="echart" class="echartDiv"></div>
+      </div>
+    </dv-border-box10>
+    
   </div>
 </template>
 
@@ -128,23 +133,40 @@ export default {
           type: 'tree',
           data: [state.data],
           top: '2%',
-          left: '6%',
+          left: '20%',
           bottom: '2%',
           right: '20%',
-          symbolSize: 7,
+          symbolSize: 0.5,
+          edgeShape: 'polyline',
+          edgeForkPosition: '63%',
+          initialTreeDepth: 2,
+          itemStyle:{
+            color:'lightsteelblue',
+            borderWidth:1.5
+          },
+          lineStyle: {
+            width: 1,
+            padding:2,
+            curveness: 0.5,
+            color:'rgb(51.2, 126.4, 204)'
+          },
           label: {
-            position: 'left',
-            verticalAlign: 'bottom',
-            align: 'left',
-            fontSize: 14,
-            color:'#F56C6C'
+            position: 'right',
+            backgroundColor: 'rgb(51.2, 126.4, 204)',
+            verticalAlign: 'middle',
+            align: 'right',
+            fontSize: 12,
+            padding:2,
+            borderRadius:4,
+            color:'rgb(235.9, 245.3, 255)'
           },
           leaves: {
             label: {
-              position: 'left',
-              verticalAlign: 'bottom',
+              position: 'right',
+              verticalAlign: 'middle',
               align: 'left',
-              color:'#F56C6C'
+              padding:2,
+              color:'rgb(235.9, 245.3, 255)'
             }
           },
           emphasis: {
@@ -174,17 +196,27 @@ export default {
 </script>
  
 <style lang='scss' scoped>
+
+#flareTarget{
+  margin:10px 10px;
+}
+.flare-container{
+  text-align: "left"  !important;
+}
 .echartDiv {
   width: 100%;
-  height:36vh;
-  padding-bottom:1vh;
+  height:30vh;
+  padding:1vh;
+  text-align: left  !important;
 }
-.customer-board-title{
+.flare-title{
+  background-image: linear-gradient(to right,rgb(83, 78, 234), rgb(21, 6, 110));
+  border-radius: 4px;
   margin-top: 1vh;
-  height: 4vh;
+  height: 3vh;
   font-family: 'LiSu';
   font-weight: bold;
-  text-align: "left";
+  text-align: 'left' !important;
   font-size: 18px;
 }
 </style>
