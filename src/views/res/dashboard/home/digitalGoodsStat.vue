@@ -38,7 +38,7 @@
                     <div class="digital-flop-item-title"><b>平均收入</b></div>
                     <div style="margin-top:1vh;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[1.39],toFixed: 2,content: '{nt} 万元',style:{fill: '#fff',fontSize:16}}"
+                      :config="{number:[6.39],toFixed: 2,content: '{nt} 万元',style:{fill: '#fff',fontSize:16}}"
                       />
                     </div>
                   </div>

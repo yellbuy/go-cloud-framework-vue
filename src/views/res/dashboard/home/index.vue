@@ -10,19 +10,19 @@
             
             <div style="width:25%">
               <flareTarget />
-              <rankingCounty/>
-             
+              <radarLgsh/>
+              <barCoutyGdp/>
             </div>
             <dv-border-box1 style="width:50%">
               <digitalGoodsStat/>
               <div class="column-center">
               </div>
             </dv-border-box1>
-            <dv-border-box1 style="width:25%">
-              <div>
-                dv-border-box3
-              </div>
-            </dv-border-box1>
+            <div style="width:25%">
+              <pieCoutyGdp />
+              <rankingCounty/>
+              <lineLgsh/>
+            </div>
           </div>
         </dv-border-box11>
       </dv-full-screen-container>
@@ -53,8 +53,12 @@
 <script lang="ts">
   import { reactive, toRefs } from 'vue';
 
+import barCoutyGdp from "./barCoutyGdp.vue";
 import digitalGoodsStat from "./digitalGoodsStat.vue";
 import flareTarget from "./flareTarget.vue";
+import lineLgsh from "./lineLgsh.vue";
+import pieCoutyGdp from "./pieCountyGdp.vue";
+import radarLgsh from "./radarLgsh.vue";
 import rankingCounty from "./rankingCounty.vue";
 export default {
   name: "IndexDashboard",
@@ -62,6 +66,10 @@ export default {
     flareTarget,
     rankingCounty,
     digitalGoodsStat,
+    barCoutyGdp,
+    pieCoutyGdp,
+    radarLgsh,
+    lineLgsh,
   },
   setup() {
     const state: any = reactive({
