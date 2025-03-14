@@ -225,20 +225,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			Linkman: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Phone: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
+			
 			Mileage: [
 				{
 					required: true,

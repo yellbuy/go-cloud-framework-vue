@@ -132,7 +132,7 @@
 							<el-form-item label="是否完工" prop="State">
 								<el-select v-model="ruleForm.State" class="m-2" placeholder="请选择">
 									<el-option :label="'未开单'" :value="0" />
-									<el-option :label="'已开单'" :value="1" />
+									<el-option :label="'已进厂'" :value="1" />
 									<el-option :label="'已完工'" :value="2" />
 								</el-select>
 							</el-form-item>
@@ -446,20 +446,6 @@ export default {
 				},
 			],
 			Mileage: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Linkman: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
-			Phone: [
 				{
 					required: true,
 					message: t('message.validRule.required'),

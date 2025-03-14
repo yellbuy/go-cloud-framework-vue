@@ -58,6 +58,12 @@
 						<el-table-column prop="BillNo" label="单号" width="110" fixed></el-table-column>
 						<el-table-column prop="GoodsName" label="货物" width="100"></el-table-column>
 						<el-table-column prop="CustomerName" label="客户" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="TruckCount" label="是否完成" width="70" align="center">
+							<template #default="scope">
+								<el-tag type="success" class="mr4" effect="dark" v-if="scope.row.TruckCount<=0">已完成</el-tag>
+								<el-tag type="danger" class="mr4" effect="dark" v-else>执行中</el-tag>
+							</template>
+						</el-table-column>
 						<el-table-column prop="WaybillMode" label="业务类型" width="70" align="center">
 							<template #default="scope">
 								<el-tag type="success" class="mr4" effect="dark" v-if="scope.row.WaybillMode==1">固定</el-tag>

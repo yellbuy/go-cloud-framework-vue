@@ -231,13 +231,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			Weight: [
-				{
-					required: true,
-					message: t('message.validRule.mustOption'),
-					trigger: 'blur',
-				},
-			],
+			
 			PlanVehicleCount: [
 				{
 					required: true,

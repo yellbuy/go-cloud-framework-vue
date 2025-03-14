@@ -96,6 +96,7 @@
 										range-separator="至"
 										start-placeholder="开始时间"
 										end-placeholder="结束时间"
+										:shortcuts="dateShortcuts()"
 										format="YYYY-MM-DD"
 										date-format="YYYY/MM/DD"/>
 								</el-form-item>
@@ -119,7 +120,7 @@
 						highlight-current-row>
 						<el-table-column type="index" label="序号" align="right" width="50" fixed />
 						<el-table-column prop="Name" label="业务名称" width="120" show-overflow-tooltip fixed/>
-						<el-table-column prop="PlanWeight" label="完成业务进度（万吨）" width="150" align="center" show-overflow-tooltip>
+						<el-table-column prop="PlanWeight" label="完成业务进度（吨）" width="180" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
 							</template>
@@ -147,8 +148,22 @@
 			<el-col :xs="12" :sm="12">
 				<el-card>
 					<template #header>
-						<span style="font-size: 16px;">当日出勤自有车</span>
-						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
+						<div>
+							<el-form ref="searchFormRef" :model="vehicleRunTableData.param" label-suffix="："  label-width="80px" :inline="true">
+								<span style="font-size: 16px;">当日出勤自有车</span>
+								<el-form-item label="关键字" style="width:260px; white-space: nowrap;" >
+									<el-input placeholder="输入关键字查询" v-model="vehicleRunTableData.param.keyword"> </el-input>
+								</el-form-item>
+								<el-form-ite style="margin-top:15px">
+									<el-button type="info" @click="onVehicleRunTableSearch">
+										<el-icon>
+											<Search />
+										</el-icon>
+										{{ $t('message.action.search') }}
+									</el-button>
+								</el-form-ite>
+							</el-form>
+						</div>
 					</template>
 					<el-table
 						:data="vehicleRunTableData.data"
@@ -192,9 +207,35 @@
 			<el-col :xs="12" :sm="12">
 				<el-card v-if="isMainBusinessState">
 					<template #header>
-						<el-button type="primary" @click="onSetBusinessState(false)">
-							年度铁运
-						</el-button>
+						
+						<div>
+							
+							<el-form ref="searchFormRef" :model="mainBusinessBillLineTableData.param" label-suffix="："  label-width="60px" :inline="true">
+								<el-button type="primary" @click="onSetBusinessState(false)">
+								年度铁运
+							</el-button>
+								<el-form-item label="时间" style="width:260px; white-space: nowrap;" >
+									<el-date-picker
+										v-model="mainBusinessBillLineTableData.timeRange"
+										type="daterange"
+										unlink-panels
+										range-separator="至"
+										start-placeholder="开始时间"
+										end-placeholder="结束时间"
+										format="YYYY-MM-DD"
+										:shortcuts="dateShortcuts()"
+										date-format="YYYY/MM/DD"/>
+								</el-form-item>
+								<el-form-ite style="margin-top:15px">
+									<el-button type="info" @click="onMainBusinessBillLineTableSearch">
+										<el-icon>
+											<Search />
+										</el-icon>
+										{{ $t('message.action.search') }}
+									</el-button>
+								</el-form-ite>
+							</el-form>
+						</div>
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
@@ -306,14 +347,14 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="VehicleType" label="车辆类型" align="center" width="100" show-overflow-tooltip></el-table-column>
-						<el-table-column label="外部车" width="70" align="center" show-overflow-tooltip>
+						<!-- <el-table-column label="外部车" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tag type="success" effect="plain" v-if="scope.row.IsExternal">{{ $t('message.action.yes') }}</el-tag>
 								<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
 							</template>
-						</el-table-column>
-						<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip>
-						</el-table-column>
+						</el-table-column> -->
+						<!-- <el-table-column prop="Shipper" label="相关方" width="190" show-overflow-tooltip>
+						</el-table-column> -->
 						
 						<el-table-column prop="Driver" label="司机" width="80" show-overflow-tooltip/>				
 						<el-table-column prop="DriverMobile" label="电话" width="100"  show-overflow-tooltip/>
@@ -403,6 +444,7 @@ export default {
 				param: {
 					finishState: -1,
 					isTodayAll: 1,
+					keyword:"",
 					vehicleIsExternal: 0,
 					state: -1,
 					current: 1,
@@ -414,8 +456,9 @@ export default {
 				total:0,
 				data:[],
 				param: {
-					current: 1,
+					timeRange: [],
 					timeSpan:'year',
+					current: 1,
 					pageSize: 1000,
 				}
 			},
@@ -434,7 +477,7 @@ export default {
 				data:[],
 				param: {
 					keyword: '',
-					isExternal:-1,
+					isExternal:0,
 					waybillState:0,
 					repairState:-1,
 					certState:0,
@@ -500,6 +543,37 @@ export default {
 				state.waybillTableData.loading = false;
 			}
 		}
+		const onMainBusinessBillLineTableSearch=async()=>{
+			try {
+				const now=dayjs();
+				state.mainBusinessBillLineTableData.param.startTime=state.mainBusinessBillLineTableData.timeRange && state.mainBusinessBillLineTableData.timeRange.length>0
+					?state.mainBusinessBillLineTableData.timeRange[0]:now.startOf('day').format();
+				state.mainBusinessBillLineTableData.param.endTime=state.mainBusinessBillLineTableData.timeRange && state.mainBusinessBillLineTableData.timeRange.length>1
+					?state.mainBusinessBillLineTableData.timeRange[1]:now.endOf('day').format();
+				
+				const res = await proxy.$api.erp.businessBillLine.getStatListByScope("main_business", state.scopeMode, state.scopeValue, state.mainBusinessBillLineTableData.param);
+				if(res.errcode!=0){
+					return;
+				}
+				state.mainBusinessBillLineTableData.data = res.data
+				state.mainBusinessBillLineTableData.total = res.total
+			} finally {
+				state.mainBusinessBillLineTableData.loading = false;
+			}
+		}
+		const onVehicleRunTableSearch=async()=>{
+			try {
+				const vehicleRunRes = await proxy.$api.erp.waybill.getHomeVehicleList(0, 0, state.vehicleRunTableData.param)
+				if (vehicleRunRes.errcode != 0) {
+					return;
+				}
+				state.vehicleRunTableData.data = vehicleRunRes.data
+				state.vehicleRunTableData.total = vehicleRunRes.total
+			} finally {
+				state.vehicleRunTableData.loading = false;
+			}
+		}
+		
 		const onSetBusinessState=(val:Boolean)=>{
 			state.isMainBusinessState=val
 		}
@@ -685,9 +759,10 @@ export default {
 			return row.Gender === 1 ? '男' : '女'
 		};
 
-		const { dateFormatYMD } = commonFunction();
+		const { dateFormatYMD ,dateShortcuts} = commonFunction();
 
 		return {
+			dateShortcuts,
 			onGetHomeStatData,
 			onWaybillTableSearch,
 			onGetTableData,
@@ -696,6 +771,8 @@ export default {
 			// onInsuranceEditDlg,
 			onHandleSizeChange,
 			onHandleCurrentChange,
+			onVehicleRunTableSearch,
+			onMainBusinessBillLineTableSearch,
 			onSetBusinessState,
 			formatGender,
 			dateFormatYMD,

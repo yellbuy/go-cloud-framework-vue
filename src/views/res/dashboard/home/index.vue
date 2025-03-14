@@ -1,6 +1,6 @@
 <template>
   <div id="data-view" dv-bg>
-    <div style="width:50vw;margin-top:100px;height:600px;margin-left:10vw;margin-right:10vw;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
+    <div style="width:60%;margin-top:100px;height:600px;margin-left:10%;margin-right:10%;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
       <dv-full-screen-container v-if="isFullScreen">
         <div style="position:absolute;top:6px;left: 10px">
           <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
@@ -11,9 +11,9 @@
         <div style="position:absolute;top:6px;right: 10px">
           <p style="color:#409EFF;margin-right:10px;"><b>{{ curTime }}</b></p>
         </div>
-        <!-- <div style="position:absolute;top:10px;right:10px">
+        <div style="position:absolute;top:10px;right:10px">
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
-        </div> -->
+        </div>
         <dv-border-box11 title="仁 和 区 共 同 富 裕 数 字 化 平 台" :title-width="400" :animate="true" style="height:100vh">
           <div class="main-rows">
             
@@ -45,17 +45,18 @@
           <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')" border="Border4" color="#615ea8">户达标</dv-button>
         </div>
         <div style="position:absolute;top:6px;right: 10px">
-          <p style="color:#409EFF;margin-right:10px;">2025年03月15日09:15:20</p>
+          <p style="color:#409EFF;margin-right:10px;"><b>{{ curTime }}</b></p>
         </div>
-        <!-- <div style="position:absolute;top:10px;right:10px">
+        <div style="position:absolute;top:10px;right:10px">
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
-        </div> -->
+        </div>
         <dv-border-box11 title="仁 和 区 共 同 富 裕 数 字 化 平 台" :title-width="400" :animate="true" style="height:100vh">
           <div class="main-rows">
             
             <div style="width:25%">
               <flareTarget />
-              <radarLgsh/>
+              <rankingCounty/>
+             
               <barCoutyGdp/>
             </div>
             <dv-border-box1 style="width:50%">
@@ -66,7 +67,7 @@
             </dv-border-box1>
             <div style="width:25%">
               <pieCoutyGdp />
-              <rankingCounty/>
+              <radarLgsh/>
               <lineLgsh/>
             </div>
           </div>
