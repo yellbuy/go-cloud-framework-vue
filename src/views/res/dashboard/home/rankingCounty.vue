@@ -23,7 +23,7 @@ export default {
         isFullScreen:true,// 是否全屏
         countyConfig:{
           carousel:'single',
-          color:'#E6A23C',
+          
           rowNum:5,
           data: [
             {

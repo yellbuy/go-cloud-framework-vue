@@ -27,7 +27,7 @@ export default {
       var option = {
         color: ['#FFE434', '#67F9D8', '#56A3F1', '#FF917C'],
         legend: {
-          data: ['预期', '现状'],
+          data: ['目标', '进度'],
           orient : 'vertical',
           align:"left",
           top:"0",
@@ -84,7 +84,7 @@ export default {
             data: [
               {
                 value: [50, 75, 95, 95, 95],
-                name: '预期',
+                name: '目标',
                 symbolSize: 6,
                 lineStyle: {
                   type: 'dashed'
@@ -98,7 +98,7 @@ export default {
               },
               {
                 value: [75, 60, 80, 60, 100],
-                name: '现状'
+                name: '进度'
               }
             ]
           }

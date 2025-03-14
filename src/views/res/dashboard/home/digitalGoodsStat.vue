@@ -9,7 +9,7 @@
                     <div class="digital-flop-item-title"><b>达标率</b></div>
                     <div style="margin-top:1vh;">
                       <dv-digital-flop class="digital-flop-item-digital"
-                      :config="{number:[90],toFixed: 2,content: '{nt} %',style:{fill: '#fff',fontSize:16}}"
+                      :config="{number:[90],toFixed: 1,content: '{nt} %',style:{fill: '#fff',fontSize:16}}"
                       />
                     </div>
                   </div>
@@ -87,7 +87,6 @@ export default {
   .digital-container {
     
     margin:2vh 2vh 0px;
-    background-color: rgba(6, 30, 93, 0.9);
 
     .flex-row {
       display: flex;

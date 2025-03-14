@@ -54,7 +54,7 @@ export default {
         {
           name: '户数',
           type: 'pie',
-          radius: [60, 80],
+          radius: [30, 80],
           center: ['50%', '50%'],
           roseType: 'area',
           itemStyle: {
