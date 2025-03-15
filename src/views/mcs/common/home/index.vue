@@ -207,9 +207,7 @@
 			<el-col :xs="12" :sm="12">
 				<el-card v-if="isMainBusinessState">
 					<template #header>
-						
 						<div>
-							
 							<el-form ref="searchFormRef" :model="mainBusinessBillLineTableData.param" label-suffix="："  label-width="60px" :inline="true">
 								<el-button type="primary" @click="onSetBusinessState(false)">
 								年度铁运
@@ -268,9 +266,35 @@
 				</el-card>
 				<el-card v-else>
 					<template #header>
-						<el-button type="success" @click="onSetBusinessState(true)">
-							年度贸易
-						</el-button>
+						<div>
+							<el-form ref="searchFormRef" :model="tradeBusinessBillLineTableData.param" label-suffix="："  label-width="70px" :inline="true">
+								<el-button type="success" @click="onSetBusinessState(true)">
+									年度贸易
+								</el-button>
+								<el-form-item label="状态" style="margin-bottom:0px">
+									<el-select v-model="tradeBusinessBillLineTableData.param.auditState" placeholder="结束状态" style="width: 70px">
+										<el-option label="不限" :value="-1"></el-option>
+										<el-option label="未结束" :value="0"></el-option>
+										<el-option label="已结束" :value="1"></el-option>
+									</el-select>
+								</el-form-item>
+								<el-form-item label="关键字" style="width:160px; white-space: nowrap;margin-bottom:0px" >
+									<el-input placeholder="输入关键字查询" v-model="tradeBusinessBillLineTableData.param.keyword"> </el-input>
+								</el-form-item>
+								
+								<el-form-ite>
+									<el-button type="info" @click="onTradeBusinessBillLineTableSearch">
+										<el-icon>
+											<Search />
+										</el-icon>
+										{{ $t('message.action.search') }}
+									</el-button>
+								</el-form-ite>
+								<el-form-item></el-form-item>
+							</el-form>
+						</div>
+
+						
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
 					</template>
 					<el-table
@@ -284,6 +308,12 @@
 						<el-table-column prop="GoodsName" label="产品名称" width="100" show-overflow-tooltip fixed/>
 						<el-table-column prop="GoodsCategoryName" label="品类" width="90"></el-table-column>
 						<el-table-column prop="CustomerName" label="供应商" width="120" show-overflow-tooltip/>
+						<el-table-column label="结束" width="70" align="center" show-overflow-tooltip>
+							<template #default="scope">
+								<el-tag type="success" effect="plain" v-if="scope.row.AuditState">{{ $t('message.action.yes') }}</el-tag>
+								<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
+							</template>
+						</el-table-column>
 						<el-table-column prop="PlanWeight" label="完成情况" width="120" align="center">
 							<template #default="scope">
 								<el-text type="success" effect="plain">{{ scope.row.Weight}}</el-text> / <el-text type="danger" effect="plain">{{scope.row.PlanWeight }}</el-text>
@@ -308,13 +338,49 @@
 			<el-col :xs="12" :sm="12">
 				<el-card>
 					<template #header>
-						<span style="font-size: 16px;">当日停驶自有车</span>
+						
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
+						
+
+						<el-form ref="searchFormRef" :model="vehicleStopTableData.param" label-suffix="：" label-width="70px" :inline="true">
+						<span style="font-size: 16px;">当日停驶自有车</span>
+						<el-form-item label="维修">
+							<el-select v-model="vehicleStopTableData.param.repairState" placeholder="维修状态" style="width: 80px">
+								<el-option label="不限" :value="-1"></el-option>
+								<el-option label="未维修" :value="0"></el-option>
+								<el-option label="维修中" :value="1"></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-ite style="margin-top:15px">
+							<el-button type="info" @click="onVehicleStopTableDataSearch">
+								<el-icon>
+									<Search />
+								</el-icon>
+								{{ $t('message.action.search') }}
+							</el-button>
+						</el-form-ite>
+						<!-- <el-form-item label="证件">
+							<el-select v-model="vehicleStopTableData.param.certState" placeholder="证件状态" style="width: 60px">
+								<el-option label="不限" :value="0"></el-option>
+								<el-option label="正常" :value="1"></el-option>
+								<el-option label="将到期" :value="2"></el-option>
+								<el-option label="已到期" :value="3"></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="保险">
+							<el-select v-model="vehicleStopTableData.param.insuranceState" placeholder="保险状态" style="width: 60px">
+								<el-option label="不限" :value="0"></el-option>
+								<el-option label="正常" :value="1"></el-option>
+								<el-option label="将到期" :value="2"></el-option>
+								<el-option label="已到期" :value="3"></el-option>
+							</el-select>
+						</el-form-item> -->
+						</el-form>
 					</template>
 					<el-table
 						:data="vehicleStopTableData.data"
 						v-loading="vehicleStopTableData.loading"
-						:height="200"
+						:height="195"
 						border
 						stripe
 						highlight-current-row>
@@ -322,7 +388,14 @@
 						<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed/>
 						<el-table-column label="提醒" width="120" show-overflow-tooltip>
 							<template #default="scope">
-								<el-tag type="danger" class="mr4" round effect="dark" v-if="scope.row.RepairState > 0">修</el-tag>
+								<el-tooltip v-if="scope.row.RepairState > 0"
+									class="box-item"
+									effect="dark"
+									placement="top">
+								<template #content>维修项目：{{ scope.row.RepairContent }} }}
+								</template>
+								<el-tag type="danger" class="mr4" round effect="dark">修</el-tag>
+								</el-tooltip>
 								<el-tag type="success" class="mr4" round effect="dark" v-else-if="scope.row.WaybillLineCount > 0" >任</el-tag>
 								<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
 								<el-tooltip v-if="scope.row.InsuranceState > 0"
@@ -467,6 +540,8 @@ export default {
 				total:0,
 				data:[],
 				param: {
+					keyword:"",
+					auditState:-1,
 					current: 1,
 					pageSize: 10,
 				}
@@ -561,6 +636,19 @@ export default {
 				state.mainBusinessBillLineTableData.loading = false;
 			}
 		}
+		const onTradeBusinessBillLineTableSearch=async()=>{
+			try {
+				
+				const businessBillLineRes = await proxy.$api.erp.businessBill.getListByScope("trade", state.scopeMode, state.scopeValue, state.tradeBusinessBillLineTableData.param);
+				if (businessBillLineRes.errcode != 0) {
+					return;
+				}
+				state.tradeBusinessBillLineTableData.data = businessBillLineRes.data;
+				state.tradeBusinessBillLineTableData.total = businessBillLineRes.total;
+			} finally {
+				state.tradeBusinessBillLineTableData.loading = false;
+			}
+		}
 		const onVehicleRunTableSearch=async()=>{
 			try {
 				const vehicleRunRes = await proxy.$api.erp.waybill.getHomeVehicleList(0, 0, state.vehicleRunTableData.param)
@@ -573,60 +661,8 @@ export default {
 				state.vehicleRunTableData.loading = false;
 			}
 		}
-		
-		const onSetBusinessState=(val:Boolean)=>{
-			state.isMainBusinessState=val
-		}
-		const onGetTableData = async (status = 0) => {
-			//	获取当日任务数据
-			try {
-				const waybillTodayRes = await proxy.$api.erp.waybill.getGoodsAndCustomerStatListByScope("freight",0, 0,state.waybillTableData.param);
-				if(waybillTodayRes.errcode!=0){
-					return;
-				}
-				state.waybillTableData.data = waybillTodayRes.data
-				state.waybillTableData.total = waybillTodayRes.total
-			} finally {
-				state.waybillTableData.loading = false;
-			}
 
-			// 获取当日出勤车辆数据
-			try {
-				const vehicleRunRes = await proxy.$api.erp.waybill.getHomeVehicleList(0, 0, state.vehicleRunTableData.param)
-				if (vehicleRunRes.errcode != 0) {
-					return;
-				}
-				state.vehicleRunTableData.data = vehicleRunRes.data
-				state.vehicleRunTableData.total = vehicleRunRes.total
-			} finally {
-				state.vehicleRunTableData.loading = false;
-			}
-
-			// 获取铁运数据
-			try {
-				const businessBillLineRes = await proxy.$api.erp.businessBillLine.getStatListByScope("main_business", state.scopeMode, state.scopeValue, state.mainBusinessBillLineTableData.param);
-				if (businessBillLineRes.errcode != 0) {
-					return;
-				}
-				state.mainBusinessBillLineTableData.data = businessBillLineRes.data;
-				state.mainBusinessBillLineTableData.total = businessBillLineRes.data.length;
-			} finally {
-				state.mainBusinessBillLineTableData.loading = false;
-			}
-
-			// 获取贸易数据
-			try {
-				
-				const businessBillLineRes = await proxy.$api.erp.businessBill.getListByScope("trade", state.scopeMode, state.scopeValue, state.tradeBusinessBillLineTableData.param);
-				if (businessBillLineRes.errcode != 0) {
-					return;
-				}
-				state.tradeBusinessBillLineTableData.data = businessBillLineRes.data;
-				state.tradeBusinessBillLineTableData.total = businessBillLineRes.total;
-			} finally {
-				state.tradeBusinessBillLineTableData.loading = false;
-			}
-
+		const onVehicleStopTableDataSearch=async()=>{
 			//	获取当日停驶车辆数据
 			try {
 				const vehicleStopRes = await proxy.$api.erp.vehicle.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.vehicleStopTableData.param);
@@ -638,6 +674,26 @@ export default {
 			} finally {
 				state.vehicleStopTableData.loading = false;
 			}
+		}
+		
+		const onSetBusinessState=(val:Boolean)=>{
+			state.isMainBusinessState=val
+		}
+		const onGetTableData = async (status = 0) => {
+			//	获取当日任务数据
+			onWaybillTableSearch();
+
+			// 获取当日出勤车辆数据
+			onVehicleRunTableSearch()
+
+			// 获取铁运数据
+			onMainBusinessBillLineTableSearch()
+
+			// 获取贸易数据
+			onTradeBusinessBillLineTableSearch()
+
+			//	获取当日停驶车辆数据
+			onVehicleStopTableDataSearch()
 		}
 		// 打开地图
 		const onChildOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
@@ -773,6 +829,8 @@ export default {
 			onHandleCurrentChange,
 			onVehicleRunTableSearch,
 			onMainBusinessBillLineTableSearch,
+			onTradeBusinessBillLineTableSearch,
+			onVehicleStopTableDataSearch,
 			onSetBusinessState,
 			formatGender,
 			dateFormatYMD,
@@ -781,6 +839,7 @@ export default {
 			toDriverRemind,
 			toInsuranceRemind,
 			toWaybillView,
+			
 			proxy,
 			getUserInfos,
 			currentTime,

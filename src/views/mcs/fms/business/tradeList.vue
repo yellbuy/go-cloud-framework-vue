@@ -4,11 +4,11 @@
 				<pane :size="65">
 					<el-card shadow="hover">
 						<div class="">
-							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="70px" :inline="true">
+							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="60px" :inline="true">
 								<el-form-item label="关键字">
-									<el-input placeholder="输入关键字查询" style="width:100px" v-model="mainTableData.param.keyword"> </el-input>
+									<el-input placeholder="输入关键字查询" style="width:80px" v-model="mainTableData.param.keyword"> </el-input>
 								</el-form-item>
-								<el-form-item label="开始日期" style="width:300px; white-space: nowrap;">
+								<el-form-item label="开始日期" style="width:260px; white-space: nowrap;">
 									<el-date-picker
 										v-model="timeRange"
 										type="daterange"
@@ -17,6 +17,13 @@
 										start-placeholder="开始时间"
 										end-placeholder="结束时间"
 										format="YYYY-MM-DD" />
+								</el-form-item>
+								<el-form-item label="状态">
+									<el-select v-model="mainTableData.param.auditState" placeholder="结束状态" style="width: 80px">
+										<el-option label="不限" :value="-1"></el-option>
+										<el-option label="未结束" :value="0"></el-option>
+										<el-option label="已结束" :value="1"></el-option>
+									</el-select>
 								</el-form-item>
 								<el-form-item>
 									<el-button type="info" @click="onMainResetSearch">
@@ -47,7 +54,7 @@
 						@current-change="onMainCurrentChange"
 						v-loading="mainTableData.loading"
 						style="width: 100%"
-						:height="proxy.$calcMainHeight(-75)"
+						:height="proxy.$calcMainHeight(-115)"
 						border
 						stripe
 						highlight-current-row>
@@ -256,6 +263,7 @@ export default {
 					businessBillType:2, //1：计划，2：生产
 					startTime: '',
 					endTime: '',
+					auditState:-1,
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
