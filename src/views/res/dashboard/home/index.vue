@@ -18,10 +18,10 @@
           <div class="main-rows">
             
             <div style="width:25%">
-              <flareTarget />
-              <rankingCounty/>
-             
-              <barCoutyGdp/>
+              <rangeVillageGdp />
+              <radarVillage/>
+              <!-- <rankingCounty/> -->
+              <barPeopleGdp/>
             </div>
             <dv-border-box1 style="width:50%">
               <digitalGoodsStat/>
@@ -31,7 +31,7 @@
             </dv-border-box1>
             <div style="width:25%">
               <pieCoutyGdp />
-              <radarLgsh/>
+              <rankingCounty/>
               <lineLgsh/>
             </div>
           </div>
@@ -54,10 +54,11 @@
           <div class="main-rows">
             
             <div style="width:25%">
-              <flareTarget />
-              <rankingCounty/>
+              <rangeVillageGdp />
+              <radarVillage/>
+              <!-- <rankingCounty/> -->
              
-              <barCoutyGdp/>
+              <barPeopleGdp/>
             </div>
             <dv-border-box1 style="width:50%">
               <digitalGoodsStat/>
@@ -77,16 +78,18 @@
 </template>
 
 <script lang="ts">
-  import { onMounted, reactive, ref, toRefs } from 'vue';
-
-  import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
+import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
 import dayjs from 'dayjs';
-import barCoutyGdp from "./barCoutyGdp.vue";
+import { onMounted, reactive, ref, toRefs } from 'vue';
+import barPeopleGdp from "./barPeopleGdp.vue";
+import barCoutyGdp from "./barVillageGdp.vue";
 import digitalGoodsStat from "./digitalGoodsStat.vue";
 import flareTarget from "./flareTarget.vue";
 import lineLgsh from "./lineLgsh.vue";
 import pieCoutyGdp from "./pieCountyGdp.vue";
 import radarLgsh from "./radarLgsh.vue";
+import radarVillage from "./radarVillage.vue";
+import rangeVillageGdp from "./rangeVillageGdp.vue";
 import rankingCounty from "./rankingCounty.vue";
 export default {
   name: "IndexDashboard",
@@ -95,8 +98,11 @@ export default {
     rankingCounty,
     digitalGoodsStat,
     barCoutyGdp,
+    barPeopleGdp,
     pieCoutyGdp,
+    rangeVillageGdp,
     radarLgsh,
+    radarVillage,
     lineLgsh,
   },
   setup() {

@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <dv-border-box10>
       <div class="flare-container">
-        <div class="flare-title" style="text-align: left;padding-left:10px">村集体经济年收入分析</div>
+        <div class="flare-title" style="text-align: left;padding-left:10px">人均收入占比</div>
         <div ref="echart" class="echartDiv"></div>
       </div>
     </dv-border-box10>
@@ -26,11 +26,11 @@ export default {
       
       // 指定图表的配置项和数据
       var option = {
-        //color: ['#67F9D8', '#FFE434', '#56A3F1', '#FF917C'],
+        color: ['#67F9D8', '#FFE434', '#56A3F1', '#FF917C'],
         tooltip: {
           trigger: 'item',
           backgroundColor: 'rgba(50,50,50,0.7)',
-          formatter: '{b} : {c}个村 ({d}%)',
+          formatter: '{b} : {c}户 ({d}%)',
           textStyle: {
             color: '#eee'
           },
@@ -52,7 +52,7 @@ export default {
       },
       series: [
         {
-          name: '村数',
+          name: '户数',
           type: 'pie',
           radius: [30, 80],
           center: ['50%', '50%'],
@@ -75,7 +75,7 @@ export default {
       const startTime=now.startOf('year').format(); 
       const endTime=now.endOf('year').format(); 
 
-      state.data=[{name:'10W以下',value:1},{name:'10-20W',value:19},{name:'20-50W',value:24},{name:'50-100W',value:8},{name:'100W以上',value:8}];
+      state.data=[{name:'特困家庭',value:1752},{name:'低收入家庭',value:4752},{name:'中等收入家庭',value:8752},{name:'高收入家庭',value:552}];
       setChartOption(myChart);
 
       // const res = await proxy.$api.erp.waybill.getGoodsNameStatListByScope("freight",0, 0,{limit:8,startTime:startTime,endTime:endTime});

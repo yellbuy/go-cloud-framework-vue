@@ -46,7 +46,7 @@
   import { onMounted, reactive, ref, toRefs } from 'vue';
 
   import { ImageLayer, Map, Scene } from '@antv/l7';
-import barCoutyGdp from "./barCoutyGdp.vue";
+import barCoutyGdp from "./barVillageGdp.vue";
 import digitalGoodsStat from "./digitalGoodsStat.vue";
 import flareTarget from "./flareTarget.vue";
 import lineLgsh from "./lineLgsh.vue";
