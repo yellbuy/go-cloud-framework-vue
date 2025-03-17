@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <dv-border-box10>
       <div class="flare-container">
-        <div class="flare-title" style="text-align: left;padding-left:10px">仁和区人均生产总值(元)</div>
+        <div class="flare-title" style="text-align: left;padding-left:10px">村人均生产总值(元)</div>
         <div ref="echart" class="echartDiv" id="barPeopleGdp"></div>
       </div>
     </dv-border-box10>

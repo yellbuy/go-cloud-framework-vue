@@ -1,11 +1,11 @@
 <template>
   <div id="data-view" dv-bg>
-    <div style="width:60%;margin-top:100px;height:300px;margin-left:10%;margin-right:10%;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
+    <div style="width:60%;margin-top:40px;height:420px;margin-left:10%;margin-right:10%;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
       <dv-full-screen-container v-if="isFullScreen">
         <div style="position:absolute;top:6px;left: 10px">
           <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#615ea8">乡进入</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')" border="Border4" color="#615ea8">村实现</dv-button>
+          <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">乡进入</dv-button>
+          <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">村实现</dv-button>
           <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')" border="Border4" color="#615ea8">户达标</dv-button>
         </div>
         <div style="position:absolute;top:6px;right: 10px">
@@ -24,9 +24,14 @@
               <barAreaGdp/>
             </div>
             <dv-border-box1 style="width:50%">
-              <digitalGoodsStat/>
+              <!-- <digitalGoodsStat/> -->
+              <numberVillageStat />
               <div class="column-center">
-                <div style="min-height: 500px; justify-content: center;position: relative"  />
+                <div style="min-height: 300px; justify-content: center;position: relative"  />
+              </div>
+              <div class="column-footer">
+                <div style="width:50%"><barFamilyGdp /></div>
+                <div style="width:50%"><barAgricultureGdp /></div>
               </div>
             </dv-border-box1>
             <div style="width:25%">
@@ -62,11 +67,14 @@
               <barPeopleGdp/>
             </div>
             <dv-border-box1 style="width:50%">
-              <digitalVillageStat />
+              <numberVillageStat />
               <div class="column-center">
                 <div style="min-height: 100px; justify-content: center;position: relative"  />
               </div>
-              
+              <div class="column-footer">
+                <barFamilyGdp />
+                <div>456</div>
+              </div>
             </dv-border-box1>
             <div style="width:25%">
               <pieCoutyGdp />
@@ -80,16 +88,18 @@
 </template>
 
 <script lang="ts">
-import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
+import { ImageLayer, Map, PointLayer, Scene, Zoom } from '@antv/l7';
 import dayjs from 'dayjs';
 import { onMounted, reactive, ref, toRefs } from 'vue';
+import barAgricultureGdp from "./barAgricultureGdp.vue";
 import barAreaGdp from "./barAreaGdp.vue";
+import barFamilyGdp from "./barFamilyGdp.vue";
 import barPeopleGdp from "./barPeopleGdp.vue";
 import barCoutyGdp from "./barVillageGdp.vue";
 import barVillageInsurance from "./barVillageInsurance.vue";
-import digitalVillageStat from "./numberVillageStat.vue";
 import flareTarget from "./flareTarget.vue";
 import lineLgsh from "./lineLgsh.vue";
+import numberVillageStat from "./numberVillageStat.vue";
 import pieCoutyGdp from "./pieCountyGdp.vue";
 import radarLgsh from "./radarLgsh.vue";
 import radarVillage from "./radarVillage.vue";
@@ -100,10 +110,12 @@ export default {
   components: {
     flareTarget,
     rankingCounty,
-    digitalVillageStat,
+    numberVillageStat,
     barCoutyGdp,
+    barAgricultureGdp,
     barPeopleGdp,
     barAreaGdp,
+    barFamilyGdp,
     barVillageInsurance,
     pieCoutyGdp,
     rangeVillageGdp,
@@ -129,10 +141,10 @@ export default {
         logoVisible :false,
           map: new Map({
             
-            center: [500, 480],
-            zoom: 1,
+            center: [500, 500],
+            zoom: 2,
             version: 'SIMPLE',
-            mapSize: 800,
+            mapSize: 1100,
             maxZoom: 5,
             minZoom: 1,
             pitchEnabled: true,
@@ -141,34 +153,24 @@ export default {
       });
       scene.setBgColor('rgb(94, 182, 140)');
       scene.on('loaded', () => {
+        // 实例化 Zoom 控件，可以在构造器中传入控件的配置
+      const zoom = new Zoom({
+        position: 'rightbottom',
+        className: 'my-test-class',
+        style:"margin:20px;"
+      });
+
+      // 将实例化的控件添加至 L7 中
+      scene.addControl(zoom);
       fetch('https://gw.alipayobjects.com/os/bmw-prod/7dc0d454-fabc-4461-a5d5-d404dadb49a9.json')
         .then((res) => res.json())
         .then((data) => {
           data=[
           {
-            "x": 530,
-            "y": 530,
-            "t": "大河中路街道"
-          },
-          {
-            "x": 530,
-            "y": 500,
-            "t": "仁和镇"
-          },
-          {
-            "x": 545,
-            "y": 463,
-            "t": "大田镇"
-          },
-          {
-            "x": 520,
-            "y": 572,
-            "t": "务本乡"
-          },
-          {
-            "x": 500,
-            "y": 524,
-            "t": "前进镇"
+            "x": 480,
+            "y": 490,
+            "t": "大龙潭村",
+            "z": "5104030101"
           }]
           const textlayer = new PointLayer({ zIndex: 2 })
             .source(data, {
@@ -178,16 +180,18 @@ export default {
                 y: 'y',
               },
             })
+            
             .shape('t', 'text')
-            .size(12)
+            .size(16)
             .active({
               color: '#00f',
               mix: 0.9,
             })
-            .color('rgb(86, 156, 214)')
+            
+            .color('red')
             .style({
               textAnchor: 'center', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
-              spacing: 2, // 字符间距
+              spacing: 6, // 字符间距
               fontWeight: '800',
               padding: [1, 1], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
               stroke: '#ffffff', // 描边颜色
@@ -195,9 +199,35 @@ export default {
               textAllowOverlap: true,
             });
           scene.addLayer(textlayer);
-        });
-      })
-      const imagelayer = new ImageLayer({}).source('/img/res/renhe.png',
+          textlayer.on('click', (e) => {
+            console.log(e)
+            alert( `
+              <p>区域名称: ${e.feature.t}</p>
+              <p>区域标识: ${e.feature.z}</p>
+              <p>图中X坐标: ${e.x}</p>
+              <p>图中Y坐标: ${e.y}</p>
+            `);
+          });
+          const circlelayer = new PointLayer({ zIndex: 3 })
+            .source(data, {
+              parser: {
+                type: 'json',
+                x: 'x',
+                y: 'y',
+              },
+            })
+            .shape('circle')
+            .size('mag', [1, 25])
+            .color('mag', "'#5B8FF9'")
+            .active(true)
+            .style({
+              opacity: 0.3,
+              strokeWidth: 1,
+            });
+          scene.addLayer(circlelayer);
+          });
+        })
+      const imagelayer = new ImageLayer({}).source('/img/res/dltc.png',
         {
           parser: {
             type: 'image',
@@ -245,14 +275,21 @@ export default {
       text-align: left;
     }
     .column-center {
-      height: 42%;
+      height: 59%;
       background-size: 100% 100%;
       margin:0px 20px 12px 20px;
     }
     .column-footer {
-      height: 40%;
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      text-align:center;
+      height: 26%;
       background-size: 100% 100%;
-      margin:0px 20px 12px 20px;
+      margin:0px 10px 0px 10px;
     }
   }
   .dv-button {

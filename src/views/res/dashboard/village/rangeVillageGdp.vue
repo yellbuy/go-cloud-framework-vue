@@ -2,8 +2,8 @@
   <div id="flareTarget">
     <dv-border-box10>
       <div class="flare-container">
-        <div class="flare-title" style="text-align: left;padding-left:10px">仁和区人均生产总值(元)</div>
-        <div ref="echart" class="echartDiv" id="barPeopleGdp"></div>
+        <div class="flare-title" style="text-align: left;padding-left:10px">村生产总值(亿元)</div>
+        <div ref="echart" class="echartDiv" id="container"></div>
       </div>
     </dv-border-box10>
   </div>
@@ -36,7 +36,7 @@ export default {
               [x4, points[3][1] + 8],
               [points[3][0], points[3][1]],
             ],
-            fill: 'rgba(14, 77, 207, 0.7)',
+            fill: 'rgba(114, 177, 207, 0.5)',
             stroke: 'rgba(0,0,0,0.1)',
             strokeOpacity: 0.1,
             inset: 30,
@@ -51,7 +51,7 @@ export default {
               [points[2][0], points[2][1]],
               [x4, points[2][1] + 8],
             ],
-            fill: 'rgba(26, 112, 236, 0.7)',
+            fill: 'rgba(126, 212, 236, 0.5)',
             stroke: 'rgba(0,0,0,0.3)',
             strokeOpacity: 0.1,
           },
@@ -65,7 +65,7 @@ export default {
               [points[1][0], points[1][1]],
               [x4, points[1][1] + 8],
             ],
-            fill: 'rgba(73, 140, 255, 0.65)',
+            fill: 'rgba(173, 240, 255, 0.65)',
           },
         });
 
@@ -87,22 +87,22 @@ export default {
   onMounted(async () => {
     //https://g2.antv.antgroup.com/api/chart
     const chart = new Chart({
-      container: 'barPeopleGdp',
+      container: 'container',
       autoFit: true,
       depth:1,
-      paddingLeft:30,
+      padding:20,
     });
 
     chart
       .data([
-        { Year: 2022, Value: 96400},
-        { Year: 2023, Value: 102500 },
-        { Year: 2024, Value: 107200 },
+        { Year: 2022, Value: 257.74},
+        { Year: 2023, Value: 274.13 },
+        { Year: 2024, Value: 287.32 },
       ])
       .axis('y', { 
         tick:true,
         tickCount: 5,
-        tickLength: -30,
+        tickLength: -20,
         //title: false,
         //titleFill: 'steelblue',
         // titleFontFamily:"Arial",
@@ -176,50 +176,50 @@ export default {
     // })
     .tooltip({
       title: { channel: 'x' },
-      items: [{ channel: 'y',name:"人均产值（元）" }],
+      items: [{ channel: 'y',name:"产值（亿元）" }],
     })
     .scale('x', { padding: 0.4 });
 
-    // chart
-    //   .range()
-    //   .data({
-    //     transform: [
-    //       {
-    //         type: 'custom',
-    //         callback: (data:any) => overThreshold(data, 280),
-    //       },
-    //     ],
-    //   })
-    //   .encode('x', 'x')
-    //   .encode('y', 'y')
-    //   //.encode('color', 'linear-gradient(270deg, #ffffff 0%, #7ec2f3 50%, #1890ff 100%)')
-    //   .style('fill', 'lightgreen')
-    //   .style('fillOpacity', 0.5)
-    //   .scale('x', { padding: 0.4 })
-    //   //.style('maxWidth', 200)
-    //   .viewStyle({
-    //     //viewFill: 'red',
-    //     viewFillOpacity:0,
-    //     //contentFill: 'yellow',
-    //   })
+    chart
+      .range()
+      .data({
+        transform: [
+          {
+            type: 'custom',
+            callback: (data:any) => overThreshold(data, 280),
+          },
+        ],
+      })
+      .encode('x', 'x')
+      .encode('y', 'y')
+      //.encode('color', 'linear-gradient(270deg, #ffffff 0%, #7ec2f3 50%, #1890ff 100%)')
+      .style('fill', 'lightgreen')
+      .style('fillOpacity', 0.5)
+      .scale('x', { padding: 0.4 })
+      //.style('maxWidth', 200)
+      .viewStyle({
+        //viewFill: 'red',
+        viewFillOpacity:0,
+        //contentFill: 'yellow',
+      })
 
-    // chart
-    //   .lineY()
-    //   .data([280])
-    //   .style('fill', 'rgb(239.8, 248.9, 235.3)')
-    //   //.style('lineDash', [10, 1])
-    //   .style('stroke', 'rgb(239.8, 248.9, 235.3)')
-    //   .style('lineWidth', 1)
-    //   .style('arrow', false)
-    //   .label({
-    //     text: '达标线 280',
-    //     position: 'right',
-    //     textBaseline: 'bottom',
-    //     fill: 'lightgreen',
-    //     background: false,
-    //     //backgroundFill: '#F4664A',
-    //     backgroundOpacity: 0.5,
-    //   });
+    chart
+      .lineY()
+      .data([280])
+      .style('fill', 'rgb(239.8, 248.9, 235.3)')
+      //.style('lineDash', [10, 1])
+      .style('stroke', 'rgb(239.8, 248.9, 235.3)')
+      .style('lineWidth', 1)
+      .style('arrow', false)
+      .label({
+        text: '达标线 280',
+        position: 'right',
+        textBaseline: 'bottom',
+        fill: 'lightgreen',
+        background: false,
+        //backgroundFill: '#F4664A',
+        backgroundOpacity: 0.5,
+      });
         chart.render();
       })
 
@@ -236,7 +236,7 @@ export default {
 }
 .echartDiv {
   width: 100%;
-  height:21vh;
+  height:30vh;
 }
 .flare-title{
   background-image: linear-gradient(to right,rgb(83, 78, 234), rgb(21, 6, 110));

@@ -1,6 +1,6 @@
 <template>
   <div id="data-view" dv-bg>
-    <div style="width:60%;margin-top:100px;height:600px;margin-left:10%;margin-right:10%;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
+    <div style="width:60%;margin-top:40px;height:420px;margin-left:10%;margin-right:10%;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
       <dv-full-screen-container v-if="isFullScreen">
         <div style="position:absolute;top:6px;left: 10px">
           <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
@@ -21,18 +21,24 @@
               <rangeVillageGdp />
               <radarVillage/>
               <!-- <rankingCounty/> -->
-              <barPeopleGdp/>
+              <barAreaGdp/>
             </div>
             <dv-border-box1 style="width:50%">
-              <digitalGoodsStat/>
+              <!-- <digitalGoodsStat/> -->
+              <numberVillageStat />
               <div class="column-center">
-                <div style="min-height: 500px; justify-content: center;position: relative"  />
+                <div style="min-height: 300px; justify-content: center;position: relative"  />
+              </div>
+              <div class="column-footer">
+                <div style="width:50%"><barFamilyGdp /></div>
+                <div style="width:50%"><barAgricultureGdp /></div>
               </div>
             </dv-border-box1>
             <div style="width:25%">
               <pieCoutyGdp />
-              <rankingCounty/>
-              <lineLgsh/>
+              <barVillageInsurance/>
+              <barPeopleGdp/>
+              <!-- <lineLgsh/> -->
             </div>
           </div>
         </dv-border-box11>
@@ -61,9 +67,13 @@
               <barPeopleGdp/>
             </div>
             <dv-border-box1 style="width:50%">
-              <digitalGoodsStat/>
+              <numberVillageStat />
               <div class="column-center">
-                <div style="min-height: 500px; justify-content: center;position: relative"  />
+                <div style="min-height: 100px; justify-content: center;position: relative"  />
+              </div>
+              <div class="column-footer">
+                <barFamilyGdp />
+                <div>456</div>
               </div>
             </dv-border-box1>
             <div style="width:25%">
@@ -81,11 +91,15 @@
 import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
 import dayjs from 'dayjs';
 import { onMounted, reactive, ref, toRefs } from 'vue';
+import barAgricultureGdp from "./barAgricultureGdp.vue";
+import barAreaGdp from "./barAreaGdp.vue";
+import barFamilyGdp from "./barFamilyGdp.vue";
 import barPeopleGdp from "./barPeopleGdp.vue";
 import barCoutyGdp from "./barVillageGdp.vue";
-import digitalGoodsStat from "./digitalGoodsStat.vue";
+import barVillageInsurance from "./barVillageInsurance.vue";
 import flareTarget from "./flareTarget.vue";
 import lineLgsh from "./lineLgsh.vue";
+import numberVillageStat from "./numberVillageStat.vue";
 import pieCoutyGdp from "./pieCountyGdp.vue";
 import radarLgsh from "./radarLgsh.vue";
 import radarVillage from "./radarVillage.vue";
@@ -96,9 +110,13 @@ export default {
   components: {
     flareTarget,
     rankingCounty,
-    digitalGoodsStat,
+    numberVillageStat,
     barCoutyGdp,
+    barAgricultureGdp,
     barPeopleGdp,
+    barAreaGdp,
+    barFamilyGdp,
+    barVillageInsurance,
     pieCoutyGdp,
     rangeVillageGdp,
     radarLgsh,
@@ -120,11 +138,13 @@ export default {
 		onMounted(() => {
       const scene = new Scene({
         id: 'mapContainer',
+        logoVisible :false,
           map: new Map({
-            center: [500, 480],
+            
+            center: [500, 500],
             zoom: 2,
             version: 'SIMPLE',
-            mapSize: 800,
+            mapSize: 1100,
             maxZoom: 5,
             minZoom: 1,
             pitchEnabled: true,
@@ -237,9 +257,21 @@ export default {
       text-align: left;
     }
     .column-center {
-      height: 82%;
+      height: 59%;
       background-size: 100% 100%;
       margin:0px 20px 12px 20px;
+    }
+    .column-footer {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      text-align:center;
+      height: 26%;
+      background-size: 100% 100%;
+      margin:0px 10px 0px 10px;
     }
   }
   .dv-button {
