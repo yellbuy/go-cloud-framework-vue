@@ -1,6 +1,6 @@
 <template>
   <div id="data-view" dv-bg>
-    <div style="width:60%;margin-top:40px;height:420px;margin-left:10%;margin-right:10%;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
+    <div style="width:500px;height:500px;margin-top:-10px;margin-left:20%;margin-right:20%;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
       <dv-full-screen-container v-if="isFullScreen">
         <div style="position:absolute;top:6px;left: 10px">
           <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
@@ -127,6 +127,8 @@ export default {
     const mapContainer = ref();
     const state: any = reactive({
         isFullScreen:true,// 是否全屏
+        baseUrl: import.meta.env.VITE_API_URL,
+			  imgUrl: import.meta.env.VITE_URL,
         curTime:dayjs().format("YYYY年MM月DD日")
     })
     const onFullScreen = () => {
@@ -142,9 +144,9 @@ export default {
           map: new Map({
             
             center: [500, 500],
-            zoom: 2,
+            zoom: 1,
             version: 'SIMPLE',
-            mapSize: 1100,
+            mapSize: 1000,
             maxZoom: 5,
             minZoom: 1,
             pitchEnabled: true,
@@ -153,35 +155,28 @@ export default {
       });
       scene.setBgColor('rgb(94, 182, 140)');
       scene.on('loaded', () => {
-      fetch('https://gw.alipayobjects.com/os/bmw-prod/7dc0d454-fabc-4461-a5d5-d404dadb49a9.json')
+      fetch('/data/res/area.json')
         .then((res) => res.json())
         .then((data) => {
-          data=[
-          {
-            "x": 530,
-            "y": 530,
-            "t": "大河中路街道"
-          },
-          {
-            "x": 530,
-            "y": 500,
-            "t": "仁和镇"
-          },
-          {
-            "x": 545,
-            "y": 463,
-            "t": "大田镇"
-          },
-          {
-            "x": 520,
-            "y": 572,
-            "t": "务本乡"
-          },
-          {
-            "x": 500,
-            "y": 524,
-            "t": "前进镇"
-          }]
+          console.log(data)
+          scene.addImage(
+          '0', `/img/res/village_0.png`);
+          scene.addImage(
+          '1', `/img/res/village_1.png`);
+          // scene.addImage(
+          // '0', `${state.imgUrl}/static/img/res/village_0.png`);
+          // scene.addImage(
+          // '1', `${state.imgUrl}/static/img/res/village_1.png`);
+          const imageLayer = new PointLayer()
+            .source(data, {
+              parser: {
+                type: 'json',
+                x: 'x',
+                y: 'y',
+              },
+            })
+            .shape('icon', ['0', '1'])
+            .size(12);
           const textlayer = new PointLayer({ zIndex: 2 })
             .source(data, {
               parser: {
@@ -190,35 +185,48 @@ export default {
                 y: 'y',
               },
             })
-            .shape('t', 'text')
+            .shape('name', 'text')
             .size(12)
             .active({
               color: '#00f',
               mix: 0.9,
             })
-            .color('rgb(86, 156, 214)')
+            
+            .color('red')
             .style({
-              textAnchor: 'center', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
-              spacing: 2, // 字符间距
+              textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
+              spacing: 6, // 字符间距
               fontWeight: '800',
-              padding: [1, 1], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
+              padding: [30, 30], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
               stroke: '#ffffff', // 描边颜色
               strokeWidth: 2, // 描边宽度
               textAllowOverlap: true,
+              textOffset: [20, 20],
             });
-          scene.addLayer(textlayer);
-        });
-      })
+            scene.addLayer(imageLayer);
+            scene.addLayer(textlayer);
+          });
+        })
       const imagelayer = new ImageLayer({}).source('/img/res/renhe.png',
         {
           parser: {
             type: 'image',
-            extent: [360, 400, 640, 600],
+            autoFit:true,
+            extent: [360, 400, 660, 600],
           },
         },
       );
+      imagelayer.on('click', (e) => {
+        console.log(e)
+        alert( `
+          <p>区域名称: ${e.feature.name}</p>
+          <p>区域标识: ${e.feature.code}</p>
+          <p>图中X坐标: ${e.x} = ${e.x+250}</p>
+          <p>图中Y坐标: ${e.y} = ${e.y+400}</p>
+        `);
+      });
       scene.addLayer(imagelayer);
-				
+			
 		});
     return {
       onFullScreen,
