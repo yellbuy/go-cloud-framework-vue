@@ -144,7 +144,7 @@ export default {
           map: new Map({
             
             center: [500, 500],
-            zoom: 1,
+            zoom: 2,
             version: 'SIMPLE',
             mapSize: 1000,
             maxZoom: 5,
@@ -175,8 +175,17 @@ export default {
                 y: 'y',
               },
             })
-            .shape('icon', ['0', '1'])
+            .shape('icon', ['1', '0'])
             .size(12);
+          imageLayer.on('click', (e) => {
+            console.log(e)
+            alert( `
+              <p>区域名称: ${e.feature.name}</p>
+              <p>区域标识: ${e.feature.code}</p>
+              <p>图中X坐标: ${e.x}</p>
+              <p>图中Y坐标: ${e.y}</p>
+            `);
+          });
           const textlayer = new PointLayer({ zIndex: 2 })
             .source(data, {
               parser: {
@@ -191,7 +200,6 @@ export default {
               color: '#00f',
               mix: 0.9,
             })
-            
             .color('red')
             .style({
               textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
@@ -203,6 +211,15 @@ export default {
               textAllowOverlap: true,
               textOffset: [20, 20],
             });
+            textlayer.on('click', (e) => {
+            console.log(e)
+            alert( `
+              <p>区域名称: ${e.feature.name}</p>
+              <p>区域标识: ${e.feature.code}</p>
+              <p>图中X坐标: ${e.x}</p>
+              <p>图中Y坐标: ${e.y}</p>
+            `);
+          });
             scene.addLayer(imageLayer);
             scene.addLayer(textlayer);
           });
@@ -222,7 +239,7 @@ export default {
           <p>区域名称: ${e.feature.name}</p>
           <p>区域标识: ${e.feature.code}</p>
           <p>图中X坐标: ${e.x} = ${e.x+250}</p>
-          <p>图中Y坐标: ${e.y} = ${e.y+400}</p>
+          <p>图中Y坐标: ${e.y} = ${(1000+(500-e.y)/2)/2}</p>
         `);
       });
       scene.addLayer(imagelayer);
