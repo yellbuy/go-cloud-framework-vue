@@ -1,6 +1,6 @@
 <template>
   <div id="data-view" dv-bg>
-    <div style="width:30vw;height:30vw;left:22vw;top:3vh;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
+    <div style="width:60%;margin-top:100px;height:300px;margin-left:10%;margin-right:10%;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
       <dv-full-screen-container v-if="isFullScreen">
         <div style="position:absolute;top:6px;left: 10px">
           <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
@@ -24,14 +24,9 @@
               <barAreaGdp/>
             </div>
             <dv-border-box1 style="width:50%">
-              <!-- <digitalGoodsStat/> -->
-              <numberVillageStat />
+              <digitalGoodsStat/>
               <div class="column-center">
-                <div style="min-height: 300px; justify-content: center;position: relative"  />
-              </div>
-              <div class="column-footer">
-                <div style="width:50%"><barFamilyGdp /></div>
-                <div style="width:50%"><barAgricultureGdp /></div>
+                <div style="min-height: 500px; justify-content: center;position: relative"  />
               </div>
             </dv-border-box1>
             <div style="width:25%">
@@ -67,14 +62,11 @@
               <barPeopleGdp/>
             </div>
             <dv-border-box1 style="width:50%">
-              <numberVillageStat />
+              <digitalVillageStat />
               <div class="column-center">
                 <div style="min-height: 100px; justify-content: center;position: relative"  />
               </div>
-              <div class="column-footer">
-                <barFamilyGdp />
-                <div>456</div>
-              </div>
+              
             </dv-border-box1>
             <div style="width:25%">
               <pieCoutyGdp />
@@ -91,15 +83,13 @@
 import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
 import dayjs from 'dayjs';
 import { onMounted, reactive, ref, toRefs } from 'vue';
-import barAgricultureGdp from "./barAgricultureGdp.vue";
 import barAreaGdp from "./barAreaGdp.vue";
-import barFamilyGdp from "./barFamilyGdp.vue";
 import barPeopleGdp from "./barPeopleGdp.vue";
 import barCoutyGdp from "./barVillageGdp.vue";
 import barVillageInsurance from "./barVillageInsurance.vue";
+import digitalVillageStat from "./numberVillageStat.vue";
 import flareTarget from "./flareTarget.vue";
 import lineLgsh from "./lineLgsh.vue";
-import numberVillageStat from "./numberVillageStat.vue";
 import pieCoutyGdp from "./pieCountyGdp.vue";
 import radarLgsh from "./radarLgsh.vue";
 import radarVillage from "./radarVillage.vue";
@@ -110,12 +100,10 @@ export default {
   components: {
     flareTarget,
     rankingCounty,
-    numberVillageStat,
+    digitalVillageStat,
     barCoutyGdp,
-    barAgricultureGdp,
     barPeopleGdp,
     barAreaGdp,
-    barFamilyGdp,
     barVillageInsurance,
     pieCoutyGdp,
     rangeVillageGdp,
@@ -127,8 +115,6 @@ export default {
     const mapContainer = ref();
     const state: any = reactive({
         isFullScreen:true,// 是否全屏
-        baseUrl: import.meta.env.VITE_API_URL,
-			  imgUrl: import.meta.env.VITE_URL,
         curTime:dayjs().format("YYYY年MM月DD日")
     })
     const onFullScreen = () => {
@@ -143,10 +129,10 @@ export default {
         logoVisible :false,
           map: new Map({
             
-            center: [500, 500],
-            zoom: 2,
+            center: [500, 480],
+            zoom: 1,
             version: 'SIMPLE',
-            mapSize: 1000,
+            mapSize: 800,
             maxZoom: 5,
             minZoom: 1,
             pitchEnabled: true,
@@ -155,37 +141,35 @@ export default {
       });
       scene.setBgColor('rgb(94, 182, 140)');
       scene.on('loaded', () => {
-      fetch('/data/res/area.json')
+      fetch('https://gw.alipayobjects.com/os/bmw-prod/7dc0d454-fabc-4461-a5d5-d404dadb49a9.json')
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
-          scene.addImage(
-          '0', `/img/res/village_0.png`);
-          scene.addImage(
-          '1', `/img/res/village_1.png`);
-          // scene.addImage(
-          // '0', `${state.imgUrl}/static/img/res/village_0.png`);
-          // scene.addImage(
-          // '1', `${state.imgUrl}/static/img/res/village_1.png`);
-          const imageLayer = new PointLayer()
-            .source(data, {
-              parser: {
-                type: 'json',
-                x: 'x',
-                y: 'y',
-              },
-            })
-            .shape('icon', ['1', '0'])
-            .size(12);
-          imageLayer.on('click', (e) => {
-            console.log(e)
-            alert( `
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
-              <p>图中X坐标: ${e.x}</p>
-              <p>图中Y坐标: ${e.y}</p>
-            `);
-          });
+          data=[
+          {
+            "x": 530,
+            "y": 530,
+            "t": "大河中路街道"
+          },
+          {
+            "x": 530,
+            "y": 500,
+            "t": "仁和镇"
+          },
+          {
+            "x": 545,
+            "y": 463,
+            "t": "大田镇"
+          },
+          {
+            "x": 520,
+            "y": 572,
+            "t": "务本乡"
+          },
+          {
+            "x": 500,
+            "y": 524,
+            "t": "前进镇"
+          }]
           const textlayer = new PointLayer({ zIndex: 2 })
             .source(data, {
               parser: {
@@ -194,56 +178,35 @@ export default {
                 y: 'y',
               },
             })
-            .shape('name', 'text')
+            .shape('t', 'text')
             .size(12)
             .active({
               color: '#00f',
               mix: 0.9,
             })
-            .color('red')
+            .color('rgb(86, 156, 214)')
             .style({
-              textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
-              spacing: 6, // 字符间距
+              textAnchor: 'center', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
+              spacing: 2, // 字符间距
               fontWeight: '800',
-              padding: [30, 30], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
+              padding: [1, 1], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
               stroke: '#ffffff', // 描边颜色
               strokeWidth: 2, // 描边宽度
               textAllowOverlap: true,
-              textOffset: [20, 20],
             });
-            textlayer.on('click', (e) => {
-            console.log(e)
-            alert( `
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
-              <p>图中X坐标: ${e.x}</p>
-              <p>图中Y坐标: ${e.y}</p>
-            `);
-          });
-            scene.addLayer(imageLayer);
-            scene.addLayer(textlayer);
-          });
-        })
+          scene.addLayer(textlayer);
+        });
+      })
       const imagelayer = new ImageLayer({}).source('/img/res/renhe.png',
         {
           parser: {
             type: 'image',
-            autoFit:true,
-            extent: [360, 400, 660, 600],
+            extent: [360, 400, 640, 600],
           },
         },
       );
-      imagelayer.on('click', (e) => {
-        console.log(e)
-        alert( `
-          <p>区域名称: ${e.feature.name}</p>
-          <p>区域标识: ${e.feature.code}</p>
-          <p>图中X坐标: ${e.x} = ${e.x+250}</p>
-          <p>图中Y坐标: ${e.y} = ${(1000+(500-e.y)/2)/2}</p>
-        `);
-      });
       scene.addLayer(imagelayer);
-			
+				
 		});
     return {
       onFullScreen,
@@ -282,21 +245,14 @@ export default {
       text-align: left;
     }
     .column-center {
-      height: 59%;
+      height: 42%;
       background-size: 100% 100%;
       margin:0px 20px 12px 20px;
     }
     .column-footer {
-      display: flex;
-      flex-direction: row;
-      align-content: center;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      text-align:center;
-      height: 26%;
+      height: 40%;
       background-size: 100% 100%;
-      margin:0px 10px 0px 10px;
+      margin:0px 20px 12px 20px;
     }
   }
   .dv-button {

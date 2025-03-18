@@ -1,11 +1,11 @@
 <template>
   <div id="data-view" dv-bg>
-    <div style="width:30vw;height:30vw;left:22vw;top:3vh;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
+    <div style="width:60%;margin-top:40px;height:420px;margin-left:10%;margin-right:10%;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
       <dv-full-screen-container v-if="isFullScreen">
         <div style="position:absolute;top:6px;left: 10px">
           <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#615ea8">乡进入</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')" border="Border4" color="#615ea8">村实现</dv-button>
+          <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">乡进入</dv-button>
+          <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">村实现</dv-button>
           <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')" border="Border4" color="#615ea8">户达标</dv-button>
         </div>
         <div style="position:absolute;top:6px;right: 10px">
@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts">
-import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
+import { ImageLayer, Map, PointLayer, Scene, Zoom } from '@antv/l7';
 import dayjs from 'dayjs';
 import { onMounted, reactive, ref, toRefs } from 'vue';
 import barAgricultureGdp from "./barAgricultureGdp.vue";
@@ -127,8 +127,6 @@ export default {
     const mapContainer = ref();
     const state: any = reactive({
         isFullScreen:true,// 是否全屏
-        baseUrl: import.meta.env.VITE_API_URL,
-			  imgUrl: import.meta.env.VITE_URL,
         curTime:dayjs().format("YYYY年MM月DD日")
     })
     const onFullScreen = () => {
@@ -146,7 +144,7 @@ export default {
             center: [500, 500],
             zoom: 2,
             version: 'SIMPLE',
-            mapSize: 1000,
+            mapSize: 1100,
             maxZoom: 5,
             minZoom: 1,
             pitchEnabled: true,
@@ -155,37 +153,25 @@ export default {
       });
       scene.setBgColor('rgb(94, 182, 140)');
       scene.on('loaded', () => {
-      fetch('/data/res/area.json')
+        // 实例化 Zoom 控件，可以在构造器中传入控件的配置
+      const zoom = new Zoom({
+        position: 'rightbottom',
+        className: 'my-test-class',
+        style:"margin:20px;"
+      });
+
+      // 将实例化的控件添加至 L7 中
+      scene.addControl(zoom);
+      fetch('https://gw.alipayobjects.com/os/bmw-prod/7dc0d454-fabc-4461-a5d5-d404dadb49a9.json')
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
-          scene.addImage(
-          '0', `/img/res/village_0.png`);
-          scene.addImage(
-          '1', `/img/res/village_1.png`);
-          // scene.addImage(
-          // '0', `${state.imgUrl}/static/img/res/village_0.png`);
-          // scene.addImage(
-          // '1', `${state.imgUrl}/static/img/res/village_1.png`);
-          const imageLayer = new PointLayer()
-            .source(data, {
-              parser: {
-                type: 'json',
-                x: 'x',
-                y: 'y',
-              },
-            })
-            .shape('icon', ['1', '0'])
-            .size(12);
-          imageLayer.on('click', (e) => {
-            console.log(e)
-            alert( `
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
-              <p>图中X坐标: ${e.x}</p>
-              <p>图中Y坐标: ${e.y}</p>
-            `);
-          });
+          data=[
+          {
+            "x": 480,
+            "y": 490,
+            "t": "大龙潭村",
+            "z": "5104030101"
+          }]
           const textlayer = new PointLayer({ zIndex: 2 })
             .source(data, {
               parser: {
@@ -194,56 +180,63 @@ export default {
                 y: 'y',
               },
             })
-            .shape('name', 'text')
-            .size(12)
+            
+            .shape('t', 'text')
+            .size(16)
             .active({
               color: '#00f',
               mix: 0.9,
             })
+            
             .color('red')
             .style({
-              textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
+              textAnchor: 'center', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
               spacing: 6, // 字符间距
               fontWeight: '800',
-              padding: [30, 30], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
+              padding: [1, 1], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
               stroke: '#ffffff', // 描边颜色
               strokeWidth: 2, // 描边宽度
               textAllowOverlap: true,
-              textOffset: [20, 20],
             });
-            textlayer.on('click', (e) => {
+          scene.addLayer(textlayer);
+          textlayer.on('click', (e) => {
             console.log(e)
             alert( `
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
+              <p>区域名称: ${e.feature.t}</p>
+              <p>区域标识: ${e.feature.z}</p>
               <p>图中X坐标: ${e.x}</p>
               <p>图中Y坐标: ${e.y}</p>
             `);
           });
-            scene.addLayer(imageLayer);
-            scene.addLayer(textlayer);
+          const circlelayer = new PointLayer({ zIndex: 3 })
+            .source(data, {
+              parser: {
+                type: 'json',
+                x: 'x',
+                y: 'y',
+              },
+            })
+            .shape('circle')
+            .size('mag', [1, 25])
+            .color('mag', "'#5B8FF9'")
+            .active(true)
+            .style({
+              opacity: 0.3,
+              strokeWidth: 1,
+            });
+          scene.addLayer(circlelayer);
           });
         })
-      const imagelayer = new ImageLayer({}).source('/img/res/renhe.png',
+      const imagelayer = new ImageLayer({}).source('/img/res/dltc.png',
         {
           parser: {
             type: 'image',
-            autoFit:true,
-            extent: [360, 400, 660, 600],
+            extent: [360, 400, 640, 600],
           },
         },
       );
-      imagelayer.on('click', (e) => {
-        console.log(e)
-        alert( `
-          <p>区域名称: ${e.feature.name}</p>
-          <p>区域标识: ${e.feature.code}</p>
-          <p>图中X坐标: ${e.x} = ${e.x+250}</p>
-          <p>图中Y坐标: ${e.y} = ${(1000+(500-e.y)/2)/2}</p>
-        `);
-      });
       scene.addLayer(imagelayer);
-			
+				
 		});
     return {
       onFullScreen,

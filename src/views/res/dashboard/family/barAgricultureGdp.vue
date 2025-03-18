@@ -1,0 +1,176 @@
+<template>
+  <div id="flareTarget">
+    <dv-border-box10>
+      <div class="flare-container">
+        <div class="flare-title" style="text-align: left;padding-left:10px">特色农业产值（亿元）</div>
+        <div ref="echart" class="echartDiv" id="barAgricultureGdp"></div>
+      </div>
+    </dv-border-box10>
+  </div>
+</template>
+
+<script lang="ts">
+import { Chart } from '@antv/g2';
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+export default {
+  setup() {
+    const { proxy } = getCurrentInstance() as any;
+    let state = reactive({
+    })
+    
+        //挂载
+    onMounted(async () => {
+        const data = [
+          { name: '特色农业产值', 年份: '2022', 城镇: 44, color: '#FF6347' },
+          { name: '特色农业产值', 年份: '2023', 城镇: 46, color: '#FF6347' },
+          { name: '特色农业产值', 年份: '2024', 城镇: 48, color: '#FF6347' },
+          { name: '农林牧渔业产值', 年份: '2022', 城镇: 146, color: '#9370DB' },
+          { name: '农林牧渔业产值', 年份: '2023', 城镇: 147, color: '#9370DB' },
+          { name: '农林牧渔业产值', 年份: '2024', 城镇: 149, color: '#9370DB' },
+        ];
+
+        const chart = new Chart({
+          container: 'barAgricultureGdp',
+          autoFit: true,
+          depth:1,
+          padding:10,
+        });
+
+        chart
+          .interval()
+          .theme({ type: 'classicDark' })
+          .data(data)
+          .axis('y', { 
+          tick:true,
+          tickCount: 5,
+          tickLength: -30,
+          //title: false,
+          //titleFill: 'steelblue',
+          // titleFontFamily:"Arial",
+          // titleFontSize:6,
+          // titlePosition:'left',
+          line: true,
+          arrow: false,
+          lineArrowOffset: 2,
+          lineArrowSize: 6,
+          lineLineWidth: 1,
+          //titleStroke: 'rgb(252.5, 245.7, 235.5)',
+          lineStroke: 'orange',
+          label:true,
+          labelFill:"rgb(252.5, 245.7, 235.5)",
+          labelFontSize:10,
+          //labelFontFamily:"Arial",
+          labelSpacing:30,
+          
+          grid:true,
+          gridLineWidth:2,
+          gridLineDash:[4,4],
+          gridStrokeOpacity:0.5,
+          gridStroke:"white",
+          //gridAreaFill:"white",
+          animate:true,
+          // Tick
+          })
+        .axis('x', { 
+          
+          arrow: false,
+          tick:false,
+          tickCount: 10,
+          //tickLength: -20,
+          title: false,
+          titleStroke: 'orange',
+          titlePosition:'left',
+          label:true,
+          labelFill:"rgb(252.5, 245.7, 235.5)",
+          labelFontSize:10,
+          labelSpacing:10,
+          // titleFill: 'steelblue',
+          line: true,
+          lineArrowOffset: 2,
+          lineArrowSize: 6,
+          lineLineWidth: 2,
+          
+          lineStroke: 'orange',
+          
+          grid:false,
+          gridLineWidth:2,
+          gridLineDash:[2,2],
+          gridStrokeOpacity:0.5,
+          gridStroke:"white",
+          //gridAreaFill:"white",
+          animate:true,
+          // Tick
+        
+        })
+          .encode('x', '年份')
+          .encode('y', '城镇')
+          .encode('color', {
+            type: 'transform',
+            value: (d) => (d.name),
+          })
+          
+          .encode('text', 'name')
+          .scale('x', { padding: 0.4 })
+          .transform({ type: 'dodgeX' })
+          
+          .legend({
+           
+            color: {
+              size:8,
+              //itemLabelText: '图例项标签',
+              itemLabelFontSize: 10,
+              itemLabelLineHeight: 20,
+              itemLabelTextAlign: 'left',
+              itemLabelTextBaseline: 'middle',
+              itemLabelFill: '#fff',
+              itemLabelFillOpacity: 0.9,
+              itemLabelLineWidth: 2,
+              itemLabelOpacity: 1,
+              itemLabelCursor: 'pointer',
+            },
+            size: {},
+          })
+          .style({
+            fill: (d) => (d.color), // 绘图属性也可以是一个回调函数
+          })
+          .interaction('elementHighlight', { background: true });
+        
+          // chart
+          
+          // .text()
+          // .data(data)
+          // .encode('x', '年份')
+          // .encode('y', '城镇')
+          // .encode('text', '城镇')
+          // .style('fill', 'white')
+          // .style('textAlign', 'start')
+          chart.theme({ type: 'light' })
+        chart.render();
+      })
+
+      return {
+        ...toRefs(state),
+      }
+    },
+  }
+</script>
+ 
+<style lang='scss' scoped>
+#flareTarget{
+  margin:10px 10px;
+}
+.echartDiv {
+  width: 100%;
+  height:21vh;
+}
+.flare-title{
+  background-image: linear-gradient(to right,rgb(83, 78, 234), rgb(21, 6, 110));
+  border-radius: 4px;
+  margin-top: 1vh;
+  height: 3vh;
+  font-family: 'LiSu';
+  font-weight: bold;
+  text-align: 'left' !important;
+  font-size: 18px;
+}
+</style>

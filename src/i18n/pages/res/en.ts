@@ -2,6 +2,9 @@
 export default {
 	router: {
 		dashboard:'dashboard',
+		village:'village',
+		street:'street',
+		family:'family',
 	},
 	field:{
 		
