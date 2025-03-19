@@ -3,7 +3,7 @@
     <div style="width:60%;margin-top:40px;height:420px;margin-left:10%;margin-right:10%;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
       <dv-full-screen-container v-if="isFullScreen">
         <div style="position:absolute;top:6px;left: 10px">
-          <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
+          <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="onGoToLink(`/admin/dashboard/home/index`)" border="Border4" color="#409EFF">区建成</dv-button>
           <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">乡进入</dv-button>
           <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">村实现</dv-button>
           <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')" border="Border4" color="#615ea8">户达标</dv-button>
@@ -91,6 +91,7 @@
 import { ImageLayer, Map, PointLayer, Scene, Zoom } from '@antv/l7';
 import dayjs from 'dayjs';
 import { onMounted, reactive, ref, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 import barAgricultureGdp from "./barAgricultureGdp.vue";
 import barAreaGdp from "./barAreaGdp.vue";
 import barFamilyGdp from "./barFamilyGdp.vue";
@@ -125,6 +126,7 @@ export default {
   },
   setup() {
     const mapContainer = ref();
+    const router =  useRouter();
     const state: any = reactive({
         isFullScreen:true,// 是否全屏
         curTime:dayjs().format("YYYY年MM月DD日")
@@ -133,7 +135,10 @@ export default {
 			//admin/dashboard/app/fullScreen
       state.isFullScreen=!state.isFullScreen
 		};
-    
+    //导航链接
+    const onGoToLink = (url:string) => {
+      router.push(url)
+    }
     // 页面加载时
 		onMounted(() => {
       const scene = new Scene({
@@ -240,6 +245,7 @@ export default {
 		});
     return {
       onFullScreen,
+      onGoToLink,
         ...toRefs(state),
     };
   },

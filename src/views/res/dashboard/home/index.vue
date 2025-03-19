@@ -1,19 +1,19 @@
 <template>
   <div id="data-view" dv-bg>
-    <div style="width:30vw;height:30vw;left:22vw;top:3vh;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
+    <div style="width:32vw;height:32vw;left:32vw;top:14vh;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
       <dv-full-screen-container v-if="isFullScreen">
         <div style="position:absolute;top:6px;left: 10px">
           <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#615ea8">乡进入</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')" border="Border4" color="#615ea8">村实现</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')" border="Border4" color="#615ea8">户达标</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="10" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="onGoToLink(`/admin/dashboard/village/index`)" color="#615ea8">村实现</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="onGoToLink(`/admin/dashboard/family/index`)" color="#615ea8">户达标</dv-button>
         </div>
         <div style="position:absolute;top:6px;right: 10px">
           <p style="color:#409EFF;margin-right:10px;"><b>{{ curTime }}</b></p>
         </div>
-        <div style="position:absolute;top:10px;right:10px">
+        <!-- <div style="position:absolute;top:10px;right:10px">
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
-        </div>
+        </div> -->
         <dv-border-box11 title="仁 和 区 共 同 富 裕 数 字 化 平 台" :title-width="400" :animate="true" style="height:100vh">
           <div class="main-rows">
             
@@ -91,6 +91,7 @@
 import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
 import dayjs from 'dayjs';
 import { onMounted, reactive, ref, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 import barAgricultureGdp from "./barAgricultureGdp.vue";
 import barAreaGdp from "./barAreaGdp.vue";
 import barFamilyGdp from "./barFamilyGdp.vue";
@@ -124,6 +125,7 @@ export default {
     lineLgsh,
   },
   setup() {
+    const router =  useRouter();
     const mapContainer = ref();
     const state: any = reactive({
         isFullScreen:true,// 是否全屏
@@ -135,6 +137,10 @@ export default {
 			//admin/dashboard/app/fullScreen
       state.isFullScreen=!state.isFullScreen
 		};
+    //导航链接
+    const onGoToLink = (url:string) => {
+      router.push(url)
+    }
     
     // 页面加载时
 		onMounted(() => {
@@ -213,6 +219,7 @@ export default {
             });
             textlayer.on('click', (e) => {
             console.log(e)
+            router.push(`/admin/dashboard/street/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
             alert( `
               <p>区域名称: ${e.feature.name}</p>
               <p>区域标识: ${e.feature.code}</p>
@@ -233,20 +240,21 @@ export default {
           },
         },
       );
-      imagelayer.on('click', (e) => {
-        console.log(e)
-        alert( `
-          <p>区域名称: ${e.feature.name}</p>
-          <p>区域标识: ${e.feature.code}</p>
-          <p>图中X坐标: ${e.x} = ${e.x+250}</p>
-          <p>图中Y坐标: ${e.y} = ${(1000+(500-e.y)/2)/2}</p>
-        `);
-      });
+      // imagelayer.on('click', (e) => {
+      //   console.log(e)
+      //   alert( `
+      //     <p>区域名称: ${e.feature.name}</p>
+      //     <p>区域标识: ${e.feature.code}</p>
+      //     <p>图中X坐标: ${e.x} = ${e.x+250}</p>
+      //     <p>图中Y坐标: ${e.y} = ${(1000+(500-e.y)/2)/2}</p>
+      //   `);
+      // });
       scene.addLayer(imagelayer);
 			
 		});
     return {
       onFullScreen,
+      onGoToLink,
         ...toRefs(state),
     };
   },
@@ -255,6 +263,11 @@ export default {
 
 
 <style lang="less">
+#app{
+ .el-aside,.el-header,.layout-navbars-tagsview{
+  display: none;
+ }
+}
 #data-view{
   background-image: url("./img/bg.png");
 }
