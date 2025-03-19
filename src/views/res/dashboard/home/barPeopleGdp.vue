@@ -236,7 +236,7 @@ export default {
 }
 .echartDiv {
   width: 100%;
-  height:21vh;
+  height:28vh;
 }
 .flare-title{
   background-image: linear-gradient(to right,rgb(83, 78, 234), rgb(21, 6, 110));

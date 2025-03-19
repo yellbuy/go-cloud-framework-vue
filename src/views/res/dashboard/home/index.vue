@@ -1,9 +1,56 @@
 <template>
   <div id="data-view" dv-bg>
-<<<<<<< HEAD
-    <div style="width:32vw;height:32vw;left:32vw;top:14vh;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
-      <dv-full-screen-container v-if="isFullScreen">
-        <div style="position:absolute;top:6px;left: 10px">
+    
+    <div style="width:100vw;height:100vh;position: relative;z-index: 9999;">
+      <div style="top: 52%; left: 49%;width:50vw;height:50vw; transform: translate(-49%, -48%);position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
+    </div>
+    <dv-full-screen-container v-if="isFullScreen">
+      <div style="position:absolute;top:6px;left: 10px">
+        <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
+        <dv-button style="display:inline-block;margin-left:10px;" fontSize="10" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
+        <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="onGoToLink(`/admin/dashboard/village/index`)" color="#615ea8">村实现</dv-button>
+        <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="onGoToLink(`/admin/dashboard/family/index`)" color="#615ea8">户达标</dv-button>
+      </div>
+      <div style="position:absolute;top:6px;right: 10px">
+        <dv-button style="display:inline-block;z-index: 9999999;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">详情</dv-button>
+        <p style="display:inline-block;color:#409EFF;margin-left:10px;margin-right:10px;"><b>{{ curTime }}</b></p>
+      </div>
+      <!-- <div style="position:absolute;top:10px;right:10px">
+        <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
+      </div> -->
+      <dv-border-box11 title="仁 和 区 共 同 富 裕 数 字 化 平 台" :title-width="400" :animate="true" style="height:100vh">
+        <div class="main-rows">
+          <div style="width:25%">
+            <radarCounty/>
+            <radarStreet/>
+            <!-- <rankingCounty/> -->
+            <!-- <barAreaGdp/> -->
+          </div>
+          <dv-border-box1 style="width:50%">
+              <!-- <digitalGoodsStat/> -->
+              <numberVillageStat />
+              <div class="column-center">
+                <div style="min-height: 500px; justify-content: center;position: relative"  />
+              </div>
+              <!-- <div class="column-footer">
+                <div style="width:50%">
+                  <barFamilyGdp/>
+                </div>
+                <div style="width:50%">
+                  <barAgricultureGdp/>
+                </div>
+              </div> -->
+          </dv-border-box1>
+          
+          <div style="width:25%">
+            <radarVillage/>
+            <radarFamily/>
+          </div>
+        </div>
+      </dv-border-box11>
+    </dv-full-screen-container>
+    <div v-else>
+      <div style="position:absolute;top:6px;left: 10px">
           <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
           <dv-button style="display:inline-block;margin-left:10px;" fontSize="10" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
           <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="onGoToLink(`/admin/dashboard/village/index`)" color="#615ea8">村实现</dv-button>
@@ -23,46 +70,6 @@
               <radarVillage/>
               <!-- <rankingCounty/> -->
               <barAreaGdp/>
-=======
-    <div style="width:500px;height:500px;left:22vw;top:3vh;position: absolute;z-index: 9999;" id="mapContainer"
-         ref="mapContainer"/>
-    <dv-full-screen-container v-if="isFullScreen">
-      <div style="position:absolute;top:6px;left: 10px">
-        <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10"
-                   @click="console.log('click')" border="Border4" color="#409EFF">区建成
-        </dv-button>
-        <dv-button style="display:inline-block;margin-left:10px;" fontSize="10" @click="console.log('click')"
-                   border="Border4" color="#615ea8">乡进入
-        </dv-button>
-        <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')"
-                   border="Border4" color="#615ea8">村实现
-        </dv-button>
-        <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')"
-                   border="Border4" color="#615ea8">户达标
-        </dv-button>
-      </div>
-      <div style="position:absolute;top:6px;right: 10px">
-        <p style="color:#409EFF;margin-right:10px;"><b>{{ curTime }}</b></p>
-      </div>
-      <div style="position:absolute;top:10px;right:10px">
-        <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b"
-                   style="margin:10px;z-index:99999999;">{{ isFullScreen ? '退出全屏' : '全屏' }}
-        </dv-button>
-      </div>
-      <dv-border-box11 title="仁 和 区 共 同 富 裕 数 字 化 平 台" :title-width="400" :animate="true"
-                       style="height:100vh">
-        <div class="main-rows">
-
-          <div style="width:25%">
-            <rangeVillageGdp/>
-            <radarVillage/>
-            <barAreaGdp/>
-          </div>
-          <dv-border-box1 style="width:50%">
-            <numberVillageStat/>
-            <div class="column-center">
-              <div style="min-height: 300px; justify-content: center;position: relative"/>
->>>>>>> fd3a5392dba4fbd551159cc82c155b4ff34762ae
             </div>
             <div class="column-footer">
               <div style="width:50%">
@@ -72,7 +79,6 @@
                 <barAgricultureGdp/>
               </div>
             </div>
-          </dv-border-box1>
           <div style="width:25%">
             <pieCoutyGdp/>
             <barVillageInsurance/>
@@ -80,69 +86,15 @@
           </div>
         </div>
       </dv-border-box11>
-    </dv-full-screen-container>
-    <div v-else>
-      <div style="position:absolute;top:6px;left: 10px">
-        <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10"
-                   @click="console.log('click')" border="Border4" color="#409EFF">区建成
-        </dv-button>
-        <dv-button style="display:inline-block;margin-left:10px;" fontSize="10" @click="console.log('click')"
-                   border="Border4" color="#615ea8">乡进入
-        </dv-button>
-        <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')"
-                   border="Border4" color="#615ea8">村实现
-        </dv-button>
-        <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="console.log('click')"
-                   border="Border4" color="#615ea8">户达标
-        </dv-button>
-      </div>
-      <div style="position:absolute;top:6px;right: 10px">
-        <p style="color:#409EFF;margin-right:10px;"><b>{{ curTime }}</b></p>
-      </div>
-      <div style="position:absolute;top:10px;right:10px">
-        <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b"
-                   style="margin:10px;z-index:99999999;">{{ isFullScreen ? '退出全屏' : '全屏' }}
-        </dv-button>
-      </div>
-      <dv-border-box11 title="仁 和 区 共 同 富 裕 数 字 化 平 台" :title-width="400" :animate="true"
-                       style="height:100vh">
-        <div class="main-rows">
-
-          <div style="width:25%">
-            <rangeVillageGdp/>
-            <radarVillage/>
-            <barPeopleGdp/>
-          </div>
-          <dv-border-box1 style="width:50%">
-            <numberVillageStat/>
-            <div class="column-center">
-              <div style="min-height: 100px; justify-content: center;position: relative"/>
-            </div>
-            <div class="column-footer">
-              <barFamilyGdp/>
-              <div>456</div>
-            </div>
-          </dv-border-box1>
-          <div style="width:25%">
-            <pieCoutyGdp/>
-            <radarLgsh/>
-            <lineLgsh/>
-          </div>
-        </div>
-      </dv-border-box11>
-    </div>
   </div>
+</div>
 </template>
 
 <script lang="ts">
-import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
+import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
 import dayjs from 'dayjs';
-<<<<<<< HEAD
 import { onMounted, reactive, ref, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
-=======
-import {onMounted, reactive, ref, toRefs} from 'vue';
->>>>>>> fd3a5392dba4fbd551159cc82c155b4ff34762ae
 import barAgricultureGdp from "./barAgricultureGdp.vue";
 import barAreaGdp from "./barAreaGdp.vue";
 import barFamilyGdp from "./barFamilyGdp.vue";
@@ -153,7 +105,10 @@ import flareTarget from "./flareTarget.vue";
 import lineLgsh from "./lineLgsh.vue";
 import numberVillageStat from "./numberVillageStat.vue";
 import pieCoutyGdp from "./pieCountyGdp.vue";
+import radarCounty from "./radarCounty.vue";
+import radarFamily from "./radarFamily.vue";
 import radarLgsh from "./radarLgsh.vue";
+import radarStreet from "./radarStreet.vue";
 import radarVillage from "./radarVillage.vue";
 import rangeVillageGdp from "./rangeVillageGdp.vue";
 import rankingCounty from "./rankingCounty.vue";
@@ -173,7 +128,10 @@ export default {
     pieCoutyGdp,
     rangeVillageGdp,
     radarLgsh,
+    radarCounty,
+    radarStreet,
     radarVillage,
+    radarFamily,
     lineLgsh,
   },
   setup() {
@@ -186,7 +144,6 @@ export default {
       curTime: dayjs().format("YYYY年MM月DD日")
     })
     const onFullScreen = () => {
-<<<<<<< HEAD
 			//admin/dashboard/app/fullScreen
       state.isFullScreen=!state.isFullScreen
 		};
@@ -195,11 +152,6 @@ export default {
       router.push(url)
     }
     
-=======
-      state.isFullScreen = !state.isFullScreen
-    };
-
->>>>>>> fd3a5392dba4fbd551159cc82c155b4ff34762ae
     // 页面加载时
     onMounted(() => {
       const scene = new Scene({
@@ -207,11 +159,11 @@ export default {
         logoVisible: false,
         map: new Map({
           center: [500, 500],
-          zoom: 2,
+          zoom: 2.5,
           version: 'SIMPLE',
           mapSize: 1000,
           maxZoom: 5,
-          minZoom: 2,
+          minZoom: 1,
           pitchEnabled: true,
           rotateEnabled: true,
         }),
@@ -242,7 +194,6 @@ export default {
               <p>图中X坐标: ${e.x}</p>
               <p>图中Y坐标: ${e.y}</p>
             `);
-<<<<<<< HEAD
           });
           const textlayer = new PointLayer({ zIndex: 2 })
             .source(data, {
@@ -273,37 +224,6 @@ export default {
             console.log(e)
             router.push(`/admin/dashboard/street/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
             alert( `
-=======
-              });
-              const textlayer = new PointLayer({zIndex: 2})
-                  .source(data, {
-                    parser: {
-                      type: 'json',
-                      x: 'x',
-                      y: 'y',
-                    },
-                  })
-                  .shape('name', 'text')
-                  .size(12)
-                  .active({
-                    color: '#00f',
-                    mix: 0.9,
-                  })
-                  .color('red')
-                  .style({
-                    textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
-                    spacing: 6, // 字符间距
-                    fontWeight: '800',
-                    padding: [30, 30], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
-                    stroke: '#ffffff', // 描边颜色
-                    strokeWidth: 2, // 描边宽度
-                    textAllowOverlap: true,
-                    textOffset: [20, 20],
-                  });
-              textlayer.on('click', (e) => {
-                console.log(e)
-                alert(`
->>>>>>> fd3a5392dba4fbd551159cc82c155b4ff34762ae
               <p>区域名称: ${e.feature.name}</p>
               <p>区域标识: ${e.feature.code}</p>
               <p>图中X坐标: ${e.x}</p>
@@ -323,7 +243,6 @@ export default {
             },
           },
       );
-<<<<<<< HEAD
       // imagelayer.on('click', (e) => {
       //   console.log(e)
       //   alert( `
@@ -333,28 +252,13 @@ export default {
       //     <p>图中Y坐标: ${e.y} = ${(1000+(500-e.y)/2)/2}</p>
       //   `);
       // });
-=======
-      imagelayer.on('click', (e) => {
-        console.log(e)
-        alert(`
-          <p>区域名称: ${e.feature.name}</p>
-          <p>区域标识: ${e.feature.code}</p>
-          <p>图中X坐标: ${e.x} = ${e.x + 250}</p>
-          <p>图中Y坐标: ${e.y} = ${(1000 + (500 - e.y) / 2) / 2}</p>
-        `);
-      });
->>>>>>> fd3a5392dba4fbd551159cc82c155b4ff34762ae
       scene.addLayer(imagelayer);
 
     });
     return {
       onFullScreen,
-<<<<<<< HEAD
       onGoToLink,
         ...toRefs(state),
-=======
-      ...toRefs(state),
->>>>>>> fd3a5392dba4fbd551159cc82c155b4ff34762ae
     };
   },
 };
@@ -362,16 +266,12 @@ export default {
 
 
 <style lang="less">
-<<<<<<< HEAD
 #app{
  .el-aside,.el-header,.layout-navbars-tagsview{
   display: none;
  }
 }
 #data-view{
-=======
-#data-view {
->>>>>>> fd3a5392dba4fbd551159cc82c155b4ff34762ae
   background-image: url("./img/bg.png");
 }
 
@@ -383,7 +283,7 @@ export default {
 #data-view {
   width: 100%;
   height: 100%;
-  color: #fff;
+  color: #000;
 
 
   #dv-full-screen-container {
@@ -395,7 +295,7 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: row;
-    padding: 8vh 1vw 2vh 1vw;
+    padding: 6vh 1vw 2vh 1vw;
     height: 100%;
 
     .dv-border-box-1 {
