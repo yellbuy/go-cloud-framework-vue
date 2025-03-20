@@ -2,48 +2,50 @@
   <div id="data-view" dv-bg>
     <div style="width:100vw;height:100vh;position: relative;">
       <div
-          style="top: 52%; left: 49%;width:50vw;height:50vw; transform: translate(-49%, -48%);position: absolute;z-index: 9999;"
+          style="top: 40%; left: 49%;width:30vw;height:30vw; transform: translate(-49%, -48%);position: absolute;z-index: 9999;"
           id="mapContainer" ref="mapContainer"/>
     </div>
 
     <dv-full-screen-container v-if="isFullScreen">
       <div id="banner">
         <div class="banner-content">
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')"
-                     border="Border4" color="#409EFF">区建成
-          </dv-button>
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12"
-                     @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入
-          </dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12"
-                     @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key="" color="#615ea8">村实现
-          </dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12"
-                     @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标
-          </dv-button>
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key=""color="#615ea8">村实现</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标</dv-button>
         </div>
-
         <div class="banner-content" style="text-align: right;float:right;">
-          <p style="display:inline-block;color:white;margin-left:10px;margin-right:10px;font-size:14pt">
-            <b>{{ curTime }}</b>
-          </p>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="console.log('click')"
-                     border="Border4" color="#409EFF">详情
-          </dv-button>
+          
+          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
+          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">详情</dv-button>
         </div>
-
       </div>
 
       <div class="main-rows">
         <div style="width:25%">
-          <Category/>
-          <pieCountyGdp/>
           <FiveGoods/>
+          <Funnel/>
+          <Category/>
         </div>
-
-        <div style="margin-left:50%;width:25%">
-          <Table/>
-        </div>
+          <div style="width:50%">
+              <!-- <digitalGoodsStat/> -->
+              <numberVillageStat />
+              <div class="column-center">
+                <div style="min-height: 48vh; justify-content: center;position: relative"  />
+              </div>
+              <div class="column-footer">
+                <div style="width:50%">
+                  <LineGraph style="flex-shrink: 0;"/>
+                </div>
+                <div style="width:50%">
+                  <NumberOfPeopleAssisted style="flex-shrink: 0;"/>
+                </div>
+              </div>
+          </div>
+          
+          <div style="width:25%">
+            <Table/>
+          </div>
 
       </div>
 
@@ -55,24 +57,32 @@
 import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
 import dayjs from 'dayjs';
 import {onMounted, reactive, toRefs} from 'vue';
-import {useRouter} from 'vue-router';
-import pieCountyGdp from "./pieCountyGdp.vue";
-import FiveGoods from "./FiveGoods.vue";
+import {useRoute, useRouter} from 'vue-router';
+import Funnel from "./Funnel.vue";
 import Category from "./Category.vue";
 import Table from "./Table.vue";
+import FiveGoods from "./FiveGoods.vue";
+import LineGraph from "./LineGraph.vue";
+import NumberOfPeopleAssisted from "./NumberOfPeopleAssisted.vue";
+import numberVillageStat from "../component/numberVillageStat.vue";
 
 
 export default {
   name: "IndexDashboard",
   components: {
-    pieCountyGdp,
-    FiveGoods,
+    Funnel,
     Category,
     // eslint-disable-next-line vue/no-reserved-component-names
-    Table
+    Table,
+    FiveGoods,
+    LineGraph,
+    NumberOfPeopleAssisted,
+    numberVillageStat
   },
   setup() {
     const router = useRouter();
+    const route = useRoute();
+    route.query.areaCode = "510411200200";
     const state: any = reactive({
       isFullScreen: true,// 是否全屏
       baseUrl: import.meta.env.VITE_API_URL,
@@ -89,12 +99,13 @@ export default {
 
     // 页面加载时
     onMounted(() => {
+      const route = useRoute();
       const scene = new Scene({
         id: 'mapContainer',
         logoVisible: false,
         map: new Map({
           center: [500, 500],
-          zoom: 2.5,
+          zoom: 2,
           version: 'SIMPLE',
           mapSize: 1000,
           maxZoom: 5,
@@ -104,7 +115,7 @@ export default {
         }),
       });
       scene.on('loaded', () => {
-        fetch('/data/res/area.json')
+        fetch('/data/res/' + route.query.areaCode + '.json')
             .then((res) => res.json())
             .then((data) => {
               scene.addImage(
@@ -150,7 +161,7 @@ export default {
               scene.addLayer(textLayer);
             });
       })
-      const imageLayer = new ImageLayer({}).source('/img/res/renhe.png',
+      const imageLayer = new ImageLayer({}).source('/img/map/' + route.query.areaCode + ".png",
           {
             parser: {
               type: 'image',
@@ -179,6 +190,27 @@ export default {
   }
 }
 
+.contenta-tip {
+  position: absolute;
+  float: left;
+  top: 5vh;
+  left: calc(39vw);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.contenta-bottom {
+  height: 25vh;
+  width:100%;
+
+  .box {
+    display: flex;
+    flex-direction: row;
+    lex-shrink: 0;
+  }
+}
+
 #banner {
   width: 100%;
   height: 281px;
@@ -189,7 +221,7 @@ export default {
   display: inline-block;
 
   .banner-content {
-    margin: 24px 12px;
+    margin: 32px 12px;
     display: inline-block;
     width: auto
   }
@@ -203,7 +235,35 @@ export default {
   height: 100%;
   width: 500px;
 }
-
+.target-header{
+  text-align: left;
+  padding-top:6px;
+  margin-top: 2vh;
+  margin-left:10px;
+  margin-right:10px;
+  height: 36px;
+  background-image: linear-gradient(to right,#061A8F,#060034);
+  border-radius: 2px;
+}
+.target-title{
+  background-image: radial-gradient(circle, #daeef3 10%, #0075FF);
+  //background-image: radial-gradient(circle, #01BBE9 10%, #0075FF);
+  width:200px;
+  font-weight: bold;
+  background-clip: text;
+  color: transparent;
+  padding-left:20px;
+  font-size: 16px;
+}
+.target-content{
+  width:100px;
+  margin:20px;
+  padding:10px;
+  text-align: center;
+  border: 2px solid #333;
+  border-radius: 4px;
+  color:#1C73A1
+}
 #data-view {
   width: 100%;
   height: 100%;
@@ -227,7 +287,6 @@ export default {
     }
 
     .column-center {
-      height: 59%;
       background-size: 100% 100%;
       margin: 0 20px 12px 20px;
     }
@@ -240,7 +299,7 @@ export default {
       justify-content: center;
       align-items: center;
       text-align: center;
-      height: 26%;
+      height: 26vh;
       background-size: 100% 100%;
       margin: 0 10px 0 10px;
     }
