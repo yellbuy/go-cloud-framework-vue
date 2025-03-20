@@ -289,7 +289,7 @@ export default {
   margin-left:10px;
   margin-right:10px;
   height: 36px;
-  background-image: linear-gradient(to right,#061A8F,#060034);
+  background-image: linear-gradient(to right,#061A8F,transparent);
   border-radius: 2px;
 }
 .target-title{
