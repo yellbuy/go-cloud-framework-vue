@@ -1,68 +1,29 @@
 <template>
   <div id="flareTarget">
     <div class="flare-container">
-      <div class="flare-title" style="text-align: left;padding-left:10px">家庭年收入趋势</div>
-      <div ref="echart" class="echartDiv"></div>
+      <div class="flare-title" style="text-align: left;padding-left:10px">年收入橄榄图</div>
+      <!--      <div ref="echart" class="echartDiv"></div>-->
+      <img src="./img/category.png" style="width: 12vw;height: 18vh;margin-left: 6vw;margin-top: 2vh;"/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import * as echarts from 'echarts';
-import {onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   setup() {
-    let state = reactive({
-      xAxisData: [""],
-      yAxisData: [0],
-      yAxisSideData: [0],
-      echart: ref(),
-    })
-    const echartInit = () => {
-      const myChart = echarts.init(state.echart)
-      // 指定图表的配置项和数据
-      const option = {
-        xAxis: {
-          type: 'category',
-          data: ['2022年', '2023年', '2024年', ]
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            data: [11.5, 13.5, 15.5],
-            type: 'bar'
-          }
-        ]
-      };
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option)
-    }
-
-    //挂载
-    onMounted(async () => {
-
-      echartInit();
-    })
-
-    return {
-      ...toRefs(state),
-      echartInit,
-    }
   },
 }
 </script>
 
 <style lang='scss' scoped>
 #flareTarget {
-  margin: 0 10px;
+  margin: 0px 10px;
 }
 
 .echartDiv {
   width: 100%;
-  height: 23vh;
+  height: 22vh;
   padding-bottom: 1vh;
 }
 

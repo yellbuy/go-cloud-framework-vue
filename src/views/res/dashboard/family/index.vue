@@ -2,7 +2,7 @@
   <div id="data-view" dv-bg>
     <div style="width:100vw;height:100vh;position: relative;">
       <div
-          style="top: 52%; left: 49%;width:50vw;height:50vw; transform: translate(-49%, -48%);position: absolute;z-index: 9999;"
+          style="top: 40%; left: 49%;width:30vw;height:30vw; transform: translate(-49%, -48%);position: absolute;z-index: 9999;"
           id="mapContainer" ref="mapContainer"/>
     </div>
 
@@ -34,10 +34,14 @@
 
       </div>
 
+      <div class="contenta-tip">
+        <numberVillageStat/>
+      </div>
+
       <div class="main-rows">
         <div style="width:25%">
           <Category/>
-          <pieCountyGdp/>
+          <Funnel/>
           <FiveGoods/>
         </div>
 
@@ -45,6 +49,18 @@
           <Table/>
         </div>
 
+      </div>
+
+      <div class="contenta-bottom">
+        <div class="box">
+          <div style="height: 25vh;width: 25vw">
+            <LineGraph style="flex-shrink: 0;"/>
+          </div>
+
+          <div style="height: 25vh;width: 25vw">
+            <NumberOfPeopleAssisted style="flex-shrink: 0;"/>
+          </div>
+        </div>
       </div>
 
     </dv-full-screen-container>
@@ -55,24 +71,32 @@
 import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
 import dayjs from 'dayjs';
 import {onMounted, reactive, toRefs} from 'vue';
-import {useRouter} from 'vue-router';
-import pieCountyGdp from "./pieCountyGdp.vue";
-import FiveGoods from "./FiveGoods.vue";
+import {useRoute, useRouter} from 'vue-router';
+import Funnel from "./Funnel.vue";
 import Category from "./Category.vue";
 import Table from "./Table.vue";
+import FiveGoods from "./FiveGoods.vue";
+import LineGraph from "./LineGraph.vue";
+import NumberOfPeopleAssisted from "./NumberOfPeopleAssisted.vue";
+import numberVillageStat from "../component/numberVillageStat.vue";
 
 
 export default {
   name: "IndexDashboard",
   components: {
-    pieCountyGdp,
-    FiveGoods,
+    Funnel,
     Category,
     // eslint-disable-next-line vue/no-reserved-component-names
-    Table
+    Table,
+    FiveGoods,
+    LineGraph,
+    NumberOfPeopleAssisted,
+    numberVillageStat
   },
   setup() {
     const router = useRouter();
+    const route = useRoute();
+    route.query.areaCode = "510411200200";
     const state: any = reactive({
       isFullScreen: true,// 是否全屏
       baseUrl: import.meta.env.VITE_API_URL,
@@ -89,12 +113,13 @@ export default {
 
     // 页面加载时
     onMounted(() => {
+      const route = useRoute();
       const scene = new Scene({
         id: 'mapContainer',
         logoVisible: false,
         map: new Map({
           center: [500, 500],
-          zoom: 2.5,
+          zoom: 1.5,
           version: 'SIMPLE',
           mapSize: 1000,
           maxZoom: 5,
@@ -104,7 +129,7 @@ export default {
         }),
       });
       scene.on('loaded', () => {
-        fetch('/data/res/area.json')
+        fetch('/data/res/' + route.query.areaCode + '.json')
             .then((res) => res.json())
             .then((data) => {
               scene.addImage(
@@ -150,7 +175,7 @@ export default {
               scene.addLayer(textLayer);
             });
       })
-      const imageLayer = new ImageLayer({}).source('/img/res/renhe.png',
+      const imageLayer = new ImageLayer({}).source('/img/map/' + route.query.areaCode + ".png",
           {
             parser: {
               type: 'image',
@@ -176,6 +201,29 @@ export default {
 #app {
   .el-aside, .el-header, .layout-navbars-tagsview {
     display: none;
+  }
+}
+
+.contenta-tip {
+  position: absolute;
+  float: left;
+  top: 5vh;
+  left: calc(39vw);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.contenta-bottom {
+  position: absolute;
+  float: left;
+  bottom: 26.5vh;
+  left: 25vw;
+
+  .box {
+    display: flex;
+    flex-direction: row;
+    lex-shrink: 0;
   }
 }
 
