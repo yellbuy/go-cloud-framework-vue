@@ -4,7 +4,7 @@
     <div style="width:100vw;height:100vh;position: relative;">
       <div id="mapContainer" ref="mapContainer" />
     </div>
-    <dv-full-screen-container v-if="isFullScreen">
+    <dv-full-screen-container>
       <div id="banner">
         <div class="banner-content">
           <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
@@ -24,8 +24,21 @@
       </div> -->
       <div class="main-rows">
           <div style="width:25%">
-            <radarCounty/>
-            <barStreet/>
+            <div>
+              <div class="target-header">
+                <div class="target-title">经济优建</div>
+             </div>
+             <div >
+              <div style="display:inline-block;" class="target-content">
+                <p>地区生产总值（亿）</p>
+              </div>
+              <div style="display:inline-block;width:100px;margin:20px;text-align: center;border: 2px solid #333;border-radius: 4px;color:chartreuse">
+                <p>人均地区生产总值（万）</p>
+              </div>
+             </div>
+            </div>
+             
+            
             <!-- <rankingCounty/> -->
             <!-- <barAreaGdp/> -->
           </div>
@@ -51,44 +64,7 @@
           </div>
         </div>
     </dv-full-screen-container>
-    <div v-else>
-      <div style="position:absolute;top:6px;left: 10px">
-          <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="10" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="onGoToLink(`/admin/dashboard/village/index`)" color="#615ea8">村实现</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="onGoToLink(`/admin/dashboard/family/index`)" color="#615ea8">户达标</dv-button>
-        </div>
-        <div style="position:absolute;top:6px;right: 10px">
-          <p style="color:#409EFF;margin-right:10px;"><b>{{ curTime }}</b></p>
-        </div>
-        <!-- <div style="position:absolute;top:10px;right:10px">
-          <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
-        </div> -->
-        <dv-border-box11 title="仁 和 区 共 同 富 裕 数 字 化 平 台" :title-width="400" :animate="true" style="height:100vh">
-          <div class="main-rows">
-            
-            <div style="width:25%">
-              <rangeVillageGdp />
-              <radarVillage/>
-              <!-- <rankingCounty/> -->
-              <barAreaGdp/>
-            </div>
-            <div class="column-footer">
-              <div style="width:50%">
-                <barFamilyGdp/>
-              </div>
-              <div style="width:50%">
-                <barAgricultureGdp/>
-              </div>
-            </div>
-          <div style="width:25%">
-            <pieCoutyGdp/>
-            <barVillageInsurance/>
-            <barPeopleGdp/>
-          </div>
-        </div>
-      </dv-border-box11>
-  </div>
+    
 </div>
 </template>
 
@@ -306,6 +282,36 @@ export default {
   height: 100%;
   width: 500px;
 }
+.target-header{
+  text-align: left;
+  padding-top:6px;
+  margin-top: 2vh;
+  margin-left:10px;
+  margin-right:10px;
+  height: 36px;
+  background-image: linear-gradient(to right,#061A8F,#060034);
+  border-radius: 2px;
+}
+.target-title{
+  background-image: radial-gradient(circle, #daeef3 10%, #0075FF);
+  //background-image: radial-gradient(circle, #01BBE9 10%, #0075FF);
+  width:100px;
+  font-weight: bold;
+  background-clip: text;
+  color: transparent;
+  padding-left:20px;
+  font-size: 16px;
+}
+.target-content{
+  width:100px;
+  margin:20px;
+  padding:10px;
+  text-align: center;
+  border: 2px solid #333;
+  border-radius: 4px;
+  color:#1C73A1
+}
+
 
 #data-view {
   width: 100%;
