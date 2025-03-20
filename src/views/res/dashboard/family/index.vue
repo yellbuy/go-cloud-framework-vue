@@ -4,7 +4,9 @@
       <div
           style="top: 52%; left: 49%;width:50vw;height:50vw; transform: translate(-49%, -48%);position: absolute;z-index: 9999;"
           id="mapContainer" ref="mapContainer"/>
+    </div>
 
+    <dv-full-screen-container v-if="isFullScreen">
       <div id="banner">
         <div class="banner-content">
           <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')"
@@ -20,6 +22,7 @@
                      @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标
           </dv-button>
         </div>
+
         <div class="banner-content" style="text-align: right;float:right;">
           <p style="display:inline-block;color:white;margin-left:10px;margin-right:10px;font-size:14pt">
             <b>{{ curTime }}</b>
@@ -28,24 +31,23 @@
                      border="Border4" color="#409EFF">详情
           </dv-button>
         </div>
+
       </div>
 
       <div class="main-rows">
         <div style="width:25%">
+          <Category/>
           <pieCountyGdp/>
           <FiveGoods/>
         </div>
-        <div>
-          <div class="column-center">
-            <div style="min-height: 500px; justify-content: center;position: relative"/>
-          </div>
+
+        <div style="margin-left:50%;width:25%">
+          <Table/>
         </div>
 
-        <div style="width:25%">
-          <radarVillage/>
-        </div>
       </div>
-    </div>
+
+    </dv-full-screen-container>
   </div>
 </template>
 
@@ -56,14 +58,18 @@ import {onMounted, reactive, toRefs} from 'vue';
 import {useRouter} from 'vue-router';
 import pieCountyGdp from "./pieCountyGdp.vue";
 import FiveGoods from "./FiveGoods.vue";
-import radarVillage from "./radarVillage.vue";
+import Category from "./Category.vue";
+import Table from "./Table.vue";
+
 
 export default {
   name: "IndexDashboard",
   components: {
     pieCountyGdp,
     FiveGoods,
-    radarVillage,
+    Category,
+    // eslint-disable-next-line vue/no-reserved-component-names
+    Table
   },
   setup() {
     const router = useRouter();
@@ -213,7 +219,7 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: row;
-    margin-top: -220px;
+    margin-top: -200px;
     height: 100%;
 
     .dv-border-box-1 {

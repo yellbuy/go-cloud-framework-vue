@@ -37,7 +37,8 @@ import utils from '/@/utils';
 import errorHandler from '/@/utils/errorHandler';
 import { NextLoading } from '/@/utils/loading';
 import { http } from '/@/utils/request';
-
+import VxeUITable from 'vxe-table'
+import 'vxe-table/lib/style.css'
 const app = createApp(App);
 
 //全局代码错误捕捉
@@ -57,7 +58,7 @@ app
 	.use(VueUeditorWrap)
 	.use(screenShort, { enableWebRtc: false })
 	.use(VueGridLayout)
-	//.use(VXETable)
+	.use(VxeUITable)
 	.mount('#app');
 	
 app.config.globalProperties.mittBus = mitt();

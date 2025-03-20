@@ -9,11 +9,10 @@
 
 <script lang="ts">
 import * as echarts from 'echarts';
-import {getCurrentInstance, onMounted, reactive, ref, toRefs} from 'vue';
+import {onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   setup() {
-    const {proxy} = getCurrentInstance() as any;
     let state = reactive({
       xAxisData: [""],
       yAxisData: [0],
@@ -21,9 +20,9 @@ export default {
       echart: ref(),
     })
     const echartInit = () => {
-      var myChart = echarts.init(state.echart)
+      const myChart = echarts.init(state.echart)
       // 指定图表的配置项和数据
-      var option = {
+      const option = {
         color: ['#FFE434', '#67F9D8', '#56A3F1', '#FF917C'],
         legend: {
           data: ['目标', '进度'],
@@ -87,12 +86,6 @@ export default {
                 symbolSize: 6,
                 lineStyle: {
                   type: 'dashed'
-                },
-                label: {
-                  show: true,
-                  formatter: function (params) {
-                    return params.value + '%';
-                  }
                 }
               },
               {
@@ -128,21 +121,20 @@ export default {
 
 .echartDiv {
   width: 100%;
-  height: 35vh;
+  height: 28vh;
   padding-bottom: 1vh;
 }
 
 .flare-title {
-  text-align: left;
   padding-left: 10px;
   color: #0498D1;
   background: linear-gradient(to right, rgba(11, 33, 145, 1), rgba(9, 56, 122, 1), rgba(10, 52, 110, 0));
   border-radius: 6px;
   margin-top: 1vh;
   height: 5vh;
-  font-family: 'LiSu';
+  font-family: 'LiSu',serif;
   font-weight: bold;
-  text-align: 'left' !important;
+  text-align: left !important;
   padding-top: 6px;
   font-size: 20px;
 }
