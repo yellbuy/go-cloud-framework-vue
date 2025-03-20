@@ -136,8 +136,8 @@ export default {
   text-align: left;
   padding-left:10px;
   color:yellow;
-  background-image: linear-gradient(to bottom,rgb(173, 171, 245),rgb(21, 6, 110));
-  border-radius: 6px;
+  background-image: linear-gradient(to bottom,rgb(83, 77, 237),rgb(8, 3, 32));
+  border-radius: 2px;
   margin-top: 1vh;
   height: 5vh;
   font-family: 'LiSu';

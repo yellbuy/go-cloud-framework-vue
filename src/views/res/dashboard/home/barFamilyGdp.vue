@@ -110,6 +110,7 @@ export default {
           
           .encode('text', '占比')
           .transform({ type: 'dodgeX' })
+          
           .legend({
            
             color: {
