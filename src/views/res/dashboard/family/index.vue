@@ -4,47 +4,46 @@
       <div
           style="top: 52%; left: 49%;width:50vw;height:50vw; transform: translate(-49%, -48%);position: absolute;z-index: 9999;"
           id="mapContainer" ref="mapContainer"/>
-    </div>
 
-    <div id="banner">
-      <div class="banner-content">
-        <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')"
-                   border="Border4" color="#409EFF">区建成
-        </dv-button>
-        <dv-button style="display:inline-block;margin-left:10px;" fontSize="12"
-                   @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入
-        </dv-button>
-        <dv-button style="display:inline-block;margin-left:10px" fontSize="12"
-                   @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key="" color="#615ea8">村实现
-        </dv-button>
-        <dv-button style="display:inline-block;margin-left:10px" fontSize="12"
-                   @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标
-        </dv-button>
-      </div>
-      <div class="banner-content" style="text-align: right;float:right;">
-
-        <p style="display:inline-block;color:white;margin-left:10px;margin-right:10px;font-size:14pt"><b>{{
-            curTime
-          }}</b></p>
-        <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="console.log('click')"
-                   border="Border4" color="#409EFF">详情
-        </dv-button>
-      </div>
-    </div>
-
-    <div class="main-rows">
-      <div style="width:25%">
-        <pieCoutyGdp/>
-        <FiveGoods/>
-      </div>
-      <div>
-        <div class="column-center">
-          <div style="min-height: 500px; justify-content: center;position: relative"/>
+      <div id="banner">
+        <div class="banner-content">
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')"
+                     border="Border4" color="#409EFF">区建成
+          </dv-button>
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12"
+                     @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入
+          </dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12"
+                     @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key="" color="#615ea8">村实现
+          </dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12"
+                     @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标
+          </dv-button>
+        </div>
+        <div class="banner-content" style="text-align: right;float:right;">
+          <p style="display:inline-block;color:white;margin-left:10px;margin-right:10px;font-size:14pt">
+            <b>{{ curTime }}</b>
+          </p>
+          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="console.log('click')"
+                     border="Border4" color="#409EFF">详情
+          </dv-button>
         </div>
       </div>
 
-      <div style="width:25%">
-        <radarVillage/>
+      <div class="main-rows">
+        <div style="width:25%">
+          <pieCountyGdp/>
+          <FiveGoods/>
+        </div>
+        <div>
+          <div class="column-center">
+            <div style="min-height: 500px; justify-content: center;position: relative"/>
+          </div>
+        </div>
+
+        <div style="width:25%">
+          <radarVillage/>
+        </div>
       </div>
     </div>
   </div>
@@ -55,18 +54,19 @@ import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
 import dayjs from 'dayjs';
 import {onMounted, reactive, toRefs} from 'vue';
 import {useRouter} from 'vue-router';
-import pieCoutyGdp from "./pieCountyGdp.vue";
+import pieCountyGdp from "./pieCountyGdp.vue";
 import FiveGoods from "./FiveGoods.vue";
 import radarVillage from "./radarVillage.vue";
+
 export default {
   name: "IndexDashboard",
   components: {
-    pieCoutyGdp,
+    pieCountyGdp,
     FiveGoods,
     radarVillage,
   },
   setup() {
-    const router =  useRouter();
+    const router = useRouter();
     const state: any = reactive({
       isFullScreen: true,// 是否全屏
       baseUrl: import.meta.env.VITE_API_URL,
@@ -74,11 +74,10 @@ export default {
       curTime: dayjs().format("YYYY年MM月DD日 dddd")
     })
     const onFullScreen = () => {
-      //admin/dashboard/app/fullScreen
-      state.isFullScreen=!state.isFullScreen
+      state.isFullScreen = !state.isFullScreen
     };
     //导航链接
-    const onGoToLink = (url:string) => {
+    const onGoToLink = (url: string) => {
       router.push(url)
     }
 
@@ -116,16 +115,7 @@ export default {
                   })
                   .shape('icon', ['1', '0'])
                   .size(12);
-              imageLayer.on('click', (e) => {
-                console.log(e)
-                alert(`
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
-              <p>图中X坐标: ${e.x}</p>
-              <p>图中Y坐标: ${e.y}</p>
-            `);
-              });
-              const textlayer = new PointLayer({ zIndex: 2 })
+              const textLayer = new PointLayer({zIndex: 2})
                   .source(data, {
                     parser: {
                       type: 'json',
@@ -150,21 +140,11 @@ export default {
                     textAllowOverlap: true,
                     textOffset: [20, 20],
                   });
-              textlayer.on('click', (e) => {
-                console.log(e)
-                router.push(`/admin/dashboard/street/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
-                alert( `
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
-              <p>图中X坐标: ${e.x}</p>
-              <p>图中Y坐标: ${e.y}</p>
-            `);
-              });
               scene.addLayer(imageLayer);
-              scene.addLayer(textlayer);
+              scene.addLayer(textLayer);
             });
       })
-      const imagelayer = new ImageLayer({}).source('/img/res/renhe.png',
+      const imageLayer = new ImageLayer({}).source('/img/res/renhe.png',
           {
             parser: {
               type: 'image',
@@ -173,7 +153,7 @@ export default {
             },
           },
       );
-      scene.addLayer(imagelayer);
+      scene.addLayer(imageLayer);
 
     });
     return {
@@ -243,7 +223,7 @@ export default {
     .column-center {
       height: 59%;
       background-size: 100% 100%;
-      margin: 0px 20px 12px 20px;
+      margin: 0 20px 12px 20px;
     }
 
     .column-footer {
@@ -256,7 +236,7 @@ export default {
       text-align: center;
       height: 26%;
       background-size: 100% 100%;
-      margin: 0px 10px 0px 10px;
+      margin: 0 10px 0 10px;
     }
   }
 }

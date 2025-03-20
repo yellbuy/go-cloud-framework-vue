@@ -8,13 +8,11 @@
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs';
 import * as echarts from 'echarts';
-import {getCurrentInstance, onMounted, reactive, ref, toRefs} from 'vue';
+import {onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   setup() {
-    const {proxy} = getCurrentInstance() as any;
     let state = reactive({
       data: [],
       echart: ref(),
@@ -24,7 +22,7 @@ export default {
     const setChartOption = (chart: any) => {
 
       // 指定图表的配置项和数据
-      var option = {
+      const option = {
         series: [
           {
             type: 'pie',
@@ -32,10 +30,11 @@ export default {
             center: ['50%', '50%'],
             selectedMode: 'single',
             data: [
-              { value: 735, name: 'CityC' },
-              { value: 510, name: 'CityD' },
-              { value: 434, name: 'CityB' },
-              { value: 335, name: 'CityA' }
+              {value: 25, name: '财产性收入' + "( " + 25 + "% )"},
+              {value: 15, name: '经营性收入' + "( " + 15 + "% )"},
+              {value: 30, name: '工资性收入' + "( " + 30 + "% )"},
+              {value: 25, name: '转移性收入' + "( " + 25 + "% )"},
+              {value: 5, name: '经营成本' + "( " + 5 + "% )"}
             ],
             emphasis: {
               itemStyle: {
@@ -54,15 +53,7 @@ export default {
     //挂载
     onMounted(async () => {
       myChart = echarts.init(state.echart, 'dark')
-
-      state.data = [
-        {name: '财产值收入', value: 25},
-        {name: '经营值收入', value: 15},
-        {name: '工资性收入', value: 32},
-        {name: '转移性收入', value: 25},
-        {name: '经营成本', value: 5}];
       setChartOption(myChart);
-      let currentIndex = -1;
     })
     return {
       ...toRefs(state),
@@ -88,9 +79,9 @@ export default {
   border-radius: 6px;
   margin-top: 1vh;
   height: 5vh;
-  font-family: 'LiSu';
+  font-family: 'LiSu',serif;
   font-weight: bold;
-  text-align: 'left' !important;
+  text-align: left !important;
   padding-top: 6px;
   font-size: 20px;
 }

@@ -1,7 +1,7 @@
 <template>
   <div id="data-view" dv-bg>
 
-    <div style="width:100vw;height:100vh;position: relative;">
+    <div style="width:100vw;height:100vh;position: relative;z-index:-9999">
       <div style="top: 52%; left: 49%;width:50vw;height:50vw; transform: translate(-49%, -48%);position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
     </div>
     <dv-full-screen-container v-if="isFullScreen">
