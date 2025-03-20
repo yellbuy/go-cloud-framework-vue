@@ -2,7 +2,7 @@
   <div id="data-view" dv-bg>
     
     <div style="width:100vw;height:100vh;position: relative;">
-      <div style="top: 52%; left: 49%;width:50vw;height:50vw; transform: translate(-49%, -48%);position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
+      <div id="mapContainer" ref="mapContainer" />
     </div>
     <dv-full-screen-container v-if="isFullScreen">
       <div id="banner">
@@ -14,7 +14,7 @@
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
           
-          <p style="display:inline-block;color:white;margin-left:10px;margin-right:10px;font-size:14pt"><b>{{ curTime }}</b></p>
+          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
           <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">详情</dv-button>
         </div>
       </div>
@@ -147,7 +147,7 @@ export default {
       isFullScreen: true,// 是否全屏
       baseUrl: import.meta.env.VITE_API_URL,
       imgUrl: import.meta.env.VITE_URL,
-      curTime: dayjs().format("YYYY年MM月DD日 dddd")
+      curTime: dayjs().format("YYYY年MM月DD日")
     })
     const onFullScreen = () => {
 			//admin/dashboard/app/fullScreen
@@ -277,6 +277,12 @@ export default {
   display: none;
  }
 }
+#mapContainer{
+  top: 52%; left: 49%;
+  width:50vw;height:50vw; 
+  transform: translate(-49%, -48%);
+  position: absolute;z-index: 9999;
+}
 #banner{
   width:100%;
   height:281px;
@@ -315,16 +321,17 @@ export default {
     display: flex;
     flex-direction: row;
     margin-top:-220px;
-    height: 100%;
 
     .dv-border-box-1 {
       text-align: left;
+      height:auto !important;
+      margin-bottom: 4px;
     }
 
     .column-center {
-      height: 59%;
+      height: 50%;
       background-size: 100% 100%;
-      margin: 0px 20px 12px 20px;
+      margin: 10px;
     }
 
     .column-footer {
