@@ -120,7 +120,7 @@ export default {
 }
 .actVillage {
   width: 100%;
-  height:40vh;
+  height:39.5vh;
   padding-bottom:1vh;
 }
 .flare-title{

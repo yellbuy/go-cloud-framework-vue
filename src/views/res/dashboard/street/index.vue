@@ -60,11 +60,6 @@
           <div class="main-rows">
             
             <div style="width:25%">
-              <rangeVillageGdp />
-              <radarVillage/>
-              <!-- <rankingCounty/> -->
-             
-              <barPeopleGdp/>
             </div>
             <dv-border-box1 style="width:50%">
               <numberVillageStat />
@@ -77,9 +72,6 @@
               </div>
             </dv-border-box1>
             <div style="width:25%">
-              <pieCoutyGdp />
-              <radarLgsh/>
-              <lineLgsh/>
             </div>
           </div>
         </dv-border-box11>
@@ -91,41 +83,15 @@
 import { ImageLayer, Map, PointLayer, Scene, Zoom } from '@antv/l7';
 import dayjs from 'dayjs';
 import { onMounted, reactive, ref, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
-import barAgricultureGdp from "./barAgricultureGdp.vue";
-import barAreaGdp from "./barAreaGdp.vue";
-import barFamilyGdp from "./barFamilyGdp.vue";
-import barPeopleGdp from "./barPeopleGdp.vue";
-import barCoutyGdp from "./barVillageGdp.vue";
-import barVillageInsurance from "./barVillageInsurance.vue";
-import flareTarget from "./flareTarget.vue";
-import lineLgsh from "./lineLgsh.vue";
-import numberVillageStat from "./numberVillageStat.vue";
-import pieCoutyGdp from "./pieCountyGdp.vue";
-import radarLgsh from "./radarLgsh.vue";
-import radarVillage from "./radarVillage.vue";
-import rangeVillageGdp from "./rangeVillageGdp.vue";
-import rankingCounty from "./rankingCounty.vue";
+import { useRoute, useRouter } from 'vue-router';
 export default {
   name: "IndexDashboard",
   components: {
-    flareTarget,
-    rankingCounty,
-    numberVillageStat,
-    barCoutyGdp,
-    barAgricultureGdp,
-    barPeopleGdp,
-    barAreaGdp,
-    barFamilyGdp,
-    barVillageInsurance,
-    pieCoutyGdp,
-    rangeVillageGdp,
-    radarLgsh,
-    radarVillage,
-    lineLgsh,
   },
   setup() {
     const mapContainer = ref();
+    const route = useRoute();
+		console.log('路由', route.query);
     const router =  useRouter();
     const state: any = reactive({
         isFullScreen:true,// 是否全屏

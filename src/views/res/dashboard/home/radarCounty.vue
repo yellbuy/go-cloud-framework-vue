@@ -125,11 +125,11 @@ export default {
  
 <style lang='scss' scoped>
 #flareTarget{
-  margin:0px 10px;
+  margin:10px 10px;
 }
 .echartDiv {
   width: 100%;
-  height:40vh;
+  height:39.5vh;
   padding-bottom:1vh;
 }
 .flare-title{
