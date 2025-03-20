@@ -96,7 +96,7 @@
 import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
 import dayjs from 'dayjs';
 import { onMounted, reactive, ref, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import actVillage from "./actVillage.vue";
 import barAgricultureGdp from "./barAgricultureGdp.vue";
 import barAreaGdp from "./barAreaGdp.vue";
@@ -141,6 +141,8 @@ export default {
     lineFamily,
   },
   setup() {
+    const route = useRoute();
+		console.log('路由', route.query);
     const router =  useRouter();
     const mapContainer = ref();
     const state: any = reactive({
