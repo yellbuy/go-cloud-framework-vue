@@ -93,7 +93,6 @@ export default {
     const route = useRoute();
 		console.log('路由', route.query);
     const router =  useRouter();
-    console.log('路由', route.query);
     const state: any = reactive({
         isFullScreen:true,// 是否全屏
         curTime:dayjs().format("YYYY年MM月DD日")
