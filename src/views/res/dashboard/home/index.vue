@@ -29,15 +29,43 @@
                 <div class="target-title">经济优建</div>
              </div>
              <div >
-              <div style="display:inline-block;" class="target-content">
-                <p>地区生产总值（亿）</p>
+              <div style="display:inline-block;" >
+                <div class="target-content">
+                  <div>地区生产总值（亿）</div>
+                  <div class="target-value"><b>300</b></div>
+                </div>
+                
               </div>
-              <div style="display:inline-block;width:100px;margin:20px;text-align: center;border: 2px solid #333;border-radius: 4px;color:chartreuse">
-                <p>人均地区生产总值（万）</p>
+              <div style="display:inline-block;margin-left:10px">
+                <div style="display:inline-block;" class="target-content">
+                  <div>人均地区生产总值（万）</div>
+                  <div class="target-value"><b>9.45</b></div>
+                </div>
+                
               </div>
              </div>
             </div>
-             
+            <div>
+              <div class="target-header">
+                <div class="target-title">民生优享</div>
+             </div>
+             <div >
+              <div style="display:inline-block;" >
+                <div class="target-content">
+                  <div>地区生产总值（亿）</div>
+                  <div class="target-value"><b>300</b></div>
+                </div>
+                
+              </div>
+              <div style="display:inline-block;margin-left:10px">
+                <div style="display:inline-block;" class="target-content">
+                  <div>人均地区生产总值（万）</div>
+                  <div class="target-value"><b>9.45</b></div>
+                </div>
+                
+              </div>
+             </div>
+            </div>
             
             <!-- <rankingCounty/> -->
             <!-- <barAreaGdp/> -->
@@ -303,13 +331,19 @@ export default {
   font-size: 16px;
 }
 .target-content{
-  width:100px;
-  margin:20px;
+  width:100%;
+  margin:10px;
   padding:10px;
   text-align: center;
-  border: 2px solid #333;
+  color:#28A2CE;
   border-radius: 4px;
-  color:#1C73A1
+  box-shadow: rgb(29, 72, 196) 0px 0px 25px 3px inset;
+}
+.target-value{
+  color:#12AD78;
+  text-align: center;
+  font-size:24px;
+  font-weight: 500;
 }
 
 
