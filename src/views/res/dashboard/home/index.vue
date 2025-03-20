@@ -1,6 +1,6 @@
 <template>
   <div id="data-view" dv-bg>
-    
+
     <div style="width:100vw;height:100vh;position: relative;">
       <div style="top: 52%; left: 49%;width:50vw;height:50vw; transform: translate(-49%, -48%);position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
     </div>
@@ -249,15 +249,6 @@ export default {
             },
           },
       );
-      // imagelayer.on('click', (e) => {
-      //   console.log(e)
-      //   alert( `
-      //     <p>区域名称: ${e.feature.name}</p>
-      //     <p>区域标识: ${e.feature.code}</p>
-      //     <p>图中X坐标: ${e.x} = ${e.x+250}</p>
-      //     <p>图中Y坐标: ${e.y} = ${(1000+(500-e.y)/2)/2}</p>
-      //   `);
-      // });
       scene.addLayer(imagelayer);
 
     });
