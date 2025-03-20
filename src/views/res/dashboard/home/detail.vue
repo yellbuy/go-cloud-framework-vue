@@ -1,50 +1,55 @@
 <template>
   <div id="data-view" dv-bg>
-    <div style="width:32vw;height:32vw;left:32vw;top:14vh;position: absolute;z-index: 9999;" id="mapContainer" ref="mapContainer" />
+    
+    <div style="width:100vw;height:100vh;position: relative;">
+      <div id="mapContainer" ref="mapContainer" />
+    </div>
     <dv-full-screen-container v-if="isFullScreen">
-      <div style="position:absolute;top:6px;left: 10px">
-        <dv-button style="display:inline-block;z-index: 9999999;margin-left:10px;" fontSize="10" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
-        <dv-button style="display:inline-block;margin-left:10px;" fontSize="10" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
-        <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="onGoToLink(`/admin/dashboard/village/index`)" color="#615ea8">村实现</dv-button>
-        <dv-button style="display:inline-block;margin-left:10px" fontSize="10" @click="onGoToLink(`/admin/dashboard/family/index`)" color="#615ea8">户达标</dv-button>
+      <div id="banner">
+        <div class="banner-content">
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key=""color="#615ea8">村实现</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标</dv-button>
+        </div>
+        <div class="banner-content" style="text-align: right;float:right;">
+          
+          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
+          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">详情</dv-button>
+        </div>
       </div>
-      <div style="position:absolute;top:6px;right: 10px">
-        <p style="color:#409EFF;margin-right:10px;"><b>{{ curTime }}</b></p>
-      </div>
+      
       <!-- <div style="position:absolute;top:10px;right:10px">
         <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
       </div> -->
-      <dv-border-box11 title="仁 和 区 共 同 富 裕 数 字 化 平 台" :title-width="400" :animate="true" style="height:100vh">
-        <div class="main-rows">
+      <div class="main-rows">
           <div style="width:25%">
-            <rangeVillageGdp />
-            <radarVillage/>
+            <radarCounty/>
+            <barStreet/>
             <!-- <rankingCounty/> -->
-            <barAreaGdp/>
+            <!-- <barAreaGdp/> -->
           </div>
           <dv-border-box1 style="width:50%">
               <!-- <digitalGoodsStat/> -->
               <numberVillageStat />
               <div class="column-center">
-                <div style="min-height: 300px; justify-content: center;position: relative"  />
+                <div style="min-height: 500px; justify-content: center;position: relative"  />
               </div>
-              <div class="column-footer">
+              <!-- <div class="column-footer">
                 <div style="width:50%">
                   <barFamilyGdp/>
                 </div>
                 <div style="width:50%">
                   <barAgricultureGdp/>
                 </div>
-              </div>
+              </div> -->
           </dv-border-box1>
           
           <div style="width:25%">
-            <pieCoutyGdp/>
-            <barVillageInsurance/>
-            <barPeopleGdp/>
+            <actVillage/>
+            <lineFamily/>
           </div>
         </div>
-      </dv-border-box11>
     </dv-full-screen-container>
     <div v-else>
       <div style="position:absolute;top:6px;left: 10px">
@@ -91,21 +96,26 @@
 import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
 import dayjs from 'dayjs';
 import { onMounted, reactive, ref, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
-import barAgricultureGdp from "./barAgricultureGdp.vue";
-import barAreaGdp from "./barAreaGdp.vue";
-import barFamilyGdp from "./barFamilyGdp.vue";
-import barPeopleGdp from "./barPeopleGdp.vue";
-import barCoutyGdp from "./barVillageGdp.vue";
-import barVillageInsurance from "./barVillageInsurance.vue";
-import flareTarget from "./flareTarget.vue";
-import lineLgsh from "./lineLgsh.vue";
-import numberVillageStat from "./numberVillageStat.vue";
-import pieCoutyGdp from "./pieCountyGdp.vue";
-import radarLgsh from "./radarLgsh.vue";
-import radarVillage from "./radarVillage.vue";
-import rangeVillageGdp from "./rangeVillageGdp.vue";
-import rankingCounty from "./rankingCounty.vue";
+import { useRoute, useRouter } from 'vue-router';
+import actVillage from "../component/actVillage.vue";
+import barAgricultureGdp from "../component/barAgricultureGdp.vue";
+import barAreaGdp from "../component/barAreaGdp.vue";
+import barFamilyGdp from "../component/barFamilyGdp.vue";
+import barPeopleGdp from "../component/barPeopleGdp.vue";
+import barStreet from "../component/barStreet.vue";
+import barCoutyGdp from "../component/barVillageGdp.vue";
+import barVillageInsurance from "../component/barVillageInsurance.vue";
+import flareTarget from "../component/flareTarget.vue";
+import lineFamily from "../component/lineFamily.vue";
+import numberVillageStat from "../component/numberVillageStat.vue";
+import pieCoutyGdp from "../component/pieCountyGdp.vue";
+import radarCounty from "../component/radarCounty.vue";
+import radarFamily from "../component/radarFamily.vue";
+import radarLgsh from "../component/radarLgsh.vue";
+import radarStreet from "../component/radarStreet.vue";
+import radarVillage from "../component/radarVillage.vue";
+import rangeVillageGdp from "../component/rangeVillageGdp.vue";
+import rankingCounty from "../component/rankingCounty.vue";
 
 export default {
   name: "IndexDashboard",
@@ -116,16 +126,23 @@ export default {
     barCoutyGdp,
     barAgricultureGdp,
     barPeopleGdp,
+    barStreet,
+    actVillage,
     barAreaGdp,
     barFamilyGdp,
     barVillageInsurance,
     pieCoutyGdp,
     rangeVillageGdp,
     radarLgsh,
+    radarCounty,
+    radarStreet,
     radarVillage,
-    lineLgsh,
+    radarFamily,
+    lineFamily,
   },
   setup() {
+    const route = useRoute();
+		console.log('路由', route.query);
     const router =  useRouter();
     const mapContainer = ref();
     const state: any = reactive({
@@ -150,11 +167,11 @@ export default {
         logoVisible: false,
         map: new Map({
           center: [500, 500],
-          zoom: 2,
+          zoom: 2.5,
           version: 'SIMPLE',
           mapSize: 1000,
           maxZoom: 5,
-          minZoom: 2,
+          minZoom: 1,
           pitchEnabled: true,
           rotateEnabled: true,
         }),
@@ -234,17 +251,7 @@ export default {
             },
           },
       );
-      // imagelayer.on('click', (e) => {
-      //   console.log(e)
-      //   alert( `
-      //     <p>区域名称: ${e.feature.name}</p>
-      //     <p>区域标识: ${e.feature.code}</p>
-      //     <p>图中X坐标: ${e.x} = ${e.x+250}</p>
-      //     <p>图中Y坐标: ${e.y} = ${(1000+(500-e.y)/2)/2}</p>
-      //   `);
-      // });
       scene.addLayer(imagelayer);
-
     });
     return {
       onFullScreen,
@@ -254,68 +261,3 @@ export default {
   },
 };
 </script>
-
-
-<style lang="less">
-#app{
- .el-aside,.el-header,.layout-navbars-tagsview{
-  display: none;
- }
-}
-#data-view{
-  background-image: url("./img/bg.png");
-}
-
-#map {
-  height: 100%;
-  width: 500px;
-}
-
-#data-view {
-  width: 100%;
-  height: 100%;
-  color: #000;
-
-
-  #dv-full-screen-container {
-    background-image: url("./img/bg.png");
-    background-size: 100% 100%;
-  }
-
-  .main-rows {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    padding: 8vh 1vw 2vh 1vw;
-    height: 100%;
-
-    .dv-border-box-1 {
-      text-align: left;
-    }
-
-    .column-center {
-      height: 59%;
-      background-size: 100% 100%;
-      margin: 0px 20px 12px 20px;
-    }
-
-    .column-footer {
-      display: flex;
-      flex-direction: row;
-      align-content: center;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 26%;
-      background-size: 100% 100%;
-      margin: 0px 10px 0px 10px;
-    }
-  }
-
-  .dv-button {
-    padding: 4px 10px !important;
-  }
-}
-
-</style>
