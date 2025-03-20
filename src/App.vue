@@ -20,6 +20,7 @@ import { useStore } from '/@/store/index';
 import other from '/@/utils/other';
 import setIntroduction from '/@/utils/setIconfont';
 import { Local, Session } from '/@/utils/storage';
+
 export default defineComponent({
 	name: 'app',
 	components: { LockScreen, Setings, CloseFull },

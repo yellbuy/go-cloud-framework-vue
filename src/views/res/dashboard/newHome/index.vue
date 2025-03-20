@@ -291,8 +291,8 @@ export default {
     padding: 4px 10px !important;
   }
 
-  .flare-title{
-    background-image: linear-gradient(to right,rgb(83, 78, 234), rgb(21, 6, 110));
+  .flare-title {
+    background-image: linear-gradient(to right, rgb(83, 78, 234), rgb(21, 6, 110));
     border-radius: 4px;
     margin-top: 1vh;
     height: 3vh;
@@ -304,7 +304,7 @@ export default {
 
   }
 
-  .bottom-box{
+  .bottom-box {
     box-shadow: rgb(28, 40, 80) 0px 0px 25px 3px inset;
     padding: 10px;
   }
