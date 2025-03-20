@@ -1,7 +1,9 @@
 <template>
   <div id="flareTarget">
     <div class="flare-container">
-      <div class="flare-title" style="text-align: left;padding-left:10px">年收入橄榄图</div>
+      <div class="target-header">
+        <div class="target-title">家庭年收入橄榄图</div>
+      </div>
 <!--      <div ref="echart" class="echartDiv"></div>-->
       <img src="./img/guanl.png" style="width: 6.5vw;height: 18vh;margin-left: 9vw;margin-top: 2vh;"/>
     </div>
@@ -22,7 +24,7 @@ export default {
 
 .echartDiv {
   width: 100%;
-  height: 22vh;
+  height: 25vh;
   padding-bottom: 1vh;
 }
 

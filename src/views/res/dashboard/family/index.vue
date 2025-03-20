@@ -9,58 +9,44 @@
     <dv-full-screen-container v-if="isFullScreen">
       <div id="banner">
         <div class="banner-content">
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')"
-                     border="Border4" color="#409EFF">区建成
-          </dv-button>
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12"
-                     @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入
-          </dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12"
-                     @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key="" color="#615ea8">村实现
-          </dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12"
-                     @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标
-          </dv-button>
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key=""color="#615ea8">村实现</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标</dv-button>
         </div>
-
         <div class="banner-content" style="text-align: right;float:right;">
-          <p style="display:inline-block;color:white;margin-left:10px;margin-right:10px;font-size:14pt">
-            <b>{{ curTime }}</b>
-          </p>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="console.log('click')"
-                     border="Border4" color="#409EFF">详情
-          </dv-button>
+          
+          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
+          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">详情</dv-button>
         </div>
-
-      </div>
-
-      <div class="contenta-tip">
-        <numberVillageStat/>
       </div>
 
       <div class="main-rows">
         <div style="width:25%">
-          <Category/>
-          <Funnel/>
           <FiveGoods/>
+          <Funnel/>
+          <Category/>
         </div>
-
-        <div style="margin-left:50%;width:25%">
-          <Table/>
-        </div>
-
-      </div>
-
-      <div class="contenta-bottom">
-        <div class="box">
-          <div style="height: 25vh;width: 25vw">
-            <LineGraph style="flex-shrink: 0;"/>
+          <div style="width:50%">
+              <!-- <digitalGoodsStat/> -->
+              <numberVillageStat />
+              <div class="column-center">
+                <div style="min-height: 48vh; justify-content: center;position: relative"  />
+              </div>
+              <div class="column-footer">
+                <div style="width:50%">
+                  <LineGraph style="flex-shrink: 0;"/>
+                </div>
+                <div style="width:50%">
+                  <NumberOfPeopleAssisted style="flex-shrink: 0;"/>
+                </div>
+              </div>
+          </div>
+          
+          <div style="width:25%">
+            <Table/>
           </div>
 
-          <div style="height: 25vh;width: 25vw">
-            <NumberOfPeopleAssisted style="flex-shrink: 0;"/>
-          </div>
-        </div>
       </div>
 
     </dv-full-screen-container>
@@ -119,7 +105,7 @@ export default {
         logoVisible: false,
         map: new Map({
           center: [500, 500],
-          zoom: 1.5,
+          zoom: 2,
           version: 'SIMPLE',
           mapSize: 1000,
           maxZoom: 5,
@@ -215,10 +201,8 @@ export default {
 }
 
 .contenta-bottom {
-  position: absolute;
-  float: left;
-  bottom: 26.5vh;
-  left: 25vw;
+  height: 25vh;
+  width:100%;
 
   .box {
     display: flex;
@@ -237,7 +221,7 @@ export default {
   display: inline-block;
 
   .banner-content {
-    margin: 24px 12px;
+    margin: 32px 12px;
     display: inline-block;
     width: auto
   }
@@ -251,7 +235,35 @@ export default {
   height: 100%;
   width: 500px;
 }
-
+.target-header{
+  text-align: left;
+  padding-top:6px;
+  margin-top: 2vh;
+  margin-left:10px;
+  margin-right:10px;
+  height: 36px;
+  background-image: linear-gradient(to right,#061A8F,#060034);
+  border-radius: 2px;
+}
+.target-title{
+  background-image: radial-gradient(circle, #daeef3 10%, #0075FF);
+  //background-image: radial-gradient(circle, #01BBE9 10%, #0075FF);
+  width:200px;
+  font-weight: bold;
+  background-clip: text;
+  color: transparent;
+  padding-left:20px;
+  font-size: 16px;
+}
+.target-content{
+  width:100px;
+  margin:20px;
+  padding:10px;
+  text-align: center;
+  border: 2px solid #333;
+  border-radius: 4px;
+  color:#1C73A1
+}
 #data-view {
   width: 100%;
   height: 100%;
@@ -275,7 +287,6 @@ export default {
     }
 
     .column-center {
-      height: 59%;
       background-size: 100% 100%;
       margin: 0 20px 12px 20px;
     }
@@ -288,7 +299,7 @@ export default {
       justify-content: center;
       align-items: center;
       text-align: center;
-      height: 26%;
+      height: 26vh;
       background-size: 100% 100%;
       margin: 0 10px 0 10px;
     }

@@ -1,7 +1,9 @@
 <template>
   <div id="flareTarget">
     <div class="flare-container">
-      <div class="flare-title" style="text-align: left;padding-left:10px">五好达标情况</div>
+      <div class="target-header">
+        <div class="target-title">五好达标情况</div>
+      </div>
       <div ref="echart" class="echartDiv"></div>
     </div>
   </div>
@@ -45,7 +47,7 @@ export default {
           ],
           center: ['50%', '55%'],
           radius: 90,
-          startAngle: 60,
+          startAngle: 15,
           splitNumber: 4,
           shape: 'circle',
           axisName: {
@@ -121,7 +123,7 @@ export default {
 
 .echartDiv {
   width: 100%;
-  height: 28vh;
+  height: 25vh;
   padding-bottom: 1vh;
 }
 
