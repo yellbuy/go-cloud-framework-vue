@@ -26,13 +26,13 @@ export default {
       const myChart = echarts.init(state.echart)
       // 指定图表的配置项和数据
       const option = {
-        color: ['#1AFD9BFF'],
+        color: ['#71b15f'],
         yAxis: {
           type: 'category',
           data: ['生活用水帮扶情况', '垃圾不乱堆帮扶情况', '卫生厕所帮扶情况', '家用网络帮扶情况', '供电稳定帮扶情况'],
           axisLabel: {
             fontSize: 32, // 设置Y轴标签字体大小
-            color: "#409eff"
+            color: "#9dbbdd"
           }
         },
         grid: {
@@ -45,7 +45,7 @@ export default {
           type: 'value',
           axisLabel: {
             fontSize: 32, // 设置Y轴标签字体大小
-            color: "#409eff"
+            color: "#9dbbdd"
           }
         },
         series: [
@@ -75,6 +75,6 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  height: 50em;
+  height: 40rem;
 }
 </style>

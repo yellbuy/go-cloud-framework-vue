@@ -44,7 +44,8 @@ export default {
           data: ['保障好', '教育好', '医疗好', '住房好', '家风好'],
           axisLabel: {
             fontSize: 32, // 设置Y轴标签字体大小
-            color: "#409eff"
+            color: "#409eff",
+            lineHeight: 80
           }
         },
         yAxis: {
@@ -89,6 +90,6 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  height: 50em;
+  height: 50rem;
 }
 </style>

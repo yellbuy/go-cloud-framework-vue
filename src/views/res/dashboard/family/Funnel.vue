@@ -5,8 +5,8 @@
         <div class="target-title">家庭年收入橄榄图</div>
       </div>
       <!--      <div ref="echart" class="echartDiv"></div>-->
-      <div style="text-align: center;margin:5em 8em">
-        <img src="./img/橄榄图.png" style="width: 35em;height: 30em;"/>
+      <div style="text-align: center;margin:5rem 8rem">
+        <img src="./img/橄榄图.png" style="width: 35rem;height: 30rem;"/>
       </div>
     </div>
   </div>

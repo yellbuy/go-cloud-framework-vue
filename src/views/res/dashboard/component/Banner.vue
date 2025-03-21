@@ -2,25 +2,25 @@
   <div id="flareTarget">
     <div id="banner">
       <div class="banner-content">
-        <button class="banner-button" style="margin-left: 4em;margin-right:1em;"
+        <button class="banner-button" style="margin-left: 6rem;margin-right:1rem;"
                 @click="onGoToLink(`/admin/dashboard/family/index`)">
           区建成
         </button>
-        <button class="banner-button" style="margin-right:1em;" @click="onGoToLink(`/admin/dashboard/family/index`)">
+        <button class="banner-button" style="margin-right:1rem;" @click="onGoToLink(`/admin/dashboard/family/index`)">
           区建成
         </button>
-        <button class="banner-button" style="margin-right:1em;" @click="onGoToLink(`/admin/dashboard/family/index`)">
+        <button class="banner-button" style="margin-right:1rem;" @click="onGoToLink(`/admin/dashboard/family/index`)">
           区建成
         </button>
-        <button class="banner-button" style="margin-right:1em;" @click="onGoToLink(`/admin/dashboard/family/index`)">
+        <button class="banner-button" style="margin-right:1rem;" @click="onGoToLink(`/admin/dashboard/family/index`)">
           区建成
         </button>
       </div>
       <div class="banner-content" style="text-align: right;float:right;">
-        <p style="display:inline-block;color:white;margin-right:5em;font-size:2.3em"><b>{{
+        <p style="display:inline-block;color:white;margin-right:5rem;font-size:2.3rem"><b>{{
             curTime
           }}</b></p>
-        <button class="banner-button" style="margin-right:4em" @click="onGoToLink(`/admin/dashboard/family/index`)">
+        <button class="banner-button" style="margin-right:6rem" @click="onGoToLink(`/admin/dashboard/family/index`)">
           详情
         </button>
       </div>
@@ -58,7 +58,7 @@ export default {
 
 #banner {
   width: 100%;
-  height: 60em;
+  height: 60rem;
   background-image: url(/img/res/banner.png);
   background-repeat: no-repeat;
   background-position: center top;
@@ -66,14 +66,14 @@ export default {
   display: inline-block;
 
   .banner-content {
-    margin: 4.5em 0;
+    margin: 4.5rem 0;
     display: inline-block;
     width: auto
   }
 
   .banner-button {
-    font-size: 2.1em;
-    padding: 0.6em 2.2em;
+    font-size: 2.6rem;
+    padding: 1rem 4rem;
     background-image: url(img/button_bg.png);
     background-repeat: no-repeat;
     background-position: center top;

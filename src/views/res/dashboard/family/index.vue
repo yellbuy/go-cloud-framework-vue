@@ -10,20 +10,21 @@
           <Category/>
         </div>
 
-        <div style="width:50%">
-          <div style="text-align: center">
+        <dv-border-box1 style="height:calc(100% - 21rem);width:50%;">
+          <div style="text-align: center;margin-top: 3rem">
             <Label :text="'总户数'" :title="10000"/>
-            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500" style="margin: 0 22em 8em;"/>
+            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500" style="margin: 0 22rem 8rem;"/>
             <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'"/>
           </div>
-          <LineGraph style="margin-bottom: 5em"/>
+          <LineGraph style="margin-bottom: 5rem"/>
           <NumberOfPeopleAssisted/>
-        </div>
+        </dv-border-box1>
 
-        <div style="width:25%">
-          <!--          <Table/>-->
+        <div style="width:25%;height: 100%">
+          <div class="target-content glt" style="height: 100%">
+            <dv-scroll-board :config="zhonghebangfuConfig" style="width:100%;height:100%;"/>
+          </div>
         </div>
-
       </div>
 
     </dv-full-screen-container>
@@ -72,6 +73,60 @@ export default {
     const onFullScreen = () => {
       state.isFullScreen = !state.isFullScreen
     };
+    //综合帮扶情况配置
+    const zhonghebangfuConfig = reactive({
+      header: ['乡镇', '村', '帮扶情况'],
+      data: [
+        ['<span style="color:#37a2da;">金江镇</span>', '张某某', '低保'],
+        ['仁和镇', '<span style="color:#32c5e9;">杨某</span>', '大病保障'],
+        ['金江镇', '陈某某', '<span style="color:#67e0e3;">节日慰问</span>'],
+        ['前进镇', '<span style="color:#9fe6b8;">伍某华</span>', '节日慰问'],
+        ['<span style="color:#ffdb5c;">陈某萍</span>', '行5列2', '节日慰问'],
+        ['大田镇', '<span style="color:#ff9f7f;">张某</span>', '大病保障'],
+        ['大田镇', '张某燕', '<span style="color:#fb7293;">就近入学</span>'],
+        ['金江镇', '<span style="color:#e062ae;">谢某</span>', '新办幼儿园'],
+        ['<span style="color:#e690d1;">杨某</span>', '仁和村', '低保'],
+        ['金江镇', '<span style="color:#e7bcf3;">张某某</span>', '就近入学'],
+        ['<span style="color:#37a2da;">金江镇</span>', '张某某', '低保'],
+        ['仁和镇', '<span style="color:#32c5e9;">杨某</span>', '大病保障'],
+        ['金江镇', '陈某某', '<span style="color:#67e0e3;">节日慰问</span>'],
+        ['前进镇', '<span style="color:#9fe6b8;">伍某华</span>', '节日慰问'],
+        ['<span style="color:#ffdb5c;">陈某萍</span>', '行5列2', '节日慰问'],
+        ['大田镇', '<span style="color:#ff9f7f;">张某</span>', '大病保障'],
+        ['大田镇', '张某燕', '<span style="color:#fb7293;">就近入学</span>'],
+        ['金江镇', '<span style="color:#e062ae;">谢某</span>', '新办幼儿园'],
+        ['<span style="color:#e690d1;">杨某</span>', '仁和村', '低保'],
+        ['金江镇', '<span style="color:#e7bcf3;">张某某</span>', '就近入学'],
+        ['<span style="color:#37a2da;">金江镇</span>', '张某某', '低保'],
+        ['仁和镇', '<span style="color:#32c5e9;">杨某</span>', '大病保障'],
+        ['金江镇', '陈某某', '<span style="color:#67e0e3;">节日慰问</span>'],
+        ['前进镇', '<span style="color:#9fe6b8;">伍某华</span>', '节日慰问'],
+        ['<span style="color:#ffdb5c;">陈某萍</span>', '行5列2', '节日慰问'],
+        ['大田镇', '<span style="color:#ff9f7f;">张某</span>', '大病保障'],
+        ['大田镇', '张某燕', '<span style="color:#fb7293;">就近入学</span>'],
+        ['金江镇', '<span style="color:#e062ae;">谢某</span>', '新办幼儿园'],
+        ['<span style="color:#e690d1;">杨某</span>', '仁和村', '低保'],
+        ['金江镇', '<span style="color:#e7bcf3;">张某某</span>', '就近入学'],
+        ['<span style="color:#37a2da;">金江镇</span>', '张某某', '低保'],
+        ['仁和镇', '<span style="color:#32c5e9;">杨某</span>', '大病保障'],
+        ['金江镇', '陈某某', '<span style="color:#67e0e3;">节日慰问</span>'],
+        ['前进镇', '<span style="color:#9fe6b8;">伍某华</span>', '节日慰问'],
+        ['<span style="color:#ffdb5c;">陈某萍</span>', '行5列2', '节日慰问'],
+        ['大田镇', '<span style="color:#ff9f7f;">张某</span>', '大病保障'],
+        ['大田镇', '张某燕', '<span style="color:#fb7293;">就近入学</span>'],
+        ['金江镇', '<span style="color:#e062ae;">谢某</span>', '新办幼儿园'],
+        ['<span style="color:#e690d1;">杨某</span>', '仁和村', '低保'],
+        ['金江镇', '<span style="color:#e7bcf3;">张某某</span>', '就近入学'],
+      ],
+      index: true,
+      headerHeight: 80,
+      rowNum: 20,
+      headerBGC: '#00AA77',
+      oddRowBGC: '#002B31',
+      evenRowBGC: '#071722',
+      columnWidth: [50],
+      align: ['center'],
+    })
 
     // 页面加载时
     onMounted(() => {
@@ -152,6 +207,7 @@ export default {
     return {
       onFullScreen,
       ...toRefs(state),
+      zhonghebangfuConfig
     };
   },
 };
@@ -165,29 +221,19 @@ export default {
   }
 }
 
-.contenta-tip {
-  position: absolute;
-  float: left;
-  top: 5vh;
-  left: calc(39vw);
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.contenta-bottom {
-  height: 25vh;
-  width: 100%;
-
-  .box {
-    display: flex;
-    flex-direction: row;
-  }
-}
-
 #map {
   height: 100%;
   width: 500px;
+}
+
+.target-content {
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  color: #28A2CE;
+  border-radius: 4px;
+  box-shadow: rgb(29, 72, 196) 0px 0px 25px 3px inset;
 }
 
 #data-view {
@@ -205,7 +251,7 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: row;
-    margin-top: -45em;
+    margin-top: -45rem;
     height: 100%;
   }
 }

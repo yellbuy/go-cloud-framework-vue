@@ -1,7 +1,7 @@
 <template>
   <div id="flareTarget">
     <div id="label">
-      <label :style="{color:color}" style="font-size: 5.5em">{{ title }}</label>
+      <label :style="{color:color}" style="font-size: 5.5rem">{{ title }}</label>
       <label :style="{color:color}">{{ text }}</label>
     </div>
   </div>
@@ -37,12 +37,12 @@ export default {
   background-position: center top;
   background-size: 100% 100%;
   display: inline-block;
-  padding: 2em 8em;
+  padding: 2rem 8rem;
   text-align: center;
 
   label {
     display: block;
-    font-size: 2em;
+    font-size: 2rem;
     color: #409eff;
   }
 }
