@@ -7,19 +7,7 @@
     </div>
 
     <dv-full-screen-container v-if="isFullScreen">
-      <div id="banner">
-        <div class="banner-content">
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key=""color="#615ea8">村实现</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标</dv-button>
-        </div>
-        <div class="banner-content" style="text-align: right;float:right;">
-          
-          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">详情</dv-button>
-        </div>
-      </div>
+      <Banner/>
 
       <div class="main-rows">
         <div style="width:25%">
@@ -27,25 +15,25 @@
           <Funnel/>
           <Category/>
         </div>
-          <div style="width:50%">
-              <!-- <digitalGoodsStat/> -->
-              <numberVillageStat />
-              <div class="column-center">
-                <div style="min-height: 48vh; justify-content: center;position: relative"  />
-              </div>
-              <div class="column-footer">
-                <div style="width:50%">
-                  <LineGraph style="flex-shrink: 0;"/>
-                </div>
-                <div style="width:50%">
-                  <NumberOfPeopleAssisted style="flex-shrink: 0;"/>
-                </div>
-              </div>
+        <div style="width:50%">
+          <!-- <digitalGoodsStat/> -->
+          <numberVillageStat/>
+          <div class="column-center">
+            <div style="min-height: 48vh; justify-content: center;position: relative"/>
           </div>
-          
-          <div style="width:25%">
-            <Table/>
+          <div class="column-footer">
+            <div style="width:50%">
+              <LineGraph style="flex-shrink: 0;"/>
+            </div>
+            <div style="width:50%">
+              <NumberOfPeopleAssisted style="flex-shrink: 0;"/>
+            </div>
           </div>
+        </div>
+
+        <div style="width:25%">
+          <Table/>
+        </div>
 
       </div>
 
@@ -54,17 +42,17 @@
 </template>
 
 <script lang="ts">
-import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
-import dayjs from 'dayjs';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
-import Funnel from "./Funnel.vue";
+import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute } from 'vue-router';
+import Banner from "../component/Banner.vue";
+import numberVillageStat from "../component/numberVillageStat.vue";
 import Category from "./Category.vue";
-import Table from "./Table.vue";
 import FiveGoods from "./FiveGoods.vue";
+import Funnel from "./Funnel.vue";
 import LineGraph from "./LineGraph.vue";
 import NumberOfPeopleAssisted from "./NumberOfPeopleAssisted.vue";
-import numberVillageStat from "../component/numberVillageStat.vue";
+import Table from "./Table.vue";
 
 
 export default {
@@ -77,25 +65,20 @@ export default {
     FiveGoods,
     LineGraph,
     NumberOfPeopleAssisted,
-    numberVillageStat
+    numberVillageStat,
+    Banner
   },
   setup() {
-    const router = useRouter();
     const route = useRoute();
     route.query.areaCode = "510411200200";
     const state: any = reactive({
       isFullScreen: true,// 是否全屏
       baseUrl: import.meta.env.VITE_API_URL,
-      imgUrl: import.meta.env.VITE_URL,
-      curTime: dayjs().format("YYYY年MM月DD日 dddd")
+      imgUrl: import.meta.env.VITE_URL
     })
     const onFullScreen = () => {
       state.isFullScreen = !state.isFullScreen
     };
-    //导航链接
-    const onGoToLink = (url: string) => {
-      router.push(url)
-    }
 
     // 页面加载时
     onMounted(() => {
@@ -175,7 +158,6 @@ export default {
     });
     return {
       onFullScreen,
-      onGoToLink,
       ...toRefs(state),
     };
   },
@@ -202,66 +184,49 @@ export default {
 
 .contenta-bottom {
   height: 25vh;
-  width:100%;
+  width: 100%;
 
   .box {
     display: flex;
     flex-direction: row;
-    lex-shrink: 0;
   }
-}
-
-#banner {
-  width: 100%;
-  height: 281px;
-  background-image: url(/img/res/banner.png);
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 100% auto;
-  display: inline-block;
-
-  .banner-content {
-    margin: 32px 12px;
-    display: inline-block;
-    width: auto
-  }
-}
-
-#data-view {
-  background-image: url("./img/bg.png");
 }
 
 #map {
   height: 100%;
   width: 500px;
 }
-.target-header{
+
+.target-header {
   text-align: left;
-  padding-top:6px;
+  padding-top: 6px;
   margin-top: 2vh;
   height: 36px;
-  background-image: linear-gradient(to right,#061A8F,#060034);
+  background-image: linear-gradient(to right, #061A8F, #060034);
   border-radius: 2px;
 }
-.target-title{
+
+.target-title {
   background-image: radial-gradient(circle, #daeef3 10%, #0075FF);
   //background-image: radial-gradient(circle, #01BBE9 10%, #0075FF);
-  width:200px;
+  width: 200px;
   font-weight: bold;
   background-clip: text;
   color: transparent;
-  padding-left:20px;
+  padding-left: 20px;
   font-size: 16px;
 }
-.target-content{
-  width:100px;
-  margin:20px;
-  padding:10px;
+
+.target-content {
+  width: 100px;
+  margin: 20px;
+  padding: 10px;
   text-align: center;
   border: 2px solid #333;
   border-radius: 4px;
-  color:#1C73A1
+  color: #1C73A1
 }
+
 #data-view {
   width: 100%;
   height: 100%;
