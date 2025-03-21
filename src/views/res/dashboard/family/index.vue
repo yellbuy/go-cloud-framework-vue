@@ -23,6 +23,7 @@
         <div style="width:25%">
           <!--          <Table/>-->
         </div>
+
       </div>
 
     </dv-full-screen-container>
