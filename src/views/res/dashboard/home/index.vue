@@ -1,119 +1,144 @@
 <template>
   <div id="data-view" dv-bg>
-    
+
     <div style="width:100vw;height:100vh;position: relative;">
-      <div id="mapContainer" ref="mapContainer" />
+      <div id="mapContainer" ref="mapContainer"/>
     </div>
     <dv-full-screen-container>
       <div id="banner">
         <div class="banner-content">
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key=""color="#615ea8">村实现</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标</dv-button>
+          <dv-button border="Border4" color="#409EFF" fontSize="12"
+                     style="display:inline-block;margin-left:10px;" @click="console.log('click')">区建成
+          </dv-button>
+          <dv-button border="Border4" color="#615ea8"
+                     fontSize="12" style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/dashboard/street/index`)">乡进入
+          </dv-button>
+          <dv-button key="" border="Border4"
+                     color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px" @click="onGoToLink(`/admin/dashboard/village/index`)">村实现
+          </dv-button>
+          <dv-button border="Border4" color="#615ea8"
+                     fontSize="12" style="display:inline-block;margin-left:10px" @click="onGoToLink(`/admin/dashboard/family/index`)">户达标
+          </dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
-          
-          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">区情介绍</dv-button>
+          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{
+              curTime
+            }}</b></p>
+          <dv-button border="Border4" color="#409EFF" fontSize="12"
+                     style="display:inline-block;margin-right:10px;" @click="console.log('click')">区情介绍
+          </dv-button>
         </div>
       </div>
-      
+
       <!-- <div style="position:absolute;top:10px;right:10px">
         <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
       </div> -->
       <div class="main-rows">
-          <div style="width:25%;padding-left:10px;">
-            <div class="target-header">
-                <div class="target-title">乡进入情况</div>
-             </div>
-             <div>
-                <rankingCounty/>
-            </div>
-            <div class="target-header">
-                <div class="target-title">村实现情况</div>
-             </div>
-             <div>
-                <rankingVillage/>
-            </div>
-            <div class="target-header">
-                <div class="target-title">户达标情况</div>
-             </div>
-             <div>
-                <rankingFamily/>
-            </div>
-            
-            <!-- <rankingCounty/> -->
-            <!-- <barAreaGdp/> -->
+        <div style="width:25%;padding-left:10px;">
+          <div class="target-header">
+            <div class="target-title">乡进入情况</div>
           </div>
-          <dv-border-box1 style="width:50%;">
-              <!-- <digitalGoodsStat/> -->
-              <numberCounty />
-              <div class="column-center">
-                <div style="min-height: 500px; justify-content: center;position: relative"  />
-              </div>
-              <div class="column-footer">
-                <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 999999;" border="Border6" color="#e18a3b">经济优建</dv-button>
-                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">民生优享</dv-button>
-                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">文化优创</dv-button>
-                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">环境优宜</dv-button>
-                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">社会优质</dv-button>
-                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">党建优促</dv-button>
-              </div>
-          </dv-border-box1>
-          
-          <div style="width:25%;padding-right:10px;">
-            <div class="target-header">
-              <div class="target-title">收入结构分析</div>
+          <div>
+            <rankingCounty/>
+          </div>
+          <div class="target-header">
+            <div class="target-title">村实现情况</div>
+          </div>
+          <div>
+            <rankingVillage/>
+          </div>
+          <div class="target-header">
+            <div class="target-title">户达标情况</div>
+          </div>
+          <div>
+            <rankingFamily/>
+          </div>
+
+          <!-- <rankingCounty/> -->
+          <!-- <barAreaGdp/> -->
+        </div>
+        <dv-border-box1 style="width:50%;">
+          <!-- <digitalGoodsStat/> -->
+          <numberCounty/>
+          <div class="column-center">
+            <div style="min-height: 500px; justify-content: center;position: relative"/>
+          </div>
+          <div class="column-footer">
+            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px;z-index: 999999;"
+                       @click="console.log('click')">经济优建
+            </dv-button>
+            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px" @click="console.log('click')">
+              民生优享
+            </dv-button>
+            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px" @click="console.log('click')">
+              文化优创
+            </dv-button>
+            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px" @click="console.log('click')">
+              环境优宜
+            </dv-button>
+            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px" @click="console.log('click')">
+              社会优质
+            </dv-button>
+            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px" @click="console.log('click')">
+              党建优促
+            </dv-button>
+          </div>
+        </dv-border-box1>
+
+        <div style="width:25%;padding-right:10px;">
+          <div class="target-header">
+            <div class="target-title">收入结构分析</div>
+          </div>
+          <div class="target-content glt" style="">
+
+            <img height="100%" src="/img/res/glt.png" width="100%"/>
+            <div style="position:relative;top:-160px;font-size:16px;color:white">
+              区 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              农村&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              城市
             </div>
-            <div class="target-content glt" style=""> 
-               
-              <img src="/img/res/glt.png" width="100%" height="100%" />
-              <div style="position:relative;top:-160px;font-size:16px;color:white">
-                区 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                农村&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                城市
-              </div> 
-              <div style="position:relative;top:-150px;font-size:12px;color:white">
-                高收入 40% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                高收入 35%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                高收入 50%
-              </div> 
-              <div style="position:relative;top:-110px;font-size:12px;color:white">
-                中等收入 50% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                中等收入 45%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                中等收入 45%
-              </div> 
-              <div style="position:relative;top:-90px;font-size:12px;color:white">
-                低收入 10% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                低收入 20%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                低收入 5%
-              </div> 
+            <div style="position:relative;top:-150px;font-size:12px;color:white">
+              高收入 40% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              高收入 35%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              高收入 50%
             </div>
-            <div class="target-header">
-              <div class="target-title" style="width:20vw">基础设施、公共设施补短情况</div>
+            <div style="position:relative;top:-110px;font-size:12px;color:white">
+              中等收入 50% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              中等收入 45%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              中等收入 45%
             </div>
-            <div class="target-content glt" style=""> 
-              <dv-scroll-board :config="jichusheshiConfig" style="width:100%;height:100%" @mouseover="mouseoverHandler" @click="clickHandler" />
+            <div style="position:relative;top:-90px;font-size:12px;color:white">
+              低收入 10% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              低收入 20%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              低收入 5%
             </div>
-            <div class="target-header">
-              <div class="target-title" style="width:10vw">综合帮扶情况</div>
-            </div>
-            <div class="target-content glt" style=""> 
-              <dv-scroll-board :config="zhonghebangfuConfig" style="width:100%;height:100%" @mouseover="mouseoverHandler" @click="clickHandler" />
-            </div>
+          </div>
+          <div class="target-header">
+            <div class="target-title" style="width:20vw">基础设施、公共设施补短情况</div>
+          </div>
+          <div class="target-content glt" style="">
+            <dv-scroll-board :config="jichusheshiConfig" style="width:100%;height:100%" @click="clickHandler"
+                             @mouseover="mouseoverHandler"/>
+          </div>
+          <div class="target-header">
+            <div class="target-title" style="width:10vw">综合帮扶情况</div>
+          </div>
+          <div class="target-content glt" style="">
+            <dv-scroll-board :config="zhonghebangfuConfig" style="width:100%;height:100%" @click="clickHandler"
+                             @mouseover="mouseoverHandler"/>
           </div>
         </div>
+      </div>
     </dv-full-screen-container>
-    
-</div>
+
+  </div>
 </template>
 
 <script lang="ts">
-import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
+import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
 import dayjs from 'dayjs';
-import { onMounted, reactive, ref, toRefs } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {onMounted, reactive, ref, toRefs} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import actVillage from "../component/actVillage.vue";
 import barAgricultureGdp from "../component/barAgricultureGdp.vue";
 import barAreaGdp from "../component/barAreaGdp.vue";
@@ -163,8 +188,8 @@ export default {
   },
   setup() {
     const route = useRoute();
-		console.log('路由', route.query);
-    const router =  useRouter();
+    console.log('路由', route.query);
+    const router = useRouter();
     const mapContainer = ref();
     const state: any = reactive({
       isFullScreen: true,// 是否全屏
@@ -173,11 +198,11 @@ export default {
       curTime: dayjs().format("YYYY年MM月DD日")
     })
     const onFullScreen = () => {
-			//admin/dashboard/app/fullScreen
-      state.isFullScreen=!state.isFullScreen
-		};
+      //admin/dashboard/app/fullScreen
+      state.isFullScreen = !state.isFullScreen
+    };
     //导航链接
-    const onGoToLink = (url:string) => {
+    const onGoToLink = (url: string) => {
       router.push(url)
     }
     //基础设施补短情况配置
@@ -196,7 +221,7 @@ export default {
         ['金江镇', '<span style="color:#e7bcf3;">大龙潭村</span>', '排水系统修复'],
       ],
       index: true,
-      rowNum:5,
+      rowNum: 5,
       columnWidth: [50],
       align: ['center'],
     })
@@ -216,14 +241,14 @@ export default {
         ['金江镇', '<span style="color:#e7bcf3;">张某某</span>', '就近入学'],
       ],
       index: true,
-      rowNum:5,
-      headerBGC:'#00AA77',
-      oddRowBGC:'#002B31',
-      evenRowBGC:'#071722',
+      rowNum: 5,
+      headerBGC: '#00AA77',
+      oddRowBGC: '#002B31',
+      evenRowBGC: '#071722',
       columnWidth: [50],
       align: ['center'],
     })
-    
+
     // 页面加载时
     onMounted(() => {
       const scene = new Scene({
@@ -266,36 +291,36 @@ export default {
               <p>图中X坐标: ${e.x}</p>
               <p>图中Y坐标: ${e.y}</p>
             `);
-          });
-          const textlayer = new PointLayer({ zIndex: 2 })
-            .source(data, {
-              parser: {
-                type: 'json',
-                x: 'x',
-                y: 'y',
-              },
-            })
-            .shape('name', 'text')
-            .size(12)
-            .active({
-              color: '#00f',
-              mix: 0.9,
-            })
-            .color('red')
-            .style({
-              textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
-              spacing: 6, // 字符间距
-              fontWeight: '800',
-              padding: [30, 30], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
-              stroke: '#ffffff', // 描边颜色
-              strokeWidth: 2, // 描边宽度
-              textAllowOverlap: true,
-              textOffset: [20, 20],
-            });
-            textlayer.on('click', (e) => {
-            console.log(e)
-            router.push(`/admin/dashboard/street/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
-            alert( `
+              });
+              const textlayer = new PointLayer({zIndex: 2})
+                  .source(data, {
+                    parser: {
+                      type: 'json',
+                      x: 'x',
+                      y: 'y',
+                    },
+                  })
+                  .shape('name', 'text')
+                  .size(12)
+                  .active({
+                    color: '#00f',
+                    mix: 0.9,
+                  })
+                  .color('red')
+                  .style({
+                    textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
+                    spacing: 6, // 字符间距
+                    fontWeight: '800',
+                    padding: [30, 30], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
+                    stroke: '#ffffff', // 描边颜色
+                    strokeWidth: 2, // 描边宽度
+                    textAllowOverlap: true,
+                    textOffset: [20, 20],
+                  });
+              textlayer.on('click', (e) => {
+                console.log(e)
+                router.push(`/admin/dashboard/street/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
+                alert(`
               <p>区域名称: ${e.feature.name}</p>
               <p>区域标识: ${e.feature.code}</p>
               <p>图中X坐标: ${e.x}</p>
@@ -332,7 +357,7 @@ export default {
       onGoToLink,
       jichusheshiConfig,
       zhonghebangfuConfig,
-        ...toRefs(state),
+      ...toRefs(state),
     };
   },
 };
@@ -340,31 +365,39 @@ export default {
 
 
 <style lang="less">
-#app{
- .el-aside,.el-header,.layout-navbars-tagsview{
-  display: none;
- }
-}
-#mapContainer{
-  top: 54%; left: 49%;
-  width:50vw;height:70vh; 
-  transform: translate(-49%, -46%);
-  position: absolute;z-index: 9999;
-}
-#banner{
-  width:100%;
-  height:281px;
-  background-image:url(/img/res/banner.png);
-  background-repeat:no-repeat;
-  background-position:center top;
-  background-size: 100% auto; 
-  display:inline-block;
-  .banner-content{
-    margin:24px 12px;
-    display:inline-block;width:auto
+#app {
+  .el-aside, .el-header, .layout-navbars-tagsview {
+    display: none;
   }
 }
-#data-view{
+
+#mapContainer {
+  top: 54%;
+  left: 49%;
+  width: 50vw;
+  height: 70vh;
+  transform: translate(-49%, -46%);
+  position: absolute;
+  z-index: 9999;
+}
+
+#banner {
+  width: 100%;
+  height: 281px;
+  background-image: url(/img/res/banner.png);
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 100% auto;
+  display: inline-block;
+
+  .banner-content {
+    margin: 24px 12px;
+    display: inline-block;
+    width: auto
+  }
+}
+
+#data-view {
   background-image: url("./img/bg.png");
 }
 
@@ -372,45 +405,50 @@ export default {
   height: 100%;
   width: 500px;
 }
-.target-header{
+
+.target-header {
   text-align: left;
-  padding-top:6px;
+  padding-top: 6px;
   margin-top: 2vh;
   height: 36px;
-  background-image: linear-gradient(to right,#061A8F,transparent);
+  background-image: linear-gradient(to right, #061A8F, transparent);
   border-radius: 2px;
 }
-.target-title{
+
+.target-title {
   background-image: radial-gradient(circle, #daeef3 10%, #0075FF);
   //background-image: radial-gradient(circle, #01BBE9 10%, #0075FF);
-  width:120px;
+  width: 120px;
   font-weight: bold;
   background-clip: text;
   color: transparent;
-  padding-left:20px;
+  padding-left: 20px;
   font-size: 16px;
 }
-.target-content{
-  width:100%;
-  margin-top:1vh;
-  padding:10px;
+
+.target-content {
+  width: 100%;
+  margin-top: 1vh;
+  padding: 10px;
   text-align: center;
-  color:#28A2CE;
+  color: #28A2CE;
   border-radius: 4px;
   box-shadow: rgb(29, 72, 196) 0px 0px 25px 3px inset;
 }
-.target-value{
-  color:#12AD78;
+
+.target-value {
+  color: #12AD78;
   text-align: center;
-  font-size:24px;
+  font-size: 24px;
   font-weight: 500;
 }
 
-.glt{
-  background-image:url('/img/glt.png');
-  width:100%;
-  height:22.7vh;
+.glt {
+  background-image: url('/img/glt.png');
+  width: 100%;
+  height: 22.7vh;
 }
+
 #data-view {
   width: 100%;
   height: 100%;
@@ -426,11 +464,11 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: row;
-    margin-top:-220px;
+    margin-top: -220px;
 
     .dv-border-box-1 {
       text-align: left;
-      height:auto !important;
+      height: auto !important;
       margin-bottom: 4px;
     }
 
@@ -449,10 +487,10 @@ export default {
       align-items: center;
       text-align: center;
       height: 50px;
-      width:100%;
-      position:absolute;
+      width: 100%;
+      position: absolute;
       text-align: center;
-      bottom:20px;
+      bottom: 20px;
       z-index: 999999;
       background-size: 100% 100%;
       margin: 0px 10px 0px 10px;

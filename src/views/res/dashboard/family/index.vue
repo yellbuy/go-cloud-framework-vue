@@ -17,7 +17,7 @@
             <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'"/>
           </div>
           <LineGraph style="margin-bottom: 5rem"/>
-          <NumberOfPeopleAssisted/>
+          <ranking-county/>
         </dv-border-box1>
 
         <div style="width:25%;height: 100%">
@@ -44,11 +44,13 @@ import NumberOfPeopleAssisted from "./NumberOfPeopleAssisted.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import Banner from "../component/Banner.vue";
 import Label from "../component/Label.vue";
+import RankingCounty from "/@/views/res/dashboard/family/rankingCounty.vue";
 
 
 export default {
   name: "IndexDashboard",
   components: {
+    RankingCounty,
     Funnel,
     Category,
     // eslint-disable-next-line vue/no-reserved-component-names,vue/no-unused-components
