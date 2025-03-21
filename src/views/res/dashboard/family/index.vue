@@ -1,11 +1,5 @@
 <template>
   <div id="data-view" dv-bg>
-    <div style="width:100vw;height:100vh;position: relative;">
-      <div
-          style="top: 40%; left: 49%;width:30vw;height:30vw; transform: translate(-49%, -48%);position: absolute;z-index: 9999;"
-          id="mapContainer" ref="mapContainer"/>
-    </div>
-
     <dv-full-screen-container v-if="isFullScreen">
       <Banner/>
 
@@ -15,26 +9,20 @@
           <Funnel/>
           <Category/>
         </div>
+
         <div style="width:50%">
-          <!-- <digitalGoodsStat/> -->
-          <numberVillageStat/>
-          <div class="column-center">
-            <div style="min-height: 48vh; justify-content: center;position: relative"/>
+          <div style="text-align: center">
+            <Label :text="'总户数'" :title="10000"/>
+            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500" style="margin: 0 22em 8em;"/>
+            <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'"/>
           </div>
-          <div class="column-footer">
-            <div style="width:50%">
-              <LineGraph style="flex-shrink: 0;"/>
-            </div>
-            <div style="width:50%">
-              <NumberOfPeopleAssisted style="flex-shrink: 0;"/>
-            </div>
-          </div>
+          <LineGraph style="margin-bottom: 5em"/>
+          <NumberOfPeopleAssisted/>
         </div>
 
         <div style="width:25%">
-          <Table/>
+          <!--          <Table/>-->
         </div>
-
       </div>
 
     </dv-full-screen-container>
@@ -53,6 +41,7 @@ import LineGraph from "./LineGraph.vue";
 import NumberOfPeopleAssisted from "./NumberOfPeopleAssisted.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import Banner from "../component/Banner.vue";
+import Label from "../component/Label.vue";
 
 
 export default {
@@ -60,13 +49,16 @@ export default {
   components: {
     Funnel,
     Category,
-    // eslint-disable-next-line vue/no-reserved-component-names
+    // eslint-disable-next-line vue/no-reserved-component-names,vue/no-unused-components
     Table,
     FiveGoods,
     LineGraph,
     NumberOfPeopleAssisted,
+    // eslint-disable-next-line vue/no-unused-components
     numberVillageStat,
-    Banner
+    Banner,
+    // eslint-disable-next-line vue/no-reserved-component-names
+    Label
   },
   setup() {
     const route = useRoute();
@@ -197,38 +189,6 @@ export default {
   width: 500px;
 }
 
-.target-header {
-  text-align: left;
-  padding-top: 6px;
-  margin-top: 2vh;
-  margin-left: 10px;
-  margin-right: 10px;
-  height: 36px;
-  background-image: linear-gradient(to right, #061A8F, #060034);
-  border-radius: 2px;
-}
-
-.target-title {
-  background-image: radial-gradient(circle, #daeef3 10%, #0075FF);
-  //background-image: radial-gradient(circle, #01BBE9 10%, #0075FF);
-  width: 200px;
-  font-weight: bold;
-  background-clip: text;
-  color: transparent;
-  padding-left: 20px;
-  font-size: 16px;
-}
-
-.target-content {
-  width: 100px;
-  margin: 20px;
-  padding: 10px;
-  text-align: center;
-  border: 2px solid #333;
-  border-radius: 4px;
-  color: #1C73A1
-}
-
 #data-view {
   width: 100%;
   height: 100%;
@@ -244,30 +204,8 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: row;
-    margin-top: -200px;
+    margin-top: -45em;
     height: 100%;
-
-    .dv-border-box-1 {
-      text-align: left;
-    }
-
-    .column-center {
-      background-size: 100% 100%;
-      margin: 0 20px 12px 20px;
-    }
-
-    .column-footer {
-      display: flex;
-      flex-direction: row;
-      align-content: center;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 26vh;
-      background-size: 100% 100%;
-      margin: 0 10px 0 10px;
-    }
   }
 }
 </style>

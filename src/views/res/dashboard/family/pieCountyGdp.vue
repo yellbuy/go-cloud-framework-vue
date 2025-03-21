@@ -10,6 +10,7 @@
 <script lang="ts">
 import * as echarts from 'echarts';
 import {onMounted, reactive, ref, toRefs} from 'vue';
+import "@/views/res/dashboard/component/scss/box.scss";
 
 export default {
   setup() {
@@ -35,9 +36,9 @@ export default {
               {value: 25, name: '转移性收入' + "( " + 25 + "% )"},
               {value: 5, name: '经营成本' + "( " + 5 + "% )"}
             ],
-            textStyle:{
-              color:'#0497cf',
-              textBorderWidth:0
+            textStyle: {
+              color: '#0497cf',
+              textBorderWidth: 0
             }
           }
         ]
@@ -59,26 +60,5 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-#flareTarget {
-  margin: 10px 10px;
-}
 
-.echartDiv {
-  width: 100%;
-  height: 22vh;
-  padding: 1vh;
-}
-
-.flare-title {
-  color: #0498D1;
-  background: linear-gradient(to right, rgba(11, 33, 145, 1), rgba(9, 56, 122, 1), rgba(10, 52, 110, 0));
-  border-radius: 6px;
-  margin-top: 1vh;
-  height: 5vh;
-  font-family: 'LiSu', serif;
-  font-weight: bold;
-  text-align: left !important;
-  padding-top: 6px;
-  font-size: 20px;
-}
 </style>

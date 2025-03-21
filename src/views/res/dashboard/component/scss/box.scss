@@ -1,0 +1,28 @@
+#flareTarget {
+  margin: 0 10px;
+}
+
+.echartDiv {
+  width: 100%;
+  height: 35em;
+}
+
+.target-header {
+  text-align: left;
+  padding-top: 1.5em;
+  margin-left: 2em;
+  margin-right: 2em;
+  height: 6em;
+  background-image: linear-gradient(to right, #061A8F, #060034);
+  border-radius: 2px;
+}
+
+.target-title {
+  background-image: radial-gradient(circle, #daeef3 5%, #0075FF);
+  width: 10em;
+  font-weight: bold;
+  background-clip: text;
+  color: transparent;
+  padding-left: 20px;
+  font-size: 2em;
+}
