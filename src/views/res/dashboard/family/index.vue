@@ -9,33 +9,33 @@
     <dv-full-screen-container v-if="isFullScreen">
       <Banner/>
 
-      <!--      <div class="main-rows">-->
-      <!--        <div style="width:25%">-->
-      <!--          <FiveGoods/>-->
-      <!--          <Funnel/>-->
-      <!--          <Category/>-->
-      <!--        </div>-->
-      <!--        <div style="width:50%">-->
-      <!--          &lt;!&ndash; <digitalGoodsStat/> &ndash;&gt;-->
-      <!--          <numberVillageStat/>-->
-      <!--          <div class="column-center">-->
-      <!--            <div style="min-height: 48vh; justify-content: center;position: relative"/>-->
-      <!--          </div>-->
-      <!--          <div class="column-footer">-->
-      <!--            <div style="width:50%">-->
-      <!--              <LineGraph style="flex-shrink: 0;"/>-->
-      <!--            </div>-->
-      <!--            <div style="width:50%">-->
-      <!--              <NumberOfPeopleAssisted style="flex-shrink: 0;"/>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--        </div>-->
+      <div class="main-rows">
+        <div style="width:25%">
+          <FiveGoods/>
+          <Funnel/>
+          <Category/>
+        </div>
+        <div style="width:50%">
+          <!-- <digitalGoodsStat/> -->
+          <numberVillageStat/>
+          <div class="column-center">
+            <div style="min-height: 48vh; justify-content: center;position: relative"/>
+          </div>
+          <div class="column-footer">
+            <div style="width:50%">
+              <LineGraph style="flex-shrink: 0;"/>
+            </div>
+            <div style="width:50%">
+              <NumberOfPeopleAssisted style="flex-shrink: 0;"/>
+            </div>
+          </div>
+        </div>
 
-      <!--        <div style="width:25%">-->
-      <!--          <Table/>-->
-      <!--        </div>-->
+        <div style="width:25%">
+          <Table/>
+        </div>
 
-      <!--      </div>-->
+      </div>
 
     </dv-full-screen-container>
   </div>

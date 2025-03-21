@@ -2,25 +2,25 @@
   <div id="flareTarget">
     <div id="banner">
       <div class="banner-content">
-        <button style="margin-left: 8em;margin-right:2em;" class="banner-button"
+        <button class="banner-button" style="margin-left: 4em;margin-right:1em;"
                 @click="onGoToLink(`/admin/dashboard/family/index`)">
           区建成
         </button>
-        <button style="margin-right:2em;" class="banner-button" @click="onGoToLink(`/admin/dashboard/family/index`)">
+        <button class="banner-button" style="margin-right:1em;" @click="onGoToLink(`/admin/dashboard/family/index`)">
           区建成
         </button>
-        <button style="margin-right:2em;" class="banner-button" @click="onGoToLink(`/admin/dashboard/family/index`)">
+        <button class="banner-button" style="margin-right:1em;" @click="onGoToLink(`/admin/dashboard/family/index`)">
           区建成
         </button>
-        <button style="margin-right:2em;" class="banner-button" @click="onGoToLink(`/admin/dashboard/family/index`)">
+        <button class="banner-button" style="margin-right:1em;" @click="onGoToLink(`/admin/dashboard/family/index`)">
           区建成
         </button>
       </div>
       <div class="banner-content" style="text-align: right;float:right;">
-        <p style="display:inline-block;color:white;margin-left:2em;margin-right:2em;font-size:2.3em"><b>{{
+        <p style="display:inline-block;color:white;margin-right:5em;font-size:2.3em"><b>{{
             curTime
           }}</b></p>
-        <button style="margin-right:8em" class="banner-button" @click="onGoToLink(`/admin/dashboard/family/index`)">
+        <button class="banner-button" style="margin-right:4em" @click="onGoToLink(`/admin/dashboard/family/index`)">
           详情
         </button>
       </div>
@@ -58,7 +58,7 @@ export default {
 
 #banner {
   width: 100%;
-  height: 60vh;
+  height: 60em;
   background-image: url(/img/res/banner.png);
   background-repeat: no-repeat;
   background-position: center top;
@@ -72,8 +72,8 @@ export default {
   }
 
   .banner-button {
-    font-size: 2.3em;
-    padding: 0.6em;
+    font-size: 2.1em;
+    padding: 0.6em 2.2em;
     background-image: url(img/button_bg.png);
     background-repeat: no-repeat;
     background-position: center top;
@@ -87,6 +87,7 @@ export default {
 
   .banner-button:hover {
     background-image: url(../component/img/button_bg_hover.png);
+    color: #fff;
   }
 }
 </style>
