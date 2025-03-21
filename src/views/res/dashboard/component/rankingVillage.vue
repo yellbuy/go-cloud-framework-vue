@@ -99,4 +99,8 @@ export default {
 .flare-container{
   text-align: "left"  !important;
 }
+
+.inside-column {
+    background-color: #E6A23C !important;
+}
 </style>

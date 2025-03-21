@@ -99,4 +99,7 @@ export default {
 .flare-container{
   text-align: "left"  !important;
 }
+.dv-scroll-ranking-board .ranking-column .inside-column {
+  background-color: #be379a !important;
+}
 </style>

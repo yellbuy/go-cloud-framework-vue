@@ -239,8 +239,6 @@ export default {
   text-align: left;
   padding-top:6px;
   margin-top: 2vh;
-  margin-left:10px;
-  margin-right:10px;
   height: 36px;
   background-image: linear-gradient(to right,#061A8F,#060034);
   border-radius: 2px;
