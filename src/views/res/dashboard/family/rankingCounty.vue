@@ -4,8 +4,9 @@
       <div class="target-header">
         <div class="target-title">帮扶人数</div>
       </div>
-      <div>
-        <dv-scroll-ranking-board :config="countyConfig" style="padding:0 2.5rem;height:38rem;text-align:left"/>
+      <div class="target-content">
+        <dv-scroll-ranking-board :config="countyConfig" :valueFormatter="valueFormatter"
+                                 style="padding:0 2.5rem;height:30rem;text-align:left"/>
       </div>
     </div>
   </div>
@@ -21,7 +22,6 @@ export default {
       isFullScreen: true,// 是否全屏
       countyConfig: {
         carousel: 'single',
-        rowNum: 5,
         data: [
           {
             name: '生活用水帮扶情况',
@@ -44,10 +44,13 @@ export default {
             value: 80,
           }
         ],
-        unit: '%',
-      }
+        fontSize: 28,
+        color: "rgb(26,253,155)",
+        unit: '人',
+        sort: true,
+        textColor: "#409eff"
+      },
     })
-
 
     return {
       ...toRefs(state),
