@@ -18,7 +18,10 @@
             <td>{{ item.village }}</td>
             <td>{{ item.community }}</td>
             <td>{{ item.name }}</td>
-            <td>{{ item.standard }}</td>
+            <td>
+              <img v-if="!item.standard" src="./img/red.png"/>
+              <img v-if="item.standard" src="./img/green.png"/>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -53,7 +56,7 @@ export default {
             village: "大龙潭彝族乡",
             community: "荤撒拉村",
             name: "邓*志",
-            standard: false
+            standard: (i % 3 != 0)
           }
       );
     }
@@ -82,14 +85,14 @@ table {
 thead {
   background-color: rgba(3, 48, 107, 0.5);
   padding: 1rem;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
 }
 
 th {
   margin: 0;
   border: none;
   padding: 1rem;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   border-collapse: collapse
 }
 
@@ -98,7 +101,7 @@ tr:hover {
 }
 
 td {
-  font-size: 2rem;
+  font-size: 1.6rem;
 }
 
 
