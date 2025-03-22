@@ -83,6 +83,7 @@ export default {
             },
           ],
           unit: '%',
+          color:'#E6A23C',
         }
     })
     
