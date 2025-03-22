@@ -83,6 +83,8 @@ export default {
             },
           ],
           unit: '%',
+          clolr:'rgb(248, 152.1, 152.1)',
+          
         }
     })
     

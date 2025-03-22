@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import {reactive, toRefs} from 'vue';
+import { reactive, toRefs } from 'vue';
 
 export default {
   setup() {
@@ -82,6 +82,7 @@ export default {
           },
         ],
         unit: '%',
+        color:"#409EFF"
       }
     })
 

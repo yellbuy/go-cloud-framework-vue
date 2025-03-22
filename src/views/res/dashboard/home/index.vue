@@ -8,9 +8,9 @@
       <div id="banner">
         <div class="banner-content">
           <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key=""color="#615ea8">村实现</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12"  border="Border4" color="#615ea8">乡进入</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12"  border="Border4" key=""color="#615ea8">村实现</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12"  border="Border4" color="#615ea8">户达标</dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
           
@@ -270,7 +270,7 @@ export default {
         }),
       });
       scene.on('loaded', () => {
-        fetch('/data/res/area.json')
+        fetch('/data/res/area/510411.json')
             .then((res) => res.json())
             .then((data) => {
               scene.addImage(
@@ -324,7 +324,7 @@ export default {
             textlayer.on('click', (e) => {
             console.log(e)
             router.push(`/admin/dashboard/street/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
-            alert( `
+            console.log( `
               <p>区域名称: ${e.feature.name}</p>
               <p>区域标识: ${e.feature.code}</p>
               <p>图中X坐标: ${e.x}</p>
@@ -396,7 +396,7 @@ export default {
   }
 }
 #data-view{
-  background-image: url("./img/bg.png");
+  background-image: url("/img/res/bg.png");
 }
 
 #map {
@@ -426,7 +426,7 @@ export default {
   margin-top:1vh;
   padding:10px;
   text-align: center;
-  color:#28A2CE;
+  color:#64C3D1;
   border-radius: 4px;
   box-shadow: rgb(29, 72, 196) 0px 0px 25px 3px inset;
 }
@@ -449,7 +449,7 @@ export default {
 
 
   #dv-full-screen-container {
-    background-image: url("./img/bg.png");
+    background-image: url("/img/res/bg.png");
     background-size: 100% 100%;
   }
 

@@ -4,14 +4,29 @@
       <div class="flex-row">
         <div class="digital-flop-item">
           <div class="center-flex">
-              <div style="display:inline-block;" >
+            <div style="display:inline-block;" >
+              <div class="target-content">
+                <div style="display:inline-block;margin:0 20px;" >
+                  <i class="fa fa-home" aria-hidden="true" style="font-size: 36px; color: lightblue;" />
+                  </div>
+                  <div style="display:inline-block;margin:0 10px">
+                    <div>总村数</div>
+                    <div><b class="target-value" style="color:lightblue">6</b> 个</div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="digital-flop-item">
+          <div class="center-flex">
+            <div style="display:inline-block;" >
                 <div class="target-content">
                   <div style="display:inline-block;margin:0 20px;" >
-                    <i class="fa fa-users" aria-hidden="true" style="font-size: 36px; color: orange;" />
+                    <i class="fa fa-bank" aria-hidden="true" style="font-size: 36px; color: orange;" />
                     </div>
                     <div style="display:inline-block;margin:0 10px">
-                      <div>主要检测群体</div>
-                      <div><b class="target-value" style="color:orange">23</b> 万人</div>
+                      <div>达标村数</div>
+                      <div><b class="target-value" style="color:orange">5</b> 个</div>
                     </div>
                 </div>
               </div>
@@ -22,18 +37,16 @@
             <div style="display:inline-block;" >
                 <div class="target-content">
                   <div style="display:inline-block;margin:0 20px;" >
-                    <i class="fa fa-address-card" aria-hidden="true" style="font-size: 36px; color: red;" />
+                    <i class="fa fa-pie-chart" aria-hidden="true" style="font-size: 36px; color: red;" />
                     </div>
                     <div style="display:inline-block;margin:0 10px">
-                      <div>主要预警群体</div>
-                      <div><b class="target-value" style="color:red">4.6</b> 万人</div>
+                      <div>达标占比</div>
+                      <div><b class="target-value" style="color:red">80</b> %</div>
                     </div>
                 </div>
               </div>
           </div>
-        </div> 
-                
-        
+        </div>
       </div>
     </div>
   </div>
@@ -85,7 +98,7 @@ export default {
       text-align:center;
     }
     .digital-flop-item {
-      width: 50%;
+      width: 33%;
       padding:0px 1vh 0px 1vh;
       margin-right:auto;
       text-align: center;
