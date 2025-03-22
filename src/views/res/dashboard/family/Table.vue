@@ -1,27 +1,28 @@
 <template>
   <div id="flareTarget">
     <div class="flare-container">
-      <vxe-grid :style="{
-        '--vxe-ui-table-header-background-color': color,
-        '--vxe-ui-table-footer-background-color': color,
-        '--vxe-ui-table-border-color': color,
-        '--vxe-ui-table-border-width': color,
-        '--vxe-ui-font-color': fontColor,
-        '--vxe-ui-table-header-font-color': fontColor,
-        '--vxe-ui-table-footer-font-color': fontColor,
-        '--vxe-table--layout-wrapper': fontColor
-      }" v-bind="gridOptions">
-
-        <template #imgDefault>
-          <img alt="" src="./img/greed.png"></img>
-        </template>
-
-        <template #infoDefault="{ row }">
-          <div class="label-ellipsis">{{ row.name }}</div>
-          <div class="label-ellipsis">{{ row.age }}</div>
-          <div class="label-ellipsis">{{ row.address }}</div>
-        </template>
-      </vxe-grid>
+      <div class="target-content">
+        <table>
+          <thead>
+          <th>序号</th>
+          <th>县（区）</th>
+          <th>乡镇（街道）</th>
+          <th>社区（村）</th>
+          <th>姓名</th>
+          <th>是否达标</th>
+          </thead>
+          <tbody>
+          <tr v-for="item in TableData">
+            <td>{{ item.id }}</td>
+            <td>{{ item.district }}</td>
+            <td>{{ item.village }}</td>
+            <td>{{ item.community }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.standard }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -33,116 +34,72 @@ import {reactive, toRefs} from "vue";
 export default {
   setup() {
     const state: any = reactive({
-      gridOptions: {
-        border: true,
-        maxHeight: '100%',
-        rowConfig: {
-          isHover: true
-        },
-        columns: [
-          {type: 'seq', title: '序号'},
-          {field: 'county', title: '县（区）'},
-          {field: 'townsAndVillages', title: '乡镇（街道）'},
-          {field: 'community', title: '社区（村）'},
-          {field: 'name', title: '姓名'},
-          {field: 'reachTheStandard', title: '是否达标', align: 'center', slots: {default: 'imgDefault'}}
-        ],
-        data: [
-          {id: 10001, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10002, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10003, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10004, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10001, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10002, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10003, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10004, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10001, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10002, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10003, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10004, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10001, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10002, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10003, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10004, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10005, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10006, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10007, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-          {id: 10008, name: '张三', county: '金江', townsAndVillages: '大龙潭', community: '花城'},
-        ]
-      }
+      TableData: [
+        {
+          id: 1,
+          district: "仁和区",
+          village: "大龙潭彝族乡",
+          community: "荤撒拉村",
+          name: "邓*志",
+          standard: false
+        }
+      ]
     })
+    for (let i = 0; i < 60; i++) {
+      state.TableData.push(
+          {
+            id: 1,
+            district: "仁和区",
+            village: "大龙潭彝族乡",
+            community: "荤撒拉村",
+            name: "邓*志",
+            standard: false
+          }
+      );
+    }
 
     return {
-      ...toRefs(state),
-      color: "#140B54",
-      fontColor: "#1A78AB"
+      ...toRefs(state)
     }
   }
 }
 </script>
 
 <style lang='scss' scoped>
-.flare-container {
-  font-size: 200px !important;
+.target-content {
+  max-height: 132.5rem; /* 或者你需要的任何高度 */
+  overflow: auto;
+  position: relative;
 }
+
+table {
+  border-collapse: collapse;
+  border: 0;
+  margin: 0;
+  width: 100%;
+}
+
+thead {
+  background-color: rgba(3, 48, 107, 0.5);
+  padding: 1rem;
+  font-size: 1.4rem;
+}
+
+th {
+  margin: 0;
+  border: none;
+  padding: 1rem;
+  font-size: 1.4rem;
+  border-collapse: collapse
+}
+
+tr:hover {
+  background-color: rgba(3, 48, 107, 0.5);
+}
+
+td {
+  font-size: 2rem;
+}
+
+
 </style>

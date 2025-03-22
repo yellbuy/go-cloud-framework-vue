@@ -4,9 +4,11 @@
       <div class="target-header">
         <div class="target-title">家庭年收入增长趋势</div>
       </div>
-      <!--      <div ref="echart" class="echartDiv"></div>-->
-      <div style="text-align: center;margin: 8rem">
-        <img src="./img/柱状图.png" style="width: 55rem;height: 30rem;"/>
+      <div class="target-content">
+        <!--      <div ref="echart" class="echartDiv"></div>-->
+        <div style="text-align: center;margin: 8rem">
+          <img src="./img/柱状图.png" style="width: 45rem;height: 25rem;"/>
+        </div>
       </div>
     </div>
   </div>

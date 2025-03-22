@@ -1,9 +1,14 @@
 <template>
   <div id="flareTarget">
     <div class="flare-container">
-      <div class="flare-title" style="text-align: left;padding-left:10px">家庭收入年占比</div>
-      <div ref="echart" class="echartDiv"></div>
+      <div class="target-header">
+        <div class="target-title">年龄占比</div>
+      </div>
+      <div class="target-content">
+        <div ref="echart" class="echartDiv"></div>
+      </div>
     </div>
+    a
   </div>
 </template>
 
@@ -21,24 +26,25 @@ export default {
 
     let myChart: any
     const setChartOption = (chart: any) => {
-
       // 指定图表的配置项和数据
       const option = {
         series: [
           {
             type: 'pie',
-            radius: ['40%', '70%'],
+            radius: ['50%', '70%'],
             avoidLabelOverlap: false,
             data: [
-              {value: 25, name: '财产性收入' + "( " + 25 + "% )"},
-              {value: 15, name: '经营性收入' + "( " + 15 + "% )"},
-              {value: 30, name: '工资性收入' + "( " + 30 + "% )"},
-              {value: 25, name: '转移性收入' + "( " + 25 + "% )"},
-              {value: 5, name: '经营成本' + "( " + 5 + "% )"}
+              {value: 25, name: "18-25岁"},
+              {value: 20, name: "25-35岁"},
+              {value: 30, name: "35-45岁"},
+              {value: 25, name: "45岁以上"}
             ],
-            textStyle: {
-              color: '#0497cf',
-              textBorderWidth: 0
+            label: { // 图表的标签配置，例如柱状图的标签显示在柱子上方或下方等位置。
+              show: true, // 是否显示标签，默认为false。根据需要开启。
+              textStyle: { // 这里可以设置标签的文本样式，包括字体大小等。
+                fontSize: 44,
+                color: "#428BD4"
+              }
             }
           }
         ]
@@ -60,5 +66,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-
+.echartDiv {
+  height: 30rem;
+}
 </style>

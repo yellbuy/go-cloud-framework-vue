@@ -4,7 +4,9 @@
       <div class="target-header">
         <div class="target-title">五好达标情况</div>
       </div>
-      <div ref="echart" class="echartDiv"></div>
+      <div class="target-content">
+        <div ref="echart" class="echartDiv"></div>
+      </div>
     </div>
   </div>
 </template>

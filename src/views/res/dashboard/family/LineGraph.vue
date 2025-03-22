@@ -1,10 +1,12 @@
 <template>
   <div id="flareTarget">
-    <div class="flare-container">
+    <div class="aflare-container">
       <div class="target-header">
         <div class="target-title">五好指标预警</div>
       </div>
-      <div ref="echart" class="echartDiv"></div>
+      <div class="target-content">
+        <div ref="echart" class="echartDiv"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -43,7 +45,7 @@ export default {
           boundaryGap: false,
           data: ['保障好', '教育好', '医疗好', '住房好', '家风好'],
           axisLabel: {
-            fontSize: 32, // 设置Y轴标签字体大小
+            fontSize: 25, // 设置Y轴标签字体大小
             color: "#409eff",
             lineHeight: 80
           }
@@ -90,6 +92,6 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  height: 50rem;
+  height: 30rem;
 }
 </style>
