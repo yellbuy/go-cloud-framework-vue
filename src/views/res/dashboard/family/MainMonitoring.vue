@@ -8,22 +8,22 @@
         <div style="margin-top: 3rem">
           <div style="display: inline-block">
             <dv-water-level-pond :config="config1"
-                                 style="width:20rem;height:20rem;display: inline-block;margin: 1rem 5rem 1rem"/>
+                                 style="width:15rem;height:15rem;display: inline-block;margin: 1rem 5rem 1rem"/>
             <div style="font-size: 2rem;margin-bottom: 2rem">低收入边缘人群</div>
           </div>
           <div style="display: inline-block">
             <dv-water-level-pond :config="config2"
-                                 style="width:20rem;height:20rem;display: inline-block;margin: 1rem 5rem 1rem"/>
+                                 style="width:15rem;height:15rem;display: inline-block;margin: 1rem 5rem 1rem"/>
             <div style="font-size: 2rem;margin-bottom: 2rem">低收入一般监测群体</div>
           </div>
           <div style="display: inline-block">
             <dv-water-level-pond :config="config3"
-                                 style="width:20rem;height:20rem;display: inline-block;margin: 1rem 5rem 1rem"/>
+                                 style="width:15rem;height:15rem;display: inline-block;margin: 1rem 5rem 1rem"/>
             <div style="font-size: 2rem;margin-bottom: 2rem">低收入重点监测群体</div>
           </div>
           <div style="display: inline-block">
             <dv-water-level-pond :config="config4"
-                                 style="width:20rem;height:20rem;display: inline-block;margin: 1rem 5rem 1rem"/>
+                                 style="width:15rem;height:15rem;display: inline-block;margin: 1rem 5rem 1rem"/>
             <div style="font-size: 2rem;margin-bottom: 2rem">达标户</div>
           </div>
         </div>

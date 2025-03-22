@@ -1,7 +1,7 @@
 <template>
   <div id="flareTarget">
     <div id="label">
-      <label :style="{color:color}" style="font-size: 5.5rem">{{ title }}</label>
+      <label :style="{color:color}" style="font-size: 4rem">{{ title }}</label>
       <label :style="{color:color}">{{ text }}</label>
     </div>
   </div>
