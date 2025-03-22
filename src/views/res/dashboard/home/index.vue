@@ -15,7 +15,8 @@
         <div class="banner-content" style="text-align: right;float:right;">
           
           <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">区情介绍</dv-button>
+          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onClickTargetDetail" border="Border4" color="#409EFF">六优指标</dv-button>
+          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onClickCountDetail" border="Border4" color="#409EFF">区情介绍</dv-button>
         </div>
       </div>
       
@@ -53,7 +54,7 @@
                 <div style="min-height: 500px; justify-content: center;position: relative"  />
               </div>
               <div class="column-footer">
-                <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 999999;" border="Border6" color="#e18a3b">经济优建</dv-button>
+                <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
                 <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">民生优享</dv-button>
                 <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">文化优创</dv-button>
                 <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">环境优宜</dv-button>
@@ -112,6 +113,7 @@
 <script lang="ts">
 import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
 import dayjs from 'dayjs';
+import { ElMessageBox } from 'element-plus';
 import { onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import actVillage from "../component/actVillage.vue";
@@ -179,6 +181,31 @@ export default {
     //导航链接
     const onGoToLink = (url:string) => {
       router.push(url)
+    }
+    //区情介绍
+    const onClickCountDetail= () => {
+      const html=`
+      <div>
+        <p><b>人口数：</b><el-text class="mx-1" type="success">26.67万</el-text></p>
+        <p><b>区面积：</b><el-text class="mx-1" type="success">1728.98平方公里</el-text></p>
+        <p><b>下辖乡镇：</b>啊喇彝族乡、布德镇、大河中路街道、大龙潭彝族乡、大田镇、福田镇、平地镇、前进镇、仁和镇、太平乡、同德镇、中坝乡、务本乡‌共计12个。‌</p>
+      </div>`
+      ElMessageBox.alert(html, '仁和区情介绍', {
+        dangerouslyUseHTMLString: true, 
+      })
+    }
+    //指标解读
+    const onClickTargetDetail= () => {
+      const html=`
+      <div>
+        <p><b>经济优建：</b>地区生产总值超400亿元，人均地区生产总值超15万元，城乡居民人均可支配收入比保持在1.9左右，特色农业产值占农林牧渔业总产值比重75%，建成3个攀果创富共同体、产值达10亿元。</p>
+        <p><b>民生优享：</b>三口之家家庭年收入1)-50万元的中等收入群体占比60%，村集体经济年收基本养老保险参保率95%，基本医疗参保率95%以入达到20万元以上的行政村占比达100%。上。常住人口城镇化率超63%。普惠性幼儿园覆盖率稳定在90%以上，义务教育阶段入学率达到100%，进城务工随迁子女100%就读公办学校，残疾儿童入学率97%以上。</p>
+        <p><b>文明优创：</b>每万人拥有公共文化服务设施面积830平方米以上。环境优宜:城市建成区绿化覆盖率超45%，生活垃圾七解率达到95%以上，社会治安安全感满意度达到社会优质:矛盾纠纷无害化处理率100%。98%以上。</p>
+        <p><b>环境优宜：</b>城市建成区绿化覆盖率超45%，生活垃圾98%以上。党</p>
+        <p><b>社会优质：</b>矛盾纠纷无害化处理率100%。98%以上，社会治安安全感满意度达到98%以上。</p>
+        <p><b>党建优促：</b>“三个身边”工作机制群众反映问题工单办结率达100%。</p>
+      </div>`
+      ElMessageBox.alert(html, '六优指标解读', { dangerouslyUseHTMLString: true,  width:'80%'})
     }
     //基础设施补短情况配置
     const jichusheshiConfig = reactive({
@@ -330,6 +357,8 @@ export default {
     return {
       onFullScreen,
       onGoToLink,
+      onClickCountDetail,
+      onClickTargetDetail,
       jichusheshiConfig,
       zhonghebangfuConfig,
         ...toRefs(state),
@@ -349,7 +378,7 @@ export default {
   top: 54%; left: 49%;
   width:50vw;height:70vh; 
   transform: translate(-49%, -46%);
-  position: absolute;z-index: 9999;
+  position: absolute;z-index: 1111;
 }
 #banner{
   width:100%;
@@ -453,7 +482,7 @@ export default {
       position:absolute;
       text-align: center;
       bottom:20px;
-      z-index: 999999;
+      z-index: 9999;
       background-size: 100% 100%;
       margin: 0px 10px 0px 10px;
     }
