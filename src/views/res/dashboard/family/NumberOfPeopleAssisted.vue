@@ -12,6 +12,7 @@
 <script lang="ts">
 import * as echarts from 'echarts';
 import {onMounted, reactive, ref, toRefs} from 'vue';
+import "@/views/res/dashboard/component/scss/box.scss";
 
 export default {
   setup() {
@@ -25,16 +26,31 @@ export default {
       const myChart = echarts.init(state.echart)
       // 指定图表的配置项和数据
       const option = {
+        color: ['#71b15f'],
         yAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: ['生活用水帮扶情况', '垃圾不乱堆帮扶情况', '卫生厕所帮扶情况', '家用网络帮扶情况', '供电稳定帮扶情况'],
+          axisLabel: {
+            fontSize: 32, // 设置Y轴标签字体大小
+            color: "#9dbbdd"
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '0%',
+          containLabel: true
         },
         xAxis: {
-          type: 'value'
+          type: 'value',
+          axisLabel: {
+            fontSize: 32, // 设置Y轴标签字体大小
+            color: "#9dbbdd"
+          }
         },
         series: [
           {
-            data: [120, 200, 150, 80, 70, 110, 130],
+            data: [120, 200, 150, 80, 70],
             type: 'bar'
           }
         ]
@@ -58,27 +74,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-#flareTarget {
-  margin: 0px 10px;
-}
-
 .echartDiv {
-  width: 100%;
-  height: 25vh;
-  padding-bottom: 1vh;
-}
-
-.flare-title {
-  padding-left: 10px;
-  color: #0498D1;
-  background: linear-gradient(to right, rgba(11, 33, 145, 1), rgba(9, 56, 122, 1), rgba(10, 52, 110, 0));
-  border-radius: 6px;
-  margin-top: 1vh;
-  height: 5vh;
-  font-family: 'LiSu',serif;
-  font-weight: bold;
-  text-align: left !important;
-  padding-top: 6px;
-  font-size: 20px;
+  height: 40rem;
 }
 </style>

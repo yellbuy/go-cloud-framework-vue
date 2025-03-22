@@ -12,6 +12,7 @@
 <script lang="ts">
 import * as echarts from 'echarts';
 import {onMounted, reactive, ref, toRefs} from 'vue';
+import "@/views/res/dashboard/component/scss/box.scss";
 
 export default {
   setup() {
@@ -26,16 +27,10 @@ export default {
       // 指定图表的配置项和数据
       const option = {
         color: ['#FFE434', '#67F9D8', '#56A3F1', '#FF917C'],
-        legend: {
-          data: ['目标', '进度'],
-          orient: 'vertical',
-          align: "left",
-          top: "0",
-          right: "0",
-          textStyle: {
-            color: "#fff"
-          }
-
+        textStyle: {
+          fontFamily: 'Arial, Verdana, sans-serif', // 字体类型
+          fontSize: 30, // 字体大小
+          fontWeight: 'bold' // 字体粗细
         },
         radar: {
           indicator: [
@@ -45,9 +40,9 @@ export default {
             {name: '保障好', max: 100},
             {name: '教育好', max: 100},
           ],
-          center: ['50%', '55%'],
-          radius: 90,
-          startAngle: 15,
+          center: ['50%', '50%'],
+          radius: 160,
+          startAngle: 0,
           splitNumber: 4,
           shape: 'circle',
           axisName: {
@@ -80,7 +75,6 @@ export default {
               width: 2
             },
             symbolSize: 6,
-
             data: [
               {
                 value: [100, 75, 95, 95, 95, 100],
@@ -100,12 +94,16 @@ export default {
       };
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option)
+      window.addEventListener('resize', function () {
+        myChart.resize();
+      });
     }
 
     //挂载
     onMounted(async () => {
 
       echartInit();
+
     })
 
     return {
@@ -117,27 +115,4 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-#flareTarget {
-  margin: 0px 10px;
-}
-
-.echartDiv {
-  width: 100%;
-  height: 25vh;
-  padding-bottom: 1vh;
-}
-
-.flare-title {
-  padding-left: 10px;
-  color: #0498D1;
-  background: linear-gradient(to right, rgba(11, 33, 145, 1), rgba(9, 56, 122, 1), rgba(10, 52, 110, 0));
-  border-radius: 6px;
-  margin-top: 1vh;
-  height: 5vh;
-  font-family: 'LiSu',serif;
-  font-weight: bold;
-  text-align: left !important;
-  padding-top: 6px;
-  font-size: 20px;
-}
 </style>

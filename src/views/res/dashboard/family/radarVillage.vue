@@ -12,6 +12,7 @@
 <script lang="ts">
 import * as echarts from 'echarts';
 import {getCurrentInstance, onMounted, reactive, ref, toRefs} from 'vue';
+import "@/views/res/dashboard/component/scss/box.scss";
 
 export default {
   setup() {
@@ -125,28 +126,5 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-#flareTarget {
-  margin: 0px 10px;
-}
 
-.echartDiv {
-  width: 100%;
-  height: 40vh;
-  padding-bottom: 1vh;
-}
-
-.flare-title {
-  text-align: left;
-  padding-left: 10px;
-  color: yellow;
-  background-image: linear-gradient(to bottom, rgb(173, 171, 245), rgb(21, 6, 110));
-  border-radius: 6px;
-  margin-top: 1vh;
-  height: 5vh;
-  font-family: 'LiSu';
-  font-weight: bold;
-  text-align: 'left' !important;
-  padding-top: 6px;
-  font-size: 20px;
-}
 </style>

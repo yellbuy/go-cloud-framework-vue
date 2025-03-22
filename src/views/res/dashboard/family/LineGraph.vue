@@ -12,6 +12,7 @@
 <script lang="ts">
 import * as echarts from 'echarts';
 import {onMounted, reactive, ref, toRefs} from 'vue';
+import "@/views/res/dashboard/component/scss/box.scss";
 
 export default {
   setup() {
@@ -25,16 +26,11 @@ export default {
       const myChart = echarts.init(state.echart)
       // 指定图表的配置项和数据
       const option = {
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data: ['Email', 'Union Ads', 'Video Ads']
-        },
+        color: ['#1AFD9BFF'],
         grid: {
           left: '3%',
           right: '4%',
-          bottom: '3%',
+          bottom: '0%',
           containLabel: true
         },
         toolbox: {
@@ -45,29 +41,32 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: ['保障好', '教育好', '医疗好', '住房好', '家风好'],
+          axisLabel: {
+            fontSize: 32, // 设置Y轴标签字体大小
+            color: "#409eff",
+            lineHeight: 80
+          }
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          axisLabel: {
+            fontSize: 32, // 设置Y轴标签字体大小
+            color: "#409eff"
+          }
         },
         series: [
           {
-            name: 'Email',
+            name: '性别',
             type: 'line',
             stack: 'Total',
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: [20, 30, 41, 22, 15]
           },
           {
-            name: 'Union Ads',
+            name: '年龄 ',
             type: 'line',
             stack: 'Total',
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: 'Video Ads',
-            type: 'line',
-            stack: 'Total',
-            data: [150, 232, 201, 154, 190, 330, 410]
+            data: [20, 15, 22, 15, 33]
           }
         ]
       };
@@ -90,27 +89,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-#flareTarget {
-  margin: 0px 10px;
-}
-
 .echartDiv {
-  width: 100%;
-  height: 25vh;
-  padding-bottom: 1vh;
-}
-
-.flare-title {
-  padding-left: 10px;
-  color: #0498D1;
-  background: linear-gradient(to right, rgba(11, 33, 145, 1), rgba(9, 56, 122, 1), rgba(10, 52, 110, 0));
-  border-radius: 6px;
-  margin-top: 1vh;
-  height: 5vh;
-  font-family: 'LiSu',serif;
-  font-weight: bold;
-  text-align: left !important;
-  padding-top: 6px;
-  font-size: 20px;
+  height: 50rem;
 }
 </style>

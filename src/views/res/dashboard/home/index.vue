@@ -29,7 +29,7 @@
                 <div class="target-title">乡进入情况</div>
              </div>
              <div>
-                <rankingCounty/>
+               <rankingCounty/>
             </div>
             <div class="target-header">
                 <div class="target-title">村实现情况</div>
@@ -137,10 +137,12 @@ import rangeVillageGdp from "../component/rangeVillageGdp.vue";
 import rankingCounty from "../component/rankingCounty.vue";
 import rankingFamily from "../component/rankingFamily.vue";
 import rankingVillage from "../component/rankingVillage.vue";
+import barHuman from "/@/components/barHuman/index.vue";
 
 export default {
   name: "IndexDashboard",
   components: {
+    barHuman,
     flareTarget,
     rankingCounty,
     rankingVillage,
