@@ -7,13 +7,13 @@
           区建成
         </button>
         <button class="banner-button" style="margin-right:1rem;" @click="onGoToLink(`/admin/dashboard/family/index`)">
-          区建成
+          乡进入
         </button>
         <button class="banner-button" style="margin-right:1rem;" @click="onGoToLink(`/admin/dashboard/family/index`)">
-          区建成
+          村实现
         </button>
         <button class="banner-button" style="margin-right:1rem;" @click="onGoToLink(`/admin/dashboard/family/index`)">
-          区建成
+          户达标
         </button>
       </div>
       <div class="banner-content" style="text-align: right;float:right;">

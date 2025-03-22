@@ -27,13 +27,12 @@
           </div>
           <div style="flex: 1;display: flex;flex-direction: row;">
             <div style="width: 50%">
-              <LineGraph/>
+              <sex/>
             </div>
             <div style="width: 50%">
               <ProportionOfAgeGroups/>
             </div>
           </div>
-
         </dv-border-box1>
 
         <div style="width:25%;height: 100%">
@@ -41,6 +40,7 @@
         </div>
       </div>
 
+      <Dialog/>
     </dv-full-screen-container>
   </div>
 </template>
@@ -59,10 +59,14 @@ import Label from "../component/Label.vue";
 import RankingCounty from "./rankingCounty.vue";
 import ProportionOfAgeGroups from "./ProportionOfAgeGroups.vue";
 import MainMonitoring from "/@/views/res/dashboard/family/MainMonitoring.vue";
+import Sex from "/@/views/res/dashboard/family/sex.vue";
+import Dialog from "/@/views/res/dashboard/family/Dialog.vue";
 
 export default {
   name: "IndexDashboard",
   components: {
+    Sex,
+    Dialog,
     MainMonitoring,
     ProportionOfAgeGroups,
     RankingCounty,

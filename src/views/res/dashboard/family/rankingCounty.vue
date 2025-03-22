@@ -24,31 +24,31 @@ export default {
         carousel: 'single',
         data: [
           {
-            name: '生活用水帮扶情况',
+            name: '&nbsp;&nbsp;&nbsp;生活用水帮扶情况',
             value: 55,
           },
           {
-            name: '垃圾不乱堆帮扶情况',
+            name: '&nbsp;&nbsp;&nbsp;垃圾不乱堆帮扶情况',
             value: 100,
           },
           {
-            name: '卫生厕所帮扶情况',
+            name: '&nbsp;&nbsp;&nbsp;卫生厕所帮扶情况',
             value: 78,
           },
           {
-            name: '家用网络帮扶情况',
+            name: '&nbsp;&nbsp;&nbsp;家用网络帮扶情况',
             value: 66,
           },
           {
-            name: '供电稳定帮扶情况',
+            name: '&nbsp;&nbsp;&nbsp;供电稳定帮扶情况',
             value: 80,
           }
         ],
-        fontSize: 28,
+        fontSize: 24,
         color: "rgb(26,253,155)",
         unit: '人',
         sort: true,
-        textColor: "#409eff"
+        textColor: "rgb(168,230,61)"
       },
     })
 

@@ -7,7 +7,7 @@
       <!--      <div ref="echart" class="echartDiv"></div>-->
       <div class="target-content">
         <div style="text-align: center;margin:5rem 8rem">
-          <img src="./img/橄榄图.png" style="width: 30rem;height: 25rem;"/>
+          <img src="./img/橄榄图.png" style="width: 40rem;height: 25rem;padding-left: 10rem"/>
         </div>
       </div>
     </div>
