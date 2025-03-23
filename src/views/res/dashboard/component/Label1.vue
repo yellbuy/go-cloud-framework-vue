@@ -1,8 +1,8 @@
 <template>
   <div id="flareTarget">
     <div id="label">
-      <label :style="{color:color}" style="font-size: 4em">{{ title }}</label>
-      <label :style="{color:color}">{{ text }}</label>
+      <label>{{ title }}</label>
+      <label :style="{color:color}" style="font-size: 1.5em">{{ text }}</label>
     </div>
   </div>
 </template>
@@ -32,17 +32,16 @@ export default {
 }
 
 #label {
-  background-image: url(./img/label_box.png);
   background-repeat: no-repeat;
   background-position: center top;
   background-size: 100% 100%;
   display: inline-block;
-  padding: 2em 8em;
+  padding: 0.5em 2em;
   text-align: center;
 
   label {
     display: block;
-    font-size: 2em;
+    font-size: 1em;
     color: #409eff;
   }
 }
