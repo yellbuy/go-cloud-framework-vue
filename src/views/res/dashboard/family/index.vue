@@ -11,9 +11,9 @@
         </div>
 
         <dv-border-box1 style="height:calc(100% - 21rem);width:50%;">
-          <div style="text-align: center;margin-top: 3rem">
+          <div style="text-align: center;margin-top: 1.5rem">
             <Label :text="'总户数'" :title="10000"/>
-            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500" style="margin: 0 22rem 2rem;"/>
+            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500" style="margin: 0 24rem 2rem;"/>
             <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'"/>
           </div>
           <main-monitoring/>
@@ -66,6 +66,7 @@ export default {
   name: "IndexDashboard",
   components: {
     Sex,
+    // eslint-disable-next-line vue/no-reserved-component-names
     Dialog,
     MainMonitoring,
     ProportionOfAgeGroups,

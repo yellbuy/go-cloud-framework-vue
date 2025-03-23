@@ -70,7 +70,7 @@ export default {
 
 <style lang='scss' scoped>
 .target-content {
-  max-height: 132.5rem; /* 或者你需要的任何高度 */
+  max-height: 123rem; /* 或者你需要的任何高度 */
   overflow: auto;
   position: relative;
 }
@@ -103,6 +103,4 @@ tr:hover {
 td {
   font-size: 1.6rem;
 }
-
-
 </style>
