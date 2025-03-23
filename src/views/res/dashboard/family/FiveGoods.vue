@@ -39,7 +39,7 @@ export default {
             {name: '住房好', max: 100},
             {name: '家风好', max: 100},
             {name: '医疗好', max: 100},
-            {name: '保障好', max: 100},
+            {name: '生活好', max: 100},
             {name: '教育好', max: 100},
           ],
           center: ['50%', '50%'],

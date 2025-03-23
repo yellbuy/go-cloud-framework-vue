@@ -16,7 +16,7 @@
         <div class="dialog_table">资产收入</div>
         <div class="dialog_body" style="">
           <div>家庭年收入(元):152123</div>
-          <div>人均年收入(元):30424</div>
+          <div style="color: red">人均年收入(元):30424</div>
           <div>车辆(辆):1</div>
           <div>房产(m):120</div>
 
