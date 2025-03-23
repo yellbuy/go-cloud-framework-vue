@@ -22,7 +22,12 @@
               <LineGraph/>
             </div>
             <div style="width: 50%">
-              <ranking-county/>
+              <div class="target-header">
+                <div class="target-title">帮扶人数</div>
+              </div>
+              <div class="target-content target-content-height p20">
+                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:30rem;"/>
+              </div>
             </div>
           </div>
           <div style="flex: 1;display: flex;flex-direction: row;">
@@ -157,7 +162,36 @@ export default {
     const state: any = reactive({
       isFullScreen: true,// 是否全屏
       baseUrl: import.meta.env.VITE_API_URL,
-      imgUrl: import.meta.env.VITE_URL
+      imgUrl: import.meta.env.VITE_URL,
+      shyzConfig: {
+        data: [
+          {
+            name: '垃圾不乱堆帮扶情况',
+            value: 55
+          },
+          {
+            name: '供电稳定帮扶情况',
+            value: 21
+          },
+          {
+            name: '卫生厕所帮扶情况',
+            value: 67
+          },
+          {
+            name: '家用网络帮扶情况',
+            value: 98
+          },
+          {
+            name: '生活用水帮扶情况',
+            value: 88
+          },
+        ],
+        colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
+        unit: '人',
+        showValue: true,
+        labelNum: 5,
+        fontSize: 30
+      }
     })
     const onFullScreen = () => {
       state.isFullScreen = !state.isFullScreen

@@ -21,23 +21,10 @@
           </dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
-<<<<<<< HEAD
-          
+
           <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
           <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/home/detail`)" border="Border4" color="#409EFF">六优指标</dv-button>
           <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onClickCountDetail" border="Border4" color="#409EFF">区情介绍</dv-button>
-=======
-
-          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{
-              curTime
-            }}</b></p>
-          <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-right:10px;" @click="onClickTargetDetail">六优指标
-          </dv-button>
-          <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-right:10px;" @click="onClickCountDetail">区情介绍
-          </dv-button>
->>>>>>> 3afe2ea1e544f573a61e1afdef3bd1f2c08709b3
         </div>
       </div>
 
@@ -49,54 +36,6 @@
           <div class="target-header">
             <div class="target-title">乡进入情况</div>
           </div>
-<<<<<<< HEAD
-          <dv-border-box1 style="width:50%;">
-              <!-- <digitalGoodsStat/> -->
-              <numberCounty />
-              <div class="column-center">
-                <div style="min-height: 500px; justify-content: center;position: relative"  />
-              </div>
-              <div class="column-footer">
-                <!-- <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
-                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">民生优享</dv-button>
-                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">文化优创</dv-button>
-                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">环境优宜</dv-button>
-                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">社会优质</dv-button>
-                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">党建优促</dv-button> -->
-              </div>
-          </dv-border-box1>
-          
-          <div style="width:25%;padding-right:10px;">
-            <div class="target-header">
-              <div class="target-title">收入结构分析</div>
-            </div>
-            <div class="target-content glt" style=""> 
-               
-              <img src="/img/res/glt.png" width="100%" height="100%" />
-              <div style="position:relative;top:-160px;font-size:16px;color:white">
-                区 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                农村&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                城市
-              </div> 
-              <div style="position:relative;top:-150px;font-size:12px;color:white">
-                高收入 40% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                高收入 35%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                高收入 50%
-              </div> 
-              <div style="position:relative;top:-110px;font-size:12px;color:white">
-                中等收入 50% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                中等收入 45%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                中等收入 45%
-              </div> 
-              <div style="position:relative;top:-90px;font-size:12px;color:white">
-                低收入 10% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                低收入 20%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                低收入 5%
-              </div> 
-            </div>
-            <div class="target-header">
-              <div class="target-title" style="width:20vw">基础设施、公共设施补短情况</div>
-=======
           <div>
             <rankingCounty/>
           </div>
@@ -123,24 +62,12 @@
             <div style="min-height: 500px; justify-content: center;position: relative"/>
           </div>
           <div class="column-footer">
-            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px;z-index: 9999;"
-                       @click="console.log('click')">经济优建
-            </dv-button>
-            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px" @click="console.log('click')">
-              民生优享
-            </dv-button>
-            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px" @click="console.log('click')">
-              文化优创
-            </dv-button>
-            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px" @click="console.log('click')">
-              环境优宜
-            </dv-button>
-            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px" @click="console.log('click')">
-              社会优质
-            </dv-button>
-            <dv-button border="Border6" color="#e18a3b" style="margin-left:10px" @click="console.log('click')">
-              党建优促
-            </dv-button>
+            <!-- <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
+            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">民生优享</dv-button>
+            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">文化优创</dv-button>
+            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">环境优宜</dv-button>
+            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">社会优质</dv-button>
+            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">党建优促</dv-button> -->
           </div>
         </dv-border-box1>
 
@@ -155,7 +82,6 @@
               区 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               农村&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               城市
->>>>>>> 3afe2ea1e544f573a61e1afdef3bd1f2c08709b3
             </div>
             <div style="position:relative;top:-150px;font-size:12px;color:white">
               高收入 40% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -540,7 +466,6 @@ export default {
   width: 100%;
   height: 22.7vh;
 }
-
 #data-view {
   width: 100%;
   height: 100%;
