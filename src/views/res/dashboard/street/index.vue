@@ -1,293 +1,165 @@
 <template>
-  <div id="data-street-view" dv-bg>
-
-    <div style="width:100vw;height:100vh;position: relative;">
-      <div id="mapContainer" ref="mapContainer"/>
-    </div>
-
+  <div id="data-view" dv-bg>
+    <div id="mapContainer" ref="mapContainer"/>
     <dv-full-screen-container>
-      <div id="banner">
-        <div class="banner-content">
-          <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区建成
-          </dv-button>
-          <dv-button border="Border4" color="#409EFF"
-                     fontSize="12"
-                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/dashboard/street/index?areaCode=${areaCode}&areaName=${areaName}`)">乡进入
-          </dv-button>
-          <dv-button key="" border="Border4"
-                     color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px" @click="onGoToLink(`/admin/dashboard/village/index`)">村实现
-          </dv-button>
-          <dv-button border="Border4" color="#615ea8"
-                     fontSize="12" style="display:inline-block;margin-left:10px" @click="onGoToLink(`/admin/dashboard/family/index`)">户达标
-          </dv-button>
+      <div class="main-view">
+        <div id="banner">
+          <div class="banner-content">
+            <dv-button border="Border4" color="#615ea8" fontSize="22.5" @click="onGoToLink(`/admin/index`)">
+              区建成
+            </dv-button>
+            <dv-button border="Border4"
+                       color="#409EFF" fontSize="22.5" @click="onGoToLink(`/admin/dashboard/street/index?areaCode=${areaCode}&areaName=${areaName}`)">
+              乡进入
+            </dv-button>
+            <dv-button key="" border="Border4" color="#615ea8"
+                       fontSize="22.5">
+              村实现
+            </dv-button>
+            <dv-button border="Border4" color="#615ea8" fontSize="22.5"
+                       @click="onGoToLink(`/admin/dashboard/family/index`)">
+              户达标
+            </dv-button>
+          </div>
+          <div/>
+          <div class="banner-content">
+            <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:2em"><b>{{
+                curTime
+              }}</b></p>
+            <dv-button border="Border4" color="#409EFF"
+                       fontSize="22.5" @click="onClickTargetDetail">六优指标
+            </dv-button>
+            <dv-button border="Border4" color="#409EFF"
+                       fontSize="22.5" @click="onClickCountDetail">区情介绍
+            </dv-button>
+          </div>
         </div>
-        <div class="banner-content" style="text-align: right;float:right;">
 
-          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{
-              curTime
-            }}</b></p>
-          <!-- <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onClickTargetDetail" border="Border4" color="#409EFF">六优指标</dv-button>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onClickCountDetail" border="Border4" color="#409EFF">区情介绍</dv-button> -->
-        </div>
-      </div>
-
-      <!-- <div style="position:absolute;top:10px;right:10px">
-        <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
-      </div> -->
-      <div class="main-rows">
-        <div style="width:25%;padding-left:10px;">
-          <div class="target-header">
-            <div class="target-title">乡情介绍</div>
-          </div>
-          <div class="target-content" style="text-align:left;height:22.5vh">
-            大龙潭彝族乡，隶属于四川省攀枝花市仁和区，地处仁和区东南部，东隔金沙江与会理市相望，南与平地镇相连，西与大田镇、仁和镇毗邻，北与金江镇接壤。
-            辖区总面积243.69平方千米。截至2018年末，大龙潭彝族乡户籍人口15650人。原属云南省永仁县第三区。1984年，改为大龙潭彝族乡。
-            截至到2020年6月，大龙潭彝族乡下辖6个行政村， 乡人民政府驻裕民街43号。
-            <!-- 大龙潭彝族乡，隶属于四川省攀枝花市仁和区，地处仁和区东南部，东隔金沙江与会理市相望，南与平地镇相连，西与大田镇、仁和镇毗邻，北与金江镇接壤。
-            辖区总面积243.69平方千米。截至2018年末，大龙潭彝族乡户籍人口15650人。原属云南省永仁县第三区。1984年，改为大龙潭彝族乡。
-            截至到2020年6月，大龙潭彝族乡下辖6个行政村， 乡人民政府驻裕民街43号。截至2024年末，大龙潭彝族乡有工业企业14个，营业面积50平方米以上的综合商店或超市有6个。 -->
-          </div>
-          <div class="target-header">
-            <div class="target-title">两高</div>
-          </div>
-          <div>
-            <div class="target-content" style="text-align:left;height:22.5vh">
-              大龙潭彝族乡，隶属于四川省攀枝花市仁和区，地处仁和区东南部，东隔金沙江与会理市相望，南与平地镇相连，西与大田镇、仁和镇毗邻，北与金江镇接壤。
-              辖区总面积243.69平方千米。截至2018年末，大龙潭彝族乡户籍人口15650人。原属云南省永仁县第三区。1984年，改为大龙潭彝族乡。
-              截至到2020年6月，大龙潭彝族乡下辖6个行政村， 乡人民政府驻裕民街43号。
-              <!-- 大龙潭彝族乡，隶属于四川省攀枝花市仁和区，地处仁和区东南部，东隔金沙江与会理市相望，南与平地镇相连，西与大田镇、仁和镇毗邻，北与金江镇接壤。 
-              辖区总面积243.69平方千米。截至2018年末，大龙潭彝族乡户籍人口15650人。原属云南省永仁县第三区。1984年，改为大龙潭彝族乡。 
-              截至到2020年6月，大龙潭彝族乡下辖6个行政村， 乡人民政府驻裕民街43号。截至2024年末，大龙潭彝族乡有工业企业14个，营业面积50平方米以上的综合商店或超市有6个。 -->
+        <div class="view-body">
+          <div class="view-content content1">
+            <div class="view-box">
+              <Title title="乡情介绍"/>
+              <div class="target-text">
+                <div class="mt20">
+                  大龙潭彝族乡，隶属于四川省攀枝花市仁和区，地处仁和区东南部，东隔金沙江与会理市相望，南与平地镇相连，西与大田镇、仁和镇毗邻，北与金江镇接壤。
+                  辖区总面积243.69平方千米。截至2018年末，大龙潭彝族乡户籍人口15650人。原属云南省永仁县第三区。1984年，改为大龙潭彝族乡。
+                  截至到2020年6月，大龙潭彝族乡下辖6个行政村， 乡人民政府驻裕民街43号。
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="target-header">
-            <div class="target-title">村实现情况</div>
-          </div>
-          <div>
-            <div class="target-content" style="text-align:left;height:22.5vh">
-              大龙潭彝族乡，隶属于四川省攀枝花市仁和区，地处仁和区东南部，东隔金沙江与会理市相望，南与平地镇相连，西与大田镇、仁和镇毗邻，北与金江镇接壤。
-              辖区总面积243.69平方千米。截至2018年末，大龙潭彝族乡户籍人口15650人。原属云南省永仁县第三区。1984年，改为大龙潭彝族乡。
-              截至到2020年6月，大龙潭彝族乡下辖6个行政村， 乡人民政府驻裕民街43号。
-              <!-- 大龙潭彝族乡，隶属于四川省攀枝花市仁和区，地处仁和区东南部，东隔金沙江与会理市相望，南与平地镇相连，西与大田镇、仁和镇毗邻，北与金江镇接壤。 
-              辖区总面积243.69平方千米。截至2018年末，大龙潭彝族乡户籍人口15650人。原属云南省永仁县第三区。1984年，改为大龙潭彝族乡。 
-              截至到2020年6月，大龙潭彝族乡下辖6个行政村， 乡人民政府驻裕民街43号。截至2024年末，大龙潭彝族乡有工业企业14个，营业面积50平方米以上的综合商店或超市有6个。 -->
+            <div class="view-box">
+              <Title title="两高"/>
+              <div class="target-text">
+                <oval-shape/>
+              </div>
+            </div>
+            <div class="view-box">
+              <Title title="村实现完成情况"/>
+              <div class="target-text cun">
+                <div style="text-align: center">
+                  <img src="./img/ldt.png"/>
+                  <div>三超</div>
+                </div>
+                <div style="text-align: center">
+                  <img src="./img/ldt.png"/>
+                  <div>四优</div>
+                </div>
+                <div style="text-align: center">
+                  <img src="./img/ldt.png"/>
+                  <div>两强</div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- <rankingCounty/> -->
-          <!-- <barAreaGdp/> -->
-        </div>
-        <dv-border-box1 style="width:50%;">
-          <!-- <digitalGoodsStat/> -->
-          <numberStreet/>
-          <div class="column-center">
-            <div style="min-height: 500px; justify-content: center;position: relative"/>
+          <div class="view-content content2">
+            <div class="view-box">
+              <Label :text="'总户数'" :title="10000"/>
+              <Label :color="'#FCAE26FF'" :text="'达标村数'" :title="6"/>
+              <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'"/>
+            </div>
+            <div/>
           </div>
-          <div class="column-footer">
-            <!-- <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
-            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">民生优享</dv-button>
-            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">文化优创</dv-button>
-            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">环境优宜</dv-button>
-            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">社会优质</dv-button>
-            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">党建优促</dv-button> -->
-          </div>
-        </dv-border-box1>
 
-        <div style="width:25%;padding-right:10px;">
-          <div class="target-header">
-            <div class="target-title">收入结构分析</div>
-          </div>
-          <div class="target-content glt" style="">
-
-            <img height="100%" src="/img/res/glt.png" width="100%"/>
-            <div style="position:relative;top:-160px;font-size:16px;color:white">
-              区 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              农村&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              城市
+          <div class="view-content content3">
+            <div class="view-box">
+              <Title title="公共服务均等化"/>
+              <div class="target-text">
+                <div class="view-box-label">
+                  <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'学前教育三年毛入园率(%)'" class="target-content"/>
+                  <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'全民医疗保险参保率(%)'" class="target-content"/>
+                  <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'特殊人群医疗保险参保率(%)'"
+                          class="target-content"/>
+                  <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'农村客运覆盖率(%)'" class="target-content"/>
+                </div>
+                <div class="mt20">
+                  实现了幼有善育、学有优教、病有良医、老有康养、住有宜居、弱有帮扶。 一所中小学和附属中心幼儿园。
+                  实现了农村客运全覆盖,村村通邮。建有农业社会化服务站。
+                </div>
+              </div>
             </div>
-            <div style="position:relative;top:-150px;font-size:12px;color:white">
-              高收入 40% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              高收入 35%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              高收入 50%
+            <div class="view-box">
+              <Title title="基础设施一体化"/>
+              <div class="target-text">
+                <div class="view-box-label">
+                  <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'自来水普及率(%)'" class="target-content"/>
+                  <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'自然村通硬化路率(%)'" class="target-content"/>
+                </div>
+                <div class="mt20">
+                  文化健身等基础设施配套完善,公共基础设施管理、运行、养护机制完善健全。生活垃圾收转运处置体系行政村覆盖率100%。
+                </div>
+              </div>
             </div>
-            <div style="position:relative;top:-110px;font-size:12px;color:white">
-              中等收入 50% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              中等收入 45%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              中等收入 45%
+            <div class="view-box">
+              <Title title="乡村治理现代化"/>
+              <div class="target-text">
+                <div class="mt20">
+                  社会主义核心价值观深入人心，乡级综治中心规范化建设，建有数字乡村平台，实现雪亮工程全盖。矛盾纠纷妥善化解，自治、法治、德治相结合的治理体系基本构建，物质富足、精神富有、乡风文明。
+                </div>
+              </div>
             </div>
-            <div style="position:relative;top:-90px;font-size:12px;color:white">
-              低收入 10% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              低收入 20%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              低收入 5%
+            <div class="view-box">
+              <Title title="产业发展规模化"/>
+              <div class="target-text">
+                <div class="mt20">
+                  产业发展规模化
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="target-header">
-            <div class="target-title" style="width:20vw">基础设施、公共设施补短情况</div>
-          </div>
-          <div class="target-content glt" style="">
-            <dv-scroll-board :config="jichusheshiConfig" style="width:100%;height:100%" @click="clickHandler"
-                             @mouseover="mouseoverHandler"/>
-          </div>
-          <div class="target-header">
-            <div class="target-title" style="width:10vw">综合帮扶情况</div>
-          </div>
-          <div class="target-content glt" style="">
-            <dv-scroll-board :config="zhonghebangfuConfig" style="width:100%;height:100%" @click="clickHandler"
-                             @mouseover="mouseoverHandler"/>
           </div>
         </div>
       </div>
     </dv-full-screen-container>
-
   </div>
 </template>
 
 <script lang="ts">
 import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
 import dayjs from 'dayjs';
-import {ElMessageBox} from 'element-plus';
-import {onMounted, reactive, ref, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
-import actVillage from "../component/actVillage.vue";
-import barAgricultureGdp from "../component/barAgricultureGdp.vue";
-import barAreaGdp from "../component/barAreaGdp.vue";
-import barFamilyGdp from "../component/barFamilyGdp.vue";
-import barPeopleGdp from "../component/barPeopleGdp.vue";
-import barStreet from "../component/barStreet.vue";
-import barCoutyGdp from "../component/barVillageGdp.vue";
-import barVillageInsurance from "../component/barVillageInsurance.vue";
-import flareTarget from "../component/flareTarget.vue";
-import lineFamily from "../component/lineFamily.vue";
-import numberStreet from "../component/numberStreet.vue";
-import pieCoutyGdp from "../component/pieCountyGdp.vue";
-import radarCounty from "../component/radarCounty.vue";
-import radarFamily from "../component/radarFamily.vue";
-import radarLgsh from "../component/radarLgsh.vue";
-import radarStreet from "../component/radarStreet.vue";
-import radarVillage from "../component/radarVillage.vue";
-import rangeVillageGdp from "../component/rangeVillageGdp.vue";
-import rankingCounty from "../component/rankingCounty.vue";
-import rankingFamily from "../component/rankingFamily.vue";
-import rankingVillage from "../component/rankingVillage.vue";
-import barHuman from "/@/components/barHuman/index.vue";
+import {onMounted, reactive, toRefs} from 'vue';
+import Title from "/@/views/res/dashboard/village/Title.vue";
+import Label from "/@/views/res/dashboard/component/Label.vue";
+import Label1 from "/@/views/res/dashboard/component/Label1.vue";
+import OvalShape from "/@/views/res/dashboard/village/OvalShape.vue";
+import {useRoute, useRouter} from "vue-router";
 
 export default {
   name: "IndexDashboard",
-  components: {
-    barHuman,
-    flareTarget,
-    rankingCounty,
-    rankingVillage,
-    rankingFamily,
-    numberStreet,
-    barCoutyGdp,
-    barAgricultureGdp,
-    barPeopleGdp,
-    barStreet,
-    actVillage,
-    barAreaGdp,
-    barFamilyGdp,
-    barVillageInsurance,
-    pieCoutyGdp,
-    rangeVillageGdp,
-    radarLgsh,
-    radarCounty,
-    radarStreet,
-    radarVillage,
-    radarFamily,
-    lineFamily,
-  },
+  // eslint-disable-next-line vue/no-reserved-component-names
+  components: {OvalShape, Label1, Label, Title},
   setup() {
     const route = useRoute();
-    console.log('路由', route.query);
     const router = useRouter();
-    const mapContainer = ref();
     const state: any = reactive({
+      isFullScreen: true,// 是否全屏
+      curTime: dayjs().format("YYYY年MM月DD日"),
       areaCode: route.query.areaCode,
       areaName: route.query.areaName,
-      isFullScreen: true,// 是否全屏
-      baseUrl: import.meta.env.VITE_API_URL,
-      imgUrl: import.meta.env.VITE_URL,
-      curTime: dayjs().format("YYYY年MM月DD日")
     })
-    const onFullScreen = () => {
-      //admin/dashboard/app/fullScreen
-      state.isFullScreen = !state.isFullScreen
-    };
     //导航链接
     const onGoToLink = (url: string) => {
       router.push(url)
     }
-    //区情介绍
-    const onClickCountDetail = () => {
-      const html = `
-      <div>
-        <p><b>人口数：</b><el-text class="mx-1" type="success">26.67万</el-text></p>
-        <p><b>区面积：</b><el-text class="mx-1" type="success">1728.98平方公里</el-text></p>
-        <p><b>下辖乡镇：</b>啊喇彝族乡、布德镇、大河中路街道、大龙潭彝族乡、大田镇、福田镇、平地镇、前进镇、仁和镇、太平乡、同德镇、中坝乡、务本乡‌共计12个。‌</p>
-      </div>`
-      ElMessageBox.alert(html, '仁和区情介绍', {
-        dangerouslyUseHTMLString: true,
-      })
-    }
-    //指标解读
-    const onClickTargetDetail = () => {
-      const html = `
-      <div>
-        <p><b>经济优建：</b>地区生产总值超400亿元，人均地区生产总值超15万元，城乡居民人均可支配收入比保持在1.9左右，特色农业产值占农林牧渔业总产值比重75%，建成3个攀果创富共同体、产值达10亿元。</p>
-        <p><b>民生优享：</b>三口之家家庭年收入1)-50万元的中等收入群体占比60%，村集体经济年收基本养老保险参保率95%，基本医疗参保率95%以入达到20万元以上的行政村占比达100%。上。常住人口城镇化率超63%。普惠性幼儿园覆盖率稳定在90%以上，义务教育阶段入学率达到100%，进城务工随迁子女100%就读公办学校，残疾儿童入学率97%以上。</p>
-        <p><b>文明优创：</b>每万人拥有公共文化服务设施面积830平方米以上。环境优宜:城市建成区绿化覆盖率超45%，生活垃圾七解率达到95%以上，社会治安安全感满意度达到社会优质:矛盾纠纷无害化处理率100%。98%以上。</p>
-        <p><b>环境优宜：</b>城市建成区绿化覆盖率超45%，生活垃圾98%以上。党</p>
-        <p><b>社会优质：</b>矛盾纠纷无害化处理率100%。98%以上，社会治安安全感满意度达到98%以上。</p>
-        <p><b>党建优促：</b>“三个身边”工作机制群众反映问题工单办结率达100%。</p>
-      </div>`
-      ElMessageBox.alert(html, '六优指标解读', {dangerouslyUseHTMLString: true, width: '80%'})
-    }
-    //基础设施补短情况配置
-    const jichusheshiConfig = reactive({
-      header: ['乡镇', '村', '设施补短'],
-      data: [
-        ['<span style="color:#37a2da;">金江镇</span>', '大龙潭村', '修路'],
-        ['仁和镇', '<span style="color:#32c5e9;">仁和村</span>', '路灯修复'],
-        ['金江镇', '大龙潭村', '<span style="color:#67e0e3;">修路</span>'],
-        ['前进镇', '<span style="color:#9fe6b8;">前进村</span>', '路灯修复'],
-        ['<span style="color:#ffdb5c;">前进镇</span>', '行5列2', '排水系统修复'],
-        ['大田镇', '<span style="color:#ff9f7f;">大田村</span>', '排水系统修复'],
-        ['大田镇', '大田村', '<span style="color:#fb7293;">路灯修复</span>'],
-        ['金江镇', '<span style="color:#e062ae;">大龙潭村</span>', '修路'],
-        ['<span style="color:#e690d1;">仁和镇</span>', '仁和村', '修路'],
-        ['金江镇', '<span style="color:#e7bcf3;">大龙潭村</span>', '排水系统修复'],
-      ],
-      index: true,
-      rowNum: 5,
-      columnWidth: [50],
-      align: ['center'],
-    })
-    //综合帮扶情况配置
-    const zhonghebangfuConfig = reactive({
-      header: ['乡镇', '村', '帮扶情况'],
-      data: [
-        ['<span style="color:#37a2da;">金江镇</span>', '张某某', '低保'],
-        ['仁和镇', '<span style="color:#32c5e9;">杨某</span>', '大病保障'],
-        ['金江镇', '陈某某', '<span style="color:#67e0e3;">节日慰问</span>'],
-        ['前进镇', '<span style="color:#9fe6b8;">伍某华</span>', '节日慰问'],
-        ['<span style="color:#ffdb5c;">陈某萍</span>', '行5列2', '节日慰问'],
-        ['大田镇', '<span style="color:#ff9f7f;">张某</span>', '大病保障'],
-        ['大田镇', '张某燕', '<span style="color:#fb7293;">就近入学</span>'],
-        ['金江镇', '<span style="color:#e062ae;">谢某</span>', '新办幼儿园'],
-        ['<span style="color:#e690d1;">杨某</span>', '仁和村', '低保'],
-        ['金江镇', '<span style="color:#e7bcf3;">张某某</span>', '就近入学'],
-      ],
-      index: true,
-      rowNum: 5,
-      headerBGC: '#00AA77',
-      oddRowBGC: '#002B31',
-      evenRowBGC: '#071722',
-      columnWidth: [50],
-      align: ['center'],
-    })
-
     // 页面加载时
     onMounted(() => {
       const scene = new Scene({
@@ -295,7 +167,7 @@ export default {
         logoVisible: false,
         map: new Map({
           center: [500, 500],
-          zoom: 2.3,
+          zoom: 3.5,
           version: 'SIMPLE',
           mapSize: 1000,
           maxZoom: 5,
@@ -392,153 +264,143 @@ export default {
 
     });
     return {
-      onFullScreen,
-      onGoToLink,
-      onClickCountDetail,
-      onClickTargetDetail,
-      jichusheshiConfig,
-      zhonghebangfuConfig,
       ...toRefs(state),
+      onGoToLink
     };
   },
 };
 </script>
 
-
 <style lang="less">
-#data-street-view {
-  background-image: url("/img/res/bg_2.jpg");
-}
-
-#app {
-  .el-aside, .el-header, .layout-navbars-tagsview {
-    display: none;
-  }
-}
-
 #mapContainer {
   top: 54%;
-  left: 49%;
-  width: 50vw;
+  left: 40%;
+  width: 100vw;
   height: 70vh;
   transform: translate(-49%, -46%);
   position: absolute;
   z-index: 1111;
 }
 
-#banner {
-  width: 100%;
-  height: 281px;
-  background-image: url(/img/res/banner.png);
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 100% auto;
-  display: inline-block;
-
-  .banner-content {
-    margin: 24px 12px;
-    display: inline-block;
-    width: auto
-  }
-}
-
-#data-street-view {
-  background-image: url("/img/res/img/bg_2.jpg") !important;
-}
-
-#map {
-  height: 100%;
-  width: 500px;
-}
-
-.target-header {
-  text-align: left;
-  padding-top: 6px;
-  margin-top: 2vh;
-  height: 36px;
-  background-image: linear-gradient(to right, #061A8F, transparent);
-  border-radius: 2px;
-}
-
-.target-title {
-  background-image: radial-gradient(circle, #daeef3 10%, #0075FF);
-  //background-image: radial-gradient(circle, #01BBE9 10%, #0075FF);
-  width: 120px;
-  font-weight: bold;
-  background-clip: text;
-  color: transparent;
-  padding-left: 20px;
-  font-size: 16px;
-}
-
-.target-content {
-  width: 100%;
-  margin-top: 1vh;
-  padding: 10px;
-  text-align: center;
-  color: #64C3D1;
-  border-radius: 4px;
-  box-shadow: rgb(29, 72, 196) 0px 0px 25px 3px inset;
-}
-
-.target-value {
-  color: #12AD78;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 500;
-}
-
-.glt {
-  background-image: url('/img/glt.png');
-  width: 100%;
-  height: 22.7vh;
-}
-
-#data-street-view {
+#data-view {
   width: 100%;
   height: 100%;
-  color: #000;
-
+  color: #fff;
 
   #dv-full-screen-container {
-    background-image: url("/img/res/bg_2.jpg") !important;
+    background-image: url("/img/res/bg_2.jpg");
     background-size: 100% 100%;
   }
 
-  .main-rows {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    margin-top: -220px;
+  .main-view {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows:auto 1fr;
 
-    .dv-border-box-1 {
-      text-align: left;
-      height: auto !important;
-      margin-bottom: 4px;
-    }
-
-    .column-center {
-      height: 50%;
-      background-size: 100% 100%;
-      margin: 10px;
-    }
-
-    .column-footer {
-      display: flex;
-      flex-direction: row;
-      align-content: center;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 50px;
+    #banner {
       width: 100%;
-      position: absolute;
-      bottom: 20px;
-      z-index: 9999;
-      background-size: 100% 100%;
-      margin: 0 10px 0 10px;
+      height: 20em;
+      background-image: url(/img/res/banner.png);
+      background-repeat: no-repeat;
+      background-position: center top;
+      background-size: 100% auto;
+      display: grid;
+      grid-template-columns:auto 1fr auto;
+      grid-template-rows:auto;
+
+      .banner-content {
+        margin-top: 5.5em;
+        display: grid;
+        grid-template-columns:repeat(4, auto);
+        grid-column-gap: 2em;
+        align-items: start;
+      }
+
+      .banner-content:first-child {
+        margin-left: 10em;
+      }
+
+      .banner-content:last-child {
+        margin-right: 10em;
+      }
     }
+
+    .view-body {
+      display: grid;
+      height: 100%;
+      grid-template-columns:1fr 2fr 1fr;
+      grid-column-gap: 2em;
+      align-items: start;
+
+      .view-content {
+        margin-top: -3em;
+        height: 100%;
+        display: grid;
+        grid-row-gap: 2em;
+      }
+
+      .content1 {
+        grid-template-rows:auto;
+
+        .view-box {
+          margin-left: 3em;
+
+          .cun {
+            display: grid;
+            grid-template-columns:1fr 1fr;
+            grid-column-gap: 2em;
+            align-items: center;
+            justify-content: center;
+
+            img {
+              width: 10em;
+              height: 10em;
+            }
+          }
+        }
+      }
+
+      .content2 {
+        grid-template-rows:auto 1fr;
+
+        .view-box {
+          display: flex;
+          justify-content: space-between;
+        }
+
+      }
+
+      .content3 {
+        grid-template-rows:auto;
+        justify-self: center;
+
+        .view-box {
+          margin-right: 3em;
+
+          .view-box-label {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns:repeat(2, 1fr);
+            grid-column-gap: 2em;
+            justify-self: center;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+
+  .target-text {
+    font-size: 2em;
+    margin: 0.5em;
+    color: #28A2CE;
+  }
+
+  .target-content {
+    width: auto;
+    margin: 0.3em;
   }
 }
 </style>

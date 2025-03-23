@@ -5,7 +5,7 @@
 
       <div class="main-rows">
         <div style="width:25%">
-          <Funnel/>
+          <Funnel @click="onClickTargetDetail"/>
           <FiveGoods/>
           <Category/>
         </div>
@@ -16,7 +16,7 @@
             <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500" style="margin: 0 24rem 2rem;"/>
             <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'"/>
           </div>
-          <main-monitoring/>
+          <main-monitoring @click="onClickMainMonitoring"/>
           <div style="flex: 1;display: flex;flex-direction: row;">
             <div style="width: 50%">
               <LineGraph/>
@@ -61,6 +61,7 @@ import ProportionOfAgeGroups from "./ProportionOfAgeGroups.vue";
 import MainMonitoring from "/@/views/res/dashboard/family/MainMonitoring.vue";
 import Sex from "/@/views/res/dashboard/family/sex.vue";
 import Dialog from "/@/views/res/dashboard/family/Dialog.vue";
+import {ElMessageBox} from "element-plus";
 
 export default {
   name: "IndexDashboard",
@@ -84,6 +85,73 @@ export default {
     Label
   },
   setup() {
+    //指标解读
+    const onClickTargetDetail = () => {
+      const html = `
+      <div>
+        具体措施如下：
+        <p>大病补助</p>
+        <p>就业推荐</p>
+        <p>教育培训</p>
+      </div>`
+      ElMessageBox.alert(html, '低收入群体托底举措', {dangerouslyUseHTMLString: true, width: '80%'})
+    };
+    const onClickMainMonitoring = () => {
+      const html = `
+      <div>
+       <table style="border-collapse: collapse;" cellspacing="6" cellpadding="6" border="1">
+       <thread>
+             <th style="padding: 0.5rem">区</th>
+             <th style="padding: 0.5rem">乡</th>
+             <th style="padding: 0.5rem">村</th>
+             <th style="padding: 0.5rem">姓名</th>
+             <th style="padding: 0.5rem">年龄</th>
+             <th style="padding: 0.5rem">收入</th>
+      </thread>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      </table>
+      </div>`
+      ElMessageBox.alert(html, '低收入重点监测群体清单', {dangerouslyUseHTMLString: true, width: '1000px'})
+    };
     const route = useRoute();
     route.query.areaCode = "510411200200";
     const state: any = reactive({
@@ -97,7 +165,9 @@ export default {
 
     return {
       onFullScreen,
-      ...toRefs(state)
+      ...toRefs(state),
+      onClickTargetDetail,
+      onClickMainMonitoring
     };
   },
 };

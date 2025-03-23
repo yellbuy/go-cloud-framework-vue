@@ -36,12 +36,13 @@ export default {
   background-position: center top;
   background-size: 100% 100%;
   display: inline-block;
-  padding: 0.5em 2em;
+  padding: 0.5em 0.5em;
   text-align: center;
 
   label {
+    margin-top: 0.5em;
     display: block;
-    font-size: 1em;
+    font-size: 0.8em;
     color: #409eff;
   }
 }

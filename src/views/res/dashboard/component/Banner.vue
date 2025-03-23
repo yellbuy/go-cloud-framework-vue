@@ -85,6 +85,10 @@ export default {
     border: none;
   }
 
+  .banner-button:nth-child(4) {
+    background-image: url(img/button_bg_hover.png);
+  }
+
   .banner-button:hover {
     background-image: url(../component/img/button_bg_hover.png);
     color: #fff;
