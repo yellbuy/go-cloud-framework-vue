@@ -15,7 +15,7 @@
         <div class="banner-content" style="text-align: right;float:right;">
           
           <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onClickTargetDetail" border="Border4" color="#409EFF">六优指标</dv-button>
+          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/home/detail`)" border="Border4" color="#409EFF">六优指标</dv-button>
           <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onClickCountDetail" border="Border4" color="#409EFF">区情介绍</dv-button>
         </div>
       </div>
@@ -54,12 +54,12 @@
                 <div style="min-height: 500px; justify-content: center;position: relative"  />
               </div>
               <div class="column-footer">
-                <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
+                <!-- <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
                 <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">民生优享</dv-button>
                 <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">文化优创</dv-button>
                 <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">环境优宜</dv-button>
                 <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">社会优质</dv-button>
-                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">党建优促</dv-button>
+                <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">党建优促</dv-button> -->
               </div>
           </dv-border-box1>
           
@@ -119,6 +119,7 @@ import { useRoute, useRouter } from 'vue-router';
 import actVillage from "../component/actVillage.vue";
 import barAgricultureGdp from "../component/barAgricultureGdp.vue";
 import barAreaGdp from "../component/barAreaGdp.vue";
+import barCountyDjyc from "../component/barCountyDjyc.vue";
 import barFamilyGdp from "../component/barFamilyGdp.vue";
 import barPeopleGdp from "../component/barPeopleGdp.vue";
 import barStreet from "../component/barStreet.vue";
@@ -144,6 +145,7 @@ export default {
   components: {
     barHuman,
     flareTarget,
+    barCountyDjyc,
     rankingCounty,
     rankingVillage,
     rankingFamily,
