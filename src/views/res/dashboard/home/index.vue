@@ -1,9 +1,6 @@
 <template>
   <div id="data-view" dv-bg>
 
-    <div style="width:100vw;height:100vh;position: relative;">
-      <div id="mapContainer" ref="mapContainer"/>
-    </div>
     <dv-full-screen-container>
       <div id="banner">
         <div class="banner-content">
@@ -58,8 +55,8 @@
         <dv-border-box1 style="width:50%;">
           <!-- <digitalGoodsStat/> -->
           <numberCounty/>
-          <div class="column-center">
-            <div style="min-height: 500px; justify-content: center;position: relative"/>
+          <div class="column-center margin-bottom-20">
+            <antvImageMap areaCode="510411"></antvImageMap>
           </div>
           <div class="column-footer">
             <!-- <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
@@ -121,12 +118,12 @@
 </template>
 
 <script lang="ts">
-import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
 import dayjs from 'dayjs';
-import {ElMessageBox} from 'element-plus';
-import {onMounted, reactive, ref, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { ElMessageBox } from 'element-plus';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import actVillage from "../component/actVillage.vue";
+import antvImageMap from "../component/antvImageMap.vue";
 import barAgricultureGdp from "../component/barAgricultureGdp.vue";
 import barAreaGdp from "../component/barAreaGdp.vue";
 import barCountyDjyc from "../component/barCountyDjyc.vue";
@@ -167,6 +164,7 @@ export default {
     actVillage,
     barAreaGdp,
     barFamilyGdp,
+    antvImageMap,
     barVillageInsurance,
     pieCoutyGdp,
     rangeVillageGdp,
@@ -181,7 +179,6 @@ export default {
     const route = useRoute();
     console.log('路由', route.query);
     const router = useRouter();
-    const mapContainer = ref();
     const state: any = reactive({
       isFullScreen: true,// 是否全屏
       baseUrl: import.meta.env.VITE_API_URL,
@@ -267,106 +264,6 @@ export default {
 
     // 页面加载时
     onMounted(() => {
-      const scene = new Scene({
-        id: 'mapContainer',
-        logoVisible: false,
-        map: new Map({
-          center: [500, 500],
-          zoom: 2.3,
-          version: 'SIMPLE',
-          mapSize: 1000,
-          maxZoom: 5,
-          minZoom: 1,
-          pitchEnabled: true,
-          rotateEnabled: true,
-        }),
-      });
-      scene.on('loaded', () => {
-        fetch('/data/res/area/510411.json')
-            .then((res) => res.json())
-            .then((data) => {
-              scene.addImage(
-                  '0', `/img/res/village_0.png`);
-              scene.addImage(
-                  '1', `/img/res/village_1.png`);
-              const imageLayer = new PointLayer()
-                  .source(data, {
-                    parser: {
-                      type: 'json',
-                      x: 'x',
-                      y: 'y',
-                    },
-                  })
-                  .shape('icon', ['1', '0'])
-                  .size(12);
-              imageLayer.on('click', (e) => {
-                console.log(e)
-                alert(`
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
-              <p>图中X坐标: ${e.x}</p>
-              <p>图中Y坐标: ${e.y}</p>
-            `);
-              });
-              const textlayer = new PointLayer({zIndex: 2})
-                  .source(data, {
-                    parser: {
-                      type: 'json',
-                      x: 'x',
-                      y: 'y',
-                    },
-                  })
-                  .shape('name', 'text')
-                  .size(12)
-                  .active({
-                    color: '#00f',
-                    mix: 0.9,
-                  })
-                  .color('red')
-                  .style({
-                    textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
-                    spacing: 6, // 字符间距
-                    fontWeight: '800',
-                    padding: [30, 30], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
-                    stroke: '#ffffff', // 描边颜色
-                    strokeWidth: 2, // 描边宽度
-                    textAllowOverlap: true,
-                    textOffset: [20, 20],
-                  });
-              textlayer.on('click', (e) => {
-                console.log(e)
-                router.push(`/admin/dashboard/street/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
-                console.log(`
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
-              <p>图中X坐标: ${e.x}</p>
-              <p>图中Y坐标: ${e.y}</p>
-            `);
-              });
-              scene.addLayer(imageLayer);
-              scene.addLayer(textlayer);
-            });
-      })
-      const imagelayer = new ImageLayer({}).source('/img/res/renhe.png',
-          {
-            parser: {
-              type: 'image',
-              autoFit: true,
-              extent: [360, 400, 660, 600],
-            },
-          },
-      );
-      // imagelayer.on('click', (e) => {
-      //   console.log(e)
-      //   alert( `
-      //     <p>区域名称: ${e.feature.name}</p>
-      //     <p>区域标识: ${e.feature.code}</p>
-      //     <p>图中X坐标: ${e.x} = ${e.x+250}</p>
-      //     <p>图中Y坐标: ${e.y} = ${(1000+(500-e.y)/2)/2}</p>
-      //   `);
-      // });
-      scene.addLayer(imagelayer);
-
     });
     return {
       onFullScreen,
@@ -387,16 +284,6 @@ export default {
   .el-aside, .el-header, .layout-navbars-tagsview {
     display: none;
   }
-}
-
-#mapContainer {
-  top: 54%;
-  left: 49%;
-  width: 50vw;
-  height: 70vh;
-  transform: translate(-49%, -46%);
-  position: absolute;
-  z-index: 1111;
 }
 
 #banner {
@@ -490,9 +377,9 @@ export default {
     }
 
     .column-center {
-      height: 50%;
+      height: 100%;
       background-size: 100% 100%;
-      margin: 10px;
+      margin-top:2rem;
     }
 
     .column-footer {

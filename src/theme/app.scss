@@ -19,7 +19,7 @@ body,
 	-webkit-font-smoothing: antialiased;
 	-webkit-tap-highlight-color: transparent;
 	background-color: #f8f8f8;
-	font-size: 14px;
+	font-size: 12px;
 	overflow: hidden;
 	position: relative;
 }
@@ -233,10 +233,14 @@ body,
 	}
 }
 
+
 /* 外边距、内边距全局样式
 ------------------------------- */
 @for $i from 1 through 50 {
 	.margin#{$i} {
+		margin: #{$i}px !important;
+	}
+	.margin-#{$i} {
 		margin: #{$i}px !important;
 	}
 	.m#{$i} {
@@ -245,16 +249,32 @@ body,
 	.mt#{$i} {
 		margin-top: #{$i}px !important;
 	}
+	.margin-top-#{$i} {
+		margin-top: #{$i}px !important;
+	}
 	.mr#{$i} {
+		margin-right: #{$i}px !important;
+	}
+	.margin-right-#{$i} {
 		margin-right: #{$i}px !important;
 	}
 	.mb#{$i} {
 		margin-bottom: #{$i}px !important;
 	}
+	.margin-bottom-#{$i} {
+		margin-bottom: #{$i}px !important;
+	}
 	.ml#{$i} {
 		margin-left: #{$i}px !important;
 	}
+	.margin-left-#{$i} {
+		margin-left: #{$i}px !important;
+	}
 	.mtb#{$i} {
+		margin-top: #{$i}px !important;
+		margin-bottom: #{$i}px !important;
+	}
+	.margin-tb-#{$i} {
 		margin-top: #{$i}px !important;
 		margin-bottom: #{$i}px !important;
 	}
@@ -262,7 +282,14 @@ body,
 		margin-left: #{$i}px !important;
 		margin-right: #{$i}px !important;
 	}
+	.margin-lr-#{$i} {
+		margin-left: #{$i}px !important;
+		margin-right: #{$i}px !important;
+	}
 	.padding#{$i} {
+		padding: #{$i}px !important;
+	}
+	.padding-#{$i} {
 		padding: #{$i}px !important;
 	}
 	.p#{$i} {
@@ -271,20 +298,40 @@ body,
 	.pt#{$i} {
 		padding-top: #{$i}px !important;
 	}
+	.padding-top-#{$i} {
+		padding-top: #{$i}px !important;
+	}
 	.pr#{$i} {
+		padding-right: #{$i}px !important;
+	}
+	.padding-right-#{$i} {
 		padding-right: #{$i}px !important;
 	}
 	.pb#{$i} {
 		padding-bottom: #{$i}px !important;
 	}
+	.padding-bottom-#{$i} {
+		padding-bottom: #{$i}px !important;
+	}
 	.pl#{$i} {
+		padding-left: #{$i}px !important;
+	}
+	.padding-left-#{$i} {
 		padding-left: #{$i}px !important;
 	}
 	.ptb#{$i} {
 		padding-top: #{$i}px !important;
 		padding-bottom: #{$i}px !important;
 	}
+	.padding-tb-#{$i} {
+		padding-top: #{$i}px !important;
+		padding-bottom: #{$i}px !important;
+	}
 	.plr#{$i} {
+		padding-left: #{$i}px !important;
+		padding-right: #{$i}px !important;
+	}
+	.padding-lr-#{$i} {
 		padding-left: #{$i}px !important;
 		padding-right: #{$i}px !important;
 	}
