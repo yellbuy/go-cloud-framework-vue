@@ -2,40 +2,35 @@
   <div id="data-view" dv-bg>
     <div id="mapContainer" ref="mapContainer" style="width: 100em;height: 100em"/>
     <dv-full-screen-container>
-      <div class="main-view">
-        <div id="banner">
-          <div class="banner-content">
-            <dv-button border="Border4" color="#615ea8" fontSize="22.5" @click="onGoToLink(`/admin/index`)">
-              区建成
-            </dv-button>
-            <dv-button border="Border4"
-                       color="#615ea8" fontSize="22.5"
-                       @click="onGoToLink(`/admin/dashboard/street/index?areaCode=${areaCode}&areaName=${areaName}`)">
-              乡进入
-            </dv-button>
-            <dv-button key="" border="Border4" color="#409EFF"
-                       fontSize="22.5">
-              村实现
-            </dv-button>
-            <dv-button border="Border4" color="#615ea8" fontSize="22.5"
-                       @click="onGoToLink(`/admin/dashboard/family/index`)">
-              户达标
-            </dv-button>
-          </div>
-          <div/>
-          <div class="banner-content">
-            <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:2em"><b>{{
-                curTime
-              }}</b></p>
-            <dv-button border="Border4" color="#409EFF"
-                       fontSize="22.5" @click="onClickTargetDetail">六优指标
-            </dv-button>
-            <dv-button border="Border4" color="#409EFF"
-                       fontSize="22.5" @click="onClickCountDetail">区情介绍
-            </dv-button>
-          </div>
+      <div class="banner">
+        <div class="banner-content">
+          <dv-button border="Border4" color="#409EFF" fontSize="12"
+                     style="display:inline-block;margin-left:10px;" @click="console.log('click')">区建成
+          </dv-button>
+          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px;">
+            乡进入
+          </dv-button>
+          <dv-button key="" border="Border4" color="#615ea8" fontSize="12"
+                     style="display:inline-block;margin-left:10px">村实现
+          </dv-button>
+          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px">
+            户达标
+          </dv-button>
         </div>
+        <div class="banner-content" style="text-align: right;float:right;">
 
+          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{
+              curTime
+            }}</b></p>
+          <dv-button border="Border4" color="#409EFF"
+                     fontSize="12" style="display:inline-block;margin-right:10px;" @click="onGoToLink(`/admin/dashboard/home/detail`)">六优指标
+          </dv-button>
+          <dv-button border="Border4" color="#409EFF" fontSize="12"
+                     style="display:inline-block;margin-right:10px;" @click="onClickCountDetail">区情介绍
+          </dv-button>
+        </div>
+      </div>
+      <div class="main-view">
         <div class="view-body">
           <div class="view-content content1">
             <div class="view-box">
@@ -125,12 +120,13 @@
 </template>
 
 <script lang="ts">
-import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
-import { Memo } from "@element-plus/icons-vue";
+import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
 import dayjs from 'dayjs';
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {onMounted, reactive, toRefs} from 'vue';
+import Title from "/@/views/res/dashboard/village/Title.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
+import {useRoute, useRouter} from "vue-router";
+import {Memo} from "@element-plus/icons-vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
 
 export default {
@@ -353,7 +349,6 @@ export default {
       align-items: start;
 
       .view-content {
-        margin-top: -3em;
         height: 100%;
         display: grid;
         grid-row-gap: 2em;
@@ -363,7 +358,6 @@ export default {
         grid-template-rows:auto;
 
         .view-box {
-          margin-left: 3em;
 
           .view-box-table {
             display: grid;
@@ -423,7 +417,6 @@ export default {
         justify-self: center;
 
         .view-box {
-          margin-right: 3em;
 
           .view-box-label {
             width: 100%;
@@ -443,6 +436,11 @@ export default {
     font-size: 2em;
     margin: 0.5em;
     color: #28A2CE;
+  }
+
+  .target-content {
+    width: auto;
+    margin: 0.3em;
   }
 }
 </style>
