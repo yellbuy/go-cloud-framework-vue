@@ -420,31 +420,7 @@ export default {
   background-image: linear-gradient(to right,#061A8F,transparent);
   border-radius: 2px;
 }
-.target-title{
-  background-image: radial-gradient(circle, #daeef3 10%, #0075FF);
-  //background-image: radial-gradient(circle, #01BBE9 10%, #0075FF);
-  width:120px;
-  font-weight: bold;
-  background-clip: text;
-  color: transparent;
-  padding-left:20px;
-  font-size: 16px;
-}
-.target-content{
-  width:100%;
-  margin-top:1vh;
-  padding:10px;
-  text-align: center;
-  color:#28A2CE;
-  border-radius: 4px;
-  box-shadow: rgb(29, 72, 196) 0px 0px 25px 3px inset;
-}
-.target-value{
-  color:#12AD78;
-  text-align: center;
-  font-size:24px;
-  font-weight: 500;
-}
+
 
 .glt{
   background-image:url('/img/glt.png');

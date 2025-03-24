@@ -18,6 +18,10 @@ export default {
 			type: String,
 			default:'仁和区',
 		},
+    areaGoTo: {
+			type: String,
+			default:'',
+		},
 	},
   setup(props) {
     const { proxy } = getCurrentInstance() as any;
@@ -32,10 +36,10 @@ export default {
       uid.value = idVal;
     });
     const getMapZoom = computed(() => {
-      let zoom=1;
+      let zoom=1.5;
       console.log("window.innerWidth:",window.innerWidth)
       if (window.innerWidth > 1024) {
-        zoom= window.innerWidth/600.0
+        zoom= window.innerWidth/630.0
       } 
       return zoom;
     });
@@ -73,15 +77,7 @@ export default {
                   })
                   .shape('icon', ['1', '0'])
                   .size(12);
-              imageLayer.on('click', (e) => {
-                console.log(e)
-                alert(`
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
-              <p>图中X坐标: ${e.x}</p>
-              <p>图中Y坐标: ${e.y}</p>
-            `);
-              });
+              
               const textlayer = new PointLayer({zIndex: 2})
                   .source(data, {
                     parser: {
@@ -107,21 +103,33 @@ export default {
                     textAllowOverlap: true,
                     textOffset: [20, 20],
                   });
-              textlayer.on('click', (e) => {
-                console.log(e)
-                router.push(`/admin/dashboard/street/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
-                console.log(`
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
-              <p>图中X坐标: ${e.x}</p>
-              <p>图中Y坐标: ${e.y}</p>
-            `);
-              });
+              if(props.areaGoTo){
+                imageLayer.on('click', (e) => {
+                    console.log(e)
+                    alert(`
+                  <p>区域名称: ${e.feature.name}</p>
+                  <p>区域标识: ${e.feature.code}</p>
+                  <p>图中X坐标: ${e.x}</p>
+                  <p>图中Y坐标: ${e.y}</p>
+                `);
+                  });
+                  textlayer.on('click', (e) => {
+                  console.log(e)
+                  router.push(`/admin/dashboard/${props.areaGoTo}/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
+                  console.log(`
+                  <p>区域名称: ${e.feature.name}</p>
+                  <p>区域标识: ${e.feature.code}</p>
+                  <p>图中X坐标: ${e.x}</p>
+                  <p>图中Y坐标: ${e.y}</p>
+                `);
+                });
+              }
+              
               scene.addLayer(imageLayer);
               scene.addLayer(textlayer);
             });
       })
-      const imagelayer = new ImageLayer({}).source('/img/res/renhe.png',
+      const imagelayer = new ImageLayer({}).source(`/img/map/${props.areaCode}.png`,
           {
             parser: {
               type: 'image',

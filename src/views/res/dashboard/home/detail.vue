@@ -437,44 +437,6 @@ export default {
   background-image: url("/img/res/bg.png");
 }
 
-.target-header{
-  text-align: left;
-  padding-top:6px;
-  margin-top: 2vh;
-  height: 36px;
-  background-image: linear-gradient(to right,#061A8F,transparent);
-  border-radius: 2px;
-}
-.target-title{
-  background-image: radial-gradient(circle, #daeef3 10%, #0075FF);
-  //background-image: radial-gradient(circle, #01BBE9 10%, #0075FF);
-  width:120px;
-  font-weight: bold;
-  background-clip: text;
-  color: transparent;
-  padding-left:20px;
-  font-size: 16px;
-}
-
-.target-content{
-  width:100%;
-  margin-top:1vh;
-  padding:10px;
-  text-align: center;
-  color:#64C3D1;
-  border-radius: 4px;
-  box-shadow: rgb(29, 72, 196) 0px 0px 25px 3px inset;
-  .target-value {
-  font-size:20px;
-  }
-}
-.target-content-height{
-  color:#64C3D1; 
-  text-align: center;
- height:38vh;
- background-color: rgba(34, 14, 212, 0.3);
-}
-
 #data-view {
   width: 100%;
   height: 100%;

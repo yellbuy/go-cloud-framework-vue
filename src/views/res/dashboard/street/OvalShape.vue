@@ -1,13 +1,12 @@
 <template>
-  <div id="flareTarget">
-    <div id="container"/>
+  <div>
+    <div id="ovalShapeContainer" style="height:20vh"/>
   </div>
 </template>
 
 <script lang="ts">
-import "@/views/res/dashboard/component/scss/box.scss";
-import {Chart} from "@antv/g2";
-import {onMounted} from "vue";
+import { Chart } from "@antv/g2";
+import { onMounted } from "vue";
 
 export default {
   setup() {
@@ -18,7 +17,7 @@ export default {
       ];
 
       const chart = new Chart({
-        container: 'container',
+        container: 'ovalShapeContainer',
         autoFit: true,
       });
 
@@ -29,7 +28,7 @@ export default {
           .axis(false)
           .legend(false)
           .view()
-          .attr('frame', false)
+          .attr('frame', true)
           .coordinate({type: 'theta', innerRadius: 0.5, outerRadius: 0.8});
 
       facetRect
@@ -56,25 +55,26 @@ export default {
           .encode('text', 'type')
           .style('textAlign', 'center')
           .style('textBaseline', 'middle')
-          .style('fontSize', 25)
+          .style('fontSize', 16)
+          .style('fontWeight', 500)
           .style('color', '#fdd625')
           .style('fill', '#28A2CEFF')
           .style('x', '50%')
           .style('y', '50%')
-          .style('dy', -20);
+          .style('dy', -10);
 
       facetRect
           .text()
           .encode('text', 'percent')
           .style('textAlign', 'center')
           .style('textBaseline', 'middle')
-          .style('fontSize', 30)
+          .style('fontSize', 16)
           .style('fontWeight', 500)
           .style('color', '#28A2CEFF')
           .style('fill', '#28A2CEFF')
           .style('x', '50%')
           .style('y', '50%')
-          .style('dy', 20);
+          .style('dy', 10);
 
       chart.render();
     })

@@ -7,7 +7,7 @@
               <div style="display:inline-block;" >
                 <div class="target-content">
                   <div style="display:inline-block;margin:0 20px;" >
-                    <i class="fa fa-users" aria-hidden="true" style="font-size: 36px; color: orange;" />
+                    <i class="fa fa-users" aria-hidden="true" style="font-size: 2.2rem; color: orange;" />
                     </div>
                     <div style="display:inline-block;margin:0 10px">
                       <div>主要检测群体</div>

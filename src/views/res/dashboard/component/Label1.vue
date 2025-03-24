@@ -1,6 +1,6 @@
 <template>
-  <div id="flareTarget">
-    <div id="label">
+  <div>
+    <div class="label">
       <label>{{ title }}</label>
       <label :style="{color:color}" style="font-size: 1.5em">{{ text }}</label>
     </div>
@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import {reactive, toRefs} from "vue";
+import { reactive, toRefs } from "vue";
 
 export default {
   props: {
@@ -26,17 +26,13 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-#flareTarget {
-  margin: 0 10px;
-  display: inline-block;
-}
 
-#label {
+.label {
   background-repeat: no-repeat;
   background-position: center top;
   background-size: 100% 100%;
   display: inline-block;
-  padding: 0.5em 0.5em;
+  padding: 0.3em;
   text-align: center;
 
   label {

@@ -1,13 +1,13 @@
 <template>
-  <div id="flareTarget">
+  <div>
     <div id="container"/>
   </div>
 </template>
 
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
-import {Chart} from "@antv/g2";
-import {onMounted} from "vue";
+import { Chart } from "@antv/g2";
+import { onMounted } from "vue";
 
 export default {
   setup() {

@@ -220,13 +220,6 @@ export default {
   width: 500px;
 }
 
-.target-content {
-  width: 100%;
-  margin: 0;
-  padding: 10px;
-  text-align: center;
-}
-
 #data-view {
   width: 100%;
   height: 100%;

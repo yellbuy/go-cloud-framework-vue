@@ -134,14 +134,14 @@
 </template>
 
 <script lang="ts">
-import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
+import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
 import dayjs from 'dayjs';
-import {onMounted, reactive, toRefs} from 'vue';
-import Title from "/@/views/res/dashboard/village/Title.vue";
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import Label1 from "/@/views/res/dashboard/component/Label1.vue";
 import OvalShape from "/@/views/res/dashboard/village/OvalShape.vue";
-import {useRoute, useRouter} from "vue-router";
+import Title from "/@/views/res/dashboard/village/Title.vue";
 
 export default {
   name: "IndexDashboard",
@@ -396,11 +396,6 @@ export default {
     font-size: 2em;
     margin: 0.5em;
     color: #28A2CE;
-  }
-
-  .target-content {
-    width: auto;
-    margin: 0.3em;
   }
 }
 </style>

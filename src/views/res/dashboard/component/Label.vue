@@ -1,14 +1,14 @@
 <template>
-  <div id="flareTarget">
-    <div id="label">
-      <label :style="{color:color}" style="font-size: 4em">{{ title }}</label>
+  <div class="flareTarget">
+    <div class="label">
+      <label :style="{color:color}" style="font-size: 2.5rem">{{ title }}</label>
       <label :style="{color:color}">{{ text }}</label>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {reactive, toRefs} from "vue";
+import { reactive, toRefs } from "vue";
 
 export default {
   props: {
@@ -26,23 +26,22 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-#flareTarget {
-  margin: 0 10px;
+.flareTarget {
   display: inline-block;
 }
 
-#label {
+.label {
   background-image: url(./img/label_box.png);
   background-repeat: no-repeat;
   background-position: center top;
   background-size: 100% 100%;
   display: inline-block;
-  padding: 2em 8em;
+  padding: 1rem 1rem;
   text-align: center;
-
+  width:12rem;
   label {
     display: block;
-    font-size: 2em;
+    font-size: 1.5rem;
     color: #409eff;
   }
 }

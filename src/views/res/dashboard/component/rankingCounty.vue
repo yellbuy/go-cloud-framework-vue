@@ -4,7 +4,7 @@
       <div class="flare-container">
         <div w50rem h24rem p3 flex="1" justify-center items-center>
           <div>
-            <dv-scroll-ranking-board :config="countyConfig" style="padding:0 1vw;height:20vh;text-align:left"/>
+            <dv-scroll-ranking-board :config="countyConfig" style="padding:0 1vw;height:21vh;text-align:left"/>
           </div>
         </div>
       </div>

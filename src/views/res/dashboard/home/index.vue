@@ -2,7 +2,7 @@
   <div id="data-view" dv-bg>
 
     <dv-full-screen-container>
-      <div id="banner">
+      <div class="banner">
         <div class="banner-content">
           <dv-button border="Border4" color="#409EFF" fontSize="12"
                      style="display:inline-block;margin-left:10px;" @click="console.log('click')">区建成
@@ -29,20 +29,20 @@
         <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
       </div> -->
       <div class="main-rows">
-        <div style="width:25%;padding-left:10px;">
-          <div class="target-header">
+        <div style="width:25%;" class="padding-lr-12">
+          <div class="target-header margin-top-8">
             <div class="target-title">乡进入情况</div>
           </div>
           <div>
             <rankingCounty/>
           </div>
-          <div class="target-header">
+          <div class="target-header margin-top-8">
             <div class="target-title">村实现情况</div>
           </div>
           <div>
             <rankingVillage/>
           </div>
-          <div class="target-header">
+          <div class="target-header margin-top-8">
             <div class="target-title">户达标情况</div>
           </div>
           <div>
@@ -52,11 +52,11 @@
           <!-- <rankingCounty/> -->
           <!-- <barAreaGdp/> -->
         </div>
-        <dv-border-box1 style="width:50%;">
+        <dv-border-box1 style="width:50%;" class="margin-top-8">
           <!-- <digitalGoodsStat/> -->
           <numberCounty/>
           <div class="column-center margin-bottom-20">
-            <antvImageMap areaCode="510411"></antvImageMap>
+            <antvImageMap areaCode="510411" areaGoTo="street"></antvImageMap>
           </div>
           <div class="column-footer">
             <!-- <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
@@ -68,11 +68,11 @@
           </div>
         </dv-border-box1>
 
-        <div style="width:25%;padding-right:10px;">
-          <div class="target-header">
+        <div style="width:25%;" class="padding-lr-10">
+          <div class="target-header margin-top-8">
             <div class="target-title">收入结构分析</div>
           </div>
-          <div class="target-content glt" style="">
+          <div class="target-content glt" style="height:22vh">
 
             <img height="100%" src="/img/res/glt.png" width="100%"/>
             <div style="position:relative;top:-160px;font-size:16px;color:white">
@@ -96,18 +96,18 @@
               低收入 5%
             </div>
           </div>
-          <div class="target-header">
-            <div class="target-title" style="width:20vw">基础设施、公共设施补短情况</div>
+          <div class="target-header margin-top-8">
+            <div class="target-title" style="width:21vw">基础设施、公共设施补短情况</div>
           </div>
-          <div class="target-content glt" style="">
-            <dv-scroll-board :config="jichusheshiConfig" style="width:100%;height:100%" @click="clickHandler"
+          <div class="target-content" style="">
+            <dv-scroll-board :config="jichusheshiConfig" style="width:100%;height:22vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
           </div>
-          <div class="target-header">
+          <div class="target-header margin-top-8">
             <div class="target-title" style="width:10vw">综合帮扶情况</div>
           </div>
-          <div class="target-content glt" style="">
-            <dv-scroll-board :config="zhonghebangfuConfig" style="width:100%;height:100%" @click="clickHandler"
+          <div class="target-content" style="">
+            <dv-scroll-board :config="zhonghebangfuConfig" style="width:100%;height:22vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
           </div>
         </div>
@@ -118,6 +118,7 @@
 </template>
 
 <script lang="ts">
+import "@/views/res/dashboard/component/scss/box.scss";
 import dayjs from 'dayjs';
 import { ElMessageBox } from 'element-plus';
 import { onMounted, reactive, toRefs } from 'vue';
@@ -286,121 +287,16 @@ export default {
   }
 }
 
-#banner {
-  width: 100%;
-  height: 281px;
-  background-image: url(/img/res/banner.png);
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 100% auto;
-  display: inline-block;
-
-  .banner-content {
-    margin: 24px 12px;
-    display: inline-block;
-    width: auto
-  }
-}
-
-#data-view {
-  background-image: url("/img/res/bg.png");
-}
-
-#map {
-  height: 100%;
-  width: 500px;
-}
-
-.target-header {
-  text-align: left;
-  padding-top: 6px;
-  margin-top: 2vh;
-  height: 36px;
-  background-image: linear-gradient(to right, #061A8F, transparent);
-  border-radius: 2px;
-}
-
-.target-title {
-  background-image: radial-gradient(circle, #daeef3 10%, #0075FF);
-  //background-image: radial-gradient(circle, #01BBE9 10%, #0075FF);
-  width: 120px;
-  font-weight: bold;
-  background-clip: text;
-  color: transparent;
-  padding-left: 20px;
-  font-size: 16px;
-}
-
-.target-content {
-  width: 100%;
-  margin-top: 1vh;
-  padding: 10px;
-  text-align: center;
-  color: #64C3D1;
-  border-radius: 4px;
-  box-shadow: rgb(29, 72, 196) 0px 0px 25px 3px inset;
-}
-
-.target-value {
-  color: #12AD78;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 500;
-}
-
-.glt {
-  background-image: url('/img/glt.png');
-  width: 100%;
-  height: 22.7vh;
-}
 #data-view {
   width: 100%;
   height: 100%;
   color: #000;
-
+  background-image: url("/img/res/bg.png");
 
   #dv-full-screen-container {
     background-image: url("/img/res/bg.png");
     background-size: 100% 100%;
   }
-
-  .main-rows {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    margin-top: -220px;
-
-    .dv-border-box-1 {
-      text-align: left;
-      height: auto !important;
-      margin-bottom: 4px;
-    }
-
-    .column-center {
-      height: 100%;
-      background-size: 100% 100%;
-      margin-top:2rem;
-    }
-
-    .column-footer {
-      display: flex;
-      flex-direction: row;
-      align-content: center;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 50px;
-      width: 100%;
-      position: absolute;
-      text-align: center;
-      bottom: 20px;
-      z-index: 9999;
-      background-size: 100% 100%;
-      margin: 0px 10px 0px 10px;
-    }
-  }
-
 
 }
 
