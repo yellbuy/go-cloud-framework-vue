@@ -4,13 +4,13 @@
     <dv-full-screen-container>
       <div class="banner">
         <div class="banner-content">
-          <dv-button border="Border4" color="#409EFF" fontSize="12"
+          <dv-button border="Border4" color="#615ea8" fontSize="12"
                      style="display:inline-block;margin-left:10px;" @click="console.log('click')">区建成
           </dv-button>
           <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px;">
             乡进入
           </dv-button>
-          <dv-button key="" border="Border4" color="#615ea8" fontSize="12"
+          <dv-button key="" border="Border4" color="#409EFF" fontSize="12"
                      style="display:inline-block;margin-left:10px">村实现
           </dv-button>
           <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px">
@@ -23,7 +23,8 @@
               curTime
             }}</b></p>
           <dv-button border="Border4" color="#409EFF"
-                     fontSize="12" style="display:inline-block;margin-right:10px;" @click="onGoToLink(`/admin/dashboard/home/detail`)">六优指标
+                     fontSize="12" style="display:inline-block;margin-right:10px;"
+                     @click="onGoToLink(`/admin/dashboard/home/detail`)">六优指标
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12"
                      style="display:inline-block;margin-right:10px;" @click="onClickCountDetail">区情介绍
@@ -108,7 +109,7 @@
               <Title title="五好指标户数"/>
               <div class="target-text">
                 <div class="target-content target-content-height">
-                  <dv-capsule-chart :config="shyzConfig" style="width:100%;height:30rem;"/>
+                  <dv-capsule-chart :config="shyzConfig" style="width:100%;height:28rem;"/>
                 </div>
               </div>
             </div>
@@ -168,7 +169,7 @@ export default {
         unit: '人',
         showValue: true,
         labelNum: 5,
-        fontSize: 30
+        fontSize: 13
       },
     })
     //导航链接
@@ -369,7 +370,7 @@ export default {
               text-align: center;
 
               text {
-                font-size: 1.8em;
+                font-size: 1em;
                 color: #28A2CE;
               }
             }
@@ -380,11 +381,11 @@ export default {
             align-items: center;
             justify-content: center; /*水平主轴居中*/
             color: #28A2CE;
-            font-size: 2em;
+            font-size: 1em;
             background-color: #0e136f;
             border-radius: 2em;
             padding: 1em;
-            margin: 0 3em;
+            margin: 1em 0 0 3em;
           }
 
           .cun {
@@ -433,7 +434,6 @@ export default {
   }
 
   .target-text {
-    font-size: 2em;
     margin: 0.5em;
     color: #28A2CE;
   }
