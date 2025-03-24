@@ -17,7 +17,9 @@
           </dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
-          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
+          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{
+              curTime
+            }}</b></p>
           <!-- <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/home/detail`)" border="Border4" color="#409EFF">六优指标</dv-button>
           <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onClickCountDetail" border="Border4" color="#409EFF">区情介绍</dv-button> -->
         </div>
@@ -37,33 +39,33 @@
             </div>
             <Title title="两高"/>
             <div>
-              <ovalShape />
+              <ovalShape/>
             </div>
-          <div class="">
-            <Title title="村实现完成情况"/>
-            <div class="target-text">
-              <el-row :gutter="2">
-                <el-col :span="12">
-                  <div style="text-align: center">
-                    <img src="./img/ldt.png" style="height:6rem"/>
-                    <div>三超</div>
-                  </div>
-                </el-col>
-                <el-col :span="12">
-                  <div style="text-align: center">
-                    <img src="./img/ldt.png" style="height:6rem"/>
-                    <div>四优</div>
-                  </div>
-                </el-col>
-                <el-col :span="12">
-                  <div style="text-align: center">
-                    <img src="./img/ldt.png" style="height:6rem"/>
-                    <div>两强</div>
-                  </div>
-                </el-col>
-              </el-row>
+            <div class="">
+              <Title title="村实现完成情况"/>
+              <div class="target-text">
+                <el-row :gutter="2">
+                  <el-col :span="12">
+                    <div style="text-align: center">
+                      <img src="./img/ldt.png" style="height:6rem"/>
+                      <div>三超</div>
+                    </div>
+                  </el-col>
+                  <el-col :span="12">
+                    <div style="text-align: center">
+                      <img src="./img/ldt.png" style="height:6rem"/>
+                      <div>四优</div>
+                    </div>
+                  </el-col>
+                  <el-col :span="12">
+                    <div style="text-align: center">
+                      <img src="./img/ldt.png" style="height:6rem"/>
+                      <div>两强</div>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
             </div>
-          </div>
           </el-col>
           <el-col :span="10">
             <div class="margin-top-10">
@@ -73,78 +75,80 @@
                 <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'" class="margin-lr-10"/>
               </div>
             </div>
-            <antvImageMap :areaCode="areaCode"  areaGoTo="village"/>
+            <antvImageMap :areaCode="areaCode" areaGoTo="village"/>
           </el-col>
           <el-col :span="7">
             <div class="">
-            <Title title="公共服务均等化"/>
-            <div class="target-text">
-              <div class="-label">
-                <el-row :gutter="0">
-                  <el-col :span="12">
-                    <div class="margin-right-10 margin-tb-10">
-                      <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'学前教育三年毛入园率(%)'" class="target-content "/>
-                    </div>
-                    
-                  </el-col>
-                  <el-col :span="12">
-                    <div class="margin-right-10  margin-tb-10">
-                      <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'全民医疗保险参保率(%)'" class="target-content"/>    
-                    </div>
-                  </el-col>
-                </el-row>
-                <el-row :gutter="0">
-                  <el-col :span="12">
-                    <div class="margin-right-10">
-                      <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'特殊人群医疗保险参保率(%)'"
-                          class="target-content"/>
-                    </div>
-                  </el-col>
-                  <el-col :span="12">
-                    <div class="margin-right-10">
-                      <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'农村客运覆盖率(%)'" class="target-content"/> 
-                    </div>
-                  </el-col>
-                </el-row>
-              </div>
-              <div class="margin-tb-10">
-                实现了幼有善育、学有优教、病有良医、老有康养、住有宜居、弱有帮扶。 一所中小学和附属中心幼儿园。
-                实现了农村客运全覆盖,村村通邮。建有农业社会化服务站。
-              </div>
-            </div>
-          </div>
-          <div class="">
-            <Title title="基础设施一体化"/>
-            <el-row :gutter="0">
-              <el-col :span="12">
-                <div class="target-text margin-right-10 margin-tb-10">
-                  <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'自来水普及率(%)'" class="target-content"/>
-                </div>
-                
-              </el-col>
-              <el-col :span="12">
-                <div class="target-text margin-right-10  margin-tb-10">
-                  <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'自然村通硬化路率(%)'" class="target-content"/> 
-                </div>
-              </el-col>
-            </el-row>
+              <Title title="公共服务均等化"/>
+              <div class="target-text">
+                <div class="-label">
+                  <el-row :gutter="0">
+                    <el-col :span="12">
+                      <div class="margin-right-10 margin-tb-10">
+                        <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'学前教育三年毛入园率(%)'"
+                                class="target-content "/>
+                      </div>
 
-            <div class="target-text margin-tb-10">
-              文化健身等基础设施配套完善,公共基础设施管理、运行、养护机制完善健全。生活垃圾收转运处置体系行政村覆盖率100%。
+                    </el-col>
+                    <el-col :span="12">
+                      <div class="margin-right-10  margin-tb-10">
+                        <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'全民医疗保险参保率(%)'"
+                                class="target-content"/>
+                      </div>
+                    </el-col>
+                  </el-row>
+                  <el-row :gutter="0">
+                    <el-col :span="12">
+                      <div class="margin-right-10">
+                        <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'特殊人群医疗保险参保率(%)'"
+                                class="target-content"/>
+                      </div>
+                    </el-col>
+                    <el-col :span="12">
+                      <div class="margin-right-10">
+                        <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'农村客运覆盖率(%)'" class="target-content"/>
+                      </div>
+                    </el-col>
+                  </el-row>
+                </div>
+                <div class="margin-tb-10">
+                  实现了幼有善育、学有优教、病有良医、老有康养、住有宜居、弱有帮扶。 一所中小学和附属中心幼儿园。
+                  实现了农村客运全覆盖,村村通邮。建有农业社会化服务站。
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="">
-            <Title title="乡村治理现代化"/>
-            <div class="target-text margin-tb-10">
+            <div class="">
+              <Title title="基础设施一体化"/>
+              <el-row :gutter="0">
+                <el-col :span="12">
+                  <div class="target-text margin-right-10 margin-tb-10">
+                    <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'自来水普及率(%)'" class="target-content"/>
+                  </div>
+
+                </el-col>
+                <el-col :span="12">
+                  <div class="target-text margin-right-10  margin-tb-10">
+                    <Label1 :color="'#1AFD9BFF'" :text="'100'" :title="'自然村通硬化路率(%)'" class="target-content"/>
+                  </div>
+                </el-col>
+              </el-row>
+
+              <div class="target-text margin-tb-10">
+                文化健身等基础设施配套完善,公共基础设施管理、运行、养护机制完善健全。生活垃圾收转运处置体系行政村覆盖率100%。
+              </div>
+            </div>
+            <div class="">
+              <Title title="乡村治理现代化"/>
+              <div class="target-text margin-tb-10">
                 社会主义核心价值观深入人心，乡级综治中心规范化建设，建有数字乡村平台，实现雪亮工程全盖。矛盾纠纷妥善化解，自治、法治、德治相结合的治理体系基本构建，物质富足、精神富有、乡风文明。
               </div>
-          </div>
-          <div class="">
-            <Title title="产业发展规模化"/>
-            <div class="target-text margin-tb-10">
-              产业发展规模化
             </div>
-          </div>
+            <div class="">
+              <Title title="产业发展规模化"/>
+              <div class="target-text margin-tb-10">
+                产业发展规模化
+              </div>
+            </div>
           </el-col>
         </el-row>
       </div>
@@ -154,17 +158,18 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import Label1 from "/@/views/res/dashboard/component/Label1.vue";
 import OvalShape from "/@/views/res/dashboard/street/OvalShape.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
+
 export default {
   name: "IndexDashboard",
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: {OvalShape, Label1, Label, Title,antvImageMap},
+  components: {OvalShape, Label1, Label, Title, antvImageMap},
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -180,7 +185,7 @@ export default {
     }
     // 页面加载时
     onMounted(() => {
-      
+
 
     });
     return {

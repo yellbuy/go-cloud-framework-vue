@@ -28,14 +28,14 @@ export default {
           type: 'category',
           data: props.label,
           axisLabel: {
-            fontSize: 18,
+            fontSize: 11,
             color: '#28A2CE'
           }
         },
         yAxis: {
           type: 'value',
           axisLabel: {
-            fontSize: 18,
+            fontSize: 11,
             color: '#28A2CE'
           }
         },
