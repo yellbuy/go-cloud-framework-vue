@@ -37,7 +37,14 @@ export default defineComponent({
   name: 'app',
   components: {LockScreen, Setings, CloseFull},
   setup() {
-    window.document.documentElement.style.fontSize = "15px";
+    // 设置rem自适应
+    let docEle = window.document.body;
+    if (window.screen.width >= 1920)
+      docEle.style.fontSize = "6.66666666666px";
+    if (window.screen.width >= 2560)
+      docEle.style.fontSize = "10px";
+    if (window.screen.width >= 3840)
+      docEle.style.fontSize = "15px";
 
     const {proxy} = getCurrentInstance() as any;
     const setingsRef = ref();
