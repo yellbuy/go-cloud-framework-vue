@@ -5,13 +5,13 @@
         <div class="digital-flop-item">
           <div class="center-flex">
               <div style="display:inline-block;" >
-                <div class="target-content">
-                  <div style="display:inline-block;margin:0 20px;" >
-                    <i class="fa fa-users" aria-hidden="true" style="font-size: 2.2rem; color: orange;" />
+                <div class="target-content  margin-lr-xl">
+                  <div style="display:inline-block;" >
+                    <i class="fa fa-users" aria-hidden="true" style="font-size: 2.2rem; margin-bottom:1rem;color: orange;" />
                     </div>
-                    <div style="display:inline-block;margin:0 10px">
-                      <div>主要检测群体</div>
-                      <div><b class="target-value" style="color:orange">23</b> 万人</div>
+                    <div style="display:inline-block;" class="margin-sm">
+                      <div style="font-size:1rem">主要检测群体</div>
+                      <div class="margin-top-sm"><b class="target-value" style="color:orange">23</b> 万人</div>
                     </div>
                 </div>
               </div>
@@ -20,13 +20,13 @@
         <div class="digital-flop-item">
           <div class="center-flex">
             <div style="display:inline-block;" >
-                <div class="target-content">
-                  <div style="display:inline-block;margin:0 20px;" >
-                    <i class="fa fa-address-card" aria-hidden="true" style="font-size: 36px; color: red;" />
+                <div class="target-content margin-lr-xl">
+                  <div style="display:inline-block;" >
+                    <i class="fa fa-address-card" aria-hidden="true" style="font-size: 2.2rem; margin-bottom:1rem; color: red;" />
                     </div>
-                    <div style="display:inline-block;margin:0 10px">
-                      <div>主要预警群体</div>
-                      <div><b class="target-value" style="color:red">4.6</b> 万人</div>
+                    <div style="display:inline-block;" class="margin-sm">
+                      <div style="font-size:1rem">主要预警群体</div>
+                      <div class="margin-top-sm"><b class="target-value" style="color:red">4.6</b> 万人</div>
                     </div>
                 </div>
               </div>

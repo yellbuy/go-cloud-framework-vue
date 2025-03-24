@@ -1,18 +1,11 @@
 <template>
-  <div id="flareTarget">
-    <div class="target-content">
-      <div class="flare-container">
-        <div w50rem h24rem p3 flex="1" justify-center items-center>
-          <div>
-            <dv-scroll-ranking-board :config="countyConfig" style="padding:0 1vw;height:21vh;text-align:left"/>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="target-content target-container-h3">
+    <dv-scroll-ranking-board :config="countyConfig"/>
   </div>
 </template>
 
 <script lang="ts">
+import "@/views/res/dashboard/component/scss/box.scss";
 import { reactive, toRefs } from 'vue';
 
 export default {
@@ -22,7 +15,7 @@ export default {
       countyConfig: {
         carousel: 'single',
 
-        rowNum: 5,
+        rowNum: 6,
         data: [
           {
             name: '大河中路街道',
@@ -96,7 +89,4 @@ export default {
 
 <style lang='scss' scoped>
 
-.flare-container {
-  text-align: left !important;
-}
 </style>

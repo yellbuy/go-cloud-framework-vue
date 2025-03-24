@@ -39,7 +39,7 @@ export default {
       let zoom=1.5;
       console.log("window.innerWidth:",window.innerWidth)
       if (window.innerWidth > 1024) {
-        zoom= window.innerWidth/630.0
+        zoom= window.innerWidth/660.0
       } 
       return zoom;
     });

@@ -76,9 +76,9 @@
 </template>
 
 <script lang="ts">
-import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
+import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
 import dayjs from 'dayjs';
-import {onMounted, reactive, ref, toRefs} from 'vue';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 import barAgricultureGdp from "./barAgricultureGdp.vue";
 import barAreaGdp from "./barAreaGdp.vue";
 import barFamilyGdp from "./barFamilyGdp.vue";
@@ -271,19 +271,6 @@ export default {
       height: 59%;
       background-size: 100% 100%;
       margin: 0px 20px 12px 20px;
-    }
-
-    .column-footer {
-      display: flex;
-      flex-direction: row;
-      align-content: center;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 26%;
-      background-size: 100% 100%;
-      margin: 0px 10px 0px 10px;
     }
   }
 

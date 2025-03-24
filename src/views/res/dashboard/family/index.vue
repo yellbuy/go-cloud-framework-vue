@@ -51,22 +51,22 @@
 </template>
 
 <script lang="ts">
-import {reactive, toRefs} from 'vue';
-import {useRoute} from 'vue-router';
-import Funnel from "./Funnel.vue";
-import Category from "./Category.vue";
-import Table from "./Table.vue";
-import FiveGoods from "./FiveGoods.vue";
-import LineGraph from "./LineGraph.vue";
-import numberVillageStat from "../component/numberVillageStat.vue";
+import { ElMessageBox } from "element-plus";
+import { reactive, toRefs } from 'vue';
+import { useRoute } from 'vue-router';
 import Banner from "../component/Banner.vue";
 import Label from "../component/Label.vue";
-import RankingCounty from "./rankingCounty.vue";
+import numberVillageStat from "../component/numberVillageStat.vue";
+import Category from "./Category.vue";
+import FiveGoods from "./FiveGoods.vue";
+import Funnel from "./Funnel.vue";
+import LineGraph from "./LineGraph.vue";
 import ProportionOfAgeGroups from "./ProportionOfAgeGroups.vue";
+import RankingCounty from "./rankingCounty.vue";
+import Table from "./Table.vue";
+import Dialog from "/@/views/res/dashboard/family/Dialog.vue";
 import MainMonitoring from "/@/views/res/dashboard/family/MainMonitoring.vue";
 import Sex from "/@/views/res/dashboard/family/sex.vue";
-import Dialog from "/@/views/res/dashboard/family/Dialog.vue";
-import {ElMessageBox} from "element-plus";
 
 export default {
   name: "IndexDashboard",
@@ -229,14 +229,6 @@ export default {
   #dv-full-screen-container {
     background-image: url("./img/bg.png");
     background-size: 100% 100%;
-  }
-
-  .main-rows {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    margin-top: -45rem;
-    height: 100%;
   }
 }
 </style>

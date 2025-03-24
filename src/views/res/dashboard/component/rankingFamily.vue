@@ -1,19 +1,11 @@
 <template>
-  <div id="flareTarget">
-    <div class="target-content">
-      <div class="flare-container">
-        <div w50rem h24rem p3 flex="1" justify-center items-center>
-            <div>
-              <dv-scroll-ranking-board :config="countyConfig" style="padding:0vh 1vw;height:21vh;text-align:left" />
-            </div>
-          </div>
-      </div>
-    </div>
-    
+  <div class="target-content target-container-h3">
+    <dv-scroll-ranking-board :config="countyConfig"/>
   </div>
 </template>
 
 <script lang="ts">
+import "@/views/res/dashboard/component/scss/box.scss";
 import { getCurrentInstance, reactive, toRefs } from 'vue';
 export default {
   setup() {
@@ -97,11 +89,4 @@ export default {
 </script>
  
 <style lang='scss' scoped>
-
-.flare-container{
-  text-align: "left"  !important;
-}
-.dv-scroll-ranking-board .ranking-column .inside-column {
-  background-color: #be379a !important;
-}
 </style>

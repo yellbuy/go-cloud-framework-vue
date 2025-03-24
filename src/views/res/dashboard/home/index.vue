@@ -30,19 +30,19 @@
       </div> -->
       <div class="main-rows">
         <div style="width:25%;" class="padding-lr-12">
-          <div class="target-header margin-top-8">
+          <div class="target-header ">
             <div class="target-title">乡进入情况</div>
           </div>
           <div>
             <rankingCounty/>
           </div>
-          <div class="target-header margin-top-8">
+          <div class="target-header margin-top">
             <div class="target-title">村实现情况</div>
           </div>
           <div>
             <rankingVillage/>
           </div>
-          <div class="target-header margin-top-8">
+          <div class="target-header margin-top">
             <div class="target-title">户达标情况</div>
           </div>
           <div>
@@ -52,7 +52,7 @@
           <!-- <rankingCounty/> -->
           <!-- <barAreaGdp/> -->
         </div>
-        <dv-border-box1 style="width:50%;" class="margin-top-8">
+        <dv-border-box1 style="width:50%;" class="">
           <!-- <digitalGoodsStat/> -->
           <numberCounty/>
           <div class="column-center margin-bottom-20">
@@ -69,10 +69,10 @@
         </dv-border-box1>
 
         <div style="width:25%;" class="padding-lr-10">
-          <div class="target-header margin-top-8">
+          <div class="target-header">
             <div class="target-title">收入结构分析</div>
           </div>
-          <div class="target-content glt" style="height:22vh">
+          <div class="target-content target-container-h3">
 
             <img height="100%" src="/img/res/glt.png" width="100%"/>
             <div style="position:relative;top:-160px;font-size:16px;color:white">
@@ -96,17 +96,17 @@
               低收入 5%
             </div>
           </div>
-          <div class="target-header margin-top-8">
-            <div class="target-title" style="width:21vw">基础设施、公共设施补短情况</div>
+          <div class="target-header margin-top">
+            <div class="target-title" >基础设施、公共设施补短情况</div>
           </div>
-          <div class="target-content" style="">
+          <div class="target-content target-container-h3" style="">
             <dv-scroll-board :config="jichusheshiConfig" style="width:100%;height:22vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
           </div>
-          <div class="target-header margin-top-8">
+          <div class="target-header margin-top">
             <div class="target-title" style="width:10vw">综合帮扶情况</div>
           </div>
-          <div class="target-content" style="">
+          <div class="target-content target-container-h3" style="">
             <dv-scroll-board :config="zhonghebangfuConfig" style="width:100%;height:22vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
           </div>

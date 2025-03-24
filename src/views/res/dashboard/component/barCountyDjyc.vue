@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div ref="barCountyDjyc" class="echartDiv target-content-height" id="barCountyDjyc" ></div>
+  <div class="target-container-h2">
+    <div ref="barCountyDjyc" class="echartDiv target-container-h2" id="barCountyDjyc" ></div>
   </div>
 </template>
 
