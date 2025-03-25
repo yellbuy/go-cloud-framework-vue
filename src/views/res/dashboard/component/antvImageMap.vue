@@ -158,12 +158,12 @@ export default {
  
 <style lang='scss' scoped>
 .antvMapContainer {
-  top: 50%;
-  left: 47%;
-  width: 50vw;
-  height: 80vh;
-  transform: translate(-50%, -46%);
-  position: absolute;
+  top: 28rem;
+  left: 0rem;
+  width: calc(100%);
+  height: calc(100vh - 16rem);
+  transform: translate(-0%, -0%);
+  //position: absolute;
   z-index: 1110;
 }
 </style>

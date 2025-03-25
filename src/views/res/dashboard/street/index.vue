@@ -68,14 +68,17 @@
             </div>
           </el-col>
           <el-col :span="10">
-            <div class="margin-top-10">
+            <div class="margin-top">
               <div class="text-center">
                 <Label :text="'总户数'" :title="10000" class="margin-lr-10"/>
                 <Label :color="'#FCAE26FF'" :text="'达标村数'" :title="6" class="margin-lr-10"/>
                 <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'" class="margin-lr-10"/>
               </div>
             </div>
-            <antvImageMap :areaCode="areaCode" areaGoTo="village"/>
+            <div class="column-center margin-bottom">
+              <antvImageMap :areaCode="areaCode" areaGoTo="village"/>
+            </div>
+            
           </el-col>
           <el-col :span="7">
             <div class="">
@@ -158,8 +161,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import Label1 from "/@/views/res/dashboard/component/Label1.vue";

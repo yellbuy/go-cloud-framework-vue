@@ -55,7 +55,7 @@
         <dv-border-box1 style="width:50%;" class="">
           <!-- <digitalGoodsStat/> -->
           <numberCounty/>
-          <div class="column-center margin-bottom-20">
+          <div class="column-center margin-bottom">
             <antvImageMap areaCode="510411" areaGoTo="street"></antvImageMap>
           </div>
           <div class="column-footer">
