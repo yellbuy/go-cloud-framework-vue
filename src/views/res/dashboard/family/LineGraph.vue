@@ -28,47 +28,48 @@ export default {
       const myChart = echarts.init(state.echart)
       // 指定图表的配置项和数据
       const option = {
-        color: ['#1AFD9BFF'],
         grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '0%',
-          containLabel: true
+          show: false,
+          top: '5%',
+          left: '10%',
+          right: '0%',
+          bottom: '5%',
         },
-        toolbox: {
-          feature: {
-            saveAsImage: {}
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
           }
         },
         xAxis: {
           type: 'category',
-          boundaryGap: false,
-          data: ['保障好', '教育好', '医疗好', '住房好', '家风好'],
+          data: ['未购买基本养老保险', '未购买基本医疗保险', 'D级危房', '生产生活缺水', '辍学学生'],
+          splitLine: {
+            show: false // 隐藏横线
+          },
           axisLabel: {
-            fontSize: 14, // 设置Y轴标签字体大小
-            color: "#409eff",
-            lineHeight: 20
+            fontSize: 0
           }
         },
         yAxis: {
           type: 'value',
+          splitLine: {
+            show: false // 隐藏横线
+          },
           axisLabel: {
-            fontSize: 14, // 设置Y轴标签字体大小
-            color: "#409eff"
+            fontSize: 15,
+            color: '#28A2CE',
           }
         },
         series: [
           {
-            name: '性别',
-            type: 'line',
-            stack: 'Total',
-            data: [20, 30, 41, 22, 15]
-          },
-          {
-            name: '年龄 ',
-            type: 'line',
-            stack: 'Total',
-            data: [20, 15, 22, 15, 33]
+            data: [120, 200, 150, 80, 70],
+            color: '#28A2CE',
+            type: 'bar',
+            showBackground: true,
+            backgroundStyle: {
+              color: 'rgba(180, 180, 180, 0.2)'
+            }
           }
         ]
       };
