@@ -8,7 +8,6 @@
         <div ref="echart" class="echartDiv"></div>
       </div>
     </div>
-    a
   </div>
 </template>
 

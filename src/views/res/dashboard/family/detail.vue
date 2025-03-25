@@ -42,15 +42,19 @@
             <div>联系方式：<span>130****1234</span></div>
           </div>
 
-          <div class="dialog_table margin-top-lg">资产收入</div>
+          <div class="dialog_table margin-top-lg">资产情况</div>
           <div class="target-content">
             <div class="dialog_body" style="">
               <div>家庭年收入(元)：<span>152123</span></div>
               <div>人均年收入(元)：<span style="color: red">30424</span></div>
               <div>车辆(辆)：<span>1</span></div>
-              <div>房产(m)：<span>120</span></div>
+              <div>商品房(m)：<span>120</span></div>
 
             </div>
+          </div>
+
+          <div class="dialog_table margin-top-lg">收入情况</div>
+          <div class="target-content">
             <div class="dialog_body margin-bottom" style="">
               <div>工资性收入(元)：<span>0</span></div>
               <div>经营性收入(元)：<span>170000</span></div>
@@ -60,32 +64,31 @@
             </div>
           </div>
 
-
           <div class="dialog_table margin-top-lg">五好情况</div>
           <div class="dialog_body target-content margin-bottom-lg">
             <div>
               <div>生活好</div>
-              <div class="margin-top"><span>1、购买基本养老保险</span></div>
-              <div><span>2、生活用水安全稳定</span></div>
-              <div><span>3、供电稳定不断电 &nbsp;&nbsp;&nbsp;</span></div>
+              <div class="margin-top" style="text-align: left"><span>1、1人购买养老保险</span></div>
+              <div style="text-align: left"><span>2、生活用水安全稳定</span></div>
+              <div style="text-align: left"><span>3、供电稳定不断电</span></div>
             </div>
             <div>
               <div>教育好</div>
-              <div class="margin-top"><span>1、适龄儿童接受义务教育</span></div>
+              <div class="margin-top" style="text-align: left"><span>1、适龄儿童1人</span></div>
             </div>
             <div>
               <div>医疗好</div>
-              <div class="margin-top"><span>1、购买基本医疗保险</span></div>
+              <div class="margin-top" style="text-align: left"><span>1、1人购买医保</span></div>
             </div>
             <div>
               <div>住房好</div>
-              <div class="margin-top"><span>1、住房安全</span></div>
+              <div class="margin-top" style="text-align: left"><span>1、住房安全</span></div>
             </div>
             <div>
               <div>家风好</div>
-              <div class="margin-top"><span>1、家庭和美</span></div>
-              <div><span>2、亲友和睦</span></div>
-              <div><span>3、遵纪守法</span></div>
+              <div class="margin-top" style="text-align: left"><span>1、家庭和美</span></div>
+              <div style="text-align: left"><span>2、亲友和睦</span></div>
+              <div style="text-align: left"><span>3、遵纪守法</span></div>
             </div>
           </div>
 
@@ -154,7 +157,7 @@ export default {
 </script>
 
 
-<style lang="less">
+<style lang="less" scoped>
 #app {
   .el-aside, .el-header, .layout-navbars-tagsview {
     display: none;
@@ -172,7 +175,7 @@ export default {
   color: #000;
 
   #dv-full-screen-container {
-    //background-image: url("./img/bg_2.jpg");
+    background-image: none;
     background-color: #0d0d45;
     background-size: 100% 100%;
   }

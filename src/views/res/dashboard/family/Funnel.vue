@@ -2,12 +2,12 @@
   <div id="flareTarget">
     <div class="flare-container">
       <div class="target-header">
-        <div class="target-title">家庭年收入橄榄图</div>
+        <div class="target-title">家庭年收入结构图</div>
       </div>
 
       <div class="target-content">
-        <div style="text-align: center;margin:5rem 8rem">
-          <img src="./img/橄榄图.png" style="width: 20rem;height: 16rem;padding-left: 3rem"/>
+        <div style="text-align: center;margin:2rem 8rem">
+          <img src="./img/橄榄图.png" style="width: 20rem;height: 16.5rem;padding-left: 3rem"/>
         </div>
       </div>
     </div>

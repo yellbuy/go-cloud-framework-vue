@@ -19,7 +19,6 @@
           </dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
-
           <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{
               curTime
             }}</b></p>
@@ -36,31 +35,24 @@
       <div class="main-rows">
         <div style="width:25%">
           <Funnel @click="onClickTargetDetail"/>
-          <FiveGoods/>
           <Category/>
+          <div class="target-header">
+            <div class="target-title">需帮扶的人数</div>
+          </div>
+          <div class="target-content target-content-height">
+            <dv-capsule-chart :config="shyzConfig" style="width:100%;height:25rem;"/>
+          </div>
         </div>
 
         <dv-border-box1 style="height:calc(100% - 21rem);width:50%;">
-          <div style="text-align: center;margin: 1.5rem 1.5rem 0 1.5rem">
+          <div style="margin: 1.5rem 1.5rem 0 1.5rem;display: flex;flex-direction: row;justify-content: space-around">
+            <Label :text="'总人口'" :title="50000"/>
             <Label :text="'总户数'" :title="10000"/>
-            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500" style="margin: 0 20rem 2rem;"/>
+            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500"/>
             <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'"/>
           </div>
           <div style="margin: 1rem 2rem">
             <main-monitoring @click="onClickMainMonitoring"/>
-          </div>
-          <div style="flex: 1;display: flex;flex-direction: row;">
-            <div style="width: 50%;margin: 0 2rem">
-              <LineGraph/>
-            </div>
-            <div style="width: 50%;margin-right: 2rem">
-              <div class="target-header">
-                <div class="target-title">帮扶人数</div>
-              </div>
-              <div class="target-content target-content-height">
-                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:25rem;"/>
-              </div>
-            </div>
           </div>
           <div style="flex: 1;display: flex;flex-direction: row;">
             <div style="width: 50%;margin:  1rem 2rem">
@@ -70,14 +62,21 @@
               <ProportionOfAgeGroups/>
             </div>
           </div>
+          <div style="flex: 1;display: flex;flex-direction: row;margin-bottom: 3rem">
+            <div style="width: 50%;margin: 0 2rem">
+              <LineGraph/>
+            </div>
+            <div style="width: 50%;margin-right: 2rem">
+              <FiveGoods/>
+            </div>
+          </div>
+
         </dv-border-box1>
 
         <div style="width:25%;">
           <Table/>
         </div>
       </div>
-
-      <Dialog :isShow="false"/>
     </dv-full-screen-container>
   </div>
 </template>
@@ -94,7 +93,6 @@ import Funnel from "./Funnel.vue";
 import LineGraph from "./LineGraph.vue";
 import ProportionOfAgeGroups from "./ProportionOfAgeGroups.vue";
 import Table from "./Table.vue";
-import Dialog from "/@/views/res/dashboard/family/Dialog.vue";
 import MainMonitoring from "/@/views/res/dashboard/family/MainMonitoring.vue";
 import Sex from "/@/views/res/dashboard/family/sex.vue";
 
@@ -102,8 +100,6 @@ export default {
   name: "IndexDashboard",
   components: {
     Sex,
-    // eslint-disable-next-line vue/no-reserved-component-names
-    Dialog,
     MainMonitoring,
     ProportionOfAgeGroups,
     Funnel,
@@ -195,30 +191,30 @@ export default {
         data: [
           {
             name: '垃圾不乱堆帮扶情况',
-            value: 55
+            value: 155
           },
           {
             name: '供电稳定帮扶情况',
-            value: 21
+            value: 221
           },
           {
             name: '卫生厕所帮扶情况',
-            value: 67
+            value: 167
           },
           {
             name: '家用网络帮扶情况',
-            value: 98
+            value: 19
           },
           {
             name: '生活用水帮扶情况',
-            value: 88
+            value: 48
           },
         ],
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
         unit: '人',
         showValue: true,
         labelNum: 5,
-        fontSize: 18
+        fontSize: 15
       }
     })
     const onFullScreen = () => {
