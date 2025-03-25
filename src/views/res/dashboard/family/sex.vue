@@ -6,12 +6,12 @@
       </div>
       <div>
         <div class="target-content" style="text-align: center;">
-          <div style="display: inline-block;margin-right:20px;margin: 3rem 2rem">
-            <barHuman endColor="blue" height="24rem" progress="58%" startColor="lightblue"
+          <div style="display: inline-block;margin: 3rem 2rem">
+            <barHuman endColor="blue" height="10rem" progress="58%" startColor="lightblue"
                       text="男：58%"></barHuman>
           </div>
-          <div style="display: inline-block;margin-left:20px;margin: 3rem 2rem">
-            <barHuman :gender="1" height="24rem" progress="42%" text="女：42%"></barHuman>
+          <div style="display: inline-block;margin: 3rem 2rem">
+            <barHuman :gender="1" height="10rem" progress="42%" text="女：42%"></barHuman>
           </div>
         </div>
       </div>

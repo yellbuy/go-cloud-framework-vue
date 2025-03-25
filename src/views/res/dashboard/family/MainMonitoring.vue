@@ -5,26 +5,26 @@
         <div class="target-title">主要监测群体</div>
       </div>
       <div class="target-content">
-        <div style="margin: 3rem">
+        <div>
           <div style="display: inline-block">
             <dv-water-level-pond :config="config1"
-                                 style="width:15rem;height:15rem;display: inline-block;margin: 1rem 5rem 1rem;font-size: 4rem !important;"/>
-            <div style="font-size: 2.5rem;margin-bottom: 2rem">低收入边缘人群</div>
+                                 style="width:10rem;height:10rem;display: inline-block;margin: 1rem 3rem 1rem;font-size: 4rem !important;"/>
+            <div style="font-size: 1.5rem;margin-bottom: 2rem">低收入边缘人群</div>
           </div>
           <div style="display: inline-block">
             <dv-water-level-pond :config="config2"
-                                 style="width:15rem;height:15rem;display: inline-block;margin: 1rem 5rem 1rem"/>
-            <div style="font-size: 2.5rem;margin-bottom: 2rem">低收入一般监测群体</div>
+                                 style="width:10rem;height:10rem;display: inline-block;margin: 1rem 3rem 1rem"/>
+            <div style="font-size: 1.5rem;margin-bottom: 2rem">低收入一般监测群体</div>
           </div>
           <div style="display: inline-block">
             <dv-water-level-pond :config="config3"
-                                 style="width:15rem;height:15rem;display: inline-block;margin: 1rem 5rem 1rem"/>
-            <div style="font-size: 2.5rem;margin-bottom: 2rem">低收入重点监测群体</div>
+                                 style="width:10rem;height:10rem;display: inline-block;margin: 1rem 3rem 1rem"/>
+            <div style="font-size: 1.5rem;margin-bottom: 2rem">低收入重点监测群体</div>
           </div>
           <div style="display: inline-block">
             <dv-water-level-pond :config="config4"
-                                 style="width:15rem;height:15rem;display: inline-block;margin: 1rem 5rem 1rem"/>
-            <div style="font-size: 2.5rem;margin-bottom: 2rem">达标户</div>
+                                 style="width:10rem;height:10rem;display: inline-block;margin: 1rem 3rem 1rem"/>
+            <div style="font-size: 1.5rem;margin-bottom: 2rem">达标户</div>
           </div>
         </div>
       </div>

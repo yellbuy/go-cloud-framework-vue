@@ -35,10 +35,10 @@ export default {
         legend: {
           orient: 'vertical',
           left: 'right',
-          itemWidth: 50,
-          itemHeight: 15,
+          itemWidth: 25,
+          itemHeight: 8,
           textStyle: {
-            fontSize: 22,
+            fontSize: 12,
             color: '#428BD4',
           },
           data: [
@@ -64,7 +64,7 @@ export default {
             label: { // 图表的标签配置，例如柱状图的标签显示在柱子上方或下方等位置。
               show: true, // 是否显示标签，默认为false。根据需要开启。
               textStyle: { // 这里可以设置标签的文本样式，包括字体大小等。
-                fontSize: 22,
+                fontSize: 18,
                 color: "#428BD4"
               },
               formatter: '{d}%'
@@ -90,6 +90,6 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  height: 30rem;
+  height: 16rem;
 }
 </style>

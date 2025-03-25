@@ -37,24 +37,15 @@ import {reactive, toRefs} from "vue";
 export default {
   setup() {
     const state: any = reactive({
-      TableData: [
-        {
-          id: 1,
-          district: "仁和区",
-          village: "大龙潭彝族乡",
-          community: "荤撒拉村",
-          name: "邓*志",
-          standard: false
-        }
-      ]
+      TableData: []
     })
     for (let i = 0; i < 60; i++) {
       state.TableData.push(
           {
-            id: 1,
+            id: i + 1,
             district: "仁和区",
             village: "大龙潭彝族乡",
-            community: "荤撒拉村",
+            community: "混撒拉村",
             name: "邓*志",
             standard: (i % 3 != 0)
           }
@@ -69,6 +60,11 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.target-content {
+  max-height: 82rem; /* 或者你需要的任何高度 */
+  overflow: auto;
+  position: relative;
+}
 
 table {
   border-collapse: collapse;
@@ -87,7 +83,7 @@ th {
   margin: 0;
   border: none;
   padding: 1rem;
-  font-size: 1.8rem;
+  font-size: 1.1rem;
   border-collapse: collapse
 }
 

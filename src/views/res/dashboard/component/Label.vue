@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs } from "vue";
+import {reactive, toRefs} from "vue";
 
 export default {
   props: {
@@ -39,6 +39,7 @@ export default {
   padding: 1rem 1rem;
   text-align: center;
   width:12rem;
+
   label {
     display: block;
     font-size: 1.5rem;

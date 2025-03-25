@@ -45,15 +45,15 @@ export default {
           boundaryGap: false,
           data: ['保障好', '教育好', '医疗好', '住房好', '家风好'],
           axisLabel: {
-            fontSize: 25, // 设置Y轴标签字体大小
+            fontSize: 14, // 设置Y轴标签字体大小
             color: "#409eff",
-            lineHeight: 80
+            lineHeight: 20
           }
         },
         yAxis: {
           type: 'value',
           axisLabel: {
-            fontSize: 32, // 设置Y轴标签字体大小
+            fontSize: 14, // 设置Y轴标签字体大小
             color: "#409eff"
           }
         },
@@ -92,6 +92,6 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  height: 30rem;
+  height: 25rem;
 }
 </style>
