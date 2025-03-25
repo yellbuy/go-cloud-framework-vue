@@ -1,7 +1,37 @@
 <template>
   <div id="data-view" dv-bg>
     <dv-full-screen-container v-if="isFullScreen">
-      <Banner/>
+      <div class="banner">
+        <div class="banner-content">
+          <dv-button border="Border4" color="#615ea8" fontSize="12"
+                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区建成
+          </dv-button>
+          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px;"
+                     @click="onGoToLink(`/admin/dashboard/street/index?areaCode=${streetAreaCode}`)">
+            乡进入
+          </dv-button>
+          <dv-button key="" border="Border4" color="#615ea8" fontSize="12"
+                     style="display:inline-block;margin-left:10px">村实现
+          </dv-button>
+          <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px"
+                     @click="onGoToLink(`/admin/dashboard/family/index?areaCode=${streetAreaCode}`)">
+            户达标
+          </dv-button>
+        </div>
+        <div class="banner-content" style="text-align: right;float:right;">
+
+          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{
+              curTime
+            }}</b></p>
+          <dv-button border="Border4" color="#409EFF"
+                     fontSize="12" style="display:inline-block;margin-right:10px;"
+                     @click="onGoToLink(`/admin/dashboard/home/detail`)">六优指标
+          </dv-button>
+          <dv-button border="Border4" color="#409EFF" fontSize="12"
+                     style="display:inline-block;margin-right:10px;" @click="onClickCountDetail">区情介绍
+          </dv-button>
+        </div>
+      </div>
 
       <div class="main-rows">
         <div style="width:25%">
@@ -11,50 +41,51 @@
         </div>
 
         <dv-border-box1 style="height:calc(100% - 21rem);width:50%;">
-          <div style="text-align: center;margin-top: 1.5rem">
+          <div style="text-align: center;margin: 1.5rem 1.5rem 0 1.5rem">
             <Label :text="'总户数'" :title="10000"/>
-            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500" style="margin: 0 24rem 2rem;"/>
+            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500" style="margin: 0 20rem 2rem;"/>
             <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'"/>
           </div>
-          <main-monitoring @click="onClickMainMonitoring"/>
+          <div style="margin: 1rem 2rem">
+            <main-monitoring @click="onClickMainMonitoring"/>
+          </div>
           <div style="flex: 1;display: flex;flex-direction: row;">
-            <div style="width: 50%">
+            <div style="width: 50%;margin: 0 2rem">
               <LineGraph/>
             </div>
-            <div style="width: 50%">
+            <div style="width: 50%;margin-right: 2rem">
               <div class="target-header">
                 <div class="target-title">帮扶人数</div>
               </div>
-              <div class="target-content target-content-height p20">
-                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:30rem;"/>
+              <div class="target-content target-content-height">
+                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:25rem;"/>
               </div>
             </div>
           </div>
           <div style="flex: 1;display: flex;flex-direction: row;">
-            <div style="width: 50%">
+            <div style="width: 50%;margin:  1rem 2rem">
               <sex/>
             </div>
-            <div style="width: 50%">
+            <div style="width: 50%;margin: 1rem 2rem 0 0">
               <ProportionOfAgeGroups/>
             </div>
           </div>
         </dv-border-box1>
 
-        <div style="width:25%;height: 100%">
+        <div style="width:25%;">
           <Table/>
         </div>
       </div>
 
-      <Dialog/>
+      <Dialog :isShow="false"/>
     </dv-full-screen-container>
   </div>
 </template>
 
 <script lang="ts">
-import { ElMessageBox } from "element-plus";
-import { reactive, toRefs } from 'vue';
-import { useRoute } from 'vue-router';
-import Banner from "../component/Banner.vue";
+import {ElMessageBox} from "element-plus";
+import {reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import Category from "./Category.vue";
@@ -62,7 +93,6 @@ import FiveGoods from "./FiveGoods.vue";
 import Funnel from "./Funnel.vue";
 import LineGraph from "./LineGraph.vue";
 import ProportionOfAgeGroups from "./ProportionOfAgeGroups.vue";
-import RankingCounty from "./rankingCounty.vue";
 import Table from "./Table.vue";
 import Dialog from "/@/views/res/dashboard/family/Dialog.vue";
 import MainMonitoring from "/@/views/res/dashboard/family/MainMonitoring.vue";
@@ -76,7 +106,6 @@ export default {
     Dialog,
     MainMonitoring,
     ProportionOfAgeGroups,
-    RankingCounty,
     Funnel,
     Category,
     // eslint-disable-next-line vue/no-reserved-component-names,vue/no-unused-components
@@ -85,8 +114,7 @@ export default {
     LineGraph,
     // eslint-disable-next-line vue/no-unused-components
     numberVillageStat,
-    Banner,
-    // eslint-disable-next-line vue/no-reserved-component-names
+// eslint-disable-next-line vue/no-reserved-component-names
     Label
   },
   setup() {
@@ -190,21 +218,29 @@ export default {
         unit: '人',
         showValue: true,
         labelNum: 5,
-        fontSize: 30
+        fontSize: 18
       }
     })
     const onFullScreen = () => {
       state.isFullScreen = !state.isFullScreen
     }
 
+    const router = useRouter();
+    //导航链接
+    const onGoToLink = (url: string) => {
+      router.push(url)
+    }
     return {
       onFullScreen,
       ...toRefs(state),
       onClickTargetDetail,
-      onClickMainMonitoring
+      onClickMainMonitoring,
+      onGoToLink
     };
-  },
-};
+  }
+  ,
+}
+;
 </script>
 
 

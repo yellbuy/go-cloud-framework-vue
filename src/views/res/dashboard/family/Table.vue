@@ -12,7 +12,8 @@
           <th>是否达标</th>
           </thead>
           <tbody>
-          <tr v-for="item in TableData">
+          <tr v-for="item in TableData"
+              @click="onGoToLink(`/admin/dashboard/family/detail?areaCode=${streetAreaCode}`)">
             <td>{{ item.id }}</td>
             <td>{{ item.district }}</td>
             <td>{{ item.village }}</td>
@@ -33,42 +34,44 @@
 <script lang="ts">
 
 import {reactive, toRefs} from "vue";
+import {useRouter} from "vue-router";
 
 export default {
   setup() {
     const state: any = reactive({
-      TableData: [
-        {
-          id: 1,
-          district: "仁和区",
-          village: "大龙潭彝族乡",
-          community: "荤撒拉村",
-          name: "邓*志",
-          standard: false
-        }
-      ]
+      TableData: []
     })
     for (let i = 0; i < 60; i++) {
       state.TableData.push(
           {
-            id: 1,
+            id: i + 1,
             district: "仁和区",
             village: "大龙潭彝族乡",
-            community: "荤撒拉村",
+            community: "混撒拉村",
             name: "邓*志",
             standard: (i % 3 != 0)
           }
       );
     }
-
+    const router = useRouter();
+    //导航链接
+    const onGoToLink = (url: string) => {
+      router.push(url)
+    }
     return {
-      ...toRefs(state)
+      ...toRefs(state),
+      onGoToLink
     }
   }
 }
 </script>
 
 <style lang='scss' scoped>
+.target-content {
+  max-height: 82rem; /* 或者你需要的任何高度 */
+  overflow: auto;
+  position: relative;
+}
 
 table {
   border-collapse: collapse;
@@ -80,14 +83,14 @@ table {
 thead {
   background-color: rgba(3, 48, 107, 0.5);
   padding: 1rem;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 }
 
 th {
   margin: 0;
   border: none;
   padding: 1rem;
-  font-size: 1.8rem;
+  font-size: 1rem;
   border-collapse: collapse
 }
 

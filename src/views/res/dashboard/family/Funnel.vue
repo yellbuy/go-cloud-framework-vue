@@ -4,10 +4,10 @@
       <div class="target-header">
         <div class="target-title">家庭年收入橄榄图</div>
       </div>
-      <!--      <div ref="echart" class="echartDiv"></div>-->
+
       <div class="target-content">
         <div style="text-align: center;margin:5rem 8rem">
-          <img src="./img/橄榄图.png" style="width: 37rem;height: 22rem;padding-left: 10rem"/>
+          <img src="./img/橄榄图.png" style="width: 20rem;height: 16rem;padding-left: 3rem"/>
         </div>
       </div>
     </div>

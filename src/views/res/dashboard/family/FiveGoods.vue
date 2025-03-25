@@ -31,7 +31,7 @@ export default {
         color: ['#FFE434', '#67F9D8', '#56A3F1', '#FF917C'],
         textStyle: {
           fontFamily: 'Arial, Verdana, sans-serif', // 字体类型
-          fontSize: 30, // 字体大小
+          fontSize: 20, // 字体大小
           fontWeight: 'bold' // 字体粗细
         },
         radar: {
@@ -43,7 +43,7 @@ export default {
             {name: '教育好', max: 100},
           ],
           center: ['50%', '50%'],
-          radius: 160,
+          radius: 100,
           startAngle: 0,
           splitNumber: 4,
           shape: 'circle',
@@ -117,4 +117,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.echartDiv {
+  height: 25rem;
+}
 </style>

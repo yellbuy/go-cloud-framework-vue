@@ -84,8 +84,11 @@ import {reactive, ref, toRefs} from 'vue';
 import "@/views/res/dashboard/component/scss/box.scss";
 
 export default {
-  setup() {
-    const dialogTableVisible = ref(true)
+  props: {
+    isShow: Boolean,
+  },
+  setup(props) {
+    const dialogTableVisible = ref(props.isShow)
     let state = reactive({})
     return {
       ...toRefs(state),
