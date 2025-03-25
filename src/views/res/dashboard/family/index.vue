@@ -85,7 +85,7 @@
 <script lang="ts">
 import {ElMessageBox} from "element-plus";
 import {reactive, toRefs} from 'vue';
-import {useRoute} from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import Category from "./Category.vue";
@@ -225,11 +225,17 @@ export default {
       state.isFullScreen = !state.isFullScreen
     }
 
+    const router = useRouter();
+    //导航链接
+    const onGoToLink = (url: string) => {
+      router.push(url)
+    }
     return {
       onFullScreen,
       ...toRefs(state),
       onClickTargetDetail,
-      onClickMainMonitoring
+      onClickMainMonitoring,
+      onGoToLink
     };
   }
   ,

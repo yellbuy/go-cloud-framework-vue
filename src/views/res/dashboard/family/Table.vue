@@ -12,7 +12,8 @@
           <th>是否达标</th>
           </thead>
           <tbody>
-          <tr v-for="item in TableData">
+          <tr v-for="item in TableData"
+              @click="onGoToLink(`/admin/dashboard/family/detail?areaCode=${streetAreaCode}`)">
             <td>{{ item.id }}</td>
             <td>{{ item.district }}</td>
             <td>{{ item.village }}</td>
@@ -33,6 +34,7 @@
 <script lang="ts">
 
 import {reactive, toRefs} from "vue";
+import {useRouter} from "vue-router";
 
 export default {
   setup() {
@@ -51,9 +53,14 @@ export default {
           }
       );
     }
-
+    const router = useRouter();
+    //导航链接
+    const onGoToLink = (url: string) => {
+      router.push(url)
+    }
     return {
-      ...toRefs(state)
+      ...toRefs(state),
+      onGoToLink
     }
   }
 }
@@ -76,14 +83,14 @@ table {
 thead {
   background-color: rgba(3, 48, 107, 0.5);
   padding: 1rem;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 }
 
 th {
   margin: 0;
   border: none;
   padding: 1rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   border-collapse: collapse
 }
 
