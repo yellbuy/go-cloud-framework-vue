@@ -5,9 +5,9 @@
       <div class="banner">
         <div class="banner-content">
           <dv-button border="Border4" color="#615ea8" fontSize="12"
-                     style="display:inline-block;margin-left:10px;" @click="console.log('click')">区建成
+                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区建成
           </dv-button>
-          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px;">
+          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/dashboard/street/index?areaCode=${streetAreaCode}`)">
             乡进入
           </dv-button>
           <dv-button key="" border="Border4" color="#409EFF" fontSize="12"
@@ -121,14 +121,14 @@
 </template>
 
 <script lang="ts">
-import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
+import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
+import { Memo } from "@element-plus/icons-vue";
 import dayjs from 'dayjs';
-import {onMounted, reactive, toRefs} from 'vue';
-import Title from "/@/views/res/dashboard/village/Title.vue";
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import Label from "/@/views/res/dashboard/component/Label.vue";
-import {useRoute, useRouter} from "vue-router";
-import {Memo} from "@element-plus/icons-vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
+import Title from "/@/views/res/dashboard/village/Title.vue";
 
 export default {
   name: "IndexDashboard",
@@ -137,11 +137,17 @@ export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
+    const areaCode=route.query.areaCode;
+    const areaName=route.query.areaName;
+    const streetAreaCode=areaCode?.toString().slice(0,9)
+    const countyAreaCode=areaCode?.toString().slice(0,6)
     const state: any = reactive({
       isFullScreen: true,// 是否全屏
       curTime: dayjs().format("YYYY年MM月DD日"),
-      areaCode: route.query.areaCode,
-      areaName: route.query.areaName,
+      areaCode: areaCode,
+      areaName: areaName,
+      streetAreaCode:streetAreaCode,
+      countyAreaCode:countyAreaCode,
       shyzConfig: {
         data: [
           {
