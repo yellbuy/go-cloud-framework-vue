@@ -1,6 +1,5 @@
 <template>
   <div id="data-view" dv-bg>
-    <div id="mapContainer" ref="mapContainer" style="width: 100em;height: 100em"/>
     <dv-full-screen-container>
       <div class="banner">
         <div class="banner-content">
@@ -45,10 +44,6 @@
             </div>
             <div class="view-box">
               <Title title="三超"/>
-              <!--              <div class="view-box-title">-->
-              <!--                <Memo style="width: 1.5em; height: 1.5em;margin-right: 0.2em"/>-->
-              <!--                <text>基本富裕达标户数占比95%</text>-->
-              <!--              </div>-->
               <div class="view-box-table">
                 <div>
                   <column-chart :data="[3.1, 3.52, 3.7]" :label="['2022年', '2023年', '2024年']" :mark-line="3.2"/>
@@ -70,8 +65,10 @@
                   <Title title="组织强"/>
                 </template>
               </el-popover>
-              <div class="target-text target-content m15">
-
+              <div class="target-text target-content m15" style="text-align: left">
+                1.党组织1个（党委1个 党总支1个 党支部1个）<br/>
+                2.党员1个<br/>
+                3.党代表1个
               </div>
             </div>
             <div class="view-box">
@@ -110,47 +107,72 @@
               </div>
             </div>
           </div>
-
-          <div class="view-content content2">
+          <dv-border-box1 class="view-content content2" style="padding: 2rem">
             <div class="view-box">
               <Label :text="'总户数'" :title="10000"/>
               <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500"/>
-              <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'"/>
+              <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'20%'"/>
+            </div>
+            <div class="column-center margin-bottom" style="width: 100%;height: 47rem">
+              <antvImageMap :center="[500,450]" :zoom="2" areaCode="510411200207" areaGoTo="street"></antvImageMap>
+            </div>
+            <div class="view-box">
+              <div class="view-box-bottom">
+                <Title title="五好指标户数"/>
+                <div class="target-text">
+                  <div class="target-content target-content-height">
+                    <dv-capsule-chart :config="shyzConfig" style="width:100%;height:18rem;"/>
+                  </div>
+                </div>
+              </div>
+              <div class="view-box-bottom">
+                <Title title="五不好指标户数"/>
+                <div class="target-text">
+                  <div class="target-content target-content-height">
+                    <dv-capsule-chart :config="wbhConfig" style="width:100%;height:18rem;"/>
+                  </div>
+                </div>
+              </div>
             </div>
             <div/>
-          </div>
+          </dv-border-box1>
 
           <div class="view-content content3">
             <div class="view-box">
-              <Title title="产业优"/>
+              <Title title="两强四优"/>
               <div class="target-text target-content m15">
-                具备特色农业支柱产业，支柱产业产值占农业总产值90%
+                <TopTwoAndTopFour/>
               </div>
+            </div>
+            <div class="view-box">
+              <ProportionOfAgeGroups/>
             </div>
             <div class="view-box">
               <Title title="环境优"/>
               <div class="target-text target-content m15">
-                生活用水安全稳定，自来水普及率95%，农村卫生厕所普及率98%，生活污水得到有效治理，生活垃圾实现收运处置，住房安全等级B级，村容村貌整洁，无乱搭乱建，自然村(组)通硬件路率100%
+                <environmental-excellence :data="[25.68, 29.1, 70.8, 40.8, 30.8]"
+                                          :label="['⾃来⽔', '卫⽣厕所', '⽣活污⽔', '⽣活垃圾', '硬化路率']"
+                                          :mark-line="0"/>
               </div>
             </div>
             <div class="view-box">
               <Title title="文化优"/>
-              <div class="target-text target-content m15 target-content">
-                建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、-文旅品牌，综合文化服务80%常住人口
+              <div class="target-text target-content m15" style="text-align: left">
+                文化广场：220㎡ <br>
+                村史馆：1个<br>
+                文艺队伍：1支<br>
+                乡村推荐官：1人<br>
+                文旅品牌：蜜雪冰城<br>
+                综合文化服务率：54%<br>
               </div>
             </div>
             <div class="view-box">
               <Title title="服务优"/>
-              <div class="target-text target-content m15 target-content">
-                公共服务保障完善。有1名农村社会化服务协办员，开展农业社会化服务。残疾儿童实现随班就读或送教上门。有家庭医生服务团队。成功创建市级健康村。适龄人员养老保险参保率95%。
-              </div>
-            </div>
-            <div class="view-box">
-              <Title title="五好指标户数"/>
-              <div class="target-text">
-                <div class="target-content target-content-height">
-                  <dv-capsule-chart :config="shyzConfig" style="width:100%;height:28rem;"/>
-                </div>
+              <div class="target-text target-content m15" style="text-align: left">
+                公共停车场：1个<br>
+                学前教育毛入园率：40%<br>
+                基本养老保险参保率：40%<br>
+                基本医疗保险参保率：40%<br>
               </div>
             </div>
           </div>
@@ -161,19 +183,29 @@
 </template>
 
 <script lang="ts">
-import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
-import {Memo} from "@element-plus/icons-vue";
 import dayjs from 'dayjs';
-import {onMounted, reactive, toRefs} from 'vue';
+import {reactive, toRefs} from 'vue';
 import {useRoute, useRouter} from "vue-router";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
+import TopTwoAndTopFour from "/@/views/res/dashboard/village/TopTwoAndTopFour.vue";
+import ProportionOfAgeGroups from "/@/views/res/dashboard/village/ProportionOfAgeGroups.vue";
+import EnvironmentalExcellence from "/@/views/res/dashboard/village/EnvironmentalExcellence.vue";
+import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 
 export default {
   name: "IndexDashboard",
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: {ColumnChart, Memo, Label, Title},
+  components: {
+    antvImageMap,
+    EnvironmentalExcellence,
+    ProportionOfAgeGroups,
+    TopTwoAndTopFour,
+    ColumnChart,
+    Label,
+    Title
+  },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -215,116 +247,42 @@ export default {
         unit: '人',
         showValue: true,
         labelNum: 5,
-        fontSize: 13
+        fontSize: 11
+      },
+      wbhConfig: {
+        data: [
+          {
+            name: '养老保险',
+            value: 55
+          },
+          {
+            name: '未买医保',
+            value: 21
+          },
+          {
+            name: '缺水',
+            value: 67
+          },
+          {
+            name: 'D级危房',
+            value: 98
+          },
+          {
+            name: '辍学学生',
+            value: 88
+          },
+        ],
+        colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
+        unit: '人',
+        showValue: true,
+        labelNum: 5,
+        fontSize: 11
       },
     })
     //导航链接
     const onGoToLink = (url: string) => {
       router.push(url)
     }
-    // 页面加载时
-    onMounted(() => {
-      const scene = new Scene({
-        id: 'mapContainer',
-        logoVisible: false,
-        map: new Map({
-          center: [500, 500],
-          zoom: 2.3,
-          version: 'SIMPLE',
-          mapSize: 1000,
-          maxZoom: 5,
-          minZoom: 1,
-          pitchEnabled: true,
-          rotateEnabled: true,
-        }),
-      });
-      scene.on('loaded', () => {
-        fetch(`/data/res/area/${state.areaCode}.json`)
-            .then((res) => res.json())
-            .then((data) => {
-              scene.addImage(
-                  '0', `/img/res/village_0.png`);
-              scene.addImage(
-                  '1', `/img/res/village_1.png`);
-              const imageLayer = new PointLayer()
-                  .source(data, {
-                    parser: {
-                      type: 'json',
-                      x: 'x',
-                      y: 'y',
-                    },
-                  })
-                  .shape('icon', ['1', '0'])
-                  .size(12);
-              imageLayer.on('click', (e) => {
-                console.log(e)
-                alert(`
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
-              <p>图中X坐标: ${e.x}</p>
-              <p>图中Y坐标: ${e.y}</p>
-            `);
-              });
-              const textlayer = new PointLayer({zIndex: 2})
-                  .source(data, {
-                    parser: {
-                      type: 'json',
-                      x: 'x',
-                      y: 'y',
-                    },
-                  })
-                  .shape('name', 'text')
-                  .size(12)
-                  .active({
-                    color: '#00f',
-                    mix: 0.9,
-                  })
-                  .color('red')
-                  .style({
-                    textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
-                    spacing: 6, // 字符间距
-                    fontWeight: '800',
-                    padding: [30, 30], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
-                    stroke: '#ffffff', // 描边颜色
-                    strokeWidth: 2, // 描边宽度
-                    textAllowOverlap: true,
-                    textOffset: [20, 20],
-                  });
-              textlayer.on('click', (e) => {
-                console.log(e)
-                router.push(`/admin/dashboard/village/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
-                alert(`
-              <p>区域名称: ${e.feature.name}</p>
-              <p>区域标识: ${e.feature.code}</p>
-              <p>图中X坐标: ${e.x}</p>
-              <p>图中Y坐标: ${e.y}</p>
-            `);
-              });
-              scene.addLayer(imageLayer);
-              scene.addLayer(textlayer);
-            });
-      })
-      const imagelayer = new ImageLayer({}).source(`/img/map/${state.areaCode}.png`,
-          {
-            parser: {
-              type: 'image',
-              autoFit: true,
-              extent: [360, 400, 660, 600],
-            },
-          },
-      );
-      imagelayer.on('click', (e) => {
-        console.log(e)
-        alert(`
-          <p>区域名称: ${e.feature.name}</p>
-          <p>区域标识: ${e.feature.code}</p>
-          <p>图中X坐标: ${e.x} = ${e.x + 250}</p>
-          <p>图中Y坐标: ${e.y} = ${(1000 + (500 - e.y) / 2) / 2}</p>
-        `);
-      });
-      scene.addLayer(imagelayer);
-
-    });
     return {
       ...toRefs(state),
       onGoToLink
@@ -398,7 +356,6 @@ export default {
       .view-content {
         height: 100%;
         display: grid;
-        grid-row-gap: 2em;
       }
 
       .content1 {
@@ -410,7 +367,8 @@ export default {
             display: grid;
             grid-template-columns:1fr 1fr;
             grid-column-gap: 2em;
-            align-items: center;
+            align-items: start;
+            justify-content: flex-end;
 
             div {
               text-align: center;
@@ -462,16 +420,21 @@ export default {
         .view-box {
           display: flex;
           justify-content: space-between;
+          align-items: flex-end;
+
+          .view-box-bottom {
+            width: 100%;
+          }
         }
 
       }
 
       .content3 {
+        width: 100%;
         grid-template-rows:auto;
         justify-self: center;
 
         .view-box {
-
           .view-box-label {
             width: 100%;
             height: 100%;

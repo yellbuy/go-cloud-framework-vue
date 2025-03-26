@@ -91,17 +91,22 @@
 
           <div class="dialog_table margin-top-lg">帮扶需求</div>
           <div class="target-content margin-bottom-lg">
-            <div class="dialog_body" style="flex-direction: column">
-              <div style="margin-left: 2rem"><span>教育帮扶、医疗救助</span></div>
-              <div style="margin-left: 2rem"><span>其他：给予帮扶情况其他情况说明</span></div>
+            <div class="dialog_body" style="flex-direction: row;">
+              <div>
+                <div style="margin-left: 2rem;text-align: left"><span>教育帮扶、医疗救助</span></div>
+                <div style="margin-left: 2rem;text-align: left"><span>其他：给予帮扶情况其他情况说明</span></div>
+              </div>
+              <div>
+                <div style="margin-left: 2rem;text-align: left"><span>帮扶人：张三</span></div>
+              </div>
             </div>
+
             <div class="dialog_body" style="justify-content: space-between">
               <div style="flex: 1;margin-right: 1rem">
                 <div class="dialog_table margin-bottom-lg">匹配政策</div>
                 <div style="margin-left: 2rem"><span>《教育帮扶政策》</span></div>
                 <div style="margin-left: 2rem"><span>《医疗救助政策》</span></div>
               </div>
-
               <div style="flex: 1">
                 <div class="dialog_table margin-bottom-lg">政策落实情况</div>
                 <div style="margin-left: 2rem"><span>已落实</span></div>
