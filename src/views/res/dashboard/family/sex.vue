@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <div class="aflare-container">
       <div class="target-header">
-        <div class="target-title">帮扶人员比例</div>
+        <div class="target-title">男女比例</div>
       </div>
       <div>
         <div class="target-content" style="text-align: center;">

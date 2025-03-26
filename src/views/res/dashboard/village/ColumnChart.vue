@@ -14,7 +14,8 @@ import * as echarts from "echarts";
 export default {
   props: {
     data: Array,
-    label: Array
+    label: Array,
+    markLine: Array,
   },
   setup(props) {
     let state = reactive({
@@ -24,9 +25,19 @@ export default {
       const myChart = echarts.init(state.echart)
       // 指定图表的配置项和数据
       const option = {
+        grid: {
+          show: false,
+          top: '5%',
+          left: '15%',
+          right: '0%',
+          bottom: '15%',
+        },
         xAxis: {
           type: 'category',
           data: props.label,
+          splitLine: {
+            show: false // 隐藏横线
+          },
           axisLabel: {
             fontSize: 11,
             color: '#28A2CE'
@@ -34,9 +45,13 @@ export default {
         },
         yAxis: {
           type: 'value',
+          splitLine: {
+            show: false // 隐藏横线
+          },
           axisLabel: {
             fontSize: 11,
-            color: '#28A2CE'
+            color: '#28A2CE',
+            formatter: '{value}万'
           }
         },
         series: [
@@ -44,7 +59,6 @@ export default {
             type: "pictorialBar",
             symbolSize: [45, 25],
             symbolOffset: [0, -10],
-            z: 12,
             symbolPosition: "end",
             itemStyle: {
               color: "#32dbfc",
@@ -61,8 +75,9 @@ export default {
               color: "#0869cc",
               opacity: 0.7,
             },
-            z: 12,
-          }, {
+            z: 0,
+          },
+          {
             type: "bar",
             barWidth: 45,
             barGap: "-100%",
@@ -72,6 +87,22 @@ export default {
               opacity: 0.7,
             },
             data: props.data,
+            markLine: {
+              data: [
+                {
+                  yAxis: props.markLine
+                }
+              ],
+              lineStyle: {
+                color: '#FCAE26FF'
+              },
+              label: {
+                position: 'middle',
+                formatter: '{c}万',
+                color: '#FCAE26FF',
+              },
+              z: 22
+            }
           }
         ]
       };
@@ -84,9 +115,7 @@ export default {
 
     //挂载
     onMounted(async () => {
-
       echartInit();
-
     })
 
     return {
@@ -98,4 +127,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.echartDiv {
+  height: 15rem;
+}
 </style>

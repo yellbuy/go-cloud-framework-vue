@@ -31,9 +31,9 @@ export default {
         grid: {
           show: false,
           top: '5%',
-          left: '10%',
+          left: '15%',
           right: '0%',
-          bottom: '5%',
+          bottom: '15%',
         },
         tooltip: {
           trigger: 'axis',
@@ -43,12 +43,13 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: ['未购买基本养老保险', '未购买基本医疗保险', 'D级危房', '生产生活缺水', '辍学学生'],
+          data: ['未买医保', 'D级危房', '缺水', '辍学学生'],
           splitLine: {
             show: false // 隐藏横线
           },
           axisLabel: {
-            fontSize: 0
+            fontSize: 15,
+            color: '#28A2CE'
           }
         },
         yAxis: {
@@ -57,13 +58,14 @@ export default {
             show: false // 隐藏横线
           },
           axisLabel: {
-            fontSize: 15,
+            fontSize: 13,
             color: '#28A2CE',
+            formatter: '{value}人'
           }
         },
         series: [
           {
-            data: [120, 200, 150, 80, 70],
+            data: [200, 150, 80, 70],
             color: '#28A2CE',
             type: 'bar',
             showBackground: true,
