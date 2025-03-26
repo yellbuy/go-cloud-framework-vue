@@ -23,7 +23,10 @@ export default {
       type: String,
       default: '',
     },
-    center: Array,
+    center: {
+      type: Array,
+      default: [500,500],
+    },,
     zoom: Array,
   },
   setup(props) {
