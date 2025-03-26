@@ -5,52 +5,55 @@
 </template>
 
 <script lang="ts">
-import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
-import { computed, getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
+import {computed, getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
+
 export default {
   props: {
-		areaCode: {
-			type: String,
-			default:'510411',
-		},
+    areaCode: {
+      type: String,
+      default: '510411',
+    },
     areaName: {
-			type: String,
-			default:'仁和区',
-		},
+      type: String,
+      default: '仁和区',
+    },
     areaGoTo: {
-			type: String,
-			default:'',
-		},
-	},
+      type: String,
+      default: '',
+    },
+    center: Array,
+    zoom: Array,
+  },
   setup(props) {
-    const { proxy } = getCurrentInstance() as any;
+    const {proxy} = getCurrentInstance() as any;
     let uid = ref('');
     let state = reactive({
       uid
     })
     const route = useRoute();
     const router = useRouter();
-    const idVal=`antv-ImageMap-uid-${parseInt((Math.random() * 1000000).toString())}`
+    const idVal = `antv-ImageMap-uid-${parseInt((Math.random() * 1000000).toString())}`
     onBeforeMount(() => {
       uid.value = idVal;
     });
     const getMapZoom = computed(() => {
-      let zoom=1.5;
-      console.log("window.innerWidth:",window.innerWidth)
+      let zoom = 1.5;
+      console.log("window.innerWidth:", window.innerWidth)
       if (window.innerWidth > 1024) {
-        zoom= window.innerWidth/660.0
-      } 
+        zoom = window.innerWidth / 660.0
+      }
       return zoom;
     });
-        //挂载
+    //挂载
     onMounted(async () => {
       const scene = new Scene({
         id: uid.value,
         logoVisible: false,
         map: new Map({
-          center: [500, 500],
-          zoom: getMapZoom.value||2.5,
+          center: props.center || [500, 500],
+          zoom: props.zoom || getMapZoom.value || 2.5,
           version: 'SIMPLE',
           mapSize: 1000,
           maxZoom: 5,
@@ -77,7 +80,7 @@ export default {
                   })
                   .shape('icon', ['1', '0'])
                   .size(12);
-              
+
               const textlayer = new PointLayer({zIndex: 2})
                   .source(data, {
                     parser: {
@@ -103,17 +106,17 @@ export default {
                     textAllowOverlap: true,
                     textOffset: [20, 20],
                   });
-              if(props.areaGoTo){
+              if (props.areaGoTo) {
                 imageLayer.on('click', (e) => {
-                    console.log(e)
-                    alert(`
+                  console.log(e)
+                  alert(`
                   <p>区域名称: ${e.feature.name}</p>
                   <p>区域标识: ${e.feature.code}</p>
                   <p>图中X坐标: ${e.x}</p>
                   <p>图中Y坐标: ${e.y}</p>
                 `);
-                  });
-                  textlayer.on('click', (e) => {
+                });
+                textlayer.on('click', (e) => {
                   console.log(e)
                   router.push(`/admin/dashboard/${props.areaGoTo}/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
                   console.log(`
@@ -124,7 +127,7 @@ export default {
                 `);
                 });
               }
-              
+
               scene.addLayer(imageLayer);
               scene.addLayer(textlayer);
             });
@@ -148,14 +151,14 @@ export default {
       //   `);
       // });
       scene.addLayer(imagelayer);
-      })
-      return {
-        ...toRefs(state),
-      }
-    },
-  }
+    })
+    return {
+      ...toRefs(state),
+    }
+  },
+}
 </script>
- 
+
 <style lang='scss' scoped>
 .antvMapContainer {
   top: 28rem;
