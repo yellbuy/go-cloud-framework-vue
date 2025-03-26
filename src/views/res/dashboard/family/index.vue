@@ -190,39 +190,39 @@ export default {
         data: [
           {
             name: '产业帮扶',
-            value: 155
+            value: 67
           },
           {
             name: '就业促进',
-            value: 221
+            value: 43
           },
           {
             name: '教育帮扶',
-            value: 167
+            value: 15
           },
           {
             name: '医疗救助',
-            value: 19
+            value: 1
           },
           {
             name: '住房保障',
-            value: 48
+            value: 0
           },
           {
             name: '最低生活保障',
-            value: 48
+            value: 10
           },
           {
             name: '临时救助',
-            value: 48
+            value: 0
           },
           {
             name: '慈善救助',
-            value: 48
+            value: 0
           },
           {
             name: '其他',
-            value: 48
+            value: 0
           },
         ],
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],

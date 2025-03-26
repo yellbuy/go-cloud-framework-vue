@@ -51,12 +51,12 @@ export default {
         colors: ['rgb(242,241,180)', 'rgb(232,188,58)']
       },
       config3: {
-        data: [15],
+        data: [12.89],
         shape: 'round',
         colors: ['rgb(242,137,115)', 'rgb(201,59,51)']
       },
       config4: {
-        data: [15],
+        data: [50.79],
         shape: 'round',
         colors: ['rgb(53,193,125)', 'rgb(17,165,102)']
       }

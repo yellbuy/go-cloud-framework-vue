@@ -45,10 +45,10 @@ export default {
             type: 'pie',
             radius: ['20%', '40%'],
             data: [
-              {value: 25, name: '财产性收入'},
-              {value: 20, name: '经营性收入'},
-              {value: 30, name: '工资性收入'},
-              {value: 25, name: '转移性收入'}
+              {value: 3, name: '财产性收入'},
+              {value: 63.1, name: '经营性收入'},
+              {value: 32.2, name: '工资性收入'},
+              {value: 1.7, name: '转移性收入'}
             ]
           }
         ]
