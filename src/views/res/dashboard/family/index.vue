@@ -45,7 +45,8 @@
         </div>
 
         <dv-border-box1 style="height:calc(100% - 21rem);width:50%;">
-          <div style="margin: 1.5rem 1.5rem 0 1.5rem;display: flex;flex-direction: row;justify-content: space-around">
+          <div
+              style="margin: 1.5rem 1.5rem 0 1.5rem;display: flex;flex-direction: row;justify-content: space-between;align-items: flex-end;">
             <Label :text="'总户数'" :title="380"/>
             <Label :text="'总人口'" :title="1527"/>
             <Label :color="'#FCAE26FF'" :text="'达标户'" :title="193"/>

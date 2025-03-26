@@ -41,22 +41,22 @@ export default {
   setup() {
     let state = reactive({
       config1: {
-        data: [35],
+        data: [45.53],
         shape: 'round',
         colors: ['rgb(2, 220, 248)', 'rgb(10, 102, 238)']
       },
       config2: {
-        data: [35],
+        data: [25.79],
         shape: 'round',
         colors: ['rgb(242,241,180)', 'rgb(232,188,58)']
       },
       config3: {
-        data: [12.89],
+        data: [4.21],
         shape: 'round',
         colors: ['rgb(242,137,115)', 'rgb(201,59,51)']
       },
       config4: {
-        data: [50.79],
+        data: [24.47],
         shape: 'round',
         colors: ['rgb(53,193,125)', 'rgb(17,165,102)']
       }

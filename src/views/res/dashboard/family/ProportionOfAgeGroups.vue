@@ -49,11 +49,11 @@ export default {
             roseType: 'radius',
             avoidLabelOverlap: false,
             data: [
-              {value: 18.4, name: "18岁以下"},
-              {value: 6.7, name: "18-25岁"},
-              {value: 17.8, name: "26-35岁"},
-              {value: 10.5, name: "36-45岁"},
-              {value: 46.5, name: "45岁以上"}
+              {value: 18.2, name: "18岁以下"},
+              {value: 6.6, name: "18-25岁"},
+              {value: 17.6, name: "26-35岁"},
+              {value: 11.9, name: "36-45岁"},
+              {value: 45.8, name: "45岁以上"}
             ],
             label: { // 图表的标签配置，例如柱状图的标签显示在柱子上方或下方等位置。
               show: true, // 是否显示标签，默认为false。根据需要开启。
