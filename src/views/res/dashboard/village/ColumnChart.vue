@@ -24,9 +24,19 @@ export default {
       const myChart = echarts.init(state.echart)
       // 指定图表的配置项和数据
       const option = {
+        grid: {
+          show: false,
+          top: '5%',
+          left: '10%',
+          right: '0%',
+          bottom: '15%',
+        },
         xAxis: {
           type: 'category',
           data: props.label,
+          splitLine: {
+            show: false // 隐藏横线
+          },
           axisLabel: {
             fontSize: 11,
             color: '#28A2CE'
@@ -34,6 +44,9 @@ export default {
         },
         yAxis: {
           type: 'value',
+          splitLine: {
+            show: false // 隐藏横线
+          },
           axisLabel: {
             fontSize: 11,
             color: '#28A2CE'
@@ -62,7 +75,8 @@ export default {
               opacity: 0.7,
             },
             z: 12,
-          }, {
+          },
+          {
             type: "bar",
             barWidth: 45,
             barGap: "-100%",
@@ -84,9 +98,7 @@ export default {
 
     //挂载
     onMounted(async () => {
-
       echartInit();
-
     })
 
     return {
@@ -98,4 +110,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.echartDiv {
+  height: 15rem;
+}
 </style>

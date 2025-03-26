@@ -44,17 +44,17 @@
             </div>
             <div class="view-box">
               <Title title="三超"/>
-              <div class="view-box-title">
-                <Memo style="width: 1.5em; height: 1.5em;margin-right: 0.2em"/>
-                <text>基本富裕达标户数占比50%</text>
-              </div>
+              <!--              <div class="view-box-title">-->
+              <!--                <Memo style="width: 1.5em; height: 1.5em;margin-right: 0.2em"/>-->
+              <!--                <text>基本富裕达标户数占比95%</text>-->
+              <!--              </div>-->
               <div class="view-box-table">
                 <div>
-                  <column-chart :data="[3.1, 3.52, 3.7]" :label="['2022年', '2023年', '20224年']"/>
+                  <column-chart :data="[3.1, 3.52, 3.7]" :label="['2022年', '2023年', '2024年']"/>
                   <text>全村人均年可支配收入超全市农村人均年可支配收入</text>
                 </div>
                 <div>
-                  <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '20224年']"/>
+                  <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '2024年']"/>
                   <text>村集体经济收入超20万元</text>
                 </div>
               </div>
@@ -393,7 +393,7 @@ export default {
             background-color: #0e136f;
             border-radius: 2em;
             padding: 1em;
-            margin: 1em 0 0 3em;
+            margin: 1em 0 0 0;
           }
 
           .cun {
