@@ -39,28 +39,39 @@
             </div>
             <Title title="两高"/>
             <div>
-              <ovalShape/>
+              <el-row>
+                <el-col :span="12">
+                    <gaugeProgress  :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
+                    :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.30" text="基本富裕达标户数占比" :style="'height:12rem'"/>
+                </el-col>
+                <el-col :span="12">
+                    <gaugeProgress :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
+                  :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.20" text="基本富裕实现村数占比" :style="'height:12rem'"/>
+                </el-col>
+              </el-row>
             </div>
-            <div class="">
+            <div style="margin-top:-2rem">
               <Title title="村实现完成情况"/>
-              <div class="target-text">
-                <el-row :gutter="2">
+              <div class="margin-top">
+                <el-row :gutter="2" >
                   <el-col :span="12">
-                    <div style="text-align: center">
-                      <img src="./img/ldt.png" style="height:6rem"/>
-                      <div>三超</div>
+                    <div style="text-align: center;">
+                      <div :style="'min-height:12rem'">
+                        <radarEchart :style="'height:13rem'" :startAngle="150" :indicatorNameData="[ { name: '基本富裕', max: 100 },  { name: '人均收入', max: 100 },  { name: '集体经济', max: 100 }]" :series1ValueData="[100,100,100]" :series2ValueData="[20,18,30]"></radarEchart>
+                      </div>
+                      <div class="margin-top-xs">三超</div>
                     </div>
                   </el-col>
                   <el-col :span="12">
                     <div style="text-align: center">
-                      <img src="./img/ldt.png" style="height:6rem"/>
-                      <div>四优</div>
+                      <radarEchart :style="'height:13rem'" :startAngle="45" :indicatorNameData="[{ name: '产业优', max: 100 },  { name: '环境优', max: 100 },  { name: '文化优', max: 100 },  { name: '服务优', max: 100 }]" :series1ValueData="[100,100,100,100]" :series2ValueData="[56,60,30,75]"></radarEchart>
+                      <div class="margin-top-xs">四优</div>
                     </div>
                   </el-col>
                   <el-col :span="12">
-                    <div style="text-align: center">
-                      <img src="./img/ldt.png" style="height:6rem"/>
-                      <div>两强</div>
+                    <div style="text-align: center" class="margin-top-xl">
+                      <radarEchart :style="'height:13rem'" :indicatorNameData="[{ name: '组织强', max: 100 },  { name: '治理强', max: 100 }]" :series1ValueData="[100,100]" :series2ValueData="[80,90]"></radarEchart>
+                      <div class="margin-top-xs">两强</div>
                     </div>
                   </el-col>
                 </el-row>
@@ -71,8 +82,8 @@
             <div class="margin-top">
               <div class="text-center">
                 <Label :text="'总户数'" :title="10000" class="margin-lr-10"/>
-                <Label :color="'#FCAE26FF'" :text="'达标村数'" :title="6" class="margin-lr-10"/>
-                <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'95%'" class="margin-lr-10"/>
+                <Label :color="'#FCAE26FF'" :text="'达标村数'" :title="12" class="margin-lr-10"/>
+                <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'20%'" class="margin-lr-10" @click="onClickPleaseWait('查看未达标户数')"/>
               </div>
             </div>
             <div class="column-center margin-bottom">
@@ -161,18 +172,20 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
+import { ElMessageBox } from 'element-plus';
 import { onMounted, reactive, toRefs } from 'vue';
 import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
+import gaugeProgress from "../component/gaugeProgress.vue";
+import radarEchart from "../component/radarEchart.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import Label1 from "/@/views/res/dashboard/component/Label1.vue";
 import OvalShape from "/@/views/res/dashboard/street/OvalShape.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
-
 export default {
   name: "IndexDashboard",
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: {OvalShape, Label1, Label, Title, antvImageMap},
+  components: {OvalShape, Label1, Label, Title, antvImageMap,gaugeProgress,radarEchart},
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -186,14 +199,21 @@ export default {
     const onGoToLink = (url: string) => {
       router.push(url)
     }
+    //指标解读
+    const onClickPleaseWait = (name:string) => {
+      const html = `请等待，${name}功能正在开发中...`
+      ElMessageBox.alert(html, '温馨提示', {dangerouslyUseHTMLString: true,type: 'info',})
+    }
     // 页面加载时
     onMounted(() => {
 
 
     });
     return {
+      onGoToLink,
+      onClickPleaseWait,
       ...toRefs(state),
-      onGoToLink
+     
     };
   },
 };

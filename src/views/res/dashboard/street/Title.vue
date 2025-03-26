@@ -1,16 +1,16 @@
 <template>
   <div id="flareTarget">
-    <div class="flare-container">
+    <div class="flare-container" >
       <div class="target-header">
-        <div class="target-title">{{ title }}</div>
+        <div class="target-title" style="width:1rem">{{ title }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {reactive, toRefs} from 'vue';
 import "@/views/res/dashboard/component/scss/box.scss";
+import { reactive, toRefs } from 'vue';
 
 export default {
   props: {
