@@ -4,30 +4,30 @@
       <div class="banner">
         <div class="banner-content">
           <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:10px;" click="onGoToLink(`/admin/dashboard/home/index`)">区建成
+                     style="display:inline-block;margin-left:1rem;" click="onGoToLink(`/admin/dashboard/home/index`)">区建成
           </dv-button>
-          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px;">
+          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:1rem;">
             乡进入
           </dv-button>
           <dv-button key="" border="Border4" color="#615ea8" fontSize="12"
-                     style="display:inline-block;margin-left:10px">村实现
+                     style="display:inline-block;margin-left:1rem">村实现
           </dv-button>
-          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px">
+          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:1rem">
             户达标
           </dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
 
-          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/home/index`)" border="Border4" color="#409EFF">返回</dv-button>
+          <p style="display:inline-block;color:white;margin-left:1rem;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
+          <dv-button style="display:inline-block;margin-right:1rem;" fontSize="12" @click="onGoToLink(`/admin/dashboard/home/index`)" border="Border4" color="#409EFF">返回</dv-button>
         </div>
       </div>
       
-      <!-- <div style="position:absolute;top:10px;right:10px">
-        <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
+      <!-- <div style="position:absolute;top:1rem;right:1rem">
+        <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:1rem;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
       </div> -->
       <div class="main-rows">
-          <div style="width:33%;padding-left:10px;">
+          <div style="width:33%;padding-left:1rem;">
             <div class="target-header">
               <div class="target-title" @click="onClickTargetDetail('经济优建')">经济优建</div>
             </div>
@@ -36,11 +36,11 @@
                   <el-col :span="12">
                     <el-row :gutter="20">
                       <el-col :span="8" class="text-right">
-                        <i class="fa fa-cubes" aria-hidden="true" style="font-size: 3rem; color: orange;" />
+                        <i class="fa fa-cubes" aria-hidden="true" style="font-size: 2.4rem; color: orange;" />
                       </el-col>
                       <el-col :span="16" class="text-left">
                         <div>地区生产总值</div>
-                        <div><b class="target-value" style="color:orange">411</b> 亿元</div>
+                        <div><b class="target-value" style="color:orange">287.32</b> 亿元</div>
                       </el-col>
                     </el-row>
                   </el-col>
@@ -51,7 +51,7 @@
                       </el-col>
                       <el-col :span="16" class="text-left">
                         <div>人均地区生产总值</div>
-                        <div><b class="target-value" style="color:orange">15.39</b> 万元</div>
+                        <div><b class="target-value" style="color:orange">10.72</b> 万元</div>
                       </el-col>
                     </el-row>
                   </el-col>
@@ -64,7 +64,7 @@
                       </el-col>
                       <el-col :span="16" class="text-left">
                         <div>城乡居民人均<br/>可支配收入占比</div>
-                        <div><b class="target-value" style="color:orange">1.9</b></div>
+                        <div><b class="target-value" style="color:orange">1.877</b></div>
                       </el-col>
                     </el-row>
                   </el-col>
@@ -108,55 +108,57 @@
             <div class="target-header margin-top-sm">
               <div class="target-title" @click="onClickTargetDetail('环境优宜')">环境优宜</div>
             </div>
-            <div class="target-content target-container-h2">
-              <el-row class="mt20">
-                  <el-col :span="12">
-                    <dv-water-level-pond class="m10" :config="{data: [75,88],shape: 'round',waveOpacity:0.6,waveHeight:10,}" style="width:200px;height:200px"/>
-                    <div>城市建成区绿化覆盖率</div>
+            <div class="target-content target-container-h2 padding-xl">
+              <el-row class="margin-xl padding-top-xl text-center" :gutter="10">
+                  <el-col :span="12" class="text-center">
+                    <div class="text-center margin-left-xl padding-left-lg">
+                      <dv-water-level-pond class="margin-xl" :config="{data: [44.80],shape: 'round',waveOpacity:0.6,waveHeight:10,}" style="width:10rem;height:10rem"/>
+                    </div>
+                    
+                    <div class="text-center" style="font-size:1.2rem">城市建成区绿化覆盖率</div>
                   </el-col>
-                  <el-col :span="12">
-                    <dv-water-level-pond class="m10" :config="{data: [86,95],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['#E6A23C','#E6A23C']}" style="width:200px;height:200px"/>
-                    <div>生活垃圾无害化处理率</div>
+                  <el-col :span="12" class="text-center">
+                    <div class="text-center margin-left-xl padding-left-lg">
+                      <dv-water-level-pond class="margin-xl" :config="{data: [86],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['#E6A23C','#E6A23C']}" style="width:10rem;height:10rem"/>
+                    </div>
+                    <div class="text-center" style="font-size:1.2rem">生活垃圾无害化处理率</div>
                   </el-col>
                 </el-row>
             </div>
           </div>
-          <div style="width:34%;padding:0 10px;">
+          <div style="width:34%;padding:0 1rem;">
             <div class="target-header">
               <div class="target-title" @click="onClickTargetDetail('民生优享')">民生优享</div>
             </div>
             <div class="target-content target-container-h2">
               
               <!-- <dv-capsule-chart :config="msyxConfig" style="width:100%;height:100%" /> -->
-              <el-row>
-                  <el-col :span="6">
+              <el-row class="margin-top-xl">
+                  <!-- <el-col :span="6">
                     <gaugeProgress containerId="gaugeProgress1" id="gaugeProgress1" text="中等收入群体占比" />
+                  </el-col> -->
+                  <el-col :span="8">
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.4" id="gaugeProgress2" text="年收入达20万村占比"/>
                   </el-col>
-                  <el-col :span="6">
-                    <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" text="年收入达20万村占比"/>
-                  </el-col>
-                  <el-col :span="6">
+                  <!-- <el-col :span="6">
                     <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" text="社会养老保险综合参保率"/>
+                  </el-col> -->
+                  <el-col :span="8">
+                    <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" :value="0.96" text="全民基本医疗参保率"/>
                   </el-col>
-                  <el-col :span="6">
-                    <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" text="全民基本医疗参保率"/>
+                  <el-col :span="8">
+                    <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" :value="0.613" text="常住人口城镇化率"/>
                   </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="6">
+                  <!-- <el-col :span="6">
                     <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" text="基本养老保险综合参保率"/>
-                  </el-col>
-                  <el-col :span="6">
-                    <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" text="常住人口城镇化率"/>
-                  </el-col>
+                  </el-col> -->
+                  <!-- 
                   <el-col :span="6">
                     <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" text="学前教育三年毛入园率"/>
                   </el-col>
                   <el-col :span="6">
                     <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" text="公办幼儿园占比"/>
                   </el-col>
-                </el-row>
-                <el-row>
                   <el-col :span="6">
                     <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" text="学前教育三年毛入园率"/>
                   </el-col>
@@ -168,7 +170,7 @@
                   </el-col>
                   <el-col :span="6">
                     <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" text="残疾儿童入学率"/>
-                  </el-col>
+                  </el-col> -->
                 </el-row>
             </div>
             <div class="target-header margin-top-sm">
@@ -180,7 +182,7 @@
             </div>
           </div>
           
-          <div style="width:33%;padding-right:10px;">
+          <div style="width:33%;padding-right:1rem;">
             <div class="target-header">
               <div class="target-title" @click="onClickTargetDetail('文明优创')">文明优创</div>
             </div>
@@ -190,8 +192,8 @@
                     <i class="fa fa-building m10" aria-hidden="true" style="font-size: 80px; color: orange;" />
                   </el-col>
                   <el-col :span="16" class="text-left ">
-                    <div style="font-size:24px">公共文化服务设施面积</div>
-                    <div class="m20" style="font-size:20px">每万人<b class="target-value m10" style="color:orange;font-size:3rem">2200</b>平米</div>
+                    <div style="font-size:2rem">公共文化服务设施面积</div>
+                    <div class="m20" style="font-size:1.8rem">每万人<b class="target-value m10" style="color:orange;font-size:3rem">735.24</b>平米</div>
                   </el-col>
                 </el-row>
             </div>

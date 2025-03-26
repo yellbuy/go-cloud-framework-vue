@@ -30,22 +30,22 @@
       </div> -->
       <div class="main-rows">
         <div style="width:25%;" class="padding-lr-12">
-          <div class="target-header ">
+          <div class="target-header" @click="onClickPleaseWait">
             <div class="target-title">乡进入情况</div>
           </div>
-          <div>
+          <div @click="onClickPleaseWait">
             <rankingCounty/>
           </div>
-          <div class="target-header margin-top">
+          <div class="target-header margin-top" @click="onClickPleaseWait">
             <div class="target-title">村实现情况</div>
           </div>
-          <div>
+          <div @click="onClickPleaseWait">
             <rankingVillage/>
           </div>
-          <div class="target-header margin-top">
+          <div class="target-header margin-top" @click="onClickPleaseWait">
             <div class="target-title">户达标情况</div>
           </div>
-          <div>
+          <div @click="onClickPleaseWait">
             <rankingFamily/>
           </div>
 
@@ -69,45 +69,46 @@
         </dv-border-box1>
 
         <div style="width:25%;" class="padding-lr-10">
-          <div class="target-header">
+          <div class="target-header" @click="onClickPleaseWait">
             <div class="target-title">收入结构分析</div>
           </div>
-          <div class="target-content target-container-h3">
+          <div class="target-content target-container-h3" @click="onClickPleaseWait">
 
             <img height="100%" src="/img/res/glt.png" width="100%"/>
-            <div style="position:relative;top:-160px;font-size:16px;color:white">
-              区 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              农村&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div style="position:relative;top:-15rem;font-size:1.2rem;color:white">
+              区 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              农村&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               城市
             </div>
-            <div style="position:relative;top:-150px;font-size:12px;color:white">
-              高收入 40% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              高收入 35%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              高收入 50%
+            <div style="position:relative;top:-13rem;font-size:1rem;color:white">
+              高收入 1.5% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              高收入 0.5%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              高收入 3.5%
             </div>
-            <div style="position:relative;top:-110px;font-size:12px;color:white">
-              中等收入 50% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              中等收入 45%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              中等收入 45%
+            <div style="position:relative;top:-10rem;font-size:1rem;color:white">
+              中等收入 80% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              中等收入 85%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              中等收入 88%
             </div>
-            <div style="position:relative;top:-90px;font-size:12px;color:white">
-              低收入 10% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              低收入 20%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              低收入 5%
+            <div style="position:relative;top:-8rem;font-size:1rem;color:white">
+              低收入 19.5% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              低收入 20%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              低收入 8.5%
             </div>
           </div>
-          <div class="target-header margin-top">
-            <div class="target-title" >基础设施、公共设施补短情况</div>
+          <div class="target-header margin-top" @click="onClickPleaseWait">
+            <div class="target-title">帮扶户数统计</div>
           </div>
-          <div class="target-content target-container-h3" style="">
-            <dv-scroll-board :config="jichusheshiConfig" style="width:100%;height:22vh" @click="clickHandler"
+          <div class="target-content target-container-h3" @click="onClickPleaseWait">
+            <dv-scroll-board :config="bfhsConfig" style="width:100%;height:22vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
+           
           </div>
-          <div class="target-header margin-top">
-            <div class="target-title" style="width:10vw">综合帮扶情况</div>
+          <div class="target-header margin-top" @click="onClickPleaseWait">
+            <div class="target-title" style="width:10vw">“五好”不达标户数</div>
           </div>
-          <div class="target-content target-container-h3" style="">
-            <dv-scroll-board :config="zhonghebangfuConfig" style="width:100%;height:22vh" @click="clickHandler"
+          <div class="target-content target-container-h3" @click="onClickPleaseWait">
+            <dv-scroll-board :config="whbdbConfig" style="width:100%;height:22vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
           </div>
         </div>
@@ -207,6 +208,12 @@ export default {
       })
     }
     //指标解读
+    const onClickPleaseWait = () => {
+      const html = `请等待，功能正在开发中...`
+      ElMessageBox.alert(html, '温馨提示', {dangerouslyUseHTMLString: true,type: 'info',})
+    }
+
+    //指标解读
     const onClickTargetDetail = () => {
       const html = `
       <div>
@@ -219,20 +226,18 @@ export default {
       </div>`
       ElMessageBox.alert(html, '六优指标解读', {dangerouslyUseHTMLString: true, width: '80%'})
     }
-    //基础设施补短情况配置
-    const jichusheshiConfig = reactive({
-      header: ['乡镇', '村', '设施补短'],
+    //基础设施补短情况配置 改帮扶统计
+    const bfhsConfig = reactive({
+      header: ['乡镇', '帮扶户数'],
       data: [
-        ['<span style="color:#37a2da;">金江镇</span>', '大龙潭村', '修路'],
-        ['仁和镇', '<span style="color:#32c5e9;">仁和村</span>', '路灯修复'],
-        ['金江镇', '大龙潭村', '<span style="color:#67e0e3;">修路</span>'],
-        ['前进镇', '<span style="color:#9fe6b8;">前进村</span>', '路灯修复'],
-        ['<span style="color:#ffdb5c;">前进镇</span>', '行5列2', '排水系统修复'],
-        ['大田镇', '<span style="color:#ff9f7f;">大田村</span>', '排水系统修复'],
-        ['大田镇', '大田村', '<span style="color:#fb7293;">路灯修复</span>'],
-        ['金江镇', '<span style="color:#e062ae;">大龙潭村</span>', '修路'],
-        ['<span style="color:#e690d1;">仁和镇</span>', '仁和村', '修路'],
-        ['金江镇', '<span style="color:#e7bcf3;">大龙潭村</span>', '排水系统修复'],
+        ['仁和镇', '<span style="color:#32c5e9;">80</span>'],
+        ['前进镇', '<span style="color:#9fe6b8;">160</span>'],
+        ['大河中路街道', '120'],
+        ['平地镇', '<span style="color:#ff9f7f;">90</span>'],
+        ['大田镇', '60'],
+        ['福田镇', '<span style="color:#e062ae;">75</span>'],
+        ['福田镇', '<span style="color:#e690d1;">60</span>'],
+        ['布德镇', '<span style="color:#e7bcf3;">36</span>'],
       ],
       index: true,
       rowNum: 5,
@@ -240,19 +245,17 @@ export default {
       align: ['center'],
     })
     //综合帮扶情况配置
-    const zhonghebangfuConfig = reactive({
-      header: ['乡镇', '村', '帮扶情况'],
+    const whbdbConfig = reactive({
+      header: ['乡镇', '不达标户数'],
       data: [
-        ['<span style="color:#37a2da;">金江镇</span>', '张某某', '低保'],
-        ['仁和镇', '<span style="color:#32c5e9;">杨某</span>', '大病保障'],
-        ['金江镇', '陈某某', '<span style="color:#67e0e3;">节日慰问</span>'],
-        ['前进镇', '<span style="color:#9fe6b8;">伍某华</span>', '节日慰问'],
-        ['<span style="color:#ffdb5c;">陈某萍</span>', '行5列2', '节日慰问'],
-        ['大田镇', '<span style="color:#ff9f7f;">张某</span>', '大病保障'],
-        ['大田镇', '张某燕', '<span style="color:#fb7293;">就近入学</span>'],
-        ['金江镇', '<span style="color:#e062ae;">谢某</span>', '新办幼儿园'],
-        ['<span style="color:#e690d1;">杨某</span>', '仁和村', '低保'],
-        ['金江镇', '<span style="color:#e7bcf3;">张某某</span>', '就近入学'],
+        ['仁和镇', '<span style="color:#32c5e9;">186</span>'],
+        ['前进镇', '<span style="color:#9fe6b8;">60</span>'],
+        ['大河中路街道', '180'],
+        ['平地镇', '<span style="color:#ff9f7f;">40</span>'],
+        ['大田镇', '90'],
+        ['福田镇', '<span style="color:#e062ae;">65</span>'],
+        ['福田镇', '<span style="color:#e690d1;">60</span>'],
+        ['布德镇', '<span style="color:#e7bcf3;">46</span>'],
       ],
       index: true,
       rowNum: 5,
@@ -271,8 +274,9 @@ export default {
       onGoToLink,
       onClickCountDetail,
       onClickTargetDetail,
-      jichusheshiConfig,
-      zhonghebangfuConfig,
+      onClickPleaseWait,
+      bfhsConfig,
+      whbdbConfig,
       ...toRefs(state),
     };
   },

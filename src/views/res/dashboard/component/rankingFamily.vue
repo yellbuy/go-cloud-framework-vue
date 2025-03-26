@@ -1,6 +1,15 @@
 <template>
   <div class="target-content target-container-h3">
     <dv-scroll-ranking-board :config="countyConfig"/>
+    <svg width="100%" height="100%" style="transform: translate(0, -100%);">
+              <!-- 创建一个竖线，x1和x2相同，y1和y2不同，从而形成一条竖线 -->
+        <line x1="50%" y1="0" x2="50%" y2="100%" style="stroke:orange;stroke-width:1" />
+        <line x1="75%" y1="0" x2="75%" y2="100%" style="stroke:orange;stroke-width:1" />
+        <line x1="100%" y1="0" x2="100%" y2="100%" style="stroke:orange;stroke-width:1" />
+        <text x="45%" y="99%" style="stroke:white;">50%</text>
+        <text x="70%" y="99%" style="stroke:white;">75%</text>
+        <text x="93%" y="99%" style="stroke:white;">100%</text>
+    </svg>
   </div>
 </template>
 
