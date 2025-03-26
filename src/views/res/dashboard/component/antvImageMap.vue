@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
-import {computed, getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
+import { computed, getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   props: {
@@ -23,8 +23,12 @@ export default {
       type: String,
       default: '',
     },
-    center: Array,
-    zoom: Array,
+    center: {
+      type: Array,
+    },
+    zoom: {
+      type: Number,
+    },
   },
   setup(props) {
     const {proxy} = getCurrentInstance() as any;
