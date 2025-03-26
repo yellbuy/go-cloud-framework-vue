@@ -31,7 +31,7 @@ export default {
         grid: {
           show: false,
           top: '5%',
-          left: '10%',
+          left: '15%',
           right: '0%',
           bottom: '15%',
         },
@@ -58,8 +58,9 @@ export default {
             show: false // 隐藏横线
           },
           axisLabel: {
-            fontSize: 15,
+            fontSize: 13,
             color: '#28A2CE',
+            formatter: '{value}人'
           }
         },
         series: [

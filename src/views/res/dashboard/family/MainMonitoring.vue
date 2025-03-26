@@ -9,7 +9,7 @@
           <div style="display: inline-block">
             <dv-water-level-pond :config="config1"
                                  style="width:10rem;height:10rem;display: inline-block;margin: 1rem 3rem 1rem;font-size: 4rem !important;"/>
-            <div style="font-size: 1.5rem;margin-bottom: 2rem">低收入边缘人群</div>
+            <div style="font-size: 1.5rem;margin-bottom: 2rem">低收入边缘人员</div>
           </div>
           <div style="display: inline-block">
             <dv-water-level-pond :config="config2"

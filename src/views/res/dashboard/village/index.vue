@@ -33,6 +33,7 @@
           </dv-button>
         </div>
       </div>
+
       <div class="main-view">
         <div class="view-body">
           <div class="view-content content1">
@@ -50,25 +51,62 @@
               <!--              </div>-->
               <div class="view-box-table">
                 <div>
-                  <column-chart :data="[3.1, 3.52, 3.7]" :label="['2022年', '2023年', '2024年']"/>
+                  <column-chart :data="[3.1, 3.52, 3.7]" :label="['2022年', '2023年', '2024年']" :mark-line="3.2"/>
                   <text>全村人均年可支配收入超全市农村人均年可支配收入</text>
                 </div>
                 <div>
-                  <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '2024年']"/>
+                  <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '2024年']" :mark-line="20"/>
                   <text>村集体经济收入超20万元</text>
                 </div>
               </div>
             </div>
             <div class="view-box">
-              <Title title="组织强"/>
+              <el-popover
+                  class="box-item"
+                  content="村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率100%。“先富”带“后富”机制完善特困、低保等重点群体托底保障机制健全。"
+                  placement="top-start"
+              >
+                <template #reference>
+                  <Title title="组织强"/>
+                </template>
+              </el-popover>
               <div class="target-text target-content m15">
-                村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率100%。“先富”带“后富”机制完善特困、低保等重点群体托底保障机制健全。
+
               </div>
             </div>
             <div class="view-box">
-              <Title title="治理强"/>
-              <div class="target-text target-content m15">
-                居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生
+              <el-popover
+                  class="box-item"
+                  content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
+                  placement="top-start"
+              >
+                <template #reference>
+                  <Title title="治理强"/>
+                </template>
+              </el-popover>
+              <div class="target-content m15">
+                <div class="box-zl">
+                  <div>
+                    <text>一村一民(辅)警</text>
+                    <img alt="" class="picture" src="./img/pic.webp">
+                    <text>姓名：邓*志</text>
+                    <text>职务：民警</text>
+                  </div>
+                  <div>
+                    <text>一村一法律顾问</text>
+                    <img alt="" class="picture" src="./img/pic.webp">
+                    <text>姓名：邓*志</text>
+                    <text>职务：顾问</text>
+                  </div>
+                  <div>
+                    <text>专职人民调解员</text>
+                    <img alt="" class="picture" src="./img/pic.webp">
+                    <text>姓名：邓*志</text>
+                    <text>职务：调解员</text>
+                  </div>
+                </div>
+
+                <text>矛盾纠纷1件 已化解1件</text>
               </div>
             </div>
           </div>
@@ -384,6 +422,26 @@ export default {
             }
           }
 
+          .box-zl {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+
+            div {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+
+              .picture {
+                padding: 1em;
+                width: 10rem;
+                height: 14rem;
+                overflow: hidden;
+              }
+            }
+          }
+
           .view-box-title {
             display: flex;
             align-items: center;
@@ -394,19 +452,6 @@ export default {
             border-radius: 2em;
             padding: 1em;
             margin: 1em 0 0 0;
-          }
-
-          .cun {
-            display: grid;
-            grid-template-columns:1fr 1fr;
-            grid-column-gap: 2em;
-            align-items: center;
-            justify-content: center;
-
-            img {
-              width: 10em;
-              height: 10em;
-            }
           }
         }
       }
