@@ -1,6 +1,6 @@
 <template>
   <div >
-    <div ref="gaugeProgressContainer" class="gaugeProgressContainer" :id="uid" style="width:100%;height: 12vh;"></div>
+    <div ref="gaugeProgressContainer" class="gaugeProgressContainer" :id="uid" style="width:100%;height: 18vh;"></div>
   </div>
 </template>
 
@@ -13,6 +13,11 @@ export default {
 			type: String,
 			default:'',
 		},
+    value: {
+			type: Number,
+			default:0.5,
+		},
+
 	},
   setup(props) {
     let uid = ref('');
@@ -108,7 +113,7 @@ export default {
             data: [
               {
                 color: 'white',
-                value: 0.7,
+                value: props.value,
                 name: props.text
               }
             ]
