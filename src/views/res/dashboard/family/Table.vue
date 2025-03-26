@@ -13,7 +13,7 @@
           </thead>
           <tbody>
           <tr v-for="item in TableData"
-              @click="onGoToLink(`/admin/dashboard/family/detail?areaCode=${streetAreaCode}`)">
+              @click="onGoToLink(`/admin/dashboard/family/detail?areaCode=${areaCode}`)">
             <td>{{ item.id }}</td>
             <td>{{ item.district }}</td>
             <td>{{ item.village }}</td>
@@ -33,10 +33,20 @@
 
 <script lang="ts">
 
-import {reactive, toRefs} from "vue";
-import {useRouter} from "vue-router";
+import { reactive, toRefs } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
+  props: {
+    areaCode: {
+      type: String,
+      default: '',
+    },
+    areaName: {
+      type: String,
+      default: '仁和区',
+    },
+  },
   setup() {
     const state: any = reactive({
       TableData: []

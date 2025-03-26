@@ -3,18 +3,18 @@
     <dv-full-screen-container>
       <div class="banner">
         <div class="banner-content">
-          <dv-button border="Border4" color="#615ea8" fontSize="12"
+          <dv-button border="Border4" color="#409EFF" fontSize="12"
                      style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区建成
           </dv-button>
-          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px;"
+          <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px;"
                      @click="onGoToLink(`/admin/dashboard/street/index?areaCode=${streetAreaCode}`)">
             乡进入
           </dv-button>
           <dv-button key="" border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:10px">村实现
+                     style="display:inline-block;margin-left:10px" @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}`)">村实现
           </dv-button>
-          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px"
-                     @click="onGoToLink(`/admin/dashboard/family/index?areaCode=${streetAreaCode}`)">
+          <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px"
+                     @click="onGoToLink(`/admin/dashboard/family/index?areaCode=${areaCode}&areaName=${areaName}`)">
             户达标
           </dv-button>
         </div>
@@ -23,13 +23,13 @@
           <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{
               curTime
             }}</b></p>
-          <dv-button border="Border4" color="#409EFF"
+          <!-- <dv-button border="Border4" color="#409EFF"
                      fontSize="12" style="display:inline-block;margin-right:10px;"
                      @click="onGoToLink(`/admin/dashboard/home/detail`)">六优指标
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12"
                      style="display:inline-block;margin-right:10px;" @click="onClickCountDetail">区情介绍
-          </dv-button>
+          </dv-button> -->
         </div>
       </div>
 
@@ -184,15 +184,15 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import {reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
+import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
+import EnvironmentalExcellence from "/@/views/res/dashboard/village/EnvironmentalExcellence.vue";
+import ProportionOfAgeGroups from "/@/views/res/dashboard/village/ProportionOfAgeGroups.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
 import TopTwoAndTopFour from "/@/views/res/dashboard/village/TopTwoAndTopFour.vue";
-import ProportionOfAgeGroups from "/@/views/res/dashboard/village/ProportionOfAgeGroups.vue";
-import EnvironmentalExcellence from "/@/views/res/dashboard/village/EnvironmentalExcellence.vue";
-import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 
 export default {
   name: "IndexDashboard",
@@ -210,7 +210,7 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const areaCode = route.query.areaCode;
-    const areaName = route.query.areaName;
+    const areaName = route.query.areaName||"";
     const streetAreaCode = areaCode?.toString().slice(0, 9)
     const countyAreaCode = areaCode?.toString().slice(0, 6)
     const state: any = reactive({

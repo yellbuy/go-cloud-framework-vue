@@ -100,14 +100,14 @@
             <div class="target-title">帮扶户数统计</div>
           </div>
           <div class="target-content target-container-h3" @click="onClickPleaseWait">
-            <dv-scroll-board :config="bfhsConfig" style="width:100%;height:22vh" @click="clickHandler"
+            <dv-scroll-board :config="bfhsConfig" style="width:100%;height:24.5vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait">
             <div class="target-title" style="width:10vw">“五好”不达标户数</div>
           </div>
           <div class="target-content target-container-h3" @click="onClickPleaseWait">
-            <dv-scroll-board :config="whbdbConfig" style="width:100%;height:22vh" @click="clickHandler"
+            <dv-scroll-board :config="whbdbConfig" style="width:100%;height:24.5vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
           </div>
         </div>

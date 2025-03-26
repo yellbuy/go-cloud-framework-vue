@@ -3,18 +3,18 @@
     <dv-full-screen-container v-if="isFullScreen">
       <div class="banner">
         <div class="banner-content">
-          <dv-button border="Border4" color="#615ea8" fontSize="12"
+          <dv-button border="Border4" color="#409EFF" fontSize="12"
                      style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区建成
           </dv-button>
-          <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px;"
+          <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px;"
                      @click="onGoToLink(`/admin/dashboard/street/index?areaCode=${streetAreaCode}`)">
             乡进入
           </dv-button>
-          <dv-button key="" border="Border4" color="#615ea8" fontSize="12"
-                     style="display:inline-block;margin-left:10px">村实现
+          <dv-button key="" border="Border4" color="#409EFF" fontSize="12"
+                     style="display:inline-block;margin-left:10px" @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}&areaName=${areaName}`)">村实现
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px"
-                     @click="onGoToLink(`/admin/dashboard/family/index?areaCode=${streetAreaCode}`)">
+                     @click="onGoToLink(`/admin/dashboard/family/index?areaCode=${areaCode}&areaName=${areaName}`)">
             户达标
           </dv-button>
         </div>
@@ -25,10 +25,7 @@
             }}</b></p>
           <dv-button border="Border4" color="#409EFF"
                      fontSize="12" style="display:inline-block;margin-right:10px;"
-                     @click="onGoToLink(`/admin/dashboard/home/detail`)">六优指标
-          </dv-button>
-          <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-right:10px;" @click="onClickCountDetail">区情介绍
+                     @click="onGoToLink(`/admin/dashboard/family/index?areaCode=${areaCode}&areaName=${areaName}`)">返回
           </dv-button>
         </div>
       </div>
@@ -125,10 +122,11 @@
 </template>
 
 <script lang="ts">
-import {reactive, toRefs} from 'vue';
-import {useRouter} from 'vue-router';
-import Table from "./Table.vue";
 import "@/views/res/dashboard/component/scss/box.scss";
+import dayjs from 'dayjs';
+import { reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import Table from "./Table.vue";
 
 export default {
   name: "IndexDashboard",
@@ -137,14 +135,25 @@ export default {
     Table
   },
   setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const areaCode = route.query.areaCode;
+    const areaName = route.query.areaName||"";
+    const streetAreaCode = areaCode?.toString().slice(0, 9)
+    const countyAreaCode = areaCode?.toString().slice(0, 6)
+
     const state: any = reactive({
-      isFullScreen: true
+      isFullScreen: true,
+      curTime: dayjs().format("YYYY年MM月DD日"),
+      areaCode: areaCode,
+      areaName: areaName,
+      streetAreaCode: streetAreaCode,
+      countyAreaCode: countyAreaCode,
     })
     const onFullScreen = () => {
       state.isFullScreen = !state.isFullScreen
     }
 
-    const router = useRouter();
     //导航链接
     const onGoToLink = (url: string) => {
       router.push(url)

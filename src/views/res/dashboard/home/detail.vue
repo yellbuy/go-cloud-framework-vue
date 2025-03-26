@@ -138,16 +138,16 @@
                     <gaugeProgress containerId="gaugeProgress1" id="gaugeProgress1" text="中等收入群体占比" />
                   </el-col> -->
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.4" id="gaugeProgress2" text="年收入达20万村占比"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.4" id="gaugeProgress2" text="年收入达20万村占比" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <!-- <el-col :span="6">
                     <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" text="社会养老保险综合参保率"/>
                   </el-col> -->
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" :value="0.96" text="全民基本医疗参保率"/>
+                    <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" :value="0.96" text="全民基本医疗参保率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" :value="0.613" text="常住人口城镇化率"/>
+                    <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" :value="0.613" text="常住人口城镇化率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <!-- <el-col :span="6">
                     <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" text="基本养老保险综合参保率"/>

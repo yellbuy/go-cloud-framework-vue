@@ -298,7 +298,7 @@ export default {
       isFullScreen: true,// 是否全屏
       curTime: dayjs().format("YYYY年MM月DD日"),
       areaCode: route.query.areaCode,
-      areaName: route.query.areaName,
+      areaName: route.query.areaName||"",
       //基础设施补短情况配置 改帮扶统计
       bfhsConfig :{
         header: ['村', '帮扶户数'],
