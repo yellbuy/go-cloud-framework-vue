@@ -79,7 +79,7 @@ export default {
             symbolSize: 6,
             data: [
               {
-                value: [100, 75, 95, 95, 95, 100],
+                value: [100, 100, 100, 100, 100],
                 name: '目标',
                 symbolSize: 6,
                 lineStyle: {
@@ -87,7 +87,7 @@ export default {
                 }
               },
               {
-                value: [75, 60, 80, 60, 100, 60],
+                value: [100, 100, 99.7, 61.8, 98.4],
                 name: '进度'
               }
             ]
