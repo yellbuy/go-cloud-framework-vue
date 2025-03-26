@@ -20,11 +20,21 @@ export default {
       const myChart = echarts.init(state.echart)
       // 指定图表的配置项和数据
       const option = {
+        legend: {
+          orient: 'vertical',
+          left: 'right',
+          itemWidth: 25,
+          itemHeight: 8,
+          textStyle: {
+            fontSize: 12,
+            color: '#428BD4',
+          }
+        },
         grid: {
           show: false,
           top: '5%',
           left: '10%',
-          right: '0%',
+          right: '15%',
           bottom: '15%',
         },
         xAxis: [
@@ -56,20 +66,20 @@ export default {
             axisLabel: {
               fontSize: 11,
               color: '#28A2CE',
-              formatter: '{value}人'
+              formatter: '{value}%'
             }
           }
         ],
         series: [
           {
-            name: 'Rainfall',
+            name: '现状',
             type: 'bar',
-            data: [20, 49, 70, 232, 256, 767]
+            data: [20, 49, 70, 32, 26, 67]
           },
           {
-            name: 'Evaporation',
+            name: '目标',
             type: 'bar',
-            data: [26, 59, 90, 264, 287, 707]
+            data: [26, 59, 90, 64, 87, 97]
           }
         ]
       };

@@ -36,12 +36,7 @@
         <div style="width:25%">
           <Funnel @click="onClickTargetDetail"/>
           <Category/>
-          <div class="target-header">
-            <div class="target-title">帮扶需求</div>
-          </div>
-          <div class="target-content target-content-height">
-            <dv-capsule-chart :config="shyzConfig" style="width:100%;height:25rem;"/>
-          </div>
+          <FiveGoods/>
         </div>
 
         <dv-border-box1 style="height:calc(100% - 21rem);width:50%;">
@@ -67,7 +62,13 @@
               <LineGraph/>
             </div>
             <div style="width: 50%;margin-right: 2rem">
-              <FiveGoods/>
+              <div class="target-header">
+                <div class="target-title">帮扶需求</div>
+              </div>
+              <div class="target-content target-content-height">
+                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:25rem;"/>
+              </div>
+
             </div>
           </div>
 
