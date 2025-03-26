@@ -208,8 +208,8 @@ export default {
       })
     }
     //指标解读
-    const onClickPleaseWait = () => {
-      const html = `请等待，功能正在开发中...`
+    const onClickPleaseWait = (name:string) => {
+      const html = `请等待，${name}功能正在开发中...`
       ElMessageBox.alert(html, '温馨提示', {dangerouslyUseHTMLString: true,type: 'info',})
     }
 

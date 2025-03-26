@@ -1,6 +1,6 @@
 <template>
   <div >
-    <div ref="gaugeProgressContainer" class="gaugeProgressContainer" :id="uid" style="width:100%;height: 18vh;"></div>
+    <div ref="gaugeProgressContainer" class="gaugeProgressContainer" :id="uid" :style="style"></div>
   </div>
 </template>
 
@@ -13,11 +13,38 @@ export default {
 			type: String,
 			default:'',
 		},
+    style:{
+      type: String,
+      default:"width:100%;height: 18vh"
+    },
     value: {
 			type: Number,
 			default:0.5,
 		},
-
+    axisLabelFontSize: {
+			type: Number,
+			default:8,
+		},
+    titleFontSize:{
+      type: Number,
+			default:10,
+    },
+    detailFontSize:{
+      type: Number,
+			default:14,
+    },
+    colorValueData: {
+			type: Array,
+			default: [
+          [0.75, '#FDDD60'],
+          [0.85, '#58D9F9'],
+          [1, '#7CFFB2']
+        ],
+		},
+    colorTickData: {
+			type: Array,
+			default: [{name:'2024 75%',value:0.375},{name:'2025 85%',value:0.75},{name:'2030 95%',value:1}],
+		},
 	},
   setup(props) {
     let uid = ref('');
@@ -46,11 +73,7 @@ export default {
             axisLine: {
               lineStyle: {
                 width: 6,
-                color: [
-                  [0.75, '#FDDD60'],
-                  [0.85, '#58D9F9'],
-                  [1, '#7CFFB2']
-                ]
+                color: props.colorValueData
               }
             },
             pointer: {
@@ -78,31 +101,29 @@ export default {
             // },
             axisLabel: {
               color: '#ddd',
-              fontSize: 8,
+              fontSize: props.axisLabelFontSize,
               distance: -25,
               rotate: 'tangential',
               formatter: function (value) {
                 console.log("value",value)
-                if (value === 0.375) {
-                  return '2024 75%';
-                } 
-                if (value === 0.75) {
-                  return '2025 85%';
-                } 
-                if (value === 1){ 
-                  return '2025 95%';
-                } 
+                if(props.colorTickData.length>0){
+                  for(const val of props.colorTickData){
+                    if (value === val.value) {
+                    return val.name;
+                  } 
+                  }
+                }
               }
             },
             title: {
               offsetCenter: [0, '-10%'],
-              fontSize: 10,
+              fontSize: props.titleFontSize,
               color: 'white',
               stroke:'orange',
               lineWidth:5,
             },
             detail: {
-              fontSize: 14,
+              fontSize: props.detailFontSize,
               offsetCenter: [0, '-35%'],
               valueAnimation: true,
               formatter: function (value) {
