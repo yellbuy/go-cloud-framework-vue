@@ -241,7 +241,7 @@ export default {
       index: true,
       rowNum: 5,
       columnWidth: [50],
-      align: ['center'],
+      align: ['center','center','right'],
     })
     //综合帮扶情况配置
     const whbdbConfig = reactive({
@@ -262,7 +262,7 @@ export default {
       oddRowBGC: '#002B31',
       evenRowBGC: '#071722',
       columnWidth: [50],
-      align: ['center'],
+      align: ['center','center','right'],
     })
 
     // 页面加载时
