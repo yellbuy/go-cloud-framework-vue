@@ -65,7 +65,7 @@ export default {
         },
         series: [
           {
-            data: [200, 150, 80, 70],
+            data: [4, 0, 0, 0],
             color: '#28A2CE',
             type: 'bar',
             showBackground: true,
