@@ -7,9 +7,9 @@
 </template>
 
 <script lang="ts">
-import {onMounted, reactive, ref, toRefs} from 'vue';
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
+import { onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   props: {
@@ -128,6 +128,7 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  height: 15rem;
+  width: 100%;
+  height: calc((100vh - 5.6rem)/6);
 }
 </style>

@@ -2,15 +2,15 @@
   <div id="flareTarget">
     <div class="flare-container">
       <div class="target-header">
-        <div class="target-title">{{ title }}</div>
+        <span class="target-title">{{ title }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {reactive, toRefs} from 'vue';
 import "@/views/res/dashboard/component/scss/box.scss";
+import { reactive, toRefs } from 'vue';
 
 export default {
   props: {
