@@ -39,8 +39,8 @@
           <div>
             <div class="margin-left">
               <Title title="村情介绍"/>
-              <div class="target-text target-content text-left">
-                <p class="margin" style="font-size: 2rem;text-align: left;">
+              <div class="target-text target-content text-left target-container-h4">
+                <p class="margin" style="font-size: 1.3rem;text-align: left;">
                   混撒拉村是四川省攀枝花市仁和区大龙潭彝族乡下辖村，曾被四川省委城乡基层治理委员会评为“四川省首批乡村治理示范村镇”。
                 </p>
               </div>
@@ -133,8 +133,8 @@
               <Label :color="'#FCAE26FF'" :text="'达标户'" :title="2043"/>
               <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'55%'"/>
             </div>
-            <div class="column-center" style="width: 100%;height:calc(48vh - 5.6rem)">
-              <antvImageMap :center="[500,410]" :zoom="2" areaCode="510411200207" areaGoTo="street"></antvImageMap>
+            <div class="column-center" style="width: 100%;height:calc(100vh  - 18rem - 21.6rem)">
+              <antvImageMap :areaCode="areaCode" :center="[500,410]" :zoom="2" areaGoTo="village"></antvImageMap>
             </div>
             <div class="view-box">
               <div class="view-box-bottom">
@@ -178,7 +178,7 @@
             </div>
             <div class="margin-top">
               <Title title="文化优"/>
-              <div class="target-text target-content" style="text-align: left">
+              <div class="target-text target-content target-container-h6" style="text-align: left">
                 <el-row class="margin-sm">
                   <el-col :span="12">
                     文化广场：220㎡
@@ -203,7 +203,7 @@
             </div>
             <div class="margin-top">
               <Title title="服务优"/>
-              <div class="target-text target-content padding-lg" style="text-align: left">
+              <div class="target-text target-content padding-lg target-container-h8" style="text-align: left">
                 <el-row class="margin-sm">
                   <el-col :span="12">
                     公共停车场：1个

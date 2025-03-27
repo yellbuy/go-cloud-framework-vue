@@ -62,22 +62,22 @@
           </div>
         </div>
 
-        <dv-border-box1 style="height:calc(100% - 21rem);width:50%;">
+        <dv-border-box1 style="width:50%;">
           <div class="margin-lr-xl margin-top-xl"
               style="display: flex;flex-direction: row;justify-content: space-between;align-items: flex-end;">
             <Label :text="'总户数'" :title="380"/>
             <Label :text="'总人口'" :title="1527"/>
             <Label :color="'#FCAE26FF'" :text="'达标户'" :title="193"/>
           </div>
-          <div style="flex: 1;display: flex;flex-direction: row;" class="margin-lr-sm margin-top-sm">
-            <div style="width: 50%;" class="margin-right-xs">
+          <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
+            <div class="margin-top-sm" style="width: 50%;">
               <sex/>
             </div>
-            <div style="width: 50%;">
+            <div class="margin-top-sm" style="width: 50%;">
               <ProportionOfAgeGroups/>
             </div>
           </div>
-          <div class="margin-lr-sm margin-top-sm">
+          <div class="margin-lr-lg margin-top-sm">
             <div class="target-header">
               <span class="target-title">主要监测群体</span>
             </div>
@@ -86,10 +86,10 @@
             </div>
             
           </div>
-          <div style="flex: 1;display: flex;flex-direction: row;" class="margin-lr-sm margin-top-sm">
+          <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
             <div style="width: 50%;">
               <div class="target-header">
-                <span class="target-title">帮扶需求</span>
+                <span class="target-title">五好指标预警</span>
               </div>
               <div class="target-content target-content-height">
                 <LineGraph/>
@@ -101,7 +101,7 @@
                 <span class="target-title">帮扶需求</span>
               </div>
               <div class="target-content target-content-height">
-                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:19vh;"/>
+                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:24vh;"/>
               </div>
 
             </div>
@@ -119,9 +119,9 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { ElMessageBox } from "element-plus";
-import { reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {ElMessageBox} from "element-plus";
+import {reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import radarEchart from "../component/radarEchart.vue";
@@ -131,6 +131,7 @@ import ProportionOfAgeGroups from "./ProportionOfAgeGroups.vue";
 import Table from "./Table.vue";
 import MainMonitoring from "/@/views/res/dashboard/family/MainMonitoring.vue";
 import Sex from "/@/views/res/dashboard/family/sex.vue";
+
 export default {
   name: "IndexDashboard",
   components: {

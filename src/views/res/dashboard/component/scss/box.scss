@@ -36,6 +36,26 @@ body {
   height:calc((100vh - 6rem) / 4 - 3.2rem)
 }
 
+.target-container-h5 {
+  height: calc((100vh - 6rem) / 5 - 3.2rem)
+}
+
+.target-container-h6 {
+  height: calc((100vh - 6rem) / 6 - 3.2rem)
+}
+
+.target-container-h7 {
+  height: calc((100vh - 6rem) / 7 - 3.2rem)
+}
+
+.target-container-h8 {
+  height: calc((100vh - 6rem) / 8 - 3.2rem)
+}
+
+.target-container-h9 {
+  height: calc((100vh - 6rem) / 8 - 3.2rem)
+}
+
 .target-title {
   background-image: radial-gradient(circle, #daeef3 20%, #00aaff);
   font-weight: bold;
