@@ -65,9 +65,9 @@
         <dv-border-box1 style="width:50%;">
           <div class="margin-lr-xl margin-top-xl"
               style="display: flex;flex-direction: row;justify-content: space-between;align-items: flex-end;">
-            <Label :text="'总户数'" :title="380"/>
-            <Label :text="'总人口'" :title="1527"/>
-            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="193"/>
+            <Label :text="'总户数'" :title="mainData['总户数'] || 380"/>
+            <Label :text="'总人口'" :title="mainData['总人口'] || 1527"/>
+            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="mainData['达标户'] || 193"/>
           </div>
           <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
             <div class="margin-top-sm" style="width: 50%;">
@@ -118,10 +118,11 @@
 </template>
 
 <script lang="ts">
+import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from "element-plus";
-import {reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { ElMessageBox } from "element-plus";
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import radarEchart from "../component/radarEchart.vue";
@@ -131,7 +132,6 @@ import ProportionOfAgeGroups from "./ProportionOfAgeGroups.vue";
 import Table from "./Table.vue";
 import MainMonitoring from "/@/views/res/dashboard/family/MainMonitoring.vue";
 import Sex from "/@/views/res/dashboard/family/sex.vue";
-
 export default {
   name: "IndexDashboard",
   components: {
@@ -149,12 +149,14 @@ export default {
     Label
   },
   setup() {
+
     const route = useRoute();
     const router = useRouter();
     const areaCode = route.query.areaCode;
     const areaName = route.query.areaName||"";
     const streetAreaCode = areaCode?.toString().slice(0, 9)
     const countyAreaCode = areaCode?.toString().slice(0, 6)
+    
     const state: any = reactive({
       isFullScreen: true,// 是否全屏
       curTime: dayjs().format("YYYY年MM月DD日"),
@@ -164,6 +166,7 @@ export default {
       countyAreaCode: countyAreaCode,
       baseUrl: import.meta.env.VITE_API_URL,
       imgUrl: import.meta.env.VITE_URL,
+      mainData:{}, //总表数据
       shyzConfig: {
         data: [
           {
@@ -286,6 +289,15 @@ export default {
     const onGoToLink = (url: string) => {
       router.push(url)
     }
+     onMounted(async()=>{
+      const mainDataList=await d3.csv(`/data/res/family/${areaCode}/总表.csv`);
+      console.log("mainData:",mainDataList)
+      if(mainDataList && mainDataList.length>0){
+        state.mainData=mainDataList[0];
+      }
+      
+
+    })
     return {
       onFullScreen,
       ...toRefs(state),
