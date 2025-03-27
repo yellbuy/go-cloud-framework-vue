@@ -92,14 +92,14 @@ table {
 
 thead {
   background-color: rgba(3, 48, 107, 0.5);
-  padding: 1rem;
-  font-size: 1.6rem;
+  padding: 0.5rem;
+  font-size: 1.0rem;
 }
 
 th {
   margin: 0;
   border: none;
-  padding: 1rem;
+  padding: 0.51rem;
   font-size: 1rem;
   border-collapse: collapse
 }
@@ -109,6 +109,6 @@ tr:hover {
 }
 
 td {
-  font-size: 1.6rem;
+  font-size: 1.0rem;
 }
 </style>

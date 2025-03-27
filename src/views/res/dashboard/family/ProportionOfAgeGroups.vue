@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <div class="flare-container">
       <div class="target-header">
-        <div class="target-title">年龄占比</div>
+        <span class="target-title">年龄占比</span>
       </div>
       <div class="target-content">
         <div ref="echart" class="echartDiv"></div>
@@ -12,9 +12,9 @@
 </template>
 
 <script lang="ts">
-import * as echarts from 'echarts';
-import {onMounted, reactive, ref, toRefs} from 'vue';
 import "@/views/res/dashboard/component/scss/box.scss";
+import * as echarts from 'echarts';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   setup() {
@@ -84,6 +84,6 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  height: 16rem;
+  height: 12.2rem;
 }
 </style>

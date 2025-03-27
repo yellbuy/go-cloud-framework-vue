@@ -31,7 +31,7 @@
       </div>
 
       <div class="main-rows">
-        <div class="main-rows-detail margin-lr">
+        <div class="main-rows-detail margin-lr-xl">
           <div class="dialog_table">基本情况</div>
           <div class="dialog_body target-content">
             <div>户主：<span>邓*志</span></div>
@@ -198,7 +198,7 @@ export default {
 
 
   .dialog_body {
-    padding: 2rem 0;
+    padding: 1rem 0;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -207,7 +207,7 @@ export default {
     background-color: rgba(0, 19, 55, 0.47);
 
     div {
-      font-size: 1.6rem;
+      font-size: 1.2rem;
     }
   }
 
@@ -217,11 +217,11 @@ export default {
 
   .dialog_table {
     width: 100%;
-    height: 4rem;
+    height: 3rem;
     background: #03205c;
-    font-size: 2rem;
+    font-size: 1.5rem;
     text-align: center;
-    line-height: 4rem;
+    line-height: 3rem;
   }
 }
 </style>

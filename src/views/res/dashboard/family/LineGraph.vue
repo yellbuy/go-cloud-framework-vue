@@ -1,20 +1,13 @@
 <template>
   <div id="flareTarget">
-    <div class="aflare-container">
-      <div class="target-header">
-        <div class="target-title">五好指标预警</div>
-      </div>
-      <div class="target-content">
-        <div ref="echart" class="echartDiv"></div>
-      </div>
-    </div>
+    <div ref="echart" class="echartDiv"></div>
   </div>
 </template>
 
 <script lang="ts">
-import * as echarts from 'echarts';
-import {onMounted, reactive, ref, toRefs} from 'vue';
 import "@/views/res/dashboard/component/scss/box.scss";
+import * as echarts from 'echarts';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   setup() {
@@ -95,6 +88,6 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  height: 25rem;
+  height: 19vh;
 }
 </style>

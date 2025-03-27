@@ -1,20 +1,13 @@
 <template>
-  <div id="flareTarget">
-    <div class="flare-container">
-      <div class="target-header">
-        <div class="target-title">五好达标情况</div>
-      </div>
-      <div class="target-content">
-        <div ref="echart" class="echartDiv"></div>
-      </div>
-    </div>
+  <div>
+    <div ref="echart" class="echartDiv"></div>
   </div>
 </template>
 
 <script lang="ts">
-import * as echarts from 'echarts';
-import {onMounted, reactive, ref, toRefs} from 'vue';
 import "@/views/res/dashboard/component/scss/box.scss";
+import * as echarts from 'echarts';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   setup() {
@@ -31,7 +24,7 @@ export default {
         color: ['#FFE434', '#67F9D8', '#56A3F1', '#FF917C'],
         textStyle: {
           fontFamily: 'Arial, Verdana, sans-serif', // 字体类型
-          fontSize: 20, // 字体大小
+          fontSize: 16, // 字体大小
           fontWeight: 'bold' // 字体粗细
         },
         radar: {
@@ -43,7 +36,7 @@ export default {
             {name: '教育好', max: 100},
           ],
           center: ['50%', '50%'],
-          radius: 100,
+          radius: 80,
           startAngle: 0,
           splitNumber: 4,
           shape: 'circle',
@@ -117,7 +110,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.echartDiv {
-  height: 25rem;
+.echartDiv{
+  height:calc(100vh / 3 - 3.6rem)
 }
 </style>

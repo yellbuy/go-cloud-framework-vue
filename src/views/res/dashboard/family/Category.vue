@@ -1,21 +1,14 @@
 <template>
-  <div id="flareTarget">
-    <div class="flare-container">
-      <div class="target-header">
-        <div class="target-title">家庭年收入分类</div>
-      </div>
-      <div class="target-content">
+  <div>
         <div ref="echart" class="echartDiv"></div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
 
 import "@/views/res/dashboard/component/scss/box.scss";
-import {onMounted, reactive, ref, toRefs} from "vue";
 import * as echarts from "echarts";
+import { onMounted, reactive, ref, toRefs } from "vue";
 
 export default {
   setup() {
@@ -76,7 +69,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.echartDiv {
-  height: 26rem;
+.echartDiv{
+  height:calc(100vh / 3 - 3.6rem)
 }
 </style>

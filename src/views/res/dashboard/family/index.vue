@@ -26,40 +26,82 @@
       </div>
 
       <div class="main-rows">
-        <div style="width:25%">
-          <Funnel @click="onClickTargetDetail"/>
-          <Category/>
-          <FiveGoods/>
+        <div style="width:25%" class="margin-left-sm">
+          <div @click="onClickTargetDetail">
+            <div class="target-header">
+              <span class="target-title">家庭年收入结构图</span>
+            </div>
+
+            <div class="target-container-h3 target-content">
+              <div class="text-center padding">
+                <img src="./img/橄榄图.png" class="margin" style="height:20vh"/>
+              </div>
+            </div>
+          </div>
+          <div class="margin-top-sm">
+            <div class="target-header">
+              <span class="target-title">家庭年收入分类</span>
+            </div>
+            <div class="target-content target-container-h3">
+              <Category/>
+            </div>
+          </div>
+          <div class="margin-top-sm">
+            <div class="target-header">
+              <span class="target-title">五好达标情况</span>
+            </div>
+            <div class="target-content target-container-h3 padding-top">
+              <radarEchart :style="'height:16rem;padding-top:2rem'" :startAngle="230" :indicatorNameData=" [
+            {name: '住房好', max: 100},
+            {name: '家风好', max: 100},
+            {name: '医疗好', max: 100},
+            {name: '生活好', max: 100},
+            {name: '教育好', max: 100},
+          ]" :series1ValueData="[100,100,100,100,100]" :series2ValueData="[100, 100, 99.7, 61.8, 98.4]"></radarEchart>
+            </div>
+          </div>
         </div>
 
         <dv-border-box1 style="height:calc(100% - 21rem);width:50%;">
-          <div
-              style="margin: 1.5rem 1.5rem 0 1.5rem;display: flex;flex-direction: row;justify-content: space-between;align-items: flex-end;">
+          <div class="margin-lr-xl margin-top-xl"
+              style="display: flex;flex-direction: row;justify-content: space-between;align-items: flex-end;">
             <Label :text="'总户数'" :title="380"/>
             <Label :text="'总人口'" :title="1527"/>
             <Label :color="'#FCAE26FF'" :text="'达标户'" :title="193"/>
           </div>
-          <div style="flex: 1;display: flex;flex-direction: row;">
-            <div style="width: 50%;margin:  1rem 2rem">
+          <div style="flex: 1;display: flex;flex-direction: row;" class="margin-lr-sm margin-top-sm">
+            <div style="width: 50%;" class="margin-right-xs">
               <sex/>
             </div>
-            <div style="width: 50%;margin: 1rem 2rem 0 0">
+            <div style="width: 50%;">
               <ProportionOfAgeGroups/>
             </div>
           </div>
-          <div style="margin: 1rem 2rem">
-            <main-monitoring @click="onClickMainMonitoring"/>
-          </div>
-          <div style="flex: 1;display: flex;flex-direction: row;margin-bottom: 3rem">
-            <div style="width: 50%;margin: 0 2rem">
-              <LineGraph/>
+          <div class="margin-lr-sm margin-top-sm">
+            <div class="target-header">
+              <span class="target-title">主要监测群体</span>
             </div>
-            <div style="width: 50%;margin-right: 2rem">
+            <div class="target-content">
+              <main-monitoring @click="onClickMainMonitoring"/>
+            </div>
+            
+          </div>
+          <div style="flex: 1;display: flex;flex-direction: row;" class="margin-lr-sm margin-top-sm">
+            <div style="width: 50%;">
               <div class="target-header">
-                <div class="target-title">帮扶需求</div>
+                <span class="target-title">帮扶需求</span>
               </div>
               <div class="target-content target-content-height">
-                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:25rem;"/>
+                <LineGraph/>
+              </div>
+              
+            </div>
+            <div style="width: 50%;">
+              <div class="target-header">
+                <span class="target-title">帮扶需求</span>
+              </div>
+              <div class="target-content target-content-height">
+                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:19vh;"/>
               </div>
 
             </div>
@@ -82,9 +124,8 @@ import { reactive, toRefs } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
+import radarEchart from "../component/radarEchart.vue";
 import Category from "./Category.vue";
-import FiveGoods from "./FiveGoods.vue";
-import Funnel from "./Funnel.vue";
 import LineGraph from "./LineGraph.vue";
 import ProportionOfAgeGroups from "./ProportionOfAgeGroups.vue";
 import Table from "./Table.vue";
@@ -96,11 +137,10 @@ export default {
     Sex,
     MainMonitoring,
     ProportionOfAgeGroups,
-    Funnel,
     Category,
     // eslint-disable-next-line vue/no-reserved-component-names,vue/no-unused-components
     Table,
-    FiveGoods,
+    radarEchart,
     LineGraph,
     // eslint-disable-next-line vue/no-unused-components
     numberVillageStat,
@@ -166,7 +206,7 @@ export default {
         unit: '人',
         showValue: true,
         labelNum: 5,
-        fontSize: 15
+        fontSize: 12
       }
     })
     //指标解读
