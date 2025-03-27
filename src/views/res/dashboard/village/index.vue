@@ -11,7 +11,8 @@
             乡进入
           </dv-button>
           <dv-button key="" border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:10px" @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}`)">村实现
+                     style="display:inline-block;margin-left:10px"
+                     @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}`)">村实现
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px"
                      @click="onGoToLink(`/admin/dashboard/family/index?areaCode=${areaCode}&areaName=${areaName}`)">
@@ -39,27 +40,27 @@
             <div class="margin-left">
               <Title title="村情介绍"/>
               <div class="target-text target-content text-left">
-                <p class="margin" style="font-size: 1.1rem;text-align: left;">
-                混撒拉村是四川省攀枝花市仁和区大龙潭彝族乡下辖村，曾被四川省委城乡基层治理委员会评为“四川省首批乡村治理示范村镇”。
-              </p>
+                <p class="margin" style="font-size: 2rem;text-align: left;">
+                  混撒拉村是四川省攀枝花市仁和区大龙潭彝族乡下辖村，曾被四川省委城乡基层治理委员会评为“四川省首批乡村治理示范村镇”。
+                </p>
               </div>
-             
+
             </div>
             <div class="margin">
               <Title title="三超"/>
               <el-row :gutter="20" class="margin">
                 <el-col :span="12">
                   <div class="text-center">
-                  <column-chart :data="[3.1, 3.52, 3.7]" :label="['2022年', '2023年', '2024年']" :mark-line="2.45"/>
-                  <text class="target-text">全村人均年可支配收入超全市农村人均年可支配收入</text>
-                </div>
+                    <column-chart :data="[3.1, 3.52, 3.7]" :label="['2022年', '2023年', '2024年']" :mark-line="2.45"/>
+                    <text class="target-text">全村人均年可支配收入超全市农村人均年可支配收入</text>
+                  </div>
                 </el-col>
                 <el-col :span="12">
                   <div class="text-center">
-                  <column-chart :data="[25.68, 29.1, 70.8]" :label="['2022年', '2023年', '2024年']"
-                                :mark-line="20"/>
-                  <text class="target-text">村集体经济收入超20万元</text>
-                </div>
+                    <column-chart :data="[25.68, 29.1, 70.8]" :label="['2022年', '2023年', '2024年']"
+                                  :mark-line="20"/>
+                    <text class="target-text">村集体经济收入超20万元</text>
+                  </div>
                 </el-col>
               </el-row>
             </div>
@@ -79,53 +80,53 @@
                   2.党员1个<br/>
                   3.党代表1个
                 </div>
-                
+
               </div>
-            <div class="margin-top">
-              <el-popover
-                  class="box-item"
-                  content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
-                  placement="top-start"
-              >
-                <template #reference>
-                  <Title title="治理强"/>
-                </template>
-              </el-popover>
-              <div class="target-content">
-                <el-row :gutter="10" class="margin">
-                  <el-col :span="8">
-                    <div>
-                      <text class="margin-sm">一村一民(辅)警</text>
-                      <img alt="" class="margin-sm" src="./img/pic.webp" width="120rem;" height="160rem;">
-                      <p>姓名：邓*志</p>
-                      <p>职务：民警</p>
-                    </div>
-                  </el-col>
-                  <el-col :span="8">
-                    <div>
-                      <text>一村一法律顾问</text>
-                      <img alt="" class="margin-sm" src="./img/pic.webp" width="120rem;" height="160rem;">
-                      <p>姓名：邓*志</p>
-                      <p>职务：顾问</p>
-                    </div>
-                  </el-col>
-                  <el-col :span="8">
-                    <div>
-                      <text>专职人民调解员</text>
-                      <img alt="" class="margin-sm" src="./img/pic.webp" width="120rem;" height="160rem;">
-                      <p>姓名：邓*志</p>
-                      <p>职务：调解员</p>
-                    </div>
-                  </el-col>
-                </el-row>
-                <div class="margin target-text">
-                  <div>矛盾纠纷<b>1</b>件 已化解<b>1</b>件</div>
+              <div class="margin-top">
+                <el-popover
+                    class="box-item"
+                    content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
+                    placement="top-start"
+                >
+                  <template #reference>
+                    <Title title="治理强"/>
+                  </template>
+                </el-popover>
+                <div class="target-content">
+                  <el-row :gutter="10" class="margin">
+                    <el-col :span="8">
+                      <div>
+                        <text class="margin-sm">一村一民(辅)警</text>
+                        <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
+                        <p>姓名：邓*志</p>
+                        <p>职务：民警</p>
+                      </div>
+                    </el-col>
+                    <el-col :span="8">
+                      <div>
+                        <text>一村一法律顾问</text>
+                        <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
+                        <p>姓名：邓*志</p>
+                        <p>职务：顾问</p>
+                      </div>
+                    </el-col>
+                    <el-col :span="8">
+                      <div>
+                        <text>专职人民调解员</text>
+                        <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
+                        <p>姓名：邓*志</p>
+                        <p>职务：调解员</p>
+                      </div>
+                    </el-col>
+                  </el-row>
+                  <div class="margin target-text">
+                    <div>矛盾纠纷<b>1</b>件 已化解<b>1</b>件</div>
+                  </div>
                 </div>
+
               </div>
-              
             </div>
           </div>
-        </div>
           <dv-border-box1 class="view-content content2">
             <div class="view-box padding-top-xl margin-lr-xl">
               <Label :text="'总户数'" :title="3685"/>
@@ -156,7 +157,7 @@
             <div/>
           </dv-border-box1>
 
-          <div >
+          <div>
             <div class="view-box">
               <Title title="两强四优"/>
               <div class="target-text target-content">
@@ -182,19 +183,19 @@
                   <el-col :span="12">
                     文化广场：220㎡
                   </el-col>
-                  <el-col  :span="12">
+                  <el-col :span="12">
                     村史馆：1个
                   </el-col>
-                  <el-col  :span="12">
+                  <el-col :span="12">
                     乡村推荐官：1人
                   </el-col>
                   <el-col :span="12">
                     文艺队伍：1支
                   </el-col>
-                  <el-col  :span="12">
+                  <el-col :span="12">
                     文旅品牌：蜜雪冰城
                   </el-col>
-                  <el-col  :span="12">
+                  <el-col :span="12">
                     综合文化服务率：54%
                   </el-col>
                 </el-row>
@@ -207,10 +208,10 @@
                   <el-col :span="12">
                     公共停车场：1个
                   </el-col>
-                  <el-col  :span="12">
+                  <el-col :span="12">
                     前教育毛入园率：40%
                   </el-col>
-                  <el-col  :span="12">
+                  <el-col :span="12">
                     基本养老保险参保率：40%
                   </el-col>
                   <el-col :span="12">
@@ -228,8 +229,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
@@ -254,7 +255,7 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const areaCode = route.query.areaCode;
-    const areaName = route.query.areaName||"";
+    const areaName = route.query.areaName || "";
     const streetAreaCode = areaCode?.toString().slice(0, 9)
     const countyAreaCode = areaCode?.toString().slice(0, 6)
     const state: any = reactive({
@@ -435,7 +436,7 @@ export default {
               flex-direction: column;
               align-items: center;
 
-              
+
             }
           }
 
@@ -488,6 +489,6 @@ export default {
     }
   }
 
-  
+
 }
 </style>
