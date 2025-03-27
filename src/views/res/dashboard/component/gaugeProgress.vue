@@ -1,61 +1,62 @@
 <template>
-  <div >
+  <div>
     <div ref="gaugeProgressContainer" class="gaugeProgressContainer" :id="uid" :style="style"></div>
   </div>
 </template>
 
 <script lang="ts">
 import * as echarts from 'echarts';
-import { getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs } from 'vue';
+import {getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs} from 'vue';
+
 export default {
   props: {
-		text: {
-			type: String,
-			default:'',
-		},
-    style:{
+    text: {
       type: String,
-      default:"width:100%;height: 18vh"
+      default: '',
+    },
+    style: {
+      type: String,
+      default: "width:100%;height: 18vh"
     },
     value: {
-			type: Number,
-			default:0.5,
-		},
-    axisLabelFontSize: {
-			type: Number,
-			default:8,
-		},
-    titleFontSize:{
       type: Number,
-			default:10,
+      default: 0.5,
     },
-    detailFontSize:{
+    axisLabelFontSize: {
       type: Number,
-			default:14,
+      default: 8,
+    },
+    titleFontSize: {
+      type: Number,
+      default: 10,
+    },
+    detailFontSize: {
+      type: Number,
+      default: 14,
     },
     colorValueData: {
-			type: Array,
-			default: [
-          [0.75, '#FDDD60'],
-          [0.85, '#58D9F9'],
-          [1, '#7CFFB2']
-        ],
-		},
+      type: Array,
+      default: [
+        [0.75, '#FDDD60'],
+        [0.85, '#58D9F9'],
+        [1, '#7CFFB2']
+      ],
+    },
     colorTickData: {
-			type: Array,
-			default: [{name:'2024 75%',value:0.375},{name:'2025 85%',value:0.75},{name:'2030 95%',value:1}],
-		},
-	},
+      type: Array,
+      default: [{name: '2024 75%', value: 0.375}, {name: '2025 85%', value: 0.75}, {name: '2030 95%', value: 1}],
+    },
+  },
   setup(props) {
     let uid = ref('');
-    const { proxy } = getCurrentInstance() as any;
+    const {proxy} = getCurrentInstance() as any;
     let state = reactive({
       uid
     })
     onBeforeMount(() => {
       uid.value = `echarts-uid-${parseInt((Math.random() * 1000000).toString())}`;
     });
-      //挂载
+    //挂载
     onMounted(async () => {
       const chartDom = document.getElementById(uid.value);
       const myChart = echarts.init(chartDom);
@@ -85,32 +86,18 @@ export default {
                 color: 'auto'
               }
             },
-            // axisTick: {
-            //   length: 12,
-            //   lineStyle: {
-            //     color: 'auto',
-            //     width: 2
-            //   }
-            // },
-            // splitLine: {
-            //   length: 20,
-            //   lineStyle: {
-            //     color: 'auto',
-            //     width: 0
-            //   }
-            // },
             axisLabel: {
               color: '#ddd',
               fontSize: props.axisLabelFontSize,
               distance: -25,
               rotate: 'tangential',
               formatter: function (value) {
-                console.log("value",value)
-                if(props.colorTickData.length>0){
-                  for(const val of props.colorTickData){
+                console.log("value", value)
+                if (props.colorTickData.length > 0) {
+                  for (const val of props.colorTickData) {
                     if (value === val.value) {
-                    return val.name;
-                  } 
+                      return val.name;
+                    }
                   }
                 }
               }
@@ -119,8 +106,8 @@ export default {
               offsetCenter: [0, '-10%'],
               fontSize: props.titleFontSize,
               color: 'white',
-              stroke:'orange',
-              lineWidth:5,
+              stroke: 'orange',
+              lineWidth: 5,
             },
             detail: {
               fontSize: props.detailFontSize,
@@ -145,13 +132,13 @@ export default {
       option && myChart.setOption(option);
     })
 
-      return {
-        ...toRefs(state),
-      }
-    },
-  }
+    return {
+      ...toRefs(state),
+    }
+  },
+}
 </script>
- 
+
 <style lang='scss' scoped>
 
 </style>

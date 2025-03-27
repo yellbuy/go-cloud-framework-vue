@@ -59,7 +59,7 @@
             {name: '生活好', max: 100},
             {name: '教育好', max: 100},
             ]" :series1ValueData="[100,100,100,100,100]" :series2ValueData="[100, 100, 99.7, 61.8, 98.4]" :startAngle="230"
-                           :style="'height:16rem;padding-top:2rem'"></radarEchart>
+                           :style="'height:16rem;padding-top:2rem'"/>
             </div>
           </div>
         </div>
