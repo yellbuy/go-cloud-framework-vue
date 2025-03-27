@@ -97,7 +97,7 @@
               <el-row style="z-index: 2000;">
               <el-col :span="12">
                 <div class="target-header margin-top" @click="onClickPleaseWait('查看帮扶家庭户')">
-                <div class="target-title">帮扶户数统计</div>
+                <span class="target-title">帮扶户数统计</span>
               </div>
               <div class="target-content target-container-h3" @click="onClickPleaseWait('查看帮扶家庭户')">
                 <dv-scroll-board :config="bfhsConfig" style="width:100%;height:24vh" @click="clickHandler"
@@ -106,7 +106,7 @@
               </el-col>
               <el-col :span="12">
                 <div class="target-header margin-top" @click="onClickPleaseWait('查看“五好”不达标家庭户')">
-                  <div class="target-title" style="width:10vw">“五好”不达标户数</div>
+                  <span class="target-title" style="width:10vw">“五好”不达标户数</span>
                 </div>
                 <div class="target-content target-container-h3" @click="onClickPleaseWait('查看“五好”不达标家庭户')">
                   <dv-scroll-board :config="whbdbConfig" style="width:100%;height:24vh" @click="clickHandler"
@@ -123,12 +123,12 @@
             <div class="">
               <Title title="公共服务均等化"/>
               <div class="target-text">
-                <div class="target-content padding">
+                <div class="target-content padding target-container-h4">
                   <el-row :gutter="8">
                     <el-col :span="12">
                         <div class=" padding-tb">
                           <label>学前教育三年毛入园率</label>
-                          <br>
+                          <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />2%
                         </div>
 
@@ -136,21 +136,21 @@
                     <el-col :span="12">
                         <div class="padding-tb">
                           <label>全民医疗保险参保率</label>
-                          <br>
+                          <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">98.5%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />3.5%
                         </div>
                     </el-col>
                     <el-col :span="12">
                         <div class="padding-tb">
                           <label>特殊人群医疗保险参保率</label>
-                          <br>
+                          <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />2%
                         </div>
                     </el-col>
                     <el-col :span="12">
                         <div class="padding-tb">
                           <label>农村客运覆盖率</label>
-                          <br>
+                          <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />
                         </div>
                     </el-col>
@@ -165,7 +165,7 @@
             <div class="margin-top-sm">
               <Title title="基础设施一体化"/>
               <div class="target-text">
-                <div class="target-content padding">
+                <div class="target-content padding target-container-h4">
                   <el-row :gutter="0">
                     <el-col :span="12">
                       <div class="padding-tb">
@@ -195,7 +195,7 @@
             <div class="margin-top-sm">
               <Title title="乡村治理现代化"/>
               <div class="target-text">
-                <div class="target-content padding">
+                <div class="target-content padding target-container-h4">
                   <el-row :gutter="0">
                     <el-col :span="12">
                       <div class="padding-tb">
@@ -225,7 +225,7 @@
             <div class="margin-top-sm">
               <Title title="产业发展规模化"/>
               <div class="target-text">
-                <div class="target-content padding">
+                <div class="target-content padding target-container-h4">
                   <el-row :gutter="0">
                     <el-col :span="12">
                       <div class="padding-tb">
