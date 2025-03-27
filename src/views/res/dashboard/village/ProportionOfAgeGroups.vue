@@ -49,10 +49,10 @@ export default {
             roseType: 'radius',
             avoidLabelOverlap: false,
             data: [
-              {value: 15, name: "芒果"},
+              {value: 45, name: "芒果"},
               {value: 20, name: "石榴"},
               {value: 20, name: "蔬菜"},
-              {value: 45, name: "肉食"}
+              {value: 15, name: "肉食"}
             ],
             label: { // 图表的标签配置，例如柱状图的标签显示在柱子上方或下方等位置。
               show: true, // 是否显示标签，默认为false。根据需要开启。

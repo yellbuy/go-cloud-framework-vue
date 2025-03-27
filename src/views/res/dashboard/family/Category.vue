@@ -33,7 +33,7 @@ export default {
           {
             label: {
               alignTo: 'edge',
-              formatter: '{b}( {c} )%}',
+              formatter: '{b} {c}% ',
               minMargin: 5,
               edgeDistance: 10,
               lineHeight: 15,

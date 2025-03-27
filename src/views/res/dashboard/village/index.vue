@@ -38,7 +38,7 @@
           <div class="view-content content1">
             <div class="view-box">
               <Title title="村情介绍"/>
-              <div class="target-text target-content m15">
+              <div class="target-text target-content m15" style="font-size: 2rem">
                 混撒拉村是四川省攀枝花市仁和区大龙潭彝族乡下辖村，曾被四川省委城乡基层治理委员会评为“四川省首批乡村治理示范村镇”。
               </div>
             </div>
@@ -46,11 +46,12 @@
               <Title title="三超"/>
               <div class="view-box-table">
                 <div>
-                  <column-chart :data="[3.1, 3.52, 3.7]" :label="['2022年', '2023年', '2024年']" :mark-line="3.2"/>
+                  <column-chart :data="[3.1, 3.52, 3.7]" :label="['2022年', '2023年', '2024年']" :mark-line="2.45"/>
                   <text>全村人均年可支配收入超全市农村人均年可支配收入</text>
                 </div>
                 <div>
-                  <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '2024年']" :mark-line="20"/>
+                  <column-chart :data="[25.68, 29.1, 70.8]" :label="['2022年', '2023年', '2024年']"
+                                :mark-line="20"/>
                   <text>村集体经济收入超20万元</text>
                 </div>
               </div>
@@ -109,9 +110,9 @@
           </div>
           <dv-border-box1 class="view-content content2" style="padding: 2rem">
             <div class="view-box">
-              <Label :text="'总户数'" :title="10000"/>
-              <Label :color="'#FCAE26FF'" :text="'达标户'" :title="9500"/>
-              <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'20%'"/>
+              <Label :text="'总户数'" :title="3685"/>
+              <Label :color="'#FCAE26FF'" :text="'达标户'" :title="2043"/>
+              <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'55%'"/>
             </div>
             <div class="column-center margin-bottom" style="width: 100%;height: 47rem">
               <antvImageMap :center="[500,450]" :zoom="2" areaCode="510411200207" areaGoTo="street"></antvImageMap>
@@ -150,7 +151,7 @@
             <div class="view-box">
               <Title title="环境优"/>
               <div class="target-text target-content m15">
-                <environmental-excellence :data="[25.68, 29.1, 70.8, 40.8, 30.8]"
+                <environmental-excellence :data="[77.1, 100, 100,100, 100]"
                                           :label="['⾃来⽔', '卫⽣厕所', '⽣活污⽔', '⽣活垃圾', '硬化路率']"
                                           :mark-line="0"/>
               </div>
@@ -227,7 +228,7 @@ export default {
             value: 55
           },
           {
-            name: '生活用水安金',
+            name: '生活用水安全',
             value: 21
           },
           {
