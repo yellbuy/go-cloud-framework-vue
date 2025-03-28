@@ -15,6 +15,7 @@ export default {
   props: {
     data: Array,
     label: Array,
+    markLine: Array,
   },
   setup(props) {
     let state = reactive({
@@ -27,9 +28,9 @@ export default {
         grid: {
           show: false,
           top: '5%',
-          left: '5%',
+          left: '15%',
           right: '0%',
-          bottom: '10%',
+          bottom: '15%',
         },
         xAxis: {
           type: 'category',
@@ -38,7 +39,7 @@ export default {
             show: false // 隐藏横线
           },
           axisLabel: {
-            fontSize: 15,
+            fontSize: 11,
             color: '#28A2CE'
           }
         },
@@ -48,9 +49,9 @@ export default {
             show: false // 隐藏横线
           },
           axisLabel: {
-            fontSize: 15,
+            fontSize: 11,
             color: '#28A2CE',
-            formatter: '{value}户'
+            formatter: '{value}万'
           }
         },
         series: [
@@ -85,7 +86,23 @@ export default {
               color: "#128cfc",
               opacity: 0.7,
             },
-            data: props.data
+            data: props.data,
+            markLine: {
+              data: [
+                {
+                  yAxis: props.markLine
+                }
+              ],
+              lineStyle: {
+                color: '#FCAE26FF'
+              },
+              label: {
+                position: 'middle',
+                formatter: '{c}万',
+                color: '#FCAE26FF',
+              },
+              z: 22
+            }
           }
         ]
       };
@@ -112,6 +129,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: 25.5vh;
+  height: calc((100vh - 5.6rem) / 6);
 }
 </style>
