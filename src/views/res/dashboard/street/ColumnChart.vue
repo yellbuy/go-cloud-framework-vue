@@ -14,8 +14,7 @@ import {onMounted, reactive, ref, toRefs} from 'vue';
 export default {
   props: {
     data: Array,
-    label: Array,
-    markLine: Array,
+    label: Array
   },
   setup(props) {
     let state = reactive({
@@ -28,9 +27,9 @@ export default {
         grid: {
           show: false,
           top: '5%',
-          left: '15%',
+          left: '5%',
           right: '0%',
-          bottom: '15%',
+          bottom: '10%',
         },
         xAxis: {
           type: 'category',
@@ -51,7 +50,7 @@ export default {
           axisLabel: {
             fontSize: 11,
             color: '#28A2CE',
-            formatter: '{value}万'
+            formatter: '{value}户'
           }
         },
         series: [
@@ -86,23 +85,7 @@ export default {
               color: "#128cfc",
               opacity: 0.7,
             },
-            data: props.data,
-            markLine: {
-              data: [
-                {
-                  yAxis: props.markLine
-                }
-              ],
-              lineStyle: {
-                color: '#FCAE26FF'
-              },
-              label: {
-                position: 'middle',
-                formatter: '{c}万',
-                color: '#FCAE26FF',
-              },
-              z: 22
-            }
+            data: props.data
           }
         ]
       };
@@ -128,7 +111,6 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  width: 100%;
-  height: calc((100vh - 5.6rem) / 6);
+  height: 18.2rem;
 }
 </style>

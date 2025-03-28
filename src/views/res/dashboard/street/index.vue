@@ -54,9 +54,11 @@
                           @Click="onClickTargetDetail('三超指标解读','基本富裕达标户数占比超50%。<br/>全村人均年可支配收入超全市农村人均年可支配收入。<br/>村集体经济稳定收入超20万元。')">
                     <div style="text-align: center;">
                       <div :style="'min-height:12rem'">
-                        <radarEchart :indicatorNameData="[ { name: '基本富裕户', max: 100 },  { name: '人均可支配收入', max: 100 },  { name: '村集体经济收入', max: 100 }]" :series1ValueData="[100,100,100]"
-                                     :series2ValueData="[20,18,30]"
-                                     :startAngle="150" :style="'height:13rem'"></radarEchart>
+                        <radarEchart
+                            :indicatorNameData="[ { name: '基本富裕户', max: 100 },  { name: '人均可支配收入', max: 100 },  { name: '村集体经济收入', max: 100 }]"
+                            :series1ValueData="[100,100,100]"
+                            :series2ValueData="[20,18,30]"
+                            :startAngle="150" :style="'height:13rem'"></radarEchart>
                       </div>
                       <div class="margin-top-xs">三超</div>
                     </div>
@@ -66,10 +68,12 @@
 <br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
 <br><b>服务优：</b>公共服务保障完善。每个村有1名农村社会化服务协办员，开展农业社会化服务。残疾儿童实现随班就读或送教上门。有家庭医生服务团队。成功创建市级健康村。适龄人员养老保险参保率达95%。`)">
                     <div style="text-align: center">
-                      <radarEchart :indicatorNameData="[{ name: '产业优', max: 100 },  { name: '环境优', max: 100 },  { name: '文化优', max: 100 },  { name: '服务优', max: 100 }]" :series1ValueData="[100,100,100,100]"
-                                   :series2ValueData="[56,60,30,75]"
-                                   :startAngle="45"
-                                   :style="'height:13rem'"></radarEchart>
+                      <radarEchart
+                          :indicatorNameData="[{ name: '产业优', max: 100 },  { name: '环境优', max: 100 },  { name: '文化优', max: 100 },  { name: '服务优', max: 100 }]"
+                          :series1ValueData="[100,100,100,100]"
+                          :series2ValueData="[56,60,30,75]"
+                          :startAngle="45"
+                          :style="'height:13rem'"></radarEchart>
                       <div class="margin-top-xs">四优</div>
                     </div>
                   </el-col>
@@ -290,8 +294,8 @@ import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import Label1 from "/@/views/res/dashboard/component/Label1.vue";
+import ColumnChart from "/@/views/res/dashboard/street/ColumnChart.vue";
 import OvalShape from "/@/views/res/dashboard/street/OvalShape.vue";
-import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
 
 export default {
@@ -411,7 +415,7 @@ export default {
 #data-view {
   width: 100%;
   height: 100%;
-  color: #fff;
+  color: rgb(7, 2, 28);
 
   #dv-full-screen-container {
     background-image: url("/img/res/bg_2.jpg");
