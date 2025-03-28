@@ -4,7 +4,7 @@
       <div class="banner">
         <div class="banner-content">
           <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:1rem;" click="onGoToLink(`/admin/dashboard/home/index`)">区迈入
+                     style="display:inline-block;margin-left:1rem;" @click="onGoToLink(`/admin/dashboard/home/index`)">区迈入
           </dv-button>
           <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:1rem;">
             乡推进
