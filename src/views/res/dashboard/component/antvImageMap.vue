@@ -83,7 +83,7 @@ export default {
                     },
                   })
                   .shape('icon', ['1', '0'])
-                  .size(12);
+                  .size(16);
 
               const textlayer = new PointLayer({zIndex: 2})
                   .source(data, {
@@ -94,7 +94,7 @@ export default {
                     },
                   })
                   .shape('name', 'text')
-                  .size(12)
+                  .size(16)
                   .active({
                     color: '#00f',
                     mix: 0.9,
