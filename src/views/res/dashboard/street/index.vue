@@ -4,16 +4,16 @@
       <div class="banner">
         <div class="banner-content">
           <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区建成
+                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区迈⼊
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px;">
-            乡进入
+            乡推进
           </dv-button>
           <dv-button key="" border="Border4" color="#615ea8" fontSize="12"
-                     style="display:inline-block;margin-left:10px">村实现
+                     style="display:inline-block;margin-left:10px">村共创
           </dv-button>
           <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px">
-            户达标
+            户夯实
           </dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
@@ -29,6 +29,7 @@
               <Title title="乡情介绍"/>
               <div class="target-text">
                 <div class="margin">
+                  大龙潭彝族乡为彝、汉族杂居的民族乡。最高海拔2105米，最低海拔970米，乡境内多为山地，立体气候明显，属南亚热带半干旱季风气候，年平均气温20.5℃，年降雨量800毫米，无霜期长达350天左右。辖区面积242.8平方公里，下辖裕民村、拉鲊村、新街村、干坝子村、大龙潭村、混撒拉村6个行政村，共55个村民小组，常住人口3712户14321人。
                   {{ mainData['乡情介绍'] || areaName }}
                 </div>
               </div>
@@ -286,9 +287,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import { ElMessageBox } from 'element-plus';
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {ElMessageBox} from 'element-plus';
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";

@@ -295,18 +295,6 @@ export default {
     const onGoToLink = (url: string) => {
       router.push(url)
     }
-     onMounted(async()=>{
-      try{
-        const mainDataList=await d3.csv(`/data/res/family/${areaCode}/总表.csv`);
-        console.log("mainData:",mainDataList)
-        if(mainDataList && mainDataList.length>0){
-          state.mainData=mainDataList[0];
-        }
-      }catch(er){
-        console.log(er)
-      }
-      
-      
 
     onMounted(async () => {
       const mainDataList = await d3.csv(`/data/res/family/${areaCode}/总表.csv`);
