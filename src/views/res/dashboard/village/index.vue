@@ -134,13 +134,17 @@
               <div class="view-box-bottom">
                 <Title title="两强"/>
                 <div class="target-text">
-
+                  <div class="target-content target-content-height">
+                    <dv-capsule-chart :config="shyzConfig" style="width:100%;height:18rem;"/>
+                  </div>
                 </div>
               </div>
               <div class="view-box-bottom">
                 <Title title="四优"/>
                 <div class="target-text">
-
+                  <div class="target-content target-content-height">
+                    <dv-capsule-chart :config="wbhConfig" style="width:100%;height:18rem;"/>
+                  </div>
                 </div>
               </div>
             </div>
@@ -187,21 +191,10 @@
             </div>
             <div class="margin-top">
               <Title title="服务优"/>
-              <div class="target-text target-content padding-lg target-container-h8" style="text-align: left">
-                <el-row class="margin-sm">
-                  <el-col :span="12">
-                    公共停车场：1个
-                  </el-col>
-                  <el-col :span="12">
-                    前教育毛入园率：40%
-                  </el-col>
-                  <el-col :span="12">
-                    基本养老保险参保率：40%
-                  </el-col>
-                  <el-col :span="12">
-                    基本医疗保险参保率：40%
-                  </el-col>
-                </el-row>
+              <div class="target-text target-content padding-lg" style="text-align: left">
+                <environmental-excellence :data="[100,99.7, 100]"
+                                          :label="['适龄儿童入学率', '基本医疗保险参保率', '特殊人群']"
+                                          :mark-line="0"/>
               </div>
             </div>
           </div>

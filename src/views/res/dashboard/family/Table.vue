@@ -12,16 +12,16 @@
           <th>是否达标</th>
           </thead>
           <tbody>
-          <tr v-for="item in TableData"
-              @click="onGoToLink(`/admin/dashboard/family/detail?areaCode=${areaCode}`)">
-            <td>{{ item.id }}</td>
-            <td>{{ item.district }}</td>
-            <td>{{ item.village }}</td>
-            <td>{{ item.community }}</td>
-            <td>{{ item.name }}</td>
+          <tr v-for="(item,index) in tableDataList"
+              @click="onGoToLink(`/admin/dashboard/family/detail`)">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item["县（区）"] }}</td>
+            <td>{{ item["乡镇（街道）"] }}</td>
+            <td>{{ item["社区"] }}</td>
+            <td>{{ item["姓名"] }}</td>
             <td>
-              <img v-if="!item.standard" src="./img/red.png"/>
-              <img v-if="item.standard" src="./img/green.png"/>
+              <img v-if="item['是否达标'] == '否'" alt="" src="./img/red.png"/>
+              <img v-if="item['是否达标'] == '是'" alt="" src="./img/green.png"/>
             </td>
           </tr>
           </tbody>
@@ -33,36 +33,16 @@
 
 <script lang="ts">
 
-import { reactive, toRefs } from "vue";
-import { useRouter } from "vue-router";
+import {reactive, toRefs} from "vue";
+import {useRouter} from "vue-router";
+import "@/views/res/dashboard/component/scss/box.scss";
 
 export default {
   props: {
-    areaCode: {
-      type: String,
-      default: '',
-    },
-    areaName: {
-      type: String,
-      default: '仁和区',
-    },
+    tableDataList: Array
   },
-  setup() {
-    const state: any = reactive({
-      TableData: []
-    })
-    for (let i = 0; i < 60; i++) {
-      state.TableData.push(
-          {
-            id: i + 1,
-            district: "仁和区",
-            village: "大龙潭彝族乡",
-            community: "混撒拉村",
-            name: "邓*志",
-            standard: (i % 3 != 0)
-          }
-      );
-    }
+  setup(props) {
+    const state: any = reactive({})
     const router = useRouter();
     //导航链接
     const onGoToLink = (url: string) => {
@@ -78,7 +58,7 @@ export default {
 
 <style lang='scss' scoped>
 .target-content {
-  max-height: 82rem; /* 或者你需要的任何高度 */
+  max-height: 65rem; /* 或者你需要的任何高度 */
   overflow: auto;
   position: relative;
 }
@@ -97,11 +77,14 @@ thead {
 }
 
 th {
-  margin: 0;
   border: none;
   padding: 0.51rem;
   font-size: 1rem;
   border-collapse: collapse
+}
+
+tr {
+  height: 3rem;
 }
 
 tr:hover {

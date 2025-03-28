@@ -38,12 +38,18 @@
             <div class="target-content">
               <el-row>
                 <el-col :span="12">
-                    <gaugeProgress  :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
-                    :colorTickData="[{name:'目标 50%',value:0.50}]" :value="mainData['基本富裕达标户数占比'] || 0.30" text="基本富裕达标户数占比" :style="'height:12rem'"/>
+                  <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 50%',value:0.50}]"
+                                 :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
+                                 :style="'height:12rem'"
+                                 :titleFontSize="14" :value="mainData['基本富裕达标户数占比'] || 0.30"
+                                 text="基本富裕达标户数占比"/>
                 </el-col>
                 <el-col :span="12">
-                    <gaugeProgress :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
-                  :colorTickData="[{name:'目标 50%',value:0.50}]" :value="mainData['基本富裕实现村数占比'] || 0.20" text="基本富裕实现村数占比" :style="'height:12rem'"/>
+                  <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 50%',value:0.50}]"
+                                 :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
+                                 :style="'height:12rem'"
+                                 :titleFontSize="14" :value="mainData['基本富裕实现村数占比'] || 0.20"
+                                 text="基本富裕实现村数占比"/>
                 </el-col>
               </el-row>
             </div>
@@ -287,9 +293,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import { ElMessageBox } from 'element-plus';
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {ElMessageBox} from 'element-plus';
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
@@ -310,10 +316,10 @@ export default {
       isFullScreen: true,// 是否全屏
       curTime: dayjs().format("YYYY年MM月DD日"),
       areaCode: route.query.areaCode,
-      areaName: route.query.areaName||"",
-      mainData:{}, //总表数据
+      areaName: route.query.areaName || "",
+      mainData: {}, //总表数据
       //基础设施补短情况配置 改帮扶统计
-      bfhsConfig :{
+      bfhsConfig: {
         header: ['村', '帮扶户数'],
         data: [
           ['混撒拉村', '<span style="color:#32c5e9;">80</span>'],
@@ -326,10 +332,10 @@ export default {
         index: true,
         rowNum: 5,
         columnWidth: [50],
-        align: ['center','center','right'],
+        align: ['center', 'center', 'right'],
       },
       //综合帮扶情况配置
-      whbdbConfig :{
+      whbdbConfig: {
         header: ['村', '不达标户数'],
         data: [
           ['混撒拉村', '<span style="color:#32c5e9;">80</span>'],
@@ -342,9 +348,9 @@ export default {
         index: true,
         rowNum: 5,
         columnWidth: [50],
-        align: ['center','center','right'],
-    }
-  })
+        align: ['center', 'center', 'right'],
+      }
+    })
     //导航链接
     const onGoToLink = (url: string) => {
       router.push(url)
@@ -360,41 +366,41 @@ export default {
 
     // 页面加载时
     onMounted(async () => {
-      try{
-        const list=await d3.csv(`/data/res/street/${state.areaCode}/乡总表.csv`);
-        console.log("mainData:",list)
-        if(list && list.length>0){
-          state.mainData=list[0];
+      try {
+        const list = await d3.csv(`/data/res/street/${state.areaCode}/乡总表.csv`);
+        console.log("mainData:", list)
+        if (list && list.length > 0) {
+          state.mainData = list[0];
         }
-      }catch(er){
+      } catch (er) {
         console.log(er)
       }
 
-      try{
-        const list=await d3.csv(`/data/res/street/${state.areaCode}/帮扶户数统计.csv`);
-        console.log("bfhsConfig data:",list)
-        const rows=[]
+      try {
+        const list = await d3.csv(`/data/res/street/${state.areaCode}/帮扶户数统计.csv`);
+        console.log("bfhsConfig data:", list)
+        const rows = []
         Object.keys(list).forEach((key) => {
-          if(list[key]['村名']){
-            rows.push([list[key]['村名'],list[key]['户数']])
+          if (list[key]['村名']) {
+            rows.push([list[key]['村名'], list[key]['户数']])
           }
         })
-        state.bfhsConfig.data=rows;
-      }catch(er){
+        state.bfhsConfig.data = rows;
+      } catch (er) {
         console.log(er)
       }
 
-      try{
-        const list=await d3.csv(`/data/res/street/${state.areaCode}/五好不达标户数统计.csv`);
-        console.log("bfhsConfig data:",list)
-        const rows=[]
+      try {
+        const list = await d3.csv(`/data/res/street/${state.areaCode}/五好不达标户数统计.csv`);
+        console.log("bfhsConfig data:", list)
+        const rows = []
         Object.keys(list).forEach((key) => {
-          if(list[key]['村名']){
-            rows.push([list[key]['村名'],list[key]['户数']])
+          if (list[key]['村名']) {
+            rows.push([list[key]['村名'], list[key]['户数']])
           }
         })
-        state.whbdbConfig.data=rows;
-      }catch(er){
+        state.whbdbConfig.data = rows;
+      } catch (er) {
         console.log(er)
       }
 
