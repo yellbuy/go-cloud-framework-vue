@@ -4,16 +4,16 @@
       <div class="banner-content">
         <button class="banner-button" style="margin-left: 6rem;margin-right:1rem;"
                 @click="onGoToLink(`/admin/dashboard/family/index`)">
-          区建成
+          区迈入
         </button>
         <button class="banner-button" style="margin-right:1rem;" @click="onGoToLink(`/admin/dashboard/family/index`)">
-          乡进入
+          乡推进
         </button>
         <button class="banner-button" style="margin-right:1rem;" @click="onGoToLink(`/admin/dashboard/family/index`)">
-          村实现
+          村共创
         </button>
         <button class="banner-button" style="margin-right:1rem;" @click="onGoToLink(`/admin/dashboard/family/index`)">
-          户达标
+          户夯实
         </button>
       </div>
       <div class="banner-content" style="text-align: right;float:right;">
@@ -29,9 +29,9 @@
 </template>
 
 <script lang="ts">
-import {useRouter} from "vue-router";
-import {reactive, toRefs} from "vue";
 import dayjs from "dayjs";
+import { reactive, toRefs } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {

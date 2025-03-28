@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <dv-border-box10>
       <div class="flare-container">
-        <div class="flare-title" style="text-align: left;padding-left:10px">村实现情况</div>
+        <div class="flare-title" style="text-align: left;padding-left:10px">村共创情况</div>
         <div ref="actVillage" class="actVillage" id="actVillage"></div>
       </div>
     </dv-border-box10>

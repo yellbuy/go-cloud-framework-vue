@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <dv-border-box10>
       <div class="flare-container">
-        <div class="flare-title" style="text-align: left;padding-left:10px">乡进入情况</div>
+        <div class="flare-title" style="text-align: left;padding-left:10px">乡推进情况</div>
         <div ref="barStreet" class="barStreet" id="barStreet"></div>
       </div>
     </dv-border-box10>

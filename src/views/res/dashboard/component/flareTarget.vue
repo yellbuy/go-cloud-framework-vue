@@ -21,7 +21,7 @@ export default {
  "name": "仁和共富评估指标",
  "children": [
   {
-   "name": "户达标",
+   "name": "户夯实",
    "children": [
     {
      "name": "一增",
@@ -42,7 +42,7 @@ export default {
    ]
   },
   {
-   "name": "村实现",
+   "name": "村共创",
    "children": [
     {
      "name": "三超",
@@ -68,7 +68,7 @@ export default {
    ]
   },
   {
-   "name": "乡进入",
+   "name": "乡推进",
    "children": [
     {
      "name": "两高",
@@ -87,7 +87,7 @@ export default {
    ]
   },
   {
-   "name": "区建成",
+   "name": "区迈入",
    "children": [
     {
      "name": "2025",

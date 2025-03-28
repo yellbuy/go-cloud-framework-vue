@@ -5,22 +5,22 @@
       <div class="banner">
         <div class="banner-content">
           <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:10px;" @click="console.log('click')">区建成
+                     style="display:inline-block;margin-left:10px;" @click="console.log('click')">区迈入
           </dv-button>
           <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px;">
-            乡进入
+            乡推进
           </dv-button>
           <dv-button key="" border="Border4" color="#615ea8" fontSize="12"
-                     style="display:inline-block;margin-left:10px">村实现
+                     style="display:inline-block;margin-left:10px">村共创
           </dv-button>
           <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:10px">
-            户达标
+            户夯实
           </dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
 
           <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/home/detail`)" border="Border4" color="#409EFF">七优指标</dv-button>
+          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/home/detail`)" border="Border4" color="#409EFF">六优指标</dv-button>
           <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onClickCountDetail" border="Border4" color="#409EFF">区情介绍</dv-button>
         </div>
       </div>
@@ -31,31 +31,31 @@
       <div class="main-rows">
         <div style="width:25%;" class="padding-lr-12">
           <div class="target-header" @click="onClickPleaseWait">
-            <span class="target-title">乡进入情况</span>
+            <span class="target-title">乡推进情况</span>
           </div>
           <div @click="onClickPleaseWait" class="target-container-h3 target-content text-center">
             <!-- <rankingCounty/> 3月27日换仪表图-->
             <el-row class="margin-top">
                 <el-col :span="12">
                     <gaugeProgress  :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
-                    :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.26" text="基本富裕户达标乡占比" :style="'height:12rem'"/>
+                    :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.26" text="基本富裕户夯实乡占比" :style="'height:12rem'"/>
                     <div class="target-text" style="margin-top:-1.5rem">达标乡镇数(3/13)</div>
                 </el-col>
                 <el-col :span="12">
                     <gaugeProgress :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
-                  :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.175" text="基本富裕村实现乡达标占比" :style="'height:12rem'"/>
+                  :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.175" text="基本富裕村共创乡达标占比" :style="'height:12rem'"/>
                   <div class="target-text" style="margin-top:-1.5rem">达标乡镇数(2/13)</div>
                 </el-col>
               </el-row>
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait">
-            <span class="target-title">村实现情况</span>
+            <span class="target-title">村共创情况</span>
           </div>
           <div @click="onClickPleaseWait">
             <rankingVillage/>
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait">
-            <span class="target-title">户达标情况</span>
+            <span class="target-title">户夯实情况</span>
           </div>
           <div @click="onClickPleaseWait">
             <rankingFamily/>

@@ -2,9 +2,9 @@
 export default {
 	router: {
 		dashboard:'主控台',
-		village:'村实现',
-		street:'乡进入',
-		family:'户达标',
+		village:'村共创',
+		street:'乡推进',
+		family:'户夯实',
 	},
 	field: {
 

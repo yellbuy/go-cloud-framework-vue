@@ -48,7 +48,7 @@
               </el-row>
             </div>
             <div style="margin-top:-2rem">
-              <Title title="村实现完成情况"/>
+              <Title title="村共创完成情况"/>
               <div class="margin-top">
                 <el-row :gutter="2">
                   <el-col :span="12"
@@ -287,9 +287,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from 'element-plus';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { ElMessageBox } from 'element-plus';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";

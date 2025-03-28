@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <dv-border-box10>
       <div class="flare-container">
-        <div class="flare-title" style="text-align: left;padding-left:10px">区建成进度趋势</div>
+        <div class="flare-title" style="text-align: left;padding-left:10px">区迈入进度趋势</div>
         <div ref="echart" class="echartDiv"></div>
       </div>
     </dv-border-box10>
@@ -64,7 +64,7 @@ export default {
         },
         series: [
           {
-            name: '户达标',
+            name: '户夯实',
             type: 'line',
             stack: 'Total',
             data: [30, 35, 40, 45, 48, 50, 75]

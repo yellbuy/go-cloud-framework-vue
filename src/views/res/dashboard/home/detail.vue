@@ -4,16 +4,16 @@
       <div class="banner">
         <div class="banner-content">
           <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:1rem;" click="onGoToLink(`/admin/dashboard/home/index`)">区建成
+                     style="display:inline-block;margin-left:1rem;" click="onGoToLink(`/admin/dashboard/home/index`)">区迈入
           </dv-button>
           <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:1rem;">
-            乡进入
+            乡推进
           </dv-button>
           <dv-button key="" border="Border4" color="#615ea8" fontSize="12"
-                     style="display:inline-block;margin-left:1rem">村实现
+                     style="display:inline-block;margin-left:1rem">村共创
           </dv-button>
           <dv-button border="Border4" color="#615ea8" fontSize="12" style="display:inline-block;margin-left:1rem">
-            户达标
+            户夯实
           </dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">

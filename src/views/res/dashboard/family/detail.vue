@@ -4,18 +4,18 @@
       <div class="banner">
         <div class="banner-content">
           <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区建成
+                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区迈入
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px;"
                      @click="onGoToLink(`/admin/dashboard/street/index?areaCode=${streetAreaCode}`)">
-            乡进入
+            乡推进
           </dv-button>
           <dv-button key="" border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:10px" @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}&areaName=${areaName}`)">村实现
+                     style="display:inline-block;margin-left:10px" @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}&areaName=${areaName}`)">村共创
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px"
                      @click="onGoToLink(`/admin/dashboard/family/index?areaCode=${areaCode}&areaName=${areaName}`)">
-            户达标
+            户夯实
           </dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">

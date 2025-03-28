@@ -7,10 +7,10 @@
     <dv-full-screen-container>
       <div id="banner">
         <div class="banner-content">
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">区建成</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡进入</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key=""color="#615ea8">村实现</dv-button>
-          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户达标</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="console.log('click')" border="Border4" color="#409EFF">区迈入</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/street/index`)" border="Border4" color="#615ea8">乡推进</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/village/index`)" border="Border4" key=""color="#615ea8">村共创</dv-button>
+          <dv-button style="display:inline-block;margin-left:10px" fontSize="12" @click="onGoToLink(`/admin/dashboard/family/index`)" border="Border4" color="#615ea8">户夯实</dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
           
@@ -26,7 +26,7 @@
       <div class="main-rows">
           <div style="width:25%;padding-left:10px;">
             <div class="target-header">
-                <div class="target-title">乡进入情况</div>
+                <div class="target-title">乡推进情况</div>
              </div>
              <div>
               <div class="target-content" style="text-align: center;">
@@ -41,13 +41,13 @@
                 <!-- <rankingCounty/> -->
             </div>
             <div class="target-header">
-                <div class="target-title">村实现情况</div>
+                <div class="target-title">村共创情况</div>
              </div>
              <div>
                 <rankingVillage/>
             </div>
             <div class="target-header">
-                <div class="target-title">户达标情况</div>
+                <div class="target-title">户夯实情况</div>
              </div>
              <div>
                 <rankingFamily/>
