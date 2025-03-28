@@ -10,8 +10,8 @@
                     <i class="fa fa-users" aria-hidden="true" style="font-size: 2.2rem; margin-bottom:1rem;color: orange;" />
                     </div>
                     <div style="display:inline-block;" class="margin-sm">
-                      <div style="font-size:1rem">主要检测群体</div>
-                      <div class="margin-top-sm"><b class="target-value" style="color:orange">23</b> 万人</div>
+                      <div style="font-size:1rem">总户数</div>
+                      <div class="margin-top-sm"><b class="target-value" style="color:orange">6.75</b> 万户</div>
                     </div>
                 </div>
               </div>
@@ -25,8 +25,8 @@
                     <i class="fa fa-address-card" aria-hidden="true" style="font-size: 2.2rem; margin-bottom:1rem; color: red;" />
                     </div>
                     <div style="display:inline-block;" class="margin-sm">
-                      <div style="font-size:1rem">主要预警群体</div>
-                      <div class="margin-top-sm"><b class="target-value" style="color:red">4.6</b> 万人</div>
+                      <div style="font-size:1rem">总人口</div>
+                      <div class="margin-top-sm"><b class="target-value" style="color:red">26.8</b> 万人</div>
                     </div>
                 </div>
               </div>

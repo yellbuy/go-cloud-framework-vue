@@ -33,8 +33,20 @@
           <div class="target-header" @click="onClickPleaseWait">
             <div class="target-title">乡进入情况</div>
           </div>
-          <div @click="onClickPleaseWait">
-            <rankingCounty/>
+          <div @click="onClickPleaseWait" class="target-container-h3 target-content text-center">
+            <!-- <rankingCounty/> 3月27日换仪表图-->
+            <el-row class="margin-top">
+                <el-col :span="12">
+                    <gaugeProgress  :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
+                    :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.26" text="基本富裕户达标乡占比" :style="'height:12rem'"/>
+                    <div class="target-text" style="margin-top:-1.5rem">达标乡镇数(3/13)</div>
+                </el-col>
+                <el-col :span="12">
+                    <gaugeProgress :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
+                  :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.175" text="基本富裕村实现乡达标占比" :style="'height:12rem'"/>
+                  <div class="target-text" style="margin-top:-1.5rem">达标乡镇数(2/13)</div>
+                </el-col>
+              </el-row>
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait">
             <div class="target-title">村实现情况</div>
@@ -75,25 +87,25 @@
           <div class="target-content target-container-h3" @click="onClickPleaseWait">
 
             <img height="100%" src="/img/res/glt.png" width="100%"/>
-            <div style="position:relative;top:-15rem;font-size:1.2rem;color:white">
+            <div style="position:relative;top:-15rem;font-size:1.2rem;color:white;text-align:center">
               区 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               农村&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               城市
             </div>
-            <div style="position:relative;top:-13rem;font-size:1rem;color:white">
-              高收入 1.5% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              高收入 0.5%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              高收入 3.5%
+            <div style="position:relative;top:-13rem;font-size:1rem;color:white;text-align:center">
+              高收入 0.84% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              高收入 0.15%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              高收入 1.45%
             </div>
-            <div style="position:relative;top:-10rem;font-size:1rem;color:white">
-              中等收入 80% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              中等收入 85%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              中等收入 88%
+            <div style="position:relative;top:-10rem;font-size:1rem;color:white;text-align:center">
+              中等收入 50.5% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              中等收入 30.41%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              中等收入 67.21%
             </div>
-            <div style="position:relative;top:-8rem;font-size:1rem;color:white">
-              低收入 19.5% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              低收入 20%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              低收入 8.5%
+            <div style="position:relative;top:-8rem;font-size:1rem;color:white;text-align:center">
+              低收入 48.66% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              低收入 69.49%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              低收入 31.34%
             </div>
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait">
@@ -134,6 +146,7 @@ import barStreet from "../component/barStreet.vue";
 import barCoutyGdp from "../component/barVillageGdp.vue";
 import barVillageInsurance from "../component/barVillageInsurance.vue";
 import flareTarget from "../component/flareTarget.vue";
+import gaugeProgress from "../component/gaugeProgress.vue";
 import lineFamily from "../component/lineFamily.vue";
 import numberCounty from "../component/numberCounty.vue";
 import pieCoutyGdp from "../component/pieCountyGdp.vue";
@@ -147,7 +160,6 @@ import rankingCounty from "../component/rankingCounty.vue";
 import rankingFamily from "../component/rankingFamily.vue";
 import rankingVillage from "../component/rankingVillage.vue";
 import barHuman from "/@/components/barHuman/index.vue";
-
 export default {
   name: "IndexDashboard",
   components: {
@@ -165,6 +177,7 @@ export default {
     actVillage,
     barAreaGdp,
     barFamilyGdp,
+    gaugeProgress,
     antvImageMap,
     barVillageInsurance,
     pieCoutyGdp,

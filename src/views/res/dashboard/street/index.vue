@@ -31,22 +31,20 @@
               <Title title="乡情介绍"/>
               <div class="target-text">
                 <div class="margin">
-                  大龙潭彝族乡为彝、汉族杂居的民族乡。最高海拔2105米，最低海拔970米，乡境内多为山地，立体气候明显，属南亚热带半干旱季风气候，年平均气温20.5℃，年降雨量800毫米，无霜期长达350天左右。辖区面积242.8平方公里，下辖裕民村、拉鲊村、新街村、干坝子村、大龙潭村、混撒拉村6个行政村，共55个村民小组，常住人口3712户14321人。
-                  <br/>总村数6个，总户数3712户14321人。
-
+                  {{ mainData['乡情介绍'] || areaName }}
                 </div>
               </div>
             </div>
             <Title title="两高"/>
-            <div>
+            <div class="target-content">
               <el-row>
                 <el-col :span="12">
                     <gaugeProgress  :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
-                    :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.30" text="基本富裕达标户数占比" :style="'height:12rem'"/>
+                    :colorTickData="[{name:'目标 50%',value:0.50}]" :value="mainData['基本富裕达标户数占比'] || 0.30" text="基本富裕达标户数占比" :style="'height:12rem'"/>
                 </el-col>
                 <el-col :span="12">
                     <gaugeProgress :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
-                  :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.20" text="基本富裕实现村数占比" :style="'height:12rem'"/>
+                  :colorTickData="[{name:'目标 50%',value:0.50}]" :value="mainData['基本富裕实现村数占比'] || 0.20" text="基本富裕实现村数占比" :style="'height:12rem'"/>
                 </el-col>
               </el-row>
             </div>
@@ -57,7 +55,7 @@
                   <el-col :span="12" @Click="onClickTargetDetail('三超指标解读','基本富裕达标户数占比超50%。<br/>全村人均年可支配收入超全市农村人均年可支配收入。<br/>村集体经济稳定收入超20万元。')">
                     <div style="text-align: center;">
                       <div :style="'min-height:12rem'">
-                        <radarEchart :style="'height:13rem'" :startAngle="150" :indicatorNameData="[ { name: '基本富裕', max: 100 },  { name: '人均收入', max: 100 },  { name: '集体经济', max: 100 }]" :series1ValueData="[100,100,100]" :series2ValueData="[20,18,30]"></radarEchart>
+                        <radarEchart :style="'height:13rem'" :startAngle="150" :indicatorNameData="[ { name: '基本富裕', max: 100 },  { name: '人均收入', max: 100 },  { name: '集体经济', max: 100 }]" :series1ValueData="[100,100,100]" :series2ValueData="[mainData['三超基本富裕达标村占比'] ||20,mainData['三超人均收入达标村占比'] ||18,mainData['三超集体经济达标村占比'] ||30]"></radarEchart>
                       </div>
                       <div class="margin-top-xs">三超</div>
                     </div>
@@ -67,14 +65,14 @@
 <br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
 <br><b>服务优：</b>公共服务保障完善。每个村有1名农村社会化服务协办员，开展农业社会化服务。残疾儿童实现随班就读或送教上门。有家庭医生服务团队。成功创建市级健康村。适龄人员养老保险参保率达95%。`)">
                     <div style="text-align: center">
-                      <radarEchart :style="'height:13rem'" :startAngle="45" :indicatorNameData="[{ name: '产业优', max: 100 },  { name: '环境优', max: 100 },  { name: '文化优', max: 100 },  { name: '服务优', max: 100 }]" :series1ValueData="[100,100,100,100]" :series2ValueData="[56,60,30,75]"></radarEchart>
+                      <radarEchart :style="'height:13rem'" :startAngle="45" :indicatorNameData="[{ name: '产业优', max: 100 },  { name: '环境优', max: 100 },  { name: '文化优', max: 100 },  { name: '服务优', max: 100 }]" :series1ValueData="[100,100,100,100]" :series2ValueData="[mainData['四优产业优达标村占比'] ||56,mainData['四优环境优达标村占比'] ||60,mainData['四优文化优达标村占比'] ||30,mainData['四优服务优达标村占比'] ||75]"></radarEchart>
                       <div class="margin-top-xs">四优</div>
                     </div>
                   </el-col>
                   <el-col :span="12" @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
                   <br/><b>治理强：</b>居民自治体系健全，居民公约完善，自治组织运行有序有效。“四议两公开”规范化建设，一村一民（辅）警，一村一法律顾问。法律公共服务室与法律援助率达100%。矛盾纠纷一站式处理，化解率达95%以上，性质恶劣命案零发生。`)">
                     <div style="text-align: center">
-                      <radarEchart :style="'height:13rem'" :indicatorNameData="[{ name: '组织强', max: 100 },  { name: '治理强', max: 100 }]" :series1ValueData="[100,100]" :series2ValueData="[80,90]"></radarEchart>
+                      <radarEchart :style="'height:13rem'" :indicatorNameData="[{ name: '组织强', max: 100 },  { name: '治理强', max: 100 }]" :series1ValueData="[100,100]" :series2ValueData="[mainData['两强组织强达标村占比'] ||80,mainData['两强治理强达标村占比'] ||90]"></radarEchart>
                       <div class="margin-top-xs">两强</div>
                     </div>
                   </el-col>
@@ -85,9 +83,9 @@
           <el-col :span="12">
             <div class="margin-top">
               <div class="text-center">
-                <Label :text="'总户数'" :title="3712" class="margin-lr-xl"/>
-                <Label :color="'#FCAE26FF'" :text="'达标村数'" :title="1" class="margin-lr-xl"/>
-                <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'16.7%'" class="margin-lr-xl" @click="onClickPleaseWait('查看未达标户数')"/>
+                <Label :text="'总户数'" :title="mainData['总户数']||3712" class="margin-lr-xl"/>
+                <Label :color="'#FCAE26FF'" :text="'达标村数'" :title="mainData['达标村数']||1" class="margin-lr-xl"/>
+                <Label :color="'#1AFD9BFF'" :text="'占比'" :title="mainData['达标户占比']||'16.7%'" class="margin-lr-xl" @click="onClickPleaseWait('查看未达标户数')"/>
               </div>
             </div>
             <div style="height:calc(57vh - 5.6rem)">
@@ -129,7 +127,7 @@
                         <div class=" padding-tb">
                           <label>学前教育三年毛入园率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />2%
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['学前教育三年毛入园率']||'100%'}}</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />98%
                         </div>
 
                     </el-col>
@@ -137,21 +135,21 @@
                         <div class="padding-tb">
                           <label>全民医疗保险参保率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">98.5%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />3.5%
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['全民医疗保险参保率']||'98.5%'}}</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />95%
                         </div>
                     </el-col>
                     <el-col :span="12">
                         <div class="padding-tb">
                           <label>特殊人群医疗保险参保率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />2%
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['特殊人群医疗保险参保率']||'100%'}}</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />98%
                         </div>
                     </el-col>
                     <el-col :span="12">
                         <div class="padding-tb">
                           <label>农村客运覆盖率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['农村客运覆盖率']||'100%'}}</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />
                         </div>
                     </el-col>
                   </el-row>
@@ -171,21 +169,21 @@
                       <div class="padding-tb">
                           <label>自来水普及率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['自来水普及率']||'100%'}}</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />
                       </div>
                     </el-col>
                     <el-col :span="12">
                       <div class="padding-tb">
                           <label>自然村通硬化路率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">82.6%</label><i class="fa fa-arrow-down margin-left-sm margin-right-xs" style="font-size: 1rem; color: orange;" />17.4%
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['自然村通硬化路率']||'100%'}}</label><i class="fa fa-arrow-down margin-left-sm margin-right-xs" style="font-size: 1rem; color: orange;" />100%
                       </div>
                     </el-col>
                     <el-col :span="12">
                       <div class="padding-tb">
                           <label>卫生厕所达标率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />2%
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['卫生厕所达标率']||'100%'}}</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />98%
                       </div>
                     </el-col>
                   </el-row>
@@ -201,21 +199,21 @@
                       <div class="padding-tb">
                           <label>法律援助率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />2%
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['法律援助率']||'100%'}}</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />98%
                       </div>
                     </el-col>
                     <el-col :span="12">
                       <div class="padding-tb">
                           <label>雪亮工程覆盖率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i class="fa fa-arrow-down margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />2%
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['雪亮工程覆盖率']||'100%'}}</label><i class="fa fa-arrow-down margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />98%
                       </div>
                     </el-col>
                     <el-col :span="12">
                       <div class="padding-tb">
                           <label>矛盾纠纷化解率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">98%</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />3%
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['矛盾纠纷化解率']||'100%'}}</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />95%
                       </div>
                     </el-col>
                   </el-row>
@@ -231,21 +229,21 @@
                       <div class="padding-tb">
                           <label>特色富民产业占比</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">28.32%</label><i class="fa fa-arrow-down margin-left-sm margin-right-xs" style="font-size: 1rem; color: orange;" />60%
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['特色富民产业占比']||'28.32%'}}</label><i class="fa fa-arrow-down margin-left-sm margin-right-xs" style="font-size: 1rem; color: orange;" />60%
                       </div>
                     </el-col>
                     <el-col :span="12">
                       <div class="padding-tb">
                           <label>产值</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem" class=" margin-right-xs">1.3</label>亿元
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem" class=" margin-right-xs">{{mainData['产值']||'1.3'}}</label>亿元
                       </div>
                     </el-col>
                     <el-col :span="12">
                       <div class="padding-tb">
                           <label>蔬菜占比</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem" class=" margin-right-xs">26.14%</label>
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem" class=" margin-right-xs">{{mainData['蔬菜占比']||'26.14%'}}</label>
                       </div>
                     </el-col>
 
@@ -253,7 +251,7 @@
                       <div class="padding-tb">
                           <label>农业社会化服务站</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">4</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />1个
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">{{mainData['农业社会化服务站']||'4'}}</label><i class="fa fa-arrow-up margin-left-sm margin-right-xs" style="font-size: 1rem; color: lightgreen;" />1个
                       </div>
                     </el-col>
                   </el-row>
@@ -276,6 +274,7 @@
 </template>
 
 <script lang="ts">
+import * as d3 from 'd3';
 import dayjs from 'dayjs';
 import { ElMessageBox } from 'element-plus';
 import { onMounted, reactive, toRefs } from 'vue';
@@ -299,6 +298,7 @@ export default {
       curTime: dayjs().format("YYYY年MM月DD日"),
       areaCode: route.query.areaCode,
       areaName: route.query.areaName||"",
+      mainData:{}, //总表数据
       //基础设施补短情况配置 改帮扶统计
       bfhsConfig :{
         header: ['村', '帮扶户数'],
@@ -346,8 +346,44 @@ export default {
     }
     
     // 页面加载时
-    onMounted(() => {
+    onMounted(async () => {
+      try{
+        const list=await d3.csv(`/data/res/street/${state.areaCode}/乡总表.csv`);
+        console.log("mainData:",list)
+        if(list && list.length>0){
+          state.mainData=list[0];
+        }
+      }catch(er){
+        console.log(er)
+      }
 
+      try{
+        const list=await d3.csv(`/data/res/street/${state.areaCode}/帮扶户数统计.csv`);
+        console.log("bfhsConfig data:",list)
+        const rows=[]
+        Object.keys(list).forEach((key) => {
+          if(list[key]['村名']){
+            rows.push([list[key]['村名'],list[key]['户数']])
+          }
+        })
+        state.bfhsConfig.data=rows;
+      }catch(er){
+        console.log(er)
+      }
+
+      try{
+        const list=await d3.csv(`/data/res/street/${state.areaCode}/五好不达标户数统计.csv`);
+        console.log("bfhsConfig data:",list)
+        const rows=[]
+        Object.keys(list).forEach((key) => {
+          if(list[key]['村名']){
+            rows.push([list[key]['村名'],list[key]['户数']])
+          }
+        })
+        state.whbdbConfig.data=rows;
+      }catch(er){
+        console.log(er)
+      }
 
     });
     return {
