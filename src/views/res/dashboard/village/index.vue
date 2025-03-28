@@ -4,33 +4,25 @@
       <div class="banner">
         <div class="banner-content">
           <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区建成
+                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区迈⼊
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px;"
                      @click="onGoToLink(`/admin/dashboard/street/index?areaCode=${streetAreaCode}`)">
-            乡进入
+            乡推进
           </dv-button>
           <dv-button key="" border="Border4" color="#409EFF" fontSize="12"
                      style="display:inline-block;margin-left:10px"
-                     @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}`)">村实现
+                     @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}`)">村共创
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px"
                      @click="onGoToLink(`/admin/dashboard/family/index?areaCode=${areaCode}&areaName=${areaName}`)">
-            户达标
+            户夯实
           </dv-button>
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
-
-          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{
-              curTime
-            }}</b></p>
-          <!-- <dv-button border="Border4" color="#409EFF"
-                     fontSize="12" style="display:inline-block;margin-right:10px;"
-                     @click="onGoToLink(`/admin/dashboard/home/detail`)">六优指标
-          </dv-button>
-          <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-right:10px;" @click="onClickCountDetail">区情介绍
-          </dv-button> -->
+          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>
+            {{ curTime }}
+          </b></p>
         </div>
       </div>
 
@@ -44,7 +36,6 @@
                   混撒拉村位于仁和区南部，距城区17.5km。辖区面积21平方公里，平均海拔1400m,现有村民520户2020人，少数民族人口占比65%，设有1个党总支，3个党支部，共有党员55名。全村耕地848亩、林地8160亩，以种植芒果、乡村旅游等产业为主，辖区内有企业2家、商户12家、农民专业合作社7个、家庭农场43家、村级卫生室1家，正在建设美丽乡村试点县项目。
                 </p>
               </div>
-
             </div>
             <div class="margin">
               <Title title="三超"/>
@@ -222,8 +213,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
@@ -231,6 +222,7 @@ import EnvironmentalExcellence from "/@/views/res/dashboard/village/Environmenta
 import ProportionOfAgeGroups from "/@/views/res/dashboard/village/ProportionOfAgeGroups.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
 import TopTwoAndTopFour from "/@/views/res/dashboard/village/TopTwoAndTopFour.vue";
+
 export default {
   name: "IndexDashboard",
   // eslint-disable-next-line vue/no-reserved-component-names
