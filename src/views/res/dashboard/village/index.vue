@@ -39,9 +39,9 @@
           <div>
             <div class="margin-left">
               <Title title="村情介绍"/>
-              <div class="target-text target-content text-left target-container-h4">
-                <p class="margin" style="font-size: 1.3rem;text-align: left;">
-                  混撒拉村是四川省攀枝花市仁和区大龙潭彝族乡下辖村，曾被四川省委城乡基层治理委员会评为“四川省首批乡村治理示范村镇”。
+              <div class="target-text target-content text-left">
+                <p class="margin" style="text-align: left;">
+                  混撒拉村位于仁和区南部，距城区17.5km。辖区面积21平方公里，平均海拔1400m,现有村民520户2020人，少数民族人口占比65%，设有1个党总支，3个党支部，共有党员55名。全村耕地848亩、林地8160亩，以种植芒果、乡村旅游等产业为主，辖区内有企业2家、商户12家、农民专业合作社7个、家庭农场43家、村级卫生室1家，正在建设美丽乡村试点县项目。
                 </p>
               </div>
 
@@ -51,14 +51,15 @@
               <el-row :gutter="20" class="margin">
                 <el-col :span="12">
                   <div class="text-center">
-                    <column-chart :data="[3.1, 3.52, 3.7]" :label="['2022年', '2023年', '2024年']" :mark-line="2.45"/>
+                    <column-chart :data="[3.1, 3.52, 3.6]" :label="['2022年', '2023年', '2024年']"
+                                  :mark-line="[2,2.5,3.2]"/>
                     <text class="target-text">全村人均年可支配收入超全市农村人均年可支配收入</text>
                   </div>
                 </el-col>
                 <el-col :span="12">
                   <div class="text-center">
-                    <column-chart :data="[25.68, 29.1, 70.8]" :label="['2022年', '2023年', '2024年']"
-                                  :mark-line="20"/>
+                    <column-chart :data="[2.19, 2.30, 2.45]" :label="['2022年', '2023年', '2024年']"
+                                  :mark-line="[1.3, 1.5, 1.8]"/>
                     <text class="target-text">村集体经济收入超20万元</text>
                   </div>
                 </el-col>
@@ -76,6 +77,7 @@
               </el-popover>
               <div class="target-text target-content padding-lg" style="text-align: left">
                 <div class="margin-sm">
+                  增加全省5A先进村党组织<br/>
                   1.党组织1个（党委1个 党总支1个 党支部1个）<br/>
                   2.党员1个<br/>
                   3.党代表1个
@@ -129,28 +131,25 @@
           </div>
           <dv-border-box1 class="view-content content2">
             <div class="view-box padding-top-xl margin-lr-xl">
-              <Label :text="'总户数'" :title="3685"/>
-              <Label :color="'#FCAE26FF'" :text="'达标户'" :title="2043"/>
-              <Label :color="'#1AFD9BFF'" :text="'占比'" :title="'55%'"/>
+              <Label :text="'总户数'" :title="380"/>
+              <Label :text="'总人口'" :title="1527"/>
+              <Label :text="'达标户'" :title="'193'"/>
+              <Label :text="'占比'" :title="'50.79%'"/>
             </div>
             <div class="column-center" style="width: 100%;height:calc(100vh  - 18rem - 21.6rem)">
               <antvImageMap :areaCode="areaCode" :center="[500,410]" :zoom="2" areaGoTo="village"></antvImageMap>
             </div>
             <div class="view-box">
               <div class="view-box-bottom">
-                <Title title="五好指标户数"/>
+                <Title title="两强"/>
                 <div class="target-text">
-                  <div class="target-content target-content-height">
-                    <dv-capsule-chart :config="shyzConfig" style="width:100%;height:18rem;"/>
-                  </div>
+
                 </div>
               </div>
               <div class="view-box-bottom">
-                <Title title="五不好指标户数"/>
+                <Title title="四优"/>
                 <div class="target-text">
-                  <div class="target-content target-content-height">
-                    <dv-capsule-chart :config="wbhConfig" style="width:100%;height:18rem;"/>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -158,12 +157,6 @@
           </dv-border-box1>
 
           <div>
-            <div class="view-box">
-              <Title title="两强四优"/>
-              <div class="target-text target-content">
-                <TopTwoAndTopFour/>
-              </div>
-            </div>
             <div class="margin-top">
               <Title title="产业优"/>
               <ProportionOfAgeGroups/>
@@ -181,7 +174,7 @@
               <div class="target-text target-content target-container-h6" style="text-align: left">
                 <el-row class="margin-sm">
                   <el-col :span="12">
-                    文化广场：220㎡
+                    文化广场：1个
                   </el-col>
                   <el-col :span="12">
                     村史馆：1个
@@ -193,10 +186,10 @@
                     文艺队伍：1支
                   </el-col>
                   <el-col :span="12">
-                    文旅品牌：蜜雪冰城
+                    文旅品牌：混撒拉旅游度假区
                   </el-col>
                   <el-col :span="12">
-                    综合文化服务率：54%
+                    综合文化服务率：95%
                   </el-col>
                 </el-row>
               </div>
