@@ -20,7 +20,7 @@
         <div class="banner-content" style="text-align: right;float:right;">
 
           <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/home/detail`)" border="Border4" color="#409EFF">六优指标</dv-button>
+          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/home/detail`)" border="Border4" color="#409EFF">七优指标</dv-button>
           <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onClickCountDetail" border="Border4" color="#409EFF">区情介绍</dv-button>
         </div>
       </div>
@@ -31,7 +31,7 @@
       <div class="main-rows">
         <div style="width:25%;" class="padding-lr-12">
           <div class="target-header" @click="onClickPleaseWait">
-            <div class="target-title">乡进入情况</div>
+            <span class="target-title">乡进入情况</span>
           </div>
           <div @click="onClickPleaseWait" class="target-container-h3 target-content text-center">
             <!-- <rankingCounty/> 3月27日换仪表图-->
@@ -49,13 +49,13 @@
               </el-row>
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait">
-            <div class="target-title">村实现情况</div>
+            <span class="target-title">村实现情况</span>
           </div>
           <div @click="onClickPleaseWait">
             <rankingVillage/>
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait">
-            <div class="target-title">户达标情况</div>
+            <span class="target-title">户达标情况</span>
           </div>
           <div @click="onClickPleaseWait">
             <rankingFamily/>
@@ -82,7 +82,7 @@
 
         <div style="width:25%;" class="padding-lr-10">
           <div class="target-header" @click="onClickPleaseWait">
-            <div class="target-title">收入结构分析</div>
+            <span class="target-title">收入结构分析</span>
           </div>
           <div class="target-content target-container-h3" @click="onClickPleaseWait">
 
@@ -109,14 +109,15 @@
             </div>
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait">
-            <div class="target-title">帮扶户数统计</div>
+            <span class="target-title">重点监测群体</span>
+            
           </div>
           <div class="target-content target-container-h3" @click="onClickPleaseWait">
-            <dv-scroll-board :config="bfhsConfig" style="width:100%;height:24.5vh" @click="clickHandler"
+            <dv-scroll-board :config="zdjcqtConfig" style="width:100%;height:24.5vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait">
-            <div class="target-title" style="width:10vw">“五好”不达标户数</div>
+            <span class="target-title" style="width:10vw">“五好”不达标村数</span>
           </div>
           <div class="target-content target-container-h3" @click="onClickPleaseWait">
             <dv-scroll-board :config="whbdbConfig" style="width:100%;height:24.5vh" @click="clickHandler"
@@ -236,46 +237,44 @@ export default {
         <p><b>社会优质：</b>矛盾纠纷无害化处理率100%。98%以上，社会治安安全感满意度达到98%以上。</p>
         <p><b>党建优促：</b>“三个身边”工作机制群众反映问题工单办结率达100%。</p>
       </div>`
-      ElMessageBox.alert(html, '六优指标解读', {dangerouslyUseHTMLString: true, width: '80%'})
+      ElMessageBox.alert(html, '七优指标解读', {dangerouslyUseHTMLString: true, width: '80%'})
     }
-    //基础设施补短情况配置 改帮扶统计
-    const bfhsConfig = reactive({
-      header: ['乡镇', '帮扶户数'],
+    //基础设施补短情况配置 改帮扶统计 继续改重点监测群体
+    const zdjcqtConfig = reactive({
+      header: ['乡镇', '重点监测群体', '总数'],
       data: [
-        ['仁和镇', '<span style="color:#32c5e9;">80</span>'],
-        ['前进镇', '<span style="color:#9fe6b8;">160</span>'],
-        ['大河中路街道', '120'],
-        ['平地镇', '<span style="color:#ff9f7f;">90</span>'],
-        ['大田镇', '60'],
-        ['福田镇', '<span style="color:#e062ae;">75</span>'],
-        ['福田镇', '<span style="color:#e690d1;">60</span>'],
-        ['布德镇', '<span style="color:#e7bcf3;">36</span>'],
+        ['仁和镇', '<span style="color:#32c5e9;">80</span>',26540],
+        ['前进镇', '<span style="color:#9fe6b8;">160</span>',3852],
+        ['大河中路街道', '120',45026],
+        ['平地镇', '<span style="color:#ff9f7f;">90</span>',6500],
+        ['大田镇', '60',3900],
+        ['福田镇', '<span style="color:#e062ae;">75</span>',3600],
+        ['布德镇', '<span style="color:#e7bcf3;">36</span>',6500],
       ],
       index: true,
       rowNum: 5,
-      columnWidth: [50],
-      align: ['center','center','right'],
+      columnWidth: [40,120],
+      align: ['center','center','center','center'],
     })
     //综合帮扶情况配置
     const whbdbConfig = reactive({
-      header: ['乡镇', '不达标户数'],
+      header: ['乡镇', '', '不达标 / 总数'],
       data: [
-        ['仁和镇', '<span style="color:#32c5e9;">186</span>'],
-        ['前进镇', '<span style="color:#9fe6b8;">60</span>'],
-        ['大河中路街道', '180'],
-        ['平地镇', '<span style="color:#ff9f7f;">40</span>'],
-        ['大田镇', '90'],
-        ['福田镇', '<span style="color:#e062ae;">65</span>'],
-        ['福田镇', '<span style="color:#e690d1;">60</span>'],
-        ['布德镇', '<span style="color:#e7bcf3;">46</span>'],
+        ['仁和镇', '<progress value="3" max="9">60%</progress>','<span style="color:#9fe6b8;">3 / 9</span>'],
+        ['前进镇', '<progress value="1" max="5">60%</progress>', '<span style="color:#9fe6b8;">1 / 5</span>'],
+        ['大河中路街道', '<progress value="6" max="12">50%</progress>','6 / 12'],
+        ['平地镇', '<progress value="3" max="8">60%</progress>', '3 / 8'],
+        ['大田镇', '<progress value="3" max="9">60%</progress>','3 / 9'],
+        ['福田镇', '<progress value="1" max="6">60%</progress>','1 / 6'],
+        ['布德镇', '<progress value="1" max="3">60%</progress>', '<span style="color:#e7bcf3;">1 / 3</span>'],
       ],
       index: true,
       rowNum: 5,
       headerBGC: '#00AA77',
       oddRowBGC: '#002B31',
       evenRowBGC: '#071722',
-      columnWidth: [50],
-      align: ['center','center','right'],
+      columnWidth: [40,120,180,120],
+      align: ['center','right','left','center','center'],
     })
 
     // 页面加载时
@@ -287,7 +286,7 @@ export default {
       onClickCountDetail,
       onClickTargetDetail,
       onClickPleaseWait,
-      bfhsConfig,
+      zdjcqtConfig,
       whbdbConfig,
       ...toRefs(state),
     };
@@ -301,6 +300,26 @@ export default {
   .el-aside, .el-header, .layout-navbars-tagsview {
     display: none;
   }
+}
+progress{
+  width:100%;
+  background-color:rgb(240, 217, 12,0.5);
+
+}
+progress::-webkit-progress-bar
+
+{
+
+background-color:rgba(12, 240, 31, 1);
+
+}
+
+progress::-webkit-progress-value
+
+{
+
+  background-color:rgb(240, 217, 12,0.5);
+
 }
 
 #data-view {

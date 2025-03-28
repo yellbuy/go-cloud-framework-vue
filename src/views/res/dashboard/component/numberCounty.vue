@@ -11,7 +11,22 @@
                     </div>
                     <div style="display:inline-block;" class="margin-sm">
                       <div style="font-size:1rem">总户数</div>
-                      <div class="margin-top-sm"><b class="target-value" style="color:orange">6.75</b> 万户</div>
+                      <div class="margin-top-sm"><b class="target-value" style="color:orange">26.8</b> 万人</div>
+                    </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="digital-flop-item">
+          <div class="center-flex">
+              <div style="display:inline-block;" >
+                <div class="target-content  margin-lr-xl">
+                  <div style="display:inline-block;" >
+                    <i class="fa fa-home" aria-hidden="true" style="font-size: 2.2rem; margin-bottom:1rem;color: red;" />
+                    </div>
+                    <div style="display:inline-block;" class="margin-sm">
+                      <div style="font-size:1rem">农村人口</div>
+                      <div class="margin-top-sm"><b class="target-value" style="color:orange">12.3</b> 万人</div>
                     </div>
                 </div>
               </div>
@@ -22,11 +37,11 @@
             <div style="display:inline-block;" >
                 <div class="target-content margin-lr-xl">
                   <div style="display:inline-block;" >
-                    <i class="fa fa-address-card" aria-hidden="true" style="font-size: 2.2rem; margin-bottom:1rem; color: red;" />
+                    <i class="fa fa-address-card" aria-hidden="true" style="font-size: 2.2rem; margin-bottom:1rem; color: yellow;" />
                     </div>
                     <div style="display:inline-block;" class="margin-sm">
-                      <div style="font-size:1rem">总人口</div>
-                      <div class="margin-top-sm"><b class="target-value" style="color:red">26.8</b> 万人</div>
+                      <div style="font-size:1rem">城镇人口</div>
+                      <div class="margin-top-sm"><b class="target-value" style="color:red">14.5</b> 万人</div>
                     </div>
                 </div>
               </div>
@@ -85,7 +100,7 @@ export default {
       text-align:center;
     }
     .digital-flop-item {
-      width: 50%;
+      width: 30%;
       padding:0px 1vh 0px 1vh;
       margin-right:auto;
       text-align: center;

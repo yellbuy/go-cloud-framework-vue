@@ -1,6 +1,6 @@
 <template>
-  <div class="target-container-h2">
-    <div ref="barCountyDjyc" class="echartDiv target-container-h2" id="barCountyDjyc" ></div>
+  <div >
+    <div ref="barCountyDjyc" class="echartDiv" id="barCountyDjyc" ></div>
   </div>
 </template>
 
@@ -143,5 +143,8 @@ export default {
 </script>
  
 <style lang='scss' scoped>
+.echartDiv {
+  height: 36vh;
+}
 
 </style>

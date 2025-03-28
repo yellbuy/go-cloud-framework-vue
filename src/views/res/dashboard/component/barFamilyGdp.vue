@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <dv-border-box10>
       <div class="flare-container">
-        <div class="flare-title" style="text-align: left;padding-left:10px">家庭年收入对比分析</div>
+        <div class="flare-title text-left padding-left padding-top-xs">城乡居民人均可支配收入对比（万元）</div>
         <div ref="echart" class="echartDiv" id="barFamiryGdp"></div>
       </div>
     </dv-border-box10>
@@ -21,15 +21,15 @@ export default {
         //挂载
     onMounted(async () => {
         const data = [
-          { Area: '全区', Name: '低收入', 占比: 20 },
-          { Area: '全区', Name: '中等收入', 占比: 68 },
-          { Area: '全区', Name: '高收入', 占比: 12 },
-          { Area: '城镇', Name: '低收入', 占比: 10 },
-          { Area: '城镇', Name: '中等收入', 占比: 72 },
-          { Area: '城镇', Name: '高收入', 占比: 18 },
-          { Area: '农村', Name: '低收入', 占比: 24 },
-          { Area: '农村', Name: '中等收入', 占比: 68 },
-          { Area: '农村', Name: '高收入', 占比: 8 },
+          { Area: '全区', Name: '低收入', 人均可支配收入: 3.2 },
+          { Area: '全区', Name: '中等收入', 人均可支配收入: 6.4 },
+          { Area: '全区', Name: '高收入', 人均可支配收入: 10.8 },
+          { Area: '城镇', Name: '低收入', 人均可支配收入: 4.6 },
+          { Area: '城镇', Name: '中等收入', 人均可支配收入: 7.8 },
+          { Area: '城镇', Name: '高收入', 人均可支配收入: 12.6 },
+          { Area: '农村', Name: '低收入', 人均可支配收入: 2.6 },
+          { Area: '农村', Name: '中等收入', 人均可支配收入: 4.6 },
+          { Area: '农村', Name: '高收入', 人均可支配收入: 8 },
         ];
 
         const chart = new Chart({
@@ -104,13 +104,24 @@ export default {
           // Tick
         
         })
-          .encode('x', 'Area')
-          .encode('y', '占比')
-          .encode('color', 'Name')
+          .encode('x', 'Name')
+          .encode('y', '人均可支配收入')
+          .encode('color', 'Area')
           
-          .encode('text', '占比')
+          .encode('text', '人均可支配收入')
           .transform({ type: 'dodgeX' })
-          
+          .label({
+            text: '人均可支配收入',
+            render: (text, datum) => {
+              return `
+                <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
+                  ${datum['人均可支配收入']} 万元</span>
+                </div>
+              `;
+            },
+          })
+          .tooltip({ name: '区域', channel: 'color' })
+          .tooltip({ name: '人均可支配收入', channel: 'y' })
           .legend({
            
             color: {
@@ -126,6 +137,7 @@ export default {
               itemLabelOpacity: 1,
               itemLabelCursor: 'pointer',
             },
+            
             size: {},
           })
          
@@ -152,21 +164,8 @@ export default {
 </script>
  
 <style lang='scss' scoped>
-#flareTarget{
-  margin:10px 10px;
-}
 .echartDiv {
   width: 100%;
-  height:21vh;
-}
-.flare-title{
-  background-image: linear-gradient(to right,rgb(83, 78, 234), rgb(21, 6, 110));
-  border-radius: 4px;
-  margin-top: 1vh;
-  height: 3vh;
-  font-family: 'LiSu';
-  font-weight: bold;
-  text-align: 'left' !important;
-  font-size: 18px;
+  height:24vh;
 }
 </style>
