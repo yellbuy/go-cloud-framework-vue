@@ -11,7 +11,8 @@
             乡推进
           </dv-button>
           <dv-button key="" border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:10px" @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}&areaName=${areaName}`)">村共创
+                     style="display:inline-block;margin-left:10px"
+                     @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}&areaName=${areaName}`)">村共创
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px"
                      @click="onGoToLink(`/admin/dashboard/family/index?areaCode=${areaCode}&areaName=${areaName}`)">
@@ -34,7 +35,7 @@
         <div class="main-rows-detail margin-lr-xl">
           <div class="dialog_table">基本情况</div>
           <div class="dialog_body target-content">
-            <div>户主：<span>邓*志</span></div>
+            <div>户主：<span>{{ tableData["姓名"] }}</span></div>
             <div>家庭人数：<span>5</span></div>
             <div>联系方式：<span>130****1234</span></div>
           </div>
@@ -114,7 +115,7 @@
         </div>
 
         <div style="width:25%;">
-          <Table/>
+          <Table :tableDataList="tableDataList"/>
         </div>
       </div>
     </dv-full-screen-container>
@@ -124,9 +125,10 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import dayjs from 'dayjs';
-import { reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import Table from "./Table.vue";
+import * as d3 from "d3";
 
 export default {
   name: "IndexDashboard",
@@ -138,7 +140,7 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const areaCode = route.query.areaCode;
-    const areaName = route.query.areaName||"";
+    const areaName = route.query.areaName || "";
     const streetAreaCode = areaCode?.toString().slice(0, 9)
     const countyAreaCode = areaCode?.toString().slice(0, 6)
 
@@ -149,6 +151,8 @@ export default {
       areaName: areaName,
       streetAreaCode: streetAreaCode,
       countyAreaCode: countyAreaCode,
+      tableDataList: {},
+      tableData: {}
     })
     const onFullScreen = () => {
       state.isFullScreen = !state.isFullScreen
@@ -158,6 +162,17 @@ export default {
     const onGoToLink = (url: string) => {
       router.push(url)
     }
+
+    onMounted(async () => {
+      const tableDataList = await d3.csv(`/data/res/family/HSL帮扶户数统计329.csv`);
+      state.tableDataList = tableDataList;
+      if (tableDataList && tableDataList.length > 0) {
+        state.tableData = tableDataList[route.query.index];
+      }
+      console.log(state.tableDataList);
+      console.log(state.tableData);
+    })
+
     return {
       onFullScreen,
       ...toRefs(state),

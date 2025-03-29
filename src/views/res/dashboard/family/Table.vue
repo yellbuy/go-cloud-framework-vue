@@ -13,7 +13,7 @@
           </thead>
           <tbody>
           <tr v-for="(item,index) in tableDataList"
-              @click="onGoToLink(`/admin/dashboard/family/detail`)">
+              @click="onGoToLink(`/admin/dashboard/family/detail?index=${index}`)">
             <td>{{ index + 1 }}</td>
             <td>{{ item["县（区）"] }}</td>
             <td>{{ item["乡镇（街道）"] }}</td>
