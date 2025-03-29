@@ -67,13 +67,21 @@ export default {
         }),
       });
       scene.on('loaded', () => {
+        scene.addImage(
+            '0', `/img/res/village_0.png`);
+        scene.addImage(
+            '1', `/img/res/village_1.png`);
+        scene.addImage(
+            '2', `/img/res/village_1.png`);
+        scene.addImage(
+            '3', `/img/res/village_1.png`);
+        scene.addImage(
+            '4', `/img/res/village_1.png`);
+
         fetch(`/data/res/area/${props.areaCode}.json`)
             .then((res) => res.json())
             .then((data) => {
-              scene.addImage(
-                  '0', `/img/res/village_0.png`);
-              scene.addImage(
-                  '1', `/img/res/village_1.png`);
+
               const imageLayer = new PointLayer()
                   .source(data, {
                     parser: {
@@ -135,6 +143,69 @@ export default {
               scene.addLayer(imageLayer);
               scene.addLayer(textlayer);
             });
+
+        fetch(`/data/res/site/${props.areaCode}.json`)
+            .then((res) => res.json())
+            .then((data) => {
+
+              const imageLayer = new PointLayer()
+                  .source(data, {
+                    parser: {
+                      type: 'json',
+                      x: 'x',
+                      y: 'y',
+                    },
+                  })
+                  .shape('icon', ['2', '3', '4'])
+                  .size(16);
+
+              const textlayer = new PointLayer({zIndex: 2})
+                  .source(data, {
+                    parser: {
+                      type: 'json',
+                      x: 'x',
+                      y: 'y',
+                    },
+                  })
+                  .shape('name', 'text')
+                  .size(16)
+                  .active({
+                    color: '#0ff',
+                    mix: 0.9,
+                  })
+                  .color('blue')
+                  .style({
+                    textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
+                    spacing: 6, // 字符间距
+                    fontWeight: '800',
+                    padding: [30, 30], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
+                    stroke: '#ffffff', // 描边颜色
+                    strokeWidth: 2, // 描边宽度
+                    textAllowOverlap: true,
+                    textOffset: [20, 20],
+                  });
+              imageLayer.on('click', (e) => {
+                console.log(e)
+                alert(`
+                  <p>区域名称: ${e.feature.name}</p>
+                  <p>区域标识: ${e.feature.code}</p>
+                  <p>图中X坐标: ${e.x}</p>
+                  <p>图中Y坐标: ${e.y}</p>
+                `);
+              });
+              textlayer.on('click', (e) => {
+                console.log(e)
+                alert(`
+                  <p>区域名称: ${e.feature.name}</p>
+                  <p>区域标识: ${e.feature.code}</p>
+                  <p>图中X坐标: ${e.x}</p>
+                  <p>图中Y坐标: ${e.y}</p>
+                `);
+              });
+
+              scene.addLayer(imageLayer);
+              scene.addLayer(textlayer);
+            });
       })
       const imagelayer = new ImageLayer({}).source(`/img/map/${props.areaCode}.png`,
           {
@@ -145,15 +216,6 @@ export default {
             },
           },
       );
-      // imagelayer.on('click', (e) => {
-      //   console.log(e)
-      //   alert( `
-      //     <p>区域名称: ${e.feature.name}</p>
-      //     <p>区域标识: ${e.feature.code}</p>
-      //     <p>图中X坐标: ${e.x} = ${e.x+250}</p>
-      //     <p>图中Y坐标: ${e.y} = ${(1000+(500-e.y)/2)/2}</p>
-      //   `);
-      // });
       scene.addLayer(imagelayer);
     })
     return {

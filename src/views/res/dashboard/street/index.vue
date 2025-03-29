@@ -111,13 +111,20 @@
             </div>
             <div>
               <el-row style="z-index: 2000;">
-                <el-col>
+                <el-row>
                   <Title title="重点监测群体各村分布户数图"/>
                   <div class="target-content">
                     <column-chart :data="[24,16,11,28,35,51]"
                                   :label="['大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"/>
                   </div>
-                </el-col>
+                </el-row>
+                <el-row>
+                  <Title title="重点监测群体各村分布户数图"/>
+                  <div class="target-content">
+                    <column-chart :data="[24,16,11,28,35,51]"
+                                  :label="['大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"/>
+                  </div>
+                </el-row>
               </el-row>
             </div>
           </el-col>
