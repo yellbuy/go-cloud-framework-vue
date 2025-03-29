@@ -28,97 +28,100 @@
 
       <div class="main-view">
         <div class="view-body">
-          <div>
+          <div class="content">
             <div class="margin-left">
               <Title title="村情介绍"/>
-              <div class="target-text target-content text-left">
-                <p class="margin" style="text-align: left;">
+              <div class="target-text target-content text-left target-container-h3">
+                <p class="margin" style="text-align: left;font-size:1.3rem">
                   混撒拉村位于仁和区南部，距城区17.5km。辖区面积21平方公里，平均海拔1400m,现有村民520户2020人，少数民族人口占比65%，设有1个党总支，3个党支部，共有党员55名。全村耕地848亩、林地8160亩，以种植芒果、乡村旅游等产业为主，辖区内有企业2家、商户12家、农民专业合作社7个、家庭农场43家、村级卫生室1家，正在建设美丽乡村试点县项目。
                 </p>
               </div>
             </div>
-            <div class="margin">
-              <Title title="三超"/>
-              <el-row :gutter="20" class="margin">
-                <el-col :span="12">
-                  <div class="text-center">
-                    <column-chart :data="[3.1, 3.52, 3.6]" :label="['2022年', '2023年', '2024年']"
-                                  :mark-line="[2,2.5,3.2]"/>
-                    <text class="target-text">全村人均年可支配收入超全市农村人均年可支配收入</text>
-                  </div>
-                </el-col>
-                <el-col :span="12">
-                  <div class="text-center">
-                    <column-chart :data="[2.19, 2.30, 2.45]" :label="['2022年', '2023年', '2024年']"
-                                  :mark-line="[1.3, 1.5, 1.8]"/>
-                    <text class="target-text">村集体经济收入超20万元</text>
-                  </div>
-                </el-col>
-              </el-row>
-            </div>
-            <div class="margin">
-              <el-popover
-                  class="box-item"
-                  content="村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率100%。“先富”带“后富”机制完善特困、低保等重点群体托底保障机制健全。"
-                  placement="top-start"
-              >
-                <template #reference>
-                  <Title title="组织强"/>
-                </template>
-              </el-popover>
-              <div class="target-text target-content padding-lg" style="text-align: left">
-                <div class="margin-sm">
-                  增加全省5A先进村党组织<br/>
-                  1.党组织1个（党委1个 党总支1个 党支部1个）<br/>
-                  2.党员1个<br/>
-                  3.党代表1个
-                </div>
 
-              </div>
-              <div class="margin-top">
+            <div class="margin-left margin-top">
+              <div class="target-content">
+                <Title title="两强"/>
                 <el-popover
                     class="box-item"
-                    content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
+                    content="村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率100%。“先富”带“后富”机制完善特困、低保等重点群体托底保障机制健全。"
                     placement="top-start"
                 >
                   <template #reference>
-                    <Title title="治理强"/>
+                    <div class="margin-top-lg margin-bottom" style="color:#3e98f6;font-size: 1.2rem;">组织强
+                    </div>
                   </template>
                 </el-popover>
-                <div class="target-content">
-                  <el-row :gutter="10" class="margin">
-                    <el-col :span="8">
-                      <div>
-                        <text class="margin-sm">一村一民(辅)警</text>
-                        <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
-                        <p>姓名：邓*志</p>
-                        <p>职务：民警</p>
-                      </div>
-                    </el-col>
-                    <el-col :span="8">
-                      <div>
-                        <text>一村一法律顾问</text>
-                        <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
-                        <p>姓名：邓*志</p>
-                        <p>职务：顾问</p>
-                      </div>
-                    </el-col>
-                    <el-col :span="8">
-                      <div>
-                        <text>专职人民调解员</text>
-                        <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
-                        <p>姓名：邓*志</p>
-                        <p>职务：调解员</p>
-                      </div>
-                    </el-col>
-                  </el-row>
-                  <div class="margin target-text">
-                    <div>矛盾纠纷<b>1</b>件 已化解<b>1</b>件</div>
+                <div class="target-text padding-lg target-content" style="text-align: left">
+                  <div class="margin-sm">
+                    <i class="fa fa-star margin-right-sm" style="color: orange"></i>全省5A先进村党组织<br/>
+                    <div class="text-center margin-top">
+                      党组织<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
+                    </div>
+                    <div class="text-center margin-top-xs">
+                      （党委<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
+                      党总支<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>人
+                      党支部<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>人）
+                    </div>
+                    <div class="text-center margin-tb-lg">
+                      党员<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">68</label>人
+                      党总支<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>人
+                      党代表<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>人
+                    </div>
                   </div>
+
                 </div>
+                <div class="margin-top">
+                  <el-popover
+                      class="box-item"
+                      content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
+                      placement="top-start"
+                  >
+                    <template #reference>
+                      <div class="margin-top-lg margin-bottom" style="color:#3e98f6;font-size: 1.2rem;">治理强
+                      </div>
+                    </template>
+                  </el-popover>
+                  <div class="target-content">
+                    <el-row :gutter="10" class="margin">
+                      <el-col :span="8">
+                        <div>
+                          <text class="margin-sm">一村一民(辅)警</text>
+                          <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
+                          <p>姓名：邓*志</p>
+                          <p>职务：民警</p>
+                        </div>
+                      </el-col>
+                      <el-col :span="8">
+                        <div>
+                          <text>一村一法律顾问</text>
+                          <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
+                          <p>姓名：邓*志</p>
+                          <p>职务：顾问</p>
+                        </div>
+                      </el-col>
+                      <el-col :span="8">
+                        <div>
+                          <text>专职人民调解员</text>
+                          <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
+                          <p>姓名：邓*志</p>
+                          <p>职务：调解员</p>
+                        </div>
+                      </el-col>
+                    </el-row>
+                    <div class="margin target-text">
+                      <div>
+                        矛盾纠纷<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">198</label>件
+                        已化解<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">68</label>件
+                      </div>
+                    </div>
+                  </div>
+
+              </div>
+
 
               </div>
             </div>
+
           </div>
           <dv-border-box1 class="view-content content2">
             <div class="view-box padding-top-xl margin-lr-xl">
@@ -131,20 +134,25 @@
               <antvImageMap :areaCode="areaCode" :center="[500,410]" :zoom="2" areaGoTo="village"></antvImageMap>
             </div>
             <div class="view-box">
-              <div class="view-box-bottom">
-                <Title title="两强"/>
-                <div class="target-text">
-                  <div class="target-content target-content-height">
-                    <dv-capsule-chart :config="shyzConfig" style="width:100%;height:18rem;"/>
-                  </div>
-                </div>
-              </div>
-              <div class="view-box-bottom">
-                <Title title="四优"/>
-                <div class="target-text">
-                  <div class="target-content target-content-height">
-                    <dv-capsule-chart :config="wbhConfig" style="width:100%;height:18rem;"/>
-                  </div>
+              <div style="width: 100%">
+                <Title title="三超"/>
+                <div class="target-content">
+                  <el-row :gutter="24" class="margin">
+                    <el-col :span="12">
+                      <div class="text-center">
+                        <column-chart :data="[3.1, 3.52, 3.61]" :label="['2022年', '2023年', '2024年']"
+                                      :mark-line="[2,2.5,3.2]"/>
+                        <text class="target-text">全村人均年可支配收入超全市农村人均年可支配收入</text>
+                      </div>
+                    </el-col>
+                    <el-col :span="12">
+                      <div class="text-center">
+                        <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '2024年']"
+                                      :mark-line="[20,20,20]"/>
+                        <text class="target-text">村集体经济收入超20万元</text>
+                      </div>
+                    </el-col>
+                  </el-row>
                 </div>
               </div>
             </div>
@@ -152,49 +160,64 @@
           </dv-border-box1>
 
           <div>
-            <div class="margin-top">
-              <Title title="产业优"/>
-              <ProportionOfAgeGroups/>
-            </div>
-            <div class="margin-top">
-              <Title title="环境优"/>
-              <div class="target-text target-content">
-                <environmental-excellence :data="[77.1, 100, 100,100, 100]"
-                                          :label="['⾃来⽔', '卫⽣厕所', '⽣活污⽔', '⽣活垃圾', '硬化路率']"
-                                          :mark-line="0"/>
+            <Title title="四优"/>
+            <div class="target-content">
+              <div class="margin-top" style="color:#3e98f6;font-size: 1.2rem;">产业优</div>
+              <div class="margin-top">
+                <ProportionOfAgeGroups/>
               </div>
-            </div>
-            <div class="margin-top">
-              <Title title="文化优"/>
-              <div class="target-text target-content target-container-h6" style="text-align: left">
-                <el-row class="margin-sm">
-                  <el-col :span="12">
-                    文化广场：1个
-                  </el-col>
-                  <el-col :span="12">
-                    村史馆：1个
-                  </el-col>
-                  <el-col :span="12">
-                    乡村推荐官：1人
-                  </el-col>
-                  <el-col :span="12">
-                    文艺队伍：1支
-                  </el-col>
-                  <el-col :span="12">
-                    文旅品牌：混撒拉旅游度假区
-                  </el-col>
-                  <el-col :span="12">
-                    综合文化服务率：95%
-                  </el-col>
-                </el-row>
+              <div class="margin-top">
+                <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">环境优</div>
+                <div class="target-text target-content">
+                  <environmental-excellence :data="[77.1, 100, 100,100, 100]"
+                                            :label="['⾃来⽔', '卫⽣厕所', '⽣活污⽔', '⽣活垃圾', '硬化路率']"
+                                            :mark-line="0"/>
+                </div>
               </div>
-            </div>
-            <div class="margin-top">
-              <Title title="服务优"/>
-              <div class="target-text target-content padding-lg" style="text-align: left">
-                <environmental-excellence :data="[100,99.7, 100]"
-                                          :label="['适龄儿童入学率', '基本医疗保险参保率', '特殊人群']"
-                                          :mark-line="0"/>
+              <div class="margin-top">
+                <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">文化优</div>
+                <div class="target-text target-content target-container-h6" style="text-align: left">
+                  <el-row class="margin-sm text-center">
+                    <el-col :span="12">
+                      <div class="margin-tb-xs">文化广场<label class="margin-xs"
+                                                               style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
+                      </div>
+                    </el-col>
+                    <el-col :span="12">
+                      <div class="margin-tb-xs">村史馆<label class="margin-xs"
+                                                             style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
+                      </div>
+                    </el-col>
+                    <el-col :span="12">
+                      <div class="margin-tb-xs">乡村推荐官<label class="margin-xs"
+                                                                 style="color:#1AFD9BFF;font-size: 1.4rem">1</label>人
+                      </div>
+                    </el-col>
+                    <el-col :span="12">
+                      <div class="margin-tb-xs">文艺队伍<label class="margin-xs"
+                                                               style="color:#1AFD9BFF;font-size: 1.4rem">1</label>支
+                      </div>
+                    </el-col>
+                    <el-col :span="12">
+                      <div class="margin-tb-xs padding-top-xs">文旅品牌：<label class="margin-xs"
+                                                                               style="color:#1AFD9BFF;">混撒拉旅游度假区</label>
+                      </div>
+                    </el-col>
+                    <el-col :span="12">
+                      <div class="margin-tb-xs">综合文化服务率<label class="margin-xs"
+                                                                     style="color:#1AFD9BFF;font-size: 1.4rem">95</label>%
+                      </div>
+                    </el-col>
+                  </el-row>
+                </div>
+              </div>
+              <div class="margin-top">
+                <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">服务优</div>
+                <div class="target-text target-content padding-lg" style="text-align: left">
+                  <environmental-excellence :data="[100,99.7, 100]"
+                                            :label="['适龄儿童入学率', '基本医疗保险参保率', '特殊人群']"
+                                            :mark-line="0"/>
+                </div>
               </div>
             </div>
           </div>
@@ -431,6 +454,13 @@ export default {
         }
       }
 
+      //.content {
+      //  display: flex;
+      //  flex-direction: column;
+      //  justify-content: space-between;
+      //  height: 100%;
+      //}
+
       .content2 {
         grid-template-rows:auto 1fr;
 
@@ -445,27 +475,12 @@ export default {
         }
 
       }
-
-      .content3 {
-        width: 100%;
-        grid-template-rows:auto;
-        justify-self: center;
-
-        .view-box {
-          .view-box-label {
-            width: 100%;
-            height: 100%;
-            display: grid;
-            grid-template-columns:repeat(2, 1fr);
-            grid-column-gap: 2em;
-            justify-self: center;
-            align-items: center;
-          }
-        }
-      }
     }
   }
 
+  .target-content {
+    width: auto;
+  }
 
 }
 </style>

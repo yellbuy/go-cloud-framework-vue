@@ -27,7 +27,7 @@ export default {
         grid: {
           show: false,
           top: '5%',
-          left: '5%',
+          left: '10%',
           right: '0%',
           bottom: '10%',
         },
@@ -85,7 +85,13 @@ export default {
               color: "#128cfc",
               opacity: 0.7,
             },
-            data: props.data
+            data: props.data,
+            label: {
+              show: true,
+              color: "#ffffff",
+              fontSize: 14,
+              formatter: '{c}户',
+            },
           }
         ]
       };

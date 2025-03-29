@@ -72,11 +72,9 @@ export default {
         scene.addImage(
             '1', `/img/res/village_1.png`);
         scene.addImage(
-            '2', `/img/res/village_1.png`);
+            '2', `/img/res/village_2.png`);
         scene.addImage(
-            '3', `/img/res/village_1.png`);
-        scene.addImage(
-            '4', `/img/res/village_1.png`);
+            '3', `/img/res/village_3.png`);
 
         fetch(`/data/res/area/${props.areaCode}.json`)
             .then((res) => res.json())
@@ -90,7 +88,7 @@ export default {
                       y: 'y',
                     },
                   })
-                  .shape('icon', ['1', '0'])
+                  .shape('icon')
                   .size(16);
 
               const textlayer = new PointLayer({zIndex: 2})
@@ -156,7 +154,7 @@ export default {
                       y: 'y',
                     },
                   })
-                  .shape('icon', ['2', '3', '4'])
+                  .shape('icon')
                   .size(16);
 
               const textlayer = new PointLayer({zIndex: 2})
@@ -164,11 +162,11 @@ export default {
                     parser: {
                       type: 'json',
                       x: 'x',
-                      y: 'y',
+                      y: 'y'
                     },
                   })
                   .shape('name', 'text')
-                  .size(16)
+                  .size(12)
                   .active({
                     color: '#0ff',
                     mix: 0.9,
@@ -185,22 +183,8 @@ export default {
                     textOffset: [20, 20],
                   });
               imageLayer.on('click', (e) => {
-                console.log(e)
-                alert(`
-                  <p>区域名称: ${e.feature.name}</p>
-                  <p>区域标识: ${e.feature.code}</p>
-                  <p>图中X坐标: ${e.x}</p>
-                  <p>图中Y坐标: ${e.y}</p>
-                `);
               });
               textlayer.on('click', (e) => {
-                console.log(e)
-                alert(`
-                  <p>区域名称: ${e.feature.name}</p>
-                  <p>区域标识: ${e.feature.code}</p>
-                  <p>图中X坐标: ${e.x}</p>
-                  <p>图中Y坐标: ${e.y}</p>
-                `);
               });
 
               scene.addLayer(imageLayer);
