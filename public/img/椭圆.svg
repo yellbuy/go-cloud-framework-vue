@@ -18,10 +18,10 @@
 	<ellipse cx="200" cy="320" rx="80" ry="16" fill="lightgreen" /> <!-->底部剖面<-->
   
 	
-	<ellipse cx="200" cy="200" rx="100" ry="200" fill="yellow" clip-path="url(#clipCenterTopBotom)"/> <!-->中部区域<-->
-	<ellipse cx="200" cy="304" rx="86" ry="16" fill="darkorange" /> <!-->中部靠底区域<-->
-	<ellipse cx="200" cy="200" rx="100" ry="200" fill="darkorange" clip-path="url(#clipCenter)"/> <!-->中部区域<-->
-	<ellipse cx="200" cy="62" rx="72" ry="16" fill="orange" /> <!-->顶部剖面<-->  
+	<ellipse cx="200" cy="200" rx="100" ry="200" fill="#E6A23C" clip-path="url(#clipCenterTopBotom)"/> <!-->中部区域<-->
+	<ellipse cx="200" cy="304" rx="86" ry="16" fill="#E6A23C" /> <!-->中部靠底区域<-->
+	<ellipse cx="200" cy="200" rx="100" ry="200" fill="#E6A23C" clip-path="url(#clipCenter)"/> <!-->中部区域<-->
+	<ellipse cx="200" cy="62" rx="72" ry="16" fill="rgb(237.5, 189.9, 118.5)" /> <!-->顶部剖面<-->  
 	<ellipse cx="200" cy="200" rx="100" ry="200" fill="blue" clip-path="url(#clipTop)"/> <!-->顶部区域<-->
 	<ellipse cx="200" cy="46" rx="63" ry="16" fill="blue" />
 	

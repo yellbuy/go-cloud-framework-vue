@@ -1,8 +1,8 @@
-<template>
+和<template>
   <div id="flareTarget">
     <dv-border-box10>
       <div class="flare-container">
-        <div class="flare-title" style="text-align: left;padding-left:10px">特色农业产值（亿元）</div>
+        <div class="flare-title text-left padding-left padding-top-xs">农林牧渔业总产值（单位：亿元）</div>
         <div ref="echart" class="echartDiv" id="barAgricultureGdp"></div>
       </div>
     </dv-border-box10>
@@ -18,27 +18,30 @@ export default {
     let state = reactive({
     })
     
-    //挂载
+
+        //挂载
     onMounted(async () => {
         const data = [
-          { name: '特色农业产值', 年份: '2022', 城镇: 44, color: '#FF6347' },
-          { name: '特色农业产值', 年份: '2023', 城镇: 46, color: '#FF6347' },
-          { name: '特色农业产值', 年份: '2024', 城镇: 48, color: '#FF6347' },
-          { name: '农林牧渔业产值', 年份: '2022', 城镇: 146, color: '#9370DB' },
-          { name: '农林牧渔业产值', 年份: '2023', 城镇: 147, color: '#9370DB' },
-          { name: '农林牧渔业产值', 年份: '2024', 城镇: 149, color: '#9370DB' },
+          { name: '仁和区', 年份: '2022', 总产值: 55.5 },
+          { name: '仁和区', 年份: '2023', 总产值: 57.1 },
+          { name: '仁和区', 年份: '2024', 总产值: 59.6},
+          // { name: '攀枝花市', 年份: '2022', 城镇: 46009, 农村: 21926 },
+          // { name: '攀枝花市', 年份: '2023', 人均生产总值: 10.88 },
+          // { name: '攀枝花市', 年份: '2024', 人均生产总值: 11.43 },
+          // // { name: '浙江省衢江区', 年份: '2022', 城镇: 0, 农村:0 },
+          // { name: '浙江省衢江区', 年份: '2023', 人均生产总值: 7.99 },
+          // { name: '浙江省衢江区', 年份: '2024', 人均生产总值: 9.65},
         ];
 
         const chart = new Chart({
           container: 'barAgricultureGdp',
           autoFit: true,
           depth:1,
-          padding:10,
+          padding:20,
         });
 
         chart
           .interval()
-          .theme({ type: 'classicDark' })
           .data(data)
           .axis('y', { 
           tick:true,
@@ -71,8 +74,8 @@ export default {
           animate:true,
           // Tick
           })
+          .scale('x', { padding: 0.5})
         .axis('x', { 
-          
           arrow: false,
           tick:false,
           tickCount: 10,
@@ -102,19 +105,36 @@ export default {
           // Tick
         
         })
-          .encode('x', '年份')
-          .encode('y', '城镇')
-          .encode('color', {
-            type: 'transform',
-            value: (d) => (d.name),
-          })
+          .encode('x', ['年份'])
+          .encode('y', ['总产值'])
           
-          .encode('text', 'name')
-          .scale('x', { padding: 0.4 })
+          .encode('text', ['总产值'])
+          //.encode('color', ['linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)'])
+          .encode('color', 'gold')
+          //.style('shape', 'column25d')
+          
           .transform({ type: 'dodgeX' })
-          
+          .label({
+            text: '总产值',
+            render: (text, datum) => {
+              return `
+                <div style="left:-50%;position:relative;font-size:0.8rem;color:black;">
+                  ${datum['总产值']} 亿元</span>
+                </div>
+              `;
+            },
+          })
+          // .label({'生产总值': {
+          //   content: (data) => `${data['年份']}: ${data['生产总值']}`, // 设置标签内容格式
+          //   style: { // 设置标签样式
+          //     fill: '#000', // 标签文字颜色
+          //     shadowBlur: 2, // 标签文字阴影模糊大小
+          //     shadowColor: 'rgba(0, 0, 0, .45)' // 标签文字阴影颜色
+          //   },
+          //   offset: 10 // 设置标签偏移量，可以根据需要调整以避免遮挡柱子本身或其他标签
+          // }})
+          .tooltip({ name: '总产值', channel: 'y' })
           .legend({
-           
             color: {
               size:8,
               //itemLabelText: '图例项标签',
@@ -130,9 +150,7 @@ export default {
             },
             size: {},
           })
-          .style({
-            fill: (d) => (d.color), // 绘图属性也可以是一个回调函数
-          })
+         
           .interaction('elementHighlight', { background: true });
         
           // chart
@@ -144,7 +162,7 @@ export default {
           // .encode('text', '城镇')
           // .style('fill', 'white')
           // .style('textAlign', 'start')
-          chart.theme({ type: 'light' })
+
         chart.render();
       })
 
@@ -156,21 +174,9 @@ export default {
 </script>
  
 <style lang='scss' scoped>
-#flareTarget{
-  margin:10px 10px;
-}
 .echartDiv {
   width: 100%;
-  height:21vh;
+  height:17vh;
 }
-.flare-title{
-  background-image: linear-gradient(to right,rgb(83, 78, 234), rgb(21, 6, 110));
-  border-radius: 4px;
-  margin-top: 1vh;
-  height: 3vh;
-  font-family: 'LiSu';
-  font-weight: bold;
-  text-align: 'left' !important;
-  font-size: 18px;
-}
+
 </style>

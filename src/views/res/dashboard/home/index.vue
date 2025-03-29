@@ -85,7 +85,22 @@
             <span class="target-title">收入结构分析</span>
           </div>
           <div class="target-content target-container-h3" @click="onClickPleaseWait('收入结构分析查看')">
+            <!-- <el-row>
+              <el-col :span="8">
+                <div :style="'height:25vh;widht:10vh'">
+                  <pieEllipse  :data='[{name:"高收入群体",value:"5%",darkColor:"blue",lightColor:"blue",nameStyle:"fill:#ddd;text-anchor:middle;font-size:16;",valueStyle:"fill:#ddd;text-anchor:start;font-size:16;"}
+			,{name:"中等收入群体",value:"85%",darkColor:"#E6A23C",lightColor:"rgb(237.5, 189.9, 118.5)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:16;",valueStyle:"fill:#ddd;text-anchor:end;font-size:16;"}
+			,{name:"低收入群体",value:"10%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:16;",valueStyle:"fill:#ddd;text-anchor:start;font-size:16;"}]'/>
+                </div>
+                
+              </el-col>
+              <el-col :span="8">
 
+              </el-col>
+              <el-col :span="8">
+
+              </el-col>
+            </el-row> -->
             <img height="100%" src="/img/res/glt.png" width="100%"/>
             <div style="position:relative;top:-15rem;font-size:1.2rem;color:white;text-align:center">
               区 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -140,7 +155,7 @@ import actVillage from "../component/actVillage.vue";
 import antvImageMap from "../component/antvImageMap.vue";
 import barAgricultureGdp from "../component/barAgricultureGdp.vue";
 import barAreaGdp from "../component/barAreaGdp.vue";
-import barCountyDjyc from "../component/barCountyDjyc.vue";
+import barCountyDjyc from "../component/barCountyShyh.vue";
 import barFamilyGdp from "../component/barFamilyGdp.vue";
 import barPeopleGdp from "../component/barPeopleGdp.vue";
 import barStreet from "../component/barStreet.vue";
@@ -161,11 +176,13 @@ import rankingCounty from "../component/rankingCounty.vue";
 import rankingFamily from "../component/rankingFamily.vue";
 import rankingVillage from "../component/rankingVillage.vue";
 import barHuman from "/@/components/barHuman/index.vue";
+import pieEllipse from "/@/components/pieEllipse/index.vue";
 export default {
   name: "IndexDashboard",
   components: {
     barHuman,
     flareTarget,
+    pieEllipse,
     barCountyDjyc,
     rankingCounty,
     rankingVillage,
