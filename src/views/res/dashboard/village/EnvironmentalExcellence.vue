@@ -26,7 +26,7 @@ export default {
       const option = {
         grid: {
           show: false,
-          top: '10%',
+          top: '15%',
           left: '8%',
           right: '0%',
           bottom: '15%',
@@ -85,6 +85,12 @@ export default {
               color: "#128cfc",
               opacity: 0.7,
             },
+            label: {
+              show: true,
+              color: "#ffffff",
+              fontSize: 14,
+              formatter: '{c}%',
+            },
             data: props.data
           }
         ]
@@ -112,6 +118,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: calc((100vh - 5.6rem)/6);
+  height: calc((100vh - 5.6rem) / 5);
 }
 </style>

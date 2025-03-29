@@ -27,8 +27,8 @@ export default {
       const option = {
         grid: {
           show: false,
-          top: '5%',
-          left: '20%',
+          top: '10%',
+          left: '10%',
           right: '0%',
           bottom: '15%',
         },
@@ -87,19 +87,25 @@ export default {
               opacity: 0.7,
             },
             data: props.data,
+            label: {
+              show: true,
+              color: "#ffffff",
+              fontSize: 12,
+              formatter: '{c}万',
+            },
             markLine: {
               data: [
                 {
                   yAxis: props.markLine[0],
-                  x: 50
+                  x: 110
                 },
                 {
                   yAxis: props.markLine[1],
-                  x: 100
+                  x: 220
                 },
                 {
                   yAxis: props.markLine[2],
-                  x: 155
+                  x: 340
                 }
               ],
               lineStyle: {
@@ -139,6 +145,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: 16vh;
+  height: 20vh;
 }
 </style>
