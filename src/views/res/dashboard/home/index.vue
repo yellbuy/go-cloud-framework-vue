@@ -30,10 +30,10 @@
       </div> -->
       <div class="main-rows">
         <div style="width:25%;" class="padding-lr-12">
-          <div class="target-header" @click="onClickPleaseWait">
+          <div class="target-header" @click="onClickPleaseWait('乡推进情况查看')">
             <span class="target-title">乡推进情况</span>
           </div>
-          <div @click="onClickPleaseWait" class="target-container-h3 target-content text-center">
+          <div @click="onClickPleaseWait('乡推进情况查看')" class="target-container-h3 target-content text-center">
             <!-- <rankingCounty/> 3月27日换仪表图-->
             <el-row class="margin-top">
                 <el-col :span="12">
@@ -48,16 +48,16 @@
                 </el-col>
               </el-row>
           </div>
-          <div class="target-header margin-top" @click="onClickPleaseWait">
+          <div class="target-header margin-top" @click="onClickPleaseWait('村共创情况查看')">
             <span class="target-title">村共创情况</span>
           </div>
-          <div @click="onClickPleaseWait">
+          <div @click="onClickPleaseWait('村共创情况查看')">
             <rankingVillage/>
           </div>
-          <div class="target-header margin-top" @click="onClickPleaseWait">
+          <div class="target-header margin-top" @click="onClickPleaseWait('户夯实情况查看')">
             <span class="target-title">户夯实情况</span>
           </div>
-          <div @click="onClickPleaseWait">
+          <div @click="onClickPleaseWait('户夯实情况查看')">
             <rankingFamily/>
           </div>
 
@@ -81,10 +81,10 @@
         </dv-border-box1>
 
         <div style="width:25%;" class="padding-lr-10">
-          <div class="target-header" @click="onClickPleaseWait">
+          <div class="target-header" @click="onClickPleaseWait('收入结构分析查看')">
             <span class="target-title">收入结构分析</span>
           </div>
-          <div class="target-content target-container-h3" @click="onClickPleaseWait">
+          <div class="target-content target-container-h3" @click="onClickPleaseWait('收入结构分析查看')">
 
             <img height="100%" src="/img/res/glt.png" width="100%"/>
             <div style="position:relative;top:-15rem;font-size:1.2rem;color:white;text-align:center">
@@ -108,18 +108,18 @@
               低收入 31.34%
             </div>
           </div>
-          <div class="target-header margin-top" @click="onClickPleaseWait">
+          <div class="target-header margin-top" @click="onClickPleaseWait('重点监测群体查看')">
             <span class="target-title">重点监测群体</span>
             
           </div>
-          <div class="target-content target-container-h3" @click="onClickPleaseWait">
+          <div class="target-content target-container-h3" @click="onClickPleaseWait('重点监测群体查看')">
             <dv-scroll-board :config="zdjcqtConfig" style="width:100%;height:24.5vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
           </div>
-          <div class="target-header margin-top" @click="onClickPleaseWait">
+          <div class="target-header margin-top" @click="onClickPleaseWait('“五好”未达标村数查看')">
             <span class="target-title" style="width:10vw">“五好”不达标村数</span>
           </div>
-          <div class="target-content target-container-h3" @click="onClickPleaseWait">
+          <div class="target-content target-container-h3" @click="onClickPleaseWait('“五好”未达标村数查看')">
             <dv-scroll-board :config="whbdbConfig" style="width:100%;height:24.5vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
           </div>
@@ -221,7 +221,7 @@ export default {
       })
     }
     //指标解读
-    const onClickPleaseWait = (name:string) => {
+    const onClickPleaseWait = (name:string="") => {
       const html = `请等待，${name}功能正在开发中...`
       ElMessageBox.alert(html, '温馨提示', {dangerouslyUseHTMLString: true,type: 'info',})
     }
