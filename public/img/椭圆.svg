@@ -2,27 +2,27 @@
 <svg width="200" height="400" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
   <defs>
    <clipPath id="clipBottom">
-		<rect x="0" y="360" width="200" height="100"/> <!-->底部区域<-->
+		<rect x="0" y="320" width="200" height="80"/> <!-->底部区域<-->
     </clipPath>
     <clipPath id="clipCenterTopBotom">
 		<rect x="0" y="100" width="200" height="16"/> <!-->中间顶部区域<-->		
     </clipPath>
 	<clipPath id="clipCenter">
-		<rect x="0" y="100" width="200" height="249"/> <!-->中部区域<-->
+		<rect x="0" y="60" width="200" height="244"/> <!-->中部区域<-->
     </clipPath>
 	<clipPath id="clipTop">
-		<rect x="0" y="0" width="200" height="84"/> <!-->顶部区域<-->
+		<rect x="0" y="0" width="200" height="46"/> <!-->顶部区域<-->
     </clipPath>
   </defs>
   <ellipse cx="100" cy="200" rx="100" ry="200" fill="green" clip-path="url(#clipBottom)"/> <!-->底部区域<-->
-  <ellipse cx="100" cy="360" rx="60" ry="16" fill="lightgreen" /> <!-->底部剖面<-->
+  <ellipse cx="100" cy="320" rx="80" ry="16" fill="lightgreen" /> <!-->底部剖面<-->
   
 	
   <ellipse cx="100" cy="200" rx="100" ry="200" fill="yellow" clip-path="url(#clipCenterTopBotom)"/> <!-->中部区域<-->
 
-	<ellipse cx="100" cy="344" rx="69" ry="16" fill="darkorange" /> <!-->中部靠底区域<-->
+	<ellipse cx="100" cy="304" rx="86" ry="16" fill="darkorange" /> <!-->中部靠底区域<-->
 	<ellipse cx="100" cy="200" rx="100" ry="200" fill="darkorange" clip-path="url(#clipCenter)"/> <!-->中部区域<-->
-	<ellipse cx="100" cy="100" rx="86" ry="16" fill="orange" /> <!-->顶部剖面<-->  
+	<ellipse cx="100" cy="62" rx="72" ry="16" fill="orange" /> <!-->顶部剖面<-->  
   <ellipse cx="100" cy="200" rx="100" ry="200" fill="blue" clip-path="url(#clipTop)"/> <!-->顶部区域<-->
-  <ellipse cx="100" cy="86" rx="82" ry="16" fill="blue" />
+  <ellipse cx="100" cy="46" rx="63" ry="16" fill="blue" />
 </svg>
