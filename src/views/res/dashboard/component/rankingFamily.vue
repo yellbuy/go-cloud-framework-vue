@@ -42,49 +42,49 @@ export default {
               total:8670
             },
             {
-              name: '福田镇(4500)',
+              name: '福田镇(900)',
               value: 20,
-              total:900
+              total:4500
             },
             {
-              name: '同德镇(8200)',
+              name: '同德镇(820)',
               value: 10,
-              total:820
+              total:8200
             },
             {
-              name: '布德镇(2600)',
+              name: '布德镇(520)',
               value: 20,
-              total:520
+              total:2600
             },
             {
-              name: '前进镇(3200)',
+              name: '前进镇(480)',
               value: 15,
-              total:480
+              total:3200
             },
             {
-              name: '大龙潭彝族乡(3750)',
-              value: 20,
-              total:750
+              name: '大龙潭彝族乡(1023)',
+              value: 27.6,
+              total:3712
             },
             {
-              name: '啊喇彝族乡(1800)',
+              name: '啊喇彝族乡(216)',
               value: 12,
-              total:216
+              total:1800
             },
             {
-              name: '太平乡(2300)',
+              name: '太平乡(252)',
               value: 12,
-              total:2560
+              total:2300
             },
             {
-              name: '务本乡(共2600户)',
+              name: '务本乡(260)',
               value: 10,
-              total:260
+              total:2600
             },
             {
-              name: '中坝乡(共1250户)',
+              name: '中坝乡(150)',
               value: 12,
-              total:145
+              total:1250
             },
           ],
           unit: '%',

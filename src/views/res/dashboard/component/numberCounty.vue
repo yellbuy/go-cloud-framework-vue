@@ -10,7 +10,7 @@
                     <i class="fa fa-users" aria-hidden="true" style="font-size: 2.2rem; margin-bottom:1rem;color: orange;" />
                     </div>
                     <div style="display:inline-block;" class="margin-sm">
-                      <div style="font-size:1rem">总户数</div>
+                      <div style="font-size:1rem">总人口</div>
                       <div class="margin-top-sm"><b class="target-value" style="color:orange">26.8</b> 万人</div>
                     </div>
                 </div>
