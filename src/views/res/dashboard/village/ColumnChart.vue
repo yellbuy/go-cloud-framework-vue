@@ -39,7 +39,7 @@ export default {
             show: false // 隐藏横线
           },
           axisLabel: {
-            fontSize: 15,
+            fontSize: 12,
             color: '#28A2CE'
           }
         },

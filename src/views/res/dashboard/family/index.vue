@@ -35,7 +35,7 @@
 
             <div class="target-container-h3 target-content">
               <div class="text-center padding">
-                <img src="./img/橄榄图.png" class="margin" style="height:20vh"/>
+                <img alt="" class="margin" src="./img/橄榄图.png" style="height:20vh"/>
               </div>
             </div>
           </div>
@@ -52,14 +52,12 @@
               <span class="target-title">五好达标情况</span>
             </div>
             <div class="target-content target-container-h3 padding-top">
-              <radarEchart :indicatorNameData="[
-            {name: '住房好', max: 100},
-            {name: '家风好', max: 100},
-            {name: '医疗好', max: 100},
-            {name: '生活好', max: 100},
-            {name: '教育好', max: 100},
-            ]" :series1ValueData="[100,100,100,100,100]" :series2ValueData="[100, 100, 99.7, 61.8, 98.4]" :startAngle="230"
-                           :style="'height:16rem;padding-top:2rem'"/>
+              <radarEchart
+                  :indicatorNameData="[{name: '住房好', max: 100},{name: '家风好', max: 100},{name: '医疗好', max: 100},{name: '生活好', max: 100},{name: '教育好', max: 100},]"
+                  :series1ValueData="[100,100,100,100,100]"
+                  :series2ValueData="[100, 100, 99.7, 61.8, 98.4]"
+                  :startAngle="230"
+                  :style="'height:16rem;padding-top:2rem'"/>
             </div>
           </div>
         </div>
@@ -88,8 +86,7 @@
                                :margin="mainData['低收入边缘人员占比']"
                                :ordinary="mainData['低收入一般监测群体占比']"
                                :standard="mainData['达标户占比']"
-                               @click="onClickMainMonitoring"
-              />
+                               @click="onClickMainMonitoring"/>
             </div>
           </div>
           <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
@@ -109,14 +106,13 @@
               <div class="target-content target-content-height">
                 <dv-capsule-chart :config="shyzConfig" style="width:100%;height:24vh;"/>
               </div>
-
             </div>
           </div>
 
         </dv-border-box1>
 
         <div style="width:25%;">
-          <Table :areaCode="areaCode"/>
+          <Table :tableDataList="tableDataList"/>
         </div>
       </div>
     </dv-full-screen-container>
@@ -126,9 +122,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import { ElMessageBox } from "element-plus";
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {ElMessageBox} from "element-plus";
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import radarEchart from "../component/radarEchart.vue";
@@ -152,7 +148,7 @@ export default {
     LineGraph,
     // eslint-disable-next-line vue/no-unused-components
     numberVillageStat,
-// eslint-disable-next-line vue/no-reserved-component-names
+    // eslint-disable-next-line vue/no-reserved-component-names
     Label
   },
   setup() {
@@ -173,6 +169,7 @@ export default {
       baseUrl: import.meta.env.VITE_API_URL,
       imgUrl: import.meta.env.VITE_URL,
       mainData: {}, //总表数据
+      tableDataList: {},
       shyzConfig: {
         data: [
           {
@@ -302,6 +299,7 @@ export default {
       if (mainDataList && mainDataList.length > 0) {
         state.mainData = mainDataList[0];
       }
+      state.tableDataList = await d3.csv(`/data/res/family/HSL帮扶户数统计329.csv`);
     })
 
     return {
@@ -316,7 +314,6 @@ export default {
 }
 ;
 </script>
-
 
 <style lang="less">
 #app {
@@ -334,7 +331,6 @@ export default {
   width: 100%;
   height: 100%;
   color: #000;
-
 
   #dv-full-screen-container {
     background-image: url("./img/bg.png");
