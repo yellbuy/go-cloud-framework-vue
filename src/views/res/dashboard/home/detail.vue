@@ -43,6 +43,9 @@
                   <el-col :span="24">
                     <barFamilyGdp></barFamilyGdp>
                   </el-col>
+                  <el-col :span="24">
+                    <barAgricultureGdp></barAgricultureGdp>
+                  </el-col>
                 </el-row>
               </div>
             <!-- <div class="target-header margin-top-sm">
@@ -75,13 +78,22 @@
               <!-- <dv-capsule-chart :config="msyxConfig" style="width:100%;height:100%" /> -->
               <el-row class="margin-top-xl">
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.4" id="gaugeProgress2" text="年收入达20万村占比" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.4"  text="年收入达20万村占比" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" :value="0.96" text="全民基本医疗参保率" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.96" text="全民基本医疗参保率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" id="gaugeProgress2" :value="0.613" text="常住人口城镇化率" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.613" text="常住人口城镇化率" :detailFontSize="18" :titleFontSize="14"/>
+                  </el-col>
+                  <el-col :span="8">
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.75" text="普惠性幼⼉园覆盖率" :detailFontSize="18" :titleFontSize="14"/>
+                  </el-col>
+                  <el-col :span="8">
+                    <gaugeProgress containerId="gaugeProgress2" :value="1" text="义务教育⼊学率" :detailFontSize="18" :titleFontSize="14"/>
+                  </el-col>
+                  <el-col :span="8">
+                    <gaugeProgress containerId="gaugeProgress2" :value="1" text="进城务工随迁⼦⼥就读率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                 </el-row>
             </div>
@@ -89,8 +101,7 @@
               <span class="target-title" @click="onClickTargetDetail('社会优和')">社会优和</span>
             </div>
             <div class="target-content target-container-h2">
-              <dv-capsule-chart :config="shyzConfig" style="width:100%;height:90%" />
-              <div>社会治安满意度</div>
+              <barCountyShyh/>
             </div>
           </div>
           
@@ -113,19 +124,31 @@
               <span class="target-title" @click="onClickTargetDetail('环境优宜')">环境优宜</span>
             </div>
             <div class="target-content target-container-h3 padding-xl">
-              <el-row class="margin-xl  text-center" :gutter="10">
-                  <el-col :span="12" class="text-center">
-                    <div class="text-center margin-left-xl padding-left-xl">
+              <el-row class="margin-xl  text-center" :gutter="0">
+                  <el-col :span="6" class="text-center">
+                    <div class="text-center">
                       <dv-water-level-pond :config="{data: [44.80],shape: 'round',waveOpacity:0.6,waveHeight:10,}" style="margin-left:2rem;width:8rem;height:8rem"/>
                     </div>
                     
-                    <div class="text-center margin-top" style="font-size:1.2rem">城市建成区绿化覆盖率</div>
+                    <div class="text-center margin-top margin-left-xl" style="font-size:1.1rem">城市建成区绿化覆盖率</div>
                   </el-col>
-                  <el-col :span="12" class="text-center">
-                    <div class="text-center margin-left-xl padding-left-lg">
+                  <el-col :span="6" class="text-center">
+                    <div class="text-center">
                       <dv-water-level-pond :config="{data: [86],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['#E6A23C','#E6A23C']}" style="margin-left:2rem;width:8rem;height:8rem"/>
                     </div>
-                    <div class="text-center margin-top" style="font-size:1.2rem">生活垃圾无害化处理率</div>
+                    <div class="text-center margin-top margin-left-xl" style="font-size:1.1rem">生活垃圾无害化处理率</div>
+                  </el-col>
+                  <el-col :span="6" class="text-center">
+                    <div class="text-center">
+                      <dv-water-level-pond :config="{data: [86],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['green','green']}" style="margin-left:2rem;width:8rem;height:8rem"/>
+                    </div>
+                    <div class="text-center margin-top margin-left-xl" style="font-size:1.1rem">空⽓质量优良天数⽐率</div>
+                  </el-col>
+                  <el-col :span="6" class="text-center">
+                    <div class="text-center">
+                      <dv-water-level-pond :config="{data: [86],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['lightgreen','lightgreen']}" style="margin-left:2rem;width:8rem;height:8rem"/>
+                    </div>
+                    <div class="text-center margin-top margin-left-xl" style="font-size:1.1rem">地表水达到或优于‖类比例</div>
                   </el-col>
                 </el-row>
             </div>
@@ -133,7 +156,8 @@
               <span class="target-title" @click="onClickTargetDetail('党建优促')">党建优促</span>
             </div>
             <div class="target-content">
-                <barCountyDjyc/>
+              <dv-capsule-chart :config="shyzConfig" style="width:100%;height:calc((100vh - 6rem) / 2 - 7.3rem)" />
+              <div>“三个身边”群众工作机制反映问题工单办结率</div>
             </div>
           </div>
         </div>
@@ -150,7 +174,7 @@ import { useRoute, useRouter } from 'vue-router';
 import actVillage from "../component/actVillage.vue";
 import barAgricultureGdp from "../component/barAgricultureGdp.vue";
 import barAreaGdp from "../component/barAreaGdp.vue";
-import barCountyDjyc from "../component/barCountyDjyc.vue";
+import barCountyShyh from "../component/barCountyShyh.vue";
 import barFamilyGdp from "../component/barFamilyGdp.vue";
 import barPeopleGdp from "../component/barPeopleGdp.vue";
 import barStreet from "../component/barStreet.vue";
@@ -176,7 +200,7 @@ export default {
   components: {
     barHuman,
     flareTarget,
-    barCountyDjyc,
+    barCountyShyh,
     rankingCounty,
     rankingVillage,
     rankingFamily,

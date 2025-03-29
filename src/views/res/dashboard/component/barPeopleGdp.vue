@@ -235,7 +235,7 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height:24vh;
+  height:17vh;
 }
 
 </style>
