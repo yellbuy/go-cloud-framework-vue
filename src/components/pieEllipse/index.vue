@@ -1,43 +1,54 @@
 <template>
 	<div class="pieEllipseContainer" :style="style">
-		<svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-			<defs>
-			<clipPath id="clipBottom">
-					<rect x="100" y="320" width="200" height="80"/> <!-->底部区域<-->
-				</clipPath>
-				<clipPath id="clipCenterTopBotom">
-					<rect x="100" y="100" width="200" height="16"/> <!-->中间顶部区域<-->		
-				</clipPath>
-				<clipPath id="clipCenter">
-					<rect x="100" y="60" width="200" height="244"/> <!-->中部区域<-->
-				</clipPath>
-				<clipPath id="clipTop">
-					<rect x="100" y="0" width="200" height="46"/> <!-->顶部区域<-->
-				</clipPath>
-			</defs>
-				<ellipse cx="200" cy="200" rx="100" ry="200"  :fill="data && data.length > 2 ? data[2].darkColor:'green'" clip-path="url(#clipBottom)"/> <!-->底部区域<-->
-				<ellipse cx="200" cy="320" rx="80" ry="16" :fill="data && data.length > 2 ? data[2].lightColor:'lightgreen'" /> <!-->底部剖面<-->
-			
-				
-				<ellipse cx="200" cy="200" rx="100" ry="200" :fill="data && data.length > 1 ? data[1].darkColor:'#E6A23C'" clip-path="url(#clipCenterTopBotom)"/> <!-->中部区域<-->
-				<ellipse cx="200" cy="304" rx="86" ry="16" :fill="data && data.length > 1 ? data[1].darkColor:'#E6A23C'" /> <!-->中部靠底区域<-->
-				<ellipse cx="200" cy="200" rx="100" ry="200" :fill="data && data.length > 1 ? data[1].darkColor:'#E6A23C'" clip-path="url(#clipCenter)"/> <!-->中部区域<-->
-				<ellipse cx="200" cy="62" rx="72" ry="16" :fill="data && data.length > 1 ? data[1].lightColor:'rgb(237.5, 189.9, 118.5)'" /> <!-->顶部剖面<-->  
-				<ellipse cx="200" cy="200" rx="100" ry="200" :fill="data && data.length > 0 ? data[0].darkColor:'blue'" clip-path="url(#clipTop)"/> <!-->顶部区域<-->
-				<ellipse cx="200" cy="46" rx="63" ry="16" :fill="data && data.length > 0 ? data[0].darkColor:'blue'" />
-				
-				<line x1="200" y1="23"  x2="350" y2="23" style="stroke:#ddd;stroke-width:2"></line>
-				<line x1="60" y1="200"  x2="200" y2="200" style="stroke:#ddd;stroke-width:2"></line>
-				<line x1="200" y1="360"  x2="350" y2="360" style="stroke:#ddd;stroke-width:2"></line>
-
-				<text x="350" y="23" :style="data && data.length>0?data[0].valueStyle:'fill:#ddd;text-anchor:start;font-size:16;'">{{data && data.length>0?data[0].value : '5%'}}</text>
-				<text x="60" y="200" :style="data && data.length>0?data[1].valueStyle:'fill:#ddd;text-anchor:end;font-size:16;'">{{data && data.length>1?data[1].value : '85%'}}</text>
-				<text x="350" y="360" :style="data && data.length>0?data[2].valueStyle:'fill:#ddd;text-anchor:start;font-size:16;'">{{data && data.length>2?data[2].value : '10%'}}</text>
-				
-				<text x="200" y="23" dx="0" dy="-5" :style="data && data.length>0?data[0].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>0?data[0].name : '高收入群体'}}</text>
-				<text x="200" y="200" dx="0" dy="-5" :style="data && data.length>0?data[1].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>0?data[1].name : '中等收入群体'}}</text>
-				<text x="200" y="360" dx="0" dy="-5" :style="data && data.length>0?data[2].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>0?data[2].name : '低收入群体'}}</text>	
-			</svg>
+		<svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg">
+		<defs>
+			<ellipse id="main" cx="320" cy="300" rx="150" ry="300" /> <!-->椭圆主图<-->
+		<clipPath id="clipBottom">
+				<rect x="0" y="480" width="640" height="120"/> <!-->底部区域<-->
+			</clipPath>
+			<clipPath id="clipCenter">
+				<rect x="0" y="60" width="640" height="420"/> <!-->中部区域<-->
+			</clipPath>
+			<clipPath id="clipTop">
+				<rect x="0" y="0" width="640" height="60"/> <!-->顶部区域<-->
+			</clipPath>
+			<filter id="shadow" x="0" y="0" width="200%" height="200%">
+			<feOffset result="offOut" in="SourceGraphic" dx="10" dy="20" />
+			<feGaussianBlur result="blurOut" in="offOut" stdDeviation="20" />
+			<feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+			</filter>
+		</defs>
+			<g filter="url(#shadow)">
+				<animateTransform attributeName="transform" type="translate" from="0,640" to="0,0" dur="1s" repeatCount="1"/>
+				<g transform="translate(0,40)"> <!-->底部区域<-->
+					<use href="#main" :fill="data && data.length > 0 ? data[0].darkColor:'green'" clip-path="url(#clipBottom)"  />
+					<ellipse cx="320" cy="480" rx="120" ry="16" :fill="data && data.length > 2 ? data[0].lightColor:'lightgreen'" />  <!-->底部剖面<-->
+					
+					<line x1="320" y1="540"  x2="540" y2="540" style="stroke:#ddd;stroke-width:2"></line>   
+					<text x="320" y="540" dy="-5" :style="data && data.length>0?data[0].valueStyle:'fill:#ddd;text-anchor:start;font-size:16;'" >{{data && data.length>0?data[0].value : '10%'}}</text>
+					<text x="540" y="540" dx="0" dy="-5" :style="data && data.length>0?data[0].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>2?data[0].name : '低收入群体'}}</text>	
+				</g>
+					
+					<g transform="translate(0,20)"> <!-->中部区域<-->
+					<use href="#main" :fill="data && data.length > 1 ? data[1].darkColor:'orange'" clip-path="url(#clipCenter)" /> <!-->中部区域<-->
+					<ellipse cx="320" cy="480" rx="120" ry="16" :fill="data && data.length > 2 ? data[1].darkColor:'orange'" /> <!-->中下剖面<-->  
+					<ellipse cx="320" cy="60" rx="90" ry="16" :fill="data && data.length > 2 ? data[1].lightColor:'yellow'" /> <!-->中上剖面<-->
+					
+					<line x1="320" y1="320"  x2="100" y2="320" style="stroke:#ddd;stroke-width:2"></line>
+					<text x="320" y="320" dy="-5" :style="data && data.length>1?data[1].valueStyle:'fill:#ddd;text-anchor:end;font-size:16;'">{{data && data.length>1?data[1].value : '80%'}}</text>
+					<text x="100" y="320" dx="0" dy="-5" :style="data && data.length>1?data[1].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>2?data[1].name : '中等收入群体'}}</text>
+				</g>
+					
+				<g> <!-->顶部区域<-->
+					<use href="#main" :fill="data && data.length > 2 ? data[2].lightColor:'blue'" clip-path="url(#clipTop)"/> 
+					<ellipse cx="320" cy="60" rx="88" ry="16" :fill="data && data.length > 2 ? data[1].darkColor:'blue'" /> <!-->顶部椭圆<-->
+					
+					<line x1="320" y1="30"  x2="540" y2="30" style="stroke:#ddd;stroke-width:2" ></line>
+					<text x="320" y="30" dy="-5" :style="data && data.length>2?data[2].valueStyle:'fill:#ddd;text-anchor:start;font-size:16;'">{{data && data.length>2?data[2].value : '5%'}}</text>
+					<text x="540" y="30" dx="0" dy="-5" :style="data && data.length>2?data[2].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>2?data[2].name : '高收入群体'}}</text>
+				</g> 
+			</g>	
+		</svg>
 	</div>
 </template>
 
