@@ -199,7 +199,7 @@ export default {
       <div>
         <p><b>人口数：</b><el-text class="mx-1" type="success">26.67万</el-text></p>
         <p><b>区面积：</b><el-text class="mx-1" type="success">1728.98平方公里</el-text></p>
-        <p><b>下辖乡镇：</b>啊喇彝族乡、布德镇、大河中路街道、大龙潭彝族乡、大田镇、福田镇、平地镇、前进镇、仁和镇、太平乡、同德镇、中坝乡、务本乡‌共计12个。‌</p>
+        <p><b>下辖乡镇：</b>啊喇彝族乡、布德镇、大龙潭彝族乡、大田镇、福田镇、平地镇、前进镇、仁和镇、太平乡、同德镇、中坝乡、务本乡‌共计12个。‌</p>
       </div>`
       ElMessageBox.alert(html, '仁和区情介绍', {
         dangerouslyUseHTMLString: true, 

@@ -21,13 +21,8 @@ export default {
         countyConfig:{
           carousel:'single',
           
-          rowNum:5,
+          rowNum:12,
           data: [
-            {
-              name: '大河中路街道（6)',
-              value: 40,
-              total: 15,
-            },
             {
               name: '仁和镇（6)',
               value: 40,

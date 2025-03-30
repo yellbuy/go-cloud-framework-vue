@@ -108,8 +108,8 @@ export default {
     //挂载
     onMounted(async () => {
       
-      state.xAxisData=["大河中路街道","仁和镇","平地镇","大田镇","福田镇","同德镇","金江镇","布德镇","前进镇","大龙潭彝族乡","啊喇彝族乡","太平乡","务本乡","中坝乡"];
-        state.yAxisData=[18,17,16.5,14,15,13,17.5,12,9,8,6,7,6.5,7.2,6];
+      state.xAxisData=["仁和镇","平地镇","大田镇","福田镇","同德镇","布德镇","前进镇","大龙潭彝族乡","啊喇彝族乡","太平乡","务本乡","中坝乡"];
+        state.yAxisData=[16.5,14,15,13,17.5,12,9,8,6,7,6.5,7.2,6];
         state.yAxisSideData=state.xAxisData.map((val:any)=>{return val+1});
         echartInit();
         const now = dayjs();

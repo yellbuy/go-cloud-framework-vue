@@ -231,7 +231,7 @@ export default {
       <div>
         <p><b>人口数：</b><el-text class="mx-1" type="success">26.67万</el-text></p>
         <p><b>区面积：</b><el-text class="mx-1" type="success">1728.98平方公里</el-text></p>
-        <p><b>下辖乡镇：</b>啊喇彝族乡、布德镇、大河中路街道、大龙潭彝族乡、大田镇、福田镇、平地镇、前进镇、仁和镇、太平乡、同德镇、中坝乡、务本乡‌共计12个。‌</p>
+        <p><b>下辖乡镇：</b>啊喇彝族乡、布德镇、大龙潭彝族乡、大田镇、福田镇、平地镇、前进镇、仁和镇、太平乡、同德镇、中坝乡、务本乡‌共计12个。‌</p>
       </div>`
       ElMessageBox.alert(html, '仁和区情介绍', {
         dangerouslyUseHTMLString: true,
@@ -262,7 +262,6 @@ export default {
       data: [
         ['仁和镇', '<span style="color:#32c5e9;">80</span>',26540],
         ['前进镇', '<span style="color:#9fe6b8;">160</span>',3852],
-        ['大河中路街道', '120',45026],
         ['平地镇', '<span style="color:#ff9f7f;">90</span>',6500],
         ['大田镇', '60',3900],
         ['福田镇', '<span style="color:#e062ae;">75</span>',3600],
@@ -279,7 +278,6 @@ export default {
       data: [
         ['仁和镇', '<progress value="3" max="9">60%</progress>','<span style="color:#9fe6b8;">3 / 9</span>'],
         ['前进镇', '<progress value="1" max="5">60%</progress>', '<span style="color:#9fe6b8;">1 / 5</span>'],
-        ['大河中路街道', '<progress value="6" max="12">50%</progress>','6 / 12'],
         ['平地镇', '<progress value="3" max="8">60%</progress>', '3 / 8'],
         ['大田镇', '<progress value="3" max="9">60%</progress>','3 / 9'],
         ['福田镇', '<progress value="1" max="6">60%</progress>','1 / 6'],

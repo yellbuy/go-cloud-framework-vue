@@ -22,11 +22,6 @@ export default {
           rowNum:5,
           data: [
             {
-              name: '大河中路街道(10400)',
-              value: 30,
-              total:38000
-            },
-            {
               name: '仁和镇(7500)',
               value: 28,
               total:18000
