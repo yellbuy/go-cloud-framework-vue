@@ -4,7 +4,8 @@
       <div class="banner">
         <div class="banner-content">
           <dv-button border="Border4" color="#409EFF" fontSize="12"
-                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">区迈⼊
+                     style="display:inline-block;margin-left:10px;" @click="onGoToLink(`/admin/index`)">
+            区迈⼊
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px;"
                      @click="onGoToLink(`/admin/dashboard/street/index?areaCode=${streetAreaCode}`)">
@@ -12,7 +13,8 @@
           </dv-button>
           <dv-button key="" border="Border4" color="#409EFF" fontSize="12"
                      style="display:inline-block;margin-left:10px"
-                     @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}`)">村共创
+                     @click="onGoToLink(`/admin/dashboard/village/index?areaCode=${areaCode}`)">
+            村共创
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12" style="display:inline-block;margin-left:10px"
                      @click="onGoToLink(`/admin/dashboard/family/index?areaCode=${areaCode}&areaName=${areaName}`)">
@@ -33,7 +35,7 @@
               <Title title="村情介绍"/>
               <div class="target-text target-content text-left target-container-h3">
                 <p class="margin" style="text-align: left;font-size:1.3rem">
-                  混撒拉村位于仁和区南部，距城区17.5km。辖区面积21平方公里，平均海拔1400m,现有村民520户2020人，少数民族人口占比65%，设有1个党总支，3个党支部，共有党员55名。全村耕地848亩、林地8160亩，以种植芒果、乡村旅游等产业为主，辖区内有企业2家、商户12家、农民专业合作社7个、家庭农场43家、村级卫生室1家，正在建设美丽乡村试点县项目。
+                  混撒拉村位于仁和区南部，距城区17.5km。辖区面积21平方公里，平均海拔1400m,现有村民380户1527人，少数民族人口占比65%，设有1个党总支，3个党支部，共有党员55名。全村耕地848亩、林地8160亩，以种植芒果、乡村旅游等产业为主，辖区内有企业2家、商户12家、农民专业合作社7个、家庭农场43家、村级卫生室1家，正在建设美丽乡村试点县项目。
                 </p>
               </div>
             </div>
@@ -63,8 +65,7 @@
                       党支部<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>个）
                     </div>
                     <div class="text-center margin-tb-lg">
-                      党员<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">55</label>人
-                      党总支<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>人
+                      党员<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">68</label>人
                       党代表<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>人
                     </div>
                   </div>
@@ -116,7 +117,7 @@
                     </div>
                   </div>
 
-              </div>
+                </div>
 
 
               </div>
