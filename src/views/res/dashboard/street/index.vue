@@ -230,18 +230,18 @@
                         <div class="padding-tb">
                           <label>自来水普及率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
-                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>95%
+                          <label style="color:orange;font-size: 1.4rem">82.6%</label><i
+                          class="fa fa-arrow-down margin-left-sm margin-right-xs"
+                          style="font-size: 1rem; color: orange;"/>95%
                         </div>
                       </el-col>
                       <el-col :span="12">
                         <div class="padding-tb">
                           <label>自然村通硬化路率</label>
                           <br><br>
-                          <label style="color:orange;font-size: 1.4rem">82.6%</label><i
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
                           class="fa fa-arrow-down margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: orange;"/>100%
+                          style="font-size: 1rem; color: #1AFD9BFF;"/>100%
                         </div>
                       </el-col>
                       <el-col :span="12">
@@ -268,7 +268,7 @@
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
                           class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>95%
+                          style="font-size: 1rem; color: lightgreen;"/>100%
                         </div>
                       </el-col>
                       <el-col :span="12">

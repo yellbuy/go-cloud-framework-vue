@@ -43,19 +43,19 @@
           <div class="dialog_table margin-top-lg">收入情况</div>
           <div class="target-content">
             <div class="dialog_body margin-bottom" style="">
-              <div>工资性收入(元)：<span>0</span></div>
-              <div>经营性收入(元)：<span>170000</span></div>
-              <div>财产性收入(元)：<span>0</span></div>
-              <div>转移性收入(元)：<span>2123</span></div>
-              <div>经营成本(元)：<span>20000</span></div>
+              <div>工资性收入：<span>¥ 0.00</span> 元</div>
+              <div>经营性收入：<span>¥ 170000.00</span> 元</div>
+              <div>财产性收入：<span>¥ 0.00</span> 元</div>
+              <div>转移性收入：<span>¥ 2123.00</span> 元</div>
+              <div>经营成本：<span>¥ 20000.00</span> 元</div>
             </div>
           </div>
 
           <div class="dialog_table margin-top-lg">资产情况</div>
           <div class="target-content">
             <div class="dialog_body" style="">
-              <div>车辆(辆)：<span>1</span></div>
-              <div>商品房(m)：<span>120</span></div>
+              <div>车辆（辆）：<span>1</span></div>
+              <div>商品房（平方米）：<span>120</span></div>
             </div>
           </div>
 
