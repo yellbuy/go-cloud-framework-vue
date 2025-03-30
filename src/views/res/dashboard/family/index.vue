@@ -39,6 +39,7 @@
               </div>
             </div>
           </div>
+
           <div class="margin-top-sm">
             <div class="target-header">
               <span class="target-title">家庭年收入分类</span>
@@ -47,6 +48,7 @@
               <Category/>
             </div>
           </div>
+
           <div class="margin-top-sm">
             <div class="target-header">
               <span class="target-title">五好达标情况</span>

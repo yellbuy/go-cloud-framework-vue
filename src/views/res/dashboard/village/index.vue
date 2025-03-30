@@ -59,11 +59,11 @@
                     </div>
                     <div class="text-center margin-top-xs">
                       （党委<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
-                      党总支<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>人
-                      党支部<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>人）
+                      党总支<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
+                      党支部<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>个）
                     </div>
                     <div class="text-center margin-tb-lg">
-                      党员<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">68</label>人
+                      党员<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">55</label>人
                       党总支<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>人
                       党代表<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>人
                     </div>

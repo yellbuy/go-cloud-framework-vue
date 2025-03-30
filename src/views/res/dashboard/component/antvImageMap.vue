@@ -75,6 +75,14 @@ export default {
             '2', `/img/res/village_2.png`);
         scene.addImage(
             '3', `/img/res/village_3.png`);
+        scene.addImage(
+            '4', `/img/res/village_4.png`);
+        scene.addImage(
+            '5', `/img/res/village_5.png`);
+        scene.addImage(
+            '6', `/img/res/village_6.png`);
+        scene.addImage(
+            '7', `/img/res/village_7.png`);
 
         fetch(`/data/res/area/${props.areaCode}.json`)
             .then((res) => res.json())

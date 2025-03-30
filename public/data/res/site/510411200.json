@@ -21,7 +21,7 @@
     "kind": "nurserySchool",
     "x": 535,
     "y": 420,
-    "icon": "2"
+    "icon": "4"
   },
   {
     "name": "幼儿园",
@@ -29,6 +29,6 @@
     "kind": "nurserySchool",
     "x": 505,
     "y": 535,
-    "icon": "2"
+    "icon": "4"
   }
 ]
