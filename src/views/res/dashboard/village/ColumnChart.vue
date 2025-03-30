@@ -130,7 +130,9 @@ export default {
                     ]
                   ],
                   lineStyle: {
-                    color: '#FCAE26FF'
+                    color: '#FCAE26FF',
+                    type: 'dashed',
+                    cap: 'round'
                   },
                   label: {
                     position: 'start',

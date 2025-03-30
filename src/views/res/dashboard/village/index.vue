@@ -41,8 +41,8 @@
             </div>
 
             <div class="margin-left margin-top">
+              <Title title="两强"/>
               <div class="target-content">
-                <Title title="两强"/>
                 <el-popover
                     class="box-item"
                     content="村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率100%。“先富”带“后富”机制完善特困、低保等重点群体托底保障机制健全。"
@@ -60,12 +60,11 @@
                       党组织<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
                     </div>
                     <div class="text-center margin-top-xs">
-                      （党委<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
                       党总支<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
-                      党支部<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>个）
+                      党支部<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>个
                     </div>
                     <div class="text-center margin-tb-lg">
-                      党员<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">68</label>人
+                      党员<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">55</label>人
                       党代表<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>人
                     </div>
                   </div>
@@ -111,8 +110,8 @@
                     </el-row>
                     <div class="margin target-text">
                       <div>
-                        矛盾纠纷<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">198</label>件
-                        已化解<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">68</label>件
+                        化解矛盾纠纷<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">51</label>件
+                        化解率<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">98%</label>
                       </div>
                     </div>
                   </div>
@@ -230,8 +229,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";

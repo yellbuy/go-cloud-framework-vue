@@ -10,52 +10,52 @@ import {getCurrentInstance, onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   props: {
-		legendNameData: {
-			type: Array,
-			default:['目标', '进度'],
-		},
-    indicatorNameData:{
+    legendNameData: {
       type: Array,
-			default: [
-            { name: '经济优建', max: 100 },
-            { name: '民生优享', max: 100 },
-            { name: '文明优创', max: 100 },
-            { name: '环境优宜', max: 100 },
-            { name: '社会优质', max: 100 },
-            { name: '党建优促', max: 100 },
-          ],
+      default: ['目标', '进度'],
     },
-    startAngle:{
+    indicatorNameData: {
+      type: Array,
+      default: [
+        {name: '经济优建', max: 100},
+        {name: '民生优享', max: 100},
+        {name: '文明优创', max: 100},
+        {name: '环境优宜', max: 100},
+        {name: '社会优质', max: 100},
+        {name: '党建优促', max: 100},
+      ],
+    },
+    startAngle: {
       type: Number,
-      default:0
+      default: 0
     },
-    style:{
+    style: {
       type: String,
-      default:"width:100%;"
+      default: "width:100%;"
     },
-    seriesName:{
+    seriesName: {
       type: String,
-      default:"达标进度%"
+      default: "达标进度%"
     },
-    series1ValueData:{
+    series1ValueData: {
       type: Array,
-      default:[100, 75, 95, 95, 95,100]
+      default: [100, 75, 95, 95, 95, 100]
     },
-    series1NameData:{
+    series1NameData: {
       type: String,
-      default:"目标"
+      default: "目标"
     },
-    series2ValueData:{
+    series2ValueData: {
       type: Array,
-      default:[75, 60, 80, 60, 100,60]
+      default: [75, 60, 80, 60, 100, 60]
     },
-    series2NameData:{
+    series2NameData: {
       type: Array,
-       default:"进度"
+      default: "进度"
     },
   },
   setup(props) {
-    const { proxy } = getCurrentInstance() as any;
+    const {proxy} = getCurrentInstance() as any;
     let state = reactive({
       xAxisData: [""],
       yAxisData: [0],
@@ -69,20 +69,20 @@ export default {
         color: ['#FFE434', '#67F9D8', '#56A3F1', '#FF917C'],
         legend: {
           data: props.legendNameData,
-          orient : 'vertical',
-          align:"left",
-          top:"0",
-          right:"0",
-          textStyle:{
+          orient: 'vertical',
+          align: "left",
+          top: "0",
+          right: "0",
+          textStyle: {
             color: "#fff"
           }
-          
+
         },
         radar: {
           indicator: props.indicatorNameData,
           center: ['50%', '50%'],
-          radius: 50,
-          startAngle:  props.startAngle,
+          radius: 80,
+          startAngle: props.startAngle,
           splitNumber: 4,
           shape: 'circle',
           axisName: {
@@ -111,16 +111,16 @@ export default {
           {
             name: props.seriesName,
             type: 'radar',
-            lineStyle:{
-              width:2
+            lineStyle: {
+              width: 2
             },
             symbolSize: 6,
-            
+
             data: [
               {
                 value: props.series1ValueData,
                 name: props.series1NameData, //目标
-                
+
               },
               {
                 value: props.series2ValueData,
@@ -132,7 +132,7 @@ export default {
                 label: {
                   show: true,
                   formatter: function (params) {
-                    return params.value+'%';
+                    return params.value + '%';
                   }
                 }
               }
@@ -146,7 +146,7 @@ export default {
 
     //挂载
     onMounted(async () => {
-      
+
       echartInit();
     })
 
@@ -157,7 +157,7 @@ export default {
   },
 }
 </script>
- 
+
 <style lang='scss' scoped>
 
 </style>
