@@ -81,13 +81,13 @@
                     <gaugeProgress containerId="gaugeProgress2" :value="0.4"  text="年收入达20万村占比" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.96" text="全民基本医疗参保率" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.8649" text="全民基本医疗参保率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
                     <gaugeProgress containerId="gaugeProgress2" :value="0.613" text="常住人口城镇化率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.75" text="普惠性幼⼉园覆盖率" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.9165" text="普惠性幼⼉园覆盖率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
                     <gaugeProgress containerId="gaugeProgress2" :value="1" text="义务教育⼊学率" :detailFontSize="18" :titleFontSize="14"/>
@@ -134,19 +134,19 @@
                   </el-col>
                   <el-col :span="6" class="text-center">
                     <div class="text-center">
-                      <dv-water-level-pond :config="{data: [86],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['#E6A23C','#E6A23C']}" style="margin-left:2rem;width:8rem;height:8rem"/>
+                      <dv-water-level-pond :config="{data: [100],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['#E6A23C','#E6A23C']}" style="margin-left:2rem;width:8rem;height:8rem"/>
                     </div>
                     <div class="text-center margin-top margin-left-xl" style="font-size:1.1rem">生活垃圾无害化处理率</div>
                   </el-col>
                   <el-col :span="6" class="text-center">
                     <div class="text-center">
-                      <dv-water-level-pond :config="{data: [86],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['green','green']}" style="margin-left:2rem;width:8rem;height:8rem"/>
+                      <dv-water-level-pond :config="{data: [96.4],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['green','green']}" style="margin-left:2rem;width:8rem;height:8rem"/>
                     </div>
                     <div class="text-center margin-top margin-left-xl" style="font-size:1.1rem">空⽓质量优良天数⽐率</div>
                   </el-col>
                   <el-col :span="6" class="text-center">
                     <div class="text-center">
-                      <dv-water-level-pond :config="{data: [86],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['lightgreen','lightgreen']}" style="margin-left:2rem;width:8rem;height:8rem"/>
+                      <dv-water-level-pond :config="{data: [100],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['lightgreen','lightgreen']}" style="margin-left:2rem;width:8rem;height:8rem"/>
                     </div>
                     <div class="text-center margin-top margin-left-xl" style="font-size:1.1rem">地表水达到或优于‖类比例</div>
                   </el-col>

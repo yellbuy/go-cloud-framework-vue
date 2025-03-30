@@ -140,8 +140,8 @@
                   <el-row :gutter="24" class="margin">
                     <el-col :span="12">
                       <div class="text-center">
-                        <column-chart :data="[3.1, 3.52, 3.61]" :label="['2022年', '2023年', '2024年']"
-                                      :mark-line="[2,2.5,3.2]"/>
+                        <column-chart :data="[2.5, 2.68, 3.24]" :label="['2022年', '2023年', '2024年']"
+                                      :mark-line="[2.19,2.30,2.45]"/>
                         <text class="target-text">全村人均年可支配收入超全市农村人均年可支配收入</text>
                       </div>
                     </el-col>
@@ -229,8 +229,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import {reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
