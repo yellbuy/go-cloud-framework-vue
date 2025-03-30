@@ -134,7 +134,7 @@
               <antvImageMap :areaCode="areaCode" :center="[500,410]" :zoom="2" areaGoTo="village"></antvImageMap>
             </div>
             <div class="view-box">
-              <div style="width: 100%">
+              <div class="" style="width:100%">
                 <Title title="三超"/>
                 <div class="target-content">
                   <el-row :gutter="24" class="margin">
