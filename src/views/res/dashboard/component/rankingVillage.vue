@@ -21,7 +21,7 @@ export default {
         countyConfig:{
           carousel:'single',
           
-          rowNum:12,
+          rowNum:5,
           data: [
             {
               name: '仁和镇（6)',

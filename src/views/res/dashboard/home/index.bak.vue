@@ -222,16 +222,14 @@ export default {
     const jichusheshiConfig = reactive({
       header: ['乡镇', '村', '设施补短'],
       data: [
-        ['<span style="color:#37a2da;">金江镇</span>', '大龙潭村', '修路'],
+        ['<span style="color:#37a2da;">大龙潭乡</span>', '大龙潭村', '修路'],
         ['仁和镇', '<span style="color:#32c5e9;">仁和村</span>', '路灯修复'],
-        ['金江镇', '大龙潭村', '<span style="color:#67e0e3;">修路</span>'],
+      
         ['前进镇', '<span style="color:#9fe6b8;">前进村</span>', '路灯修复'],
         ['<span style="color:#ffdb5c;">前进镇</span>', '行5列2', '排水系统修复'],
         ['大田镇', '<span style="color:#ff9f7f;">大田村</span>', '排水系统修复'],
         ['大田镇', '大田村', '<span style="color:#fb7293;">路灯修复</span>'],
-        ['金江镇', '<span style="color:#e062ae;">大龙潭村</span>', '修路'],
         ['<span style="color:#e690d1;">仁和镇</span>', '仁和村', '修路'],
-        ['金江镇', '<span style="color:#e7bcf3;">大龙潭村</span>', '排水系统修复'],
       ],
       index: true,
       rowNum:5,

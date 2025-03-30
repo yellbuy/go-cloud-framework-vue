@@ -248,9 +248,8 @@ export default {
     const jichusheshiConfig = reactive({
       header: ['乡镇', '村', '设施补短'],
       data: [
-        ['<span style="color:#37a2da;">金江镇</span>', '大龙潭村', '修路'],
+        ['<span style="color:#37a2da;">大龙潭乡</span>', '大龙潭村', '修路'],
         ['仁和镇', '<span style="color:#32c5e9;">仁和村</span>', '路灯修复'],
-        ['金江镇', '大龙潭村', '<span style="color:#67e0e3;">修路</span>'],
         ['前进镇', '<span style="color:#9fe6b8;">前进村</span>', '路灯修复'],
         ['<span style="color:#ffdb5c;">前进镇</span>', '行5列2', '排水系统修复'],
         ['大田镇', '<span style="color:#ff9f7f;">大田村</span>', '排水系统修复'],
@@ -268,16 +267,16 @@ export default {
     const zhonghebangfuConfig = reactive({
       header: ['乡镇', '村', '帮扶情况'],
       data: [
-        ['<span style="color:#37a2da;">金江镇</span>', '张某某', '低保'],
+        ['<span style="color:#37a2da;">大龙潭乡</span>', '张某某', '低保'],
         ['仁和镇', '<span style="color:#32c5e9;">杨某</span>', '大病保障'],
-        ['金江镇', '陈某某', '<span style="color:#67e0e3;">节日慰问</span>'],
+        ['大龙潭乡', '陈某某', '<span style="color:#67e0e3;">节日慰问</span>'],
         ['前进镇', '<span style="color:#9fe6b8;">伍某华</span>', '节日慰问'],
         ['<span style="color:#ffdb5c;">陈某萍</span>', '行5列2', '节日慰问'],
         ['大田镇', '<span style="color:#ff9f7f;">张某</span>', '大病保障'],
         ['大田镇', '张某燕', '<span style="color:#fb7293;">就近入学</span>'],
-        ['金江镇', '<span style="color:#e062ae;">谢某</span>', '新办幼儿园'],
+        ['大龙潭乡', '<span style="color:#e062ae;">谢某</span>', '新办幼儿园'],
         ['<span style="color:#e690d1;">杨某</span>', '仁和村', '低保'],
-        ['金江镇', '<span style="color:#e7bcf3;">张某某</span>', '就近入学'],
+        ['大龙潭乡', '<span style="color:#e7bcf3;">张某某</span>', '就近入学'],
       ],
       index: true,
       rowNum: 5,

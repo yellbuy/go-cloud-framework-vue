@@ -41,12 +41,12 @@
           </div>
           <div @click="onClickPleaseWait('乡推进情况查看')" class="target-container-h3 target-content text-center">
             <!-- <rankingCounty/> 3月27日换仪表图-->
-            <el-row class="margin-top">
+            <el-row>
               <el-col :span="24">
                 <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'',value:0.50}]"
-                               :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
-                               :style="'height:18rem'" :titleFontSize="14" :value="0.26"
-                               text="达标乡镇数(3/12)"/>
+                               :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="20"
+                               :style="'height:20rem'" :titleFontSize="20" :value="0.25"
+                               text="“乡推进”实现乡镇数(3/12)"/>
               </el-col>
             </el-row>
           </div>
@@ -255,18 +255,24 @@ export default {
     }
     //基础设施补短情况配置 改帮扶统计 继续改重点监测群体
     const zdjcqtConfig = reactive({
-      header: ['乡镇', '重点监测群体', '总数'],
+      header: ['乡镇', '重点监测群体', '低收入群体'],
       data: [
-        ['仁和镇', '<span style="color:#32c5e9;">80</span>', 26540],
-        ['前进镇', '<span style="color:#9fe6b8;">160</span>', 3852],
-        ['平地镇', '<span style="color:#ff9f7f;">90</span>', 6500],
-        ['大田镇', '60', 3900],
-        ['福田镇', '<span style="color:#e062ae;">75</span>', 3600],
-        ['布德镇', '<span style="color:#e7bcf3;">36</span>', 6500],
+        ['大龙潭彝族乡', 16, '<span style="color:#e7bcf3;">2394</span>'],
+        ['仁和镇', '<span style="color:#32c5e9;">80</span>', 6540],
+        ['平地镇', '<span style="color:#9fe6b8;">42</span>', 3852],
+        ['大田镇', '<span style="color:#ff9f7f;">190</span>', 6500],
+        ['福田镇', '60', 3900],
+        ['同德镇', '<span style="color:#e062ae;">175</span>', 3600],
+        ['布德镇', '<span style="color:#e7bcf3;">120</span>', 1800],
+        ['前进镇', '<span style="color:#e7bcf3;">36</span>', 900],
+        ['啊喇彝族乡', '<span style="color:#e7bcf3;">42</span>', 920],
+        ['太平乡', '<span style="color:#e7bcf3;">142</span>', 1350],
+        ['务本乡', '<span style="color:#e7bcf3;">116</span>', 1900],
+        ['中坝乡', '<span style="color:#e7bcf3;">137</span>', 1100],
       ],
       index: true,
-      rowNum: 5,
-      columnWidth: [40, 120],
+      rowNum: 12,
+      columnWidth: [50, 150],
       align: ['center', 'center', 'center', 'center'],
     })
     //综合帮扶情况配置
