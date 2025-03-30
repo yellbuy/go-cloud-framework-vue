@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import * as echarts from 'echarts';
-import {getCurrentInstance, onMounted, reactive, ref, toRefs} from 'vue';
+import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   props: {
@@ -81,7 +81,7 @@ export default {
         radar: {
           indicator: props.indicatorNameData,
           center: ['50%', '50%'],
-          radius: 80,
+          radius: 60,
           startAngle: props.startAngle,
           splitNumber: 4,
           shape: 'circle',

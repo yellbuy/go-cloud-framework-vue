@@ -36,7 +36,7 @@
             </div>
             <div class="margin-top">
               <Title title="两高"/>
-              <div class="target-content target-container-h5" style="height:calc((100vh - 6rem) / 5 - 2.8rem)">
+              <div class="target-content" style="height:calc((100vh - 6rem) / 5 - 2.8rem)">
                 <el-row>
                   <el-col :span="12">
                     <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 50%',value:0.50}]"
@@ -58,17 +58,17 @@
 
             <div class="margin-top">
               <Title title="村共创完成情况"/>
-              <div class="target-content">
-                <el-row :gutter="2">
-                  <el-col :span="12"
+              <div class="target-content target-container-h2">
+                <el-row>
+                  <el-col :span="24"
                           @Click="onClickTargetDetail('三超指标解读','基本富裕达标户数占比超50%。<br/>全村人均年可支配收入超全市农村人均年可支配收入。<br/>村集体经济稳定收入超20万元。')">
                     <div style="text-align: center;">
-                      <div :style="'min-height:12rem'">
+                      <div>
                         <radarEchart
                             :indicatorNameData="[ { name: '基本富裕户', max: 100 },  { name: '人均可支配收入', max: 100 },  { name: '村集体经\n济收入', max: 100 }]"
                             :series1ValueData="[100,100,100]"
                             :series2ValueData="[20,18,30]"
-                            :startAngle="150" :style="'height:13rem'"></radarEchart>
+                            :startAngle="150" :style="'height:14rem;transform:scale(0.9);'"></radarEchart>
                       </div>
                     </div>
                   </el-col>
@@ -81,8 +81,8 @@
                           :indicatorNameData="[{ name: '产业优', max: 100 },  { name: '环境优', max: 100 },  { name: '文化优', max: 100 },  { name: '服务优', max: 100 }]"
                           :series1ValueData="[100,100,100,100]"
                           :series2ValueData="[56,60,30,75]"
-                          :startAngle="45"
-                          :style="'height:13rem'"></radarEchart>
+                          :startAngle="90"
+                          :style="'height:14rem;width:100%;transform:scale(0.9);'"></radarEchart>
                     </div>
                   </el-col>
                   <el-col :span="12" @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
@@ -90,7 +90,7 @@
                     <div style="text-align: center">
                       <radarEchart :indicatorNameData="[{ name: '组织强', max: 100 },  { name: '治理强', max: 100 }]"
                                    :series1ValueData="[100,100]"
-                                   :series2ValueData="[80,90]" :style="'height:13rem'"></radarEchart>
+                                   :series2ValueData="[80,90]" :style="'height:14rem;width:100%;transform:scale(0.9);'"></radarEchart>
                     </div>
                   </el-col>
                 </el-row>
@@ -192,7 +192,7 @@
                       </el-col>
                       <el-col :span="12">
                         <div class="padding-tb">
-                          <label>全民医疗保险参保率</label>
+                          <label>居民医疗保险参保率</label>
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">98.5%</label><i
                           class="fa fa-arrow-up margin-left-sm margin-right-xs"
@@ -205,7 +205,7 @@
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
                           class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>95%
+                          style="font-size: 1rem; color: lightgreen;"/>100%
                         </div>
                       </el-col>
                       <el-col :span="12">
@@ -277,7 +277,7 @@
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
                           class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>
+                          style="font-size: 1rem; color: lightgreen;"/>100%
                         </div>
                       </el-col>
                       <el-col :span="12">
