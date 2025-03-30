@@ -25,103 +25,127 @@ export default {
       const myChart = echarts.init(state.echart)
       // 指定图表的配置项和数据
       const option = {
-        grid: {
-          show: false,
-          top: '10%',
-          left: '10%',
-          right: '0%',
-          bottom: '15%',
-        },
-        xAxis: {
-          type: 'category',
-          data: props.label,
-          splitLine: {
-            show: false // 隐藏横线
-          },
-          axisLabel: {
-            fontSize: 12,
-            color: '#28A2CE'
-          }
-        },
-        yAxis: {
-          type: 'value',
-          splitLine: {
-            show: false // 隐藏横线
-          },
-          axisLabel: {
-            fontSize: 12,
-            color: '#28A2CE',
-            formatter: '{value}万'
-          }
-        },
-        series: [
-          {
-            type: "pictorialBar",
-            symbolSize: [45, 25],
-            symbolOffset: [0, -10],
-            symbolPosition: "end",
-            itemStyle: {
-              color: "#32dbfc",
-              opacity: 1,
+            grid: {
+              show: false,
+              top: '10%',
+              left: '10%',
+              right: '0%',
+              bottom: '15%',
             },
-            data: props.data,
-          },
-          {
-            data: props.data,
-            type: "pictorialBar",
-            symbolSize: [45, 25],
-            symbolOffset: [0, 10],
-            itemStyle: {
-              color: "#0869cc",
-              opacity: 0.7,
+            xAxis: {
+              type: 'category',
+              data: props.label,
+              splitLine: {
+                show: false // 隐藏横线
+              },
+              axisLabel: {
+                fontSize: 12,
+                color: '#28A2CE'
+              }
             },
-            z: 0,
-          },
-          {
-            type: "bar",
-            barWidth: 45,
-            barGap: "-100%",
-            z: 0,
-            itemStyle: {
-              color: "#128cfc",
-              opacity: 0.7,
+            yAxis: {
+              type: 'value',
+              splitLine: {
+                show: false // 隐藏横线
+              },
+              axisLabel: {
+                fontSize: 12,
+                color: '#28A2CE',
+                formatter: '{value}万'
+              }
             },
-            data: props.data,
-            label: {
-              show: true,
-              color: "#ffffff",
-              fontSize: 12,
-              formatter: '{c}万',
-            },
-            markLine: {
-              data: [
-                {
-                  yAxis: props.markLine[0],
-                  x: 110
+            series: [
+              {
+                type: "pictorialBar",
+                symbolSize: [45, 25],
+                symbolOffset: [0, -10],
+                symbolPosition: "end",
+                itemStyle: {
+                  color: "#32dbfc",
+                  opacity: 1,
                 },
-                {
-                  yAxis: props.markLine[1],
-                  x: 220
+                data: props.data,
+              },
+              {
+                data: props.data,
+                type: "pictorialBar",
+                symbolSize: [45, 25],
+                symbolOffset: [0, 10],
+                itemStyle: {
+                  color: "#0869cc",
+                  opacity: 0.7,
                 },
-                {
-                  yAxis: props.markLine[2],
-                  x: 340
+                z: 0,
+              },
+              {
+                type: "bar",
+                barWidth: 45,
+                barGap: "-100%",
+                z: 0,
+                itemStyle: {
+                  color: "#128cfc",
+                  opacity: 0.7,
+                },
+                data: props.data,
+                label: {
+                  show: true,
+                  color: "#ffffff",
+                  fontSize: 12,
+                  formatter: '{c}万',
+                },
+                markLine: {
+                  data: [
+                    [
+                      {
+                        name: props.markLine[0],
+                        yAxis: props.markLine[0],
+                        x: 70
+                      },
+                      {
+                        yAxis: props.markLine[0],
+                        x: 160
+                      },
+                    ],
+                    [
+                      {
+                        name: props.markLine[1],
+                        yAxis: props.markLine[1],
+                        x: 210
+                      },
+                      {
+                        yAxis: props.markLine[1],
+                        x: 290
+                      },
+                    ],
+                    [
+                      {
+                        name: props.markLine[2],
+                        yAxis: props.markLine[2],
+                        x: 340
+                      },
+                      {
+                        yAxis: props.markLine[2],
+                        x: 430
+                      },
+                    ]
+                  ],
+                  lineStyle: {
+                    color: '#FCAE26FF',
+                    type: 'dashed',
+                    cap: 'round'
+                  },
+                  label: {
+                    position: 'start',
+                    formatter: '{b}万',
+                    color: '#FCAE26FF',
+                    fontSize: 12
+                  },
+                  z: 22
                 }
-              ],
-              lineStyle: {
-                color: '#FCAE26FF'
-              },
-              label: {
-                position: 'start',
-                formatter: '{c}万',
-                color: '#FCAE26FF',
-                fontSize: 12
-              },
-              z: 22
-            }
+              }
+            ]
           }
-        ]
-      };
+      ;
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option)
       window.addEventListener('resize', function () {

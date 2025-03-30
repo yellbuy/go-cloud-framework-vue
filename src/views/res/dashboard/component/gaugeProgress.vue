@@ -16,7 +16,7 @@ export default {
     },
     style: {
       type: String,
-      default: "width:100%;height: 18vh"
+      default: "width:100%;height: 30vh"
     },
     value: {
       type: Number,

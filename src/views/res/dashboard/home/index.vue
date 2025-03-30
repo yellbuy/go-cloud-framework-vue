@@ -19,9 +19,15 @@
         </div>
         <div class="banner-content" style="text-align: right;float:right;">
 
-          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{ curTime }}</b></p>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onGoToLink(`/admin/dashboard/home/detail`)" border="Border4" color="#409EFF">六优指标</dv-button>
-          <dv-button style="display:inline-block;margin-right:10px;" fontSize="12" @click="onClickCountDetail" border="Border4" color="#409EFF">区情介绍</dv-button>
+          <p style="display:inline-block;color:white;margin-left:10px;margin-right:30px;font-size:14pt"><b>{{
+              curTime
+            }}</b></p>
+          <dv-button border="Border4" color="#409EFF"
+                     fontSize="12" style="display:inline-block;margin-right:10px;" @click="onGoToLink(`/admin/dashboard/home/detail`)">六优指标
+          </dv-button>
+          <dv-button border="Border4" color="#409EFF" fontSize="12"
+                     style="display:inline-block;margin-right:10px;" @click="onClickCountDetail">区情介绍
+          </dv-button>
         </div>
       </div>
 
@@ -36,17 +42,13 @@
           <div @click="onClickPleaseWait('乡推进情况查看')" class="target-container-h3 target-content text-center">
             <!-- <rankingCounty/> 3月27日换仪表图-->
             <el-row class="margin-top">
-                <el-col :span="12">
-                    <gaugeProgress  :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
-                    :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.26" text="基本富裕户夯实乡占比" :style="'height:12rem'"/>
-                    <div class="target-text" style="margin-top:-1.5rem">达标乡镇数(3/13)</div>
-                </el-col>
-                <el-col :span="12">
-                    <gaugeProgress :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :axisLabelFontSize="10" :titleFontSize="14" :detailFontSize="18"
-                  :colorTickData="[{name:'目标 50%',value:0.50}]" :value="0.175" text="基本富裕村共创乡达标占比" :style="'height:12rem'"/>
-                  <div class="target-text" style="margin-top:-1.5rem">达标乡镇数(2/13)</div>
-                </el-col>
-              </el-row>
+              <el-col :span="24">
+                <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'',value:0.50}]"
+                               :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
+                               :style="'height:18rem'" :titleFontSize="14" :value="0.26"
+                               text="达标乡镇数(3/12)"/>
+              </el-col>
+            </el-row>
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait('村共创情况查看')">
             <span class="target-title">村共创情况</span>
@@ -125,17 +127,11 @@
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait('重点监测群体查看')">
             <span class="target-title">重点监测群体</span>
-            
+
           </div>
-          <div class="target-content target-container-h3" @click="onClickPleaseWait('重点监测群体查看')">
-            <dv-scroll-board :config="zdjcqtConfig" style="width:100%;height:24.5vh" @click="clickHandler"
-                             @mouseover="mouseoverHandler"/>
-          </div>
-          <div class="target-header margin-top" @click="onClickPleaseWait('“五好”未达标村数查看')">
-            <span class="target-title" style="width:10vw">“五好”不达标村数</span>
-          </div>
-          <div class="target-content target-container-h3" @click="onClickPleaseWait('“五好”未达标村数查看')">
-            <dv-scroll-board :config="whbdbConfig" style="width:100%;height:24.5vh" @click="clickHandler"
+          <div class="target-content target-container-h3" style="height: 57vh"
+               @click="onClickPleaseWait('重点监测群体查看')">
+            <dv-scroll-board :config="zdjcqtConfig" style="width:100%;height:55.5vh" @click="clickHandler"
                              @mouseover="mouseoverHandler"/>
           </div>
         </div>
@@ -177,6 +173,7 @@ import rankingFamily from "../component/rankingFamily.vue";
 import rankingVillage from "../component/rankingVillage.vue";
 import barHuman from "/@/components/barHuman/index.vue";
 import pieEllipse from "/@/components/pieEllipse/index.vue";
+
 export default {
   name: "IndexDashboard",
   components: {
@@ -238,9 +235,9 @@ export default {
       })
     }
     //指标解读
-    const onClickPleaseWait = (name:string="") => {
+    const onClickPleaseWait = (name: string = "") => {
       const html = `请等待，${name}功能正在开发中...`
-      ElMessageBox.alert(html, '温馨提示', {dangerouslyUseHTMLString: true,type: 'info',})
+      ElMessageBox.alert(html, '温馨提示', {dangerouslyUseHTMLString: true, type: 'info',})
     }
 
     //指标解读
@@ -260,27 +257,27 @@ export default {
     const zdjcqtConfig = reactive({
       header: ['乡镇', '重点监测群体', '总数'],
       data: [
-        ['仁和镇', '<span style="color:#32c5e9;">80</span>',26540],
-        ['前进镇', '<span style="color:#9fe6b8;">160</span>',3852],
-        ['平地镇', '<span style="color:#ff9f7f;">90</span>',6500],
-        ['大田镇', '60',3900],
-        ['福田镇', '<span style="color:#e062ae;">75</span>',3600],
-        ['布德镇', '<span style="color:#e7bcf3;">36</span>',6500],
+        ['仁和镇', '<span style="color:#32c5e9;">80</span>', 26540],
+        ['前进镇', '<span style="color:#9fe6b8;">160</span>', 3852],
+        ['平地镇', '<span style="color:#ff9f7f;">90</span>', 6500],
+        ['大田镇', '60', 3900],
+        ['福田镇', '<span style="color:#e062ae;">75</span>', 3600],
+        ['布德镇', '<span style="color:#e7bcf3;">36</span>', 6500],
       ],
       index: true,
       rowNum: 5,
-      columnWidth: [40,120],
-      align: ['center','center','center','center'],
+      columnWidth: [40, 120],
+      align: ['center', 'center', 'center', 'center'],
     })
     //综合帮扶情况配置
     const whbdbConfig = reactive({
       header: ['乡镇', '', '不达标 / 总数'],
       data: [
-        ['仁和镇', '<progress value="3" max="9">60%</progress>','<span style="color:#9fe6b8;">3 / 9</span>'],
+        ['仁和镇', '<progress value="3" max="9">60%</progress>', '<span style="color:#9fe6b8;">3 / 9</span>'],
         ['前进镇', '<progress value="1" max="5">60%</progress>', '<span style="color:#9fe6b8;">1 / 5</span>'],
         ['平地镇', '<progress value="3" max="8">60%</progress>', '3 / 8'],
-        ['大田镇', '<progress value="3" max="9">60%</progress>','3 / 9'],
-        ['福田镇', '<progress value="1" max="6">60%</progress>','1 / 6'],
+        ['大田镇', '<progress value="3" max="9">60%</progress>', '3 / 9'],
+        ['福田镇', '<progress value="1" max="6">60%</progress>', '1 / 6'],
         ['布德镇', '<progress value="1" max="3">60%</progress>', '<span style="color:#e7bcf3;">1 / 3</span>'],
       ],
       index: true,
@@ -288,8 +285,8 @@ export default {
       headerBGC: '#00AA77',
       oddRowBGC: '#002B31',
       evenRowBGC: '#071722',
-      columnWidth: [40,120,180,120],
-      align: ['center','right','left','center','center'],
+      columnWidth: [40, 120, 180, 120],
+      align: ['center', 'right', 'left', 'center', 'center'],
     })
 
     // 页面加载时
@@ -316,24 +313,22 @@ export default {
     display: none;
   }
 }
-progress{
-  width:100%;
-  background-color:rgb(240, 217, 12,0.5);
 
-}
-progress::-webkit-progress-bar
-
-{
-
-background-color:rgba(12, 240, 31, 1);
+progress {
+  width: 100%;
+  background-color: rgb(240, 217, 12, 0.5);
 
 }
 
-progress::-webkit-progress-value
+progress::-webkit-progress-bar {
 
-{
+  background-color: rgba(12, 240, 31, 1);
 
-  background-color:rgb(240, 217, 12,0.5);
+}
+
+progress::-webkit-progress-value {
+
+  background-color: rgb(240, 217, 12, 0.5);
 
 }
 
