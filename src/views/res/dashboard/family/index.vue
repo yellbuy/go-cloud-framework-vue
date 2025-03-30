@@ -114,7 +114,7 @@
         </dv-border-box1>
 
         <div style="width:25%;">
-          <Table :tableDataList="tableDataList"/>
+          <Table :tableDataList="tableDataList" :areaCode="areaCode" :areaName="areaName"/>
         </div>
       </div>
     </dv-full-screen-container>
@@ -124,9 +124,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from "element-plus";
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { ElMessageBox } from "element-plus";
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import radarEchart from "../component/radarEchart.vue";

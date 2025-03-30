@@ -13,7 +13,7 @@
           </thead>
           <tbody>
           <tr v-for="(item,index) in tableDataList"
-              @click="onGoToLink(`/admin/dashboard/family/detail?index=${index}`)">
+              @click="onGoToLink(`/admin/dashboard/family/detail?index=${index}&areaCode=${areaCode}&areaName=${areaName}`)">
             <td>{{ index + 1 }}</td>
             <td>{{ item["县（区）"] }}</td>
             <td>{{ item["乡镇（街道）"] }}</td>
@@ -33,13 +33,15 @@
 
 <script lang="ts">
 
-import {reactive, toRefs} from "vue";
-import {useRouter} from "vue-router";
 import "@/views/res/dashboard/component/scss/box.scss";
+import { reactive, toRefs } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
   props: {
-    tableDataList: Array
+    tableDataList: Array,
+    areaCode:"",
+    areaName:"",
   },
   setup(props) {
     const state: any = reactive({})
