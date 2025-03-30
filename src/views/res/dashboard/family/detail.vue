@@ -95,7 +95,7 @@
                 <div style="margin-left: 2rem;text-align: left"><span>其他：给予帮扶情况其他情况说明</span></div>
               </div>
               <div>
-                <div style="margin-left: 2rem;text-align: left"><span>帮扶人：张三</span></div>
+                <div style="margin-left: 2rem;text-align: left"><span>帮扶责任人：李*江</span></div>
               </div>
             </div>
 
@@ -124,11 +124,11 @@
 
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
-import dayjs from 'dayjs';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
-import Table from "./Table.vue";
 import * as d3 from "d3";
+import dayjs from 'dayjs';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import Table from "./Table.vue";
 
 export default {
   name: "IndexDashboard",

@@ -184,7 +184,9 @@
                         <div class=" padding-tb">
                           <label>学前教育三年毛入园率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label>
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
+                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                          style="font-size: 1rem; color: lightgreen;"/>95%
                         </div>
 
                       </el-col>
@@ -192,21 +194,27 @@
                         <div class="padding-tb">
                           <label>全民医疗保险参保率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">98.5%</label>
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">98.5%</label><i
+                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                          style="font-size: 1rem; color: lightgreen;"/>95%
                         </div>
                       </el-col>
                       <el-col :span="12">
                         <div class="padding-tb">
                           <label>特殊人群医疗保险参保率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label>
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
+                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                          style="font-size: 1rem; color: lightgreen;"/>95%
                         </div>
                       </el-col>
                       <el-col :span="12">
                         <div class="padding-tb">
                           <label>农村客运覆盖率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label>
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
+                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                          style="font-size: 1rem; color: lightgreen;"/>100%
                         </div>
                       </el-col>
                     </el-row>
@@ -222,21 +230,27 @@
                         <div class="padding-tb">
                           <label>自来水普及率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label>
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
+                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                          style="font-size: 1rem; color: lightgreen;"/>95%
                         </div>
                       </el-col>
                       <el-col :span="12">
                         <div class="padding-tb">
                           <label>自然村通硬化路率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">82.6%</label>
+                          <label style="color:orange;font-size: 1.4rem">82.6%</label><i
+                          class="fa fa-arrow-down margin-left-sm margin-right-xs"
+                          style="font-size: 1rem; color: orange;"/>100%
                         </div>
                       </el-col>
                       <el-col :span="12">
                         <div class="padding-tb">
                           <label>卫生厕所达标率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label>
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
+                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                          style="font-size: 1rem; color: lightgreen;"/>100%
                         </div>
                       </el-col>
                     </el-row>
@@ -252,21 +266,27 @@
                         <div class="padding-tb">
                           <label>法律援助率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label>
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
+                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                          style="font-size: 1rem; color: lightgreen;"/>95%
                         </div>
                       </el-col>
                       <el-col :span="12">
                         <div class="padding-tb">
                           <label>雪亮工程覆盖率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label>
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
+                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                          style="font-size: 1rem; color: lightgreen;"/>
                         </div>
                       </el-col>
                       <el-col :span="12">
                         <div class="padding-tb">
                           <label>矛盾纠纷化解率</label>
                           <br><br>
-                          <label style="color:#1AFD9BFF;font-size: 1.4rem">98%</label>
+                          <label style="color:#1AFD9BFF;font-size: 1.4rem">98%</label><i
+                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                          style="font-size: 1rem; color: lightgreen;"/>95%
                         </div>
                       </el-col>
                     </el-row>
@@ -295,9 +315,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from 'element-plus';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { ElMessageBox } from 'element-plus';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";

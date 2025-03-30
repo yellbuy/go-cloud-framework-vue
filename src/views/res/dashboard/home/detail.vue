@@ -78,22 +78,22 @@
               <!-- <dv-capsule-chart :config="msyxConfig" style="width:100%;height:100%" /> -->
               <el-row class="margin-top-xl">
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.4"  text="年收入达20万村占比" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.4"  :style="'height:12rem;'" text="年收入达20万村占比" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.8649" text="全民基本医疗参保率" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.8649" :style="'height:12rem;'" text="全民基本医疗参保率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.613" text="常住人口城镇化率" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.613" :style="'height:12rem;'" text="常住人口城镇化率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.9165" text="普惠性幼⼉园覆盖率" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.9165" :style="'height:12rem;'" text="普惠性幼⼉园覆盖率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="1" text="义务教育⼊学率" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="1" :style="'height:12rem;'" text="义务教育⼊学率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="1" text="进城务工随迁⼦⼥就读率" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="1" :style="'height:12rem;'" text="进城务工随迁⼦⼥就读率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                 </el-row>
             </div>
@@ -116,7 +116,10 @@
                   </el-col>
                   <el-col :span="16" class="text-left ">
                     <div style="font-size:1.5rem">公共文化服务设施面积</div>
-                    <div class="margin-top" style="font-size:1.5rem">每万人<b class="target-value margin-lr" style="color:orange;font-size:2.5rem">735.24</b>平米</div>
+                    <div class="margin-top" style="font-size:1.5rem">每万人<b class="target-value margin-lr-xs" style="color:orange;font-size:2.5rem">735.24</b>
+                      <i
+                          class="fa fa-arrow-down margin-lr-sm"
+                          style="font-size: 1rem; color: orange;"/>830&nbsp;平米</div>
                   </el-col>
                 </el-row>
             </div>

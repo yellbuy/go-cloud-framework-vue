@@ -26,7 +26,7 @@
                     </div>
                     <div style="display:inline-block;" class="margin-sm">
                       <div style="font-size:1rem">农村人口</div>
-                      <div class="margin-top-sm"><b class="target-value" style="color:orange">12.3</b> 万人</div>
+                      <div class="margin-top-sm"><b class="target-value" style="color:red">12.3</b> 万人</div>
                     </div>
                 </div>
               </div>
@@ -41,7 +41,7 @@
                     </div>
                     <div style="display:inline-block;" class="margin-sm">
                       <div style="font-size:1rem">城镇人口</div>
-                      <div class="margin-top-sm"><b class="target-value" style="color:red">14.5</b> 万人</div>
+                      <div class="margin-top-sm"><b class="target-value" style="color:yellow">14.5</b> 万人</div>
                     </div>
                 </div>
               </div>
