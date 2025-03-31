@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="margin-top">
-              <Title title="两高"/>
+              <Title title="两高" @click="onClickTargetDetail('两高解读','基本富裕达标户数占比高于50%。<br/>基本富裕实现村数占比高于75%。')"/>
               <div class="target-content" style="height:calc((100vh - 6rem) / 5 - 2.8rem)">
                 <el-row>
                   <el-col :span="12">
@@ -130,7 +130,18 @@
             </div>
           </el-col>
           <el-col :span="6">
-            <Title title="四化"/>
+            <Title title="四化" @click="onClickTargetDetail('四化解读',`公共服务均等化:幼有善育、学有优教、病有良医、老有康养、住有宜居、弱有帮扶。有一所中小
+学和附属中心幼儿园。乡镇学校教学质量与城区进一步缩小，在编教师本科及以
+上学历与在编教师总数占比达90%，学前教育三年毛入园率达到95%以上，农村
+千人口拥有托育托位数达到3.8个；乡镇卫生院服务能力显著提升，居民医疗保险
+参保率95%以上，特殊人群达100%，适龄妇女“两癌”筛查覆盖率达到52%以上；
+农村客运全覆盖，村村通邮。建有农业社会化服务站。<br/>基础设施一体化:自来水普及率达95%以上、自然村（组）通硬化路率达
+100%，文化健身等基础设施配套完善，公共基础设施管
+理、运行、养护机制健全。生活垃圾收转运处置体系行
+政村覆盖率100%。<br/>乡村治理现代化:社会主义核心价值观深入人心，乡级综治中心规范化
+建设，建有数字乡村平台，实现雪亮工程全覆盖。矛
+盾纠纷妥善化解，自治、法治、德治相结合的治理体
+系基本构建，物质富足、精神富有、乡风文明。<br/>产业发展规模化:产业适度规模化发展`)"/>
             <div class="target-content">
               <div class="margin-top-xs">
                 <div style="color:#3e98f6;font-size: 1.2rem;text-align: center;line-height: 2rem;">产业发展规模化</div>
@@ -240,7 +251,7 @@
                           <label>自然村通硬化路率</label>
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
-                          class="fa fa-arrow-down margin-left-sm margin-right-xs"
+                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
                           style="font-size: 1rem; color: #1AFD9BFF;"/>100%
                         </div>
                       </el-col>
