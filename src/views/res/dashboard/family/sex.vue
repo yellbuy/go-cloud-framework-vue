@@ -7,11 +7,11 @@
       <div>
         <div class="target-content" style="text-align: center;">
           <div style="display: inline-block;" class="margin-lg">
-            <barHuman endColor="blue" height="10rem" progress="49.1%" startColor="lightblue"
-                      text="男：49.1%"></barHuman>
+            <barHuman :progress="man+'%'" :text="'男：'+man" endColor="blue" height="10rem"
+                      startColor="lightblue"/>
           </div>
           <div style="display: inline-block;" class="margin-lg">
-            <barHuman :gender="1" height="10rem" progress="50.9%" text="女：50.9%"></barHuman>
+            <barHuman :gender="1" :progress="woman+'%'" :text="'女：'+woman" height="10rem"/>
           </div>
         </div>
       </div>
@@ -21,12 +21,23 @@
 
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
-import { reactive, toRefs } from 'vue';
+import {reactive, toRefs, watch} from 'vue';
 import barHuman from "/@/components/barHuman/index.vue";
 
 export default {
   components: {barHuman},
-  setup() {
+  props: {
+    man: 0,
+    woman: 0
+  },
+  setup(props) {
+    watch(() => props.man, async (newValue) => {
+      console.log(newValue);
+      props.man = [newValue];
+    });
+    watch(() => props.woman, async (newValue) => {
+      props.woman = [newValue];
+    });
     let state = reactive({})
 
     return {

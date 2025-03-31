@@ -14,14 +14,42 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from 'echarts';
-import {onMounted, reactive, ref, toRefs} from 'vue';
+import {onMounted, reactive, ref, toRefs, watch} from 'vue';
 
 export default {
-  setup() {
+  props: {
+    eighteen: 20,
+    twentyFive: 0,
+    thirtyFive: 30,
+    aboutThi: 0,
+    aboutThiAbove: 0
+  },
+  setup(props) {
     let state = reactive({
       data: [],
       echart: ref(),
     })
+
+    watch(() => props.eighteen, async (newValue) => {
+      props.eighteen = [newValue];
+      setChartOption(myChart);
+    });
+    watch(() => props.twentyFive, async (newValue) => {
+      props.twentyFive = [newValue];
+      setChartOption(myChart);
+    });
+    watch(() => props.thirtyFive, async (newValue) => {
+      props.thirtyFive = [newValue];
+      setChartOption(myChart);
+    });
+    watch(() => props.aboutThi, async (newValue) => {
+      props.aboutThi = [newValue];
+      setChartOption(myChart);
+    });
+    watch(() => props.aboutThiAbove, async (newValue) => {
+      props.aboutThiAbove = [newValue];
+      setChartOption(myChart);
+    });
 
     let myChart: any
     const setChartOption = (chart: any) => {
@@ -49,11 +77,11 @@ export default {
             roseType: 'radius',
             avoidLabelOverlap: false,
             data: [
-              {value: 18.152, name: "18岁以下"},
-              {value: 6.553, name: "18-25岁"},
-              {value: 17.562, name: "26-35岁"},
-              {value: 11.927, name: "36-45岁"},
-              {value: 45.806, name: "45岁以上"}
+              {value: props.eighteen, name: "18岁以下"},
+              {value: props.twentyFive, name: "18-25岁"},
+              {value: props.thirtyFive, name: "26-35岁"},
+              {value: props.aboutThi, name: "36-45岁"},
+              {value: props.aboutThiAbove, name: "45岁以上"}
             ],
             label: { // 图表的标签配置，例如柱状图的标签显示在柱子上方或下方等位置。
               show: true, // 是否显示标签，默认为false。根据需要开启。
@@ -66,6 +94,7 @@ export default {
           }
         ]
       };
+      console.log("props.eighteen", props.eighteen);
       // 使用刚指定的配置项和数据显示图表。
       chart.setOption(option)
     }

@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import * as echarts from 'echarts';
-import { getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import {getCurrentInstance, onMounted, reactive, ref, toRefs, watch} from 'vue';
 
 export default {
   props: {
@@ -55,6 +55,14 @@ export default {
     },
   },
   setup(props) {
+    watch(() => props.series1ValueData, async (newValue) => {
+      props.series1ValueData = [newValue];
+      echartInit();
+    });
+    watch(() => props.series2ValueData, async (newValue) => {
+      props.series2ValueData = [newValue];
+      echartInit();
+    });
     const {proxy} = getCurrentInstance() as any;
     let state = reactive({
       xAxisData: [""],

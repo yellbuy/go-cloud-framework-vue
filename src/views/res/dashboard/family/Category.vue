@@ -1,6 +1,6 @@
 <template>
   <div>
-        <div ref="echart" class="echartDiv"></div>
+    <div ref="echart" class="echartDiv"></div>
   </div>
 </template>
 
@@ -8,16 +8,39 @@
 
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import { onMounted, reactive, ref, toRefs } from "vue";
+import {onMounted, reactive, ref, toRefs, watch} from "vue";
 
 export default {
-  setup() {
+  props: {
+    incomeFromProperty: 0,
+    operationalIncome: 0,
+    incomeFromWageAndSalary: 0,
+    transferIncome: 0,
+  },
+  setup(props) {
     let state = reactive({
       xAxisData: [""],
       yAxisData: [0],
       yAxisSideData: [0],
       echart: ref(),
     })
+    watch(() => props.incomeFromProperty, async (newValue) => {
+      props.incomeFromProperty = [newValue];
+      echartInit();
+    });
+    watch(() => props.operationalIncome, async (newValue) => {
+      props.operationalIncome = [newValue];
+      echartInit();
+    });
+    watch(() => props.incomeFromWageAndSalary, async (newValue) => {
+      props.incomeFromWageAndSalary = [newValue];
+      echartInit();
+    });
+    watch(() => props.transferIncome, async (newValue) => {
+      props.transferIncome = [newValue];
+      echartInit();
+    });
+
     const echartInit = () => {
       const myChart = echarts.init(state.echart)
       // 指定图表的配置项和数据
@@ -38,10 +61,10 @@ export default {
             type: 'pie',
             radius: ['20%', '40%'],
             data: [
-              {value: 3, name: '财产性收入'},
-              {value: 63.1, name: '经营性收入'},
-              {value: 32.2, name: '工资性收入'},
-              {value: 1.7, name: '转移性收入'}
+              {value: props.incomeFromProperty, name: '财产性收入'},
+              {value: props.operationalIncome, name: '经营性收入'},
+              {value: props.incomeFromWageAndSalary, name: '工资性收入'},
+              {value: props.transferIncome, name: '转移性收入'}
             ]
           }
         ]
@@ -55,9 +78,7 @@ export default {
 
     //挂载
     onMounted(async () => {
-
       echartInit();
-
     })
 
     return {
@@ -69,7 +90,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.echartDiv{
-  height:calc(100vh / 3 - 3.6rem)
+.echartDiv {
+  height: calc(100vh / 3 - 3.6rem)
 }
 </style>
