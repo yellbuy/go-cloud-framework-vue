@@ -20,7 +20,7 @@
 		</defs>
 			<!-- <g filter="url(#shadow)"> -->
 			<g>
-				<animateTransform attributeName="transform" type="translate" from="0,640" to="0,0" dur="1s" repeatCount="1"/>
+				<animateTransform attributeName="transform" type="translate" from="0,640" to="0,0" dur="2s" repeatCount="1"/>
 				<g transform="translate(0,120)"> <!-->底部区域<-->
 					<use href="#main" :fill="data && data.length > 0 ? data[0].darkColor:'green'" clip-path="url(#clipBottom)"  />
 					<ellipse cx="320" cy="360" rx="178" ry="40" :fill="data && data.length > 2 ? data[0].lightColor:'lightgreen'" />  <!-->底部剖面<-->

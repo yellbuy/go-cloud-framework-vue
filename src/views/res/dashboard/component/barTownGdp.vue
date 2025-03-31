@@ -238,8 +238,7 @@ export default {
         })
           .encode('x', 'Name')
           .encode('y', '人均可支配收入')
-          .encode('y1', 'Kind')
-          .encode('color', ['Area'])
+          .encode('color', 'Area')
           
           .encode('text', '人均可支配收入')
           .transform({ type: 'dodgeX' })
