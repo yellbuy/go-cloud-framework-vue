@@ -40,7 +40,7 @@ export default {
         },
         series: [
           {
-            name: "年龄占比",
+            name: "产业占比",
             type: 'pie',
             radius: ['50%', '70%'],
             roseType: 'radius',
