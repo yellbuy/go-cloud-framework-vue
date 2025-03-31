@@ -115,11 +115,11 @@
         </div>
 
         <div style="width:25%;">
-          <Table :tableDataList="tableDataList"/>
+          <Table :tableDataList="tableDataList" :areaCode="areaCode" :areaName="areaName"/>
         </div>
       </div>
     </dv-full-screen-container>
-  </div>
+  </div> 
 </template>
 
 <script lang="ts">
