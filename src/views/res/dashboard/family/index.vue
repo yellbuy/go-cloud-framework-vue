@@ -45,7 +45,8 @@
               <span class="target-title">家庭年收入分类</span>
             </div>
             <div class="target-content target-container-h3">
-              <Category/>
+              <Category :incomeFromProperty="mainData['财产性收入']" :incomeFromWageAndSalary="mainData['工资性收入']"
+                        :operationalIncome="mainData['经营性收入']" :transferIncome="mainData['转移性收入']"/>
             </div>
           </div>
 
@@ -56,8 +57,8 @@
             <div class="target-content target-container-h3 padding-top">
               <radarEchart
                   :indicatorNameData="[{name: '住房好', max: 100},{name: '家风好', max: 100},{name: '医疗好', max: 100},{name: '生活好', max: 100},{name: '教育好', max: 100},]"
-                  :series1ValueData="[100,100,100,100,100]"
-                  :series2ValueData="[100, 100, 99.7, 61.8, 98.4]"
+                  :series1ValueData="[mainData['住房好指标'],mainData['家风好指标'],mainData['医疗好指标'],mainData['生活好指标'],mainData['教育好指标']]"
+                  :series2ValueData="[mainData['住房好现状'],mainData['家风好现状'],mainData['医疗好现状'],mainData['生活好现状'],mainData['教育好现状']]"
                   :startAngle="230"
                   :style="'height:16rem;padding-top:2rem'"/>
             </div>
@@ -67,16 +68,18 @@
         <dv-border-box1 style="width:50%;">
           <div class="margin-lr-xl margin-top-xl"
                style="display: flex;flex-direction: row;justify-content: space-between;align-items: flex-end;">
-            <Label :text="'总户数'" :title="mainData['总户数'] "/>
+            <Label :text="'总户数'" :title="mainData['总户数']"/>
             <Label :text="'总人口'" :title="mainData['总人口']"/>
             <Label :color="'#FCAE26FF'" :text="'达标户'" :title="mainData['达标户']"/>
           </div>
           <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
             <div class="margin-top-sm" style="width: 50%;">
-              <sex/>
+              <sex :man="mainData['男性比例']" :woman="mainData['女性比例']"/>
             </div>
             <div class="margin-top-sm" style="width: 50%;">
-              <ProportionOfAgeGroups/>
+              <ProportionOfAgeGroups :aboutThi="mainData['36-45岁']" :aboutThiAbove="mainData['45岁以上']"
+                                     :eighteen="mainData['18-25岁']" :thirtyFive="mainData['26-35岁']"
+                                     :twentyFive="mainData['18岁以下']"/>
             </div>
           </div>
           <div class="margin-lr-lg margin-top-sm">
@@ -97,7 +100,8 @@
                 <span class="target-title">五好指标预警</span>
               </div>
               <div class="target-content target-content-height">
-                <LineGraph/>
+                <LineGraph
+                    :data="[mainData['未买医保'],mainData['D级危房'],mainData['缺水'],mainData['辍学学生']]"/>
               </div>
 
             </div>
@@ -110,7 +114,6 @@
               </div>
             </div>
           </div>
-
         </dv-border-box1>
 
         <div style="width:25%;">
@@ -124,9 +127,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import { ElMessageBox } from "element-plus";
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {ElMessageBox} from "element-plus";
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import radarEchart from "../component/radarEchart.vue";
@@ -173,44 +176,7 @@ export default {
       mainData: {}, //总表数据
       tableDataList: {},
       shyzConfig: {
-        data: [
-          {
-            name: '产业帮扶',
-            value: 67
-          },
-          {
-            name: '就业促进',
-            value: 43
-          },
-          {
-            name: '教育帮扶',
-            value: 15
-          },
-          {
-            name: '医疗救助',
-            value: 1
-          },
-          {
-            name: '住房保障',
-            value: 0
-          },
-          {
-            name: '最低生活保障',
-            value: 10
-          },
-          {
-            name: '临时救助',
-            value: 0
-          },
-          {
-            name: '慈善救助',
-            value: 0
-          },
-          {
-            name: '其他',
-            value: 0
-          },
-        ],
+        data: [],
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
         unit: '人',
         showValue: true,
@@ -296,11 +262,52 @@ export default {
     }
 
     onMounted(async () => {
-      const mainDataList = await d3.csv(`/data/res/family/${areaCode}/总表.csv`);
+      // 暂时不处理分区域
+      // const mainDataList = await d3.csv(`/data/res/family/${areaCode}/总表.csv`);
+      const mainDataList = await d3.csv(`/data/res/family/总表.csv`);
       console.log("mainData:", mainDataList)
       if (mainDataList && mainDataList.length > 0) {
+        console.log(mainDataList[0])
         state.mainData = mainDataList[0];
       }
+      state.shyzConfig.data = [
+        {
+          name: '产业帮扶',
+          value: state.mainData['产业帮扶']
+        },
+        {
+          name: '就业促进',
+          value: state.mainData['就业促进']
+        },
+        {
+          name: '教育帮扶',
+          value: state.mainData['教育帮扶']
+        },
+        {
+          name: '医疗救助',
+          value: state.mainData['医疗救助']
+        },
+        {
+          name: '住房保障',
+          value: state.mainData['住房保障']
+        },
+        {
+          name: '最低生活保障',
+          value: state.mainData['最低生活保障']
+        },
+        {
+          name: '临时救助',
+          value: state.mainData['临时救助']
+        },
+        {
+          name: '慈善救助',
+          value: state.mainData['慈善救助']
+        },
+        {
+          name: '其他',
+          value: state.mainData['其他']
+        },]
+
       state.tableDataList = await d3.csv(`/data/res/family/HSL帮扶户数统计329.csv`);
     })
 

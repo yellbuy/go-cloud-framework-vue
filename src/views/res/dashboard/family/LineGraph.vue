@@ -7,16 +7,24 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from 'echarts';
-import {onMounted, reactive, ref, toRefs} from 'vue';
+import {onMounted, reactive, ref, toRefs, watch} from 'vue';
 
 export default {
-  setup() {
+  props: {
+    data: Array
+  },
+  setup(props) {
     let state = reactive({
       xAxisData: [""],
       yAxisData: [0],
       yAxisSideData: [0],
       echart: ref(),
     })
+    watch(() => props.data, async (newValue) => {
+      props.data = [newValue];
+      echartInit();
+    });
+
     const echartInit = () => {
       const myChart = echarts.init(state.echart)
       // 指定图表的配置项和数据
@@ -24,7 +32,7 @@ export default {
         grid: {
           show: false,
           top: '5%',
-          left: '15%',
+          left: '10%',
           right: '0%',
           bottom: '15%',
         },
@@ -58,7 +66,7 @@ export default {
         },
         series: [
           {
-            data: [4, 0, 0, 0],
+            data: props.data,
             color: '#28A2CE',
             type: 'bar',
             showBackground: true,
@@ -74,13 +82,12 @@ export default {
 
     //挂载
     onMounted(async () => {
-
       echartInit();
     })
 
     return {
       ...toRefs(state),
-      echartInit,
+      echartInit
     }
   },
 }
