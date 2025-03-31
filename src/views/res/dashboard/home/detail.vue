@@ -32,7 +32,7 @@
               <span class="target-title" @click="onClickTargetDetail('经济优建')">经济优建</span>
             </div>
             <div class="target-content target-container-h1 target-text">
-                <el-row class="">
+                <el-row class="" :gutter="6">
                   <el-col :span="24">
                     <barAreaGdp></barAreaGdp>
                   </el-col>
@@ -40,8 +40,11 @@
                    
                     <barPeopleGdp></barPeopleGdp>
                   </el-col>
-                  <el-col :span="24">
+                  <el-col :span="12">
                     <barFamilyGdp></barFamilyGdp>
+                  </el-col>
+                  <el-col :span="12">
+                    <barTownGdp></barTownGdp>
                   </el-col>
                   <el-col :span="24">
                     <barAgricultureGdp></barAgricultureGdp>
@@ -181,6 +184,7 @@ import barCountyShyh from "../component/barCountyShyh.vue";
 import barFamilyGdp from "../component/barFamilyGdp.vue";
 import barPeopleGdp from "../component/barPeopleGdp.vue";
 import barStreet from "../component/barStreet.vue";
+import barTownGdp from "../component/barTownGdp.vue";
 import barCoutyGdp from "../component/barVillageGdp.vue";
 import barVillageInsurance from "../component/barVillageInsurance.vue";
 import flareTarget from "../component/flareTarget.vue";
@@ -215,6 +219,7 @@ export default {
     actVillage,
     barAreaGdp,
     barFamilyGdp,
+    barTownGdp,
     barVillageInsurance,
     pieCoutyGdp,
     rangeVillageGdp,
