@@ -76,7 +76,11 @@
             <div class="target-header">
               <div class="target-title">收入结构分析</div>
             </div>
-            <div class="target-content glt" style=""> 
+            <div class="target-content" style=""> 
+               <pieEllipse></pieEllipse>
+               
+             </div>
+            <!-- <div class="target-content glt" style=""> 
                
               <img src="/img/res/glt.png" width="100%" height="100%" />
               <div style="position:relative;top:-160px;font-size:16px;color:white">
@@ -99,7 +103,7 @@
                 低收入 20%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 低收入 5%
               </div> 
-            </div>
+            </div> -->
             <div class="target-header">
               <div class="target-title" style="width:20vw">基础设施、公共设施补短情况</div>
             </div>
@@ -137,6 +141,7 @@ import flareTarget from "../component/flareTarget.vue";
 import lineFamily from "../component/lineFamily.vue";
 import numberCounty from "../component/numberCounty.vue";
 import pieCoutyGdp from "../component/pieCountyGdp.vue";
+import pieEllipse from "../component/PieEllipse/index.vue";
 import radarCounty from "../component/radarCounty.vue";
 import radarFamily from "../component/radarFamily.vue";
 import radarLgsh from "../component/radarLgsh.vue";
@@ -154,6 +159,7 @@ export default {
     barHuman,
     flareTarget,
     rankingCounty,
+    pieEllipse,
     rankingVillage,
     rankingFamily,
     numberCounty,

@@ -87,23 +87,33 @@
             <span class="target-title">收入结构分析</span>
           </div>
           <div class="target-content target-container-h3" @click="onClickPleaseWait('收入结构分析查看')">
-            <!-- <el-row>
+            <el-row>
               <el-col :span="8">
-                <div :style="'height:25vh;widht:10vh'">
-                  <pieEllipse  :data='[{name:"高收入群体",value:"5%",darkColor:"blue",lightColor:"blue",nameStyle:"fill:#ddd;text-anchor:middle;font-size:16;",valueStyle:"fill:#ddd;text-anchor:start;font-size:16;"}
-			,{name:"中等收入群体",value:"85%",darkColor:"#E6A23C",lightColor:"rgb(237.5, 189.9, 118.5)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:16;",valueStyle:"fill:#ddd;text-anchor:end;font-size:16;"}
-			,{name:"低收入群体",value:"10%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:16;",valueStyle:"fill:#ddd;text-anchor:start;font-size:16;"}]'/>
+                <div style="height:20vh;" >
+                  <pieEllipse style="transform:scale(1.5,1.2);translate(150, 0);" :data='[{name:"低收入群体",value:"48.66%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}
+			,{name:"中等收入群体",value:"50.5%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:end;font-size:36;"}
+			,{name:"高收入群体",value:"0.84%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:36;"}]'/>
                 </div>
-                
+                <div class="margin-right-xl">区</div>
               </el-col>
               <el-col :span="8">
-
+                <div style="height:20vh;" >
+                  <pieEllipse style="transform:scale(1.5,1.2);translate(150, 0);" :data='[{name:"低收入群体",value:"69.49%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}
+			,{name:"中等收入群体",value:"30.41%",darkColor:"#F56C6C",lightColor:"rgb(248, 152.1, 152.1)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:52;",valueStyle:"fill:#bbb;text-anchor:end;font-size:36;"}
+			,{name:"高收入群体",value:"0.15%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}]'/>
+                </div>
+                <div class="margin-right-xl">农村</div>
               </el-col>
               <el-col :span="8">
-
+                <div style="height:20vh;" >
+                  <pieEllipse style="transform:scale(1.5,1.2);translate(150, 0);" :data='[{name:"低收入群体",value:"31.34%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}
+			,{name:"中等收入群体",value:"67.21%",darkColor:"lightgray",lightColor:"white",nameStyle:"fill:#000;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:end;font-size:36;"}
+			,{name:"高收入群体",value:"0.45%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}]'/>
+                </div>
+                <div class="margin-right-xl">城市</div>
               </el-col>
-            </el-row> -->
-            <img height="100%" src="/img/res/glt.png" width="100%"/>
+            </el-row>
+            <!-- <img height="100%" src="/img/res/glt.png" width="100%"/>
             <div style="position:relative;top:-15rem;font-size:1.2rem;color:white;text-align:center">
               区 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               农村&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -123,7 +133,7 @@
               低收入 48.66% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               低收入 69.49%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               低收入 31.34%
-            </div>
+            </div> -->
           </div>
           <div class="target-header margin-top" @click="onClickPleaseWait('重点监测群体查看')">
             <span class="target-title">重点监测群体</span>
