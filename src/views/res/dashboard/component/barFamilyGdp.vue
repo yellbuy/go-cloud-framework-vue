@@ -112,7 +112,7 @@ export default {
             render: (text, datum) => {
               return `
                 <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
-                  ${datum['人均可支配收入']} 万元</span>
+                  ${datum['人均可支配收入']}</span>
                 </div>
               `;
             },
@@ -248,7 +248,7 @@ export default {
             render: (text, datum) => {
               return `
                 <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
-                  ${datum['人均可支配收入']} 万元</span>
+                  ${datum['人均可支配收入']} 万</span>
                 </div>
               `;
             },
