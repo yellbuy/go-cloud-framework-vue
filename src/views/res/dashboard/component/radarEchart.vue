@@ -89,7 +89,7 @@ export default {
         radar: {
           indicator: props.indicatorNameData,
           center: ['50%', '50%'],
-          radius: 60,
+          radius: 80,
           startAngle: props.startAngle,
           splitNumber: 4,
           shape: 'circle',

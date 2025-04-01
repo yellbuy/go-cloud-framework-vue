@@ -95,7 +95,15 @@
                 <div style="margin-left: 2rem;text-align: left"><span>其他：给予帮扶情况其他情况说明</span></div>
               </div>
               <div>
-                <div style="margin-left: 2rem;text-align: left"><span>帮扶责任人：李*江</span></div>
+                <div style="margin-left: 2rem;text-align: left">
+                  <span style="color: #28A2CE">帮扶责任人</span>
+                </div>
+                <div class="margin-top" style="margin-left: 2rem;text-align: left">
+                  <span>李*江</span>
+                </div>
+                <div style="margin-left: 2rem;text-align: left">
+                  <span>133****8935</span>
+                </div>
               </div>
             </div>
 
@@ -119,15 +127,15 @@
         </div>
       </div>
     </dv-full-screen-container>
-  </div> 
+  </div>
 </template>
 
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as d3 from "d3";
 import dayjs from 'dayjs';
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import Table from "./Table.vue";
 
 export default {

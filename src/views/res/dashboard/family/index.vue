@@ -73,13 +73,22 @@
             <Label :color="'#FCAE26FF'" :text="'达标户'" :title="mainData['达标户']"/>
           </div>
           <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
-            <div class="margin-top-sm" style="width: 50%;">
-              <sex :man="mainData['男性比例']" :woman="mainData['女性比例']"/>
+            <div style="width: 50%;">
+              <div class="target-header">
+                <span class="target-title">五好指标预警</span>
+              </div>
+              <div class="target-content target-content-height">
+                <LineGraph
+                    :data="[mainData['未买医保'],mainData['D级危房'],mainData['缺水'],mainData['辍学学生']]"/>
+              </div>
             </div>
-            <div class="margin-top-sm" style="width: 50%;">
-              <ProportionOfAgeGroups :aboutThi="mainData['36-45岁']" :aboutThiAbove="mainData['45岁以上']"
-                                     :eighteen="mainData['18-25岁']" :thirtyFive="mainData['26-35岁']"
-                                     :twentyFive="mainData['18岁以下']"/>
+            <div style="width: 50%;">
+              <div class="target-header">
+                <span class="target-title">帮扶需求</span>
+              </div>
+              <div class="target-content target-content-height">
+                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:24vh;"/>
+              </div>
             </div>
           </div>
           <div class="margin-lr-lg margin-top-sm">
@@ -95,23 +104,13 @@
             </div>
           </div>
           <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
-            <div style="width: 50%;">
-              <div class="target-header">
-                <span class="target-title">五好指标预警</span>
-              </div>
-              <div class="target-content target-content-height">
-                <LineGraph
-                    :data="[mainData['未买医保'],mainData['D级危房'],mainData['缺水'],mainData['辍学学生']]"/>
-              </div>
-
+            <div class="margin-top-sm" style="width: 50%;">
+              <sex :man="mainData['男性比例']" :woman="mainData['女性比例']"/>
             </div>
-            <div style="width: 50%;">
-              <div class="target-header">
-                <span class="target-title">帮扶需求</span>
-              </div>
-              <div class="target-content target-content-height">
-                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:24vh;"/>
-              </div>
+            <div class="margin-top-sm" style="width: 50%;">
+              <ProportionOfAgeGroups :aboutThi="mainData['36-45岁']" :aboutThiAbove="mainData['45岁以上']"
+                                     :eighteen="mainData['18-25岁']" :thirtyFive="mainData['26-35岁']"
+                                     :twentyFive="mainData['18岁以下']"/>
             </div>
           </div>
         </dv-border-box1>

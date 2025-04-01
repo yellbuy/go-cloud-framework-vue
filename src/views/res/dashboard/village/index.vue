@@ -85,24 +85,21 @@
                     <el-row :gutter="10" class="margin">
                       <el-col :span="8">
                         <div>
-                          <text class="margin-sm">一村一民(辅)警</text>
-                          <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
+                          <text class="margin-sm" style="font-size: 1.3rem;">一村一民(辅)警</text>
                           <p>姓名：邓*志</p>
                           <p>职务：民警</p>
                         </div>
                       </el-col>
                       <el-col :span="8">
                         <div>
-                          <text>一村一法律顾问</text>
-                          <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
+                          <text style="font-size: 1.3rem">一村一法律顾问</text>
                           <p>姓名：邓*志</p>
                           <p>职务：顾问</p>
                         </div>
                       </el-col>
                       <el-col :span="8">
                         <div>
-                          <text>专职人民调解员</text>
-                          <img alt="" class="margin-sm" height="160rem;" src="./img/pic.webp" width="120rem;">
+                          <text style="font-size: 1.3rem">专职人民调解员</text>
                           <p>姓名：邓*志</p>
                           <p>职务：调解员</p>
                         </div>
@@ -117,8 +114,6 @@
                   </div>
 
                 </div>
-
-
               </div>
             </div>
 
@@ -170,7 +165,7 @@
                 <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">环境优</div>
                 <div class="target-text target-content">
                   <environmental-excellence :data="[77.1, 100, 100,100, 100]"
-                                            :label="['⾃来⽔', '卫⽣厕所', '⽣活污⽔', '⽣活垃圾', '硬化路率']"
+                                            :label="['⾃来⽔\n普及率', '卫⽣厕所\n普及率', '⽣活污⽔\n有效治理', '⽣活垃圾\n有效处理', '自然村通\n硬化路率']"
                                             :mark-line="0"/>
                 </div>
               </div>
