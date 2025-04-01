@@ -60,7 +60,7 @@ export default {
             symbolOffset: [0, -10],
             symbolPosition: "end",
             itemStyle: {
-              color: "#32dbfc",
+              color: "#80c0cf",
               opacity: 1,
             },
             data: props.data,

@@ -2,6 +2,7 @@
   <div id="flareTarget">
     <div class="flare-container">
       <div class="target-content">
+        <input v-model="input" placeholder="搜索"/>
         <table>
           <thead>
           <th>序号</th>
@@ -34,22 +35,32 @@
 <script lang="ts">
 
 import "@/views/res/dashboard/component/scss/box.scss";
-import { reactive, toRefs } from "vue";
-import { useRouter } from "vue-router";
+import {reactive, toRefs} from "vue";
+import {useRouter} from "vue-router";
+import {Search} from "@element-plus/icons-vue";
 
 export default {
+  computed: {
+    Search() {
+      return Search
+    }
+  },
   props: {
     tableDataList: Array,
-    areaCode:"",
-    areaName:"",
+    areaCode: "",
+    areaName: "",
   },
   setup(props) {
-    const state: any = reactive({})
+    const state: any = reactive({
+      input: ""
+    })
     const router = useRouter();
+
     //导航链接
     const onGoToLink = (url: string) => {
       router.push(url)
     }
+
     return {
       ...toRefs(state),
       onGoToLink
@@ -95,5 +106,18 @@ tr:hover {
 
 td {
   font-size: 1.0rem;
+}
+
+input {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #28A2CE;
+  border: none;
+  padding: 0.5rem;
+  width: 20rem;
+}
+
+input::placeholder {
+  text-align: center;
+  color: #28A2CE;
 }
 </style>
