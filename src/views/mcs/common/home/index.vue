@@ -41,7 +41,7 @@
 				</el-card>
 			</el-col>
 			<el-col :span="4">
-				<el-card shadow="hover" style=" background-color: #E35E00; height: 90px;" @click="toWaybillView">
+				<el-card shadow="hover" style=" background-color: #E35E00; height: 90px;" @click="toVehicleView">
 					<el-row>
 						<el-col :xs="24" :sm="16">
 							<el-row style="font-size: 30px; color: white;">{{homeStat.VehicleInnerStopCount}}</el-row>
@@ -340,8 +340,6 @@
 					<template #header>
 						
 						<!-- <span style="font-size: 12px; color: gray;">(包括已经超期及30日内即将超期)</span> -->
-						
-
 						<el-form ref="searchFormRef" :model="vehicleStopTableData.param" label-suffix="：" label-width="70px" :inline="true">
 						<span style="font-size: 16px;">当日停驶自有车</span>
 						<el-form-item label="维修">
@@ -745,6 +743,17 @@ export default {
 				},
 			});
 		};
+		// 打开车辆管理页面 
+		const toVehicleView = (id: string, ishow: boolean) => {
+			router.push({
+				name: 'api_commoninfo_vehicle',
+				params: {
+					kind: 'freight',
+					scopeMode:0,
+					scopeValue:0,
+				},
+			});
+		};
 
 		//	分页改变
 		const onHandleSizeChange = (val: number, index: number) => {
@@ -839,7 +848,7 @@ export default {
 			toDriverRemind,
 			toInsuranceRemind,
 			toWaybillView,
-			
+			toVehicleView,
 			proxy,
 			getUserInfos,
 			currentTime,
