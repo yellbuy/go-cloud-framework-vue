@@ -35,7 +35,16 @@
               </div>
             </div>
             <div class="margin-top">
-              <Title title="两高" @click="onClickTargetDetail('两高解读','基本富裕达标户数占比高于50%。<br/>基本富裕实现村数占比高于75%。')"/>
+              <el-popover
+                  class="box-item"
+                  content='基本富裕达标户数占比高于50%。基本富裕实现村数占比高于75%。'
+                  placement="top-start"
+              >
+                <template #reference>
+                  <Title title="两高"/>
+                </template>
+              </el-popover>
+
               <div class="target-content" style="height:calc((100vh - 6rem) / 5 - 2.8rem)">
                 <el-row>
                   <el-col :span="12">
@@ -43,14 +52,14 @@
                                    :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
                                    :style="'height:12rem'"
                                    :titleFontSize="14" :value="mainData['基本富裕达标户数占比'] || 0.2755"
-                                   text="共3712户，达标1023户"/>
+                                   text="共3712户，实现1023户"/>
                   </el-col>
                   <el-col :span="12">
                     <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 75%',value:0.75}]"
                                    :colorValueData="[[0.75, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
                                    :style="'height:12rem'"
                                    :titleFontSize="14" :value="mainData['基本富裕实现村数占比'] || 0.16"
-                                   text="共6村，达标1村"/>
+                                   text="共6村，实现1村"/>
                   </el-col>
                 </el-row>
               </div>
@@ -60,15 +69,12 @@
               <Title title="村共创完成情况"/>
               <div class="target-content target-container-h2">
                 <el-row>
-                  <el-col :span="24"
-                          @Click="onClickTargetDetail('三超指标解读','基本富裕达标户数占比超50%。<br/>全村人均年可支配收入超全市农村人均年可支配收入。<br/>村集体经济稳定收入超20万元。')">
+                  <el-col :span="24">
                     <div style="text-align: center;">
                       <div>
-                        <radarEchart
-                            :indicatorNameData="[ { name: '基本富裕户', max: 100 },  { name: '人均可支配收入', max: 100 },  { name: '村集体经\n济收入', max: 100 }]"
-                            :series1ValueData="[100,100,100]"
-                            :series2ValueData="[20,18,30]"
-                            :startAngle="150" :style="'height:14rem;transform:scale(0.9);'"></radarEchart>
+                        <line-chart
+                            :seriesData1="[100, 90, 100]"
+                            :seriesData2="[20, 18, 30]" :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
                       </div>
                     </div>
                   </el-col>
@@ -77,20 +83,17 @@
 <br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
 <br><b>服务优：</b>公共服务保障完善。每个村有1名农村社会化服务协办员，开展农业社会化服务。残疾儿童实现随班就读或送教上门。有家庭医生服务团队。成功创建市级健康村。适龄人员养老保险参保率达95%。`)">
                     <div style="text-align: center">
-                      <radarEchart
-                          :indicatorNameData="[{ name: '产业优', max: 100 },  { name: '环境优', max: 100 },  { name: '文化优', max: 100 },  { name: '服务优', max: 100 }]"
-                          :series1ValueData="[100,100,100,100]"
-                          :series2ValueData="[56,60,30,75]"
-                          :startAngle="90"
-                          :style="'height:14rem;width:100%;transform:scale(0.9);'"></radarEchart>
+                      <line-chart
+                          :seriesData1="[100, 100, 100]"
+                          :seriesData2="[20, 18, 30]" :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
                     </div>
                   </el-col>
                   <el-col :span="12" @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
                   <br/><b>治理强：</b>居民自治体系健全，居民公约完善，自治组织运行有序有效。“四议两公开”规范化建设，一村一民（辅）警，一村一法律顾问。法律公共服务室与法律援助率达100%。矛盾纠纷一站式处理，化解率达95%以上，性质恶劣命案零发生。`)">
                     <div style="text-align: center">
-                      <radarEchart :indicatorNameData="[{ name: '组织强', max: 100 },  { name: '治理强', max: 100 }]"
-                                   :series1ValueData="[100,100]"
-                                   :series2ValueData="[80,90]" :style="'height:14rem;width:100%;transform:scale(0.9);'"></radarEchart>
+                      <line-chart
+                          :seriesData1="[100, 100, 100]"
+                          :seriesData2="[20, 18, 30]" :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
                     </div>
                   </el-col>
                 </el-row>
@@ -100,10 +103,10 @@
           <el-col :span="12">
             <div class="margin-top">
               <div class="text-center">
-                <Label :text="'总户数'" :title="3712" class="margin-lr-xl"/>
-                <Label :color="'#FCAE26FF'" :text="'总人口'" :title="14321" class="margin-lr-xl"/>
                 <Label :color="'#1AFD9BFF'" :text="'总村数'" :title="'6'" class="margin-lr-xl"
                        @click="onClickPleaseWait('查看未达标户数')"/>
+                <Label :text="'总户数'" :title="3712" class="margin-lr-xl"/>
+                <Label :color="'#FCAE26FF'" :text="'总人口'" :title="14321" class="margin-lr-xl"/>
               </div>
             </div>
             <div style="height:calc(57vh - 5.6rem)">
@@ -196,8 +199,8 @@
                           <label>学前教育三年毛入园率</label>
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
-                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>95%
+                            class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                            style="font-size: 1rem; color: lightgreen;"/>95%
                         </div>
 
                       </el-col>
@@ -206,8 +209,8 @@
                           <label>居民医疗保险参保率</label>
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">98.5%</label><i
-                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>95%
+                            class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                            style="font-size: 1rem; color: lightgreen;"/>95%
                         </div>
                       </el-col>
                       <el-col :span="12">
@@ -215,8 +218,8 @@
                           <label>特殊人群医疗保险参保率</label>
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
-                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>100%
+                            class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                            style="font-size: 1rem; color: lightgreen;"/>100%
                         </div>
                       </el-col>
                       <el-col :span="12">
@@ -224,8 +227,8 @@
                           <label>农村客运覆盖率</label>
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
-                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>100%
+                            class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                            style="font-size: 1rem; color: lightgreen;"/>100%
                         </div>
                       </el-col>
                     </el-row>
@@ -242,8 +245,8 @@
                           <label>自来水普及率</label>
                           <br><br>
                           <label style="color:orange;font-size: 1.4rem">82.6%</label><i
-                          class="fa fa-arrow-down margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: orange;"/>95%
+                            class="fa fa-arrow-down margin-left-sm margin-right-xs"
+                            style="font-size: 1rem; color: orange;"/>95%
                         </div>
                       </el-col>
                       <el-col :span="12">
@@ -251,8 +254,8 @@
                           <label>自然村通硬化路率</label>
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
-                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: #1AFD9BFF;"/>100%
+                            class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                            style="font-size: 1rem; color: #1AFD9BFF;"/>100%
                         </div>
                       </el-col>
                       <el-col :span="12">
@@ -260,8 +263,8 @@
                           <label>卫生厕所达标率</label>
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
-                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>100%
+                            class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                            style="font-size: 1rem; color: lightgreen;"/>100%
                         </div>
                       </el-col>
                     </el-row>
@@ -278,8 +281,8 @@
                           <label>法律援助率</label>
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
-                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>100%
+                            class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                            style="font-size: 1rem; color: lightgreen;"/>100%
                         </div>
                       </el-col>
                       <el-col :span="12">
@@ -287,8 +290,8 @@
                           <label>雪亮工程覆盖率</label>
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">100%</label><i
-                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>100%
+                            class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                            style="font-size: 1rem; color: lightgreen;"/>100%
                         </div>
                       </el-col>
                       <el-col :span="12">
@@ -296,8 +299,8 @@
                           <label>矛盾纠纷化解率</label>
                           <br><br>
                           <label style="color:#1AFD9BFF;font-size: 1.4rem">98%</label><i
-                          class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                          style="font-size: 1rem; color: lightgreen;"/>95%
+                            class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                            style="font-size: 1rem; color: lightgreen;"/>95%
                         </div>
                       </el-col>
                     </el-row>
@@ -310,15 +313,6 @@
         </el-row>
       </div>
 
-      <!--      <el-dialog-->
-      <!--          v-model="dialogVisible"-->
-      <!--          title="中心学校"-->
-      <!--          width="500"-->
-      <!--      >-->
-      <!--        <div>占地：200平方米</div>-->
-      <!--        <div>在校学生1000人</div>-->
-      <!--      </el-dialog>-->
-
     </dv-full-screen-container>
   </div>
 </template>
@@ -326,9 +320,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import { ElMessageBox } from 'element-plus';
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {ElMessageBox} from 'element-plus';
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
@@ -337,11 +331,12 @@ import Label1 from "/@/views/res/dashboard/component/Label1.vue";
 import ColumnChart from "/@/views/res/dashboard/street/ColumnChart.vue";
 import OvalShape from "/@/views/res/dashboard/street/OvalShape.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
+import LineChart from "/@/views/res/dashboard/component/LineChart.vue";
 
 export default {
   name: "IndexDashboard",
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: {ColumnChart, OvalShape, Label1, Label, Title, antvImageMap, gaugeProgress, radarEchart},
+  components: {LineChart, ColumnChart, OvalShape, Label1, Label, Title, antvImageMap, gaugeProgress, radarEchart},
   setup() {
     const route = useRoute();
     const router = useRouter();

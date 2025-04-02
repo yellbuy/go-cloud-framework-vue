@@ -39,6 +39,17 @@
             <div>家庭人数：<span>5</span></div>
             <div>联系方式：<span>130****1234</span></div>
           </div>
+          <!-- TODO: 显示身份证号给管理员 -->
+          <div class="dialog_table margin-top-lg">资产情况</div>
+          <div class="target-content">
+            <div class="dialog_body" style="">
+              <div>车辆（辆）：<span>轿车 五菱宏光2021款 1.5L改款 S基本型 液压助力LAR</span></div>
+              <div>商品房（平方米）：<span>120</span></div>
+              <div>自建房（平方米）：<span>120</span></div>
+              <div>承包地：<span>无</span></div>
+              <div>产业：<span>无</span></div>
+            </div>
+          </div>
 
           <div class="dialog_table margin-top-lg">收入情况</div>
           <div class="target-content">
@@ -49,13 +60,8 @@
               <div>转移性收入：<span>¥ 2123.00</span> 元</div>
               <div>经营成本：<span>¥ 20000.00</span> 元</div>
             </div>
-          </div>
-
-          <div class="dialog_table margin-top-lg">资产情况</div>
-          <div class="target-content">
-            <div class="dialog_body" style="">
-              <div>车辆（辆）：<span>1</span></div>
-              <div>商品房（平方米）：<span>120</span></div>
+            <div class="dialog_body margin-bottom" style="">
+              <div>人均收入：<span>¥ 34424.6</span> 元</div>
             </div>
           </div>
 
@@ -70,6 +76,8 @@
             <div>
               <div>教育好</div>
               <div class="margin-top" style="text-align: left"><span>1、适龄儿童1人</span></div>
+              <div style="text-align: left"><span>2、学龄儿童0名</span></div>
+              <div style="text-align: left"><span>3、辍学儿童0名</span></div>
             </div>
             <div>
               <div>医疗好</div>
@@ -80,7 +88,7 @@
               <div class="margin-top" style="text-align: left"><span>1、住房安全</span></div>
             </div>
             <div>
-              <div>家风好</div>
+              <div>无不良记录</div>
               <div class="margin-top" style="text-align: left"><span>1、家庭和美</span></div>
               <div style="text-align: left"><span>2、亲友和睦</span></div>
               <div style="text-align: left"><span>3、遵纪守法</span></div>
@@ -96,13 +104,16 @@
               </div>
               <div>
                 <div style="margin-left: 2rem;text-align: left">
-                  <span style="color: #28A2CE">帮扶责任人</span>
+                  <span style="color: #28A2CE">包联责任人</span>
                 </div>
                 <div class="margin-top" style="margin-left: 2rem;text-align: left">
-                  <span>李*江</span>
+                  <span>姓名：李*江</span>
                 </div>
                 <div style="margin-left: 2rem;text-align: left">
-                  <span>133****8935</span>
+                  <span>电话：133****8935</span>
+                </div>
+                <div style="margin-left: 2rem;text-align: left">
+                  <span>职务：委员</span>
                 </div>
               </div>
             </div>
@@ -235,7 +246,7 @@ export default {
   }
 
   span {
-    color: #14b87a;
+    color: #81b5af;
   }
 
   .dialog_table {
