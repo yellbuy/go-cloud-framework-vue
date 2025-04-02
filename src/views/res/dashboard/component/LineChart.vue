@@ -13,10 +13,11 @@ import {onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   props: {
-    legendData: Array,
     xAxisData: Array,
     seriesData1: Array,
-    seriesData2: Array
+    seriesData2: Array,
+    color1: Array,
+    color2: Array
   },
   setup(props) {
     let state = reactive({
@@ -36,7 +37,7 @@ export default {
           },
         },
         legend: {
-          data: props.legendData || ['指标', '现状'],
+          data: ['目标', '现状'],
           textStyle: {
             color: '#ffffff'
           }
@@ -68,16 +69,18 @@ export default {
         ],
         series: [
           {
-            name: '指标',
+            name: '目标',
             type: 'line',
             areaStyle: {},
-            data: props.seriesData1
+            data: props.seriesData1,
+            color: props.color1 || "#fdffc4"
           },
           {
             name: '现状',
             type: 'line',
             areaStyle: {},
-            data: props.seriesData2
+            data: props.seriesData2,
+            color: props.color2 || "#da8b8b"
           }
         ]
       };

@@ -73,8 +73,9 @@
                     <div style="text-align: center;">
                       <div>
                         <line-chart
-                            :seriesData1="[100, 90, 100]"
-                            :seriesData2="[20, 18, 30]" :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
+                            :seriesData1="[100, 100, 100]"
+                            :seriesData2="[20, 18, 30]"
+                            :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
                       </div>
                     </div>
                   </el-col>
@@ -85,7 +86,10 @@
                     <div style="text-align: center">
                       <line-chart
                           :seriesData1="[100, 100, 100]"
-                          :seriesData2="[20, 18, 30]" :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
+                          :color1="'#dfafaf'"
+                          :color2="'#e13434'"
+                          :seriesData2="[20, 18, 30]"
+                          :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
                     </div>
                   </el-col>
                   <el-col :span="12" @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
@@ -93,7 +97,10 @@
                     <div style="text-align: center">
                       <line-chart
                           :seriesData1="[100, 100, 100]"
-                          :seriesData2="[20, 18, 30]" :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
+                          :color1="'#825bb1'"
+                          :color2="'#a2b5c8'"
+                          :seriesData2="[20, 18, 30]"
+                          :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
                     </div>
                   </el-col>
                 </el-row>
