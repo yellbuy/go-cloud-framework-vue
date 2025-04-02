@@ -222,6 +222,8 @@ export default {
 		const kind = route.params.kind||'info';
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
+		const waybillState = route.query.waybillState===undefined?-1:parseInt(route.query.waybillState?.toString())
+		const certState = route.query.certState===undefined?0:parseInt(route.query.certState?.toString())
 		const moduleKey = `api_commoninfo_vehicle`;
 		const editDlgRef = ref();
 		const childMapDlgRef=ref();
@@ -238,10 +240,10 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
-					waybillState:-1,
+					waybillState:waybillState,
 					isExternal:-1,
 					repairState:-1,
-					certState:0,
+					certState:certState,
 					insuranceState:0,
 					pageNum: 1,
 					pageSize: 20,
