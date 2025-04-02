@@ -708,6 +708,9 @@ export default {
 					scopeMode:0,
 					scopeValue:0,
 				},
+				query: {
+					certState:3,
+				}
 			});
 		};
 		// 打开司机详情
@@ -730,6 +733,9 @@ export default {
 					scopeMode:0,
 					scopeValue:0,
 				},
+				query:{
+					insuranceState:3
+				}
 			});
 		};
 		// 打开运单管理页面
@@ -740,7 +746,7 @@ export default {
 					kind: 'freight',
 					scopeMode:0,
 					scopeValue:0,
-				},
+				}
 			});
 		};
 		// 打开车辆管理页面 
@@ -748,10 +754,13 @@ export default {
 			router.push({
 				name: 'api_commoninfo_vehicle',
 				params: {
-					kind: 'freight',
+					kind: 'info',
 					scopeMode:0,
 					scopeValue:0,
 				},
+				query:{
+					waybillState:0,
+				}
 			});
 		};
 

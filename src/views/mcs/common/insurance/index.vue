@@ -116,10 +116,9 @@ export default {
 		const route = useRoute();
 
 		const kind = route.params.kind;
-
 		const scopeMode = route.params.scopeMode || 0;
-
 		const scopeValue = route.params.scopeValue || 0;
+		const insuranceState = route.query.insuranceState===undefined?0:parseInt(route.query.insuranceState?.toString())
 
 		const moduleKey = `api_baseinfo_vehicle_insurance`;
 
@@ -138,7 +137,7 @@ export default {
 				loading: false,
 				param: {
 					keyword: '',
-					insuranceState:0,
+					insuranceState:insuranceState,
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
