@@ -70,7 +70,7 @@
                style="display: flex;flex-direction: row;justify-content: space-between;align-items: flex-end;">
             <Label :text="'总户数'" :title="mainData['总户数']"/>
             <Label :text="'总人口'" :title="mainData['总人口']"/>
-            <Label :color="'#FCAE26FF'" :text="'达标户'" :title="mainData['达标户']"/>
+            <Label :color="'#FCAE26FF'" :text="'夯实户'" :title="mainData['达标户']"/>
           </div>
           <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
             <div style="width: 50%;">
@@ -78,6 +78,7 @@
                 <span class="target-title">五好指标预警</span>
               </div>
               <div class="target-content target-content-height">
+                <!-- TODO:每个村的预警不一样 -->
                 <LineGraph
                     :data="[mainData['未买医保'],mainData['D级危房'],mainData['缺水'],mainData['辍学学生']]"/>
               </div>
@@ -180,7 +181,8 @@ export default {
         unit: '人',
         showValue: true,
         labelNum: 5,
-        fontSize: 12
+        fontSize: 12,
+        sort: true
       }
     })
     //指标解读
@@ -269,6 +271,7 @@ export default {
         console.log(mainDataList[0])
         state.mainData = mainDataList[0];
       }
+      // TODO: 按数据大小排列
       state.shyzConfig.data = [
         {
           name: '产业帮扶',
@@ -283,16 +286,16 @@ export default {
           value: state.mainData['教育帮扶']
         },
         {
+          name: '最低生活保障',
+          value: state.mainData['最低生活保障']
+        },
+        {
           name: '医疗救助',
           value: state.mainData['医疗救助']
         },
         {
           name: '住房保障',
           value: state.mainData['住房保障']
-        },
-        {
-          name: '最低生活保障',
-          value: state.mainData['最低生活保障']
         },
         {
           name: '临时救助',

@@ -56,9 +56,6 @@
                 <div class="target-text padding-lg target-content" style="text-align: left">
                   <div class="margin-sm">
                     <i class="fa fa-star margin-right-sm" style="color: orange"></i>全省5A先进村党组织<br/>
-                    <div class="text-center margin-top">
-                      党组织<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
-                    </div>
                     <div class="text-center margin-top-xs">
                       党总支<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
                       党支部<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>个
@@ -99,7 +96,7 @@
                       </el-col>
                       <el-col :span="8">
                         <div>
-                          <text style="font-size: 1.3rem">专职人民调解员</text>
+                          <text style="font-size: 1.3rem">人民调解员</text>
                           <p>姓名：邓*志</p>
                           <p>职务：调解员</p>
                         </div>
@@ -122,7 +119,7 @@
             <div class="view-box padding-top-xl margin-lr-xl">
               <Label :text="'总户数'" :title="380"/>
               <Label :text="'总人口'" :title="1527"/>
-              <Label :text="'达标户'" :title="'193'"/>
+              <Label :text="'夯实户'" :title="'193'"/>
               <Label :text="'占比'" :title="'50.79%'"/>
             </div>
             <div class="column-center" style="width: 100%;height:calc(100vh  - 18rem - 21.6rem)">
@@ -130,21 +127,29 @@
             </div>
             <div class="view-box">
               <div class="" style="width:100%">
-                <Title title="三超"/>
+                <el-popover
+                    class="box-item"
+                    content='“⼾夯实”实现⼾占⽐超50%，全村⼈均年可⽀配收⼊超全市农村⼈均年可⽀配收⼊，村集体经济稳定收⼊超20万元'
+                    placement="top-start"
+                >
+                  <template #reference>
+                    <Title title="三超"/>
+                  </template>
+                </el-popover>
                 <div class="target-content">
                   <el-row :gutter="24" class="margin">
                     <el-col :span="12">
                       <div class="text-center">
+                        <text class="target-text">全村人均年可支配收入超全市农村人均年可支配收入</text>
                         <column-chart :data="[2.5, 2.68, 3.24]" :label="['2022年', '2023年', '2024年']"
                                       :mark-line="[2.19,2.30,2.45]"/>
-                        <text class="target-text">全村人均年可支配收入超全市农村人均年可支配收入</text>
                       </div>
                     </el-col>
                     <el-col :span="12">
                       <div class="text-center">
+                        <text class="target-text">村集体经济收入超20万元</text>
                         <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '2024年']"
                                       :mark-line="[20,20,20]"/>
-                        <text class="target-text">村集体经济收入超20万元</text>
                       </div>
                     </el-col>
                   </el-row>
@@ -165,7 +170,7 @@
                 <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">环境优</div>
                 <div class="target-text target-content">
                   <environmental-excellence :data="[77.1, 100, 100,100, 100]"
-                                            :label="['⾃来⽔\n普及率', '卫⽣厕所\n普及率', '⽣活污⽔\n有效治理', '⽣活垃圾\n有效处理', '自然村通\n硬化路率']"
+                                            :label="['⾃来⽔\n普及率', '卫⽣厕所\n普及率', '⽣活污⽔\n集中处理率', '⽣活垃圾收\n转运处置率', '自然村通\n硬化路率']"
                                             :mark-line="0"/>
                 </div>
               </div>
@@ -210,7 +215,7 @@
                 <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">服务优</div>
                 <div class="target-text target-content padding-lg" style="text-align: left">
                   <environmental-excellence :data="[100,99.7, 100]"
-                                            :label="['适龄儿童入学率', '基本医疗保险参保率', '特殊人群']"
+                                            :label="['适龄儿童入学率', '基本医疗保险参保率', '工单办结率']"
                                             :mark-line="0"/>
                 </div>
               </div>

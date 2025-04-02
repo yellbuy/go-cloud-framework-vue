@@ -11,7 +11,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from 'echarts';
-import { onMounted, reactive, ref, toRefs } from 'vue';
+import {onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   setup() {
@@ -46,10 +46,8 @@ export default {
             roseType: 'radius',
             avoidLabelOverlap: false,
             data: [
-              {value: 45, name: "芒果"},
-              {value: 20, name: "石榴"},
-              {value: 20, name: "蔬菜"},
-              {value: 15, name: "肉食"}
+              {value: 28.32, name: "芒果"},
+              {value: 26.14, name: "蔬菜"},
             ],
             label: { // 图表的标签配置，例如柱状图的标签显示在柱子上方或下方等位置。
               show: true, // 是否显示标签，默认为false。根据需要开启。

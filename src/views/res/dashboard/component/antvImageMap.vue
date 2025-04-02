@@ -223,7 +223,8 @@ export default {
   left: 0;
   width: calc(100%);
   height: calc(100vh - 16rem);
+  //height: calc(100%);
   transform: translate(-0%, -0%);
-  z-index: 1110;
+  z-index: -1;
 }
 </style>
