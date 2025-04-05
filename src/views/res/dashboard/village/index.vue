@@ -39,8 +39,19 @@
                 </p>
               </div>
             </div>
+            <div class="column-center" style="width: 100%;height:calc(100vh  - 18rem - 21.6rem)">
+              <antvImageMap :areaCode="areaCode" :center="[500,450]" :zoom="1.5" areaGoTo="village"></antvImageMap>
+            </div>
 
-            <div class="margin-left margin-top">
+          </div>
+          <dv-border-box1 class="view-content content2">
+            <div class="view-box padding-top-xl margin-lr-xl">
+              <Label :text="'总户数'" :title="380"/>
+              <Label :text="'总人口'" :title="1527"/>
+              <Label :text="'夯实户'" :title="'193'"/>
+              <Label :text="'占比'" :title="'50.79%'"/>
+            </div>
+            <div class="margin-left margin-top margin-bottom">
               <Title title="两强"/>
               <div class="target-content">
                 <el-popover
@@ -67,6 +78,7 @@
                   </div>
 
                 </div>
+
                 <div class="margin-top">
                   <el-popover
                       class="box-item"
@@ -113,25 +125,12 @@
                 </div>
               </div>
             </div>
-
-          </div>
-          <dv-border-box1 class="view-content content2">
-            <div class="view-box padding-top-xl margin-lr-xl">
-              <Label :text="'总户数'" :title="380"/>
-              <Label :text="'总人口'" :title="1527"/>
-              <Label :text="'夯实户'" :title="'193'"/>
-              <Label :text="'占比'" :title="'50.79%'"/>
-            </div>
-            <div class="column-center" style="width: 100%;height:calc(100vh  - 18rem - 21.6rem)">
-              <antvImageMap :areaCode="areaCode" :center="[500,410]" :zoom="2" areaGoTo="village"></antvImageMap>
-            </div>
             <div class="view-box">
               <div class="" style="width:100%">
                 <el-popover
                     class="box-item"
                     content='“⼾夯实”实现⼾占⽐超50%，全村⼈均年可⽀配收⼊超全市农村⼈均年可⽀配收⼊，村集体经济稳定收⼊超20万元'
-                    placement="top-start"
-                >
+                    placement="top-start">
                   <template #reference>
                     <Title title="三超"/>
                   </template>
