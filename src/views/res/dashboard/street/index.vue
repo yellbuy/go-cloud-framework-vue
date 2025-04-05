@@ -37,7 +37,7 @@
             <div class="margin-top">
               <el-popover
                   class="box-item"
-                  content='基本富裕达标户数占比高于50%。基本富裕实现村数占比高于75%。'
+                  content='户夯实实现户数占比高于50%。基本富裕实现村数占比高于75%。'
                   placement="top-start"
               >
                 <template #reference>
@@ -75,7 +75,7 @@
                         <line-chart
                             :seriesData1="[100, 100, 100]"
                             :seriesData2="[20, 18, 30]"
-                            :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
+                            :xAxisData="['户夯实实现户', '村集体经济收入', '人均可\n支配收入']"/>
                       </div>
                     </div>
                   </el-col>
@@ -327,18 +327,18 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from 'element-plus';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { ElMessageBox } from 'element-plus';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import Label1 from "/@/views/res/dashboard/component/Label1.vue";
+import LineChart from "/@/views/res/dashboard/component/LineChart.vue";
 import ColumnChart from "/@/views/res/dashboard/street/ColumnChart.vue";
 import OvalShape from "/@/views/res/dashboard/street/OvalShape.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
-import LineChart from "/@/views/res/dashboard/component/LineChart.vue";
 
 export default {
   name: "IndexDashboard",

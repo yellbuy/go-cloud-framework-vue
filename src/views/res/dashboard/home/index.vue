@@ -265,7 +265,7 @@ export default {
     }
     //基础设施补短情况配置 改帮扶统计 继续改重点监测群体
     const zdjcqtConfig = reactive({
-      header: ['乡镇', '低收入群体', '重点监测群体'],
+      header: ['乡镇', '低收入群体（户）', '重点监测群体（户）'],
       data: [
         ['大龙潭彝族乡', '<span style="color:#e7bcf3;">2394</span>', 16],
         ['仁和镇', 6540, '<span style="color:#32c5e9;">80</span>'],
@@ -282,8 +282,8 @@ export default {
       ],
       index: true,
       rowNum: 12,
-      columnWidth: [50, 150],
-      align: ['center', 'center', 'center', 'center'],
+      columnWidth: [40, 115,160,175],
+      align: ['right', 'left', 'center', 'center'],
     })
     //综合帮扶情况配置
     const whbdbConfig = reactive({
