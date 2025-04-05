@@ -9,7 +9,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import {onMounted, reactive, ref, toRefs} from 'vue';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   props: {
@@ -54,15 +54,18 @@ export default {
             boundaryGap: false,
             data: props.xAxisData,
             axisLabel: {
-              color: '#ffffff'
+              color: '#ddd'
             }
           }
         ],
         yAxis: [
           {
             type: 'value',
+            splitLine: { show: true, lineStyle: { type: 'dashed', color: '#f5f5f5' } },
+						axisLine: { show: false },
+						axisTick: { show: false },
             axisLabel: {
-              color: '#ffffff',
+              color: '#ddd',
               formatter: '{value}%'
             }
           }
@@ -71,6 +74,7 @@ export default {
           {
             name: '目标',
             type: 'line',
+            symbolSize: 12,
             areaStyle: {},
             data: props.seriesData1,
             color: props.color1 || "#fdffc4"
@@ -78,6 +82,7 @@ export default {
           {
             name: '现状',
             type: 'line',
+            symbolSize: 12,
             areaStyle: {},
             data: props.seriesData2,
             color: props.color2 || "#da8b8b"
@@ -107,6 +112,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: 20vh;
+  height: 24.4vh;
 }
 </style>
