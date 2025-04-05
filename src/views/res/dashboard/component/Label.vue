@@ -2,13 +2,13 @@
   <div class="flareTarget">
     <div class="label">
       <label :style="{color:color}" style="font-size: 2.5rem">{{ title }}</label>
-      <label :style="{color:color}">{{ text }}</label>
+      <label :style="{color:color}" style="font-size: 1.2rem">{{ text }}</label>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {reactive, toRefs} from "vue";
+import { reactive, toRefs } from "vue";
 
 export default {
   props: {

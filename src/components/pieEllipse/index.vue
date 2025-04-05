@@ -1,6 +1,6 @@
 <template>
-	<div class="pieEllipseContainer" :style="style" style="width: 100%; height: 100%; position: relative;">
-		<svg viewBox="0 0 720 720" style="width: 100%; height: 100%; object-fit: contain;" xmlns="http://www.w3.org/2000/svg">
+	<div class="pieEllipseContainer" :style="style">
+		<svg viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg">
 		<defs>
 			<ellipse id="main" cx="320" cy="300" rx="180" ry="300" /> <!-->椭圆主图<-->
 			<clipPath id="clipBottom">
@@ -21,7 +21,7 @@
 			<!-- <g filter="url(#shadow)"> -->
 			<g>
 				<animateTransform attributeName="transform" type="translate" from="0,640" to="0,0" dur="2s" repeatCount="1"/>
-				<g transform="translate(0,120)"> <!-->底部区域<-->
+				<g transform="translate(0,120)" class="pieEllipseContainer-g"> <!-->底部区域<-->
 					<use href="#main" :fill="data && data.length > 0 ? data[0].darkColor:'green'" clip-path="url(#clipBottom)"  />
 					<ellipse cx="320" cy="360" rx="178" ry="40" :fill="data && data.length > 2 ? data[0].lightColor:'lightgreen'" />  <!-->底部剖面<-->
 					
@@ -30,7 +30,7 @@
 					<text x="320" y="540" dx="0" dy="-5" :style="data && data.length>0?data[0].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>2?data[0].name : '低收入群体'}}</text>	
 				</g>
 					
-					<g transform="translate(0,60)"> <!-->中部区域<-->
+				<g transform="translate(0,60)"  class="pieEllipseContainer-g"> <!-->中部区域<-->
 					<use href="#main" :fill="data && data.length > 1 ? data[1].darkColor:'orange'" clip-path="url(#clipCenter)" /> <!-->中部区域<-->
 					<ellipse cx="320" cy="360" rx="178" ry="40" :fill="data && data.length > 2 ? data[1].darkColor:'orange'" /> <!-->中下剖面<-->  
 					<ellipse cx="320" cy="60" rx="105" ry="40" :fill="data && data.length > 2 ? data[1].lightColor:'yellow'" /> <!-->中上剖面<-->
@@ -40,13 +40,13 @@
 					<text x="320" y="320" dx="0" dy="-5" :style="data && data.length>1?data[1].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>1?data[1].name : '中等收入群体'}}</text>
 				</g>
 					
-				<g> <!-->顶部区域<-->
+				<g class="pieEllipseContainer-g"> <!-->顶部区域<-->
 					<use href="#main" :fill="data && data.length > 2 ? data[2].lightColor:'blue'" clip-path="url(#clipTop)"/> 
 					<ellipse cx="320" cy="60" rx="108" ry="40" :fill="data && data.length > 2 ? data[2].darkColor:'blue'" /> <!-->顶部椭圆<-->
 					
 					<line x1="320" y1="30"  x2="540" y2="30" style="stroke:#ddd;stroke-width:2" ></line>
-					<text x="500" y="30" dy="-5" :style="data && data.length>2?data[2].valueStyle:'fill:#ddd;text-anchor:start;font-size:16;'">{{data && data.length>2?data[2].value : '5%'}}</text>
-					<text x="320" y="30" dx="0" dy="-5" :style="data && data.length>2?data[2].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>2?data[2].name : '高收入群体'}}</text>
+					<text x="500" y="30" dy="30" :style="data && data.length>2?data[2].valueStyle:'fill:#ddd;text-anchor:start;font-size:16;'">{{data && data.length>2?data[2].value : '5%'}}</text>
+					<text x="320" y="30" dx="0" dy="20" :style="data && data.length>2?data[2].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>2?data[2].name : '高收入群体'}}</text>
 				</g> 
 			</g>	
 		</svg>
@@ -94,6 +94,11 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.pieEllipseContainer {
+	.pieEllipseContainer-g{
+		
+	}
+}
 // .pieEllipseContainer {
 //     display: inline-block;
 //     position: relative;

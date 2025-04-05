@@ -34,78 +34,11 @@
                 </div>
               </div>
             </div>
-            <div class="margin-top">
-              <el-popover
-                  class="box-item"
-                  content='户夯实实现户数占比高于50%。基本富裕实现村数占比高于75%。'
-                  placement="top-start"
-              >
-                <template #reference>
-                  <Title title="两高"/>
-                </template>
-              </el-popover>
-
-              <div class="target-content" style="height:calc((100vh - 6rem) / 5 - 2.8rem)">
-                <el-row>
-                  <el-col :span="12">
-                    <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 50%',value:0.50}]"
-                                   :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
-                                   :style="'height:12rem'"
-                                   :titleFontSize="14" :value="mainData['基本富裕达标户数占比'] || 0.2755"
-                                   text="共3712户，实现1023户"/>
-                  </el-col>
-                  <el-col :span="12">
-                    <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 75%',value:0.75}]"
-                                   :colorValueData="[[0.75, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
-                                   :style="'height:12rem'"
-                                   :titleFontSize="14" :value="mainData['基本富裕实现村数占比'] || 0.16"
-                                   text="共6村，实现1村"/>
-                  </el-col>
-                </el-row>
-              </div>
+            <div style="height:calc(57vh - 3.6rem)" class="margin-top-lg">
+              <antvImageMap :areaCode="areaCode" areaGoTo="village" :center="[500,450]" :zoom="2.2"/>
             </div>
 
-            <div class="margin-top">
-              <Title title="村共创完成情况"/>
-              <div class="target-content target-container-h2">
-                <el-row>
-                  <el-col :span="24">
-                    <div style="text-align: center;">
-                      <div>
-                        <line-chart
-                            :seriesData1="[100, 100, 100]"
-                            :seriesData2="[20, 18, 30]"
-                            :xAxisData="['户夯实实现户', '村集体经济收入', '人均可\n支配收入']"/>
-                      </div>
-                    </div>
-                  </el-col>
-                  <el-col :span="12" @Click="onClickTargetDetail('四优指标解读',`<b>产业优：</b>具备至少一个特色富民产业，富民产业产值占产业总产值60%以上。
-                  <br/><b>环境优：</b>生活用水安全稳定，自来水普及率达95%以上，农村卫生厕所普及率达到98%，生活污水得到有效治理，生活垃圾有效运转处置。住房安全，村容村貌整洁，无乱搭乱建，自然村（组）通硬化路率达100%。
-<br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
-<br><b>服务优：</b>公共服务保障完善。每个村有1名农村社会化服务协办员，开展农业社会化服务。残疾儿童实现随班就读或送教上门。有家庭医生服务团队。成功创建市级健康村。适龄人员养老保险参保率达95%。`)">
-                    <div style="text-align: center">
-                      <line-chart
-                          :seriesData1="[100, 100, 100]"
-                          :color1="'#dfafaf'"
-                          :color2="'#e13434'"
-                          :seriesData2="[20, 18, 30]"
-                          :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
-                    </div>
-                  </el-col>
-                  <el-col :span="12" @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
-                  <br/><b>治理强：</b>居民自治体系健全，居民公约完善，自治组织运行有序有效。“四议两公开”规范化建设，一村一民（辅）警，一村一法律顾问。法律公共服务室与法律援助率达100%。矛盾纠纷一站式处理，化解率达95%以上，性质恶劣命案零发生。`)">
-                    <div style="text-align: center">
-                      <line-chart
-                          :seriesData1="[100, 100, 100]"
-                          :color1="'#825bb1'"
-                          :color2="'#a2b5c8'"
-                          :seriesData2="[20, 18, 30]"
-                          :xAxisData="['基本富裕户', '村集体经济收入', '人均可\n支配收入']"/>
-                    </div>
-                  </el-col>
-                </el-row>
-              </div>
-            </div>
+            
           </el-col>
           <el-col :span="12">
             <div class="margin-top">
@@ -116,23 +49,91 @@
                 <Label :color="'#FCAE26FF'" :text="'总人口'" :title="14321" class="margin-lr-xl"/>
               </div>
             </div>
-            <div style="height:calc(57vh - 5.6rem)">
-              <antvImageMap :areaCode="areaCode" areaGoTo="village" :center="[500,450]" :zoom="2.2"/>
-            </div>
+            
             <div class="margin-top">
-              <el-row>
+              <el-row :gutter="10">
                 <el-col :span="12">
-                  <Title title="重点监测群体各村分布户数图"/>
-                  <div class="target-content">
-                    <column-chart :data="[24,16,11,28,35,51]"
-                                  :label="['大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"/>
-                  </div>
+                  <div class="margin-top">
+                      <el-popover
+                          class="box-item"
+                          content='户夯实实现户数占比高于50%。基本富裕实现村数占比高于75%。'
+                          placement="top-start"
+                      >
+                        <template #reference>
+                          <Title title="两高"/>
+                        </template>
+                      </el-popover>
+
+                      <div class="target-content" style="height:calc((100vh - 3.6rem) / 7">
+                        <el-row>
+                          <el-col :span="12">
+                            <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 50%',value:0.50}]"
+                                          :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
+                                          :style="'height:11rem'"
+                                          :titleFontSize="12" :value="mainData['基本富裕达标户数占比'] || 0.2755"
+                                          text="共3712户，夯实户1023户"/>
+                          </el-col>
+                          <el-col :span="12">
+                            <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 75%',value:0.75}]"
+                                          :colorValueData="[[0.75, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
+                                          :style="'height:11rem'"
+                                          :titleFontSize="12" :value="mainData['基本富裕实现村数占比'] || 0.16"
+                                          text="共6村，实现1村"/>
+                          </el-col>
+                        </el-row>
+                      </div>
+                    </div>
+                    <div class="margin-top">
+                      <Title title="重点监测群体各村分布户数图"/>
+                      <div class="target-content target-container-h3">
+                        <column-chart :data="[24,16,11,28,35,51]"
+                                      :label="['大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"/>
+                      </div>
+                    </div>
+                    <div class="margin-top">
+                      <Title title="全乡家庭年收入结构图"/>
+                      <div class="target-content target-container-h3">
+                        <!-- <div class="text-center padding">
+                          <img alt="" class="margin" src="./img/橄榄图.png" style="height:20vh"/>
+                        </div> -->
+                        <div>
+                                <pieEllipse style="height:12vh;transform:scale(0.6,0.5);translate(0, 0);" :data='[{name:"10万以下",value:"30%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}
+                    ,{name:"10万-50万",value:"35.4%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:end;font-size:36;"}
+                    ,{name:"50万以上",value:"0.11%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:36;"}]'/>
+                              </div>
+                      </div>
+                    </div>
                 </el-col>
                 <el-col :span="12">
-                  <Title title="全乡家庭年收入结构图"/>
-                  <div class="target-container-h3 target-content">
-                    <div class="text-center padding">
-                      <img alt="" class="margin" src="./img/橄榄图.png" style="height:20vh"/>
+                  <div class="margin-top">
+                    <Title title="村共创完成情况" @click="onClickPleaseWait('查看未完成村信息')"/>
+                    <div class="target-content">
+                      <div  @Click="onClickTargetDetail('四优指标解读',`<b>产业优：</b>具备至少一个特色富民产业，富民产业产值占产业总产值60%以上。
+                        <br/><b>环境优：</b>生活用水安全稳定，自来水普及率达95%以上，农村卫生厕所普及率达到98%，生活污水得到有效治理，生活垃圾有效运转处置。住房安全，村容村貌整洁，无乱搭乱建，自然村（组）通硬化路率达100%。
+      <br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
+      <br><b>服务优：</b>公共服务保障完善。每个村有1名农村社会化服务协办员，开展农业社会化服务。残疾儿童实现随班就读或送教上门。有家庭医生服务团队。成功创建市级健康村。适龄人员养老保险参保率达95%。`)">
+                        <line-chart
+                                  :seriesData1="[100, 100, 100]"
+                                  :seriesData2="[20, 18, 30]"
+                                  :xAxisData="['户夯实实现户', '村集体经济收入', '人均可支配收入']"/>
+                      </div>
+                      <div @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
+                        <br/><b>治理强：</b>居民自治体系健全，居民公约完善，自治组织运行有序有效。“四议两公开”规范化建设，一村一民（辅）警，一村一法律顾问。法律公共服务室与法律援助率达100%。矛盾纠纷一站式处理，化解率达95%以上，性质恶劣命案零发生。`)">
+                        <line-chart
+                                :seriesData1="[100, 100, 100, 100]"
+                                :color1="'#dfafaf'"
+                                :color2="'#e13434'"
+                                :seriesData2="[60, 56, 75, 30]"
+                                :xAxisData="['产业优', '环境优', '文化优', '服务优']"/>
+                      </div>
+                      <div>
+                        <line-chart
+                                :seriesData1="[100, 100]"
+                                :color1="'#825bb1'"
+                                :color2="'#a2b5c8'"
+                                :seriesData2="[90, 80]"
+                                :xAxisData="['治理强', '组织强']"/>
+                      </div>
                     </div>
                   </div>
                 </el-col>
@@ -170,7 +171,7 @@
                           <div class="margin-tb-xs">产值<label class="margin-lr-sm"
                                                                style="color:#1AFD9BFF;font-size: 1.4rem">1.3亿</label>元
                           </div>
-                          <div class="margin-tb-xs">占比<label class="margin-lr-sm"
+                          <div class="margin-tb-xs">农业产值占比<label class="margin-lr-sm"
                                                                style="color:#1AFD9BFF;font-size: 1.4rem">28.32</label>%
                           </div>
                         </div>
@@ -187,7 +188,7 @@
                           <div class="margin-tb-xs">产值<label class="margin-lr-sm"
                                                                style="color:#1AFD9BFF;font-size: 1.4rem">1.2亿</label>元
                           </div>
-                          <div class="margin-tb-xs">占比<label class="margin-lr-sm"
+                          <div class="margin-tb-xs">农业产值占比<label class="margin-lr-sm"
                                                                style="color:#1AFD9BFF;font-size: 1.4rem">26.14</label>%
                           </div>
                         </div>
@@ -333,17 +334,17 @@ import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
+import pieEllipse from "/@/components/pieEllipse/index.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import Label1 from "/@/views/res/dashboard/component/Label1.vue";
 import LineChart from "/@/views/res/dashboard/component/LineChart.vue";
 import ColumnChart from "/@/views/res/dashboard/street/ColumnChart.vue";
 import OvalShape from "/@/views/res/dashboard/street/OvalShape.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
-
 export default {
   name: "IndexDashboard",
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: {LineChart, ColumnChart, OvalShape, Label1, Label, Title, antvImageMap, gaugeProgress, radarEchart},
+  components: {LineChart, ColumnChart, OvalShape, Label1, pieEllipse, Label, Title, antvImageMap, gaugeProgress, radarEchart},
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -393,7 +394,7 @@ export default {
     }
     //指标解读
     const onClickPleaseWait = (name: string = '') => {
-      const html = `请等待，${name}功能正在开发中...`
+      const html = `此处为${name}功能`
       ElMessageBox.alert(html, '温馨提示', {dangerouslyUseHTMLString: true, type: 'info',})
     }
     const onClickTargetDetail = (title: String, content: String) => {
