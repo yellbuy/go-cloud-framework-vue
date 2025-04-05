@@ -95,22 +95,35 @@
                       <el-col :span="8">
                         <div>
                           <text class="margin-sm" style="font-size: 1.3rem;">一村一民(辅)警</text>
-                          <p>姓名：邓*志</p>
-                          <p>职务：民警</p>
+                          <el-row class="margin-top-sm">
+                            <el-col :span="12" class="text-right">姓名：</el-col>
+                            <el-col :span="12" class="text-left">邓*志</el-col>
+                            <el-col :span="12" class="text-right">职务：</el-col>
+                            <el-col :span="12" class="text-left">民警</el-col>
+                          </el-row>
                         </div>
+                        
                       </el-col>
                       <el-col :span="8">
                         <div>
                           <text style="font-size: 1.3rem">一村一法律顾问</text>
-                          <p>姓名：邓*志</p>
-                          <p>职务：顾问</p>
+                          <el-row class="margin-top-sm">
+                            <el-col :span="12" class="text-right">姓名：</el-col>
+                            <el-col :span="12" class="text-left">邓*志</el-col>
+                            <el-col :span="12" class="text-right">职务：</el-col>
+                            <el-col :span="12" class="text-left">顾问</el-col>
+                          </el-row>
                         </div>
                       </el-col>
                       <el-col :span="8">
                         <div>
                           <text style="font-size: 1.3rem">人民调解员</text>
-                          <p>姓名：邓*志</p>
-                          <p>职务：调解员</p>
+                          <el-row class="margin-top-sm">
+                            <el-col :span="12" class="text-right">姓名：</el-col>
+                            <el-col :span="12" class="text-left">邓*志</el-col>
+                            <el-col :span="12" class="text-right">职务：</el-col>
+                            <el-col :span="12" class="text-left">调解员</el-col>
+                          </el-row>
                         </div>
                       </el-col>
                     </el-row>
@@ -228,8 +241,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import {reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
