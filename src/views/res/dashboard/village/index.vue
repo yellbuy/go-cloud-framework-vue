@@ -129,8 +129,7 @@
                     </el-row>
                     <div class="margin target-text">
                       <div>
-                        化解矛盾纠纷<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">51</label>件
-                        化解率<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">98%</label>
+                        建有村综治室，化解矛盾纠纷<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">51</label>件，化解率<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">98%</label>
                       </div>
                     </div>
                   </div>
