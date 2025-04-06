@@ -33,16 +33,21 @@
 
       <div class="main-rows">
         <div class="main-rows-detail margin-lr-xl">
-          <div class="dialog_table">基本情况</div>
-          <div class="dialog_body target-content">
-            <div>户主：<span>{{ tableData["姓名"] }}</span></div>
-            <div>家庭人数：<span>5</span></div>
-            <div>联系方式：<span>130****1234</span></div>
+          <div class="dialog-title">基本情况</div>
+          <div class="dialog-body">
+            <el-row>
+              <el-col :span="4" class="text-right">户主：</el-col>
+              <el-col :span="4" class="text-left dialog-body-text"><span>{{ tableData["姓名"] }}</span></el-col>
+              <el-col :span="4" class="text-right">家庭人数：</el-col>
+              <el-col :span="4" class="text-left dialog-body-text">5</el-col>
+              <el-col :span="4" class="text-right">联系方式：</el-col>
+              <el-col :span="4" class="text-left dialog-body-text">130****1234</el-col>
+            </el-row>
           </div>
           <!-- TODO: 显示身份证号给管理员 -->
-          <div class="dialog_table margin-top-lg">资产情况</div>
+          <div class="dialog-title margin-top-lg">资产情况</div>
           <div class="target-content">
-            <div class="dialog_body" style="">
+            <div class="dialog-body" style="">
               <div>车辆（辆）：<span>轿车 五菱宏光2021款 1.5L改款 S基本型 液压助力LAR</span></div>
               <div>商品房（平方米）：<span>120</span></div>
               <div>自建房（平方米）：<span>120</span></div>
@@ -51,22 +56,22 @@
             </div>
           </div>
 
-          <div class="dialog_table margin-top-lg">收入情况</div>
+          <div class="dialog-title margin-top-lg">收入情况</div>
           <div class="target-content">
-            <div class="dialog_body margin-bottom" style="">
+            <div class="dialog-body margin-bottom" style="">
               <div>工资性收入：<span>¥ 0.00</span> 元</div>
               <div>经营性收入：<span>¥ 170000.00</span> 元</div>
               <div>财产性收入：<span>¥ 0.00</span> 元</div>
               <div>转移性收入：<span>¥ 2123.00</span> 元</div>
               <div>经营成本：<span>¥ 20000.00</span> 元</div>
             </div>
-            <div class="dialog_body margin-bottom" style="">
+            <div class="dialog-body margin-bottom" style="">
               <div>人均收入：<span>¥ 34424.6</span> 元</div>
             </div>
           </div>
 
-          <div class="dialog_table margin-top-lg">五好情况</div>
-          <div class="dialog_body target-content margin-bottom-lg">
+          <div class="dialog-title margin-top-lg">五好情况</div>
+          <div class="dialog-body target-content margin-bottom-lg">
             <div>
               <div>生活好</div>
               <div class="margin-top" style="text-align: left"><span>1、1人购买养老保险</span></div>
@@ -95,9 +100,9 @@
             </div>
           </div>
 
-          <div class="dialog_table margin-top-lg">帮扶需求</div>
+          <div class="dialog-title margin-top-lg">帮扶需求</div>
           <div class="target-content margin-bottom-lg">
-            <div class="dialog_body" style="flex-direction: row;">
+            <div class="dialog-body" style="flex-direction: row;">
               <div>
                 <div style="margin-left: 2rem;text-align: left"><span>教育帮扶、医疗救助</span></div>
                 <div style="margin-left: 2rem;text-align: left"><span>其他：给予帮扶情况其他情况说明</span></div>
@@ -118,14 +123,14 @@
               </div>
             </div>
 
-            <div class="dialog_body" style="justify-content: space-between">
+            <div class="dialog-body" style="justify-content: space-between">
               <div style="flex: 1;margin-right: 1rem">
-                <div class="dialog_table margin-bottom-lg">匹配政策</div>
+                <div class="dialog-title margin-bottom-lg">匹配政策</div>
                 <div style="margin-left: 2rem"><span>《教育帮扶政策》</span></div>
                 <div style="margin-left: 2rem"><span>《医疗救助政策》</span></div>
               </div>
               <div style="flex: 1">
-                <div class="dialog_table margin-bottom-lg">政策落实情况</div>
+                <div class="dialog-title margin-bottom-lg">政策落实情况</div>
                 <div style="margin-left: 2rem"><span>已落实</span></div>
               </div>
             </div>
@@ -145,8 +150,8 @@
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as d3 from "d3";
 import dayjs from 'dayjs';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Table from "./Table.vue";
 
 export default {
@@ -217,10 +222,10 @@ export default {
 #data-view {
   width: 100%;
   height: 100%;
-  color: #000;
-
+  color: #0d0d45;
+  background-image: url("./img/bg_3.png");
   #dv-full-screen-container {
-    background-image: none;
+    background-image: url("./img/bg_3.png");
     background-color: #0d0d45;
     background-size: 100% 100%;
   }
@@ -231,28 +236,27 @@ export default {
   color: #28A2CE;
 
 
-  .dialog_body {
+  .dialog-body {
     padding: 1rem 0;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
     background-color: rgba(0, 19, 55, 0.47);
-
+    .dialog-body-text {
+      color:rgb(248,248,0);
+    }
+    span {
+      color: rgb(248,248,0);
+    }
     div {
       font-size: 1.2rem;
     }
   }
 
-  span {
-    color: #81b5af;
-  }
+  
 
-  .dialog_table {
+  .dialog-title {
     width: 100%;
     height: 3rem;
-    background: #03205c;
+    background-color: rgb(2,30,93);
+    color: rgb(39,159,204);
     font-size: 1.5rem;
     text-align: center;
     line-height: 3rem;
