@@ -56,28 +56,6 @@ export default {
             },
             series: [
               {
-                type: "pictorialBar",
-                symbolSize: [45, 25],
-                symbolOffset: [0, -10],
-                symbolPosition: "end",
-                itemStyle: {
-                  color: "#80c0cf",
-                  opacity: 1,
-                },
-                data: props.data,
-              },
-              {
-                data: props.data,
-                type: "pictorialBar",
-                symbolSize: [45, 25],
-                symbolOffset: [0, 10],
-                itemStyle: {
-                  color: "#0869cc",
-                  opacity: 0.7,
-                },
-                z: 0,
-              },
-              {
                 type: "bar",
                 barWidth: 45,
                 barGap: "-100%",
@@ -90,11 +68,11 @@ export default {
                 label: {
                   show: true,
                   color: "#ffffff",
-                  distance:10,
+                  distance: 10,
                   fontSize: 12,
                   position: 'top',
                   formatter: '{c}万',
-                  z:10000,
+                  z: 10000,
                 },
                 markLine: {
                   data: [
@@ -102,33 +80,39 @@ export default {
                       {
                         name: props.markLine[0],
                         yAxis: props.markLine[0],
-                        x: 70
+                        x: 85,
+                        symbol: ""
                       },
                       {
                         yAxis: props.markLine[0],
-                        x: 160
+                        x: 130,
+                        symbol: ""
                       },
                     ],
                     [
                       {
                         name: props.markLine[1],
                         yAxis: props.markLine[1],
-                        x: 210
+                        x: 218,
+                        symbol: ""
                       },
                       {
                         yAxis: props.markLine[1],
-                        x: 290
+                        x: 262,
+                        symbol: ""
                       },
                     ],
                     [
                       {
                         name: props.markLine[2],
                         yAxis: props.markLine[2],
-                        x: 340
+                        x: 348,
+                        symbol: ""
                       },
                       {
                         yAxis: props.markLine[2],
-                        x: 430
+                        x: 392,
+                        symbol: ""
                       },
                     ]
                   ],

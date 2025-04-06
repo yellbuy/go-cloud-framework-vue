@@ -51,7 +51,7 @@
               <Label :text="'夯实户'" :title="'193'"/>
               <Label :text="'占比'" :title="'50.79%'"/>
             </div>
-            <div class="margin-left margin-top margin-bottom">
+            <div class="margin-left margin-right margin-top margin-bottom">
               <Title title="两强"/>
               <div class="target-content">
                 <el-popover
@@ -71,9 +71,14 @@
                       党总支<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
                       党支部<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>个
                     </div>
-                    <div class="text-center margin-tb-lg">
+                    <div class="text-center">
                       党员<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">55</label>人
-                      党代表<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>人
+                      市党代表<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">6</label>人
+                      区党代表<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>人
+                    </div>
+                    <div class="text-center margin-tb-lg">
+                      “三个身边”群众工作机制反映问题办结率<label class="margin-xs"
+                                                                 style="color:#1AFD9BFF;font-size: 1.4rem">95</label>%
                     </div>
                   </div>
 
@@ -102,7 +107,7 @@
                             <el-col :span="12" class="text-left">民警</el-col>
                           </el-row>
                         </div>
-                        
+
                       </el-col>
                       <el-col :span="8">
                         <div>
@@ -129,7 +134,9 @@
                     </el-row>
                     <div class="margin target-text">
                       <div>
-                        建有村综治室，化解矛盾纠纷<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">51</label>件，化解率<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">98%</label>
+                        建有村综治室，化解矛盾纠纷<label class="margin-xs"
+                                                        style="color:#1AFD9BFF;font-size: 1.4rem">51</label>件，化解率<label
+                          class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">98%</label>
                       </div>
                     </div>
                   </div>
@@ -138,7 +145,7 @@
               </div>
             </div>
             <div class="view-box">
-              <div class="" style="width:100%">
+              <div class="margin-left margin-right" style="width:100%;">
                 <el-popover
                     class="box-item"
                     content='“⼾夯实”实现⼾占⽐超50%，全村⼈均年可⽀配收⼊超全市农村⼈均年可⽀配收⼊，村集体经济稳定收⼊超20万元'
@@ -152,8 +159,10 @@
                     <el-col :span="12">
                       <div class="text-center">
                         <text class="target-text">全村人均年可支配收入超全市农村人均年可支配收入</text>
-                        <column-chart :data="[2.5, 2.68, 3.24]" :label="['2022年', '2023年', '2024年']"
+                        <column-chart :data="[2.5, 2.68, 3.24]" :label="['2022年</text>\n'+
+'                      </', '2023年', '2024年']"
                                       :mark-line="[2.19,2.30,2.45]"/>
+                        <text class="target-text">农村人均年可支配收入</text>
                       </div>
                     </el-col>
                     <el-col :span="12">
@@ -161,6 +170,7 @@
                         <text class="target-text">村集体经济收入超20万元</text>
                         <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '2024年']"
                                       :mark-line="[20,20,20]"/>
+                        <text class="target-text">村集体经济收入</text>
                       </div>
                     </el-col>
                   </el-row>
@@ -226,7 +236,7 @@
                 <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">服务优</div>
                 <div class="target-text target-content padding-lg" style="text-align: left">
                   <environmental-excellence :data="[100,99.7, 100]"
-                                            :label="['适龄儿童入学率', '基本医疗保险参保率', '工单办结率']"
+                                            :label="['学前教育三\n年⽑⼊园率', '基本养老保\n险参保率', '基本医疗保\n险参保率']"
                                             :mark-line="0"/>
                 </div>
               </div>
@@ -240,8 +250,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
