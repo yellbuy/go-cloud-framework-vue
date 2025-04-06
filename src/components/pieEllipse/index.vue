@@ -21,16 +21,16 @@
 			<!-- <g filter="url(#shadow)"> -->
 			<g>
 				<animateTransform attributeName="transform" type="translate" from="0,640" to="0,0" dur="2s" repeatCount="1"/>
-				<g transform="translate(0,120)" class="pieEllipseContainer-g"> <!-->底部区域<-->
+				<g transform="translate(0,120)" class="pieEllipseContainer-g" @click="handleClick(0,data && data.length > 0 ?data[0]:null)"> <!-->底部区域<-->
 					<use href="#main" :fill="data && data.length > 0 ? data[0].darkColor:'green'" clip-path="url(#clipBottom)"  />
 					<ellipse cx="320" cy="360" rx="178" ry="40" :fill="data && data.length > 2 ? data[0].lightColor:'lightgreen'" />  <!-->底部剖面<-->
 					
 					<line x1="320" y1="540"  x2="540" y2="540" style="stroke:#ddd;stroke-width:2"></line>   
-					<text x="500" y="540" dy="-5" :style="data && data.length>0?data[0].valueStyle:'fill:#ddd;text-anchor:start;font-size:16;'" >{{data && data.length>0?data[0].value : '10%'}}</text>
-					<text x="320" y="540" dx="0" dy="-5" :style="data && data.length>0?data[0].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>2?data[0].name : '低收入群体'}}</text>	
+					<text x="500" y="540" dy="-5"  :style="data && data.length>0?data[0].valueStyle:'fill:#ddd;text-anchor:start;font-size:16;'" >{{data && data.length>0?data[0].value : '10%'}}</text>
+					<text x="320" y="540" dx="0"  dy="-5" :style="data && data.length>0?data[0].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>2?data[0].name : '低收入群体'}}</text>	
 				</g>
 					
-				<g transform="translate(0,60)"  class="pieEllipseContainer-g"> <!-->中部区域<-->
+				<g transform="translate(0,60)" class="pieEllipseContainer-g" @click="handleClick(1,data && data.length > 1 ?data[2]:null)"> <!-->中部区域<-->
 					<use href="#main" :fill="data && data.length > 1 ? data[1].darkColor:'orange'" clip-path="url(#clipCenter)" /> <!-->中部区域<-->
 					<ellipse cx="320" cy="360" rx="178" ry="40" :fill="data && data.length > 2 ? data[1].darkColor:'orange'" /> <!-->中下剖面<-->  
 					<ellipse cx="320" cy="60" rx="105" ry="40" :fill="data && data.length > 2 ? data[1].lightColor:'yellow'" /> <!-->中上剖面<-->
@@ -40,7 +40,7 @@
 					<text x="320" y="320" dx="0" dy="-5" :style="data && data.length>1?data[1].nameStyle:'fill:#ddd;text-anchor:middle;font-size:16;'">{{data && data.length>1?data[1].name : '中等收入群体'}}</text>
 				</g>
 					
-				<g class="pieEllipseContainer-g"> <!-->顶部区域<-->
+				<g class="pieEllipseContainer-g" @click="handleClick(2,data && data.length > 2 ?data[2]:null)"> <!-->顶部区域<-->
 					<use href="#main" :fill="data && data.length > 2 ? data[2].lightColor:'blue'" clip-path="url(#clipTop)"/> 
 					<ellipse cx="320" cy="60" rx="108" ry="40" :fill="data && data.length > 2 ? data[2].darkColor:'blue'" /> <!-->顶部椭圆<-->
 					
@@ -55,6 +55,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
+
 export default defineComponent({
 	name: 'pieEllipse',
 	props: {
@@ -73,6 +74,10 @@ export default defineComponent({
 		
 	},
 	setup(props, { emit }) {
+		// 触发事件
+		const handleClick = (index,data) => {
+			emit('click', { index,data });
+		};
 		// function resizeSVG() {
 		// 	const svg = document.querySelector('svg');
 		// 	const container = document.getElementById('pieEllipseContainer');
@@ -88,6 +93,7 @@ export default defineComponent({
 			// resizeSVG(); // 初始时也调用一次以设置初始大小
 		});
 		return {
+			handleClick
 		};
 	},
 });
@@ -96,7 +102,13 @@ export default defineComponent({
 <style scoped lang="scss">
 .pieEllipseContainer {
 	.pieEllipseContainer-g{
-		
+		cursor:pointer;
+		:hover {
+            color: white;              /* 文字颜色变化 */
+            //transform: scale(1.2);     /* 缩放效果 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+			font-weight: 800;
+		}
 	}
 }
 // .pieEllipseContainer {

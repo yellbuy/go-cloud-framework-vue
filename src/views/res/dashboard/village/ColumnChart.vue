@@ -9,7 +9,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import {onMounted, reactive, ref, toRefs} from 'vue';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   props: {
@@ -30,7 +30,7 @@ export default {
               top: '10%',
               left: '10%',
               right: '0%',
-              bottom: '15%',
+              bottom: '10%',
             },
             xAxis: {
               type: 'category',
@@ -80,12 +80,12 @@ export default {
                       {
                         name: props.markLine[0],
                         yAxis: props.markLine[0],
-                        x: 85,
+                        x: 190,
                         symbol: ""
                       },
                       {
                         yAxis: props.markLine[0],
-                        x: 130,
+                        x: 260,
                         symbol: ""
                       },
                     ],
@@ -93,12 +93,12 @@ export default {
                       {
                         name: props.markLine[1],
                         yAxis: props.markLine[1],
-                        x: 218,
+                        x: 460,
                         symbol: ""
                       },
                       {
                         yAxis: props.markLine[1],
-                        x: 262,
+                        x: 530,
                         symbol: ""
                       },
                     ],
@@ -106,12 +106,12 @@ export default {
                       {
                         name: props.markLine[2],
                         yAxis: props.markLine[2],
-                        x: 348,
+                        x: 720,
                         symbol: ""
                       },
                       {
                         yAxis: props.markLine[2],
-                        x: 392,
+                        x: 790,
                         symbol: ""
                       },
                     ]
@@ -157,6 +157,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: 20vh;
+  height: 18vh;
 }
 </style>

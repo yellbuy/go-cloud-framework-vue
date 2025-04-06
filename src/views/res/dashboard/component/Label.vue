@@ -1,8 +1,8 @@
 <template>
   <div class="flareTarget">
     <div class="label">
-      <label :style="{color:color}" style="font-size: 2.5rem">{{ title }}</label>
-      <label :style="{color:color}" style="font-size: 1.2rem">{{ text }}</label>
+      <label :style="{color:color}" style="font-size: 2.2rem">{{ title }}</label>
+      <label :style="{color:color}" style="font-size: 1.1rem">{{ text }}</label>
     </div>
   </div>
 </template>

@@ -7,7 +7,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from 'echarts';
-import {onMounted, reactive, ref, toRefs, watch} from 'vue';
+import { onMounted, reactive, ref, toRefs, watch } from 'vue';
 
 export default {
   props: {
@@ -44,12 +44,12 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: ['未买医保', 'D级危房', '缺水', '辍学学生'],
+          data: ['未买医保\n（人）', 'D级危房\n（户）', '缺水\n（户）', '辍学学生\n（人）'],
           splitLine: {
             show: false // 隐藏横线
           },
           axisLabel: {
-            fontSize: 15,
+            fontSize: 14,
             color: '#28A2CE'
           }
         },
@@ -61,7 +61,7 @@ export default {
           axisLabel: {
             fontSize: 13,
             color: '#28A2CE',
-            formatter: '{value}人'
+            formatter: '{value}'
           }
         },
         series: [

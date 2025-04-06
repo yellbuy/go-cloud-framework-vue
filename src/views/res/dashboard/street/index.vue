@@ -26,16 +26,16 @@
         <el-row :gutter="10">
           <el-col :span="6">
             <Title title="乡情介绍"/>
-            <div class="target-content target-container-h3">
+            <div class="target-content target-container-h2">
               <div class="target-text">
-                <div class="margin text-left" style="font-size:1.3rem">
+                <div class="margin text-left" style="text-align: left;font-size:1.5rem;line-height: 2.8rem;">
                   大龙潭彝族乡为彝、汉族杂居的民族乡。最高海拔2105米，最低海拔970米，乡境内多为山地，立体气候明显，属南亚热带半干旱季风气候，年平均气温20.5℃，年降雨量800毫米，无霜期长达350天左右。辖区面积242.8平方公里，下辖裕民村、拉鲊村、新街村、干坝子村、大龙潭村、混撒拉村6个行政村，共55个村民小组，常住人口3712户14321人。
                   <!--                  {{ mainData['乡情介绍'] || areaName }}-->
                 </div>
               </div>
             </div>
-            <div style="height:calc(57vh - 3.6rem)" class="margin-top-lg">
-              <antvImageMap :areaCode="areaCode" areaGoTo="village" :center="[500,450]" :zoom="2.2"/>
+            <div class="margin-top-lg">
+              <antvImageMap :areaCode="areaCode" areaGoTo="village" :center="[500,480]" :zoom="2.2"/>
             </div>
 
             

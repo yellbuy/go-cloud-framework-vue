@@ -34,8 +34,12 @@
             </div>
 
             <div class="target-container-h3 target-content">
-              <div class="text-center padding">
-                <img alt="" class="margin" src="./img/橄榄图.png" style="height:20vh"/>
+              <div class="text-center">
+                <pieEllipse style="height:10vh;transform:scale(0.6,0.45) translate(0, 0);" :data='[{name:"10万以下",value:"30%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}
+                    ,{name:"10万-50万",value:"69.7%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:end;font-size:36;"}
+                    ,{name:"50万以上",value:"0.3%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:36;"}]'/>
+<!-- 
+                <img alt="" class="margin" src="./img/橄榄图.png" style="height:20vh"/> -->
               </div>
             </div>
           </div>
@@ -72,26 +76,29 @@
             <Label :text="'总人口'" :title="mainData['总人口']"/>
             <Label :color="'#FCAE26FF'" :text="'夯实户'" :title="mainData['达标户']"/>
           </div>
-          <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
-            <div style="width: 50%;">
-              <div class="target-header">
-                <span class="target-title">五好指标预警</span>
-              </div>
-              <div class="target-content target-content-height">
-                <!-- TODO:每个村的预警不一样 -->
-                <LineGraph
-                    :data="[mainData['未买医保'],mainData['D级危房'],mainData['缺水'],mainData['辍学学生']]"/>
-              </div>
-            </div>
-            <div style="width: 50%;">
-              <div class="target-header">
-                <span class="target-title">帮扶需求</span>
-              </div>
-              <div class="target-content target-content-height">
-                <dv-capsule-chart :config="shyzConfig" style="width:100%;height:24vh;"/>
-              </div>
-            </div>
+          <div class="margin">
+            <el-row :gutter="10">
+              <el-col :span="12">
+                <div class="target-header">
+                  <span class="target-title">五好指标预警</span>
+                </div>
+                <div class="target-content target-content-height">
+                  <!-- TODO:每个村的预警不一样 -->
+                  <LineGraph
+                      :data="[mainData['未买医保']||0,mainData['D级危房']||0,mainData['缺水']||0,mainData['辍学学生']||0]"/>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <div class="target-header">
+                  <span class="target-title">帮扶需求</span>
+                </div>
+                <div class="target-content target-content-height">
+                  <dv-capsule-chart :config="shyzConfig" style="width:100%;height:24vh;"/>
+                </div>
+              </el-col>
+            </el-row>
           </div>
+         
           <div class="margin-lr-lg margin-top-sm">
             <div class="target-header">
               <span class="target-title">主要监测群体</span>
@@ -109,9 +116,9 @@
               <sex :man="mainData['男性比例']" :woman="mainData['女性比例']"/>
             </div>
             <div class="margin-top-sm" style="width: 50%;">
-              <ProportionOfAgeGroups :aboutThi="mainData['36-45岁']" :aboutThiAbove="mainData['45岁以上']"
-                                     :eighteen="mainData['18-25岁']" :thirtyFive="mainData['26-35岁']"
-                                     :twentyFive="mainData['18岁以下']"/>
+              <ProportionOfAgeGroups :aboutThiAbove="mainData['60岁以上']||20.5"
+                                     :aboutThi="mainData['36-60岁']||48" :thirtyFive="mainData['16-35岁']||22"
+                                     :eighteen="mainData['16岁以下']||10.5"/>
             </div>
           </div>
         </dv-border-box1>
@@ -127,9 +134,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from "element-plus";
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { ElMessageBox } from "element-plus";
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import radarEchart from "../component/radarEchart.vue";
@@ -137,15 +144,16 @@ import Category from "./Category.vue";
 import LineGraph from "./LineGraph.vue";
 import ProportionOfAgeGroups from "./ProportionOfAgeGroups.vue";
 import Table from "./Table.vue";
+import pieEllipse from "/@/components/pieEllipse/index.vue";
 import MainMonitoring from "/@/views/res/dashboard/family/MainMonitoring.vue";
 import Sex from "/@/views/res/dashboard/family/sex.vue";
-
 export default {
   name: "IndexDashboard",
   components: {
     Sex,
     MainMonitoring,
     ProportionOfAgeGroups,
+    pieEllipse,
     Category,
     // eslint-disable-next-line vue/no-reserved-component-names,vue/no-unused-components
     Table,
