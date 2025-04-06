@@ -30,45 +30,143 @@
           </dv-button>
         </div>
       </div>
-
-      <div class="main-rows">
-        <div class="main-rows-detail margin-lr-xl">
-          <div class="dialog-title">基本情况</div>
+      <div class="margin-lg">
+        <div class="dialog-title">基本情况</div>
+        <div class="dialog-body">
+          <el-row>
+            <el-col :span="2" class="text-right">户主：</el-col>
+            <el-col :span="2" class="text-left dialog-body-text"><span>{{ tableData["姓名"] }}</span></el-col>
+            <el-col :span="2" class="text-right">家庭人数：</el-col>
+            <el-col :span="3" class="text-left dialog-body-text">5</el-col>
+            <el-col :span="2" class="text-right">联系方式：</el-col>
+            <el-col :span="3" class="text-left dialog-body-text">130****1234</el-col>
+            <el-col :span="3" class="text-right">“一增”是否实现</el-col>
+            <el-col :span="2" class="text-left dialog-body-text"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="3" class="text-right">“五好”是否实现</el-col>
+            <el-col :span="2" class="text-left dialog-body-text"><i class="fa fa-check margin-left"></i></el-col>
+          </el-row>
+          <el-row class="dialog-title">
+            <el-col :span="1" class="text-center"></el-col>
+            <el-col :span="2" class="text-center">姓名</el-col>
+            <el-col :span="2" class="text-center">性别</el-col>
+            <el-col :span="2" class="text-center">年龄</el-col>
+            <el-col :span="2" class="text-center">与户主关系</el-col>
+            <el-col :span="2" class="text-center">文化程度</el-col>
+            <el-col :span="3" class="text-center">健康状况</el-col>
+            <el-col :span="3" class="text-center">劳动技能</el-col>
+            <el-col :span="3" class="text-center">是否购买基本养老保险</el-col>
+            <el-col :span="3" class="text-center">是否购买基本医疗保险</el-col>
+            <el-col :span="1" class="text-center"></el-col>
+          </el-row>
+          <el-row class="margin-tb-sm">
+            <el-col :span="1" class="text-center"></el-col>
+            <el-col :span="2" class="text-center">{{ tableData["姓名"] }}</el-col>
+            <el-col :span="2" class="text-center">男</el-col>
+            <el-col :span="2" class="text-center">41</el-col>
+            <el-col :span="2" class="text-center">户主</el-col>
+            <el-col :span="2" class="text-center">高中</el-col>
+            <el-col :span="3" class="text-center">健康</el-col>
+            <el-col :span="3" class="text-center">无</el-col>
+            <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="1" class="text-center"></el-col>
+          </el-row>
+          <el-row class="margin-tb-sm">
+            <el-col :span="1" class="text-center"></el-col>
+            <el-col :span="2" class="text-center">张*秀</el-col>
+            <el-col :span="2" class="text-center">女</el-col>
+            <el-col :span="2" class="text-center">40</el-col>
+            <el-col :span="2" class="text-center">妻子</el-col>
+            <el-col :span="2" class="text-center">初中</el-col>
+            <el-col :span="3" class="text-center">健康</el-col>
+            <el-col :span="3" class="text-center">无</el-col>
+            <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="1" class="text-center"></el-col>
+          </el-row>
+          <el-row class="margin-tb-sm">
+            <el-col :span="1" class="text-center"></el-col>
+            <el-col :span="2" class="text-center">郭*</el-col>
+            <el-col :span="2" class="text-center">男</el-col>
+            <el-col :span="2" class="text-center">62</el-col>
+            <el-col :span="2" class="text-center">父亲</el-col>
+            <el-col :span="2" class="text-center">初中</el-col>
+            <el-col :span="3" class="text-center dialog-body-warning">残疾</el-col>
+            <el-col :span="3" class="text-center">无</el-col>
+            <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="1" class="text-center"></el-col>
+          </el-row>
+          <el-row class="margin-tb-sm">
+            <el-col :span="1" class="text-center"></el-col>
+            <el-col :span="2" class="text-center">陈*萍</el-col>
+            <el-col :span="2" class="text-center">女</el-col>
+            <el-col :span="2" class="text-center">60</el-col>
+            <el-col :span="2" class="text-center">目前</el-col>
+            <el-col :span="2" class="text-center">小学</el-col>
+            <el-col :span="3" class="text-center">健康</el-col>
+            <el-col :span="3" class="text-center">无</el-col>
+            <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="1" class="text-center"></el-col>
+          </el-row>
+          <el-row class="margin-tb-sm">
+            <el-col :span="1" class="text-center"></el-col>
+            <el-col :span="2" class="text-center">郭*冰</el-col>
+            <el-col :span="2" class="text-center">男</el-col>
+            <el-col :span="2" class="text-center">16</el-col>
+            <el-col :span="2" class="text-center">儿子</el-col>
+            <el-col :span="2" class="text-center">高中</el-col>
+            <el-col :span="3" class="text-center">健康</el-col>
+            <el-col :span="3" class="text-center">无</el-col>
+            <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="1" class="text-center"></el-col>
+          </el-row>
+        </div>
+        <div class="dialog-title">资产资源情况</div>
           <div class="dialog-body">
-            <el-row>
-              <el-col :span="4" class="text-right">户主：</el-col>
-              <el-col :span="4" class="text-left dialog-body-text"><span>{{ tableData["姓名"] }}</span></el-col>
-              <el-col :span="4" class="text-right">家庭人数：</el-col>
-              <el-col :span="4" class="text-left dialog-body-text">5</el-col>
-              <el-col :span="4" class="text-right">联系方式：</el-col>
-              <el-col :span="4" class="text-left dialog-body-text">130****1234</el-col>
+            <el-row class="margin-tb-sm">
+              <el-col :span="3" class="text-right">车辆（辆）：</el-col>
+              <el-col :span="1" class="text-left dialog-body-text">1</el-col>
+              <el-col :span="3" class="text-right">自建房（平方米）：</el-col>
+              <el-col :span="1" class="text-left dialog-body-text">206</el-col>
+              <el-col :span="3" class="text-right">商品房（平米）：</el-col>
+              <el-col :span="1" class="text-left dialog-body-text">0</el-col>
+              <el-col :span="3" class="text-right">商铺（平方米）：</el-col>
+              <el-col :span="1" class="text-left dialog-body-text">0</el-col>
+              <el-col :span="3" class="text-right">土地（亩）：</el-col>
+              <el-col :span="1" class="text-left dialog-body-text">1.2</el-col>
+              <el-col :span="3" class="text-right">林地（亩）：</el-col>
+              <el-col :span="1" class="text-left dialog-body-text">0.2</el-col>
             </el-row>
           </div>
+          <div class="dialog-title">收入情况</div>
+          <div class="dialog-body">
+            <el-row class="margin-tb-sm">
+              <el-col :span="3" class="text-right">家庭年收入（元）：</el-col>
+              <el-col :span="7" class="text-left dialog-body-text">¥ 50000.00</el-col>
+              <el-col :span="3" class="text-right">家庭人均年收入（元）：</el-col>
+              <el-col :span="6" class="text-left dialog-body-warning">¥ 10000.00</el-col>
+            </el-row>
+            <el-row class="margin-tb-sm">
+              <el-col :span="3" class="text-right">经营性收入(元）：</el-col>
+              <el-col :span="2" class="text-left dialog-body-text">¥ 50000.00</el-col>
+              <el-col :span="3" class="text-right">工资性收入(元）：</el-col>
+              <el-col :span="2" class="text-left dialog-body-text">¥ 0</el-col>
+              <el-col :span="3" class="text-right">财产性收入(元）：</el-col>
+              <el-col :span="2" class="text-left dialog-body-text">¥ 0</el-col>
+              <el-col :span="3" class="text-right">转移性收入(元）：</el-col>
+              <el-col :span="2" class="text-left dialog-body-text">¥ 0</el-col>
+              <el-col :span="3" class="text-right">经营成本(元）：</el-col>
+              <el-col :span="1" class="text-left dialog-body-text">¥ 0</el-col>
+            </el-row>
+          </div>
+      </div>
+      <div class="main-rows">
+        <div class="margin-lr-xl">
           <!-- TODO: 显示身份证号给管理员 -->
-          <div class="dialog-title margin-top-lg">资产情况</div>
-          <div class="target-content">
-            <div class="dialog-body" style="">
-              <div>车辆（辆）：<span>轿车 五菱宏光2021款 1.5L改款 S基本型 液压助力LAR</span></div>
-              <div>商品房（平方米）：<span>120</span></div>
-              <div>自建房（平方米）：<span>120</span></div>
-              <div>承包地：<span>无</span></div>
-              <div>产业：<span>无</span></div>
-            </div>
-          </div>
-
-          <div class="dialog-title margin-top-lg">收入情况</div>
-          <div class="target-content">
-            <div class="dialog-body margin-bottom" style="">
-              <div>工资性收入：<span>¥ 0.00</span> 元</div>
-              <div>经营性收入：<span>¥ 170000.00</span> 元</div>
-              <div>财产性收入：<span>¥ 0.00</span> 元</div>
-              <div>转移性收入：<span>¥ 2123.00</span> 元</div>
-              <div>经营成本：<span>¥ 20000.00</span> 元</div>
-            </div>
-            <div class="dialog-body margin-bottom" style="">
-              <div>人均收入：<span>¥ 34424.6</span> 元</div>
-            </div>
-          </div>
+          
 
           <div class="dialog-title margin-top-lg">五好情况</div>
           <div class="dialog-body target-content margin-bottom-lg">
@@ -136,10 +234,6 @@
             </div>
           </div>
 
-        </div>
-
-        <div style="width:25%;">
-          <Table :tableDataList="tableDataList" :areaCode="areaCode" :areaName="areaName"/>
         </div>
       </div>
     </dv-full-screen-container>
@@ -222,7 +316,7 @@ export default {
 #data-view {
   width: 100%;
   height: 100%;
-  color: #0d0d45;
+  color: rgb(40,157,202);
   background-image: url("./img/bg_3.png");
   #dv-full-screen-container {
     background-image: url("./img/bg_3.png");
@@ -231,16 +325,18 @@ export default {
   }
 }
 
-.main-rows-detail {
-  width: 75%;
-  color: #28A2CE;
-
-
-  .dialog-body {
-    padding: 1rem 0;
-    background-color: rgba(0, 19, 55, 0.47);
+.dialog-body {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     .dialog-body-text {
       color:rgb(248,248,0);
+      line-height: 1.8rem;
+      vertical-align: bottom;
+    }
+    .dialog-body-warning {
+      color:rgb(248, 74, 0);
+      line-height: 1.8rem;
+      vertical-align: bottom;
     }
     span {
       color: rgb(248,248,0);
@@ -261,5 +357,5 @@ export default {
     text-align: center;
     line-height: 3rem;
   }
-}
+
 </style>
