@@ -3,6 +3,7 @@
     <div class="flare-container">
       <div class="target-content">
         <div ref="echart" class="echartDiv"></div>
+        <div>农业社会化服务协办员2名</div>
       </div>
     </div>
   </div>
@@ -79,6 +80,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: calc((100vh - 5.6rem)/6);
+  height: 10rem;
 }
 </style>

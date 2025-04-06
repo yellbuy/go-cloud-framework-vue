@@ -14,7 +14,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from 'echarts';
-import { onMounted, reactive, ref, toRefs, watch } from 'vue';
+import {onMounted, reactive, ref, toRefs, watch} from 'vue';
 
 export default {
   props: {
@@ -112,6 +112,6 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  height: 12.2rem;
+  height: 21rem;
 }
 </style>

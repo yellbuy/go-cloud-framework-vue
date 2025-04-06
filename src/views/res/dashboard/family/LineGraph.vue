@@ -7,7 +7,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from 'echarts';
-import { onMounted, reactive, ref, toRefs, watch } from 'vue';
+import {onMounted, reactive, ref, toRefs, watch} from 'vue';
 
 export default {
   props: {
@@ -49,7 +49,7 @@ export default {
             show: false // 隐藏横线
           },
           axisLabel: {
-            fontSize: 14,
+            fontSize: 12,
             color: '#28A2CE'
           }
         },
@@ -95,6 +95,6 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  height: 24vh;
+  height: 14rem;
 }
 </style>

@@ -9,7 +9,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import { onMounted, reactive, ref, toRefs } from 'vue';
+import {onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   props: {
@@ -30,7 +30,7 @@ export default {
               top: '10%',
               left: '10%',
               right: '0%',
-              bottom: '10%',
+              bottom: '15%',
             },
             xAxis: {
               type: 'category',
@@ -157,6 +157,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: 18vh;
+  height: 10rem;
 }
 </style>

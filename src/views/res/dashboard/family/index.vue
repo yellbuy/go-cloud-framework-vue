@@ -28,32 +28,14 @@
 
       <div class="main-rows">
         <div style="width:25%" class="margin-left-sm">
-          <div @click="onClickTargetDetail">
-            <div class="target-header">
-              <span class="target-title">家庭年收入结构图</span>
-            </div>
-
-            <div class="target-container-h3 target-content">
-              <div class="text-center">
-                <pieEllipse style="height:10vh;transform:scale(0.6,0.45) translate(0, 0);" :data='[{name:"10万以下",value:"30%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}
-                    ,{name:"10万-50万",value:"69.7%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:end;font-size:36;"}
-                    ,{name:"50万以上",value:"0.3%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:36;"}]'/>
-<!-- 
-                <img alt="" class="margin" src="./img/橄榄图.png" style="height:20vh"/> -->
-              </div>
-            </div>
-          </div>
-
           <div class="margin-top-sm">
-            <div class="target-header">
-              <span class="target-title">家庭年收入分类</span>
-            </div>
-            <div class="target-content target-container-h3">
-              <Category :incomeFromProperty="mainData['财产性收入']" :incomeFromWageAndSalary="mainData['工资性收入']"
-                        :operationalIncome="mainData['经营性收入']" :transferIncome="mainData['转移性收入']"/>
-            </div>
+            <sex :man="mainData['男性比例']" :woman="mainData['女性比例']"/>
           </div>
-
+          <div class="margin-top-sm">
+            <ProportionOfAgeGroups :aboutThi="mainData['36-60岁']||48"
+                                   :aboutThiAbove="mainData['60岁以上']||20.5" :eighteen="mainData['16岁以下']||10.5"
+                                   :thirtyFive="mainData['16-35岁']||22"/>
+          </div>
           <div class="margin-top-sm">
             <div class="target-header">
               <span class="target-title">五好达标情况</span>
@@ -76,6 +58,40 @@
             <Label :text="'总人口'" :title="mainData['总人口']"/>
             <Label :color="'#FCAE26FF'" :text="'夯实户'" :title="mainData['达标户']"/>
           </div>
+          <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
+            <div style="width:50%;" @click="onClickTargetDetail">
+              <div class="target-header">
+                <span class="target-title">家庭年收入结构图</span>
+              </div>
+              <div class="target-content">
+                <div class="text-center">
+                  <pieEllipse :data='[{name:"10万以下",value:"30%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}
+                    ,{name:"10万-50万",value:"69.7%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:end;font-size:36;"}
+                    ,{name:"50万以上",value:"0.3%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:36;"}]' style="height:12rem;transform:scale(0.4,0.3) translate(0, -10rem);"/>
+                </div>
+              </div>
+            </div>
+
+            <div style="width:50%;">
+              <div class="target-header">
+                <span class="target-title">家庭年收入分类</span>
+              </div>
+              <div class="target-content">
+                <Category :incomeFromProperty="mainData['财产性收入']" :incomeFromWageAndSalary="mainData['工资性收入']"
+                          :operationalIncome="mainData['经营性收入']" :transferIncome="mainData['转移性收入']"/>
+              </div>
+            </div>
+          </div>
+          <div class="margin-lr-lg margin-top-sm">
+            <div class="target-header">
+              <span class="target-title">主要监测群体</span>
+            </div>
+            <div class="target-content">
+              <main-monitoring :keyPoint="mainData['低收入重点监测群体占比']"
+                               :ordinary="mainData['低收入一般监测群体占比']"
+                               @click="onClickMainMonitoring"/>
+            </div>
+          </div>
           <div class="margin">
             <el-row :gutter="10">
               <el-col :span="12">
@@ -93,33 +109,10 @@
                   <span class="target-title">帮扶需求</span>
                 </div>
                 <div class="target-content target-content-height">
-                  <dv-capsule-chart :config="shyzConfig" style="width:100%;height:24vh;"/>
+                  <dv-capsule-chart :config="shyzConfig" style="width:100%;height:14rem;"/>
                 </div>
               </el-col>
             </el-row>
-          </div>
-         
-          <div class="margin-lr-lg margin-top-sm">
-            <div class="target-header">
-              <span class="target-title">主要监测群体</span>
-            </div>
-            <div class="target-content">
-              <main-monitoring :keyPoint="mainData['低收入重点监测群体占比']"
-                               :margin="mainData['低收入边缘人员占比']"
-                               :ordinary="mainData['低收入一般监测群体占比']"
-                               :standard="mainData['达标户占比']"
-                               @click="onClickMainMonitoring"/>
-            </div>
-          </div>
-          <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
-            <div class="margin-top-sm" style="width: 50%;">
-              <sex :man="mainData['男性比例']" :woman="mainData['女性比例']"/>
-            </div>
-            <div class="margin-top-sm" style="width: 50%;">
-              <ProportionOfAgeGroups :aboutThiAbove="mainData['60岁以上']||20.5"
-                                     :aboutThi="mainData['36-60岁']||48" :thirtyFive="mainData['16-35岁']||22"
-                                     :eighteen="mainData['16岁以下']||10.5"/>
-            </div>
           </div>
         </dv-border-box1>
 
@@ -134,9 +127,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import { ElMessageBox } from "element-plus";
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {ElMessageBox} from "element-plus";
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import radarEchart from "../component/radarEchart.vue";
@@ -147,6 +140,7 @@ import Table from "./Table.vue";
 import pieEllipse from "/@/components/pieEllipse/index.vue";
 import MainMonitoring from "/@/views/res/dashboard/family/MainMonitoring.vue";
 import Sex from "/@/views/res/dashboard/family/sex.vue";
+
 export default {
   name: "IndexDashboard",
   components: {
@@ -186,7 +180,7 @@ export default {
       shyzConfig: {
         data: [],
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
-        unit: '人',
+        unit: '户',
         showValue: true,
         labelNum: 5,
         fontSize: 12,

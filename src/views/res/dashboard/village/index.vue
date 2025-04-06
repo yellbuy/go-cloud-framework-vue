@@ -45,68 +45,77 @@
 
           </div>
           <div class="view-content content2">
+
             <div class="view-box padding-top-xl margin-lr-xl">
               <Label :text="'总户数'" color="yellow" :title="380"/>
               <Label :text="'总人口'" color="yellow" :title="1527"/>
               <Label :text="'夯实户'" color="lightgreen" :title="'193'"/>
-              <Label :text="'占比'" color="lightgreen" :title="'50.79%'"/>
             </div>
+
             <div class="margin-left margin-right margin-top margin-bottom">
               <Title title="两强"/>
-              <div >
-                
+              <div>
+
                 <el-row :gutter="10">
                   <el-col :span="12">
                     <el-popover
-                      class="box-item"
-                      content="村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率100%。“先富”带“后富”机制完善特困、低保等重点群体托底保障机制健全。"
-                      placement="top-start"
-                  >
-                    <template #reference>
-                      <div class="margin-top-lg margin-bottom" style="color:#3e98f6;font-size: 1.2rem;">组织强
-                      </div>
-                    </template>
-                  </el-popover>
-                    <div class="target-text padding-lg target-content" style="text-align: left">
+                        class="box-item"
+                        content="村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率100%。“先富”带“后富”机制完善特困、低保等重点群体托底保障机制健全。"
+                        placement="top-start"
+                    >
+                      <template #reference>
+                        <div class="margin-left margin-top-lg margin-bottom" style="color:#3e98f6;font-size: 1.2rem;">
+                          组织强
+                        </div>
+                      </template>
+                    </el-popover>
+                    <div class="target-text padding-lg target-content" style="text-align: left;height: 12rem">
                       <div class="margin-sm">
                         <i class="fa fa-star margin-right-sm" style="color: orange"></i>全省5A先进村党组织<br/>
                         <div class="text-center margin-top-sm">
-                          <span>党总支<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个</span>
-                          <span class="margin-left">党支部<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>个</span>
+                          <span>党总支<label class="margin-xs"
+                                             style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个</span>
+                          <span class="margin-left">党支部<label class="margin-xs"
+                                                                 style="color:#1AFD9BFF;font-size: 1.4rem">3</label>个</span>
                         </div>
                         <div class="text-center">
-                          <span>党员<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">55</label>人</span>
-                          <span class="margin-left">市党代表<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">6</label>人</span>
-                          <span class="margin-left">区党代表<label class="margin-xs" style="color:#1AFD9BFF;font-size: 1.4rem">3</label>人</span>
+                          <span>党员<label class="margin-xs"
+                                           style="color:#1AFD9BFF;font-size: 1.4rem">55</label>人</span>
+                          <span class="margin-left">市党代表<label class="margin-xs"
+                                                                   style="color:#1AFD9BFF;font-size: 1.4rem">6</label>人</span>
+                          <span class="margin-left">区党代表<label class="margin-xs"
+                                                                   style="color:#1AFD9BFF;font-size: 1.4rem">3</label>人</span>
                         </div>
                         <div class="text-center margin-tb-lg">
-                          “三个身边”群众工作机制反映问题办结率<label class="margin-sm" style="color:#1AFD9BFF;font-size: 1.4rem">98.5</label>%
+                          “三个身边”群众工作机制反映问题办结率<label class="margin-sm"
+                                                                     style="color:#1AFD9BFF;font-size: 1.4rem">98.5</label>%
                         </div>
                       </div>
-
                     </div>
                   </el-col>
                   <el-col :span="12">
                     <el-popover
-                      class="box-item"
-                      content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
-                      placement="top-start"
-                    >
+                        class="box-item"
+                        content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
+                        placement="top-start">
                       <template #reference>
-                        <div class="margin-top-lg margin-bottom" style="color:#3e98f6;font-size: 1.2rem;">治理强
+                        <div class="margin-left margin-top-lg margin-bottom" style="color:#3e98f6;font-size: 1.2rem;">
+                          治理强
                         </div>
                       </template>
                     </el-popover>
-                    <div class="target-content">
+                    <div class="target-content" style="height: 12rem">
                       <el-row :gutter="10" class="margin">
                         <el-col :span="8">
                           <div>
                             <text class="margin-sm" style="font-size: 1.2rem;">一村一民(辅)警</text>
                             <el-row class="margin-top">
-                              <el-col :span="12" class="text-right">姓名：</el-col>
+                              <el-col :span="10" class="text-right">姓名：</el-col>
                               <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">邓*志</el-col>
-                              <el-col :span="12" class="text-right">职务：</el-col>
+                              <el-col :span="10" class="text-right">职务：</el-col>
                               <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">民警</el-col>
+                              <el-col :span="10" class="text-right">电话：</el-col>
+                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">135****8935</el-col>
                             </el-row>
                           </div>
 
@@ -115,10 +124,12 @@
                           <div>
                             <text style="font-size: 1.2rem">一村一法律顾问</text>
                             <el-row class="margin-top">
-                              <el-col :span="12" class="text-right">姓名：</el-col>
+                              <el-col :span="10" class="text-right">姓名：</el-col>
                               <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">邓*志</el-col>
-                              <el-col :span="12" class="text-right">职务：</el-col>
+                              <el-col :span="10" class="text-right">职务：</el-col>
                               <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">顾问</el-col>
+                              <el-col :span="10" class="text-right">电话：</el-col>
+                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">135****8935</el-col>
                             </el-row>
                           </div>
                         </el-col>
@@ -126,10 +137,14 @@
                           <div>
                             <text style="font-size: 1.2rem">人民调解员</text>
                             <el-row class="margin-top">
-                              <el-col :span="12" class="text-right">姓名：</el-col>
+                              <el-col :span="10" class="text-right">姓名：</el-col>
                               <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">邓*志</el-col>
-                              <el-col :span="12" class="text-right">职务：</el-col>
+                              <el-col :span="10" class="text-right">职务：</el-col>
                               <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">调解员</el-col>
+                              <el-col :span="10" class="text-right">电话：</el-col>
+                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;white-space: wrap">
+                                135****8935
+                              </el-col>
                             </el-row>
                           </div>
                         </el-col>
@@ -146,14 +161,15 @@
                 </el-row>
               </div>
             </div>
+
             <div class="view-box">
-              <div class="margin-left margin-right" style="width:100%;">
+              <div class="margin-left margin-right margin-bottom" style="width:100%;">
                 <el-popover
                     class="box-item"
                     content='“⼾夯实”实现⼾占⽐超50%，全村⼈均年可⽀配收⼊超全市农村⼈均年可⽀配收⼊，村集体经济稳定收⼊超20万元'
                     placement="top-start">
                   <template #reference>
-                    <Title title="三超"/>
+                    <Title title="三超 占比50.79%"/>
                   </template>
                 </el-popover>
                 <div class="target-content">
@@ -192,7 +208,7 @@
                 <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">环境优</div>
                 <div class="target-text target-content">
                   <environmental-excellence :data="[77.1, 100, 100,100, 100]"
-                                            :label="['⾃来⽔\n普及率', '卫⽣厕所\n普及率', '⽣活污⽔\n集中处理率', '⽣活垃圾收\n转运处置率', '自然村通\n硬化路率']"
+                                            :label="['⾃来⽔\n普及率', '农村卫\n⽣厕所\n普及率', '⽣活污\n⽔有效\n治理覆\n盖率', '⽣活垃\n圾收转\n运处置率', '自然村\n（组）通\n硬化路率']"
                                             :mark-line="0"/>
                 </div>
               </div>
@@ -206,7 +222,7 @@
                     </el-col>
                     <el-col :span="6" class="text-left">
                       <label class="margin-xs"
-                        style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
+                             style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
                     </el-col>
                     <el-col :span="6" class="text-right">
                       <div class="margin-tb-xs ">村史馆
@@ -214,7 +230,7 @@
                     </el-col>
                     <el-col :span="6" class="text-left">
                       <label class="margin-xs"
-                        style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
+                             style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
                     </el-col>
                     <el-col :span="6" class="text-right">
                       <div class="margin-tb-xs ">乡村推荐官
@@ -222,7 +238,7 @@
                     </el-col>
                     <el-col :span="6" class="text-left">
                       <label class="margin-xs"
-                        style="color:#1AFD9BFF;font-size: 1.4rem">1</label>人
+                             style="color:#1AFD9BFF;font-size: 1.4rem">1</label>人
                     </el-col>
                     <el-col :span="6" class="text-right">
                       <div class="margin-tb-xs ">文艺队伍
@@ -230,7 +246,7 @@
                     </el-col>
                     <el-col :span="6" class="text-left">
                       <label class="margin-xs"
-                        style="color:#1AFD9BFF;font-size: 1.4rem">1</label>支
+                             style="color:#1AFD9BFF;font-size: 1.4rem">1</label>支
                     </el-col>
                     <el-col :span="12">
                       <div class="margin-tb-xs padding-top-xs">文旅品牌：<label class="margin-xs"
@@ -263,8 +279,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
@@ -437,78 +453,12 @@ export default {
         display: grid;
       }
 
-      .content1 {
-        grid-template-rows:auto;
-
-        .view-box {
-
-          .view-box-table {
-            display: grid;
-            grid-template-columns:1fr 1fr;
-            grid-column-gap: 2em;
-            align-items: start;
-            justify-content: flex-end;
-
-            div {
-              text-align: center;
-
-              text {
-                font-size: 1em;
-                color: #28A2CE;
-              }
-            }
-          }
-
-          .box-zl {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-
-            div {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-
-
-            }
-          }
-
-          .view-box-title {
-            display: flex;
-            align-items: center;
-            justify-content: center; /*水平主轴居中*/
-            color: #28A2CE;
-            font-size: 1em;
-            background-color: #0e136f;
-            border-radius: 2em;
-            padding: 1em;
-            margin: 1em 0 0 0;
-          }
-        }
+      .view-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
       }
 
-      //.content {
-      //  display: flex;
-      //  flex-direction: column;
-      //  justify-content: space-between;
-      //  height: 100%;
-      //}
-
-      .content2 {
-        grid-template-rows:auto 1fr;
-
-        .view-box {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-
-          .view-box-bottom {
-            width: 100%;
-          }
-        }
-
-      }
     }
   }
 

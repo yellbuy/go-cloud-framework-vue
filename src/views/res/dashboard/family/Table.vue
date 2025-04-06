@@ -10,7 +10,7 @@
           <th>乡镇（街道）</th>
           <th>社区（村）</th>
           <th>姓名</th>
-          <th>是否达标</th>
+          <th>是否夯实</th>
           </thead>
           <tbody>
           <tr v-for="(item,index) in tableDataList"
