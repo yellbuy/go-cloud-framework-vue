@@ -169,7 +169,7 @@
                     content='“⼾夯实”实现⼾占⽐超50%，全村⼈均年可⽀配收⼊超全市农村⼈均年可⽀配收⼊，村集体经济稳定收⼊超20万元'
                     placement="top-start">
                   <template #reference>
-                    <Title title="三超 占比50.79%"/>
+                    <Title title="三超"/>
                   </template>
                 </el-popover>
                 <div class="target-content">
@@ -191,6 +191,7 @@
                       </div>
                     </el-col>
                   </el-row>
+                  <div style="color:#1AFD9BFF;font-size: 2rem">“户夯实”实现户占比50.79%</div>
                 </div>
               </div>
             </div>
@@ -207,8 +208,8 @@
               <div class="margin-top">
                 <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">环境优</div>
                 <div class="target-text target-content">
-                  <environmental-excellence :data="[77.1, 100, 100,100, 100]"
-                                            :label="['⾃来⽔\n普及率', '农村卫\n⽣厕所\n普及率', '⽣活污\n⽔有效\n治理覆\n盖率', '⽣活垃\n圾收转\n运处置率', '自然村\n（组）通\n硬化路率']"
+                  <environmental-excellence :data="[77.1, 100, 100, 100]"
+                                            :label="['⾃来⽔\n普及率', '农村卫\n⽣厕所\n普及率', '⽣活污\n⽔有效\n治理覆\n盖率', '自然村\n（组）通\n硬化路率']"
                                             :mark-line="0"/>
                 </div>
               </div>

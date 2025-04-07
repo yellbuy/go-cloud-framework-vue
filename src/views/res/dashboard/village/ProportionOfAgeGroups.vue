@@ -4,6 +4,8 @@
       <div class="target-content">
         <div ref="echart" class="echartDiv"></div>
         <div>农业社会化服务协办员2名</div>
+        <div>姓名：<span style="color:#1AFD9BFF;">李*</span> 职务：<span style="color:#1AFD9BFF;">主任</span> 电话：<span
+            style="color:#1AFD9BFF;">135****8935</span></div>
       </div>
     </div>
   </div>

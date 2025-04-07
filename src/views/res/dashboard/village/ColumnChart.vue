@@ -27,7 +27,7 @@ export default {
       const option = {
             grid: {
               show: false,
-              top: '10%',
+              top: '20%',
               left: '10%',
               right: '0%',
               bottom: '15%',
