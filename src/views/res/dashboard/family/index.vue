@@ -41,12 +41,7 @@
               <span class="target-title">五好达标情况</span>
             </div>
             <div class="target-content target-container-h3 padding-top">
-              <radarEchart
-                  :indicatorNameData="[{name: '住房好', max: 100},{name: '家风好', max: 100},{name: '医疗好', max: 100},{name: '生活好', max: 100},{name: '教育好', max: 100},]"
-                  :series1ValueData="[mainData['住房好指标'],mainData['家风好指标'],mainData['医疗好指标'],mainData['生活好指标'],mainData['教育好指标']]"
-                  :series2ValueData="[mainData['住房好现状'],mainData['家风好现状'],mainData['医疗好现状'],mainData['生活好现状'],mainData['教育好现状']]"
-                  :startAngle="230"
-                  :style="'height:16rem;padding-top:2rem'"/>
+              <radarEchart/>
             </div>
           </div>
         </div>
