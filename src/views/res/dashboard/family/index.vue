@@ -51,7 +51,8 @@
                style="display: flex;flex-direction: row;justify-content: space-between;align-items: flex-end;">
             <Label :text="'总户数'" :title="mainData['总户数']"/>
             <Label :text="'总人口'" :title="mainData['总人口']"/>
-            <Label :color="'#FCAE26FF'" :text="'夯实户'" :title="mainData['达标户']"/>
+            <Label :color="'#FCAE26FF'" :text="'夯实户数'" :title="mainData['达标户']"/>
+            <Label :color="'#FCAE26FF'" :text="'夯实户占比'" :title="(mainData['达标户占比']||'50')+'%'"/>
           </div>
           <div class="margin-lr-lg margin-top-sm" style="flex: 1;display: flex;flex-direction: row;">
             <div style="width:50%;" @click="onClickTargetDetail">

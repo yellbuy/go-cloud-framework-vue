@@ -1,16 +1,16 @@
 <template>
   <div>
     <el-row :gutter="10">
-      <el-col :span="12">
-        <dv-water-level-pond :config="config2"
+      <el-col :span="12" title="共 516 户">
+        <dv-water-level-pond :config="config2" 
                              style="width:9rem;height:9rem;display: inline-block;margin: 1rem 3rem 1rem"/>
-        <div style="font-size: 1.2rem;margin-bottom: 1rem">低收入一般监测群体（户）</div>
+        <div style="font-size: 1.2rem;margin-bottom: 1rem">低收入一般监测群体（共 98 户）</div>
         <div style="font-size: 1.2rem;margin-bottom: 1rem">（年人均收入1.77-3.33万元）</div>
       </el-col>
       <el-col :span="12">
         <dv-water-level-pond :config="config3"
                              style="width:9rem;height:9rem;display: inline-block;margin: 1rem 3rem 1rem"/>
-        <div style="font-size: 1.2rem;margin-bottom: 1rem">低收入重点监测群体（户）</div>
+        <div style="font-size: 1.2rem;margin-bottom: 1rem">低收入重点监测群体（共 16 户）</div>
         <div style="font-size: 1.2rem;margin-bottom: 1rem">（年人均收入1.77万元以下）</div>
       </el-col>
     </el-row>
@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
-import {reactive, toRefs, watch} from 'vue';
+import { reactive, toRefs, watch } from 'vue';
 
 export default {
   components: {},

@@ -63,26 +63,25 @@
                         <br/><b>环境优：</b>生活用水安全稳定，自来水普及率达95%以上，农村卫生厕所普及率达到98%，生活污水得到有效治理，生活垃圾有效运转处置。住房安全，村容村貌整洁，无乱搭乱建，自然村（组）通硬化路率达100%。
       <br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
       <br><b>服务优：</b>公共服务保障完善。每个村有1名农村社会化服务协办员，开展农业社会化服务。残疾儿童实现随班就读或送教上门。有家庭医生服务团队。成功创建市级健康村。适龄人员养老保险参保率达95%。`)">
-                        <line-chart
+                        <barNestedChart
                                   :seriesData1="[100, 100, 100]"
                                   :seriesData2="[20, 18, 30]"
+                                  :color1="['#83bff6','#188df0','#188df0']"
                                   :xAxisData="['户夯实实现户', '村集体经济收入', '人均可支配收入']"/>
                       </div>
                       <div @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
                         <br/><b>治理强：</b>居民自治体系健全，居民公约完善，自治组织运行有序有效。“四议两公开”规范化建设，一村一民（辅）警，一村一法律顾问。法律公共服务室与法律援助率达100%。矛盾纠纷一站式处理，化解率达95%以上，性质恶劣命案零发生。`)">
-                        <line-chart
+                        <barNestedChart
                                 :seriesData1="[100, 100, 100, 100]"
-                                :color1="'#dfafaf'"
-                                :color2="'#e13434'"
                                 :seriesData2="[60, 56, 75, 30]"
+                                :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
                                 :xAxisData="['产业优', '环境优', '文化优', '服务优']"/>
                       </div>
                       <div>
-                        <line-chart
+                        <barNestedChart
                                 :seriesData1="[100, 100]"
-                                :color1="'#825bb1'"
-                                :color2="'#a2b5c8'"
                                 :seriesData2="[90, 80]"
+                                :color1="['rgb(248, 152.1, 152.1)','#F56C6C','rgb(196, 86.4, 86.4)']"
                                 :xAxisData="['治理强', '组织强']"/>
                       </div>
                     </div>
@@ -340,14 +339,14 @@ import radarEchart from "../component/radarEchart.vue";
 import pieEllipse from "/@/components/pieEllipse/index.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import Label1 from "/@/views/res/dashboard/component/Label1.vue";
-import LineChart from "/@/views/res/dashboard/component/LineChart.vue";
+import barNestedChart from "/@/views/res/dashboard/component/barNestedChart.vue";
 import ColumnChart from "/@/views/res/dashboard/street/ColumnChart.vue";
 import OvalShape from "/@/views/res/dashboard/street/OvalShape.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
 export default {
   name: "IndexDashboard",
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: {LineChart, ColumnChart, OvalShape, Label1, pieEllipse, Label, Title, antvImageMap, gaugeProgress, radarEchart},
+  components: {barNestedChart, ColumnChart, OvalShape, Label1, pieEllipse, Label, Title, antvImageMap, gaugeProgress, radarEchart},
   setup() {
     const route = useRoute();
     const router = useRouter();

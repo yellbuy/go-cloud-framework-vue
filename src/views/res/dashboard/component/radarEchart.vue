@@ -9,7 +9,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import {onMounted, reactive, ref, toRefs} from 'vue';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   props: {},
@@ -48,13 +48,22 @@ export default {
             show: false
           }
         },
+        legend: {
+            show: true,
+            data:['住房好', '家风好', '医疗好', '生活好', '教育好'],
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            borderWidth: 1
+        },
         series: {
           type: 'bar',
           data: [75, 60, 80, 60, 100],
           coordinateSystem: 'polar',
           label: {
             show: true,
-            position: 'middle',
+            position: 'top',
+            offset:[0,20],
             formatter: '{b}: {c}%'
           },
           colorBy: "data"
