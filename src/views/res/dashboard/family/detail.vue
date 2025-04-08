@@ -67,7 +67,7 @@
               <el-col :span="2" class="text-center">户主</el-col>
               <el-col :span="2" class="text-center">高中</el-col>
               <el-col :span="3" class="text-center">健康</el-col>
-              <el-col :span="3" class="text-center">无</el-col>
+              <el-col :span="3" class="text-center">普通劳动力</el-col>
               <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
               <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
               <el-col :span="1" class="text-center"></el-col>
@@ -80,7 +80,7 @@
               <el-col :span="2" class="text-center">妻子</el-col>
               <el-col :span="2" class="text-center">初中</el-col>
               <el-col :span="3" class="text-center">健康</el-col>
-              <el-col :span="3" class="text-center">无</el-col>
+              <el-col :span="3" class="text-center">普通劳动力</el-col>
               <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
               <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
               <el-col :span="1" class="text-center"></el-col>
@@ -93,7 +93,7 @@
               <el-col :span="2" class="text-center">父亲</el-col>
               <el-col :span="2" class="text-center">初中</el-col>
               <el-col :span="3" class="text-center dialog-body-warning">残疾</el-col>
-              <el-col :span="3" class="text-center">无</el-col>
+              <el-col :span="3" class="text-center">弱劳动力</el-col>
               <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
               <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
               <el-col :span="1" class="text-center"></el-col>
@@ -106,7 +106,7 @@
               <el-col :span="2" class="text-center">目前</el-col>
               <el-col :span="2" class="text-center">小学</el-col>
               <el-col :span="3" class="text-center">健康</el-col>
-              <el-col :span="3" class="text-center">无</el-col>
+              <el-col :span="3" class="text-center">弱劳动力</el-col>
               <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
               <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
               <el-col :span="1" class="text-center"></el-col>
@@ -115,11 +115,11 @@
               <el-col :span="1" class="text-center"></el-col>
               <el-col :span="2" class="text-center">郭*冰</el-col>
               <el-col :span="2" class="text-center">男</el-col>
-              <el-col :span="2" class="text-center">16</el-col>
+              <el-col :span="2" class="text-center">15</el-col>
               <el-col :span="2" class="text-center">儿子</el-col>
               <el-col :span="2" class="text-center">高中</el-col>
               <el-col :span="3" class="text-center">健康</el-col>
-              <el-col :span="3" class="text-center">无</el-col>
+              <el-col :span="3" class="text-center">无劳动力</el-col>
               <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
               <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
               <el-col :span="1" class="text-center"></el-col>
@@ -280,8 +280,8 @@
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as d3 from "d3";
 import dayjs from 'dayjs';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Table from "./Table.vue";
 
 export default {
