@@ -38,7 +38,7 @@ export default {
   display: inline-block;
   padding: 1rem 1rem;
   text-align: center;
-  width:12rem;
+  width:11rem;
 
   label {
     display: block;
