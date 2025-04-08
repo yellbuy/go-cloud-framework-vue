@@ -7,11 +7,11 @@
       <div>
         <div class="target-content" style="text-align: center;">
           <div style="display: inline-block;" class="margin-lg">
-            <barHuman :progress="man+'%'" :text="'男：'+man" endColor="blue" height="10rem"
+            <barHuman :progress="man+'%'" :text="'男：'+man" endColor="blue" height="12rem"
                       startColor="lightblue"/>
           </div>
           <div style="display: inline-block;" class="margin-lg">
-            <barHuman :gender="1" :progress="woman+'%'" :text="'女：'+woman" height="10rem"/>
+            <barHuman :gender="1" :progress="woman+'%'" :text="'女：'+woman" height="12rem"/>
           </div>
         </div>
       </div>

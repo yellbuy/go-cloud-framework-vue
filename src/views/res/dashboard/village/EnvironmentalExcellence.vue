@@ -29,7 +29,7 @@ export default {
           top: '15%',
           left: '8%',
           right: '0%',
-          bottom: '15%',
+          bottom: '25%',
         },
         xAxis: {
           type: 'category',

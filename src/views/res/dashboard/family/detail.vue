@@ -248,9 +248,9 @@
             <el-col :span="2" class="text-center">包联单位</el-col>
             <el-col :span="10" class="dialog-body-text">2323</el-col>
             <el-col :span="2" class="text-center">包联责任人</el-col>
-            <el-col :span="5" class="dialog-body-text"></el-col>
+            <el-col :span="5" class="dialog-body-text">邓*志</el-col>
             <el-col :span="2" class="text-center">包联责任人联系电话</el-col>
-            <el-col :span="3" class="dialog-body-text"></el-col>
+            <el-col :span="3" class="dialog-body-text">135****2590</el-col>
           </el-row>
           <el-row class="margin-tb-sm">
             <el-col :span="8" class="text-center">家庭具体困难</el-col>
