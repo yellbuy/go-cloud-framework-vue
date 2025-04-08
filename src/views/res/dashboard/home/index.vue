@@ -66,20 +66,20 @@
           <!-- <rankingCounty/> -->
           <!-- <barAreaGdp/> -->
         </div>
-        <dv-border-box1 style="width:50%;" class="">
+        <dv-border-box1 style="width:50%;">
           <!-- <digitalGoodsStat/> -->
           <numberCounty/>
-          <div class="column-center margin-bottom">
-            <antvImageMap areaCode="510411" areaGoTo="street"></antvImageMap>
+          <div>
+            <antvImageMap :style="'height:calc(100vh - 15rem)'" areaCode="510411" areaGoTo="street"></antvImageMap>
           </div>
-          <div class="column-footer">
-            <!-- <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
+           <!-- <div class="column-footer">
+           <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
             <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">民生优享</dv-button>
             <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">文化优创</dv-button>
             <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">环境优宜</dv-button>
             <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">社会优质</dv-button>
-            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">党建优促</dv-button> -->
-          </div>
+            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">党建优促</dv-button> 
+          </div>-->
         </dv-border-box1>
 
         <div style="width:25%;" class="padding-lr-10">

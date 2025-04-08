@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :id="uid" class="antvMapContainer" ref="mapContainer"/>
+    <div :id="uid" class="antvMapContainer" :style="style" ref="mapContainer"/>
   </div>
 </template>
 
@@ -28,6 +28,10 @@ export default {
     },
     zoom: {
       type: Number,
+    },
+    style: {
+      type: String,
+      default: '',
     },
   },
   setup(props) {
