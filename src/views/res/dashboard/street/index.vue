@@ -162,7 +162,7 @@
                       <el-col :span="12">
                         <div class="padding-tb">
                           <div class="margin-tb-sm" style="font-size:1.2rem">芒果</div>
-                          <div class="margin-tb-xs">种植面积达<label class="margin-lr-sm"
+                          <div class="margin-tb-xs">面积<label class="margin-lr-sm"
                                                                      style="color:#1AFD9BFF;font-size: 1.4rem">10万</label>亩
                           </div>
                           <div class="margin-tb-xs">产量<label class="margin-lr-sm"
@@ -179,7 +179,7 @@
                       <el-col :span="12">
                         <div class="padding-tb">
                           <div class="margin-tb-sm" style="font-size:1.2rem">蔬菜</div>
-                          <div class="margin-tb-xs">种植面积达<label class="margin-lr-sm"
+                          <div class="margin-tb-xs">面积<label class="margin-lr-sm"
                                                                      style="color:#1AFD9BFF;font-size: 1.4rem">1.4万</label>亩
                           </div>
                           <div class="margin-tb-xs">产量<label class="margin-lr-sm"
