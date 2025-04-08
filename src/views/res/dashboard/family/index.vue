@@ -60,9 +60,9 @@
               </div>
               <div class="target-content">
                 <div class="text-center">
-                  <pieEllipse :data='[{name:"10万以下",value:"30%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}
-                    ,{name:"10万-50万",value:"69.7%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:end;font-size:36;"}
-                    ,{name:"50万以上",value:"0.3%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:36;"}]' style="height:12rem;transform:scale(0.4,0.3) translate(0, -10rem);"/>
+                  <pieEllipse  :data='[{name:"10万以下",value:"30%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#bbb;text-anchor:start;font-size:54;"}
+                    ,{name:"10万-50万",value:"69.7%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#bbb;text-anchor:end;font-size:54;"}
+                    ,{name:"50万以上",value:"0.3%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}]' style="height:12rem;transform:scale(0.4,0.3) translate(0, -10rem);"/>
                 </div>
               </div>
             </div>
@@ -122,9 +122,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from "element-plus";
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { ElMessageBox } from "element-plus";
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import radarEchart from "../component/radarEchart.vue";

@@ -103,7 +103,7 @@
               <el-col :span="2" class="text-center">陈*萍</el-col>
               <el-col :span="2" class="text-center">女</el-col>
               <el-col :span="2" class="text-center">60</el-col>
-              <el-col :span="2" class="text-center">目前</el-col>
+              <el-col :span="2" class="text-center">母亲</el-col>
               <el-col :span="2" class="text-center">小学</el-col>
               <el-col :span="3" class="text-center">健康</el-col>
               <el-col :span="3" class="text-center">弱劳动力</el-col>
@@ -120,7 +120,7 @@
               <el-col :span="2" class="text-center">高中</el-col>
               <el-col :span="3" class="text-center">健康</el-col>
               <el-col :span="3" class="text-center">无劳动力</el-col>
-              <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
+              <el-col :span="3" class="text-center">-</el-col>
               <el-col :span="3" class="text-center"><i class="fa fa-check margin-left"></i></el-col>
               <el-col :span="1" class="text-center"></el-col>
             </el-row>
@@ -186,7 +186,7 @@
             <el-col :span="3" class="text-center">住房安全(无D级危房)</el-col>
             <el-col :span="1" class="dialog-body-text"><i class="fa fa-check margin-left"></i></el-col>
 
-            <el-col :span="2" class="text-center">无严重违法犯罪记录</el-col>
+            <el-col :span="2" class="text-center">无不良记录</el-col>
             <el-col :span="1" class="dialog-body-text"><i class="fa fa-check margin-left"></i></el-col>
           </el-row>
           <el-row class="margin-tb-sm">
@@ -204,8 +204,8 @@
             <el-col :span="3" class="text-center">卫生厕所达标</el-col>
             <el-col :span="1" class="dialog-body-text"><i class="fa fa-check margin-left"></i></el-col>
 
-            <el-col :span="2" class="text-center">无不赡养老人行为</el-col>
-            <el-col :span="1" class="dialog-body-text"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="2" class="text-center"></el-col>
+            <el-col :span="1" class="dialog-body-text"></el-col>
           </el-row>
           <el-row class="margin-tb-sm">
             <el-col :span="3" class="text-center">生产用水有保障</el-col>
@@ -222,8 +222,8 @@
             <el-col :span="3" class="text-center"></el-col>
             <el-col :span="1" class="text-center"></el-col>
 
-            <el-col :span="2" class="text-center">无虐待家庭成员行为</el-col>
-            <el-col :span="1" class="dialog-body-text"><i class="fa fa-check margin-left"></i></el-col>
+            <el-col :span="2" class="text-center"></el-col>
+            <el-col :span="1" class="dialog-body-text"></el-col>
           </el-row>
           <el-row class="margin-tb-sm">
             <el-col :span="3" class="text-center">垃圾集中转运</el-col>
@@ -245,9 +245,9 @@
           </el-row>
           <div class="dialog-title">包联帮带情况</div>
           <el-row class="margin-tb-sm">
-            <el-col :span="2" class="text-center">包联单位</el-col>
-            <el-col :span="10" class="dialog-body-text">2323</el-col>
-            <el-col :span="2" class="text-center">包联责任人</el-col>
+            <el-col :span="8" class="text-center">包联单位</el-col>
+            <el-col :span="2" class="dialog-body-text text-left">村委会</el-col>
+            <el-col :span="4" class="text-center">包联责任人</el-col>
             <el-col :span="5" class="dialog-body-text">邓*志</el-col>
             <el-col :span="2" class="text-center">包联责任人联系电话</el-col>
             <el-col :span="3" class="dialog-body-text">135****2590</el-col>
@@ -257,19 +257,24 @@
             <el-col :span="8" class="text-center">帮带需求</el-col>
             <el-col :span="8" class="text-center">帮带措施落实情况</el-col>
           </el-row>
-          <el-row v-for="data in [0,0,0,0,0,0,0]" class="margin-tb-sm">
-            <el-col :span="8" class="text-center dialog-body-text">家庭成员健康状态不佳</el-col>
+          <el-row  class="margin-tb-sm">
+            <el-col :span="8" class="text-center dialog-body-text">临时困难救助、大病救助</el-col>
             <el-col :span="8" class="text-center dialog-body-text">医疗帮扶</el-col>
             <el-col :span="8" class="text-center dialog-body-text">医疗保障</el-col>
           </el-row>
-          <div style="color: red">
+          <!-- <el-row v-for="data in [0,0,0,0,0,0,0]" class="margin-tb-sm">
+            <el-col :span="8" class="text-center dialog-body-text">家庭成员健康状态不佳</el-col>
+            <el-col :span="8" class="text-center dialog-body-text">医疗帮扶</el-col>
+            <el-col :span="8" class="text-center dialog-body-text">医疗保障</el-col>
+          </el-row> -->
+          <!-- <div style="color: red">
             备注:<br>
             1.文化程度分为文盲或半文盲、小学、初中、高中、大专、本科及以上<br>
             2.健康状况分为:健康、长期慢性病、大病、残疾<br>
             3.劳动技能分为:普通劳动力、技能劳动力、丧失劳动力、无劳动力、弱劳动力或半劳动力<br>
             4.车辆不包含农用机械车和摩托车<br>
             5.土地面积:包含承包地、自留地、自开地等
-          </div>
+          </div> -->
         </div>
       </div>
     </dv-full-screen-container>

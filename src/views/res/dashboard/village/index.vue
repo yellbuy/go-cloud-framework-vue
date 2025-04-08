@@ -49,10 +49,47 @@
             <div class="view-box padding-top-xl margin-lr-xl">
               <Label :text="'总户数'" color="yellow" :title="380"/>
               <Label :text="'总人口'" color="yellow" :title="1527"/>
-              <Label :text="'夯实户'" color="lightgreen" :title="'193'"/>
+              <Label :text="'夯实户数'" color="lightgreen" :title="'193'"/>
+              <Label :text="'夯实户占比'" color="lightgreen" :title="'16.7%'"/>
             </div>
 
-            <div class="margin-left margin-right margin-top margin-bottom">
+            
+
+            <div class="view-box">
+              <div class="margin-left margin-right margin-bottom" style="width:100%;">
+                <el-popover
+                    class="box-item"
+                    content='“⼾夯实”实现⼾占⽐超50%，全村⼈均年可⽀配收⼊超全市农村⼈均年可⽀配收⼊，村集体经济稳定收⼊超20万元'
+                    placement="top-start">
+                  <template #reference>
+                    <Title title="三超"/>
+                  </template>
+                </el-popover>
+                <div class="target-content">
+                  <el-row :gutter="24" class="margin">
+                    <el-col :span="24">
+                      <div class="text-center">
+                        <text class="target-value">全村人均年可支配收入超全市农村人均年可支配收入</text>
+                        <column-chart :data="[2.5, 2.68, 3.24]" :label="['2022年', '2023年', '2024年']"
+                                      :mark-line="[2.19,2.30,2.45]"/>
+                        <text class="target-text">农村人均年可支配收入</text>
+                      </div>
+                    </el-col>
+                    <el-col :span="24">
+                      <div class="text-center margin-top">
+                        <text class="target-value">村集体经济收入超20万元</text>
+                        <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '2024年']"
+                                      :mark-line="[20,20,20]"/>
+                        <text class="target-text">村集体经济收入</text>
+                      </div>
+                    </el-col>
+                  </el-row>
+                  <div style="color:#1AFD9BFF;font-size: 2rem">“户夯实”实现户占比50.79%</div>
+                </div>
+              </div>
+            </div>
+          
+          <div class="margin-left margin-right margin-top margin-bottom">
               <Title title="两强"/>
               <div>
 
@@ -151,7 +188,7 @@
                       </el-row>
                       <div class="margin target-text">
                         <div>
-                          建有村综治室，化解矛盾纠纷<label class="margin-sm"
+                          建有村综治中心，化解矛盾纠纷<label class="margin-sm"
                                                           style="color:#1AFD9BFF;font-size: 1.4rem">51</label>件，化解率<label
                             class="margin-sm" style="color:#1AFD9BFF;font-size: 1.4rem">98</label>%
                         </div>
@@ -161,43 +198,7 @@
                 </el-row>
               </div>
             </div>
-
-            <div class="view-box">
-              <div class="margin-left margin-right margin-bottom" style="width:100%;">
-                <el-popover
-                    class="box-item"
-                    content='“⼾夯实”实现⼾占⽐超50%，全村⼈均年可⽀配收⼊超全市农村⼈均年可⽀配收⼊，村集体经济稳定收⼊超20万元'
-                    placement="top-start">
-                  <template #reference>
-                    <Title title="三超"/>
-                  </template>
-                </el-popover>
-                <div class="target-content">
-                  <el-row :gutter="24" class="margin">
-                    <el-col :span="24">
-                      <div class="text-center">
-                        <text class="target-value">全村人均年可支配收入超全市农村人均年可支配收入</text>
-                        <column-chart :data="[2.5, 2.68, 3.24]" :label="['2022年', '2023年', '2024年']"
-                                      :mark-line="[2.19,2.30,2.45]"/>
-                        <text class="target-text">农村人均年可支配收入</text>
-                      </div>
-                    </el-col>
-                    <el-col :span="24">
-                      <div class="text-center margin-top">
-                        <text class="target-value">村集体经济收入超20万元</text>
-                        <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '2024年']"
-                                      :mark-line="[20,20,20]"/>
-                        <text class="target-text">村集体经济收入</text>
-                      </div>
-                    </el-col>
-                  </el-row>
-                  <div style="color:#1AFD9BFF;font-size: 2rem">“户夯实”实现户占比50.79%</div>
-                </div>
-              </div>
-            </div>
-            <div/>
           </div>
-
           <div>
             <Title title="四优"/>
             <div class="target-content">
@@ -280,8 +281,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import {reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";

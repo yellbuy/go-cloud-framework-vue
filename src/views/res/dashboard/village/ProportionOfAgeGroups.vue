@@ -3,8 +3,8 @@
     <div class="flare-container">
       <div class="target-content">
         <div ref="echart" class="echartDiv"></div>
-        <div>农业社会化服务协办员2名</div>
-        <div>姓名：<span style="color:#1AFD9BFF;">李*</span> 职务：<span style="color:#1AFD9BFF;">主任</span> 电话：<span
+        <div>农业社会化服务协办员1名</div>
+        <div>姓名：<span style="color:#1AFD9BFF;">李*</span> &nbsp;&nbsp;职务：<span style="color:#1AFD9BFF;">主任</span> &nbsp;&nbsp;电话：<span
             style="color:#1AFD9BFF;">135****8935</span></div>
       </div>
     </div>
@@ -14,7 +14,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from 'echarts';
-import {onMounted, reactive, ref, toRefs} from 'vue';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   setup() {
@@ -43,14 +43,14 @@ export default {
         },
         series: [
           {
-            name: "产业占比",
+            name: "产值占比",
             type: 'pie',
             radius: ['50%', '70%'],
             roseType: 'radius',
             avoidLabelOverlap: false,
             data: [
-              {value: 28.32, name: "芒果"},
-              {value: 26.14, name: "蔬菜"},
+              {value: 28.32, name: "芒果产值"},
+              {value: 26.14, name: "蔬菜产值"},
             ],
             label: { // 图表的标签配置，例如柱状图的标签显示在柱子上方或下方等位置。
               show: true, // 是否显示标签，默认为false。根据需要开启。
