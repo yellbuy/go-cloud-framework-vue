@@ -99,7 +99,7 @@
                         placement="top-start"
                     >
                       <template #reference>
-                        <div class="margin-left margin-top-lg margin-bottom" style="color:#3e98f6;font-size: 1.2rem;">
+                        <div class="margin-left margin-top-lg margin-bottom" style="color:#fff;font-size: 1.2rem;">
                           组织强
                         </div>
                       </template>
@@ -134,7 +134,7 @@
                         content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
                         placement="top-start">
                       <template #reference>
-                        <div class="margin-left margin-top-lg margin-bottom" style="color:#3e98f6;font-size: 1.2rem;">
+                        <div class="margin-left margin-top-lg margin-bottom" style="color:#fff;font-size: 1.2rem;">
                           治理强
                         </div>
                       </template>
@@ -200,12 +200,12 @@
           <div>
             <Title title="四优"/>
             <div class="target-content">
-              <div class="margin-top" style="color:#3e98f6;font-size: 1.2rem;">产业优</div>
+              <div class="margin-top" style="color:#fff;font-size: 1.2rem;">产业优</div>
               <div class="margin-top">
                 <ProportionOfAgeGroups/>
               </div>
               <div class="margin-top">
-                <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">环境优</div>
+                <div class="margin-tb" style="color:#fff;font-size: 1.2rem;">环境优</div>
                 <div class="target-text target-content">
                   <environmental-excellence :data="[77.1, 100, 100, 100]"
                                             :label="['⾃来⽔\n普及率', '农村卫\n⽣厕所\n普及率', '⽣活污\n⽔有效\n治理覆\n盖率', '自然村\n（组）通\n硬化路率']"
@@ -213,7 +213,7 @@
                 </div>
               </div>
               <div class="margin-top">
-                <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">文化优</div>
+                <div class="margin-tb" style="color:#fff;font-size: 1.2rem;">文化优</div>
                 <div class="target-text target-content target-container-h6" style="text-align: left">
                   <el-row class="margin-sm text-center">
                     <el-col :span="6" class="text-right">
@@ -262,7 +262,7 @@
                 </div>
               </div>
               <div class="margin-top">
-                <div class="margin-tb" style="color:#3e98f6;font-size: 1.2rem;">服务优</div>
+                <div class="margin-tb" style="color:#fff;font-size: 1.2rem;">服务优</div>
                 <div class="target-text target-content padding-lg" style="text-align: left">
                   <environmental-excellence :data="[100,99.7, 100]"
                                             :label="['学前教育三\n年⽑⼊园率', '基本养老保\n险参保率', '基本医疗保\n险参保率']"

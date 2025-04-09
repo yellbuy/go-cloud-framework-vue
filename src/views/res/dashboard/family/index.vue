@@ -81,7 +81,7 @@
           </div>
           <div class="margin-lr-lg margin-top-sm">
             <div class="target-header">
-              <span class="target-title">主要监测群体</span>
+              <span class="target-title">主要监测群体（2025）</span>
             </div>
             <div class="target-content">
               <main-monitoring :keyPoint="mainData['低收入重点监测群体占比']"
