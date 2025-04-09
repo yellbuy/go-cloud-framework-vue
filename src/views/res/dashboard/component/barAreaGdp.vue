@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <dv-border-box10>
       <div class="flare-container">
-        <div class="flare-title text-left padding-left padding-top-xs">地区生产总值对比（单位：亿元）</div>
+        <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">地区生产总值对比（单位：亿元）</div>
         <div ref="echart" class="echartDiv" id="barAreaGdp"></div>
       </div>
     </dv-border-box10>
@@ -118,7 +118,7 @@ export default {
           //titleStroke: 'rgb(252.5, 245.7, 235.5)',
           lineStroke: 'orange',
           label:true,
-          labelFill:"rgb(252.5, 245.7, 235.5)",
+          labelFill:"white",
           labelFontSize:10,
           //labelFontFamily:"Arial",
           labelSpacing:30,
@@ -127,7 +127,7 @@ export default {
           gridLineWidth:2,
           gridLineDash:[4,4],
           gridStrokeOpacity:0.5,
-          gridStroke:"white",
+          gridStroke:"#777",
           //gridAreaFill:"white",
           animate:true,
           // Tick
@@ -142,8 +142,8 @@ export default {
           titleStroke: 'orange',
           titlePosition:'left',
           label:true,
-          labelFill:"rgb(252.5, 245.7, 235.5)",
-          labelFontSize:10,
+          labelFill:"#fff",
+          labelFontSize:12,
           labelSpacing:10,
           // titleFill: 'steelblue',
           line: true,
@@ -173,14 +173,20 @@ export default {
           
           .transform({ type: 'dodgeX' })
           .label({
+            position: 'top',
+            dy: -12,
+            fill: '#fff',
+            fontSize: 10,
+            //transform: [{ type: "contrastReverse" }],
             text: '生产总值',
-            render: (text, datum) => {
-              return `
-                <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
-                  ${datum['生产总值']} 亿元</span>
-                </div>
-              `;
-            },
+
+            // render: (text, datum) => {
+            //   return `
+            //     <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
+            //       ${datum['生产总值']}</span>
+            //     </div>
+            //   `;
+            // },
           })
           // .label({'生产总值': {
           //   content: (data) => `${data['年份']}: ${data['生产总值']}`, // 设置标签内容格式

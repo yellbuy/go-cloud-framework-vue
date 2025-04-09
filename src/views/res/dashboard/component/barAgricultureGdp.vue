@@ -69,12 +69,12 @@ export default {
           gridLineWidth:2,
           gridLineDash:[4,4],
           gridStrokeOpacity:0.5,
-          gridStroke:"white",
+          gridStroke:"#777",
           //gridAreaFill:"white",
           animate:true,
           // Tick
           })
-          .scale('x', { padding: 0.5})
+          .scale('x', { padding: 0.3})
         .axis('x', { 
           arrow: false,
           tick:false,
@@ -84,8 +84,8 @@ export default {
           titleStroke: 'orange',
           titlePosition:'left',
           label:true,
-          labelFill:"rgb(252.5, 245.7, 235.5)",
-          labelFontSize:10,
+          labelFill:"#fff",
+          labelFontSize:12,
           labelSpacing:10,
           // titleFill: 'steelblue',
           line: true,
@@ -116,13 +116,17 @@ export default {
           .transform({ type: 'dodgeX' })
           .label({
             text: '总产值',
-            render: (text, datum) => {
-              return `
-                <div style="left:-50%;position:relative;font-size:0.8rem;color:black;">
-                  ${datum['总产值']} 亿元</span>
-                </div>
-              `;
-            },
+            position: 'top',
+            dy: -12,
+            fill: '#fff',
+            fontSize: 10,
+            // render: (text, datum) => {
+            //   return `
+            //     <div style="left:-50%;position:relative;font-size:0.8rem;color:black;">
+            //       ${datum['总产值']} 亿元</span>
+            //     </div>
+            //   `;
+            // },
           })
           // .label({'生产总值': {
           //   content: (data) => `${data['年份']}: ${data['生产总值']}`, // 设置标签内容格式

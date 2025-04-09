@@ -65,7 +65,7 @@ export default {
           gridLineWidth:2,
           gridLineDash:[4,4],
           gridStrokeOpacity:0.5,
-          gridStroke:"white",
+          gridStroke:"#777",
           //gridAreaFill:"white",
           animate:true,
           // Tick
@@ -80,8 +80,8 @@ export default {
           titleStroke: 'orange',
           titlePosition:'left',
           label:true,
-          labelFill:"rgb(252.5, 245.7, 235.5)",
-          labelFontSize:10,
+          labelFill:"#fff",
+          labelFontSize:12,
           labelSpacing:10,
           // titleFill: 'steelblue',
           line: true,
@@ -109,13 +109,17 @@ export default {
           .transform({ type: 'dodgeX' })
           .label({
             text: '人均可支配收入',
-            render: (text, datum) => {
-              return `
-                <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
-                  ${datum['人均可支配收入']}</span>
-                </div>
-              `;
-            },
+            position: 'top',
+            dy: -12,
+            fill: '#fff',
+            fontSize: 10,
+            // render: (text, datum) => {
+            //   return `
+            //     <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
+            //       ${datum['人均可支配收入']}</span>
+            //     </div>
+            //   `;
+            // },
           })
           .tooltip({ name: '区域', channel: 'color' })
           .tooltip({ name: '人均可支配收入', channel: 'y' })

@@ -33,14 +33,19 @@
             </div>
             <div class="target-content target-container-h1 target-text">
                 <el-row class="" :gutter="6">
-                  <el-col :span="24">
+                  <el-col :span="12">
                     <barAreaGdp></barAreaGdp>
                   </el-col>
-                  <el-col :span="24">
-                   
+                  <el-col :span="12">
                     <barPeopleGdp></barPeopleGdp>
                   </el-col>
                   <el-col :span="12">
+                    <barResearchFee></barResearchFee>
+                  </el-col>
+                  <el-col :span="12">
+                    <barCityRate></barCityRate>
+                  </el-col>
+                  <!-- <el-col :span="12">
                     <barFamilyGdp></barFamilyGdp>
                   </el-col>
                   <el-col :span="12">
@@ -48,7 +53,7 @@
                   </el-col>
                   <el-col :span="24">
                     <barAgricultureGdp></barAgricultureGdp>
-                  </el-col>
+                  </el-col> -->
                 </el-row>
               </div>
             <!-- <div class="target-header margin-top-sm">
@@ -76,8 +81,21 @@
             <div class="target-header">
               <span class="target-title" @click="onClickTargetDetail('民生优享')">民生优享</span>
             </div>
-            <div class="target-content target-container-h2">
-              
+            <div class="target-content">
+              <el-row class="" :gutter="6">
+                  <el-col :span="12">
+                    <barFamilyGdp></barFamilyGdp>
+                  </el-col>
+                  <el-col :span="12">
+                    <barTownGdp></barTownGdp>
+                  </el-col>
+                  <el-col :span="12">
+                    <barPeopleRate></barPeopleRate>
+                  </el-col>
+                  <el-col :span="12">
+                    <barAgricultureGdp></barAgricultureGdp>
+                  </el-col>
+                </el-row>
               <!-- <dv-capsule-chart :config="msyxConfig" style="width:100%;height:100%" /> -->
               <el-row class="margin-top-xl">
                   <el-col :span="8">
@@ -87,7 +105,7 @@
                     <gaugeProgress containerId="gaugeProgress2" :value="0.8649" :style="'height:12rem;'" text="全民基本医疗参保率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.613" :style="'height:12rem;'" text="常住人口城镇化率" :detailFontSize="18" :titleFontSize="14"/>
+                    <gaugeProgress containerId="gaugeProgress2" :value="0.945" :colorTickData="[{name: '2024 94%', value: 0.75}, {name: '2025 94.5%', value: 0.90}, {name: '2030 96%', value: 1}]" :style="'height:12rem;'" text="基本养老保险综合参保率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8">
                     <gaugeProgress containerId="gaugeProgress2" :value="0.9165" :style="'height:12rem;'" text="普惠性幼⼉园覆盖率" :detailFontSize="18" :titleFontSize="14"/>
@@ -100,12 +118,7 @@
                   </el-col>
                 </el-row>
             </div>
-            <div class="target-header margin-top-sm">
-              <span class="target-title" @click="onClickTargetDetail('社会优和')">社会优和</span>
-            </div>
-            <div class="target-content target-container-h2">
-              <barCountyShyh/>
-            </div>
+            
           </div>
           
           <div style="width:33%;padding-right:1rem;">
@@ -159,10 +172,16 @@
                 </el-row>
             </div>
             <div class="target-header margin-top-sm">
+              <span class="target-title" @click="onClickTargetDetail('社会优和')">社会优和</span>
+            </div>
+            <div class="target-content target-container-h4">
+              <barCountyShyh/>
+            </div>
+            <div class="target-header margin-top-sm">
               <span class="target-title" @click="onClickTargetDetail('党建优促')">党建优促</span>
             </div>
-            <div class="target-content">
-              <dv-capsule-chart :config="shyzConfig" style="width:100%;height:calc((100vh - 6rem) / 2 - 7.3rem)" />
+            <div class="target-content target-container-h4">
+              <dv-capsule-chart :config="shyzConfig" style="width:100%;" />
               <div>“三个身边”群众工作机制反映问题工单办结率</div>
             </div>
           </div>
@@ -180,9 +199,12 @@ import { useRoute, useRouter } from 'vue-router';
 import actVillage from "../component/actVillage.vue";
 import barAgricultureGdp from "../component/barAgricultureGdp.vue";
 import barAreaGdp from "../component/barAreaGdp.vue";
+import barCityRate from "../component/barCityRate.vue";
 import barCountyShyh from "../component/barCountyShyh.vue";
 import barFamilyGdp from "../component/barFamilyGdp.vue";
 import barPeopleGdp from "../component/barPeopleGdp.vue";
+import barPeopleRate from "../component/barPeopleRate.vue";
+import barResearchFee from "../component/barResearchFee.vue";
 import barStreet from "../component/barStreet.vue";
 import barTownGdp from "../component/barTownGdp.vue";
 import barCoutyGdp from "../component/barVillageGdp.vue";
@@ -207,6 +229,7 @@ export default {
   components: {
     barHuman,
     flareTarget,
+    barPeopleRate,
     barCountyShyh,
     rankingCounty,
     rankingVillage,
@@ -215,6 +238,8 @@ export default {
     barCoutyGdp,
     barAgricultureGdp,
     barPeopleGdp,
+    barCityRate,
+    barResearchFee,
     barStreet,
     actVillage,
     barAreaGdp,

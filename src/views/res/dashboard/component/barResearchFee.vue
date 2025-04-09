@@ -1,6 +1,11 @@
 <template>
-  <div >
-    <div ref="barCountyDjyc" class="echartDiv" id="barCountyDjyc" ></div>
+  <div id="flareTarget">
+    <dv-border-box10>
+      <div class="flare-container">
+        <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">研究与试验发展(R&D)经费投入强度(%)</div>
+        <div ref="echart" class="echartDiv" id="barResearchFee"></div>
+      </div>
+    </dv-border-box10>
   </div>
 </template>
 
@@ -13,22 +18,19 @@ export default {
     let state = reactive({
     })
     
+
         //挂载
     onMounted(async () => {
         const data = [
-          { name: '：矛盾纠纷化解率', 年份: '2024', 达标率: 100, 农村:22803 },
-          { name: '：矛盾纠纷化解率', 年份: '2025', 达标率: 95, 农村:24217 },
-          { name: '：矛盾纠纷化解率', 年份: '2030', 达标率: 98, 农村:25834 },
-          { name: '社会治安安全感满意度', 年份: '2024', 达标率: 94.82, 农村: 21926 },
-          { name: '社会治安安全感满意度', 年份: '2025', 达标率: 90, 农村:22978 },
-          { name: '社会治安安全感满意度', 年份: '2030', 达标率: 98, 农村:24553 },
-          { name: '政务服务好评率', 年份: '2024', 达标率: 100, 农村: 21926 },
-          { name: '政务服务好评率', 年份: '2025', 达标率: 90, 农村:22978 },
-          { name: '政务服务好评率', 年份: '2030', 达标率: 98, 农村:24553 },
+          // { name: '仁和区', 年份: '2022', 城镇: 44245, 农村:22803 },
+          { name: '2023', 年份: '2023', 投入强度: 0.81 },
+          { name: '2024', 年份: '2024', 投入强度: 0.82},
+          // { name: '攀枝花市', 年份: '2022', 城镇: 46009, 农村: 21926 },
+          { name: '2030', 年份: '2030', 投入强度: 1.08 },
         ];
 
         const chart = new Chart({
-          container: 'barCountyDjyc',
+          container: 'barResearchFee',
           autoFit: true,
           depth:1,
           padding:20,
@@ -54,7 +56,7 @@ export default {
           //titleStroke: 'rgb(252.5, 245.7, 235.5)',
           lineStroke: 'orange',
           label:true,
-          labelFill:"rgb(252.5, 245.7, 235.5)",
+          labelFill:"white",
           labelFontSize:10,
           //labelFontFamily:"Arial",
           labelSpacing:30,
@@ -63,11 +65,12 @@ export default {
           gridLineWidth:2,
           gridLineDash:[4,4],
           gridStrokeOpacity:0.5,
-          gridStroke:"white",
+          gridStroke:"#777",
           //gridAreaFill:"white",
           animate:true,
           // Tick
           })
+          .scale('x', { padding: 0.3})
         .axis('x', { 
           
           arrow: false,
@@ -78,8 +81,8 @@ export default {
           titleStroke: 'orange',
           titlePosition:'left',
           label:true,
-          labelFill:"rgb(252.5, 245.7, 235.5)",
-          labelFontSize:10,
+          labelFill:"#fff",
+          labelFontSize:12,
           labelSpacing:10,
           // titleFill: 'steelblue',
           line: true,
@@ -99,21 +102,30 @@ export default {
           // Tick
         
         })
-          .encode('x', '年份')
-          .encode('y', ['达标率'])
-          .encode('color', 'name')
+          .encode('x', ['年份'])
+          .encode('y', ['投入强度'])
+          .encode('color', 'yellow')
+          .encode('text', ['投入强度'])
+          //.encode('color', ['linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)'])
+          //.encode('color', '投入强度')
+          //.style('shape', 'column25d')
           
-          .encode('text', ['达标率'])
           .transform({ type: 'dodgeX' })
           .label({
-            text: '占比',
-            render: (text, datum) => {
-              return `
-                <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
-                  ${datum['达标率']}%</span>
-                </div>
-              `;
-            },
+            position: 'top',
+            dy: -12,
+            fill: '#fff',
+            fontSize: 10,
+            //transform: [{ type: "contrastReverse" }],
+            text: '投入强度',
+
+            // render: (text, datum) => {
+            //   return `
+            //     <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
+            //       ${datum['生产总值']}</span>
+            //     </div>
+            //   `;
+            // },
           })
           // .label({'生产总值': {
           //   content: (data) => `${data['年份']}: ${data['生产总值']}`, // 设置标签内容格式
@@ -124,10 +136,8 @@ export default {
           //   },
           //   offset: 10 // 设置标签偏移量，可以根据需要调整以避免遮挡柱子本身或其他标签
           // }})
-          .tooltip({ name: '名称', channel: 'color' })
-          .tooltip({ name: '占比%', channel: 'y' })
+          .tooltip({ name: '研究与试验发展(R&D)经费投入强度(%)', channel: 'y' })
           .legend({
-           
             color: {
               size:8,
               //itemLabelText: '图例项标签',
@@ -151,8 +161,8 @@ export default {
           // .text()
           // .data(data)
           // .encode('x', '年份')
-          // .encode('y', '达标率')
-          // .encode('text', '达标率')
+          // .encode('y', '城镇')
+          // .encode('text', '城镇')
           // .style('fill', 'white')
           // .style('textAlign', 'start')
 
@@ -168,7 +178,8 @@ export default {
  
 <style lang='scss' scoped>
 .echartDiv {
-  height: 20.5vh;
+  width: 100%;
+  height:17vh;
 }
 
 </style>
