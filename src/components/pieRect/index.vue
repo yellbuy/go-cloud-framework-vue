@@ -13,9 +13,15 @@
 				<animateTransform attributeName="transform" type="translate" from="0,640" to="0,0" dur="2s" repeatCount="1"/>
 				<g class="pieRectContainer-g" @click="handleClick(index,val)" v-for="(val,index) in list" :key="index">
 					<rect x="180" :y="val.y" width="420" :height="val.height" :fill="val.darkColor||'red'" :style="{stroke:val.ligntColor}"/>
-					<line x1="400" :y1="val.cy"  x2="640" :y2="val.cy" style="stroke:#ddd;stroke-width:2"></line>   
-					<text x="640" :y="val.cy" dy="-5"  :style="val.valueStyle||'fill:#ddd;text-anchor:start;font-size:16;'" >{{(val.value||0)+"%"}}</text>
-					<text x="400" :y="val.cy" dx="0"  dy="-5" :style="val.nameStyle||'fill:#ddd;text-anchor:start;font-size:16;'">{{val.name||'低收入群体'}}</text>	
+					<line x1="500" :y1="val.cy"  x2="640" :y2="val.cy" style="stroke:#ddd;stroke-width:2"></line>   
+					<text x="640" :y="val.cy" dy="-5" white-space="pre" :style="val.valueStyle||'fill:#ddd;text-anchor:start;font-size:16;'" >
+						{{(val.value||0)+"%"}}
+						<tspan x="640" dy="50">{{val.value2}}</tspan>
+					</text>
+					<text x="400" :y="val.cy" dx="0"  dy="-5" white-space="pre" :style="val.nameStyle||'fill:#ddd;text-anchor:start;font-size:16;'">
+						{{val.name||'低收入群体'}}
+						<tspan x="400" dy="50">{{val.name2}}</tspan>
+					</text>	
 				</g>
 			</g>	
 		</svg>

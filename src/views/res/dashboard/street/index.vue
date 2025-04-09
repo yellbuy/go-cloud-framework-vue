@@ -28,7 +28,7 @@
             <Title title="乡情介绍"/>
             <div class="target-content target-container-h2">
               <div class="target-text">
-                <div class="margin text-left" style="text-align: left;font-size:1.5rem;line-height: 2.8rem;">
+                <div class="margin text-left" style="text-align: left;font-size:1.5rem;line-height: 2.8rem;color:#bbb">
                   大龙潭彝族乡为彝、汉族杂居的民族乡。最高海拔2105米，最低海拔970米，乡境内多为山地，立体气候明显，属南亚热带半干旱季风气候，年平均气温20.5℃，年降雨量800毫米，无霜期长达350天左右。辖区面积242.8平方公里，下辖裕民村、拉鲊村、新街村、干坝子村、大龙潭村、混撒拉村6个行政村，共55个村民小组，常住人口3712户14321人。
                   <!--                  {{ mainData['乡情介绍'] || areaName }}-->
                 </div>
@@ -99,7 +99,7 @@
                         </template>
                       </el-popover>
 
-                      <div class="target-content" style="height:calc((100vh - 3.6rem) / 7">
+                      <div class="target-content" style="height:calc((100vh - 3.6rem) / 7 - 0.4rem">
                         <el-row>
                           <el-col :span="12">
                             <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 50%',value:0.50}]"
@@ -126,11 +126,16 @@
                           <img alt="" class="margin" src="./img/橄榄图.png" style="height:20vh"/>
                         </div> -->
                         <div>
-                              <pieRect style="height:13vh;width:100%;transform:scale(0.8,0.5) translate(0rem, -2rem);" :data='[{name:"10万以下",value:30,darkColor:"darkred",lightColor:"red",nameStyle:"fill:#ddd;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}
-                    ,{name:"10万-50万",value:35.4,darkColor:"orange",lightColor:"yellow",nameStyle:"fill:#333;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}
-                    ,{name:"50万以上",value:0.11,darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}]'/>
-                              </div>
+                            <pieRect style="width:100%;transform:scale(0.5,0.5) translate(0rem, -14rem);" 
+                            :data='[{name:"1.77万以下",name2:"",value:65.59,darkColor:"darkred",lightColor:"darkred",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
+                                  ,{name:"3.33万至4万",name2:"",value:16.43,darkColor:"orange",lightColor:"orange",nameStyle:"fill:#333;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
+                                  ,{name:"中等收入群体",value:34.31,darkColor:"yellow",lightColor:"yellow",nameStyle:"fill:#000;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
+                                  ,{name:"高收入群体",value:0.10,darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}]'/>
+                  
+                        </div>
+                        <div class="text-center" style="transform:translate(0rem, -15rem);">2024年度</div>
                       </div>
+                     
                     </div>
                     <div class="margin-top">
                       <Title title="重点监测群体各村分布户数图"/>
@@ -158,12 +163,12 @@
 系基本构建，物质富足、精神富有、乡风文明。<br/>产业发展规模化:产业适度规模化发展`)"/>
             <div class="target-content">
               <div class="margin-top-xs">
-                <div style="color:#3e98f6;font-size: 1.2rem;text-align: center;line-height: 2rem;">产业发展规模化</div>
+                <div class="margin-bottom-sm text-center" style="color:white;font-size: 1.2rem;">产业发展规模化</div>
                 <div class="target-text">
-                  <div class="target-content padding target-container-h4">
+                  <div class="target-content target-container-h4">
                     <el-row :gutter="0">
                       <el-col :span="12">
-                        <div class="padding-tb">
+                        <div class="padding-tb-sm">
                           <div class="margin-tb-sm" style="font-size:1.2rem">芒果</div>
                           <div class="margin-tb-xs">面积<label class="margin-lr-sm"
                                                                      style="color:#1AFD9BFF;font-size: 1.4rem">10万</label>亩
@@ -201,7 +206,7 @@
                 </div>
               </div>
               <div class="margin-top-xs">
-                <div style="color:#3e98f6;font-size: 1.2rem;text-align: center;line-height: 2rem;">公共服务均等化</div>
+                <div class="margin-tb-sm text-center" style="color:white;font-size: 1.2rem;">公共服务均等化</div>
                 <div class="target-text">
                   <div class="target-content padding target-container-h4">
                     <el-row :gutter="8">
@@ -247,7 +252,7 @@
                 </div>
               </div>
               <div class="margin-top-xs">
-                <div style="color:#3e98f6;font-size: 1.2rem;text-align: center;line-height: 2rem;">基础设施一体化</div>
+                <div class="margin-tb-sm text-center" style="color:white;font-size: 1.2rem;">基础设施一体化</div>
                 <div class="target-text">
                   <div class="target-content padding target-container-h4">
                     <el-row :gutter="0">
@@ -283,7 +288,7 @@
                 </div>
               </div>
               <div class="margin-top-xs">
-                <div style="color:#3e98f6;font-size: 1.2rem;text-align: center;line-height: 2rem;">乡村治理现代化</div>
+                <div class="margin-tb-sm text-center" style="color:white;font-size: 1.2rem;">乡村治理现代化</div>
                 <div class="target-text">
                   <div class="target-content padding target-container-h4">
                     <el-row :gutter="0">
@@ -465,7 +470,7 @@ export default {
   color: rgb(7, 2, 28);
 
   #dv-full-screen-container {
-    background-image: url("/img/res/bg_2.jpg");
+    background-image: url("/img/res/bg_2.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

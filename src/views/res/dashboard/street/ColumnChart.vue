@@ -9,7 +9,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import {onMounted, reactive, ref, toRefs} from 'vue';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   props: {
@@ -39,7 +39,7 @@ export default {
           },
           axisLabel: {
             fontSize: 11,
-            color: '#28A2CE'
+            color: '#eee'
           }
         },
         yAxis: {
@@ -49,7 +49,7 @@ export default {
           },
           axisLabel: {
             fontSize: 11,
-            color: '#28A2CE',
+            color: '#eee',
             formatter: '{value}户'
           }
         },
@@ -88,7 +88,7 @@ export default {
             data: props.data,
             label: {
               show: true,
-              color: "#ffffff",
+              color: "#eee",
               fontSize: 14,
               formatter: '{c}户',
             },
