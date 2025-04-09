@@ -14,7 +14,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from 'echarts';
-import { onMounted, reactive, ref, toRefs } from 'vue';
+import {onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   setup() {
@@ -38,7 +38,7 @@ export default {
           itemHeight: 8,
           textStyle: {
             fontSize: 12,
-            color: '#428BD4',
+            color: '#fff',
           }
         },
         series: [
@@ -56,7 +56,7 @@ export default {
               show: true, // 是否显示标签，默认为false。根据需要开启。
               textStyle: { // 这里可以设置标签的文本样式，包括字体大小等。
                 fontSize: 18,
-                color: "#428BD4"
+                color: "#fff"
               },
               formatter: '{d}%'
             }

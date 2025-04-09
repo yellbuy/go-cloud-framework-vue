@@ -55,7 +55,7 @@ export default {
               lineHeight: 15,
               textStyle: {
                 fontSize: 13,
-                color: '#28A2CE',
+                color: '#fff',
               }
             },
             type: 'pie',
