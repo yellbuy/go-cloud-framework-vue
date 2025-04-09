@@ -39,7 +39,7 @@ export default {
           },
           axisLabel: {
             fontSize: 11,
-            color: '#28A2CE'
+            color: '#fff'
           }
         },
         yAxis: {
@@ -49,7 +49,7 @@ export default {
           },
           axisLabel: {
             fontSize: 11,
-            color: '#28A2CE',
+            color: '#fff',
             formatter: '{value}%'
           }
         },
@@ -87,7 +87,7 @@ export default {
             },
             label: {
               show: true,
-              color: "#ffffff",
+              color: "#fff",
               fontSize: 14,
               formatter: '{c}%',
             },

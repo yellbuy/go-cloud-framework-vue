@@ -40,7 +40,7 @@ export default {
               },
               axisLabel: {
                 fontSize: 12,
-                color: '#28A2CE'
+                color: '#fff'
               }
             },
             yAxis: {
@@ -50,7 +50,7 @@ export default {
               },
               axisLabel: {
                 fontSize: 12,
-                color: '#28A2CE',
+                color: '#fff',
                 formatter: '{value}万'
               }
             },

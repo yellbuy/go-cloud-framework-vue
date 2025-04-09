@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
-import { computed, getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
+import {computed, getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 
 export default {
   props: {
@@ -87,6 +87,8 @@ export default {
             '6', `/img/res/village_6.png`);
         scene.addImage(
             '7', `/img/res/village_7.png`);
+        scene.addImage(
+            '8', `/img/res/village_8.png`);
 
         fetch(`/data/res/area/${props.areaCode}.json`)
             .then((res) => res.json())

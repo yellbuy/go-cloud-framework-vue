@@ -29,6 +29,7 @@
             <div class="target-content target-container-h2">
               <div class="target-text">
                 <div class="margin text-left" style="text-align: left;font-size:1.5rem;line-height: 2.8rem;">
+                  大龙潭乡整体工作是围绕着两高四优指标开展与落实。
                   大龙潭彝族乡为彝、汉族杂居的民族乡。最高海拔2105米，最低海拔970米，乡境内多为山地，立体气候明显，属南亚热带半干旱季风气候，年平均气温20.5℃，年降雨量800毫米，无霜期长达350天左右。辖区面积242.8平方公里，下辖裕民村、拉鲊村、新街村、干坝子村、大龙潭村、混撒拉村6个行政村，共55个村民小组，常住人口3712户14321人。
                   <!--                  {{ mainData['乡情介绍'] || areaName }}-->
                 </div>
@@ -38,7 +39,6 @@
               <antvImageMap :areaCode="areaCode" areaGoTo="village" :center="[500,480]" :zoom="2.2"/>
             </div>
 
-            
           </el-col>
           <el-col :span="12">
             <div class="margin-top">
@@ -51,94 +51,93 @@
                 <Label color="lightblue" :text="'夯实户'" title="27.56%" class="margin-lr-sm"/>
               </div>
             </div>
-            
+
             <div class="margin-top">
               <el-row :gutter="10">
-                
                 <el-col :span="12">
                   <div class="margin-top">
                     <Title title="村共创完成情况" @click="onClickPleaseWait('查看未完成村信息')"/>
                     <div class="target-content">
-                      <div  @Click="onClickTargetDetail('四优指标解读',`<b>产业优：</b>具备至少一个特色富民产业，富民产业产值占产业总产值60%以上。
+                      <div @Click="onClickTargetDetail('四优指标解读',`<b>产业优：</b>具备至少一个特色富民产业，富民产业产值占产业总产值60%以上。
                         <br/><b>环境优：</b>生活用水安全稳定，自来水普及率达95%以上，农村卫生厕所普及率达到98%，生活污水得到有效治理，生活垃圾有效运转处置。住房安全，村容村貌整洁，无乱搭乱建，自然村（组）通硬化路率达100%。
       <br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
       <br><b>服务优：</b>公共服务保障完善。每个村有1名农村社会化服务协办员，开展农业社会化服务。残疾儿童实现随班就读或送教上门。有家庭医生服务团队。成功创建市级健康村。适龄人员养老保险参保率达95%。`)">
                         <barNestedChart
-                                  :seriesData1="[100, 100, 100]"
-                                  :seriesData2="[20, 18, 30]"
-                                  :color1="['#83bff6','#188df0','#188df0']"
-                                  :xAxisData="['户夯实实现户', '村集体经济收入', '人均可支配收入']"/>
+                            :color1="['#83bff6','#188df0','#188df0']"
+                            :seriesData1="[100, 100, 100]"
+                            :seriesData2="[20, 18, 30]"
+                            :xAxisData="['户夯实实现户', '村集体经济收入', '人均可支配收入']"/>
                       </div>
                       <div @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
                         <br/><b>治理强：</b>居民自治体系健全，居民公约完善，自治组织运行有序有效。“四议两公开”规范化建设，一村一民（辅）警，一村一法律顾问。法律公共服务室与法律援助率达100%。矛盾纠纷一站式处理，化解率达95%以上，性质恶劣命案零发生。`)">
                         <barNestedChart
-                                :seriesData1="[100, 100, 100, 100]"
-                                :seriesData2="[60, 56, 75, 30]"
-                                :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
-                                :xAxisData="['产业优', '环境优', '文化优', '服务优']"/>
+                            :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
+                            :seriesData1="[100, 100, 100, 100]"
+                            :seriesData2="[60, 56, 75, 30]"
+                            :xAxisData="['产业优', '环境优', '文化优', '服务优']"/>
                       </div>
                       <div>
                         <barNestedChart
-                                :seriesData1="[100, 100]"
-                                :seriesData2="[90, 80]"
-                                :color1="['rgb(248, 152.1, 152.1)','#F56C6C','rgb(196, 86.4, 86.4)']"
-                                :xAxisData="['治理强', '组织强']"/>
+                            :color1="['rgb(248, 152.1, 152.1)','#F56C6C','rgb(196, 86.4, 86.4)']"
+                            :seriesData1="[100, 100]"
+                            :seriesData2="[90, 80]"
+                            :xAxisData="['治理强', '组织强']"/>
                       </div>
                     </div>
                   </div>
                 </el-col>
                 <el-col :span="12">
                   <div class="margin-top">
-                      <el-popover
-                          class="box-item"
-                          content='户夯实实现户数占比高于50%。基本富裕实现村数占比高于75%。'
-                          placement="top-start"
-                      >
-                        <template #reference>
-                          <Title title="两高"/>
-                        </template>
-                      </el-popover>
+                    <el-popover
+                        class="box-item"
+                        content='户夯实实现户数占比高于50%。基本富裕实现村数占比高于75%。'
+                        placement="top-start"
+                    >
+                      <template #reference>
+                        <Title title="两高"/>
+                      </template>
+                    </el-popover>
 
-                      <div class="target-content" style="height:calc((100vh - 3.6rem) / 7">
-                        <el-row>
-                          <el-col :span="12">
-                            <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 50%',value:0.50}]"
-                                          :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
-                                          :style="'height:11rem'"
-                                          :titleFontSize="12" :value="mainData['基本富裕达标户数占比'] || 0.2755"
-                                          text="共3712户，夯实户1023户"/>
-                          </el-col>
-                          <el-col :span="12">
-                            <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 75%',value:0.75}]"
-                                          :colorValueData="[[0.75, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
-                                          :style="'height:11rem'"
-                                          :titleFontSize="12" :value="mainData['基本富裕实现村数占比'] || 0.16"
-                                          text="共6村，实现1村"/>
-                          </el-col>
-                        </el-row>
-                      </div>
+                    <div class="target-content" style="height:calc((100vh - 3.6rem) / 7">
+                      <el-row>
+                        <el-col :span="12">
+                          <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 50%',value:0.50}]"
+                                         :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
+                                         :style="'height:11rem'"
+                                         :titleFontSize="12" :value="mainData['基本富裕达标户数占比'] || 0.2755"
+                                         text="共3712户，夯实户1023户"/>
+                        </el-col>
+                        <el-col :span="12">
+                          <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 75%',value:0.75}]"
+                                         :colorValueData="[[0.75, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
+                                         :style="'height:11rem'"
+                                         :titleFontSize="12" :value="mainData['基本富裕实现村数占比'] || 0.16"
+                                         text="共6村，实现1村"/>
+                        </el-col>
+                      </el-row>
                     </div>
-                   
-                    <div class="margin-top">
-                      <Title title="全乡家庭年收入结构图"/>
-                      <div class="target-content target-container-h3">
-                        <!-- <div class="text-center padding">
-                          <img alt="" class="margin" src="./img/橄榄图.png" style="height:20vh"/>
-                        </div> -->
-                        <div>
-                              <pieRect style="height:13vh;width:100%;transform:scale(0.8,0.5) translate(0rem, -2rem);" :data='[{name:"10万以下",value:30,darkColor:"darkred",lightColor:"red",nameStyle:"fill:#ddd;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}
+                  </div>
+
+                  <div class="margin-top">
+                    <Title title="全乡家庭年收入结构图"/>
+                    <div class="target-content target-container-h3">
+                      <!-- <div class="text-center padding">
+                        <img alt="" class="margin" src="./img/橄榄图.png" style="height:20vh"/>
+                      </div> -->
+                      <div>
+                        <pieRect :data='[{name:"10万以下",value:30,darkColor:"darkred",lightColor:"red",nameStyle:"fill:#ddd;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}
                     ,{name:"10万-50万",value:35.4,darkColor:"orange",lightColor:"yellow",nameStyle:"fill:#333;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}
-                    ,{name:"50万以上",value:0.11,darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}]'/>
-                              </div>
+                    ,{name:"50万以上",value:0.11,darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}]' style="height:13vh;width:100%;transform:scale(0.8,0.5) translate(0rem, -2rem);"/>
                       </div>
                     </div>
-                    <div class="margin-top">
-                      <Title title="重点监测群体各村分布户数图"/>
-                      <div class="target-content target-container-h3">
-                        <column-chart :data="[24,16,11,28,35,51]"
-                                      :label="['大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"/>
-                      </div>
+                  </div>
+                  <div class="margin-top">
+                    <Title title="重点监测群体各村分布户数图"/>
+                    <div class="target-content target-container-h3">
+                      <column-chart :data="[24,16,11,28,35,51]"
+                                    :label="['大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"/>
                     </div>
+                  </div>
                 </el-col>
               </el-row>
             </div>
@@ -166,7 +165,7 @@
                         <div class="padding-tb">
                           <div class="margin-tb-sm" style="font-size:1.2rem">芒果</div>
                           <div class="margin-tb-xs">面积<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.4rem">10万</label>亩
+                                                               style="color:#1AFD9BFF;font-size: 1.4rem">10万</label>亩
                           </div>
                           <div class="margin-tb-xs">产量<label class="margin-lr-sm"
                                                                style="color:#1AFD9BFF;font-size: 1.4rem">4.7万</label>吨
@@ -175,7 +174,7 @@
                                                                style="color:#1AFD9BFF;font-size: 1.4rem">1.3亿</label>元
                           </div>
                           <div class="margin-tb-xs">农业产值占比<label class="margin-lr-sm"
-                                                               style="color:#1AFD9BFF;font-size: 1.4rem">28.32</label>%
+                                                                       style="color:#1AFD9BFF;font-size: 1.4rem">28.32</label>%
                           </div>
                         </div>
                       </el-col>
@@ -183,7 +182,7 @@
                         <div class="padding-tb">
                           <div class="margin-tb-sm" style="font-size:1.2rem">蔬菜</div>
                           <div class="margin-tb-xs">面积<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.4rem">1.4万</label>亩
+                                                               style="color:#1AFD9BFF;font-size: 1.4rem">1.4万</label>亩
                           </div>
                           <div class="margin-tb-xs">产量<label class="margin-lr-sm"
                                                                style="color:#1AFD9BFF;font-size: 1.4rem">4.07万</label>吨
@@ -192,7 +191,7 @@
                                                                style="color:#1AFD9BFF;font-size: 1.4rem">1.2亿</label>元
                           </div>
                           <div class="margin-tb-xs">农业产值占比<label class="margin-lr-sm"
-                                                               style="color:#1AFD9BFF;font-size: 1.4rem">26.14</label>%
+                                                                       style="color:#1AFD9BFF;font-size: 1.4rem">26.14</label>%
                           </div>
                         </div>
                       </el-col>
@@ -331,9 +330,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import { ElMessageBox } from 'element-plus';
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {ElMessageBox} from 'element-plus';
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
@@ -344,10 +343,22 @@ import barNestedChart from "/@/views/res/dashboard/component/barNestedChart.vue"
 import ColumnChart from "/@/views/res/dashboard/street/ColumnChart.vue";
 import OvalShape from "/@/views/res/dashboard/street/OvalShape.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
+
 export default {
   name: "IndexDashboard",
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: {barNestedChart, ColumnChart, OvalShape, Label1, pieRect, Label, Title, antvImageMap, gaugeProgress, radarEchart},
+  components: {
+    barNestedChart,
+    ColumnChart,
+    OvalShape,
+    Label1,
+    pieRect,
+    Label,
+    Title,
+    antvImageMap,
+    gaugeProgress,
+    radarEchart
+  },
   setup() {
     const route = useRoute();
     const router = useRouter();

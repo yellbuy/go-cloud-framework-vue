@@ -53,8 +53,6 @@
               <Label :text="'夯实户占比'" color="lightgreen" :title="'16.7%'"/>
             </div>
 
-            
-
             <div class="view-box">
               <div class="margin-left margin-right margin-bottom" style="width:100%;">
                 <el-popover
@@ -281,8 +279,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import ColumnChart from "/@/views/res/dashboard/village/ColumnChart.vue";
