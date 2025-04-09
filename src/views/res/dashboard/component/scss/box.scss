@@ -4,24 +4,24 @@
 }
 
 body {
-  background-color: #0d0d45;
+  background-color: #204de080;
 }
 
 .target-content {
   width: 100%;
   padding: 0.5em;
   text-align: center;
-  color: #28A2CE;
+  color: #eee;
   border-radius: 0.3em;
-  background-color: rgba(8, 10, 90, 0.5);
-  box-shadow: rgb(29, 72, 196) 0 0 25px 3px inset;
+  background-color: #204de080;
+  box-shadow: #2d4fb3 0 0 25px 3px inset;
 }
 
 .target-header {
   text-align: left;
   height: 2.5rem;
-  background-image: linear-gradient(to right, #061A8F, transparent);
-  border-radius: 0.5em;
+  background-image: linear-gradient(to top, #204de080, blue);
+  border-radius: 0em;
 }
 
 .target-container-h1 {
@@ -74,7 +74,7 @@ body {
 
 .target-text {
   font-size: 1rem;
-  color: #28A2CE;
+  color: #3fb8e4;
 }
 
 .target-value{

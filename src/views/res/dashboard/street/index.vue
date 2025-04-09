@@ -118,13 +118,7 @@
                         </el-row>
                       </div>
                     </div>
-                    <div class="margin-top">
-                      <Title title="重点监测群体各村分布户数图"/>
-                      <div class="target-content target-container-h3">
-                        <column-chart :data="[24,16,11,28,35,51]"
-                                      :label="['大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"/>
-                      </div>
-                    </div>
+                   
                     <div class="margin-top">
                       <Title title="全乡家庭年收入结构图"/>
                       <div class="target-content target-container-h3">
@@ -132,10 +126,17 @@
                           <img alt="" class="margin" src="./img/橄榄图.png" style="height:20vh"/>
                         </div> -->
                         <div>
-                              <pieEllipse style="height:13vh;width:100%;transform:scale(0.8,0.6) translate(0rem, -2rem);" :data='[{name:"10万以下",value:"30%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:54;",valueStyle:"fill:#bbb;text-anchor:start;font-size:54;"}
-                    ,{name:"10万-50万",value:"35.4%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:54;",valueStyle:"fill:#bbb;text-anchor:end;font-size:54;"}
-                    ,{name:"50万以上",value:"0.11%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}]'/>
+                              <pieRect style="height:13vh;width:100%;transform:scale(0.8,0.5) translate(0rem, -2rem);" :data='[{name:"10万以下",value:30,darkColor:"darkred",lightColor:"red",nameStyle:"fill:#ddd;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}
+                    ,{name:"10万-50万",value:35.4,darkColor:"orange",lightColor:"yellow",nameStyle:"fill:#333;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}
+                    ,{name:"50万以上",value:0.11,darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:54;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}]'/>
                               </div>
+                      </div>
+                    </div>
+                    <div class="margin-top">
+                      <Title title="重点监测群体各村分布户数图"/>
+                      <div class="target-content target-container-h3">
+                        <column-chart :data="[24,16,11,28,35,51]"
+                                      :label="['大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"/>
                       </div>
                     </div>
                 </el-col>
@@ -336,7 +337,7 @@ import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
-import pieEllipse from "/@/components/pieEllipse/index.vue";
+import pieRect from "/@/components/pieRect/index.vue";
 import Label from "/@/views/res/dashboard/component/Label.vue";
 import Label1 from "/@/views/res/dashboard/component/Label1.vue";
 import barNestedChart from "/@/views/res/dashboard/component/barNestedChart.vue";
@@ -346,7 +347,7 @@ import Title from "/@/views/res/dashboard/village/Title.vue";
 export default {
   name: "IndexDashboard",
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: {barNestedChart, ColumnChart, OvalShape, Label1, pieEllipse, Label, Title, antvImageMap, gaugeProgress, radarEchart},
+  components: {barNestedChart, ColumnChart, OvalShape, Label1, pieRect, Label, Title, antvImageMap, gaugeProgress, radarEchart},
   setup() {
     const route = useRoute();
     const router = useRouter();

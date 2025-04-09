@@ -357,7 +357,7 @@ export default {
 #data-view {
   width: 100%;
   height: 100%;
-  color: rgb(40, 157, 202);
+  color: #ccc;
   background-image: url("./img/bg_3.png");
 
   #dv-full-screen-container {
@@ -397,7 +397,7 @@ export default {
   width: 100%;
   height: 3rem;
   background-color: rgb(2, 30, 93);
-  color: rgb(39, 159, 204);
+  color: #ddd;
   font-size: 1.5rem;
   text-align: center;
   line-height: 3rem;

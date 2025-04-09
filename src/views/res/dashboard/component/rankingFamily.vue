@@ -83,7 +83,7 @@ export default {
             },
           ],
           unit: '%',
-          //color:'#E6A23C',
+          color:'yellow',
           valueFormatter:(item:any)=>{
             return '共'+item.total+"户"
           },

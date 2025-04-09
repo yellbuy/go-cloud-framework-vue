@@ -87,30 +87,30 @@
             <span class="target-title">收入结构分析</span>
           </div>
           <div class="target-content target-container-h3" @click="onClickPleaseWait('收入结构分析查看')">
-            <el-row>
+            <el-row :gutter="4">
               <el-col :span="8">
                 <div style="height:18vh;" class="margin-top-xl padding-top-lg">
-                  <pieEllipse style="transform:scale(1.5,1.2);translate(150, 0);" :data='[{name:"低收入群体",value:"48.66%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}
-			,{name:"中等收入群体",value:"50.5%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:end;font-size:36;"}
-			,{name:"高收入群体",value:"0.84%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:36;"}]'/>
+                  <pieRect style="transform:scale(1.2,1.2);translate(120, 0);" :data='[{name:"低收入群体",value:48.66,darkColor:"darkred",lightColor:"red",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"中等收入群体",value:50.5,darkColor:"orange",lightColor:"darkorange",nameStyle:"fill:#333;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"高收入群体",value:0.84,darkColor:"green",lightColor:"green",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}]'/>
                 </div>
-                <div class="margin-right-xl">区</div>
+                <div>区</div>
               </el-col>
               <el-col :span="8">
                 <div style="height:18vh;" class="margin-top-xl padding-top-lg">
-                  <pieEllipse style="transform:scale(1.5,1.2);translate(150, 0);" :data='[{name:"低收入群体",value:"69.49%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}
-			,{name:"中等收入群体",value:"30.41%",darkColor:"#F56C6C",lightColor:"rgb(248, 152.1, 152.1)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:52;",valueStyle:"fill:#bbb;text-anchor:end;font-size:36;"}
-			,{name:"高收入群体",value:"0.15%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}]'/>
+                  <pieRect style="transform:scale(1.2,1.2);translate(120, 0);" :data='[{name:"低收入群体",value:69.49,darkColor:"darkred",lightColor:"red",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"中等收入群体",value:30.41,darkColor:"orange",lightColor:"darkorange",nameStyle:"fill:#333;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"高收入群体",value:0.15,darkColor:"green",lightColor:"green",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}]'/>
                 </div>
-                <div class="margin-right-xl">农村</div>
+                <div>农村</div>
               </el-col>
               <el-col :span="8">
                 <div style="height:18vh;" class="margin-top-xl padding-top-lg">
-                  <pieEllipse style="transform:scale(1.5,1.2);translate(150, 0);" :data='[{name:"低收入群体",value:"31.34%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}
-			,{name:"中等收入群体",value:"67.21%",darkColor:"lightgray",lightColor:"white",nameStyle:"fill:#000;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:end;font-size:36;"}
-			,{name:"高收入群体",value:"0.45%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#bbb;text-anchor:start;font-size:36;"}]'/>
+                  <pieRect style="transform:scale(1.2,1.2);translate(120, 0);" :data='[{name:"低收入群体",value:31.34,darkColor:"darkred",lightColor:"red",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"中等收入群体",value:67.21,darkColor:"orange",lightColor:"darkorange",nameStyle:"fill:#333;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"高收入群体",value:0.45,darkColor:"green",lightColor:"green",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}]'/>
                 </div>
-                <div class="margin-right-xl">城市</div>
+                <div>城市</div>
               </el-col>
             </el-row>
             <!-- <img height="100%" src="/img/res/glt.png" width="100%"/>
@@ -182,14 +182,14 @@ import rankingCounty from "../component/rankingCounty.vue";
 import rankingFamily from "../component/rankingFamily.vue";
 import rankingVillage from "../component/rankingVillage.vue";
 import barHuman from "/@/components/barHuman/index.vue";
-import pieEllipse from "/@/components/pieEllipse/index.vue";
+import pieRect from "/@/components/pieRect/index.vue";
 
 export default {
   name: "IndexDashboard",
   components: {
     barHuman,
     flareTarget,
-    pieEllipse,
+    pieRect,
     barCountyDjyc,
     rankingCounty,
     rankingVillage,
@@ -282,7 +282,9 @@ export default {
       ],
       index: true,
       rowNum: 12,
-      columnWidth: [40, 115,160,175],
+      oddRowBGC: 'rgba(0,0,255,0.3)',
+      evenRowBGC: 'rgba(80,80,255,0.3)',
+      columnWidth: [45, 115, 160, 175],
       align: ['right', 'left', 'center', 'center'],
     })
     //综合帮扶情况配置
