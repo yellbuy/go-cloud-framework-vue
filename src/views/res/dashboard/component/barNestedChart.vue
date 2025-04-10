@@ -120,7 +120,7 @@ export default {
               distance: 3
             },
             itemStyle: {
-              color: props.color3 || "rgba(128,128,128,0.8)",
+              color: props.color3 || "rgb(194,202,234)",
               opacity: 1,
             },
             z: 10,//柱子的层级
