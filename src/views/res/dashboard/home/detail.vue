@@ -93,7 +93,17 @@
                     <barPeopleRate></barPeopleRate>
                   </el-col>
                   <el-col :span="12">
-                    <barAgricultureGdp></barAgricultureGdp>
+                    <barAntvChart color="green" title="人均公共服务支出(万元)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:0.43},{年份:2024,值:0.42},{年份:2030,值:0.45}]"></barAntvChart>
+                  </el-col>
+                  <el-col :span="12">
+                    <barAntvChart color="lightgreen" title="城镇新增就业人口(万人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:0.33},{年份:2024,值:0.33},{年份:2030,值:0.37}]"></barAntvChart>
+                    <!-- <barAgricultureGdp></barAgricultureGdp> -->
+                  </el-col>
+                  <el-col :span="12">
+                    <barAntvChart color="green" title="每千人拥有执业(助理)医师数(人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:2.53},{年份:2024,值:2.56},{年份:2030,值:2.59}]"></barAntvChart>
+                  </el-col>
+                  <el-col :span="12">
+                    <barAntvChart color="green" title="城乡护理型床位比值(%)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:109},{年份:2024,值:107},{年份:2030,值:105}]"></barAntvChart>
                   </el-col>
                 </el-row>
               <!-- <dv-capsule-chart :config="msyxConfig" style="width:100%;height:100%" /> -->
@@ -210,6 +220,7 @@ import { onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import actVillage from "../component/actVillage.vue";
 import barAgricultureGdp from "../component/barAgricultureGdp.vue";
+import barAntvChart from "../component/barAntvChart.vue";
 import barAreaGdp from "../component/barAreaGdp.vue";
 import barCityRate from "../component/barCityRate.vue";
 import barCountyShyh from "../component/barCountyShyh.vue";
@@ -248,6 +259,7 @@ export default {
     rankingFamily,
     numberCounty,
     barCoutyGdp,
+    barAntvChart,
     barAgricultureGdp,
     barPeopleGdp,
     barCityRate,
