@@ -21,6 +21,7 @@ export default {
     YFontSize: Array,
     YAxisLabel: Array,
     left: Array,
+    top: Array,
     bottom: Array
   },
   setup(props) {
@@ -32,7 +33,7 @@ export default {
       // 指定图表的配置项和数据
       const option = {
         grid: {
-          top: "40%",
+          top: props.top || "40%",
           right: "0",
           left: props.left || "10%",
           bottom: props.bottom || "15%",
