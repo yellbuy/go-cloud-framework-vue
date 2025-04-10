@@ -86,8 +86,8 @@
                 </div>
               </div>
             </div>
-          
-          <div class="margin-left margin-right margin-top margin-bottom">
+
+            <div class="margin-left margin-right margin-top margin-bottom">
               <Title title="两强"/>
               <div>
 
@@ -187,7 +187,7 @@
                       <div class="margin target-text">
                         <div>
                           建有村综治中心，化解矛盾纠纷<label class="margin-sm"
-                                                          style="color:#1AFD9BFF;font-size: 1.4rem">51</label>件，化解率<label
+                                                            style="color:#1AFD9BFF;font-size: 1.4rem">51</label>件，化解率<label
                             class="margin-sm" style="color:#1AFD9BFF;font-size: 1.4rem">98</label>%
                         </div>
                       </div>
@@ -202,14 +202,24 @@
             <div class="target-content">
               <div class="margin-top" style="color:#fff;font-size: 1.2rem;">产业优</div>
               <div class="margin-top">
-                <ProportionOfAgeGroups/>
+                <div class="target-text target-content">
+                  <environmental-excellence :YFormatter="'{value}万'"
+                                            :data="[[26.14,26.14, 26.14],[28.32,28.32, 28.32]]"
+                                            :label="['蔬菜产值', '芒果产值']"
+                                            :mark-line="0"/>
+                  <div>农业社会化服务协办员1名</div>
+                  <div>姓名：<span style="color:#1AFD9BFF;">李*</span> &nbsp;&nbsp;职务：<span
+                      style="color:#1AFD9BFF;">主任</span> &nbsp;&nbsp;电话：<span
+                      style="color:#1AFD9BFF;">135****8935</span></div>
+                </div>
               </div>
               <div class="margin-top">
                 <div class="margin-tb" style="color:#fff;font-size: 1.2rem;">环境优</div>
                 <div class="target-text target-content">
-                  <environmental-excellence :data="[77.1, 100, 100, 100]"
-                                            :label="['⾃来⽔\n普及率', '农村卫\n⽣厕所\n普及率', '⽣活污\n⽔有效\n治理覆\n盖率', '自然村\n（组）通\n硬化路率']"
-                                            :mark-line="0"/>
+                  <environmental-excellence
+                      :data="[[77.1, 77.1, 77.1, 77.1],[100, 100, 100, 100],[100, 100, 100, 100],[100, 100, 100, 100]]"
+                      :label="['⾃来⽔普及率', '农村卫⽣厕所普及率', '⽣活污⽔有效治理覆盖率', '自然村（组）通硬化路率']"
+                      :mark-line="0"/>
                 </div>
               </div>
               <div class="margin-top">
@@ -264,8 +274,8 @@
               <div class="margin-top">
                 <div class="margin-tb" style="color:#fff;font-size: 1.2rem;">服务优</div>
                 <div class="target-text target-content padding-lg" style="text-align: left">
-                  <environmental-excellence :data="[100,99.7, 100]"
-                                            :label="['学前教育三\n年⽑⼊园率', '基本养老保\n险参保率', '基本医疗保\n险参保率']"
+                  <environmental-excellence :data="[[99.7,99.7, 99.7],[100,100, 100],[100,100, 100]]"
+                                            :label="['学前教育三年⽑⼊园率', '基本养老保险参保率', '基本医疗保险参保率']"
                                             :mark-line="0"/>
                 </div>
               </div>
@@ -403,7 +413,7 @@ export default {
   color: #fff;
 
   #dv-full-screen-container {
-    background-image: url("/img/res/bg_2.jpg");
+    background-image: url("/img/res/bg_2.png");
     background-size: 100% 100%;
   }
 

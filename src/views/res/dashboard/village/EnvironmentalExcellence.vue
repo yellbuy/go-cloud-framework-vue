@@ -14,7 +14,8 @@ import {onMounted, reactive, ref, toRefs} from 'vue';
 export default {
   props: {
     data: Array,
-    label: Array
+    label: Array,
+    YFormatter: Array
   },
   setup(props) {
     let state = reactive({
@@ -25,76 +26,51 @@ export default {
       // 指定图表的配置项和数据
       const option = {
         grid: {
-          show: false,
-          top: '15%',
-          left: '8%',
-          right: '0%',
-          bottom: '25%',
+          right: "0",
+          bottom: "15%",
         },
-        xAxis: {
-          type: 'category',
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
           data: props.label,
-          splitLine: {
-            show: false // 隐藏横线
-          },
-          axisLabel: {
-            fontSize: 11,
+          textStyle: {
             color: '#fff'
           }
         },
-        yAxis: {
-          type: 'value',
-          splitLine: {
-            show: false // 隐藏横线
-          },
-          axisLabel: {
-            fontSize: 11,
-            color: '#fff',
-            formatter: '{value}%'
+        calculable: true,
+        xAxis: [
+          {
+            type: 'category',
+            data: ['2023', '2024', '2025'],
+            axisLabel: {
+              color: '#fff'
+            }
           }
-        },
-        series: [
+        ],
+        yAxis: [
           {
-            type: "pictorialBar",
-            symbolSize: [45, 25],
-            symbolOffset: [0, -10],
-            symbolPosition: "end",
-            itemStyle: {
-              color: "#128cfc",
-              opacity: 1,
+            type: 'value',
+            splitLine: {
+              show: false // 隐藏横线
             },
-            data: props.data,
-          },
-          {
-            data: props.data,
-            type: "pictorialBar",
-            symbolSize: [45, 25],
-            symbolOffset: [0, 10],
-            itemStyle: {
-              color: "#0869cc",
-              opacity: 0.7,
-            },
-            z: 0,
-          },
-          {
-            type: "bar",
-            barWidth: 45,
-            barGap: "-100%",
-            z: 0,
-            itemStyle: {
-              color: "#128cfc",
-              opacity: 0.7,
-            },
-            label: {
-              show: true,
-              color: "#fff",
-              fontSize: 14,
-              formatter: '{c}%',
-            },
-            data: props.data
+            axisLabel: {
+              color: '#fff',
+              formatter: props.YFormatter || '{value}%'
+            }
           }
-        ]
+        ],
+        series: []
       };
+
+      for (let i = 0; i < props.label?.length; i++) {
+        option.series.push({
+          name: props.label[i],
+          type: 'bar',
+          data: props.data[i],
+        });
+      }
+
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option)
       window.addEventListener('resize', function () {
@@ -118,6 +94,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: calc((100vh - 5.6rem) / 5);
+  height: calc((100vh - 5.6rem) / 5.7);
 }
 </style>
