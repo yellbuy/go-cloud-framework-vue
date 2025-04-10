@@ -28,14 +28,14 @@
             <Title title="乡情介绍"/>
             <div class="target-content target-container-h2">
               <div class="target-text">
-                <div class="margin text-left" style="text-align: left;font-size:1.5rem;line-height: 2.8rem;">
+                <div class="margin text-left" style="text-align: left;font-size:1.4rem;line-height: 2.8rem;">
                   大龙潭乡整体工作是围绕着两高四优指标开展与落实。
                   大龙潭彝族乡为彝、汉族杂居的民族乡。最高海拔2105米，最低海拔970米，乡境内多为山地，立体气候明显，属南亚热带半干旱季风气候，年平均气温20.5℃，年降雨量800毫米，无霜期长达350天左右。辖区面积242.8平方公里，下辖裕民村、拉鲊村、新街村、干坝子村、大龙潭村、混撒拉村6个行政村，共55个村民小组，常住人口3712户14321人。
                   <!--                  {{ mainData['乡情介绍'] || areaName }}-->
                 </div>
               </div>
             </div>
-            <div class="margin-top-lg">
+            <div class="margin-top target-content">
               <antvImageMap :areaCode="areaCode" areaGoTo="village" :center="[500,480]" :zoom="2.2"/>
             </div>
 
@@ -43,199 +43,19 @@
           <el-col :span="12">
             <div class="margin-top">
               <div class="text-center">
-                <Label color="yellow" :text="'总村数'" :title="'6'" class="margin-lr-sm"
+                <Label color="yellow" :text="'总村数'" :title="'6'" class="margin-lr-xl padding-lr-xl"
                        @click="onClickPleaseWait('查看未达标户数')"/>
-                <Label :text="'总户数'" color="orange" :title="3712" class="margin-lr-sm"/>
-                <Label color="lightyellow" :text="'总人口'" :title="14321" class="margin-lr-sm"/>
-                <Label color="lightgreen" :text="'村共创'" title="16.67%" class="margin-lr-sm"/>
-                <Label color="lightblue" :text="'夯实户'" title="27.56%" class="margin-lr-sm"/>
+                <Label :text="'总户数'" color="orange" :title="3712" class="margin-lr-xl padding-lr-xl"/>
+                <Label color="lightyellow" :text="'总人口'" :title="14321" class="margin-lr-xl padding-lr-xl"/>
+                <!-- <Label color="lightgreen" :text="'村共创'" title="16.67%" class="margin-lr-sm"/>
+                <Label color="lightblue" :text="'夯实户'" title="27.56%" class="margin-lr-sm"/> -->
               </div>
             </div>
 
-            <div class="margin-top">
+            <div class="margin-top-xl">
               <el-row :gutter="10">
                 <el-col :span="12">
-
-                  <Title title="四化" @click="onClickTargetDetail('四化解读',`公共服务均等化:幼有善育、学有优教、病有良医、老有康养、住有宜居、弱有帮扶。有一所中小
-学和附属中心幼儿园。乡镇学校教学质量与城区进一步缩小，在编教师本科及以
-上学历与在编教师总数占比达90%，学前教育三年毛入园率达到95%以上，农村
-千人口拥有托育托位数达到3.8个；乡镇卫生院服务能力显著提升，居民医疗保险
-参保率95%以上，特殊人群达100%，适龄妇女“两癌”筛查覆盖率达到52%以上；
-农村客运全覆盖，村村通邮。建有农业社会化服务站。<br/>基础设施一体化:自来水普及率达95%以上、自然村（组）通硬化路率达
-100%，文化健身等基础设施配套完善，公共基础设施管
-理、运行、养护机制健全。生活垃圾收转运处置体系行
-政村覆盖率100%。<br/>乡村治理现代化:社会主义核心价值观深入人心，乡级综治中心规范化
-建设，建有数字乡村平台，实现雪亮工程全覆盖。矛
-盾纠纷妥善化解，自治、法治、德治相结合的治理体
-系基本构建，物质富足、精神富有、乡风文明。<br/>产业发展规模化:产业适度规模化发展`)"/>
-                  <div class="target-content">
-                    <div class="margin-top-xs">
-                      <div class="margin-bottom-sm text-center" style="color:white;font-size: 1.2rem;">产业发展规模化
-                      </div>
-                      <div class="target-text">
-                        <div class="target-content target-container-h5">
-                          <el-row :gutter="0">
-                            <el-col :span="12">
-                              <div class="padding-tb-sm">
-                                <div class="" style="font-size:1.2rem">芒果</div>
-                                <div class="margin-tb-xs">面积<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">10万</label>亩
-                                </div>
-                                <div class="margin-tb-xs">产量<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">4.7万</label>吨
-                                </div>
-                                <div class="margin-tb-xs">产值<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">1.3亿</label>元
-                                </div>
-                                <div class="margin-tb-xs">农业产值占比<label class="margin-lr-sm"
-                                                                             style="color:#1AFD9BFF;font-size: 1.1rem">28.32</label>%
-                                </div>
-                              </div>
-                            </el-col>
-                            <el-col :span="12">
-                              <div class="padding-tb">
-                                <div class="" style="font-size:1.2rem">蔬菜</div>
-                                <div class="margin-tb-xs">面积<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">1.4万</label>亩
-                                </div>
-                                <div class="margin-tb-xs">产量<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">4.07万</label>吨
-                                </div>
-                                <div class="margin-tb-xs">产值<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">1.2亿</label>元
-                                </div>
-                                <div class="margin-tb-xs">农业产值占比<label class="margin-lr-sm"
-                                                                             style="color:#1AFD9BFF;font-size: 1.1rem">26.14</label>%
-                                </div>
-                              </div>
-                            </el-col>
-                          </el-row>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="">
-                      <div class="margin-tb-sm text-center" style="color:white;font-size: 1.2rem;">公共服务均等化</div>
-                      <div class="target-text">
-                        <div class="target-content padding target-container-h4">
-                          <el-row :gutter="8">
-                            <el-col :span="12">
-                              <div class=" padding-tb">
-                                <label>学前教育三年毛入园率</label>
-                                <br><br>
-                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
-                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                                  style="font-size: 1rem; color: lightgreen;"/>95%
-                              </div>
-
-                            </el-col>
-                            <el-col :span="12">
-                              <div class="padding-tb">
-                                <label>居民医疗保险参保率</label>
-                                <br><br>
-                                <label style="color:#1AFD9BFF;font-size: 1.1rem">98.5%</label><i
-                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                                  style="font-size: 1rem; color: lightgreen;"/>95%
-                              </div>
-                            </el-col>
-                            <el-col :span="12">
-                              <div class="padding-tb">
-                                <label>特殊人群医疗保险参保率</label>
-                                <br><br>
-                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
-                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                                  style="font-size: 1rem; color: lightgreen;"/>100%
-                              </div>
-                            </el-col>
-                            <el-col :span="12">
-                              <div class="padding-tb">
-                                <label>农村客运覆盖率</label>
-                                <br><br>
-                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
-                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                                  style="font-size: 1rem; color: lightgreen;"/>100%
-                              </div>
-                            </el-col>
-                          </el-row>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="">
-                      <div class="margin-tb-sm text-center" style="color:white;font-size: 1.2rem;">基础设施一体化</div>
-                      <div class="target-text">
-                        <div class="target-content padding target-container-h4">
-                          <el-row :gutter="0">
-                            <el-col :span="12">
-                              <div class="padding-tb">
-                                <label>自来水普及率</label>
-                                <br><br>
-                                <label style="color:orange;font-size: 1.1rem">82.6%</label><i
-                                  class="fa fa-arrow-down margin-left-sm margin-right-xs"
-                                  style="font-size: 1rem; color: orange;"/>95%
-                              </div>
-                            </el-col>
-                            <el-col :span="12">
-                              <div class="padding-tb">
-                                <label>自然村通硬化路率</label>
-                                <br><br>
-                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
-                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                                  style="font-size: 1rem; color: #1AFD9BFF;"/>100%
-                              </div>
-                            </el-col>
-                            <el-col :span="12">
-                              <div class="padding-tb">
-                                <label>卫生厕所达标率</label>
-                                <br><br>
-                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
-                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                                  style="font-size: 1rem; color: lightgreen;"/>100%
-                              </div>
-                            </el-col>
-                          </el-row>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="">
-                      <div class="margin-tb-sm text-center" style="color:white;font-size: 1.2rem;">乡村治理现代化</div>
-                      <div class="target-text">
-                        <div class="target-content padding target-container-h5">
-                          <el-row :gutter="0">
-                            <el-col :span="12">
-                              <div class="padding-tb">
-                                <label>法律援助率</label>
-                                <br><br>
-                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
-                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                                  style="font-size: 1rem; color: lightgreen;"/>100%
-                              </div>
-                            </el-col>
-                            <el-col :span="12">
-                              <div class="padding-tb">
-                                <label>雪亮工程覆盖率</label>
-                                <br><br>
-                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
-                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                                  style="font-size: 1rem; color: lightgreen;"/>100%
-                              </div>
-                            </el-col>
-                            <el-col :span="12">
-                              <div class="padding-tb">
-                                <label>矛盾纠纷化解率</label>
-                                <br><br>
-                                <label style="color:#1AFD9BFF;font-size: 1.1rem">98%</label><i
-                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
-                                  style="font-size: 1rem; color: lightgreen;"/>95%
-                              </div>
-                            </el-col>
-                          </el-row>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </el-col>
-                <el-col :span="12">
-                  <div class="margin-top">
+                  <div>
                     <el-popover
                         class="box-item"
                         content='户夯实实现户数占比高于50%。基本富裕实现村数占比高于75%。'
@@ -291,6 +111,186 @@
                     </div>
                   </div>
                 </el-col>
+                <el-col :span="12">
+
+                  <Title title="四化" @click="onClickTargetDetail('四化解读',`公共服务均等化:幼有善育、学有优教、病有良医、老有康养、住有宜居、弱有帮扶。有一所中小
+学和附属中心幼儿园。乡镇学校教学质量与城区进一步缩小，在编教师本科及以
+上学历与在编教师总数占比达90%，学前教育三年毛入园率达到95%以上，农村
+千人口拥有托育托位数达到3.8个；乡镇卫生院服务能力显著提升，居民医疗保险
+参保率95%以上，特殊人群达100%，适龄妇女“两癌”筛查覆盖率达到52%以上；
+农村客运全覆盖，村村通邮。建有农业社会化服务站。<br/>基础设施一体化:自来水普及率达95%以上、自然村（组）通硬化路率达
+100%，文化健身等基础设施配套完善，公共基础设施管
+理、运行、养护机制健全。生活垃圾收转运处置体系行
+政村覆盖率100%。<br/>乡村治理现代化:社会主义核心价值观深入人心，乡级综治中心规范化
+建设，建有数字乡村平台，实现雪亮工程全覆盖。矛
+盾纠纷妥善化解，自治、法治、德治相结合的治理体
+系基本构建，物质富足、精神富有、乡风文明。<br/>产业发展规模化:产业适度规模化发展`)"/>
+                  <div class="target-content">
+                    <div class="margin-top-xs padding-top-xs ">
+                      <div class="padding-top-lg text-center" style="color:white;font-size: 1.2rem;">1. 产业发展规模化
+                      </div>
+                      <div class="target-text">
+                        <div class="target-container-h5">
+                          <el-row :gutter="0">
+                            <el-col :span="12">
+                              <div class="padding-tb-sm">
+                                <div class="padding-tb-sm" style="font-size:1.2rem">芒果</div>
+                                <div class="margin-tb-sm">面积<label class="margin-lr-sm"
+                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">10万</label>亩
+                                </div>
+                                <div class="margin-tb-sm">产量<label class="margin-lr-sm"
+                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">4.7万</label>吨
+                                </div>
+                                <div class="margin-tb-sm">产值<label class="margin-lr-sm"
+                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">1.3亿</label>元
+                                </div>
+                                <div class="margin-tb-sm">农业产值占比<label class="margin-lr-sm"
+                                                                             style="color:#1AFD9BFF;font-size: 1.1rem">28.32</label>%
+                                </div>
+                              </div>
+                            </el-col>
+                            <el-col :span="12">
+                              <div class="padding-tb-sm">
+                                <div class="padding-tb-sm" style="font-size:1.2rem">蔬菜</div>
+                                <div class="margin-tb-sm">面积<label class="margin-lr-sm"
+                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">1.4万</label>亩
+                                </div>
+                                <div class="margin-tb-sm">产量<label class="margin-lr-sm"
+                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">4.07万</label>吨
+                                </div>
+                                <div class="margin-tb-sm">产值<label class="margin-lr-sm"
+                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">1.2亿</label>元
+                                </div>
+                                <div class="margin-tb-sm">农业产值占比<label class="margin-lr-sm"
+                                                                             style="color:#1AFD9BFF;font-size: 1.1rem">26.14</label>%
+                                </div>
+                              </div>
+                            </el-col>
+                          </el-row>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="margin-top-xl padding-top-xl">
+                      <div class="margin-top-sm  text-center" style="color:white;font-size: 1.2rem;">2. 公共服务均等化</div>
+                      <div class="target-text">
+                        <div class="padding ">
+                          <el-row :gutter="8">
+                            <el-col :span="12">
+                              <div class=" padding-tb">
+                                <label>学前教育三年毛入园率</label>
+                                <br><br>
+                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
+                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                                  style="font-size: 1rem; color: lightgreen;"/>95%
+                              </div>
+                            </el-col>
+                            <el-col :span="12">
+                              <div class="padding-tb">
+                                <label>居民医疗保险参保率</label>
+                                <br><br>
+                                <label style="color:#1AFD9BFF;font-size: 1.1rem">98.5%</label><i
+                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                                  style="font-size: 1rem; color: lightgreen;"/>95%
+                              </div>
+                            </el-col>
+                            <el-col :span="12">
+                              <div class="padding-tb-sm">
+                                <label>特殊人群医疗保险参保率</label>
+                                <br><br>
+                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
+                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                                  style="font-size: 1rem; color: lightgreen;"/>100%
+                              </div>
+                            </el-col>
+                            <el-col :span="12">
+                              <div class="padding-tb-sm">
+                                <label>农村客运覆盖率</label>
+                                <br><br>
+                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
+                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                                  style="font-size: 1rem; color: lightgreen;"/>100%
+                              </div>
+                            </el-col>
+                          </el-row>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="margin-top-xl">
+                      <div class="text-center" style="color:white;font-size: 1.2rem;">3. 基础设施一体化</div>
+                      <div class="target-text">
+                        <div class="padding">
+                          <el-row :gutter="0">
+                            <el-col :span="8">
+                              <div class="padding-tb">
+                                <label>自来水普及率</label>
+                                <br><br>
+                                <label style="color:orange;font-size: 1.1rem">82.6%</label><i
+                                  class="fa fa-arrow-down margin-left-sm margin-right-xs"
+                                  style="font-size: 1rem; color: orange;"/>95%
+                              </div>
+                            </el-col>
+                            <el-col :span="8">
+                              <div class="padding-tb">
+                                <label>自然村通硬化路率</label>
+                                <br><br>
+                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
+                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                                  style="font-size: 1rem; color: #1AFD9BFF;"/>100%
+                              </div>
+                            </el-col>
+                            <el-col :span="8">
+                              <div class="padding-tb">
+                                <label>卫生厕所达标率</label>
+                                <br><br>
+                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
+                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                                  style="font-size: 1rem; color: lightgreen;"/>100%
+                              </div>
+                            </el-col>
+                          </el-row>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="margin-tb-xl">
+                      <div class="text-center" style="color:white;font-size: 1.2rem;">4. 乡村治理现代化</div>
+                      <div class="target-text">
+                        <div>
+                          <el-row :gutter="0">
+                            <el-col :span="8">
+                              <div class="padding-tb">
+                                <label>法律援助率</label>
+                                <br><br>
+                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
+                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                                  style="font-size: 1rem; color: lightgreen;"/>100%
+                              </div>
+                            </el-col>
+                            <el-col :span="8">
+                              <div class="padding-tb">
+                                <label>雪亮工程覆盖率</label>
+                                <br><br>
+                                <label style="color:#1AFD9BFF;font-size: 1.1rem">100%</label><i
+                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                                  style="font-size: 1rem; color: lightgreen;"/>100%
+                              </div>
+                            </el-col>
+                            <el-col :span="8">
+                              <div class="padding-tb">
+                                <label>矛盾纠纷化解率</label>
+                                <br><br>
+                                <label style="color:#1AFD9BFF;font-size: 1.1rem">98%</label><i
+                                  class="fa fa-arrow-up margin-left-sm margin-right-xs"
+                                  style="font-size: 1rem; color: lightgreen;"/>95%
+                              </div>
+                            </el-col>
+                          </el-row>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </el-col>
+                
               </el-row>
             </div>
           </el-col>
@@ -298,7 +298,8 @@
             <div class="margin-top">
               <Title title="村共创完成情况" @click="onClickPleaseWait('查看未完成村信息')"/>
               <div class="target-content">
-                <div @Click="onClickTargetDetail('四优指标解读',`<b>产业优：</b>具备至少一个特色富民产业，富民产业产值占产业总产值60%以上。
+                <div class="text-center margin-tb" style="color:white;font-size: 1.2rem;">1. 三超</div>
+                <div @Click="onClickTargetDetail('三超指标解读',`<b>产业优：</b>具备至少一个特色富民产业，富民产业产值占产业总产值60%以上。
                         <br/><b>环境优：</b>生活用水安全稳定，自来水普及率达95%以上，农村卫生厕所普及率达到98%，生活污水得到有效治理，生活垃圾有效运转处置。住房安全，村容村貌整洁，无乱搭乱建，自然村（组）通硬化路率达100%。
       <br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
       <br><b>服务优：</b>公共服务保障完善。每个村有1名农村社会化服务协办员，开展农业社会化服务。残疾儿童实现随班就读或送教上门。有家庭医生服务团队。成功创建市级健康村。适龄人员养老保险参保率达95%。`)">
@@ -306,18 +307,23 @@
                       :color1="['#83bff6','#188df0','#188df0']"
                       :seriesData1="[100, 100, 100]"
                       :seriesData2="[20, 18, 30]"
-                      :xAxisData="['户夯实实现户', '村集体经济收入', '人均可支配收入']"/>
+                      :xAxisData="['“户夯实”实现户占比超50%的村', '全村人均年可支配收入超全市农村人均年可支配收入的村', '村集体经济稳定收入超20万元的村']"/>
                 </div>
-                <div @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
-                        <br/><b>治理强：</b>居民自治体系健全，居民公约完善，自治组织运行有序有效。“四议两公开”规范化建设，一村一民（辅）警，一村一法律顾问。法律公共服务室与法律援助率达100%。矛盾纠纷一站式处理，化解率达95%以上，性质恶劣命案零发生。`)">
+                <div class="text-center margin-bottom" style="color:white;font-size: 1.2rem;">2. 四优</div>
+                <div @Click="onClickTargetDetail('四优指标解读',`<b>产业优：</b>具备至少一个特色富民产业，富民产业产值占产业总产值60%以上。
+                        <br/><b>环境优：</b>生活用水安全稳定，自来水普及率达95%以上，农村卫生厕所普及率达到98%，生活污水得到有效治理，生活垃圾有效运转处置。住房安全，村容村貌整洁，无乱搭乱建，自然村（组）通硬化路率达100%。
+      <br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
+      <br><b>服务优：</b>公共服务保障完善。每个村有1名农村社会化服务协办员，开展农业社会化服务。残疾儿童实现随班就读或送教上门。有家庭医生服务团队。成功创建市级健康村。适龄人员养老保险参保率达95%。`)">
                   <barNestedChart
                       :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
                       :seriesData1="[100, 100, 100, 100]"
                       :seriesData2="[60, 56, 75, 30]"
                       :xAxisData="['产业优', '环境优', '文化优', '服务优']"/>
                 </div>
+                <div class="text-center margin-bottom" style="color:white;font-size: 1.2rem;">3. 两强</div>
                 <div>
-                  <barNestedChart
+                  <barNestedChart @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
+                        <br/><b>治理强：</b>居民自治体系健全，居民公约完善，自治组织运行有序有效。“四议两公开”规范化建设，一村一民（辅）警，一村一法律顾问。法律公共服务室与法律援助率达100%。矛盾纠纷一站式处理，化解率达95%以上，性质恶劣命案零发生。`)"
                       :color1="['rgb(248, 152.1, 152.1)','#F56C6C','rgb(196, 86.4, 86.4)']"
                       :seriesData1="[100, 100]"
                       :seriesData2="[90, 80]"
@@ -336,9 +342,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from 'element-plus';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { ElMessageBox } from 'element-plus';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
