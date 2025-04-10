@@ -126,8 +126,8 @@
 盾纠纷妥善化解，自治、法治、德治相结合的治理体
 系基本构建，物质富足、精神富有、乡风文明。<br/>产业发展规模化:产业适度规模化发展`)"/>
                   <div class="target-content">
-                    <div class="margin-top-xs padding-top-xs ">
-                      <div class="padding-top-lg text-center" style="color:white;font-size: 1.2rem;">1. 产业发展规模化
+                    <div class="margin-top-xs padding-tb-xs ">
+                      <div class="padding-top-lg text-center" style="color:lightgreen;font-size: 1.2rem;"><i class="fa fa-angle-double-down margin-right-sm" />产业发展规模化
                       </div>
                       <div class="target-text">
                         <div class="target-container-h5">
@@ -171,7 +171,7 @@
                       </div>
                     </div>
                     <div class="margin-top-xl">
-                      <div class="margin-tb-sm  text-center" style="color:white;font-size: 1.2rem;">2. 公共服务均等化</div>
+                      <div class="margin-tb-sm  text-center" style="color:lightgreen;font-size: 1.2rem;"><i class="fa fa-angle-double-down margin-right-sm" />公共服务均等化</div>
                       <div class="target-text">
                         <barNestedChart :bottom="40" :objStyle="'height:15vh'"
                       :color1="['rgb(248, 152.1, 152.1)','#F56C6C','rgb(196, 86.4, 86.4)']"
@@ -221,7 +221,7 @@
                       </div>
                     </div>
                     <div class="margin-top-sm">
-                      <div class="text-center" style="color:white;font-size: 1.2rem;">3. 基础设施一体化</div>
+                      <div class="text-center" style="color:lightgreen;font-size: 1.2rem;"><i class="fa fa-angle-double-down margin-right-sm" />基础设施一体化</div>
                       <div class="target-text">
                         <barNestedChart :bottom="40" :objStyle="'height:15vh'"
                       :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
@@ -262,7 +262,7 @@
                       </div>
                     </div>
                     <div class="margin-bottom-sm">
-                      <div class="text-center" style="color:white;font-size: 1.2rem;">4. 乡村治理现代化</div>
+                      <div class="text-center" style="color:lightgreen;font-size: 1.2rem;"><i class="fa fa-angle-double-down margin-right-sm" />乡村治理现代化</div>
                       <div class="target-text">
                         <barNestedChart :bottom="40" :objStyle="'height:15vh'"
                       :color1="['#83bff6','#188df0','#188df0']"
@@ -313,7 +313,7 @@
             <div class="margin-top">
               <Title title="村共创完成情况" @click="onClickPleaseWait('查看未完成村信息')"/>
               <div class="target-content">
-                <div class="text-center margin-tb" style="color:white;font-size: 1.2rem;">1. 三超</div>
+                <div class="text-center margin-tb" style="color:lightgreen;font-size: 1.2rem;"><i class="fa fa-angle-double-down margin-right-sm" />三超</div>
                 <div @Click="onClickTargetDetail('三超指标解读',`“户夯实”实现户占比超50%<br>全村人均年可支配收入超全市农村人均年可支配收入<br>村集体经济稳定收入超20万元`)">
                   <barNestedChart
                       :color1="['#83bff6','#188df0','#188df0']"
@@ -322,7 +322,7 @@
                       :seriesData2="[20, 18, 30]"
                       :xAxisData="['“户夯实”实现户\n占比超50%的村', '全村人均年可支配\n收入超市农村人均\n年可支配收入的村', '村集体经济稳定收\n入超20万元的村']"/>
                 </div>
-                <div class="text-center margin-tb" style="color:white;font-size: 1.2rem;">2. 四优</div>
+                <div class="text-center margin-tb" style="color:lightgreen;font-size: 1.2rem;"><i class="fa fa-angle-double-down margin-right-sm" />四优</div>
                 <div @Click="onClickTargetDetail('四优指标解读',`<b>产业优：</b>具备至少一个特色富民产业，富民产业产值占产业总产值60%以上。
                         <br/><b>环境优：</b>生活用水安全稳定，自来水普及率达95%以上，农村卫生厕所普及率达到98%，生活污水得到有效治理，生活垃圾有效运转处置。住房安全，村容村貌整洁，无乱搭乱建，自然村（组）通硬化路率达100%。
       <br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
@@ -333,7 +333,7 @@
                       :seriesData2="[60, 56, 75, 30]"
                       :xAxisData="['产业优', '环境优', '文化优', '服务优']"/>
                 </div>
-                <div class="text-center margin-tb" style="color:white;font-size: 1.2rem;">3. 两强</div>
+                <div class="text-center margin-tb" style="color:lightgreen;font-size: 1.2rem;"><i class="fa fa-angle-double-down margin-right-sm" />两强</div>
                 <div>
                   <barNestedChart @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
                         <br/><b>治理强：</b>居民自治体系健全，居民公约完善，自治组织运行有序有效。“四议两公开”规范化建设，一村一民（辅）警，一村一法律顾问。法律公共服务室与法律援助率达100%。矛盾纠纷一站式处理，化解率达95%以上，性质恶劣命案零发生。`)"
