@@ -141,102 +141,50 @@
             <div class="margin-left margin-right margin-top margin-bottom">
               <Title title="两强"/>
               <div>
-
                 <el-row :gutter="10">
                   <el-col :span="12">
-                    <el-popover
-                        class="box-item"
-                        content="村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率100%。“先富”带“后富”机制完善特困、低保等重点群体托底保障机制健全。"
-                        placement="top-start"
-                    >
-                      <template #reference>
-                        <div class="margin-left margin-top-lg margin-bottom" style="color:#fff;font-size: 1.2rem;">
-                          组织强
-                        </div>
-                      </template>
-                    </el-popover>
-                    <div class="target-text padding-lg target-content" style="text-align: left;height: 12rem">
-                      <div class="margin-sm">
-                        <i class="fa fa-star margin-right-sm" style="color: orange"></i>全省5A先进村党组织<br/>
-                        <div class="text-center margin-top-sm">
-                          <span>党总支<label class="margin-xs"
-                                             style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个</span>
-                          <span class="margin-left">党支部<label class="margin-xs"
-                                                                 style="color:#1AFD9BFF;font-size: 1.4rem">3</label>个</span>
-                        </div>
-                        <div class="text-center">
-                          <span>党员<label class="margin-xs"
-                                           style="color:#1AFD9BFF;font-size: 1.4rem">55</label>人</span>
-                          <span class="margin-left">党代表<label class="margin-xs"
-                                                                 style="color:#1AFD9BFF;font-size: 1.4rem">9</label>人</span>
-                        </div>
-                        <div class="text-center margin-tb-lg">
-                          “三个身边”群众工作机制反映问题办结率<label class="margin-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.4rem">98.5</label>%
-                        </div>
-                      </div>
+                    <div class="target-text padding-lg target-content" style="text-align: left;">
+                      <el-popover
+                          class="box-item"
+                          content="村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率100%。“先富”带“后富”机制完善特困、低保等重点群体托底保障机制健全。"
+                          placement="top-start"
+                      >
+                        <template #reference>
+                          <div class="margin-left margin-top-lg margin-bottom" style="color:#fff;font-size: 1.2rem;">
+                            组织强
+                          </div>
+                        </template>
+                      </el-popover>
+                      <environmental-excellence :XLabel="['“三个身边”群众工作机制反映问题办结率']"
+                                                :YAxisLabel="'false'"
+                                                :YFormatter="'{value}万'"
+                                                :data="[[100],[98.5]]"
+                                                :label="['目标', '现状']"
+                                                :left="'0'"
+                                                :mark-line="0"
+                                                :objStyle="'height:12rem'"/>
                     </div>
                   </el-col>
                   <el-col :span="12">
-                    <el-popover
-                        class="box-item"
-                        content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
-                        placement="top-start">
-                      <template #reference>
-                        <div class="margin-left margin-top-lg margin-bottom" style="color:#fff;font-size: 1.2rem;">
-                          治理强
-                        </div>
-                      </template>
-                    </el-popover>
-                    <div class="target-content" style="height: 12rem">
-                      <el-row :gutter="10" class="margin">
-                        <el-col :span="8">
-                          <div>
-                            <el-row class="margin-top">
-                              <el-col :span="10" class="text-right">姓名：</el-col>
-                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">邓*志</el-col>
-                              <el-col :span="10" class="text-right">职务：</el-col>
-                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">民警</el-col>
-                              <el-col :span="10" class="text-right">电话：</el-col>
-                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">135****8935</el-col>
-                            </el-row>
+                    <div class="target-text padding-lg target-content" style="text-align: left;">
+                      <el-popover
+                          class="box-item"
+                          content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
+                          placement="top-start">
+                        <template #reference>
+                          <div class="margin-left margin-top-lg margin-bottom" style="color:#fff;font-size: 1.2rem;">
+                            治理强
                           </div>
-
-                        </el-col>
-                        <el-col :span="8">
-                          <div>
-                            <el-row class="margin-top">
-                              <el-col :span="10" class="text-right">姓名：</el-col>
-                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">邓*志</el-col>
-                              <el-col :span="10" class="text-right">职务：</el-col>
-                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">顾问</el-col>
-                              <el-col :span="10" class="text-right">电话：</el-col>
-                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">135****8935</el-col>
-                            </el-row>
-                          </div>
-                        </el-col>
-                        <el-col :span="8">
-                          <div>
-                            <el-row class="margin-top">
-                              <el-col :span="10" class="text-right">姓名：</el-col>
-                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">邓*志</el-col>
-                              <el-col :span="10" class="text-right">职务：</el-col>
-                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">调解员</el-col>
-                              <el-col :span="10" class="text-right">电话：</el-col>
-                              <el-col :span="12" class="text-left" style="color:#1AFD9BFF;white-space: wrap">
-                                135****8935
-                              </el-col>
-                            </el-row>
-                          </div>
-                        </el-col>
-                      </el-row>
-                      <div class="margin target-text">
-                        <div>
-                          建有村综治中心，化解矛盾纠纷<label class="margin-sm"
-                                                            style="color:#1AFD9BFF;font-size: 1.4rem">51</label>件，化解率<label
-                            class="margin-sm" style="color:#1AFD9BFF;font-size: 1.4rem">98</label>%
-                        </div>
-                      </div>
+                        </template>
+                      </el-popover>
+                      <environmental-excellence :XLabel="['化解矛盾纠纷化解率']"
+                                                :YAxisLabel="'false'"
+                                                :YFormatter="'{value}万'"
+                                                :data="[[100],[98]]"
+                                                :label="['目标', '现状']"
+                                                :left="'0'"
+                                                :mark-line="0"
+                                                :objStyle="'height:12rem'"/>
                     </div>
                   </el-col>
                 </el-row>
@@ -328,13 +276,14 @@
               <div class="margin-top">
                 <div class="margin-tb" style="color:#fff;font-size: 1.2rem;">服务优</div>
                 <div class="target-text target-content padding-lg" style="text-align: left">
-                  <environmental-excellence :XLabel="['学前教育三\n年⽑⼊园率', '基本养老\n保险参保率', '基本医疗保\n险参保率']"
-                                            :bottom="'20%'"
-                                            :data="[[99.7,100, 100],[99.7,100, 100],[99.7,100, 100]]"
-                                            :YAxisLabel="'false'"
-                                            :left="'0'"
-                                            :label="['2022年', '2023年', '2024年']"
-                                            :mark-line="0"/>
+                  <environmental-excellence
+                      :XLabel="['学前教育三\n年⽑⼊园率', '基本养老\n保险参保率', '基本医疗保\n险参保率']"
+                      :YAxisLabel="'false'"
+                      :bottom="'20%'"
+                      :data="[[99.7,100, 100],[99.7,100, 100],[99.7,100, 100]]"
+                      :label="['2022年', '2023年', '2024年']"
+                      :left="'0'"
+                      :mark-line="0"/>
                 </div>
               </div>
             </div>
