@@ -1,7 +1,7 @@
 <template>
   <div id="flareTarget">
     <div class="flare-container">
-      <div ref="echart" class="echartDiv"></div>
+      <div ref="echart" :style="objStyle||''" class="echartDiv"></div>
     </div>
   </div>
 </template>
@@ -18,7 +18,11 @@ export default {
     seriesData2: Array,
     color1: Array,
     color2: Array,
-    formatter: Array
+    formatter: Array,
+    objStyle: Array,
+    top: Array,
+    bottom: Array,
+    color3: Array,
   },
   setup(props) {
     let state = reactive({
@@ -47,8 +51,8 @@ export default {
         grid: {
           left: '10%',
           right: '5%',
-          bottom: '25%',
-          top: '15%',
+          bottom: props.bottom || '10%',
+          top: props.top || '15%',
         },
         xAxis: {
           boundaryGap: true,
@@ -72,12 +76,9 @@ export default {
           {//里层的柱子
             name: '现状',
             type: 'bar',//象形柱状图
-            //barWidth:30,//柱子的宽度
             barMaxWidth: 30,
-            barMinHeight: 10,
-            barGap: '100%',
+            symbol: 'rectange',
             data: props.seriesData2,//柱子的数据
-            symbol: 'rectange',//柱子的形状
             symbolRepeat: true,//是否重复
             // symbolOffset: [10, 0],//柱子的位置
             symbolBoundingData: 1,//图形的个数
@@ -87,7 +88,7 @@ export default {
                 color: '#fff',
               },
               formatter: props.formatter != undefined ? '{c}' + props.formatter : '{c}%',
-              position: 'top',
+              position: 'inside',
               distance: -20
             },
             itemStyle: {
@@ -102,12 +103,8 @@ export default {
           { //外层的柱子
             name: "目标",
             type: "pictorialBar",
+            barMinWidth: 50,
             barWidth: 50,
-            barMaxWidth: 50,
-            barMinHeight: 100,
-
-            //symbolSize: [40, 18], //调整截面形状
-            // symbolOffset: [0, 0],
             symbol: 'rectange',
             symbolRepeat: true,
             symbolBoundingData: 1,
@@ -121,7 +118,7 @@ export default {
               distance: 8
             },
             itemStyle: {
-              color: "rgba(128,128,128,0.8)",
+              color: props.color3 || "rgba(128,128,128,0.8)",
               opacity: 1,
             },
             z: 10,//柱子的层级

@@ -18,11 +18,7 @@ import {onMounted, reactive, ref, toRefs, watch} from 'vue';
 
 export default {
   props: {
-    eighteen: Array,
-    twentyFive: Array,
-    thirtyFive: Array,
-    aboutThi: Array,
-    aboutThiAbove: Array
+    ageData: []
   },
   setup(props) {
     let state = reactive({
@@ -30,19 +26,7 @@ export default {
       echart: ref(),
     })
 
-    watch(() => props.eighteen, async () => {
-      setChartOption(myChart);
-    });
-    watch(() => props.twentyFive, async () => {
-      setChartOption(myChart);
-    });
-    watch(() => props.thirtyFive, async () => {
-      setChartOption(myChart);
-    });
-    watch(() => props.aboutThi, async () => {
-      setChartOption(myChart);
-    });
-    watch(() => props.aboutThiAbove, async () => {
+    watch(() => props.ageData, async () => {
       setChartOption(myChart);
     });
 
@@ -70,10 +54,12 @@ export default {
             type: 'pie',
             radius: '90%',
             data: [
-              {value: props.eighteen, name: "16岁以下"},
-              {value: props.thirtyFive, name: "16-35岁"},
-              {value: props.aboutThi, name: "35-60岁"},
-              {value: props.aboutThiAbove, name: "60岁以上"}
+              {value: props.ageData[0], name: "3岁以下"},
+              {value: props.ageData[1], name: "3-6岁"},
+              {value: props.ageData[2], name: "6-18岁"},
+              {value: props.ageData[3], name: "18-60岁"},
+              {value: props.ageData[4], name: "60-80岁"},
+              {value: props.ageData[5], name: "80岁以上"}
             ],
             label: {
               normal: {

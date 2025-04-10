@@ -41,11 +41,12 @@
               <div class="target-container-h3 target-text target-content text-left">
                 <Title title="重点监测群体"/>
                 <barNestedChart
-                    :color1="['rgb(248, 152.1, 152.1)','#F56C6C','rgb(196, 86.4, 86.4)']"
+                    :color1="['#b19a5f','#b19a5f','#b19a5f']"
                     :formatter="'户'"
                     :seriesData1="[100, 100, 100]"
                     :seriesData2="[90, 80, 80]"
-                    :xAxisData="['2022', '2023', '2024']"/>
+                    :objStyle="'height:calc(24.9vh - 2.5rem)'"
+                    :xAxisData="['2022年', '2023年', '2024年']"/>
               </div>
             </div>
             <div style="width: 100%;height:calc(100vh  - 20rem - 21.6rem)">
@@ -73,30 +74,43 @@
                   </template>
                 </el-popover>
                 <div class="target-content">
-                  <el-row :gutter="24" class="margin">
+                  <el-row :gutter="24">
                     <el-col :span="24">
                       <div class="text-center margin-top">
-                        <div class="target-value">“户夯实”实现户</div>
-                        <column-chart :data="[25.68, 29.1, 50.79]" :formatter="'%'"
-                                      :label="['2022年', '2023年', '2024年']"
-                                      :mark-line="[20,20,20]"/>
+                        <div class="target-value">“户夯实”实现户占比</div>
+                        <environmental-excellence :YAxisLabel="'false'"
+                                                  :bottom="'20%'"
+                                                  :data="[[20,20,20],[25.68, 29.1, 50.79]]"
+                                                  :formatter="'%'"
+                                                  :label="['目标', '现状']"
+                                                  :left="'0'"
+                                                  :objStyle="'height:7rem'"/>
+                        <text class="target-text">“户夯实”实现户</text>
                       </div>
                     </el-col>
                     <el-col :span="24">
                       <div class="text-center">
                         <text class="target-value">全村人均年可支配收入超全市农村人均年可支配收入</text>
-                        <column-chart :data="[2.5, 2.68, 3.24]" :label="['2022年', '2023年', '2024年']"
-                                      :formatter="'万'"
-                                      :mark-line="[2.19,2.30,2.45]"/>
+                        <environmental-excellence :YAxisLabel="'false'"
+                                                  :bottom="'20%'"
+                                                  :data="[[2.19,2.30,2.45],[2.5, 2.68, 3.24]]"
+                                                  :formatter="'万'"
+                                                  :label="['目标', '现状']"
+                                                  :left="'0'"
+                                                  :objStyle="'height:7rem'"/>
                         <text class="target-text">农村人均年可支配收入</text>
                       </div>
                     </el-col>
                     <el-col :span="24">
                       <div class="text-center margin-top">
                         <text class="target-value">村集体经济收入超20万元</text>
-                        <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '2024年']"
-                                      :formatter="'万'"
-                                      :mark-line="[20,20,20]"/>
+                        <environmental-excellence :YAxisLabel="'false'"
+                                                  :bottom="'20%'"
+                                                  :data="[[20,20,20],[25.68, 29.1, 170.8]]"
+                                                  :formatter="'万'"
+                                                  :label="['目标', '现状']"
+                                                  :left="'0'"
+                                                  :objStyle="'height:7rem'"/>
                         <text class="target-text">村集体经济收入</text>
                       </div>
                     </el-col>
@@ -105,9 +119,7 @@
               </div>
               <div class="margin-left margin-right margin-bottom" style="width:50%;">
                 <div class="margin-top-sm">
-                  <ProportionOfAgeGroups :aboutThi="48"
-                                         :aboutThiAbove="20.5" :eighteen="10.5"
-                                         :thirtyFive="22"/>
+                  <ProportionOfAgeGroups :age-data="[2.031,3.342,12.779,64.417,15.596,1.835]"/>
                 </div>
                 <div>
                   <div class="target-header">
@@ -245,6 +257,8 @@
                   <environmental-excellence :YFormatter="'{value}万'"
                                             :label="['蔬菜产值', '芒果产值']"
                                             :data="[[26.14,26.14, 26.14],[28.32,28.32, 28.32]]"
+                                            :YAxisLabel="'false'"
+                                            :left="'0'"
                                             :mark-line="0"/>
                   <div>农业社会化服务协办员1名</div>
                   <div>姓名：<span style="color:#1AFD9BFF;">李*</span> &nbsp;&nbsp;职务：<span
@@ -258,6 +272,8 @@
                   <environmental-excellence
                       :data="[[77.1, 77.1, 77.1, 77.1],[100, 100, 100, 100],[100, 100, 100, 100],[100, 100, 100, 100]]"
                       :label="['⾃来⽔普及率', '农村卫⽣厕所普及率', '⽣活污⽔有效治理覆盖率', '自然村（组）通硬化路率']"
+                      :YAxisLabel="'false'"
+                      :left="'0'"
                       :mark-line="0"/>
                 </div>
               </div>
@@ -315,6 +331,8 @@
                 <div class="target-text target-content padding-lg" style="text-align: left">
                   <environmental-excellence :data="[[99.7,99.7, 99.7],[100,100, 100],[100,100, 100]]"
                                             :label="['学前教育三年⽑⼊园率', '基本养老保险参保率', '基本医疗保险参保率']"
+                                            :YAxisLabel="'false'"
+                                            :left="'0'"
                                             :mark-line="0"/>
                 </div>
               </div>

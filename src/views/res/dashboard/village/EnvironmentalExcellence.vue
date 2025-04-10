@@ -1,7 +1,7 @@
 <template>
   <div id="flareTarget">
     <div class="flare-container">
-      <div ref="echart" class="echartDiv"></div>
+      <div ref="echart" :style="objStyle||''" class="echartDiv"></div>
     </div>
   </div>
 </template>
@@ -15,7 +15,12 @@ export default {
   props: {
     data: Array,
     label: Array,
-    YFormatter: Array
+    objStyle: Array,
+    formatter: Array,
+    YFontSize: Array,
+    YAxisLabel: Array,
+    left: Array,
+    bottom: Array
   },
   setup(props) {
     let state = reactive({
@@ -26,8 +31,10 @@ export default {
       // 指定图表的配置项和数据
       const option = {
         grid: {
+          top: "40%",
           right: "0",
-          bottom: "15%",
+          left: props.left || "10%",
+          bottom: props.bottom || "15%",
         },
         tooltip: {
           trigger: 'axis'
@@ -42,7 +49,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['2022', '2023', '2024'],
+            data: ['2022年', '2023年', '2024年'],
             axisLabel: {
               color: '#fff'
             }
@@ -55,8 +62,10 @@ export default {
               show: false // 隐藏横线
             },
             axisLabel: {
+              show: props.YAxisLabel || true,
               color: '#fff',
-              formatter: props.YFormatter || '{value}%'
+              fontSize: props.YFontSize || 11,
+              formatter: props.formatter != undefined ? '{value}' + props.formatter : '{value}%',
             }
           }
         ],
@@ -64,11 +73,27 @@ export default {
       };
 
       for (let i = 0; i < props.label?.length; i++) {
-        option.series.push({
+        const data = {
           name: props.label[i],
           type: 'bar',
           data: props.data[i],
-        });
+          label: {
+            show: true,
+            formatter: props.formatter != undefined ? '{c}' + props.formatter : '{c}%',
+            textStyle: {
+              color: '#ddd',
+            },
+            position: 'top',
+            distance: 8
+          },
+          itemStyle: {}
+        };
+        if (i == 0) {
+          data.itemStyle = {
+            color: '#DADA00FF'
+          }
+        }
+        option.series.push(data);
       }
 
       // 使用刚指定的配置项和数据显示图表。
