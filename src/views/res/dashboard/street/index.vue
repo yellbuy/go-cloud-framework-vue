@@ -36,7 +36,7 @@
               </div>
             </div>
             <div class="margin-top target-content">
-              <antvImageMap :areaCode="areaCode" areaGoTo="village" :center="[500,480]" :zoom="2.2"/>
+              <antvImageMap :areaCode="areaCode" areaGoTo="village" :center="[500,480]" :zoom="2.1"/>
             </div>
 
           </el-col>
