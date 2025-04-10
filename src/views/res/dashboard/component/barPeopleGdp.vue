@@ -173,7 +173,7 @@ export default {
           
           .transform({ type: 'dodgeX' })
           .label({
-            text: '生产总值',
+            text: '人均生产总值',
             position: 'top',
             dy: -12,
             fill: '#fff',

@@ -13,14 +13,17 @@ body {
   text-align: center;
   color: #eee;
   border-radius: 0.3em;
-  background-color: rgba(0, 40, 195, 0.7);
-  box-shadow: #2d4fb3 0 0 25px 3px inset;
+  // background-image:url('/img/res/border.png');
+  // background-size: 100% 100%; 
+  // background-repeat: no-repeat;
+  background-color: rgba(10, 32, 37, 0.4);
+  box-shadow: #3e3bec 0 0 0.4rem 0.2rem inset;
 }
 
 .target-header {
   text-align: left;
   height: 2.5rem;
-  background-image: linear-gradient(to top, #204de080, blue);
+  background-image: linear-gradient(to right, #0d0a7b, #2723ca);
   border-radius: 0em;
 }
 
@@ -62,7 +65,9 @@ body {
 }
 
 .target-title {
-  background-image: radial-gradient(circle, #daeef3 20%, #00aaff);
+  background-image: radial-gradient(circle, #daeef3 20%, white);
+  //background-image: radial-gradient(circle, #daeef3 20%, #00aaff);
+  //color: white;
   font-weight: bold;
   background-clip: text;
   color: transparent;
