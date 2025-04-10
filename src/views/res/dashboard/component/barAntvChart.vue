@@ -3,7 +3,7 @@
     <dv-border-box10>
       <div class="flare-container">
         <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">{{title}}</div>
-        <div ref="barAntvChart" class="echartDiv" :style="style" :id="uid"></div>
+        <div ref="barAntvChart" class="target-content echartDiv" :style="style" :id="uid"></div>
       </div>
     </dv-border-box10>
   </div>
@@ -139,7 +139,7 @@ export default {
           .encode('color', props.color)
           //.style('shape', 'column25d')
           
-          .transform({ type: 'dodgeX' })
+          //.transform({ type: 'dodgeX' })
           .label({
             text: props.encodeV,
             position: 'top',
@@ -148,22 +148,23 @@ export default {
             fontSize: 10,
           })
           .tooltip({ name: props.encodeV, channel: 'y' })
-          // .legend({
-          //   color: {
-          //     size:8,
-          //     //itemLabelText: '图例项标签',
-          //     itemLabelFontSize: 10,
-          //     itemLabelLineHeight: 20,
-          //     itemLabelTextAlign: 'left',
-          //     itemLabelTextBaseline: 'middle',
-          //     itemLabelFill: '#fff',
-          //     itemLabelFillOpacity: 0.9,
-          //     itemLabelLineWidth: 2,
-          //     itemLabelOpacity: 1,
-          //     itemLabelCursor: 'pointer',
-          //   },
-          //   size: {},
-          // })
+          .legend({
+            show:false,
+            color: {
+              size:8,
+              //itemLabelText: '图例项标签',
+              itemLabelFontSize: 10,
+              itemLabelLineHeight: 20,
+              itemLabelTextAlign: 'left',
+              itemLabelTextBaseline: 'middle',
+              itemLabelFill: '#fff',
+              itemLabelFillOpacity: 0.9,
+              itemLabelLineWidth: 2,
+              itemLabelOpacity: 1,
+              itemLabelCursor: 'pointer',
+            },
+            size: {},
+          })
          
           .interaction('elementHighlight', { background: true });
         
