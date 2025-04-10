@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-import {ImageLayer, Map, PointLayer, Scene} from '@antv/l7';
-import {computed, getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { ImageLayer, Map, PointLayer, Scene } from '@antv/l7';
+import { computed, getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   props: {
@@ -103,7 +103,7 @@ export default {
                     },
                   })
                   .shape('icon')
-                  .size(16);
+                  .size(32);
 
               const textlayer = new PointLayer({zIndex: 2})
                   .source(data, {
