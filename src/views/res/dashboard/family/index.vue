@@ -31,11 +31,7 @@
           <!--          <div class="margin-top-sm">-->
           <!--            <sex :man="mainData['男性比例']" :woman="mainData['女性比例']"/>-->
           <!--          </div>-->
-          <div class="margin-top-sm">
-            <ProportionOfAgeGroups :aboutThi="mainData['36-60岁']||48"
-                                   :aboutThiAbove="mainData['60岁以上']||20.5" :eighteen="mainData['16岁以下']||10.5"
-                                   :thirtyFive="mainData['16-35岁']||22"/>
-          </div>
+
           <div class="margin-top-sm">
             <div class="target-header">
               <span class="target-title">五好达标情况</span>
@@ -343,7 +339,7 @@ export default {
   color: #000;
 
   #dv-full-screen-container {
-    background-image: url("./img/bg.png");
+    background-image: url("/img/res/bg_2.png");
     background-size: 100% 100%;
   }
 }

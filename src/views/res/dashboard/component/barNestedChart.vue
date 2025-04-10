@@ -1,7 +1,7 @@
 <template>
   <div id="flareTarget">
     <div class="flare-container">
-      <div ref="echart" class="echartDiv"></div>
+      <div ref="echart" :style="objStyle||''" class="echartDiv"></div>
     </div>
   </div>
 </template>
@@ -9,7 +9,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import { onMounted, reactive, ref, toRefs } from 'vue';
+import {onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   props: {
@@ -17,7 +17,12 @@ export default {
     seriesData1: Array,
     seriesData2: Array,
     color1: Array,
-    color2: Array
+    color2: Array,
+    formatter: Array,
+    objStyle: Array,
+    top: Array,
+    bottom: Array,
+    color3: Array,
   },
   setup(props) {
     let state = reactive({
@@ -28,7 +33,6 @@ export default {
       // 指定图表的配置项和数据
       //下面就是上图的配置项，关键部分有注释
       const option = {
-        
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -47,8 +51,8 @@ export default {
         grid: {
           left: '10%',
           right: '5%',
-          bottom: '20%',
-          top: '15%',
+          bottom: props.bottom || '10%',
+          top: props.top || '15%',
         },
         xAxis: {
           boundaryGap: true,
@@ -59,12 +63,12 @@ export default {
         },
         yAxis: {
           type: 'value',
-          splitLine: { show: false, lineStyle: { type: 'dashed', color: '#f5f5f5' } },
-          axisLine: { show: false },
-          axisTick: { show: false },
+          splitLine: {show: false, lineStyle: {type: 'dashed', color: '#f5f5f5'}},
+          axisLine: {show: false},
+          axisTick: {show: false},
           axisLabel: {
             color: '#ddd',
-            formatter: '{value}%'
+            formatter: props.formatter != undefined ? '{value}' + props.formatter : '{value}%'
           },
           boundaryGap: [0, 0.01]
         },
@@ -72,59 +76,53 @@ export default {
           {//里层的柱子
             name: '现状',
             type: 'bar',//象形柱状图
-            //barWidth:30,//柱子的宽度
-            barMaxWidth:30,
-            barMinHeight:10,
-            barGap:'100%',
+            barMaxWidth: 30,
+            symbol: 'rectange',
             data: props.seriesData2,//柱子的数据
-            symbol:'rectange',//柱子的形状
-            symbolRepeat:true,//是否重复
+            symbolRepeat: true,//是否重复
             // symbolOffset: [10, 0],//柱子的位置
-            symbolBoundingData:1,//图形的个数
-            label:{
+            symbolBoundingData: 1,//图形的个数
+            label: {
               show: true,
               textStyle: {
                 color: '#fff',
               },
-              formatter: '{c}%',
-              position:'top',
-              distance:-20
+              formatter: props.formatter != undefined ? '{c}' + props.formatter : '{c}%',
+              position: 'inside',
+              distance: -20
             },
             itemStyle: {
               color: new echarts.graphic.LinearGradient(0, 0, 0, 0.3, [
-              { offset: 0, color: props.color1 && props.color1.length>0?props.color1[0]:'#83bff6' },
-              { offset: 0.5, color: props.color1 && props.color1.length>1?props.color1[1]: '#188df0' },
-              { offset: 1, color: props.color1 && props.color1.length>2?props.color1[2]: '#188df0' }
-            ])},
-            z:12//柱子的层级
+                {offset: 0, color: props.color1 && props.color1.length > 0 ? props.color1[0] : '#83bff6'},
+                {offset: 0.5, color: props.color1 && props.color1.length > 1 ? props.color1[1] : '#188df0'},
+                {offset: 1, color: props.color1 && props.color1.length > 2 ? props.color1[2] : '#188df0'}
+              ])
+            },
+            z: 12//柱子的层级
           },
           { //外层的柱子
-              name: "目标",
-              type: "pictorialBar",
-              barWidth:50,
-              barMaxWidth:50,
-              barMinHeight:100,
-             
-              //symbolSize: [40, 18], //调整截面形状
-              // symbolOffset: [0, 0],
-              symbol:'rectange',
-              symbolRepeat:true,
-              symbolBoundingData:1,
-              label:{
-                show: true,
-                formatter: '{c}%',
-                textStyle: {
-                  color: '#ddd',
-                },
-                position:'top',
-                distance:8
+            name: "目标",
+            type: "pictorialBar",
+            barMinWidth: 50,
+            barWidth: 50,
+            symbol: 'rectange',
+            symbolRepeat: true,
+            symbolBoundingData: 1,
+            label: {
+              show: true,
+              formatter: props.formatter != undefined ? '{c}' + props.formatter : '{c}%',
+              textStyle: {
+                color: '#ddd',
               },
-              itemStyle: {
-                color: "rgba(128,128,128,0.8)",
-                opacity: 1,
-              },
-              z:10,//柱子的层级
-              data: props.seriesData1
+              position: 'top',
+              distance: 8
+            },
+            itemStyle: {
+              color: props.color3 || "rgba(128,128,128,0.8)",
+              opacity: 1,
+            },
+            z: 10,//柱子的层级
+            data: props.seriesData1
           },
         ]
       };

@@ -33,10 +33,20 @@
           <div class="content">
             <div class="margin-left">
               <Title title="村情介绍"/>
-              <div class="target-container-h2 target-text target-content text-left">
-                <p class="margin" style="text-align: left;font-size:1.5rem;line-height: 2.8rem;">
+              <div class="target-container-h4 target-text target-content text-left">
+                <p class="margin" style="text-align: left;font-size:1.2rem;line-height: 1.2rem;">
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;混撒拉村位于仁和区南部，距城区17.5km。辖区面积21平方公里，平均海拔1400m,现有村民380户1527人，少数民族人口占比65%，设有1个党总支，3个党支部，共有党员55名。全村耕地848亩、林地8160亩，以种植芒果、乡村旅游等产业为主，辖区内有企业2家、商户12家、农民专业合作社7个、家庭农场43家、村级卫生室1家，正在建设美丽乡村试点县项目。
                 </p>
+              </div>
+              <div class="target-container-h3 target-text target-content text-left">
+                <Title title="重点监测群体"/>
+                <barNestedChart
+                    :color1="['#b19a5f','#b19a5f','#b19a5f']"
+                    :formatter="'户'"
+                    :seriesData1="[100, 100, 100]"
+                    :seriesData2="[90, 80, 80]"
+                    :objStyle="'height:calc(24.9vh - 2.5rem)'"
+                    :xAxisData="['2022年', '2023年', '2024年']"/>
               </div>
             </div>
             <div style="width: 100%;height:calc(100vh  - 20rem - 21.6rem)">
@@ -54,7 +64,7 @@
             </div>
 
             <div class="view-box">
-              <div class="margin-left margin-right margin-bottom" style="width:100%;">
+              <div class="margin" style="width:50%;">
                 <el-popover
                     class="box-item"
                     content='“⼾夯实”实现⼾占⽐超50%，全村⼈均年可⽀配收⼊超全市农村⼈均年可⽀配收⼊，村集体经济稳定收⼊超20万元'
@@ -64,27 +74,68 @@
                   </template>
                 </el-popover>
                 <div class="target-content">
-                  <el-row :gutter="24" class="margin">
+                  <el-row :gutter="24">
+                    <el-col :span="24">
+                      <div class="text-center margin-top">
+                        <div class="target-value">“户夯实”实现户占比</div>
+                        <environmental-excellence :YAxisLabel="'false'"
+                                                  :bottom="'20%'"
+                                                  :data="[[20,20,20],[25.68, 29.1, 50.79]]"
+                                                  :formatter="'%'"
+                                                  :label="['目标', '现状']"
+                                                  :left="'0'"
+                                                  :objStyle="'height:7rem'"/>
+                        <text class="target-text">“户夯实”实现户</text>
+                      </div>
+                    </el-col>
                     <el-col :span="24">
                       <div class="text-center">
                         <text class="target-value">全村人均年可支配收入超全市农村人均年可支配收入</text>
-                        <column-chart :data="[2.5, 2.68, 3.24]" :label="['2022年', '2023年', '2024年']"
-                                      :mark-line="[2.19,2.30,2.45]"/>
+                        <environmental-excellence :YAxisLabel="'false'"
+                                                  :bottom="'20%'"
+                                                  :data="[[2.19,2.30,2.45],[2.5, 2.68, 3.24]]"
+                                                  :formatter="'万'"
+                                                  :label="['目标', '现状']"
+                                                  :left="'0'"
+                                                  :objStyle="'height:7rem'"/>
                         <text class="target-text">农村人均年可支配收入</text>
                       </div>
                     </el-col>
                     <el-col :span="24">
                       <div class="text-center margin-top">
                         <text class="target-value">村集体经济收入超20万元</text>
-                        <column-chart :data="[25.68, 29.1, 170.8]" :label="['2022年', '2023年', '2024年']"
-                                      :mark-line="[20,20,20]"/>
+                        <environmental-excellence :YAxisLabel="'false'"
+                                                  :bottom="'20%'"
+                                                  :data="[[20,20,20],[25.68, 29.1, 170.8]]"
+                                                  :formatter="'万'"
+                                                  :label="['目标', '现状']"
+                                                  :left="'0'"
+                                                  :objStyle="'height:7rem'"/>
                         <text class="target-text">村集体经济收入</text>
                       </div>
                     </el-col>
                   </el-row>
-                  <div style="color:#1AFD9BFF;font-size: 2rem">“户夯实”实现户占比50.79%</div>
                 </div>
               </div>
+              <div class="margin-left margin-right margin-bottom" style="width:50%;">
+                <div class="margin-top-sm">
+                  <ProportionOfAgeGroups :age-data="[2.031,3.342,12.779,64.417,15.596,1.835]"/>
+                </div>
+                <div>
+                  <div class="target-header">
+                    <span class="target-title">家庭年收入结构图</span>
+                  </div>
+                  <div class="target-content">
+                    <div class="text-center">
+                      <pieEllipse :data='[{name:"10万以下",value:"30%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#bbb;text-anchor:start;font-size:54;"}
+                    ,{name:"10万-50万",value:"69.7%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#bbb;text-anchor:end;font-size:54;"}
+                    ,{name:"50万以上",value:"0.3%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}]'
+                                  style="height:12rem;transform:scale(0.4,0.3) translate(0, -8rem);"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
             <div class="margin-left margin-right margin-top margin-bottom">
@@ -204,8 +255,10 @@
               <div class="margin-top">
                 <div class="target-text target-content">
                   <environmental-excellence :YFormatter="'{value}万'"
-                                            :data="[[26.14,26.14, 26.14],[28.32,28.32, 28.32]]"
                                             :label="['蔬菜产值', '芒果产值']"
+                                            :data="[[26.14,26.14, 26.14],[28.32,28.32, 28.32]]"
+                                            :YAxisLabel="'false'"
+                                            :left="'0'"
                                             :mark-line="0"/>
                   <div>农业社会化服务协办员1名</div>
                   <div>姓名：<span style="color:#1AFD9BFF;">李*</span> &nbsp;&nbsp;职务：<span
@@ -219,6 +272,8 @@
                   <environmental-excellence
                       :data="[[77.1, 77.1, 77.1, 77.1],[100, 100, 100, 100],[100, 100, 100, 100],[100, 100, 100, 100]]"
                       :label="['⾃来⽔普及率', '农村卫⽣厕所普及率', '⽣活污⽔有效治理覆盖率', '自然村（组）通硬化路率']"
+                      :YAxisLabel="'false'"
+                      :left="'0'"
                       :mark-line="0"/>
                 </div>
               </div>
@@ -276,6 +331,8 @@
                 <div class="target-text target-content padding-lg" style="text-align: left">
                   <environmental-excellence :data="[[99.7,99.7, 99.7],[100,100, 100],[100,100, 100]]"
                                             :label="['学前教育三年⽑⼊园率', '基本养老保险参保率', '基本医疗保险参保率']"
+                                            :YAxisLabel="'false'"
+                                            :left="'0'"
                                             :mark-line="0"/>
                 </div>
               </div>
@@ -298,11 +355,15 @@ import EnvironmentalExcellence from "/@/views/res/dashboard/village/Environmenta
 import ProportionOfAgeGroups from "/@/views/res/dashboard/village/ProportionOfAgeGroups.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
 import TopTwoAndTopFour from "/@/views/res/dashboard/village/TopTwoAndTopFour.vue";
+import pieEllipse from "/@/components/pieEllipse/index.vue";
+import barNestedChart from "/@/views/res/dashboard/component/barNestedChart.vue";
 
 export default {
   name: "IndexDashboard",
   // eslint-disable-next-line vue/no-reserved-component-names
   components: {
+    barNestedChart,
+    pieEllipse,
     antvImageMap,
     EnvironmentalExcellence,
     ProportionOfAgeGroups,
@@ -468,7 +529,6 @@ export default {
         justify-content: space-between;
         align-items: flex-end;
       }
-
     }
   }
 
