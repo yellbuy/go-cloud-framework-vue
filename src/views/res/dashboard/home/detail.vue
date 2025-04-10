@@ -27,35 +27,36 @@
         <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:1rem;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
       </div> -->
       <div class="main-rows">
-          <div style="width:33%;padding-left:1rem;">
+          <div style="width:25%;padding-left:1rem;">
             <div class="target-header">
               <span class="target-title" @click="onClickTargetDetail('经济优建')">经济优建</span>
             </div>
-            <div class="target-content target-container-h1 target-text">
+            <div class="target-content target-text">
                 <el-row class="" :gutter="6">
-                  <el-col :span="12">
+                  <el-col :span="24">
                     <barAreaGdp></barAreaGdp>
                   </el-col>
-                  <el-col :span="12">
+                  <el-col :span="24">
                     <barPeopleGdp></barPeopleGdp>
                   </el-col>
-                  <el-col :span="12">
+                  <el-col :span="24">
                     <barResearchFee></barResearchFee>
                   </el-col>
-                  <el-col :span="12">
+                  <el-col :span="24">
                     <barCityRate></barCityRate>
                   </el-col>
                   <!-- <el-col :span="12">
                     <barFamilyGdp></barFamilyGdp>
-                  </el-col>
-                  <el-col :span="12">
+                  </el-col> -->
+                  <!-- <el-col :span="12">
                     <barTownGdp></barTownGdp>
                   </el-col>
                   <el-col :span="24">
                     <barAgricultureGdp></barAgricultureGdp>
                   </el-col> -->
                 </el-row>
-              </div>
+                
+              
             <!-- <div class="target-header margin-top-sm">
               <span class="target-title" @click="onClickTargetDetail('环境优宜')">环境优宜</span>
             </div>
@@ -77,134 +78,163 @@
                 </el-row>
             </div> -->
           </div>
-          <div style="width:34%;padding:0 1rem;">
+          <div class="target-header margin-top-sm">
+              <span class="target-title" @click="onClickTargetDetail('社会优和')">社会优和</span>
+            </div>
+            <div class="target-content">
+              <barCountyShyh/>
+            </div>
+          </div>
+          <div style="width:50%;padding:0 1rem;">
             <div class="target-header">
               <span class="target-title" @click="onClickTargetDetail('民生优享')">民生优享</span>
             </div>
             <div class="target-content">
               <el-row class="" :gutter="6">
-                  <el-col :span="12">
+                  <el-col :span="8" class="padding-bottom-sm">
                     <barFamilyGdp></barFamilyGdp>
                   </el-col>
-                  <el-col :span="12">
+                  <el-col :span="8" class="padding-bottom-sm">
                     <barTownGdp></barTownGdp>
                   </el-col>
-                  <el-col :span="12">
-                    <barPeopleRate></barPeopleRate>
+                  <el-col :span="8" class="padding-bottom-sm">
+                    <barAntvChart color="yellow" title="人均公共服务支出(万元)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:0.43},{年份:2024,值:0.42},{年份:2030,值:0.45}]"></barAntvChart>
                   </el-col>
-                  <el-col :span="12">
-                    <barAntvChart color="green" title="人均公共服务支出(万元)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:0.43},{年份:2024,值:0.42},{年份:2030,值:0.45}]"></barAntvChart>
+                  <el-col :span="8" class="padding-bottom-sm">
+                    <barAntvChart color="orange" title="城乡居民人均可支配收入倍差" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:1.91},{年份:2024,值:1.88},{年份:2030,值:1.77}]"></barAntvChart>
                   </el-col>
-                  <el-col :span="12">
+                  <el-col :span="8" class="padding-bottom-sm">
                     <barAntvChart color="lightgreen" title="城镇新增就业人口(万人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:0.33},{年份:2024,值:0.33},{年份:2030,值:0.37}]"></barAntvChart>
                     <!-- <barAgricultureGdp></barAgricultureGdp> -->
                   </el-col>
-                  <el-col :span="12">
+                  <el-col :span="8" class="padding-bottom-sm">
                     <barAntvChart color="green" title="每千人拥有执业(助理)医师数(人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:2.53},{年份:2024,值:2.56},{年份:2030,值:2.59}]"></barAntvChart>
                   </el-col>
-                  <el-col :span="12">
-                    <barAntvChart color="green" title="城乡护理型床位比值(%)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:109},{年份:2024,值:107},{年份:2030,值:105}]"></barAntvChart>
+                  <el-col :span="8" class="padding-bottom-sm">
+                    <barAntvChart color="yellow" title="城乡护理型床位比值(%)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:109},{年份:2024,值:107},{年份:2030,值:105}]"></barAntvChart>
                   </el-col>
-                </el-row>
-              <!-- <dv-capsule-chart :config="msyxConfig" style="width:100%;height:100%" /> -->
-              <el-row class="margin-top-xl">
-                  <el-col :span="8" style="margin-top:-2rem">
+                  <el-col :span="8" class="padding-bottom-sm">
+                    <barAntvChart color="orange" title="每千人口拥有3岁以下婴幼儿托位数" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:3.5},{年份:2024,值:3.6},{年份:2030,值:4.2}]"></barAntvChart>
+                  </el-col>
+                  <el-col :span="8" class="padding-bottom-sm">
+                    <barAntvChart color="lightgreen" title="居民人均预期寿命" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:79.3},{年份:2024,值:79.7},{年份:2030,值:80.9}]"></barAntvChart>
+                  </el-col>
+                  <el-col :span="8" class="padding-bottom-sm">
                     <gaugeProgress :style="'height:12rem;'"  :value="0.505" :colorValueData="[[0.375, '#FDDD60'],  [0.50, '#58D9F9'], [1, '#7CFFB2']]" :colorTickData="[{name: '2023 47.02%', value: 0.25},{name: '2024 50.5%', value: 0.50}, {name: '2030 69.5%', value: 0.875}]"  text="中等收入群体占比" :detailFontSize="18" :titleFontSize="14" />
                   </el-col>
-                  <el-col :span="8" style="margin-top:-2rem">
+                  <el-col :span="8" class="padding-bottom-sm">
                     <gaugeProgress :style="'height:12rem;'"  :value="0.65" :colorValueData="[[0.50, '#FDDD60'],  [0.75, '#58D9F9'], [1, '#7CFFB2']]" :colorTickData="[{name: '2023 50%', value: 0.375},{name: '2024 65%', value: 0.625}, {name: '2030 100%', value: 0.875}]"   text="宜居宜业和美乡村占比" :detailFontSize="18" :titleFontSize="14" />
                   </el-col>
-                  <el-col :span="8" style="margin-top:-2rem">
+                  <el-col :span="8" class="padding-bottom-sm">
                     <gaugeProgress :style="'height:12rem;'" :value="0.4"   text="年收入达20万村占比" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
-                   <el-col :span="8" style="margin-top:-4rem">
+                   <el-col :span="8"  style="margin-top:-3rem">
                     <gaugeProgress :style="'height:12rem;'" :value="0.9165"  text="普惠性幼⼉园覆盖率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
-                  <el-col :span="8" style="margin-top:-4rem">
+                  <el-col :span="8" style="margin-top:-3rem">
                     <gaugeProgress :style="'height:12rem;'" :value="1"  text="义务教育阶段⼊学率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
-                  <el-col :span="8" style="margin-top:-4rem">
+                  <el-col :span="8" style="margin-top:-3rem">
                     <gaugeProgress :style="'height:12rem;'" :value="1" :text="'进城务工随迁⼦⼥公办学校就读率'" :detailFontSize="18" :titleFontSize="11"/>
                   </el-col>
-                  <el-col :span="8" style="margin-top:-4rem">
+                  <el-col :span="8" style="margin-top:-3rem">
                     <gaugeProgress :style="'height:12rem;'" :value="0.945" :colorTickData="[{name: '2024 94%', value: 0.75}, {name: '2025 94.5%', value: 0.90}, {name: '2030 96%', value: 0.875}]" text="基本养老保险综合参保率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
-                  <el-col :span="8" style="margin-top:-4rem">
+                  <el-col :span="8" style="margin-top:-3rem">
                     <gaugeProgress :style="'height:12rem;'" :value="0.8649"  text="基本医疗保险综合参保率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
-                  <el-col :span="8" style="margin-top:-4rem">
+                  <el-col :span="8" style="margin-top:-3rem">
                     <gaugeProgress :style="'height:12rem;'" :value="0.29" :colorTickData="[{name: '2023 28.5%', value: 0.125}, {name: '2024 29%', value: 0.375}, {name: '2030 30.5%', value: 0.625}]" :colorValueData="[[0.125, '#FDDD60'],  [0.25, '#58D9F9'], [1, '#7CFFB2']]" text="城镇常住人口住房保障率" :detailFontSize="18" :titleFontSize="14"/>
-                  </el-col>
-                 
-                 
-                 
+                  </el-col>                 
                 </el-row>
             </div>
             
           </div>
           
-          <div style="width:33%;padding-right:1rem;">
+          <div style="width:25%;padding-right:1rem;">
             <div class="target-header">
               <span class="target-title" @click="onClickTargetDetail('文明优创')">文明优创</span>
             </div>
-            <div class="target-content target-container-h5">
-              <el-row class="margin-top">
-                  <el-col :span="8" class="text-right">
-                    <i class="fa fa-building margin-right" aria-hidden="true" style="font-size: 5rem; color: orange;" />
-                  </el-col>
-                  <el-col :span="16" class="text-left ">
-                    <div style="font-size:1.5rem">公共文化服务设施面积</div>
-                    <div class="margin-top" style="font-size:1.5rem">每万人<b class="target-value margin-lr-xs" style="color:orange;font-size:2.5rem">735.24</b>
-                      <i
-                          class="fa fa-arrow-down margin-lr-sm"
-                          style="font-size: 1rem; color: orange;"/>830&nbsp;平米</div>
-                  </el-col>
-                </el-row>
+            <div class="target-content">
+              <el-row class="margin-bottom-sm margin-top-xl">
+                <el-col :span="8" class="text-right">
+                  <i class="fa fa-building margin-right" aria-hidden="true" style="font-size: 4rem; color: orange;" />
+                </el-col>
+                <el-col :span="16" class="text-left ">
+                  <div style="font-size:1rem">公共文化服务设施面积</div>
+                  <div class="margin-tb" style="font-size:1.2rem">每万人<b class="target-value margin-lr-xs" style="color:orange;font-size:1.5rem">735.24</b>
+                    <i
+                        class="fa fa-arrow-down margin-lr-sm"
+                        style="font-size: 0.8rem; color: orange;"/>830&nbsp;平米</div>
+                </el-col>
+              </el-row>
+              <el-row class="margin-tb-sm">
+                <el-col :span="8" class="text-right">
+                  <i class="fa fa-pie-chart margin-right" aria-hidden="true" style="font-size: 4rem; color: orange;" />
+                </el-col>
+                <el-col :span="16" class="text-left ">
+                  <div style="font-size:1rem">居民教育文化娱乐支出占生活消费支出比</div>
+                  <div class="margin-tb" style="font-size:1.2rem">2024<b class="target-value margin-lr-sm" style="color:orange;font-size:1.5rem">10.5%</b>
+                    <i
+                        class="fa fa-arrow-down margin-lr-sm"
+                        style="font-size: 1rem; color: orange;"/>11.5%</div>
+                </el-col>
+              </el-row>
+              <el-row class="margin-tb-sm">
+                <el-col :span="12" class="text-center">
+                  <div class="text-center">
+                    <dv-water-level-pond :config="{data: [93.71],shape: 'round',waveOpacity:0.6,waveHeight:5,colors:['orange','orange']}" style="margin-left:auto;margin-right:auto;width:8rem;height:8rem"/>
+                  </div>
+                  
+                  <div class="text-center margin-tb" style="font-size:0.9rem">城市文明建设城乡居民参与度</div>
+                </el-col>
+                <el-col :span="12" class="text-center">
+                  <div class="text-center">
+                    <dv-water-level-pond :config="{data: [95.06],shape: 'round',waveOpacity:0.6,waveHeight:5,colors:['yellow','yellow']}" style="margin-left:auto;margin-right:auto;width:8rem;height:8rem"/>
+                  </div>
+                  <div class="text-center margin-tb" style="font-size:0.9rem">人民群众对文明实践工作的满意度</div>
+                </el-col>
+              </el-row>
             </div>
             <div class="target-header margin-top-sm">
               <span class="target-title" @click="onClickTargetDetail('环境优宜')">环境优宜</span>
             </div>
-            <div class="target-content target-container-h3 padding-xl">
-              <el-row class="margin-xl  text-center" :gutter="0">
-                  <el-col :span="6" class="text-center">
+            <div class="target-content">
+              <el-row class="text-center margin-xl" :gutter="10">
+                  <el-col :span="8" class="text-center">
                     <div class="text-center">
-                      <dv-water-level-pond :config="{data: [44.80],shape: 'round',waveOpacity:0.6,waveHeight:10,}" style="margin-left:2rem;width:8rem;height:8rem"/>
+                      <dv-water-level-pond :config="{data: [44.80],shape: 'round',waveOpacity:0.6,waveHeight:10,}" style="margin-left:auto;margin-right:auto;width:8rem;height:8rem"/>
                     </div>
                     
-                    <div class="text-center margin-top margin-left-xl" style="font-size:1.1rem">城市建成区绿化覆盖率</div>
+                    <div class="text-center margin-top" style="font-size:1.1rem">城市建成区绿化覆盖率</div>
                   </el-col>
-                  <el-col :span="6" class="text-center">
+                  <el-col :span="8" class="text-center">
                     <div class="text-center">
-                      <dv-water-level-pond :config="{data: [100],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['#E6A23C','#E6A23C']}" style="margin-left:2rem;width:8rem;height:8rem"/>
+                      <dv-water-level-pond :config="{data: [100],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['#E6A23C','#E6A23C']}" style="margin-left:auto;margin-right:auto;width:8rem;height:8rem"/>
                     </div>
-                    <div class="text-center margin-top margin-left-xl" style="font-size:1.1rem">生活垃圾无害化处理率</div>
+                    <div class="text-center margin-top" style="font-size:1.1rem">生活垃圾无害化处理率</div>
                   </el-col>
-                  <el-col :span="6" class="text-center">
+                  <!-- <el-col :span="6" class="text-center">
                     <div class="text-center">
                       <dv-water-level-pond :config="{data: [96.4],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['green','green']}" style="margin-left:2rem;width:8rem;height:8rem"/>
                     </div>
                     <div class="text-center margin-top margin-left-xl" style="font-size:1.1rem">空⽓质量优良天数⽐率</div>
-                  </el-col>
-                  <el-col :span="6" class="text-center">
+                  </el-col> -->
+                  <el-col :span="8" class="text-center">
                     <div class="text-center">
-                      <dv-water-level-pond :config="{data: [100],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['lightgreen','lightgreen']}" style="margin-left:2rem;width:8rem;height:8rem"/>
+                      <dv-water-level-pond :config="{data: [100],shape: 'round',waveOpacity:0.6,waveHeight:10,colors:['lightgreen','lightgreen']}" style="margin-left:auto;margin-right:auto;width:8rem;height:8rem"/>
                     </div>
-                    <div class="text-center margin-top margin-left-xl" style="font-size:1.1rem">地表水达到或优于‖类比例</div>
+                    <div class="text-center margin-top" style="font-size:1.1rem">地表水达到或优于‖类比例</div>
                   </el-col>
                 </el-row>
             </div>
-            <div class="target-header margin-top-sm">
-              <span class="target-title" @click="onClickTargetDetail('社会优和')">社会优和</span>
-            </div>
-            <div class="target-content target-container-h4">
-              <barCountyShyh/>
-            </div>
+            
             <div class="target-header margin-top-sm">
               <span class="target-title" @click="onClickTargetDetail('党建优促')">党建优促</span>
             </div>
-            <div class="target-content target-container-h4">
-              <dv-capsule-chart :config="shyzConfig" style="width:100%;" />
-              <div>“三个身边”群众工作机制反映问题工单办结率</div>
+            <div class="target-content">
+              <dv-capsule-chart :config="djycConfig" style="width:100%;height:17.5vh" />
+              <div class="margin-bottom">“三个身边”群众工作机制反映问题工单办结率</div>
             </div>
           </div>
         </div>
@@ -341,7 +371,7 @@ export default {
         showValue:true,
         labelNum: 5,
       },
-      shyzConfig : {
+      djycConfig : {
         data: [
           {
             name: '2024',
@@ -357,7 +387,7 @@ export default {
           },
           {
             name: '2030',
-            value: 98
+            value: 100
           },
         ],
         colors: ['#e062ae', '#fb7293', '#e690d1', '#32c5e9', '#96bfff'],
