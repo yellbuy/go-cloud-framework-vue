@@ -165,6 +165,7 @@
                       </div>
                       <div class="target-text">
                         <barNestedChart :bottom="40" :objStyle="'height:15vh'"
+                                        :label="['2030年', '2025年']"
                                         :color1="['rgb(248, 152.1, 152.1)','#F56C6C','rgb(196, 86.4, 86.4)']"
                                         :seriesData1="[95, 95, 100, 100]"
                                         :seriesData2="[100, 98.5, 100, 100]"
@@ -357,9 +358,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from 'element-plus';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { ElMessageBox } from 'element-plus';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
@@ -369,8 +370,8 @@ import Label1 from "/@/views/res/dashboard/component/Label1.vue";
 import barNestedChart from "/@/views/res/dashboard/component/barNestedChart.vue";
 import ColumnChart from "/@/views/res/dashboard/street/ColumnChart.vue";
 import OvalShape from "/@/views/res/dashboard/street/OvalShape.vue";
-import Title from "/@/views/res/dashboard/village/Title.vue";
 import EnvironmentalExcellence from "/@/views/res/dashboard/village/EnvironmentalExcellence.vue";
+import Title from "/@/views/res/dashboard/village/Title.vue";
 
 export default {
   name: "IndexDashboard",
