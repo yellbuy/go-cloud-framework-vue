@@ -167,10 +167,8 @@
                         <div class="text-center">
                           <span>党员<label class="margin-xs"
                                            style="color:#1AFD9BFF;font-size: 1.4rem">55</label>人</span>
-                          <span class="margin-left">市党代表<label class="margin-xs"
-                                                                   style="color:#1AFD9BFF;font-size: 1.4rem">6</label>人</span>
-                          <span class="margin-left">区党代表<label class="margin-xs"
-                                                                   style="color:#1AFD9BFF;font-size: 1.4rem">3</label>人</span>
+                          <span class="margin-left">党代表<label class="margin-xs"
+                                                                 style="color:#1AFD9BFF;font-size: 1.4rem">9</label>人</span>
                         </div>
                         <div class="text-center margin-tb-lg">
                           “三个身边”群众工作机制反映问题办结率<label class="margin-sm"
@@ -194,7 +192,6 @@
                       <el-row :gutter="10" class="margin">
                         <el-col :span="8">
                           <div>
-                            <text class="margin-sm" style="font-size: 1.2rem;">一村一民(辅)警</text>
                             <el-row class="margin-top">
                               <el-col :span="10" class="text-right">姓名：</el-col>
                               <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">邓*志</el-col>
@@ -208,7 +205,6 @@
                         </el-col>
                         <el-col :span="8">
                           <div>
-                            <text style="font-size: 1.2rem">一村一法律顾问</text>
                             <el-row class="margin-top">
                               <el-col :span="10" class="text-right">姓名：</el-col>
                               <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">邓*志</el-col>
@@ -221,7 +217,6 @@
                         </el-col>
                         <el-col :span="8">
                           <div>
-                            <text style="font-size: 1.2rem">人民调解员</text>
                             <el-row class="margin-top">
                               <el-col :span="10" class="text-right">姓名：</el-col>
                               <el-col :span="12" class="text-left" style="color:#1AFD9BFF;">邓*志</el-col>
@@ -255,8 +250,9 @@
               <div class="margin-top">
                 <div class="target-text target-content">
                   <environmental-excellence :YFormatter="'{value}万'"
-                                            :label="['蔬菜产值', '芒果产值']"
-                                            :data="[[26.14,26.14, 26.14],[28.32,28.32, 28.32]]"
+                                            :XLabel="['蔬菜产值', '芒果产值']"
+                                            :data="[[26.14,28.32],[26.14,28.32],[26.14,28.32]]"
+                                            :label="['2022年', '2023年', '2024年']"
                                             :YAxisLabel="'false'"
                                             :left="'0'"
                                             :mark-line="0"/>
@@ -270,10 +266,13 @@
                 <div class="margin-tb" style="color:#fff;font-size: 1.2rem;">环境优</div>
                 <div class="target-text target-content">
                   <environmental-excellence
-                      :data="[[77.1, 77.1, 77.1, 77.1],[100, 100, 100, 100],[100, 100, 100, 100],[100, 100, 100, 100]]"
-                      :label="['⾃来⽔普及率', '农村卫⽣厕所普及率', '⽣活污⽔有效治理覆盖率', '自然村（组）通硬化路率']"
+                      :XLabel="['⾃来⽔普及率', '农村卫⽣\n厕所普及率', '⽣活污⽔有\n效治理覆盖率', '自然村（组）\n通硬化路率']"
+                      :YFontSize="'10'"
+                      :bottom="'20%'"
                       :YAxisLabel="'false'"
                       :left="'0'"
+                      :data="[[77.1, 100, 100, 100],[77.1, 100, 100, 100],[77.1, 100, 100, 100],[77.1, 100, 100, 100]]"
+                      :label="['2022年', '2023年', '2024年']"
                       :mark-line="0"/>
                 </div>
               </div>
@@ -329,10 +328,12 @@
               <div class="margin-top">
                 <div class="margin-tb" style="color:#fff;font-size: 1.2rem;">服务优</div>
                 <div class="target-text target-content padding-lg" style="text-align: left">
-                  <environmental-excellence :data="[[99.7,99.7, 99.7],[100,100, 100],[100,100, 100]]"
-                                            :label="['学前教育三年⽑⼊园率', '基本养老保险参保率', '基本医疗保险参保率']"
+                  <environmental-excellence :XLabel="['学前教育三\n年⽑⼊园率', '基本养老\n保险参保率', '基本医疗保\n险参保率']"
+                                            :bottom="'20%'"
+                                            :data="[[99.7,100, 100],[99.7,100, 100],[99.7,100, 100]]"
                                             :YAxisLabel="'false'"
                                             :left="'0'"
+                                            :label="['2022年', '2023年', '2024年']"
                                             :mark-line="0"/>
                 </div>
               </div>
