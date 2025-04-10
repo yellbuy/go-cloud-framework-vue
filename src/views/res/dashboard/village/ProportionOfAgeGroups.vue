@@ -1,11 +1,11 @@
 <template>
   <div id="flareTarget">
     <div class="flare-container">
+      <div class="target-header">
+        <span class="target-title">年龄占比</span>
+      </div>
       <div class="target-content">
         <div ref="echart" class="echartDiv"></div>
-        <div>农业社会化服务协办员1名</div>
-        <div>姓名：<span style="color:#1AFD9BFF;">李*</span> &nbsp;&nbsp;职务：<span style="color:#1AFD9BFF;">主任</span> &nbsp;&nbsp;电话：<span
-            style="color:#1AFD9BFF;">135****8935</span></div>
       </div>
     </div>
   </div>
@@ -14,14 +14,37 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from 'echarts';
-import {onMounted, reactive, ref, toRefs} from 'vue';
+import {onMounted, reactive, ref, toRefs, watch} from 'vue';
 
 export default {
-  setup() {
+  props: {
+    eighteen: Array,
+    twentyFive: Array,
+    thirtyFive: Array,
+    aboutThi: Array,
+    aboutThiAbove: Array
+  },
+  setup(props) {
     let state = reactive({
       data: [],
       echart: ref(),
     })
+
+    watch(() => props.eighteen, async () => {
+      setChartOption(myChart);
+    });
+    watch(() => props.twentyFive, async () => {
+      setChartOption(myChart);
+    });
+    watch(() => props.thirtyFive, async () => {
+      setChartOption(myChart);
+    });
+    watch(() => props.aboutThi, async () => {
+      setChartOption(myChart);
+    });
+    watch(() => props.aboutThiAbove, async () => {
+      setChartOption(myChart);
+    });
 
     let myChart: any
     const setChartOption = (chart: any) => {
@@ -31,34 +54,35 @@ export default {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
-        legend: {
-          orient: 'vertical',
-          left: 'right',
-          itemWidth: 25,
-          itemHeight: 8,
-          textStyle: {
-            fontSize: 12,
-            color: '#fff',
-          }
-        },
+        // legend: {
+        //   orient: 'vertical',
+        //   left: 'top',
+        //   itemWidth: 25,
+        //   itemHeight: 8,
+        //   textStyle: {
+        //     fontSize: 12,
+        //     color: '#fff',
+        //   }
+        // },
         series: [
           {
-            name: "产值占比",
+            name: "年龄占比",
             type: 'pie',
-            radius: ['50%', '70%'],
-            roseType: 'radius',
-            avoidLabelOverlap: false,
+            radius: '90%',
             data: [
-              {value: 28.32, name: "芒果产值"},
-              {value: 26.14, name: "蔬菜产值"},
+              {value: props.eighteen, name: "16岁以下"},
+              {value: props.thirtyFive, name: "16-35岁"},
+              {value: props.aboutThi, name: "35-60岁"},
+              {value: props.aboutThiAbove, name: "60岁以上"}
             ],
-            label: { // 图表的标签配置，例如柱状图的标签显示在柱子上方或下方等位置。
-              show: true, // 是否显示标签，默认为false。根据需要开启。
-              textStyle: { // 这里可以设置标签的文本样式，包括字体大小等。
-                fontSize: 18,
-                color: "#fff"
+            label: {
+              normal: {
+                show: true,
+                position: 'inner',
+                formatter: '{b}\n{d}%',
+                fontSize: 12,
+                color: '#fff',
               },
-              formatter: '{d}%'
             }
           }
         ]
@@ -81,7 +105,6 @@ export default {
 
 <style lang='scss' scoped>
 .echartDiv {
-  width: 100%;
-  height: 10rem;
+  height: 16rem;
 }
 </style>

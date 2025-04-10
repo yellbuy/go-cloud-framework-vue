@@ -42,7 +42,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['2023', '2024', '2025'],
+            data: ['2022', '2023', '2024'],
             axisLabel: {
               color: '#fff'
             }

@@ -16,6 +16,7 @@ export default {
     data: Array,
     label: Array,
     markLine: [],
+    formatter: Array
   },
   setup(props) {
     let state = reactive({
@@ -30,7 +31,7 @@ export default {
               top: '20%',
               left: '10%',
               right: '0%',
-              bottom: '15%',
+              bottom: '20%',
             },
             xAxis: {
               type: 'category',
@@ -49,9 +50,9 @@ export default {
                 show: false // 隐藏横线
               },
               axisLabel: {
-                fontSize: 12,
+                fontSize: 11,
                 color: '#fff',
-                formatter: '{value}万'
+                formatter: '{value}' + props.formatter
               }
             },
             series: [
@@ -71,7 +72,7 @@ export default {
                   distance: 10,
                   fontSize: 12,
                   position: 'top',
-                  formatter: '{c}万',
+                  formatter: '{c}' + props.formatter,
                   z: 10000,
                 },
                 markLine: {
@@ -80,12 +81,12 @@ export default {
                       {
                         name: props.markLine[0],
                         yAxis: props.markLine[0],
-                        x: 190,
+                        x: 80,
                         symbol: ""
                       },
                       {
                         yAxis: props.markLine[0],
-                        x: 260,
+                        x: 130,
                         symbol: ""
                       },
                     ],
@@ -93,12 +94,12 @@ export default {
                       {
                         name: props.markLine[1],
                         yAxis: props.markLine[1],
-                        x: 460,
+                        x: 205,
                         symbol: ""
                       },
                       {
                         yAxis: props.markLine[1],
-                        x: 530,
+                        x: 255,
                         symbol: ""
                       },
                     ],
@@ -106,12 +107,12 @@ export default {
                       {
                         name: props.markLine[2],
                         yAxis: props.markLine[2],
-                        x: 720,
+                        x: 335,
                         symbol: ""
                       },
                       {
                         yAxis: props.markLine[2],
-                        x: 790,
+                        x: 385,
                         symbol: ""
                       },
                     ]
@@ -123,7 +124,7 @@ export default {
                   },
                   label: {
                     position: 'start',
-                    formatter: '{b}万',
+                    formatter: '{b}' + props.formatter,
                     color: '#FCAE26FF',
                     fontSize: 12,
                     z: 2200
@@ -157,6 +158,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: 10rem;
+  height: 7rem;
 }
 </style>
