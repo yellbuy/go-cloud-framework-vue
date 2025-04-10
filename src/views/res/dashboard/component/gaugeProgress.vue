@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import * as echarts from 'echarts';
-import {getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs} from 'vue';
+import { getCurrentInstance, onBeforeMount, onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   props: {

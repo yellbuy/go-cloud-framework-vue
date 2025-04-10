@@ -98,24 +98,36 @@
                 </el-row>
               <!-- <dv-capsule-chart :config="msyxConfig" style="width:100%;height:100%" /> -->
               <el-row class="margin-top-xl">
-                  <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.4"  :style="'height:12rem;'" text="年收入达20万村占比" :detailFontSize="18" :titleFontSize="14"/>
+                  <el-col :span="8" style="margin-top:-2rem">
+                    <gaugeProgress :style="'height:12rem;'"  :value="0.505" :colorValueData="[[0.375, '#FDDD60'],  [0.50, '#58D9F9'], [1, '#7CFFB2']]" :colorTickData="[{name: '2023 47.02%', value: 0.25},{name: '2024 50.5%', value: 0.50}, {name: '2030 69.5%', value: 0.875}]"  text="中等收入群体占比" :detailFontSize="18" :titleFontSize="14" />
                   </el-col>
-                  <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.8649" :style="'height:12rem;'" text="全民基本医疗参保率" :detailFontSize="18" :titleFontSize="14"/>
+                  <el-col :span="8" style="margin-top:-2rem">
+                    <gaugeProgress :style="'height:12rem;'"  :value="0.65" :colorValueData="[[0.50, '#FDDD60'],  [0.75, '#58D9F9'], [1, '#7CFFB2']]" :colorTickData="[{name: '2023 50%', value: 0.375},{name: '2024 65%', value: 0.625}, {name: '2030 100%', value: 0.875}]"   text="宜居宜业和美乡村占比" :detailFontSize="18" :titleFontSize="14" />
                   </el-col>
-                  <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.945" :colorTickData="[{name: '2024 94%', value: 0.75}, {name: '2025 94.5%', value: 0.90}, {name: '2030 96%', value: 1}]" :style="'height:12rem;'" text="基本养老保险综合参保率" :detailFontSize="18" :titleFontSize="14"/>
+                  <el-col :span="8" style="margin-top:-2rem">
+                    <gaugeProgress :style="'height:12rem;'" :value="0.4"   text="年收入达20万村占比" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
-                  <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="0.9165" :style="'height:12rem;'" text="普惠性幼⼉园覆盖率" :detailFontSize="18" :titleFontSize="14"/>
+                   <el-col :span="8" style="margin-top:-4rem">
+                    <gaugeProgress :style="'height:12rem;'" :value="0.9165"  text="普惠性幼⼉园覆盖率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
-                  <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="1" :style="'height:12rem;'" text="义务教育⼊学率" :detailFontSize="18" :titleFontSize="14"/>
+                  <el-col :span="8" style="margin-top:-4rem">
+                    <gaugeProgress :style="'height:12rem;'" :value="1"  text="义务教育阶段⼊学率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
-                  <el-col :span="8">
-                    <gaugeProgress containerId="gaugeProgress2" :value="1" :style="'height:12rem;'" text="进城务工随迁⼦⼥就读率" :detailFontSize="18" :titleFontSize="14"/>
+                  <el-col :span="8" style="margin-top:-4rem">
+                    <gaugeProgress :style="'height:12rem;'" :value="1" :text="'进城务工随迁⼦⼥公办学校就读率'" :detailFontSize="18" :titleFontSize="11"/>
                   </el-col>
+                  <el-col :span="8" style="margin-top:-4rem">
+                    <gaugeProgress :style="'height:12rem;'" :value="0.945" :colorTickData="[{name: '2024 94%', value: 0.75}, {name: '2025 94.5%', value: 0.90}, {name: '2030 96%', value: 0.875}]" text="基本养老保险综合参保率" :detailFontSize="18" :titleFontSize="14"/>
+                  </el-col>
+                  <el-col :span="8" style="margin-top:-4rem">
+                    <gaugeProgress :style="'height:12rem;'" :value="0.8649"  text="基本医疗保险综合参保率" :detailFontSize="18" :titleFontSize="14"/>
+                  </el-col>
+                  <el-col :span="8" style="margin-top:-4rem">
+                    <gaugeProgress :style="'height:12rem;'" :value="0.29" :colorTickData="[{name: '2023 28.5%', value: 0.125}, {name: '2024 29%', value: 0.375}, {name: '2030 30.5%', value: 0.625}]" :colorValueData="[[0.125, '#FDDD60'],  [0.25, '#58D9F9'], [1, '#7CFFB2']]" text="城镇常住人口住房保障率" :detailFontSize="18" :titleFontSize="14"/>
+                  </el-col>
+                 
+                 
+                 
                 </el-row>
             </div>
             
