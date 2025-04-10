@@ -40,13 +40,12 @@
               </div>
               <div class="target-container-h3 margin-top target-text target-content text-left">
                 <Title title="重点监测群体"/>
-                <barNestedChart
-                    :color1="['#b19a5f','#b19a5f','#b19a5f']"
+                <environmental-excellence
+                    :XLabel="['重点监测群体']"
                     :formatter="'户'"
-                    :seriesData1="[100, 100, 100]"
-                    :seriesData2="[90, 80, 80]"
-                    :objStyle="'height:calc(24.9vh - 2.5rem)'"
-                    :xAxisData="['2022年', '2023年', '2024年']"/>
+                    :data="[[90],[80],[80]]"
+                    :label="['2022年', '2023年', '2024年']"
+                    :objStyle="'height:calc(24.9vh - 2.5rem)'"/>
               </div>
               <div class="target-content margin-top" style="width: 100%;height:calc(100vh  - 20rem - 21.6rem)">
                 <antvImageMap :areaCode="areaCode" :center="[500,480]" :zoom="1.6" areaGoTo="village"></antvImageMap>
@@ -182,7 +181,7 @@
                         </template>
                       </el-popover>
                       <environmental-excellence :XLabel="['“三个身边”群众工作机制反映问题办结率']"
-                                                :YAxisLabel="'false'"
+                                                :YAxisLabel="false"
                                                 :YFormatter="'{value}万'"
                                                 :data="[[100],[98.5]]"
                                                 :label="['2030年', '2025年']"

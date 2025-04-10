@@ -9,7 +9,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import { onMounted, reactive, ref, toRefs } from 'vue';
+import {onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   props: {
@@ -22,6 +22,7 @@ export default {
     objStyle: Array,
     top: Array,
     bottom: Array,
+    left: Array,
     color3: Array,
   },
   setup(props) {
@@ -43,14 +44,14 @@ export default {
           },
         },
         legend: {
-          data: ['2030年', '2024年'],
-          right : 20,
+          data: ['目标', '现状'],
+          right: 20,
           textStyle: {
             color: '#ffffff'
           }
         },
         grid: {
-          left: '10%',
+          left: props.left || '10%',
           right: '5%',
           bottom: props.bottom || '10%',
           top: props.top || '15%',
@@ -75,7 +76,7 @@ export default {
         },
         series: [
           {//里层的柱子
-            name: '2024年',
+            name: '现状',
             type: 'bar',//象形柱状图
             barMaxWidth: 30,
             symbol: 'rectange',
@@ -102,7 +103,7 @@ export default {
             z: 12//柱子的层级
           },
           { //外层的柱子
-            name: "2030年",
+            name: "目标",
             type: "pictorialBar",
             barMinWidth: 50,
             barWidth: 50,
