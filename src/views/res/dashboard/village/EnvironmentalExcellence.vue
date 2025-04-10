@@ -9,7 +9,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import { onMounted, reactive, ref, toRefs } from 'vue';
+import {onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   props: {
@@ -22,7 +22,8 @@ export default {
     YAxisLabel: Array,
     left: Array,
     top: Array,
-    bottom: Array
+    bottom: Array,
+    color: Array
   },
   setup(props) {
     let state = reactive({
@@ -91,9 +92,9 @@ export default {
           },
           itemStyle: {}
         };
-        if (i == 0) {
+        if (props.color !== undefined && i <= props.color.length - 1) {
           data.itemStyle = {
-            color: '#DADA00FF'
+            color: props.color[i]
           }
         }
         option.series.push(data);

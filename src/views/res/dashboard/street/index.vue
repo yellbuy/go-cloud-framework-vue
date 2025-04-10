@@ -69,7 +69,8 @@
                     <div class="target-content" style="height:calc((100vh - 3.6rem) / 7 + 1rem)">
                       <el-row>
                         <el-col :span="12">
-                          <barNestedChart :bottom="40" :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
+                          <barNestedChart :bottom="40"
+                                          :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
                                           :left="'0'"
                                           :objStyle="'height:15vh'"
                                           :seriesData1="[50]"
@@ -78,7 +79,8 @@
                                           :xAxisData="['基本富裕达标户数占比']"/>
                         </el-col>
                         <el-col :span="12">
-                          <barNestedChart :bottom="40" :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
+                          <barNestedChart :bottom="40"
+                                          :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
                                           :left="'0'"
                                           :objStyle="'height:15vh'"
                                           :seriesData1="[75]"
@@ -114,10 +116,11 @@
                           :XLabel="['大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"
                           :YAxisLabel="false"
                           :YFormatter="'{value}万'"
-                          :data="[[8,10,6,15,22,23],[16,6,11,7,11,12],[4,2,4,3,5,8]]"
+                          :color="['#da0000','#e4a423']"
                           :formatter="'户'"
-                          :label="['低收入群体','中收入群体','高收入群体']"
+                          :data="[[24,16,11,28,35,51],[307,98,652,459,486,227]]"
                           :left="'0'"
+                          :label="['低收入重点监测群体','低收入一般监测群体']"
                           :objStyle="'height:calc((100vh - 6rem) / 3 - 3.4rem)'"
                           :top="'10%'"
                       />
@@ -144,42 +147,15 @@
                       </div>
                       <div class="target-text">
                         <div class="target-container-h5">
-                          <el-row :gutter="0">
-                            <el-col :span="12">
-                              <div class="padding-tb-sm">
-                                <div class="padding-tb-sm" style="font-size:1.2rem">芒果</div>
-                                <div class="margin-tb-sm">面积<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">10万</label>亩
-                                </div>
-                                <div class="margin-tb-sm">产量<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">4.7万</label>吨
-                                </div>
-                                <div class="margin-tb-sm">产值<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">1.3亿</label>元
-                                </div>
-                                <div class="margin-tb-sm">农业产值占比<label class="margin-lr-sm"
-                                                                             style="color:#1AFD9BFF;font-size: 1.1rem">28.32</label>%
-                                </div>
-                              </div>
-                            </el-col>
-                            <el-col :span="12">
-                              <div class="padding-tb-sm">
-                                <div class="padding-tb-sm" style="font-size:1.2rem">蔬菜</div>
-                                <div class="margin-tb-sm">面积<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">1.4万</label>亩
-                                </div>
-                                <div class="margin-tb-sm">产量<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">4.07万</label>吨
-                                </div>
-                                <div class="margin-tb-sm">产值<label class="margin-lr-sm"
-                                                                     style="color:#1AFD9BFF;font-size: 1.1rem">1.2亿</label>元
-                                </div>
-                                <div class="margin-tb-sm">农业产值占比<label class="margin-lr-sm"
-                                                                             style="color:#1AFD9BFF;font-size: 1.1rem">26.14</label>%
-                                </div>
-                              </div>
-                            </el-col>
-                          </el-row>
+                          <environmental-excellence
+                              :XLabel="['芒果','木瓜','金桔','蔬菜']"
+                              :YAxisLabel="false"
+                              :data="[[14000,130,30,10000],[17000,130,30,12000],[20000,130,30,14000]]"
+                              :formatter="'亩'"
+                              :label="['2022','2023','2024']"
+                              :left="'0'"
+                              :top="'20%'"
+                          />
                         </div>
                       </div>
                     </div>

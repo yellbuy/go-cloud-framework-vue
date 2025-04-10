@@ -105,6 +105,7 @@
                                                   :formatter="'%'"
                                                   :label="['目标', '现状']"
                                                   :left="'0'"
+                                                  :color="['#DADA00FF']"
                                                   :objStyle="'height:7rem'"/>
                         <text class="target-text">“户夯实”实现户</text>
                       </div>
@@ -118,6 +119,7 @@
                                                   :formatter="'万'"
                                                   :label="['目标', '现状']"
                                                   :left="'0'"
+                                                  :color="['#DADA00FF']"
                                                   :objStyle="'height:7rem'"/>
                         <text class="target-text">村集体经济收入</text>
                       </div>
@@ -131,6 +133,7 @@
                                                   :formatter="'万'"
                                                   :label="['目标', '现状']"
                                                   :left="'0'"
+                                                  :color="['#DADA00FF']"
                                                   :objStyle="'height:7rem'"/>
                         <text class="target-text">农村人均年可支配收入</text>
                       </div>
@@ -184,8 +187,9 @@
                                                 :YAxisLabel="false"
                                                 :YFormatter="'{value}万'"
                                                 :data="[[100],[98.5]]"
-                                                :label="['2030年', '2025年']"
+                                                :color="['#DADA00FF']"
                                                 :left="'0'"
+                                                :label="['目标', '现状']"
                                                 :mark-line="0"
                                                 :objStyle="'height:9rem'"/>
                     </div>
@@ -206,8 +210,9 @@
                                                 :YAxisLabel="'false'"
                                                 :YFormatter="'{value}万'"
                                                 :data="[[100],[98]]"
-                                                :label="['2030年', '2025年']"
+                                                :color="['#DADA00FF']"
                                                 :left="'0'"
+                                                :label="['目标', '现状']"
                                                 :mark-line="0"
                                                 :objStyle="'height:9rem'"/>
                     </div>
@@ -323,8 +328,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import pieEllipse from "/@/components/pieEllipse/index.vue";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import barNestedChart from "/@/views/res/dashboard/component/barNestedChart.vue";
