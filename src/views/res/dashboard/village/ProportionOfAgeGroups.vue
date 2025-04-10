@@ -38,21 +38,11 @@ export default {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
-        // legend: {
-        //   orient: 'vertical',
-        //   left: 'top',
-        //   itemWidth: 25,
-        //   itemHeight: 8,
-        //   textStyle: {
-        //     fontSize: 12,
-        //     color: '#fff',
-        //   }
-        // },
         series: [
           {
             name: "年龄占比",
             type: 'pie',
-            radius: '90%',
+            radius: '60%',
             data: [
               {value: props.ageData[0], name: "3岁以下"},
               {value: props.ageData[1], name: "3-6岁"},
@@ -64,7 +54,6 @@ export default {
             label: {
               normal: {
                 show: true,
-                position: 'inner',
                 formatter: '{b}\n{d}%',
                 fontSize: 12,
                 color: '#fff',

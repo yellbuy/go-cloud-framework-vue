@@ -15,6 +15,7 @@ export default {
   props: {
     data: Array,
     label: Array,
+    XLabel: Array,
     objStyle: Array,
     formatter: Array,
     YFontSize: Array,
@@ -49,7 +50,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['2022年', '2023年', '2024年'],
+            data: props.XLabel || ['2022年', '2023年', '2024年'],
             axisLabel: {
               color: '#fff'
             }
@@ -82,6 +83,7 @@ export default {
             formatter: props.formatter != undefined ? '{c}' + props.formatter : '{c}%',
             textStyle: {
               color: '#ddd',
+              fontSize: props.YFontSize || 11,
             },
             position: 'top',
             distance: 8
