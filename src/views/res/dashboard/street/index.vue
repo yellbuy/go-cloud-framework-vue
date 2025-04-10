@@ -150,9 +150,9 @@
                           <environmental-excellence
                               :XLabel="['芒果','木瓜','金桔','蔬菜']"
                               :YAxisLabel="false"
-                              :data="[[14000,130,30,10000],[17000,130,30,12000],[20000,130,30,14000]]"
-                              :formatter="'亩'"
-                              :label="['2022','2023','2024']"
+                              :data="[[20000,130,30,14000],[2100,5000,2000,5841],[21000,325,30,40700]]"
+                              :formatter="''"
+                              :label="['面积（亩）','亩产（斤）','吨']"
                               :left="'0'"
                               :top="'20%'"
                           />
@@ -358,9 +358,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import { ElMessageBox } from 'element-plus';
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {ElMessageBox} from 'element-plus';
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
