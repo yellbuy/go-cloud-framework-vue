@@ -66,17 +66,17 @@
                       </template>
                     </el-popover>
 
-                    <div class="target-content" style="height:calc((100vh - 3.6rem) / 7 - 0.4rem">
+                    <div class="target-content" style="height:calc((100vh - 3.6rem) / 7 + 1rem">
                       <el-row>
                         <el-col :span="12">
-                          <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 50%',value:0.50}]"
+                          <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'2030：50%',value:0.50}]"
                                          :colorValueData="[[0.50, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
                                          :style="'height:11rem'"
                                          :titleFontSize="12" :value="mainData['基本富裕达标户数占比'] || 0.2755"
                                          text="共3712户，夯实户1023户"/>
                         </el-col>
                         <el-col :span="12">
-                          <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'目标 75%',value:0.75}]"
+                          <gaugeProgress :axisLabelFontSize="10" :colorTickData="[{name:'2030：75%',value:0.75}]"
                                          :colorValueData="[[0.75, '#FDDD60'], [1, '#7CFFB2']]" :detailFontSize="18"
                                          :style="'height:11rem'"
                                          :titleFontSize="12" :value="mainData['基本富裕实现村数占比'] || 0.16"
@@ -104,7 +104,7 @@
                     </div>
                   </div>
                   <div class="margin-top">
-                    <Title title="重点监测群体各村分布户数图"/>
+                    <Title title="重点监测群体（2025）"/>
                     <div class="target-content target-container-h3">
                       <column-chart :data="[24,16,11,28,35,51]"
                                     :label="['大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"/>
@@ -170,10 +170,15 @@
                         </div>
                       </div>
                     </div>
-                    <div class="margin-top-xl padding-top-xl">
-                      <div class="margin-top-sm  text-center" style="color:white;font-size: 1.2rem;">2. 公共服务均等化</div>
+                    <div class="margin-top-xl">
+                      <div class="margin-tb-sm  text-center" style="color:white;font-size: 1.2rem;">2. 公共服务均等化</div>
                       <div class="target-text">
-                        <div class="padding ">
+                        <barNestedChart :bottom="40" :objStyle="'height:15vh'"
+                      :color1="['rgb(248, 152.1, 152.1)','#F56C6C','rgb(196, 86.4, 86.4)']"
+                      :seriesData1="[95, 95, 100, 100]"
+                      :seriesData2="[100, 98.5, 100, 100]"
+                      :xAxisData="['学前教育三\n年毛入园率', '居民医疗\n保险参保率', '特殊人群医疗\n保险参保率', '农村客运\n覆盖率']"/>
+                        <!-- <div class="padding ">
                           <el-row :gutter="8">
                             <el-col :span="12">
                               <div class=" padding-tb">
@@ -212,13 +217,18 @@
                               </div>
                             </el-col>
                           </el-row>
-                        </div>
+                        </div> -->
                       </div>
                     </div>
-                    <div class="margin-top-xl">
+                    <div class="margin-top-sm">
                       <div class="text-center" style="color:white;font-size: 1.2rem;">3. 基础设施一体化</div>
                       <div class="target-text">
-                        <div class="padding">
+                        <barNestedChart :bottom="40" :objStyle="'height:15vh'"
+                      :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
+                      :seriesData1="[95, 100, 100]"
+                      :seriesData2="[82.6, 100, 100]"
+                      :xAxisData="['自来水普及率', '自然村通硬化路率', '卫生厕所达标率']"/>
+                        <!-- <div class="padding">
                           <el-row :gutter="0">
                             <el-col :span="8">
                               <div class="padding-tb">
@@ -248,13 +258,18 @@
                               </div>
                             </el-col>
                           </el-row>
-                        </div>
+                        </div> -->
                       </div>
                     </div>
-                    <div class="margin-tb-xl">
+                    <div class="margin-bottom-sm">
                       <div class="text-center" style="color:white;font-size: 1.2rem;">4. 乡村治理现代化</div>
                       <div class="target-text">
-                        <div>
+                        <barNestedChart :bottom="40" :objStyle="'height:15vh'"
+                      :color1="['#83bff6','#188df0','#188df0']"
+                      :seriesData1="[100, 100, 95]"
+                      :seriesData2="[100, 100, 98]"
+                      :xAxisData="['法律援助率', '雪亮工程覆盖率', '矛盾纠纷化解率']"/>
+                        <!-- <div>
                           <el-row :gutter="0">
                             <el-col :span="8">
                               <div class="padding-tb">
@@ -284,7 +299,7 @@
                               </div>
                             </el-col>
                           </el-row>
-                        </div>
+                        </div> -->
                       </div>
                     </div>
                   </div>
@@ -299,17 +314,15 @@
               <Title title="村共创完成情况" @click="onClickPleaseWait('查看未完成村信息')"/>
               <div class="target-content">
                 <div class="text-center margin-tb" style="color:white;font-size: 1.2rem;">1. 三超</div>
-                <div @Click="onClickTargetDetail('三超指标解读',`<b>产业优：</b>具备至少一个特色富民产业，富民产业产值占产业总产值60%以上。
-                        <br/><b>环境优：</b>生活用水安全稳定，自来水普及率达95%以上，农村卫生厕所普及率达到98%，生活污水得到有效治理，生活垃圾有效运转处置。住房安全，村容村貌整洁，无乱搭乱建，自然村（组）通硬化路率达100%。
-      <br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
-      <br><b>服务优：</b>公共服务保障完善。每个村有1名农村社会化服务协办员，开展农业社会化服务。残疾儿童实现随班就读或送教上门。有家庭医生服务团队。成功创建市级健康村。适龄人员养老保险参保率达95%。`)">
+                <div @Click="onClickTargetDetail('三超指标解读',`“户夯实”实现户占比超50%<br>全村人均年可支配收入超全市农村人均年可支配收入<br>村集体经济稳定收入超20万元`)">
                   <barNestedChart
                       :color1="['#83bff6','#188df0','#188df0']"
+                      bottom="20%"
                       :seriesData1="[100, 100, 100]"
                       :seriesData2="[20, 18, 30]"
-                      :xAxisData="['“户夯实”实现户占比超50%的村', '全村人均年可支配收入超全市农村人均年可支配收入的村', '村集体经济稳定收入超20万元的村']"/>
+                      :xAxisData="['“户夯实”实现户\n占比超50%的村', '全村人均年可支配\n收入超市农村人均\n年可支配收入的村', '村集体经济稳定收\n入超20万元的村']"/>
                 </div>
-                <div class="text-center margin-bottom" style="color:white;font-size: 1.2rem;">2. 四优</div>
+                <div class="text-center margin-tb" style="color:white;font-size: 1.2rem;">2. 四优</div>
                 <div @Click="onClickTargetDetail('四优指标解读',`<b>产业优：</b>具备至少一个特色富民产业，富民产业产值占产业总产值60%以上。
                         <br/><b>环境优：</b>生活用水安全稳定，自来水普及率达95%以上，农村卫生厕所普及率达到98%，生活污水得到有效治理，生活垃圾有效运转处置。住房安全，村容村貌整洁，无乱搭乱建，自然村（组）通硬化路率达100%。
       <br/><b>文化优：</b>建成一文化广场、一文艺队伍、一村史馆、一乡村推荐官、一文旅品牌，综合文化服务80%以上常住人口。
@@ -320,7 +333,7 @@
                       :seriesData2="[60, 56, 75, 30]"
                       :xAxisData="['产业优', '环境优', '文化优', '服务优']"/>
                 </div>
-                <div class="text-center margin-bottom" style="color:white;font-size: 1.2rem;">3. 两强</div>
+                <div class="text-center margin-tb" style="color:white;font-size: 1.2rem;">3. 两强</div>
                 <div>
                   <barNestedChart @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
                         <br/><b>治理强：</b>居民自治体系健全，居民公约完善，自治组织运行有序有效。“四议两公开”规范化建设，一村一民（辅）警，一村一法律顾问。法律公共服务室与法律援助率达100%。矛盾纠纷一站式处理，化解率达95%以上，性质恶劣命案零发生。`)"
