@@ -258,9 +258,9 @@
             <el-col :span="8" class="text-center">帮带措施落实情况</el-col>
           </el-row>
           <el-row  class="margin-tb-sm">
-            <el-col :span="8" class="text-center dialog-body-text">临时困难救助、大病救助</el-col>
+            <el-col :span="8" class="text-center dialog-body-text">有家庭成员患大病</el-col>
             <el-col :span="8" class="text-center dialog-body-text">医疗帮扶</el-col>
-            <el-col :span="8" class="text-center dialog-body-text">医疗保障</el-col>
+            <el-col :span="8" class="text-center dialog-body-text">大病救助</el-col>
           </el-row>
           <!-- <el-row v-for="data in [0,0,0,0,0,0,0]" class="margin-tb-sm">
             <el-col :span="8" class="text-center dialog-body-text">家庭成员健康状态不佳</el-col>

@@ -16,21 +16,21 @@ export default {
         //挂载
     onMounted(async () => {
         const data = [
-          { name: '：矛盾纠纷化解率', 年份: '2023', 达标率: 99.78, 农村:22803 },
-          { name: '：矛盾纠纷化解率', 年份: '2024', 达标率: 100, 农村:24217 },
-          { name: '：矛盾纠纷化解率', 年份: '2030', 达标率: 98, 农村:25834 },
-          { name: '每万城镇常住人口拥有社区工作者', 年份: '2024', 达标率: 12.19, 农村: 21926 },
-          { name: '每万城镇常住人口拥有社区工作者', 年份: '2030', 达标率: 18, 农村:24553 },
-          { name: '社会治安安全感满意度', 年份: '2023', 达标率: 95.9, 农村: 21926 },
-          { name: '社会治安安全感满意度', 年份: '2024', 达标率: 96.2, 农村:22978 },
-          { name: '社会治安安全感满意度', 年份: '2030', 达标率: 96.6, 农村:24553 },
+          { name: '矛盾纠纷化解率(%)', 年份: '2023', 达标率: 99.78, 农村:22803 },
+          { name: '矛盾纠纷化解率(%)', 年份: '2024', 达标率: 100, 农村:24217 },
+          { name: '矛盾纠纷化解率(%)', 年份: '2030', 达标率: 98, 农村:25834 },
+          { name: '每万城镇常住人口\n拥有社区工作者(人)', 年份: '2024', 达标率: 12.19, 农村: 21926 },
+          { name: '每万城镇常住人口\n拥有社区工作者(人)', 年份: '2030', 达标率: 18, 农村:24553 },
+          { name: '社会治安安全感满意度(%)', 年份: '2023', 达标率: 95.9, 农村: 21926 },
+          { name: '社会治安安全感满意度(%)', 年份: '2024', 达标率: 96.2, 农村:22978 },
+          { name: '社会治安安全感满意度(%)', 年份: '2030', 达标率: 96.6, 农村:24553 },
         ];
 
         const chart = new Chart({
           container: 'barCountyDjyc',
           autoFit: true,
           depth:1,
-          padding:20,
+          padding:30,
         });
 
         chart
@@ -39,7 +39,7 @@ export default {
           .axis('y', { 
           tick:true,
           tickCount: 5,
-          tickLength: -30,
+          tickLength: -20,
           //title: false,
           //titleFill: 'steelblue',
           // titleFontFamily:"Arial",
@@ -77,9 +77,9 @@ export default {
           titleStroke: 'orange',
           titlePosition:'left',
           label:true,
-          labelFill:"rgb(252.5, 245.7, 235.5)",
+          labelFill:"#fff",
           labelFontSize:10,
-          labelSpacing:10,
+          labelSpacing:5,
           // titleFill: 'steelblue',
           line: true,
           lineArrowOffset: 2,
@@ -92,15 +92,15 @@ export default {
           gridLineWidth:2,
           gridLineDash:[2,2],
           gridStrokeOpacity:0.5,
-          gridStroke:"white",
+          gridStroke:"#fff",
           //gridAreaFill:"white",
           animate:true,
           // Tick
         
         })
-          .encode('x', '年份')
+          .encode('x', 'name')
           .encode('y', ['达标率'])
-          .encode('color', 'name')
+          .encode('color', '年份')
           
           .encode('text', ['达标率'])
           .transform({ type: 'dodgeX' })

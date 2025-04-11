@@ -40,12 +40,21 @@
               </div>
               <div class="target-container-h3 margin-top target-text target-content text-left">
                 <Title title="重点监测群体"/>
-                <environmental-excellence
-                    :XLabel="['重点监测群体']"
-                    :formatter="'户'"
-                    :data="[[90],[80],[80]]"
-                    :label="['2022年', '2023年', '2024年']"
-                    :objStyle="'height:calc(24.9vh - 2.5rem)'"/>
+                <div class="margin-tb">
+                  <environmental-excellence
+                          :XLabel="['']"
+                          :YAxisLabel="false"
+                          :XAxisLabel="false"
+                          :YFormatter="'{value}户'"
+                          :color="['#da0000','#e4a423']"
+                          :formatter="'户'"
+                          :data="[[16],[98]]"
+                          :left="'0'"
+                          :label="['低收入重点监测群体','低收入一般监测群体']"
+                          :objStyle="'height:calc((100vh - 6rem) / 4 - 0.4rem)'"
+                          :top="'30%'"></environmental-excellence>
+                </div>
+                
               </div>
               <div class="target-content margin-top" style="width: 100%;height:calc(100vh  - 20rem - 21.6rem)">
                 <antvImageMap :areaCode="areaCode" :center="[500,480]" :zoom="1.6" areaGoTo="village"></antvImageMap>
@@ -155,10 +164,19 @@
                   </div>
                   <div class="target-content">
                     <div class="text-center">
-                      <pieEllipse :data='[{name:"10万以下",value:"30%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#bbb;text-anchor:start;font-size:54;"}
+                      <environmental-excellence
+                      :XLabel="['10万以下', '10万-50万', '50万以上']"
+                      :YAxisLabel="'false'"
+                      :bottom="'20%'"
+                      :data="[[30,69.7, 0.3]]"
+                      :label="['2024年']"
+                      :left="'0'"
+                      :mark-line="0"/>
+
+                      <!-- <pieEllipse :data='[{name:"10万以下",value:"30%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#bbb;text-anchor:start;font-size:54;"}
                     ,{name:"10万-50万",value:"69.7%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#bbb;text-anchor:end;font-size:54;"}
                     ,{name:"50万以上",value:"0.3%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}]'
-                                  style="height:12rem;transform:scale(0.4,0.3) translate(0, -8rem);"/>
+                                  style="height:12rem;transform:scale(0.4,0.3) translate(0, -8rem);"/> -->
                     </div>
                   </div>
                   </el-col>
@@ -189,7 +207,7 @@
                                                 :data="[[100],[98.5]]"
                                                 :color="['#DADA00FF']"
                                                 :left="'0'"
-                                                :label="['目标', '现状']"
+                                                :label="['2030年', '2024年']"
                                                 :mark-line="0"
                                                 :objStyle="'height:9rem'"/>
                     </div>
@@ -212,7 +230,7 @@
                                                 :data="[[100],[98]]"
                                                 :color="['#DADA00FF']"
                                                 :left="'0'"
-                                                :label="['目标', '现状']"
+                                                :label="['2030年', '2024年']"
                                                 :mark-line="0"
                                                 :objStyle="'height:9rem'"/>
                     </div>
@@ -229,7 +247,7 @@
               <div class="margin-top">
                 <div class="target-text">
                   <environmental-excellence :YFormatter="'{value}万'"
-                                            :XLabel="['蔬菜产值', '芒果产值']"
+                                            :XLabel="['蔬菜产值占比', '芒果产值占比']"
                                             :data="[[26.14,28.32],[26.14,28.32],[26.14,28.32]]"
                                             :label="['2022年', '2023年', '2024年']"
                                             :YAxisLabel="'false'"
@@ -328,8 +346,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import {reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import pieEllipse from "/@/components/pieEllipse/index.vue";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import barNestedChart from "/@/views/res/dashboard/component/barNestedChart.vue";

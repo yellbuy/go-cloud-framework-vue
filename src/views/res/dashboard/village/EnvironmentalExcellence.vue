@@ -9,7 +9,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import {onMounted, reactive, ref, toRefs} from 'vue';
+import { onMounted, reactive, ref, toRefs } from 'vue';
 
 export default {
   props: {
@@ -80,6 +80,8 @@ export default {
           name: props.label[i],
           type: 'bar',
           data: props.data[i],
+          barMaxWidth:"20%",
+          barGap:"30%",
           label: {
             show: true,
             formatter: props.formatter != undefined ? '{c}' + props.formatter : '{c}%',

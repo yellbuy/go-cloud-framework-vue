@@ -100,10 +100,10 @@
                       </div> -->
                       <div>
                         <pieRect style="width:100%;transform:scale(0.5,0.5) translate(0rem, -14rem);"
-                                 :data='[{name:"1.77万以下",name2:"",value:65.59,darkColor:"darkred",lightColor:"darkred",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
-                                  ,{name:"3.33万至4万",name2:"",value:16.43,darkColor:"orange",lightColor:"orange",nameStyle:"fill:#333;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
-                                  ,{name:"中等收入群体",value:34.31,darkColor:"yellow",lightColor:"yellow",nameStyle:"fill:#000;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
-                                  ,{name:"高收入群体",value:0.10,darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}]'/>
+                                 :data='[{name:"重点监测户",name2:"1.77万以下",value:4.44,darkColor:"darkred",lightColor:"darkred",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
+                                  ,{name:"一般监测户",name2:"1.77万-3.33万",value:60.05,darkColor:"orange",lightColor:"orange",nameStyle:"fill:#333;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
+                                  ,{name:"中等收入群体",value:35.40,darkColor:"yellow",lightColor:"yellow",nameStyle:"fill:#000;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
+                                  ,{name:"高收入群体",value:0.11,darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}]'/>
 
                       </div>
                       <div class="text-center" style="transform:translate(0rem, -15rem);">2024年度</div>
@@ -150,9 +150,9 @@
                           <environmental-excellence
                               :XLabel="['芒果','木瓜','金桔','蔬菜']"
                               :YAxisLabel="false"
-                              :data="[[20000,130,30,14000],[2100,5000,2000,5841],[21000,325,30,40700]]"
+                              :data="[[20000,130,30,14000],[21000,325,30,40700]]"
                               :formatter="''"
-                              :label="['面积（亩）','亩产（斤）','吨']"
+                              :label="['面积（亩）','产量（吨）']"
                               :left="'0'"
                               :top="'20%'"
                           />
@@ -358,9 +358,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from 'element-plus';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { ElMessageBox } from 'element-plus';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
