@@ -23,7 +23,10 @@ export default {
     left: Array,
     top: Array,
     bottom: Array,
-    color: Array
+    color: Array,
+    legendShow:{
+      default:true
+    }
   },
   setup(props) {
     let state = reactive({
@@ -43,6 +46,7 @@ export default {
           trigger: 'axis'
         },
         legend: {
+          show:props.legendShow,
           data: props.label,
           textStyle: {
             color: '#fff'

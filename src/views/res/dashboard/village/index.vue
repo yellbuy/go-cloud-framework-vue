@@ -113,6 +113,7 @@
                                                   :data="[[20,20,20],[25.68, 29.1, 50.79]]"
                                                   :formatter="'%'"
                                                   :label="['目标', '现状']"
+                                                  :legendShow="false"
                                                   :left="'0'"
                                                   :color="['#DADA00FF']"
                                                   :objStyle="'height:7rem'"/>
@@ -127,6 +128,7 @@
                                                   :data="[[20,20,20],[25.68, 29.1, 170.8]]"
                                                   :formatter="'万'"
                                                   :label="['目标', '现状']"
+                                                  :legendShow="false"
                                                   :left="'0'"
                                                   :color="['#DADA00FF']"
                                                   :objStyle="'height:7rem'"/>
@@ -141,6 +143,7 @@
                                                   :data="[[2.19,2.30,2.45],[2.5, 2.68, 3.24]]"
                                                   :formatter="'万'"
                                                   :label="['目标', '现状']"
+                                                  :legendShow="false"
                                                   :left="'0'"
                                                   :color="['#DADA00FF']"
                                                   :objStyle="'height:7rem'"/>
