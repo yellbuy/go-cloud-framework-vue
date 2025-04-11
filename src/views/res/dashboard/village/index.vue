@@ -109,45 +109,48 @@
                       <div class="text-center margin-top">
                         <div class="target-value"><i class="fa fa-angle-double-down margin-right-sm" />“户夯实”实现户占比</div>
                         <environmental-excellence :YAxisLabel="'false'"
+                                                  :top="'40%'"
                                                   :bottom="'20%'"
                                                   :data="[[20,20,20],[25.68, 29.1, 50.79]]"
                                                   :formatter="'%'"
                                                   :label="['目标', '现状']"
-                                                  :legendShow="false"
+                                                  :legendShow="true"
                                                   :left="'0'"
                                                   :color="['#DADA00FF']"
                                                   :objStyle="'height:7rem'"/>
-                        <text class="target-text">“户夯实”实现户</text>
+                        <!-- <text class="target-text">“户夯实”实现户</text> -->
                       </div>
                     </el-col>
                     <el-col :span="12">
                       <div class="text-center margin-top">
                         <text class="target-value"><i class="fa fa-angle-double-down margin-right-sm" />村集体经济收入超20万元</text>
                         <environmental-excellence :YAxisLabel="'false'"
+                                                  :top="'40%'"
                                                   :bottom="'20%'"
                                                   :data="[[20,20,20],[25.68, 29.1, 170.8]]"
                                                   :formatter="'万'"
                                                   :label="['目标', '现状']"
-                                                  :legendShow="false"
+                                                  :legendShow="true"
                                                   :left="'0'"
                                                   :color="['#DADA00FF']"
                                                   :objStyle="'height:7rem'"/>
-                        <text class="target-text">村集体经济收入</text>
+                        <!-- <text class="target-text">村集体经济收入</text> -->
                       </div>
                     </el-col>
                     <el-col :span="24">
-                      <div class="text-center">
+                      <div class="text-center margin-tb-lg">
                         <text class="target-value"><i class="fa fa-angle-double-down margin-right-sm" />全村人均年可支配收入超全市农村人均年可支配收入</text>
                         <environmental-excellence :YAxisLabel="'false'"
+                                                  :top="'40%'"
                                                   :bottom="'20%'"
                                                   :data="[[2.19,2.30,2.45],[2.5, 2.68, 3.24]]"
                                                   :formatter="'万'"
                                                   :label="['目标', '现状']"
-                                                  :legendShow="false"
+                                                  :legendShow="true"
                                                   :left="'0'"
                                                   :color="['#DADA00FF']"
                                                   :objStyle="'height:7rem'"/>
-                        <text class="target-text">农村人均年可支配收入</text>
+                        <!-- <text class="target-text">农村人均年可支配收入</text> -->
                       </div>
                     </el-col>
                     
