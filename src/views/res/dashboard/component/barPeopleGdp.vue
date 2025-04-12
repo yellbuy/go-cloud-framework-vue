@@ -1,11 +1,11 @@
 和<template>
   <div id="flareTarget">
-    <dv-border-box10>
+    <!-- <dv-border-box10> -->
       <div class="flare-container">
         <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">人均生产总值对比（单位：万元）</div>
         <div ref="echart" class="echartDiv" id="barPeopleGdp"></div>
       </div>
-    </dv-border-box10>
+    <!-- </dv-border-box10> -->
   </div>
 </template>
 
@@ -83,12 +83,11 @@ export default {
           // { name: '仁和区', 年份: '2022', 城镇: 44245, 农村:22803 },
           { name: '仁和区', 年份: '2023', 人均生产总值: 10.25 },
           { name: '仁和区', 年份: '2024', 人均生产总值: 10.72},
-          // { name: '攀枝花市', 年份: '2022', 城镇: 46009, 农村: 21926 },
-          { name: '攀枝花市', 年份: '2023', 人均生产总值: 10.88 },
-          { name: '攀枝花市', 年份: '2024', 人均生产总值: 11.43 },
-          // { name: '浙江省衢江区', 年份: '2022', 城镇: 0, 农村:0 },
-          { name: '浙江省衢江区', 年份: '2023', 人均生产总值: 7.99 },
-          { name: '浙江省衢江区', 年份: '2024', 人均生产总值: 9.65},
+          { name: '仁和区', 年份: '2030', 人均生产总值: 15.00},
+          // { name: '攀枝花市', 年份: '2023', 人均生产总值: 10.88 },
+          // { name: '攀枝花市', 年份: '2024', 人均生产总值: 11.43 },
+          // { name: '浙江省衢江区', 年份: '2023', 人均生产总值: 7.99 },
+          // { name: '浙江省衢江区', 年份: '2024', 人均生产总值: 9.65},
         ];
 
         const chart = new Chart({
@@ -99,12 +98,12 @@ export default {
         });
 
         chart
-          .interval()
+          .line()
           .data(data)
           .axis('y', { 
           tick:true,
-          tickCount: 5,
-          tickLength: -30,
+          tickCount: 2,
+          tickLength: -20,
           //title: false,
           //titleFill: 'steelblue',
           // titleFontFamily:"Arial",
@@ -127,7 +126,7 @@ export default {
           gridLineWidth:2,
           gridLineDash:[4,4],
           gridStrokeOpacity:0.5,
-          gridStroke:"white",
+          gridStroke:"#777",
           //gridAreaFill:"white",
           animate:true,
           // Tick
@@ -143,7 +142,7 @@ export default {
           titlePosition:'left',
           label:true,
           labelFill:"#fff",
-          labelFontSize:12,
+          labelFontSize:14,
           labelSpacing:10,
           // titleFill: 'steelblue',
           line: true,
@@ -163,21 +162,25 @@ export default {
           // Tick
         
         })
+        .scale('y', {
+          nice: true,
+        })
           .encode('x', ['年份'])
           .encode('y', ['人均生产总值'])
           
           .encode('text', ['人均生产总值'])
           //.encode('color', ['linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)'])
-          .encode('color', 'name')
+          .encode('color', 'lightgreen')
+          .encode('size',2)
           //.style('shape', 'column25d')
-          
+          .encode('shape', 'smooth')
           .transform({ type: 'dodgeX' })
           .label({
             text: '人均生产总值',
             position: 'top',
             dy: -12,
             fill: '#fff',
-            fontSize: 10,
+            fontSize: 14,
             // render: (text, datum) => {
             //   return `
             //     <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
@@ -195,8 +198,8 @@ export default {
           //   },
           //   offset: 10 // 设置标签偏移量，可以根据需要调整以避免遮挡柱子本身或其他标签
           // }})
-          .tooltip({ name: '区域', channel: 'color' })
-          .tooltip({ name: '人均生产总值', channel: 'y' })
+          //.tooltip({ name: '区域', channel: 'color' })
+          .tooltip({ name: '人均生产总值（万元）', channel: 'y' })
           .legend({
             color: {
               size:8,

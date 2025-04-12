@@ -1,11 +1,11 @@
 <template>
   <div id="flareTarget">
-    <dv-border-box10>
+    <!-- <dv-border-box10> -->
       <div class="flare-container">
         <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">常住人口城镇化率(%)</div>
         <div ref="echart" class="echartDiv" id="barCityRate"></div>
       </div>
-    </dv-border-box10>
+    <!-- </dv-border-box10> -->
   </div>
 </template>
 
@@ -41,8 +41,8 @@ export default {
           .data(data)
           .axis('y', { 
           tick:true,
-          tickCount: 5,
-          tickLength: -30,
+          tickCount: 2,
+          tickLength: -20,
           //title: false,
           //titleFill: 'steelblue',
           // titleFontFamily:"Arial",
@@ -70,7 +70,7 @@ export default {
           animate:true,
           // Tick
           })
-          .scale('x', { padding: 0.3})
+          .scale('x', { padding: 0.5})
         .axis('x', { 
      
           arrow: false,

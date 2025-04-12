@@ -1,11 +1,9 @@
 <template>
   <div id="flareTarget">
-    <dv-border-box10>
       <div class="flare-container">
         <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">地区生产总值对比（单位：亿元）</div>
         <div ref="echart" class="echartDiv" id="barAreaGdp"></div>
       </div>
-    </dv-border-box10>
   </div>
 </template>
 
@@ -80,15 +78,13 @@ export default {
         //挂载
     onMounted(async () => {
         const data = [
-          // { name: '仁和区', 年份: '2022', 城镇: 44245, 农村:22803 },
           { name: '仁和区', 年份: '2023', 生产总值: 274.13 },
           { name: '仁和区', 年份: '2024', 生产总值: 287.32},
-          // { name: '攀枝花市', 年份: '2022', 城镇: 46009, 农村: 21926 },
-          { name: '攀枝花市', 年份: '2023', 生产总值: 1324.12 },
-          { name: '攀枝花市', 年份: '2024', 生产总值: 1395.24 },
-          // { name: '浙江省衢江区', 年份: '2022', 城镇: 0, 农村:0 },
-          { name: '浙江省衢江区', 年份: '2023', 生产总值: 327.72 },
-          { name: '浙江省衢江区', 年份: '2024', 生产总值: 362.75},
+          { name: '仁和区', 年份: '2030', 生产总值: 400},
+          // { name: '攀枝花市', 年份: '2023', 生产总值: 1324.12 },
+          // { name: '攀枝花市', 年份: '2024', 生产总值: 1395.24 },
+          // { name: '浙江省衢江区', 年份: '2023', 生产总值: 327.72 },
+          // { name: '浙江省衢江区', 年份: '2024', 生产总值: 362.75},
         ];
 
         const chart = new Chart({
@@ -99,12 +95,13 @@ export default {
         });
 
         chart
-          .interval()
+          .line()
+          
           .data(data)
           .axis('y', { 
           tick:true,
-          tickCount: 5,
-          tickLength: -30,
+          tickCount: 2,
+          tickLength: -20,
           //title: false,
           //titleFill: 'steelblue',
           // titleFontFamily:"Arial",
@@ -143,7 +140,7 @@ export default {
           titlePosition:'left',
           label:true,
           labelFill:"#fff",
-          labelFontSize:12,
+          labelFontSize:14,
           labelSpacing:10,
           // titleFill: 'steelblue',
           line: true,
@@ -163,20 +160,24 @@ export default {
           // Tick
         
         })
+        .scale('y', {
+          nice: true,
+        })
           .encode('x', ['年份'])
           .encode('y', ['生产总值'])
           
           .encode('text', ['生产总值'])
+          .encode('size',2)
           //.encode('color', ['linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)'])
-          .encode('color', 'name')
+          .encode('color', 'gold')
           //.style('shape', 'column25d')
-          
+          .encode('shape', 'smooth')
           .transform({ type: 'dodgeX' })
           .label({
             position: 'top',
             dy: -12,
             fill: '#fff',
-            fontSize: 10,
+            fontSize: 14,
             //transform: [{ type: "contrastReverse" }],
             text: '生产总值',
 
@@ -197,24 +198,24 @@ export default {
           //   },
           //   offset: 10 // 设置标签偏移量，可以根据需要调整以避免遮挡柱子本身或其他标签
           // }})
-          .tooltip({ name: '区域', channel: 'color' })
-          .tooltip({ name: '生产总值', channel: 'y' })
-          .legend({
-            color: {
-              size:8,
-              //itemLabelText: '图例项标签',
-              itemLabelFontSize: 10,
-              itemLabelLineHeight: 20,
-              itemLabelTextAlign: 'left',
-              itemLabelTextBaseline: 'middle',
-              itemLabelFill: '#fff',
-              itemLabelFillOpacity: 0.9,
-              itemLabelLineWidth: 2,
-              itemLabelOpacity: 1,
-              itemLabelCursor: 'pointer',
-            },
-            size: {},
-          })
+          // .tooltip({ name: '区域', channel: 'color' })
+          .tooltip({ name: '生产总值（', channel: 'y' })
+          // .legend({
+          //   color: {
+          //     size:8,
+          //     //itemLabelText: '图例项标签',
+          //     itemLabelFontSize: 10,
+          //     itemLabelLineHeight: 20,
+          //     itemLabelTextAlign: 'left',
+          //     itemLabelTextBaseline: 'middle',
+          //     itemLabelFill: '#fff',
+          //     itemLabelFillOpacity: 0.9,
+          //     itemLabelLineWidth: 2,
+          //     itemLabelOpacity: 1,
+          //     itemLabelCursor: 'pointer',
+          //   },
+          //   size: {},
+          // })
          
           .interaction('elementHighlight', { background: true });
         

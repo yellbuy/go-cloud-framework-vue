@@ -67,6 +67,9 @@ export default defineComponent({
 				val.y+=20 //起点Y坐标
 			}
 			val.height=val.percent*maxHeight //高度
+			if(val.height<4){
+				val.height=4
+			}
 			val.cy=val.y+val.height/2 //中心点Y坐标
 			curHeight+=val.height
 		}

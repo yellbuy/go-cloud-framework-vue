@@ -113,12 +113,12 @@
                     <Title title="重点监测群体（2025）"/>
                     <div class="target-content target-container-h3">
                       <environmental-excellence
-                          :XLabel="['大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"
+                          :XLabel="['全乡','大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"
                           :YAxisLabel="false"
                           :YFormatter="'{value}万'"
                           :color="['#da0000','#e4a423']"
                           :formatter="'户'"
-                          :data="[[24,16,11,28,35,51],[307,98,652,459,486,227]]"
+                          :data="[[165, 24,16,11,28,35,51],[2229,307,98,652,459,486,227]]"
                           :left="'0'"
                           :label="['低收入重点监测群体','低收入一般监测群体']"
                           :objStyle="'height:calc((100vh - 6rem) / 3 - 3.4rem)'"
