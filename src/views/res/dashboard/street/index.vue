@@ -98,15 +98,26 @@
                       <!-- <div class="text-center padding">
                         <img alt="" class="margin" src="./img/橄榄图.png" style="height:20vh"/>
                       </div> -->
-                      <div>
-                        <pieRect style="width:100%;transform:scale(0.5,0.5) translate(0rem, -14rem);"
-                                 :data='[{name:"重点监测户",name2:"1.77万以下",value:4.44,darkColor:"darkred",lightColor:"darkred",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
-                                  ,{name:"一般监测户",name2:"1.77万-3.33万",value:60.05,darkColor:"orange",lightColor:"orange",nameStyle:"fill:#333;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
-                                  ,{name:"中等收入群体",value:35.40,darkColor:"yellow",lightColor:"yellow",nameStyle:"fill:#000;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
-                                  ,{name:"高收入群体",value:0.11,darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}]'/>
+                      <el-row :gutter="4">
+                          <el-col :span="8">
+                            <div>
+                            <pieRect style="width:100%;transform:scale(1.0,1.4) translate(0rem, 2rem);"
+                                    :data='[{name:"重点监测群体",name2:"1.77万以下",value:4.44,darkColor:"darkred",lightColor:"darkred",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
+                                      ,{name:"一般监测群体",name2:"1.77万-3.33万",value:60.05,darkColor:"orange",lightColor:"orange",nameStyle:"fill:#333;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
+                                      ,{name:"中等收入群体",value:35.40,darkColor:"yellow",lightColor:"yellow",nameStyle:"fill:#000;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}
+                                      ,{name:"高收入群体",value:0.11,darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:48;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}]'/>
 
-                      </div>
-                      <div class="text-center" style="transform:translate(0rem, -15rem);">2024年度</div>
+                          </div>
+                          <div class="text-center" style="transform:translate(0rem, 5rem);">2024年度</div>
+                          </el-col>
+                          <el-col :span="8">
+                            <div class="text-center" style="transform:translate(0rem, 15rem);">2025年度</div>
+                          </el-col>
+                          <el-col :span="8">
+                            <div class="text-center" style="transform:translate(0rem, 15rem);">2026年度</div>
+                          </el-col>
+                        </el-row>
+                      
                     </div>
                   </div>
                   <div class="margin-top">
@@ -148,9 +159,9 @@
                       <div class="target-text">
                         <div class="target-container-h5">
                           <environmental-excellence
-                              :XLabel="['芒果','木瓜','金桔','蔬菜']"
+                              :XLabel="['芒果','蔬菜']"
                               :YAxisLabel="false"
-                              :data="[[20000,130,30,14000],[21000,325,30,40700]]"
+                              :data="[[20000,14000],[21000,40700]]"
                               :formatter="''"
                               :label="['面积（亩）','产量（吨）']"
                               :left="'0'"
@@ -307,7 +318,7 @@
           </el-col>
           <el-col :span="6">
             <div class="margin-top">
-              <Title title="村共创完成情况" @click="onClickPleaseWait('查看未完成村信息')"/>
+              <Title title="村共创推进情况" @click="onClickPleaseWait('查看未完成村信息')"/>
               <div class="target-content">
                 <div class="text-center margin-tb" style="color:lightgreen;font-size: 1.2rem;"><i
                     class="fa fa-angle-double-down margin-right-sm"/>三超

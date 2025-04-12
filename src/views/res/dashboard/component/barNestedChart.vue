@@ -105,8 +105,8 @@ export default {
           { //外层的柱子
             name: "2030年",
             type: "pictorialBar",
-            barMinWidth: 50,
-            barWidth: 50,
+            barMinWidth: 32,
+            barWidth: 32,
             symbol: 'rectange',
             symbolRepeat: true,
             symbolBoundingData: 1,

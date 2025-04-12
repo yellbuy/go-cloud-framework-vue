@@ -64,14 +64,14 @@ export default defineComponent({
 			const val=list[index];
 			val.y=curHeight
 			if(index>0){
-				val.y+=20 //起点Y坐标
+				val.y+=10 //起点Y坐标
 			}
 			val.height=val.percent*maxHeight //高度
-			if(val.height<4){
-				val.height=4
+			if(val.height<10){
+				val.height=10
 			}
 			val.cy=val.y+val.height/2 //中心点Y坐标
-			curHeight+=val.height
+			curHeight+=val.height+10
 		}
 		const state = reactive({list
 		})

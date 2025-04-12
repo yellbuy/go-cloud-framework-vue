@@ -111,7 +111,7 @@
                         <environmental-excellence :YAxisLabel="'false'"
                                                   :top="'40%'"
                                                   :bottom="'20%'"
-                                                  :data="[[20,20,20],[25.68, 29.1, 50.79]]"
+                                                  :data="[[50,50,50],[25.68, 29.1, 50.79]]"
                                                   :formatter="'%'"
                                                   :label="['目标', '现状']"
                                                   :legendShow="true"
