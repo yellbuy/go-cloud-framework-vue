@@ -24,6 +24,7 @@ export default {
     top: Array,
     bottom: Array,
     color: Array,
+    stack: String,
     legendShow:{
       default:true
     }
@@ -84,7 +85,8 @@ export default {
           name: props.label[i],
           type: 'bar',
           data: props.data[i],
-          barMaxWidth:"20%",
+          barMaxWidth:"30",
+          barWidth:"26",
           barGap:"30%",
           label: {
             show: true,
@@ -98,6 +100,9 @@ export default {
           },
           itemStyle: {}
         };
+        if(props.stack){
+          data.stack=props.stack
+        }
         if (props.color !== undefined && i <= props.color.length - 1) {
           data.itemStyle = {
             color: props.color[i]

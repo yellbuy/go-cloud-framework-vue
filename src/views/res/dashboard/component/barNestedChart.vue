@@ -45,16 +45,19 @@ export default {
         },
         legend: {
           data: ['2030年', '2024年'],
-          right: 20,
+          right: 10,
+          itemHeight:10,
+          height :20,
+          padding: [2, 5],
           textStyle: {
             color: '#ffffff'
           }
         },
         grid: {
-          left: props.left || '10%',
-          right: '5%',
-          bottom: props.bottom || '10%',
-          top: props.top || '15%',
+          left: props.left || '50',
+          right: '10',
+          bottom: props.bottom || '20',
+          top: props.top || '36',
         },
         xAxis: {
           boundaryGap: true,
@@ -65,20 +68,24 @@ export default {
         },
         yAxis: {
           type: 'value',
-          splitLine: {show: false, lineStyle: {type: 'dashed', color: '#f5f5f5'}},
-          axisLine: {show: false},
-          axisTick: {show: false},
+          splitNumber:2,
+          //show: false,
+          splitLine: {show: true, lineStyle: {type: 'dashed', color: '#555'}},
+          axisLine: {show: true},
+          axisTick: {show: true},
           axisLabel: {
             color: '#ddd',
             formatter: props.formatter != undefined ? '{value}' + props.formatter : '{value}%'
           },
+          max:100,
+          min:0,
           boundaryGap: [0, 0.01]
         },
         series: [
           {//里层的柱子
             name: '2024年',
             type: 'bar',//象形柱状图
-            barMaxWidth: 30,
+            barMaxWidth: 26,
             symbol: 'rectange',
             data: props.seriesData2,//柱子的数据
             symbolRepeat: true,//是否重复

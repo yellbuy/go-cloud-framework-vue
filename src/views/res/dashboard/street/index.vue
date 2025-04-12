@@ -71,7 +71,7 @@
                         <el-col :span="12">
                           <barNestedChart :bottom="40"
                                           :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
-                                          :left="'0'"
+                                          :left="40"
                                           :objStyle="'height:15vh'"
                                           :seriesData1="[50]"
                                           :seriesData2="[28]"
@@ -81,7 +81,7 @@
                         <el-col :span="12">
                           <barNestedChart :bottom="40"
                                           :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
-                                          :left="'0'"
+                                          :left="40"
                                           :objStyle="'height:15vh'"
                                           :seriesData1="[75]"
                                           :seriesData2="[16]"
