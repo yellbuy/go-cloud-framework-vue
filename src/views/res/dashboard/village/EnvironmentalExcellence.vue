@@ -99,7 +99,7 @@ export default {
           data: props.data[i],
           barMaxWidth: "30",
           barWidth: "26",
-          barGap: "30%",
+          barGap: "60%",
           label: {
             show: true,
             formatter: props.formatter != undefined ? '{c}' + props.formatter : '{c}%',
@@ -158,7 +158,7 @@ export default {
 
     // 色盘
     function getColor({num}: { num: any }) {
-      const color = ['#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc', '#5470c6'];
+      const color = ['#fac858', '#ee6666', '#91cc75', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc', '#5470c6'];
       if (num > color.length) {
         num = num % color.length
       }

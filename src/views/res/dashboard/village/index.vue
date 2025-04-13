@@ -271,7 +271,7 @@
                             :label="['2022年', '2023年', '2024年']"
                             :left="'0'"
                             :mark-line="0"
-                            :objStyle="'height:10rem'"/>
+                            :objStyle="'height:10.7rem'"/>
                       </div>
                     </div>
                   </el-col>
