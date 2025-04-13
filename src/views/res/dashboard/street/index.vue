@@ -110,12 +110,18 @@
                           </div>
                           <div class="text-center" style="transform:translate(0rem, 5rem);">2024年度</div>
                           </el-col>
-                          <el-col :span="8">
-                            <div class="text-center" style="transform:translate(0rem, 15rem);">2025年度</div>
+                        <el-col :span="8" class="text-center">
+                          <svg height="170" style="transform:translate(0rem, 2rem);" width="80">
+                            <rect fill="#777" height="170" width="80" x="0" y="0"></rect>
+                          </svg>
+                          <div style="transform:translate(0rem, 3.5rem);">2025年度</div>
                           </el-col>
-                          <el-col :span="8">
-                            <div class="text-center" style="transform:translate(0rem, 15rem);">2026年度</div>
-                          </el-col>
+                        <el-col :span="8" class="text-center">
+                          <svg height="170" style="transform:translate(0rem, 2rem);" width="80">
+                            <rect fill="#777" height="170" width="80" x="0" y="0"></rect>
+                          </svg>
+                          <div style="transform:translate(0rem, 3.5rem);">2026年度</div>
+                        </el-col>
                         </el-row>
                       
                     </div>
@@ -369,9 +375,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import { ElMessageBox } from 'element-plus';
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {ElMessageBox} from 'element-plus';
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";
