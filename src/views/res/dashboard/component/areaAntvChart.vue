@@ -71,7 +71,7 @@ export default {
           padding:10,
         });
         chart
-          .interval()
+          .area()
           .data(props.data)
           .axis('y', { 
           tick:true,
@@ -142,7 +142,7 @@ export default {
           .encode('text', [props.encodeV])
           //.encode('color', ['linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)'])
           .encode('color', props.color)
-          //.style('shape', 'column25d')
+          .style('shape', 'smooth')
           
           //.transform({ type: 'dodgeX' })
           .label({

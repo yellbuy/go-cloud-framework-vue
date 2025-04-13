@@ -1,12 +1,12 @@
 <template>
   <div id="flareTarget">
-    <dv-border-box10>
+    <!-- <dv-border-box10> -->
       <div class="flare-container">
-        <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">农村居民人均可支配收入对比（万元）</div>
-        <div ref="echart" class="target-content echartDiv" id="barFamiryGdp"></div>
+        <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">居民人均可支配收入对比（万元）</div>
+        <div ref="echart" class="echartDiv" id="barFamiryGdp"></div>
        
       </div>
-    </dv-border-box10>
+    <!-- </dv-border-box10> -->
   </div>
 </template>
 
@@ -21,12 +21,17 @@ export default {
     
     const loadVillageData =()=>{
       const data = [
-          { Area: '仁和区', Name: '2023',Kind:"农村", 人均可支配收入: 2.42 },
-          { Area: '仁和区', Name: '2024', Kind:"农村",人均可支配收入: 2.58 },
-          { Area: '攀枝花市', Name: '2023',Kind:"农村", 人均可支配收入: 2.3 },
-          { Area: '攀枝花市', Name: '2024',Kind:"农村", 人均可支配收入: 2.46 },
-          { Area: '浙江省衢江区', Name: '2023',Kind:"农村", 人均可支配收入: 3.03 },
-          { Area: '浙江省衢江区', Name: '2024',Kind:"农村", 人均可支配收入: 3.27 },
+          
+          { Area: '仁和区', Name: '2023',Kind:"城镇", 人均可支配收入: 4.63,color:'orange' },
+          { Area: '仁和区', Name: '2024', Kind:"城镇",人均可支配收入: 4.85,color:'orange' },
+          { Area: '仁和区', Name: '2030', Kind:"城镇",人均可支配收入: 6.28,color:'orange' },
+          { Area: '仁和区', Name: '2023',Kind:"农村", 人均可支配收入: 2.42,color:'red' },
+          { Area: '仁和区', Name: '2024', Kind:"农村",人均可支配收入: 2.58,color:'red' },
+          { Area: '仁和区', Name: '2030', Kind:"农村",人均可支配收入: 3.54,color:'red' },
+          // { Area: '攀枝花市', Name: '2023',Kind:"农村", 人均可支配收入: 2.3 },
+          // { Area: '攀枝花市', Name: '2024',Kind:"农村", 人均可支配收入: 2.46 },
+          // { Area: '浙江省衢江区', Name: '2023',Kind:"农村", 人均可支配收入: 3.03 },
+          // { Area: '浙江省衢江区', Name: '2024',Kind:"农村", 人均可支配收入: 3.27 },
         ];
 
         const chart = new Chart({
@@ -37,12 +42,24 @@ export default {
         });
 
         chart
-          .interval()
+          .line()
           .data(data)
+          // .style({
+          //   fill:(d, index, data, column) =>{
+          //     // for(const val of d){
+          //     //   // if(val.Kind=="农村"){
+          //     //   //   return 'l(270) 0:#ffffff 0.5:orange 1:red'; // 配置面积图填充颜色为渐变色
+          //     //   // }
+          //     //   return 'l(270) 0:#ffffff 0.5:#0000ff 1:#00ffff'; // 配置面积图填充颜色为渐变色
+          //     // }
+          //     return  'l(270) 0:#ffffff 0.5:#7ec2f3 1:#1890ff'; // 配置面积图填充颜色为渐变色
+          //   },
+          //   fillOpacity: 0.5, // 配置area标记的填充透明度为 0.9
+          // })
           .axis('y', { 
           tick:true,
-          tickCount: 5,
-          tickLength: -30,
+          tickCount: 2,
+          tickLength: -20,
           //title: false,
           //titleFill: 'steelblue',
           // titleFontFamily:"Arial",
@@ -57,7 +74,7 @@ export default {
           lineStroke: 'orange',
           label:true,
           labelFill:"rgb(252.5, 245.7, 235.5)",
-          labelFontSize:10,
+          labelFontSize:14,
           //labelFontFamily:"Arial",
           labelSpacing:30,
           
@@ -101,18 +118,21 @@ export default {
           // Tick
         
         })
+         .scale('x', {padding:0.1})
           .encode('x', 'Name')
           .encode('y', '人均可支配收入')
-          .encode('color', ['Area'])
+          .encode('z', 'Kind')
+          .encode('color', 'Kind')
           
           .encode('text', '人均可支配收入')
+          .encode('shape', 'smooth')
           .transform({ type: 'dodgeX' })
           .label({
             text: '人均可支配收入',
             position: 'top',
-            dy: -12,
+            dy: -10,
             fill: '#fff',
-            fontSize: 10,
+            fontSize: 12,
             // render: (text, datum) => {
             //   return `
             //     <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
@@ -121,7 +141,7 @@ export default {
             //   `;
             // },
           })
-          .tooltip({ name: '区域', channel: 'color' })
+          .tooltip({ name: '类别', channel: 'z' })
           .tooltip({ name: '人均可支配收入', channel: 'y' })
           .legend({
            
@@ -248,20 +268,23 @@ export default {
           .encode('text', '人均可支配收入')
           .transform({ type: 'dodgeX' })
           .label({
+            position: 'top',
+            dy: -16,
+            fill: '#fff',
+            fontSize: 14,
             text: '人均可支配收入',
-            render: (text, datum) => {
-              return `
-                <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
-                  ${datum['人均可支配收入']} 万</span>
-                </div>
-              `;
-            },
+            // render: (text, datum) => {
+            //   return `
+            //     <div style="left:-50%;position:relative;font-size:1.2rem;color:white;">
+            //       ${datum['人均可支配收入']} 万</span>
+            //     </div>
+            //   `;
+            // },
           })
           .tooltip({ name: '区域', channel: 'color' })
           .tooltip({ name: '类型', channel: 'y1' })
           .tooltip({ name: '人均可支配收入', channel: 'y' })
           .legend({
-           
             color: {
               size:8,
               //itemLabelText: '图例项标签',
@@ -310,6 +333,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height:10vh;
+  height:15vh;
 }
 </style>

@@ -91,13 +91,17 @@ export default {
           container: 'barAreaGdp',
           autoFit: true,
           depth:1,
-          padding:20,
+          padding:10,
         });
 
         chart
-          .line()
+          .area()
           
           .data(data)
+          .style({
+            fill:'l(270) 0:#ffffff 0.4:#7ec2f3 1:#1890ff',
+            fillOpacity: 0.8, // 配置area标记的填充透明度为 0.9
+          })
           .axis('y', { 
           tick:true,
           tickCount: 2,

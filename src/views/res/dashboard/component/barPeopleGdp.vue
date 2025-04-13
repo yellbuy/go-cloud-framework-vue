@@ -94,7 +94,7 @@ export default {
           container: 'barPeopleGdp',
           autoFit: true,
           depth:1,
-          padding:20,
+          padding:10,
         });
 
         chart

@@ -30,7 +30,9 @@ export default {
           container: 'barCountyDjyc',
           autoFit: true,
           depth:1,
-          padding:30,
+          paddingBottom:20,
+          paddingTop:12,
+          padding:20,
         });
 
         chart
@@ -38,7 +40,7 @@ export default {
           .data(data)
           .axis('y', { 
           tick:true,
-          tickCount: 5,
+          tickCount: 2,
           tickLength: -20,
           //title: false,
           //titleFill: 'steelblue',
@@ -62,7 +64,7 @@ export default {
           gridLineWidth:2,
           gridLineDash:[4,4],
           gridStrokeOpacity:0.5,
-          gridStroke:"white",
+          gridStroke:"#777",
           //gridAreaFill:"white",
           animate:true,
           // Tick
@@ -105,14 +107,20 @@ export default {
           .encode('text', ['达标率'])
           .transform({ type: 'dodgeX' })
           .label({
-            text: '数值',
-            render: (text, datum) => {
-              return `
-                <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
-                  ${datum['达标率']}</span>
-                </div>
-              `;
-            },
+            position: 'top',
+            dy: -0,
+            fill: '#fff',
+            fontSize: 12,
+            //transform: [{ type: "contrastReverse" }],
+            text: '达标率',
+
+            // render: (text, datum) => {
+            //   return `
+            //     <div style="left:-50%;position:relative;font-size:0.8rem;color:white;">
+            //       ${datum['生产总值']}</span>
+            //     </div>
+            //   `;
+            // },
           })
           // .label({'生产总值': {
           //   content: (data) => `${data['年份']}: ${data['生产总值']}`, // 设置标签内容格式

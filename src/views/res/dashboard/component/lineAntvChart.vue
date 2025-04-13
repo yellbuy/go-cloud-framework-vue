@@ -68,10 +68,11 @@ export default {
           autoFit: true,
           depth:1,
           paddingTop:0,
-          padding:10,
+          paddingBottom:10,
+          padding:20,
         });
         chart
-          .interval()
+          .line()
           .data(props.data)
           .axis('y', { 
           tick:true,
@@ -108,7 +109,7 @@ export default {
         .axis('x', { 
           arrow: false,
           tick:false,
-          tickCount: 10,
+          tickCount: 4,
           //tickLength: -20,
           title: false,
           titleStroke: 'orange',
@@ -142,13 +143,13 @@ export default {
           .encode('text', [props.encodeV])
           //.encode('color', ['linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)','linear-gradient(270deg, #7ec2f3 0%, #7ec2f3 30%, #1890ff 100%)'])
           .encode('color', props.color)
-          //.style('shape', 'column25d')
+          .style('shape', 'smooth')
           
-          //.transform({ type: 'dodgeX' })
+          .transform({ type: 'dodgeX' })
           .label({
             text: props.encodeV,
             position: 'top',
-            dy: -16,
+            dy: -10,
             fill: '#fff',
             fontSize: 12,
           })
