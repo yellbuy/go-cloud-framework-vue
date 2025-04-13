@@ -18,6 +18,7 @@ export default {
     XLabel: Array,
     objStyle: Array,
     formatter: Array,
+    formatterMode: Array,
     YFontSize: Array,
     YAxisLabel: Array,
     left: Array,
@@ -45,7 +46,17 @@ export default {
         },
         tooltip: {
           trigger: 'axis',
-          valueFormatter: (value) => value.toFixed(2) + (props.formatter != undefined ? props.formatter : '%'),
+          formatter: function (params) {
+            var result = params[0].axisValue + '<br/>';
+            params.forEach(function (item) {
+              result += item.marker + ' ' + item.seriesName + ': ' + item.value + (props.formatter != undefined ? props.formatter : '%');
+              if (item.data.extra) {
+                result += ' (' + item.data.extra + ')';
+              }
+              result += '<br/>';
+            });
+            return result;
+          }
         },
         legend: {
           show: props.legendShow,
@@ -103,7 +114,7 @@ export default {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: getColor(i)
+                color: getColor({num: i})
               },
               {
                 offset: 1,
@@ -133,6 +144,11 @@ export default {
         option.series.push(data);
       }
 
+      // 替换提示模板
+      if (props.formatterMode !== undefined) {
+        option.tooltip.formatter = props.formatterMode;
+      }
+
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option)
       window.addEventListener('resize', function () {
@@ -141,7 +157,7 @@ export default {
     }
 
     // 色盘
-    function getColor(num) {
+    function getColor({num}: { num: any }) {
       const color = ['#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc', '#5470c6'];
       if (num > color.length) {
         num = num % color.length

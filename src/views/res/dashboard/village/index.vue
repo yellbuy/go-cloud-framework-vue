@@ -335,9 +335,10 @@
                         <environmental-excellence :XLabel="['蔬菜产值占比', '芒果产值占比']"
                                                   :YAxisLabel="'false'"
                                                   :YFormatter="'{value}万'"
-                                                  :data="[[26.14,28.32],[26.14,28.32],[26.14,28.32]]"
+                                                  :data="industrialAdvantage"
                                                   :label="['2022年', '2023年', '2024年']"
                                                   :left="'0'"
+                                                  :formatterMode="formatterMode"
                                                   :mark-line="0"/>
                         <div>农业社会化服务协办员1名</div>
                         <div>姓名：<span style="color:#1AFD9BFF;">李*</span> &nbsp;&nbsp;职务：<span
@@ -518,9 +519,55 @@ export default {
       </div>`
       ElMessageBox.alert(html, '低收入重点监测群体清单', {dangerouslyUseHTMLString: true, width: '1000px'})
     };
+
+    const formatterMode = function (params) {
+      var result = params[0].axisValue + '<br/>';
+      params.forEach(function (item) {
+        result += item.marker + '' + item.seriesName + ': <br/>占比：' + item.value + '%' + "<br/>产值：" + item.data.extra + "吨";
+        result += '<br/>';
+      });
+      return result;
+    }
+
+    const industrialAdvantage =
+        [
+          [
+            {
+              value: 26.14,
+              extra: 21000
+            },
+            {
+              value: 28.32,
+              extra: 40700
+            },
+          ],
+          [
+            {
+              value: 26.14,
+              extra: 21000
+            },
+            {
+              value: 28.32,
+              extra: 40700
+            },
+          ],
+          [
+            {
+              value: 26.14,
+              extra: 21000
+            },
+            {
+              value: 28.32,
+              extra: 40700
+            },
+          ]
+        ];
+
     return {
       ...toRefs(state),
       onClickMainMonitoring,
+      formatterMode,
+      industrialAdvantage,
       onGoToLink
     };
   },
