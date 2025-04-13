@@ -119,6 +119,7 @@ export default {
           // Tick
         
         })
+        .encode('size',2)
          .scale('x', {padding:0.1})
           .encode('x', 'Name')
           .encode('y', '人均可支配收入')

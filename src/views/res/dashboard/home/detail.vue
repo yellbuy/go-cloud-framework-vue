@@ -240,7 +240,7 @@
               <span class="target-title" @click="onClickTargetDetail('党建优促')">党建优促</span>
             </div>
             <div class="target-content">
-              <dv-capsule-chart :config="djycConfig" style="width:100%;height:17.5vh" />
+              <dv-capsule-chart :config="djycConfig" style="width:100%;height:17.8vh" />
               <div class="margin-bottom">“三个身边”群众工作机制反映问题工单办结率</div>
             </div>
           </div>

@@ -137,6 +137,7 @@ export default {
           // Tick
         
         })
+        .encode('size',2)
         // .encode('shape',"smooth")
           .encode('x', [props.encodeX])
           .encode('y', [props.encodeY])
