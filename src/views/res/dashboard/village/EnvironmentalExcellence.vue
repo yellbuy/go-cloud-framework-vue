@@ -39,10 +39,10 @@ export default {
       // 指定图表的配置项和数据
       const option = {
         grid: {
-          top: props.top || "40%",
+          top: props.top || 45,
           right: "0",
-          left: props.left || "10%",
-          bottom: props.bottom || "15%",
+          left: props.left || 10,
+          bottom: props.bottom || 20,
         },
         tooltip: {
           trigger: 'axis',
@@ -158,7 +158,7 @@ export default {
 
     // 色盘
     function getColor({num}: { num: any }) {
-      const color = ['#fac858', '#ee6666', '#91cc75', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc', '#5470c6'];
+      const color = ['#fac858', '#63d3e3', '#91cc75', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc', '#5470c6'];
       if (num > color.length) {
         num = num % color.length
       }

@@ -164,7 +164,7 @@
                           class="fa fa-angle-double-down margin-right-sm"/>产业发展规模化
                       </div>
                       <div class="target-text">
-                        <div class="target-container-h5">
+                        <div>
                           <environmental-excellence
                               :XLabel="['芒果','蔬菜']"
                               :YAxisLabel="false"
@@ -172,7 +172,8 @@
                               :formatter="''"
                               :label="['面积（亩）','产量（吨）']"
                               :left="'0'"
-                              :top="'20%'"
+                              :objStyle="'height:10rem'"
+                              :top="30"
                           />
                         </div>
                       </div>
@@ -182,7 +183,7 @@
                           class="fa fa-angle-double-down margin-right-sm"/>公共服务均等化
                       </div>
                       <div class="target-text">
-                        <barNestedChart :bottom="40" :objStyle="'height:15vh'"
+                        <barNestedChart :bottom="40" :objStyle="'height:15.3vh'"
                                         :label="['2030年', '2025年']"
                                         :color1="['rgb(248, 152.1, 152.1)','#F56C6C','rgb(196, 86.4, 86.4)']"
                                         :seriesData1="[95, 95, 100, 100]"
@@ -235,7 +236,7 @@
                           class="fa fa-angle-double-down margin-right-sm"/>基础设施一体化
                       </div>
                       <div class="target-text">
-                        <barNestedChart :bottom="40" :objStyle="'height:15vh'"
+                        <barNestedChart :bottom="40" :objStyle="'height:15.3vh'"
                                         :color1="['rgb(148.6, 212.3, 117.1)','#67C23A','rgb(82.4, 155.2, 46.4)']"
                                         :seriesData1="[95, 100, 100]"
                                         :seriesData2="[82.6, 100, 100]"
@@ -278,7 +279,7 @@
                           class="fa fa-angle-double-down margin-right-sm"/>乡村治理现代化
                       </div>
                       <div class="target-text">
-                        <barNestedChart :bottom="40" :objStyle="'height:15vh'"
+                        <barNestedChart :bottom="40" :objStyle="'height:15.3vh'"
                                         :color1="['#83bff6','#188df0','#188df0']"
                                         :seriesData1="[100, 100, 95]"
                                         :seriesData2="[100, 100, 98]"

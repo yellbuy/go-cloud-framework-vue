@@ -57,7 +57,7 @@
                 </div>
 
               </div>
-              <div class="target-content margin-top" style="width: 100%;height:calc(100vh  - 20rem - 21.6rem)">
+              <div class="target-content margin-top" style="width: 100%;height:calc(100vh  - 20rem - 22.5rem)">
                 <antvImageMap :areaCode="areaCode" :center="[500,480]" :zoom="1.6" areaGoTo="village"></antvImageMap>
               </div>
             </div>
@@ -172,7 +172,7 @@
                           <environmental-excellence :XLabel="['“三个身边”群众工作机制反映问题办结率']"
                                                     :YAxisLabel="false"
                                                     :YFormatter="'{value}万'"
-                                                    :color="['#DADA00FF']"
+                                                    :color="['#d8f695','#eabdf4','#e8e6d8']"
                                                     :data="[[100],[98.5]]"
                                                     :label="['2030年', '2024年']"
                                                     :left="'0'"
@@ -196,7 +196,7 @@
                           <environmental-excellence :XLabel="['化解矛盾纠纷化解率']"
                                                     :YAxisLabel="'false'"
                                                     :YFormatter="'{value}万'"
-                                                    :color="['#DADA00FF']"
+                                                    :color="['#d8f695','#eabdf4','#e8e6d8']"
                                                     :data="[[100],[98]]"
                                                     :label="['2030年', '2024年']"
                                                     :left="'0'"
@@ -226,6 +226,7 @@
                               :bottom="'20%'"
                               :data="[[30,69.7, 0.3]]"
                               :label="['2024年']"
+                              :color="['#d8f695','#eabdf4','#e8e6d8']"
                               :left="'0'"
                               :mark-line="0"/>
                         </div>
@@ -253,15 +254,16 @@
                             :data="[[99.7,100, 100],[99.7,100, 100],[99.7,100, 100]]"
                             :label="['2022年', '2023年', '2024年']"
                             :left="'0'"
+                            :color="['#00dada','#90b7d5','#df87c6']"
                             :mark-line="0"
-                            :objStyle="'height:10rem'"/>
+                            :objStyle="'height:11rem'"/>
                       </div>
                     </div>
                     <div class="">
                       <div class="" style="color:lightgreen;font-size: 1.2rem;"><i
-                          class="fa fa-angle-double-down"/>环境优
+                          class="fa fa-angle-double-down margin-right-sm"/>环境优
                       </div>
-                      <div class="target-text">
+                      <div class="target-text margin-top-sm">
                         <environmental-excellence
                             :XLabel="['⾃来⽔普及率', '农村卫⽣\n厕所普及率', '⽣活污⽔有\n效治理覆盖率', '自然村（组）\n通硬化路率']"
                             :YAxisLabel="'false'"
@@ -270,8 +272,9 @@
                             :data="[[77.1, 100, 100, 100],[77.1, 100, 100, 100],[77.1, 100, 100, 100],[77.1, 100, 100, 100]]"
                             :label="['2022年', '2023年', '2024年']"
                             :left="'0'"
+                            :color="['#00dada','#90b7d5','#df87c6']"
                             :mark-line="0"
-                            :objStyle="'height:10.7rem'"/>
+                            :objStyle="'height:10.5rem'"/>
                       </div>
                     </div>
                   </el-col>
@@ -280,47 +283,47 @@
                       <div class="margin-top" style="color:lightgreen;font-size: 1.2rem;"><i
                           class="fa fa-angle-double-down margin-right-sm"/>文化优
                       </div>
-                      <div class="target-text" style="text-align: left">
+                      <div class="target-text margin-top" style="text-align: left">
                         <el-row class="margin-sm text-center">
                           <el-col :span="6" class="text-right">
-                            <div class="margin-tb-xs ">文化广场
+                            <div class="margin-tb-sm ">文化广场
                             </div>
                           </el-col>
                           <el-col :span="6" class="text-left">
-                            <label class="margin-xs"
-                                   style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
+                            <label class="margin-sm"
+                                   style="color:#1AFD9BFF;font-size: 1.4rem;line-height: 2rem">1</label>个
                           </el-col>
                           <el-col :span="6" class="text-right">
-                            <div class="margin-tb-xs ">村史馆
+                            <div class="margin-tb-sm ">村史馆
                             </div>
                           </el-col>
                           <el-col :span="6" class="text-left">
-                            <label class="margin-xs"
-                                   style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
+                            <label class="margin-sm"
+                                   style="color:#1AFD9BFF;font-size: 1.4rem;line-height: 2rem">1</label>个
                           </el-col>
                           <el-col :span="6" class="text-right">
-                            <div class="margin-tb-xs ">乡村推荐官
+                            <div class="margin-tb-sm ">乡村推荐官
                             </div>
                           </el-col>
                           <el-col :span="6" class="text-left">
-                            <label class="margin-xs"
-                                   style="color:#1AFD9BFF;font-size: 1.4rem">1</label>人
+                            <label class="margin-sm"
+                                   style="color:#1AFD9BFF;font-size: 1.4rem;line-height: 2rem">1</label>人
                           </el-col>
                           <el-col :span="6" class="text-right">
                             <div class="margin-tb-xs ">文艺队伍
                             </div>
                           </el-col>
                           <el-col :span="6" class="text-left">
-                            <label class="margin-xs"
-                                   style="color:#1AFD9BFF;font-size: 1.4rem">1</label>支
+                            <label class="margin-sm"
+                                   style="color:#1AFD9BFF;font-size: 1.4rem;line-height: 2rem">1</label>支
                           </el-col>
                           <el-col :span="12">
-                            <div class="margin-tb-xs padding-top-xs">文旅品牌：<label class="margin-xs"
-                                                                                     style="color:#1AFD9BFF;">混撒拉旅游度假区</label>
+                            <div class="margin-tb-sm">文旅品牌：<label class="margin-xs"
+                                                                      style="color:#1AFD9BFF;">混撒拉旅游度假区</label>
                             </div>
                           </el-col>
                           <el-col :span="12">
-                            <div class="margin-tb-xs">综合文化服务率<label class="margin-xs"
+                            <div class="margin-tb-sm">综合文化服务率<label class="margin-sm"
                                                                            style="color:#1AFD9BFF;font-size: 1.4rem">95</label>%
                             </div>
                           </el-col>
@@ -338,6 +341,7 @@
                                                   :data="industrialAdvantage"
                                                   :label="['2022年', '2023年', '2024年']"
                                                   :left="'0'"
+                                                  :color="['#00dada','#90b7d5','#df87c6']"
                                                   :formatterMode="formatterMode"
                                                   :mark-line="0"/>
                         <div>农业社会化服务协办员1名</div>

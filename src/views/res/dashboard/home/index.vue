@@ -23,7 +23,8 @@
               curTime
             }}</b></p>
           <dv-button border="Border4" color="#409EFF"
-                     fontSize="12" style="display:inline-block;margin-right:10px;" @click="onGoToLink(`/admin/dashboard/home/detail`)">六优指标
+                     fontSize="12" style="display:inline-block;margin-right:10px;"
+                     @click="onGoToLink(`/admin/dashboard/home/detail`)">六优指标
           </dv-button>
           <dv-button border="Border4" color="#409EFF" fontSize="12"
                      style="display:inline-block;margin-right:10px;" @click="onClickCountDetail">区情介绍
@@ -72,14 +73,14 @@
           <div>
             <antvImageMap :style="'height:calc(100vh - 15rem)'" areaCode="510411" areaGoTo="street"></antvImageMap>
           </div>
-           <!-- <div class="column-footer">
-           <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
-            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">民生优享</dv-button>
-            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">文化优创</dv-button>
-            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">环境优宜</dv-button>
-            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">社会优质</dv-button>
-            <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">党建优促</dv-button> 
-          </div>-->
+          <!-- <div class="column-footer">
+          <dv-button @click="console.log('click')" style="margin-left:10px;z-index: 9999;" border="Border6" color="#e18a3b">经济优建</dv-button>
+           <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">民生优享</dv-button>
+           <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">文化优创</dv-button>
+           <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">环境优宜</dv-button>
+           <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">社会优质</dv-button>
+           <dv-button @click="console.log('click')" style="margin-left:10px" border="Border6" color="#e18a3b">党建优促</dv-button>
+         </div>-->
         </dv-border-box1>
 
         <div style="width:25%;" class="padding-lr-10">
@@ -90,25 +91,25 @@
             <el-row :gutter="4">
               <el-col :span="8">
                 <div style="height:18vh;" class="margin-top-xl padding-top-lg">
-                  <pieRect style="transform:scale(1.2,1.2);translate(120, 0);" :data='[{name:"低收入群体",value:48.66,darkColor:"darkred",lightColor:"red",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
-			,{name:"中等收入群体",value:50.5,darkColor:"orange",lightColor:"darkorange",nameStyle:"fill:#333;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
-			,{name:"高收入群体",value:0.84,darkColor:"green",lightColor:"green",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}]'/>
+                  <pieRect :data='[{name:"低收入群体",value:48.66,darkColor:"rgb(239,168,59)",lightColor:"red",nameStyle:"fill:#000;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"中等收入群体",value:50.5,darkColor:"rgb(253,253,84)",lightColor:"darkorange",nameStyle:"fill:#333;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"高收入群体",value:0.84,darkColor:"rgba(113,177,95,0.8)",lightColor:"green",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ddd;text-anchor:start;font-size:48;"}]' style="transform:scale(1.2,1.2);translate(120, 0);"/>
                 </div>
                 <div>区</div>
               </el-col>
               <el-col :span="8">
                 <div style="height:18vh;" class="margin-top-xl padding-top-lg">
-                  <pieRect style="transform:scale(1.2,1.2);translate(120, 0);" :data='[{name:"低收入群体",value:69.49,darkColor:"darkred",lightColor:"red",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
-			,{name:"中等收入群体",value:30.41,darkColor:"orange",lightColor:"darkorange",nameStyle:"fill:#333;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
-			,{name:"高收入群体",value:0.15,darkColor:"green",lightColor:"green",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}]'/>
+                  <pieRect :data='[{name:"低收入群体",value:69.49,darkColor:"rgb(239,168,59)",lightColor:"rgba(149,28,28,0.8)",nameStyle:"fill:#000;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"中等收入群体",value:30.41,darkColor:"rgb(253,253,84)",lightColor:"darkorange",nameStyle:"fill:#333;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"高收入群体",value:0.15,darkColor:"rgba(113,177,95,0.8)",lightColor:"green",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}]' style="transform:scale(1.2,1.2);translate(120, 0);"/>
                 </div>
                 <div>农村</div>
               </el-col>
               <el-col :span="8">
                 <div style="height:18vh;" class="margin-top-xl padding-top-lg">
-                  <pieRect style="transform:scale(1.2,1.2);translate(120, 0);" :data='[{name:"低收入群体",value:31.34,darkColor:"darkred",lightColor:"red",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
-			,{name:"中等收入群体",value:67.21,darkColor:"orange",lightColor:"darkorange",nameStyle:"fill:#333;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
-			,{name:"高收入群体",value:0.45,darkColor:"green",lightColor:"green",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}]'/>
+                  <pieRect :data='[{name:"低收入群体",value:31.34,darkColor:"rgb(239,168,59)",lightColor:"rgba(149,28,28,0.8)",nameStyle:"fill:#000;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"中等收入群体",value:67.21,darkColor:"rgb(253,253,84)",lightColor:"darkorange",nameStyle:"fill:#333;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}
+			,{name:"高收入群体",value:0.45,darkColor:"rgba(113,177,95,0.8)",lightColor:"green",nameStyle:"fill:#ddd;text-anchor:middle;font-size:56;",valueStyle:"fill:#ccc;text-anchor:start;font-size:48;"}]' style="transform:scale(1.2,1.2);translate(120, 0);"/>
                 </div>
                 <div>城市</div>
               </el-col>
@@ -154,9 +155,9 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import dayjs from 'dayjs';
-import { ElMessageBox } from 'element-plus';
-import { onMounted, reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {ElMessageBox} from 'element-plus';
+import {onMounted, reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import actVillage from "../component/actVillage.vue";
 import antvImageMap from "../component/antvImageMap.vue";
 import barAgricultureGdp from "../component/barAgricultureGdp.vue";
