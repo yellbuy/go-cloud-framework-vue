@@ -33,7 +33,8 @@ export default {
           container: 'barCityRate',
           autoFit: true,
           depth:1,
-          padding:20,
+          paddingTop:0,
+          padding:10,
         });
 
         chart
@@ -82,6 +83,7 @@ export default {
           titlePosition:'left',
           label:true,
           labelFill:"#fff",
+          labelStroke:"yellow",
           labelFontSize:12,
           labelSpacing:10,
           // titleFill: 'steelblue',

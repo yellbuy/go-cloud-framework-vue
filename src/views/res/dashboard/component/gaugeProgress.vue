@@ -66,7 +66,7 @@ export default {
             type: 'gauge',
             startAngle: 180,
             endAngle: 0,
-            center: ['50%', '70%'],
+            center: ['50%', '60%'],
             radius: '100%',
             min: 0,
             max: 1,

@@ -94,6 +94,7 @@ export default {
           container: 'barPeopleGdp',
           autoFit: true,
           depth:1,
+          paddingTop:5,
           padding:10,
         });
 
@@ -142,13 +143,14 @@ export default {
           titlePosition:'left',
           label:true,
           labelFill:"#fff",
-          labelFontSize:14,
+          labelStroke:"yellow",
+          labelFontSize:12,
           labelSpacing:10,
           // titleFill: 'steelblue',
           line: true,
           lineArrowOffset: 2,
           lineArrowSize: 6,
-          lineLineWidth: 2,
+          lineLineWidth: 1,
           
           lineStroke: 'orange',
           

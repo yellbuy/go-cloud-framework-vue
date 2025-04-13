@@ -97,14 +97,15 @@ export default {
           titleStroke: 'orange',
           titlePosition:'left',
           label:true,
-          labelFill:"#fff",
+          labelFill:"white",
+          labelStroke:"yellow",
           labelFontSize:12,
           labelSpacing:10,
           // titleFill: 'steelblue',
           line: true,
           lineArrowOffset: 2,
           lineArrowSize: 6,
-          lineLineWidth: 2,
+          lineLineWidth: 1,
           
           lineStroke: 'orange',
           
@@ -239,7 +240,8 @@ export default {
           titleStroke: 'orange',
           titlePosition:'left',
           label:true,
-          labelFill:"rgb(252.5, 245.7, 235.5)",
+          labelFill:"white",
+          labelStroke:"yellow",
           labelFontSize:10,
           labelSpacing:10,
           // titleFill: 'steelblue',
@@ -333,6 +335,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height:15vh;
+  height:15.5vh;
 }
 </style>

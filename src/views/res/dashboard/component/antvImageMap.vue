@@ -90,71 +90,7 @@ export default {
         scene.addImage(
             '8', `/img/res/village_8.png`);
 
-        fetch(`/data/res/area/${props.areaCode}.json`)
-            .then((res) => res.json())
-            .then((data) => {
-
-              const imageLayer = new PointLayer()
-                  .source(data, {
-                    parser: {
-                      type: 'json',
-                      x: 'x',
-                      y: 'y',
-                    },
-                  })
-                  .shape('icon')
-                  .size(32);
-
-              const textlayer = new PointLayer({zIndex: 2})
-                  .source(data, {
-                    parser: {
-                      type: 'json',
-                      x: 'x',
-                      y: 'y',
-                    },
-                  })
-                  .shape('name', 'text')
-                  .size(16)
-                  .active({
-                    color: '#00f',
-                    mix: 0.9,
-                  })
-                  .color('red')
-                  .style({
-                    textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
-                    spacing: 6, // 字符间距
-                    fontWeight: '800',
-                    padding: [30, 30], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
-                    stroke: '#ffffff', // 描边颜色
-                    strokeWidth: 2, // 描边宽度
-                    textAllowOverlap: true,
-                    textOffset: [20, 20],
-                  });
-              if (props.areaGoTo) {
-                imageLayer.on('click', (e) => {
-                  console.log(e)
-                  alert(`
-                  <p>区域名称: ${e.feature.name}</p>
-                  <p>区域标识: ${e.feature.code}</p>
-                  <p>图中X坐标: ${e.x}</p>
-                  <p>图中Y坐标: ${e.y}</p>
-                `);
-                });
-                textlayer.on('click', (e) => {
-                  console.log(e)
-                  router.push(`/admin/dashboard/${props.areaGoTo}/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
-                  console.log(`
-                  <p>区域名称: ${e.feature.name}</p>
-                  <p>区域标识: ${e.feature.code}</p>
-                  <p>图中X坐标: ${e.x}</p>
-                  <p>图中Y坐标: ${e.y}</p>
-                `);
-                });
-              }
-
-              scene.addLayer(imageLayer);
-              scene.addLayer(textlayer);
-            });
+        
 
         fetch(`/data/res/site/${props.areaCode}.json`)
             .then((res) => res.json())
@@ -200,10 +136,77 @@ export default {
               });
               textlayer.on('click', (e) => {
               });
+              scene.addLayer(imageLayer);
+              scene.addLayer(textlayer);
+            });
+
+          fetch(`/data/res/area/${props.areaCode}.json`)
+            .then((res) => res.json())
+            .then((data) => {
+
+              const imageLayer = new PointLayer()
+                  .source(data, {
+                    parser: {
+                      type: 'json',
+                      x: 'x',
+                      y: 'y',
+                    },
+                  })
+                  .shape('icon')
+                  .size(32);
+
+              const textlayer = new PointLayer({zIndex: 2})
+                  .source(data, {
+                    parser: {
+                      type: 'json',
+                      x: 'x',
+                      y: 'y',
+                    },
+                  })
+                  .shape('name', 'text')
+                  .size(16)
+                  .active({
+                    color: '#00f',
+                    mix: 0.9,
+                  })
+                  .color('darkred')
+                  .style({
+                    textAnchor: 'top-left', // 文本相对锚点的位置 center|left|right|top|bottom|top-left
+                    spacing: 10, // 字符间距
+                    fontWeight: '600',
+                    padding: [30, 30], // 文本包围盒 padding [水平，垂直]，影响碰撞检测结果，避免相邻文本靠的太近
+                    stroke: 'gold', // 描边颜色
+                    strokeWidth: 2, // 描边宽度
+                    textAllowOverlap: true,
+                    textOffset: [15, -20],
+                  });
+              if (props.areaGoTo) {
+                imageLayer.on('click', (e) => {
+                  console.log(e)
+                  router.push(`/admin/dashboard/${props.areaGoTo}/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
+                  console.log(`
+                  <p>区域名称: ${e.feature.name}</p>
+                  <p>区域标识: ${e.feature.code}</p>
+                  <p>图中X坐标: ${e.x}</p>
+                  <p>图中Y坐标: ${e.y}</p>
+                `);
+                });
+                textlayer.on('click', (e) => {
+                  console.log(e)
+                  router.push(`/admin/dashboard/${props.areaGoTo}/index?areaCode=${e.feature.code}&areaName=${e.feature.name}`);
+                  console.log(`
+                  <p>区域名称: ${e.feature.name}</p>
+                  <p>区域标识: ${e.feature.code}</p>
+                  <p>图中X坐标: ${e.x}</p>
+                  <p>图中Y坐标: ${e.y}</p>
+                `);
+                });
+              }
 
               scene.addLayer(imageLayer);
               scene.addLayer(textlayer);
             });
+              
       })
       const imagelayer = new ImageLayer({}).source(`/img/map/${props.areaCode}.png`,
           {

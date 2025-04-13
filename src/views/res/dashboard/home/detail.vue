@@ -98,30 +98,11 @@
                     <barTownGdp></barTownGdp>
                   </el-col> -->
                   <el-col :span="8" class="padding-bottom-sm">
-                    <lineAntvChart :style="'height:15vh;'" type="line" color="yellow" title="人均公共服务支出(万元)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:'2023',值:0.43},{年份:'2024',值:0.42},{年份:'2030',值:0.45}]"></lineAntvChart>
+                    <lineAntvChart :style="'height:15.5vh;'" type="line" color="yellow" title="人均公共服务支出(万元)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:'2023',值:0.43},{年份:'2024',值:0.42},{年份:'2030',值:0.45}]"></lineAntvChart>
                   </el-col>
+                  
                   <el-col :span="8" class="padding-bottom-sm">
-                    <lineAntvChart :style="'height:15vh;'" color="orange" title="城乡居民人均可支配收入倍差" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:'2023',值:1.91},{年份:'2024',值:1.88},{年份:'2030',值:1.77}]"></lineAntvChart>
-                  </el-col>
-                  <el-col :span="8" class="padding-bottom-sm">
-                    <barAntvChart :style="'height:15vh;'" color="lightgreen" title="城镇新增就业人口(万人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:'2023',值:0.33},{年份:'2024',值:0.33},{年份:'2030',值:0.37}]"></barAntvChart>
-                    <!-- <barAgricultureGdp></barAgricultureGdp> -->
-                  </el-col>
-                  <el-col :span="8" class="padding-bottom-sm">
-                    <barAntvChart :style="'height:15vh;'" color="green" title="每千人拥有执业(助理)医师数(人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:2.53},{年份:2024,值:2.56},{年份:2030,值:2.59}]"></barAntvChart>
-                  </el-col>
-                  <el-col :span="8" class="padding-bottom-sm">
-                    <barAntvChart :style="'height:15vh;'" color="yellow" title="城乡护理型床位比值(%)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:109},{年份:2024,值:107},{年份:2030,值:105}]"></barAntvChart>
-                  </el-col>
-                  <el-col :span="8" :style="'height:15vh;'"class="padding-bottom-sm">
-                    <barAntvChart :style="'height:15vh;'" color="orange" title="每千人口拥有3岁以下婴幼儿托位数" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:3.5},{年份:2024,值:3.6},{年份:2030,值:4.2}]"></barAntvChart>
-                  </el-col>
-                  <el-col :span="8" class="padding-bottom-sm">
-                    <barAntvChart :style="'height:15vh;'" color="lightgreen" title="居民人均预期寿命" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:79.3},{年份:2024,值:79.7},{年份:2030,值:80.9}]"></barAntvChart>
-                  </el-col>
-                  <el-col :span="8" class="padding-bottom-sm">
-                    <barAntvChart :style="'height:15vh;'" color="#FDDD60" title="中等收入群体占比(%)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:47.02},{年份:2024,值:50.5},{年份:2030,值:69.5}]"></barAntvChart>
-                    <!-- <gaugeProgress :style="'height:12rem;'"  :value="0.505" :colorValueData="[[0.375, '#FDDD60'],  [0.50, '#58D9F9'], [1, '#7CFFB2']]" :colorTickData="[{name: '2023 47.02%', value: 0.25},{name: '2024 50.5%', value: 0.50}, {name: '2030 69.5%', value: 0.875}]"  text="中等收入群体占比" :detailFontSize="18" :titleFontSize="14" /> -->
+                    <lineAntvChart :style="'height:15.5vh;'" color="orange" title="城乡居民人均可支配收入倍差" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:'2023',值:1.91},{年份:'2024',值:1.88},{年份:'2030',值:1.77}]"></lineAntvChart>
                   </el-col>
                   <el-col :span="6" class="padding-bottom-sm">
                     <gaugeProgress :style="'height:12rem;'"  :value="0.65" :colorValueData="[[0.50, '#FDDD60'],  [0.75, '#58D9F9'], [1, '#7CFFB2']]" :colorTickData="[{name: '2023 50%', value: 0.375},{name: '2024 65%', value: 0.625}, {name: '2030 100%', value: 0.875}]"   text="宜居宜业和美乡村占比" :detailFontSize="18" :titleFontSize="14" />
@@ -135,18 +116,43 @@
                   <el-col :span="6" class="padding-bottom-sm">
                     <gaugeProgress :style="'height:12rem;'" :value="1"  text="义务教育阶段⼊学率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
-                  <el-col :span="6" style="margin-top:-3rem">
+                  <el-col :span="8" class="padding-bottom-sm" style="margin-top:-3rem">
+                    <barAntvChart :style="'height:15.5vh;'" color="lightgreen" title="城镇新增就业人口(万人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:'2023',值:0.33},{年份:'2024',值:0.33},{年份:'2030',值:0.37}]"></barAntvChart>
+                    <!-- <barAgricultureGdp></barAgricultureGdp> -->
+                  </el-col>
+                  <el-col :span="8" class="padding-bottom-sm" style="margin-top:-3rem">
+                    <barAntvChart :style="'height:15.5vh;'" color="green" title="每千人拥有执业(助理)医师数(人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:2.53},{年份:2024,值:2.56},{年份:2030,值:2.59}]"></barAntvChart>
+                  </el-col>
+                  <el-col :span="8" class="padding-bottom-sm" style="margin-top:-3rem">
+                    <barAntvChart :style="'height:15.5vh;'" color="yellow" title="城乡护理型床位比值(%)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:109},{年份:2024,值:107},{年份:2030,值:105}]"></barAntvChart>
+                  </el-col>
+
+                  <el-col :span="6" >
                     <gaugeProgress :style="'height:12rem;'" :value="1" :text="'进城务工随迁⼦⼥公办学校就读率'" :detailFontSize="18" :titleFontSize="11"/>
                   </el-col>
-                  <el-col :span="6" style="margin-top:-3rem">
+                  <el-col :span="6" >
                     <gaugeProgress :style="'height:12rem;'" :value="0.945" :colorTickData="[{name: '2024 94%', value: 0.75}, {name: '2025 94.5%', value: 0.90}, {name: '2030 96%', value: 0.875}]" text="基本养老保险综合参保率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
-                  <el-col :span="6" style="margin-top:-3rem">
+                  <el-col :span="6" >
                     <gaugeProgress :style="'height:12rem;'" :value="0.8649"  text="基本医疗保险综合参保率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
-                  <el-col :span="6" style="margin-top:-3rem">
+                  <el-col :span="6">
                     <gaugeProgress :style="'height:12rem;'" :value="0.29" :colorTickData="[{name: '2023 28.5%', value: 0.125}, {name: '2024 29%', value: 0.375}, {name: '2030 30.5%', value: 0.625}]" :colorValueData="[[0.125, '#FDDD60'],  [0.25, '#58D9F9'], [1, '#7CFFB2']]" text="城镇常住人口住房保障率" :detailFontSize="18" :titleFontSize="14"/>
-                  </el-col>                 
+                  </el-col>    
+
+                  
+                  <el-col :span="8"  style="margin-top:-3rem" :style="'height:15vh;'"class="padding-bottom-sm">
+                    <barAntvChart  :style="'height:15.5vh;'" color="orange" title="每千人口拥有3岁以下婴幼儿托位数" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:3.5},{年份:2024,值:3.6},{年份:2030,值:4.2}]"></barAntvChart>
+                  </el-col>
+                  <el-col :span="8"  style="margin-top:-3rem" class="padding-bottom-sm">
+                    <barAntvChart :style="'height:15.5vh;'" color="lightgreen" title="居民人均预期寿命" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:79.3},{年份:2024,值:79.7},{年份:2030,值:80.9}]"></barAntvChart>
+                  </el-col>
+                  <el-col :span="8"  style="margin-top:-3rem" class="padding-bottom-sm">
+                    <barAntvChart :style="'height:15.5vh;'" color="#FDDD60" title="中等收入群体占比(%)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:47.02},{年份:2024,值:50.5},{年份:2030,值:69.5}]"></barAntvChart>
+                    <!-- <gaugeProgress :style="'height:12rem;'"  :value="0.505" :colorValueData="[[0.375, '#FDDD60'],  [0.50, '#58D9F9'], [1, '#7CFFB2']]" :colorTickData="[{name: '2023 47.02%', value: 0.25},{name: '2024 50.5%', value: 0.50}, {name: '2030 69.5%', value: 0.875}]"  text="中等收入群体占比" :detailFontSize="18" :titleFontSize="14" /> -->
+                  </el-col>
+                  
+                              
                 </el-row>
             </div>
             
