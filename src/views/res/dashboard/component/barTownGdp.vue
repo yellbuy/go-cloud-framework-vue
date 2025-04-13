@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <dv-border-box10>
       <div class="flare-container">
-        <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">城镇居民人均可支配收入对比（万元）</div>
+        <div class="flare-title text-left padding-left padding-top-xs" >城镇居民人均可支配收入对比（万元）</div>
         <div ref="echart" class="target-content echartDiv" id="barTownGdp"></div>
        
       </div>

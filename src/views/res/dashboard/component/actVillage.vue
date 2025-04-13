@@ -123,18 +123,4 @@ export default {
   height:39.5vh;
   padding-bottom:1vh;
 }
-.flare-title{
-  text-align: left;
-  padding-left:10px;
-  color:yellow;
-  background-image: linear-gradient(to bottom,rgb(83, 77, 237),rgb(8, 3, 32));
-  border-radius: 2px;
-  margin-top: 1vh;
-  height: 5vh;
-  font-family: 'LiSu';
-  font-weight: bold;
-  text-align: 'left' !important;
-  padding-top:6px;
-  font-size: 20px;
-}
 </style>

@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <!-- <dv-border-box10> -->
       <div class="flare-container">
-        <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">居民人均可支配收入对比（万元）</div>
+        <div class="flare-title text-left padding-left padding-top-xs">居民人均可支配收入对比（万元）</div>
         <div ref="echart" class="echartDiv" id="barFamiryGdp"></div>
        
       </div>
@@ -335,6 +335,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height:15.5vh;
+  height:16vh;
 }
 </style>

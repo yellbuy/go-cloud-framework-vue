@@ -1,7 +1,7 @@
 <template>
   <div id="flareTarget">
       <div class="flare-container">
-        <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">地区生产总值对比（单位：亿元）</div>
+        <div class="flare-title text-left padding-left padding-top-xs">地区生产总值对比（单位：亿元）</div>
         <div ref="echart" class="echartDiv" id="barAreaGdp"></div>
       </div>
   </div>
@@ -92,6 +92,7 @@ export default {
           autoFit: true,
           depth:1,
           padding:10,
+          paddingBottom:20,
         });
 
         chart
@@ -120,6 +121,7 @@ export default {
           lineStroke: 'orange',
           label:true,
           labelFill:"white",
+         
           labelFontSize:10,
           //labelFontFamily:"Arial",
           labelSpacing:30,
@@ -144,7 +146,8 @@ export default {
           titlePosition:'left',
           label:true,
           labelFill:"#fff",
-          labelFontSize:14,
+          labelStroke:"yellow",
+          labelFontSize:12,
           labelSpacing:10,
           // titleFill: 'steelblue',
           line: true,
@@ -246,7 +249,7 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height:12vh;
+  height:13vh;
 }
 
 </style>

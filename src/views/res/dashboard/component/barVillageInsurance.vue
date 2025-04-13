@@ -155,14 +155,4 @@ export default {
   width: 100%;
   height:25vh;
 }
-.flare-title{
-  background-image: linear-gradient(to right,rgb(83, 78, 234), rgb(21, 6, 110));
-  border-radius: 4px;
-  margin-top: 1vh;
-  height: 3vh;
-  font-family: 'LiSu';
-  font-weight: bold;
-  text-align: 'left' !important;
-  font-size: 18px;
-}
 </style>

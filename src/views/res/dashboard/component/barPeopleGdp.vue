@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <!-- <dv-border-box10> -->
       <div class="flare-container">
-        <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">人均生产总值对比（单位：万元）</div>
+        <div class="flare-title text-left padding-left padding-top-xs" >人均生产总值对比（单位：万元）</div>
         <div ref="echart" class="echartDiv" id="barPeopleGdp"></div>
       </div>
     <!-- </dv-border-box10> -->
@@ -244,7 +244,7 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height:12vh;
+  height:13vh;
 }
 
 </style>

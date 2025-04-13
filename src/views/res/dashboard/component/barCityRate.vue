@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <!-- <dv-border-box10> -->
       <div class="flare-container">
-        <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">常住人口城镇化率(%)</div>
+        <div class="flare-title text-left padding-left padding-top-xs">常住人口城镇化率(%)</div>
         <div ref="echart" class="echartDiv" id="barCityRate"></div>
       </div>
     <!-- </dv-border-box10> -->
@@ -114,9 +114,9 @@ export default {
           .transform({ type: 'dodgeX' })
           .label({
             position: 'top',
-            dy: -12,
+            dy: -16,
             fill: '#fff',
-            fontSize: 10,
+            fontSize: 12,
             //transform: [{ type: "contrastReverse" }],
             text: '城镇化率',
 
@@ -180,7 +180,7 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height:12vh;
+  height:13vh;
 }
 
 </style>

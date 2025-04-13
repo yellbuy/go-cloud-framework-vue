@@ -2,7 +2,7 @@
   <div id="flareTarget">
     <!-- <dv-border-box10> -->
       <div class="flare-container">
-        <div class="flare-title text-left padding-left padding-top-xs" style="font-size:1.1rem">{{title}}</div>
+        <div class="flare-title text-left padding-left padding-top-xs">{{title}}</div>
         <div ref="barAntvChart" class="echartDiv" :style="style" :id="uid"></div>
       </div>
     <!-- </dv-border-box10> -->
