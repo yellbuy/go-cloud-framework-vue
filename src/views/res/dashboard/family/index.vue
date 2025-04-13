@@ -94,7 +94,7 @@
                 <div class="target-content target-content-height">
                   <!-- TODO:每个村的预警不一样 -->
                   <LineGraph
-                      :data="[mainData['未买医保']||0,mainData['D级危房']||0,mainData['缺水']||0,mainData['辍学学生']||0]"/>
+                      :data="[4,0,0,0,0]"/>
                 </div>
               </el-col>
               <el-col :span="12">

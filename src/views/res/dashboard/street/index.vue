@@ -128,7 +128,8 @@
                   </div>
                   <div class="margin-top">
                     <Title title="重点监测群体（2025）"/>
-                    <div class="target-content target-container-h3">
+                    <div class="target-content target-container-h3"
+                         @click="onClickMainMonitoring">
                       <environmental-excellence
                           :XLabel="['全乡','大龙潭村','混撒拉村','拉鲊村','新街村','裕民村','干坝子村']"
                           :YAxisLabel="false"
@@ -503,10 +504,68 @@ export default {
       }
 
     });
+
+    const onClickMainMonitoring = () => {
+      const html = `
+      <div>
+       <table style="border-collapse: collapse;" cellspacing="6" cellpadding="6" border="1">
+       <thread>
+             <th style="padding: 0.5rem">区</th>
+             <th style="padding: 0.5rem">乡</th>
+             <th style="padding: 0.5rem">村</th>
+             <th style="padding: 0.5rem">姓名</th>
+             <th style="padding: 0.5rem">年龄</th>
+             <th style="padding: 0.5rem">收入</th>
+      </thread>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      </table>
+      </div>`
+      ElMessageBox.alert(html, '低收入重点监测群体清单', {dangerouslyUseHTMLString: true, width: '1000px'})
+    };
     return {
       onGoToLink,
       onClickPleaseWait,
       onClickTargetDetail,
+      onClickMainMonitoring,
       ...toRefs(state),
 
     };

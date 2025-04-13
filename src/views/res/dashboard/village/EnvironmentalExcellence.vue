@@ -9,7 +9,7 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import { onMounted, reactive, ref, toRefs } from 'vue';
+import {onMounted, reactive, ref, toRefs} from 'vue';
 
 export default {
   props: {
@@ -25,8 +25,8 @@ export default {
     bottom: Array,
     color: Array,
     stack: String,
-    legendShow:{
-      default:true
+    legendShow: {
+      default: true
     }
   },
   setup(props) {
@@ -44,10 +44,11 @@ export default {
           bottom: props.bottom || "15%",
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          valueFormatter: (value) => value.toFixed(2) + (props.formatter != undefined ? props.formatter : '%'),
         },
         legend: {
-          show:props.legendShow,
+          show: props.legendShow,
           data: props.label,
           textStyle: {
             color: '#fff'
@@ -85,9 +86,9 @@ export default {
           name: props.label[i],
           type: 'bar',
           data: props.data[i],
-          barMaxWidth:"30",
-          barWidth:"26",
-          barGap:"30%",
+          barMaxWidth: "30",
+          barWidth: "26",
+          barGap: "30%",
           label: {
             show: true,
             formatter: props.formatter != undefined ? '{c}' + props.formatter : '{c}%',
@@ -98,14 +99,35 @@ export default {
             position: 'top',
             distance: 8
           },
-          itemStyle: {}
+          itemStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: getColor(i)
+              },
+              {
+                offset: 1,
+                color: 'rgba(255,255,255,0)'
+              }
+            ])
+          },
+          stack: ""
         };
-        if(props.stack){
-          data.stack=props.stack
+        if (props.stack) {
+          data.stack = props.stack
         }
         if (props.color !== undefined && i <= props.color.length - 1) {
           data.itemStyle = {
-            color: props.color[i]
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: props.color[i]
+              },
+              {
+                offset: 1,
+                color: 'rgba(255,255,255,0)'
+              }
+            ])
           }
         }
         option.series.push(data);
@@ -116,6 +138,27 @@ export default {
       window.addEventListener('resize', function () {
         myChart.resize();
       });
+    }
+
+    // 色盘
+    function getColor(num) {
+      const color = ['#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc', '#5470c6'];
+      if (num > color.length) {
+        num = num % color.length
+      }
+      return color[num];
+    }
+
+    // 随机颜色
+    function getRandomColor() {
+      // 生成一个介于0到255之间的随机数，确保至少有一个通道的值较高（例如128以上）
+      const r = Math.floor(Math.random() * (256 - 128) + 128); // 红色
+      const g = Math.floor(Math.random() * 256); // 绿色
+      const b = Math.floor(Math.random() * 256); // 蓝色
+
+      // 将RGB值转换为十六进制格式
+      const color = `rgb(${r}, ${g}, ${b})`;
+      return color;
     }
 
     //挂载
@@ -134,6 +177,6 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: calc((100vh - 5.6rem) / 5.7);
+  height: 12rem;
 }
 </style>

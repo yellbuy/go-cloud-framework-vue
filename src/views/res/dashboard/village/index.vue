@@ -42,307 +42,313 @@
                 <Title title="重点监测群体"/>
                 <div class="margin-tb">
                   <environmental-excellence
-                          :XLabel="['']"
-                          :YAxisLabel="false"
-                          :XAxisLabel="false"
-                          :YFormatter="'{value}户'"
-                          :color="['#da0000','#e4a423']"
-                          :formatter="'户'"
-                          :data="[[16],[98]]"
-                          :left="'0'"
-                          :label="['低收入重点监测群体','低收入一般监测群体']"
-                          :objStyle="'height:calc((100vh - 6rem) / 4 - 0.4rem)'"
-                          :top="'30%'"></environmental-excellence>
+                      :XAxisLabel="false"
+                      :XLabel="['']"
+                      :YAxisLabel="false"
+                      :YFormatter="'{value}户'"
+                      :color="['#da0000','#e4a423']"
+                      :data="[[16],[98]]"
+                      :formatter="'户'"
+                      :label="['低收入重点监测群体','低收入一般监测群体']"
+                      :left="'0'"
+                      :objStyle="'height:calc((100vh - 6rem) / 4 - 0.4rem)'"
+                      :top="'30%'"
+                      @click="onClickMainMonitoring"></environmental-excellence>
                 </div>
-                
+
               </div>
               <div class="target-content margin-top" style="width: 100%;height:calc(100vh  - 20rem - 21.6rem)">
                 <antvImageMap :areaCode="areaCode" :center="[500,480]" :zoom="1.6" areaGoTo="village"></antvImageMap>
               </div>
             </div>
-           
+
           </el-col>
-          <el-col :span="10">
-            <div class="padding-top-xl margin-lr-sm text-center">
-              <el-row :gutter="10">
-                <el-col :span="6">
-                  <Label :text="'总户数'" color="yellow" :title="380"/>
-                </el-col>
-                <el-col :span="6">
-                  <Label :text="'总人口'" color="yellow" :title="1527"/>
-                </el-col>
-                <el-col :span="6">
-                  <Label :text="'夯实户数'" color="lightgreen" :title="'193'"/>
-                </el-col>
-                <el-col :span="6">
-                  <Label :text="'夯实户占比'" color="lightgreen" :title="'16.7%'"/>
-                </el-col>
-              </el-row>
-            </div>
-            <div>
-              <!-- <el-row :gutter="10">
-                <el-col :span="12">
-                  <Label :text="'总户数'" color="yellow" :title="380"/>
-                </el-col>
-                <el-col :span="12">
-                  <Label :text="'总人口'" color="yellow" :title="1527"/>
-                </el-col>
-                <el-col :span="12">
-                  <Label :text="'夯实户数'" color="lightgreen" :title="'193'"/>
-                </el-col>
-                <el-col :span="12">
-                  <Label :text="'夯实户占比'" color="lightgreen" :title="'16.7%'"/>
-                </el-col>
-              </el-row> -->
-              <div class="margin" >
-                <el-popover
-                    class="box-item"
-                    content='“⼾夯实”实现⼾占⽐超50%，全村⼈均年可⽀配收⼊超全市农村⼈均年可⽀配收⼊，村集体经济稳定收⼊超20万元'
-                    placement="top-start">
-                  <template #reference>
-                    <Title title="三超"/>
-                  </template>
-                </el-popover>
-                <div class="target-content">
+          <el-col :span="17">
+            <el-row>
+              <el-col :span="14">
+                <div class="padding-top-xl margin-lr-sm text-center">
+                  <el-row :gutter="10">
+                    <el-col :span="6">
+                      <Label :text="'总户数'" :title="380" color="yellow"/>
+                    </el-col>
+                    <el-col :span="6">
+                      <Label :text="'总人口'" :title="1527" color="yellow"/>
+                    </el-col>
+                    <el-col :span="6">
+                      <Label :text="'夯实户数'" :title="'193'" color="lightgreen"/>
+                    </el-col>
+                    <el-col :span="6">
+                      <Label :text="'夯实户占比'" :title="'16.7%'" color="lightgreen"/>
+                    </el-col>
+                  </el-row>
+                </div>
+                <div>
+                  <div class="margin">
+                    <el-popover
+                        class="box-item"
+                        content='“⼾夯实”实现⼾占⽐超50%，全村⼈均年可⽀配收⼊超全市农村⼈均年可⽀配收⼊，村集体经济稳定收⼊超20万元'
+                        placement="top-start">
+                      <template #reference>
+                        <Title title="三超"/>
+                      </template>
+                    </el-popover>
+                    <div class="target-content">
+                      <el-row :gutter="10">
+                        <el-col :span="12">
+                          <div class="text-center margin-top">
+                            <div class="target-value"><i class="fa fa-angle-double-down margin-right-sm"/>“户夯实”实现户占比
+                            </div>
+                            <environmental-excellence :YAxisLabel="'false'"
+                                                      :bottom="'20%'"
+                                                      :color="['#DADA00FF']"
+                                                      :data="[[50,50,50],[25.68, 29.1, 50.79]]"
+                                                      :formatter="'%'"
+                                                      :label="['目标', '现状']"
+                                                      :left="'0'"
+                                                      :legendShow="true"
+                                                      :objStyle="'height:7.3rem'"
+                                                      :top="'40%'"/>
+                            <!-- <text class="target-text">“户夯实”实现户</text> -->
+                          </div>
+                        </el-col>
+                        <el-col :span="12">
+                          <div class="text-center margin-top">
+                            <text class="target-value"><i class="fa fa-angle-double-down margin-right-sm"/>村集体经济收入超20万元
+                            </text>
+                            <environmental-excellence :YAxisLabel="'false'"
+                                                      :bottom="'20%'"
+                                                      :color="['#DADA00FF']"
+                                                      :data="[[20,20,20],[25.68, 29.1, 170.8]]"
+                                                      :formatter="'万'"
+                                                      :label="['目标', '现状']"
+                                                      :left="'0'"
+                                                      :legendShow="true"
+                                                      :objStyle="'height:7.3rem'"
+                                                      :top="'40%'"/>
+                            <!-- <text class="target-text">村集体经济收入</text> -->
+                          </div>
+                        </el-col>
+                        <el-col :span="24">
+                          <div class="text-center margin-tb-lg">
+                            <text class="target-value"><i class="fa fa-angle-double-down margin-right-sm"/>全村人均年可支配收入超全市农村人均年可支配收入
+                            </text>
+                            <environmental-excellence :YAxisLabel="'false'"
+                                                      :bottom="'20%'"
+                                                      :color="['#DADA00FF']"
+                                                      :data="[[2.19,2.30,2.45],[2.5, 2.68, 3.24]]"
+                                                      :formatter="'万'"
+                                                      :label="['目标', '现状']"
+                                                      :left="'0'"
+                                                      :legendShow="true"
+                                                      :objStyle="'height:7.5rem'"
+                                                      :top="'40%'"/>
+                            <!-- <text class="target-text">农村人均年可支配收入</text> -->
+                          </div>
+                        </el-col>
+                      </el-row>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :span="10">
+                <div class="margin-left margin-right margin-top margin-bottom">
+                  <Title title="两强"/>
+                  <div>
+                    <el-row :gutter="10">
+                      <el-col :span="12">
+                        <div class="target-text padding-lg target-content" style="text-align: left;">
+                          <el-popover
+                              class="box-item"
+                              content="村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率100%。“先富”带“后富”机制完善特困、低保等重点群体托底保障机制健全。"
+                              placement="top-start"
+                          >
+                            <template #reference>
+                              <div class="margin-left margin-top-lg margin-bottom"
+                                   style="color:#fff;font-size: 1.2rem;">
+                                组织强
+                              </div>
+                            </template>
+                          </el-popover>
+                          <environmental-excellence :XLabel="['“三个身边”群众工作机制反映问题办结率']"
+                                                    :YAxisLabel="false"
+                                                    :YFormatter="'{value}万'"
+                                                    :color="['#DADA00FF']"
+                                                    :data="[[100],[98.5]]"
+                                                    :label="['2030年', '2024年']"
+                                                    :left="'0'"
+                                                    :mark-line="0"
+                                                    :objStyle="'height:9rem'"/>
+                        </div>
+                      </el-col>
+                      <el-col :span="12">
+                        <div class="target-text padding-lg target-content" style="text-align: left;">
+                          <el-popover
+                              class="box-item"
+                              content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
+                              placement="top-start">
+                            <template #reference>
+                              <div class="margin-left margin-top-lg margin-bottom"
+                                   style="color:#fff;font-size: 1.2rem;">
+                                治理强
+                              </div>
+                            </template>
+                          </el-popover>
+                          <environmental-excellence :XLabel="['化解矛盾纠纷化解率']"
+                                                    :YAxisLabel="'false'"
+                                                    :YFormatter="'{value}万'"
+                                                    :color="['#DADA00FF']"
+                                                    :data="[[100],[98]]"
+                                                    :label="['2030年', '2024年']"
+                                                    :left="'0'"
+                                                    :mark-line="0"
+                                                    :objStyle="'height:9rem'"/>
+                        </div>
+                      </el-col>
+                    </el-row>
+                  </div>
+                </div>
+                <div class="margin-left margin-right margin-bottom">
                   <el-row :gutter="10">
                     <el-col :span="12">
-                      <div class="text-center margin-top">
-                        <div class="target-value"><i class="fa fa-angle-double-down margin-right-sm" />“户夯实”实现户占比</div>
-                        <environmental-excellence :YAxisLabel="'false'"
-                                                  :top="'40%'"
-                                                  :bottom="'20%'"
-                                                  :data="[[50,50,50],[25.68, 29.1, 50.79]]"
-                                                  :formatter="'%'"
-                                                  :label="['目标', '现状']"
-                                                  :legendShow="true"
-                                                  :left="'0'"
-                                                  :color="['#DADA00FF']"
-                                                  :objStyle="'height:7rem'"/>
-                        <!-- <text class="target-text">“户夯实”实现户</text> -->
+                      <div>
+                        <ProportionOfAgeGroups :age-data="[2.031,3.342,12.779,64.417,15.596,1.835]"/>
                       </div>
                     </el-col>
                     <el-col :span="12">
-                      <div class="text-center margin-top">
-                        <text class="target-value"><i class="fa fa-angle-double-down margin-right-sm" />村集体经济收入超20万元</text>
-                        <environmental-excellence :YAxisLabel="'false'"
-                                                  :top="'40%'"
-                                                  :bottom="'20%'"
-                                                  :data="[[20,20,20],[25.68, 29.1, 170.8]]"
-                                                  :formatter="'万'"
-                                                  :label="['目标', '现状']"
-                                                  :legendShow="true"
-                                                  :left="'0'"
-                                                  :color="['#DADA00FF']"
-                                                  :objStyle="'height:7rem'"/>
-                        <!-- <text class="target-text">村集体经济收入</text> -->
+                      <div class="target-header">
+                        <span class="target-title">家庭年收入结构图</span>
                       </div>
-                    </el-col>
-                    <el-col :span="24">
-                      <div class="text-center margin-tb-lg">
-                        <text class="target-value"><i class="fa fa-angle-double-down margin-right-sm" />全村人均年可支配收入超全市农村人均年可支配收入</text>
-                        <environmental-excellence :YAxisLabel="'false'"
-                                                  :top="'40%'"
-                                                  :bottom="'20%'"
-                                                  :data="[[2.19,2.30,2.45],[2.5, 2.68, 3.24]]"
-                                                  :formatter="'万'"
-                                                  :label="['目标', '现状']"
-                                                  :legendShow="true"
-                                                  :left="'0'"
-                                                  :color="['#DADA00FF']"
-                                                  :objStyle="'height:7rem'"/>
-                        <!-- <text class="target-text">农村人均年可支配收入</text> -->
-                      </div>
-                    </el-col>
-                    
-                  </el-row>
-                </div>
-              </div>
-              <div class="margin-left margin-right margin-bottom">
-                <el-row :gutter="10">
-                  <el-col :span="12">
-                    <div>
-                      <ProportionOfAgeGroups :age-data="[2.031,3.342,12.779,64.417,15.596,1.835]"/>
-                    </div>
-                  </el-col>
-                  <el-col :span="12">
-                    <div class="target-header">
-                    <span class="target-title">家庭年收入结构图</span>
-                  </div>
-                  <div class="target-content">
-                    <div class="text-center">
-                      <environmental-excellence
-                      :XLabel="['10万以下', '10万-50万', '50万以上']"
-                      :YAxisLabel="'false'"
-                      :bottom="'20%'"
-                      :data="[[30,69.7, 0.3]]"
-                      :label="['2024年']"
-                      :left="'0'"
-                      :mark-line="0"/>
-
-                      <!-- <pieEllipse :data='[{name:"10万以下",value:"30%",darkColor:"green",lightColor:"lightgreen",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#bbb;text-anchor:start;font-size:54;"}
-                    ,{name:"10万-50万",value:"69.7%",darkColor:"#E6A23C",lightColor:"yellow",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#bbb;text-anchor:end;font-size:54;"}
-                    ,{name:"50万以上",value:"0.3%",darkColor:"rgb(29, 72, 196)",lightColor:"rgb(29, 72, 196)",nameStyle:"fill:#ddd;text-anchor:middle;font-size:60;",valueStyle:"fill:#ddd;text-anchor:start;font-size:54;"}]'
-                                  style="height:12rem;transform:scale(0.4,0.3) translate(0, -8rem);"/> -->
-                    </div>
-                  </div>
-                  </el-col>
-                </el-row>
-              </div>
-
-            </div>
-            <div class="margin-left margin-right margin-top margin-bottom">
-              <Title title="两强"/>
-              <div>
-                <el-row :gutter="10">
-                  <el-col :span="12">
-                    <div class="target-text padding-lg target-content" style="text-align: left;">
-                      <el-popover
-                          class="box-item"
-                          content="村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率100%。“先富”带“后富”机制完善特困、低保等重点群体托底保障机制健全。"
-                          placement="top-start"
-                      >
-                        <template #reference>
-                          <div class="margin-left margin-top-lg margin-bottom" style="color:#fff;font-size: 1.2rem;">
-                            组织强
-                          </div>
-                        </template>
-                      </el-popover>
-                      <environmental-excellence :XLabel="['“三个身边”群众工作机制反映问题办结率']"
-                                                :YAxisLabel="false"
-                                                :YFormatter="'{value}万'"
-                                                :data="[[100],[98.5]]"
-                                                :color="['#DADA00FF']"
-                                                :left="'0'"
-                                                :label="['2030年', '2024年']"
-                                                :mark-line="0"
-                                                :objStyle="'height:9rem'"/>
-                    </div>
-                  </el-col>
-                  <el-col :span="12">
-                    <div class="target-text padding-lg target-content" style="text-align: left;">
-                      <el-popover
-                          class="box-item"
-                          content="居民自治体系健全，居民公约完善，自治组织运行有序有效“四议两公开”规范化建设,一村一民(辅)警，一村一法律顾问。法律公共服务室与法律援助率100%。矛盾纠纷一式处理，化解率达95%，性质恶劣命案零发生"
-                          placement="top-start">
-                        <template #reference>
-                          <div class="margin-left margin-top-lg margin-bottom" style="color:#fff;font-size: 1.2rem;">
-                            治理强
-                          </div>
-                        </template>
-                      </el-popover>
-                      <environmental-excellence :XLabel="['化解矛盾纠纷化解率']"
-                                                :YAxisLabel="'false'"
-                                                :YFormatter="'{value}万'"
-                                                :data="[[100],[98]]"
-                                                :color="['#DADA00FF']"
-                                                :left="'0'"
-                                                :label="['2030年', '2024年']"
-                                                :mark-line="0"
-                                                :objStyle="'height:9rem'"/>
-                    </div>
-                  </el-col>
-                </el-row>
-              </div>
-            </div>
-          </el-col>
-          <el-col :span="7">
-            <div>
-            <Title title="四优"/>
-            <div class="target-content">
-              <div class="margin-top-xl" style="color:lightgreen;font-size: 1.2rem;"><i class="fa fa-angle-double-down margin-right-sm" />产业优</div>
-              <div class="margin-top">
-                <div class="target-text">
-                  <environmental-excellence :YFormatter="'{value}万'"
-                                            :XLabel="['蔬菜产值占比', '芒果产值占比']"
-                                            :data="[[26.14,28.32],[26.14,28.32],[26.14,28.32]]"
-                                            :label="['2022年', '2023年', '2024年']"
-                                            :YAxisLabel="'false'"
-                                            :left="'0'"
-                                            :mark-line="0"/>
-                  <div>农业社会化服务协办员1名</div>
-                  <div>姓名：<span style="color:#1AFD9BFF;">李*</span> &nbsp;&nbsp;职务：<span
-                      style="color:#1AFD9BFF;">主任</span> &nbsp;&nbsp;电话：<span
-                      style="color:#1AFD9BFF;">135****8935</span></div>
-                </div>
-              </div>
-              <div class="margin-top-xl">
-                <div class="margin-tb margin-top-lg" style="color:lightgreen;font-size: 1.2rem;"><i class="fa fa-angle-double-down margin-right-sm" />环境优</div>
-                <div class="target-text">
-                  <environmental-excellence
-                      :XLabel="['⾃来⽔普及率', '农村卫⽣\n厕所普及率', '⽣活污⽔有\n效治理覆盖率', '自然村（组）\n通硬化路率']"
-                      :YFontSize="'10'"
-                      :bottom="'20%'"
-                      :YAxisLabel="'false'"
-                      :left="'0'"
-                      :data="[[77.1, 100, 100, 100],[77.1, 100, 100, 100],[77.1, 100, 100, 100],[77.1, 100, 100, 100]]"
-                      :label="['2022年', '2023年', '2024年']"
-                      :mark-line="0"/>
-                </div>
-              </div>
-              <div class="margin-top-xl">
-                <div class="margin-tb" style="color:lightgreen;font-size: 1.2rem;"><i class="fa fa-angle-double-down margin-right-sm" />文化优</div>
-                <div class="target-text target-container-h6" style="text-align: left">
-                  <el-row class="margin-sm text-center">
-                    <el-col :span="6" class="text-right">
-                      <div class="margin-tb-xs ">文化广场
-                      </div>
-                    </el-col>
-                    <el-col :span="6" class="text-left">
-                      <label class="margin-xs"
-                             style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
-                    </el-col>
-                    <el-col :span="6" class="text-right">
-                      <div class="margin-tb-xs ">村史馆
-                      </div>
-                    </el-col>
-                    <el-col :span="6" class="text-left">
-                      <label class="margin-xs"
-                             style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
-                    </el-col>
-                    <el-col :span="6" class="text-right">
-                      <div class="margin-tb-xs ">乡村推荐官
-                      </div>
-                    </el-col>
-                    <el-col :span="6" class="text-left">
-                      <label class="margin-xs"
-                             style="color:#1AFD9BFF;font-size: 1.4rem">1</label>人
-                    </el-col>
-                    <el-col :span="6" class="text-right">
-                      <div class="margin-tb-xs ">文艺队伍
-                      </div>
-                    </el-col>
-                    <el-col :span="6" class="text-left">
-                      <label class="margin-xs"
-                             style="color:#1AFD9BFF;font-size: 1.4rem">1</label>支
-                    </el-col>
-                    <el-col :span="12">
-                      <div class="margin-tb-xs padding-top-xs">文旅品牌：<label class="margin-xs"
-                                                                               style="color:#1AFD9BFF;">混撒拉旅游度假区</label>
-                      </div>
-                    </el-col>
-                    <el-col :span="12">
-                      <div class="margin-tb-xs">综合文化服务率<label class="margin-xs"
-                                                                     style="color:#1AFD9BFF;font-size: 1.4rem">95</label>%
+                      <div class="target-content">
+                        <div class="text-center">
+                          <environmental-excellence
+                              :XLabel="['10万以下', '10万-50万', '50万以上']"
+                              :YAxisLabel="'false'"
+                              :bottom="'20%'"
+                              :data="[[30,69.7, 0.3]]"
+                              :label="['2024年']"
+                              :left="'0'"
+                              :mark-line="0"/>
+                        </div>
                       </div>
                     </el-col>
                   </el-row>
                 </div>
-              </div>
-              <div class="margin-top-xs">
-                <div class="margin-bottom" style="color:lightgreen;font-size: 1.2rem;"><i class="fa fa-angle-double-down margin-right-sm" />服务优</div>
-                <div class="target-text padding-lg" style="text-align: left">
-                  <environmental-excellence
-                      :XLabel="['学前教育三\n年⽑⼊园率', '基本养老\n保险参保率', '基本医疗保\n险参保率']"
-                      :YAxisLabel="'false'"
-                      :bottom="'20%'"
-                      :data="[[99.7,100, 100],[99.7,100, 100],[99.7,100, 100]]"
-                      :label="['2022年', '2023年', '2024年']"
-                      :left="'0'"
-                      :mark-line="0"/>
-                </div>
+              </el-col>
+            </el-row>
+
+            <div class="margin-left margin-right margin-bottom">
+              <Title title="四优"/>
+              <div class="target-content">
+                <el-row>
+                  <el-col :span="12">
+                    <div class="">
+                      <div class="margin-top" style="color:lightgreen;font-size: 1.2rem;"><i
+                          class="fa fa-angle-double-down margin-right-sm"/>服务优
+                      </div>
+                      <div class="target-text padding-lg" style="text-align: left">
+                        <environmental-excellence
+                            :XLabel="['学前教育三\n年⽑⼊园率', '基本养老\n保险参保率', '基本医疗保\n险参保率']"
+                            :YAxisLabel="'false'"
+                            :bottom="'20%'"
+                            :data="[[99.7,100, 100],[99.7,100, 100],[99.7,100, 100]]"
+                            :label="['2022年', '2023年', '2024年']"
+                            :left="'0'"
+                            :mark-line="0"
+                            :objStyle="'height:10rem'"/>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div class="" style="color:lightgreen;font-size: 1.2rem;"><i
+                          class="fa fa-angle-double-down"/>环境优
+                      </div>
+                      <div class="target-text">
+                        <environmental-excellence
+                            :XLabel="['⾃来⽔普及率', '农村卫⽣\n厕所普及率', '⽣活污⽔有\n效治理覆盖率', '自然村（组）\n通硬化路率']"
+                            :YAxisLabel="'false'"
+                            :YFontSize="'10'"
+                            :bottom="'20%'"
+                            :data="[[77.1, 100, 100, 100],[77.1, 100, 100, 100],[77.1, 100, 100, 100],[77.1, 100, 100, 100]]"
+                            :label="['2022年', '2023年', '2024年']"
+                            :left="'0'"
+                            :mark-line="0"
+                            :objStyle="'height:10rem'"/>
+                      </div>
+                    </div>
+                  </el-col>
+                  <el-col :span="12">
+                    <div class="">
+                      <div class="margin-top" style="color:lightgreen;font-size: 1.2rem;"><i
+                          class="fa fa-angle-double-down margin-right-sm"/>文化优
+                      </div>
+                      <div class="target-text" style="text-align: left">
+                        <el-row class="margin-sm text-center">
+                          <el-col :span="6" class="text-right">
+                            <div class="margin-tb-xs ">文化广场
+                            </div>
+                          </el-col>
+                          <el-col :span="6" class="text-left">
+                            <label class="margin-xs"
+                                   style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
+                          </el-col>
+                          <el-col :span="6" class="text-right">
+                            <div class="margin-tb-xs ">村史馆
+                            </div>
+                          </el-col>
+                          <el-col :span="6" class="text-left">
+                            <label class="margin-xs"
+                                   style="color:#1AFD9BFF;font-size: 1.4rem">1</label>个
+                          </el-col>
+                          <el-col :span="6" class="text-right">
+                            <div class="margin-tb-xs ">乡村推荐官
+                            </div>
+                          </el-col>
+                          <el-col :span="6" class="text-left">
+                            <label class="margin-xs"
+                                   style="color:#1AFD9BFF;font-size: 1.4rem">1</label>人
+                          </el-col>
+                          <el-col :span="6" class="text-right">
+                            <div class="margin-tb-xs ">文艺队伍
+                            </div>
+                          </el-col>
+                          <el-col :span="6" class="text-left">
+                            <label class="margin-xs"
+                                   style="color:#1AFD9BFF;font-size: 1.4rem">1</label>支
+                          </el-col>
+                          <el-col :span="12">
+                            <div class="margin-tb-xs padding-top-xs">文旅品牌：<label class="margin-xs"
+                                                                                     style="color:#1AFD9BFF;">混撒拉旅游度假区</label>
+                            </div>
+                          </el-col>
+                          <el-col :span="12">
+                            <div class="margin-tb-xs">综合文化服务率<label class="margin-xs"
+                                                                           style="color:#1AFD9BFF;font-size: 1.4rem">95</label>%
+                            </div>
+                          </el-col>
+                        </el-row>
+                      </div>
+                    </div>
+                    <div class="" style="color:lightgreen;font-size: 1.2rem;"><i
+                        class="fa fa-angle-double-down "/>产业优
+                    </div>
+                    <div class="margin-top">
+                      <div class="target-text">
+                        <environmental-excellence :XLabel="['蔬菜产值占比', '芒果产值占比']"
+                                                  :YAxisLabel="'false'"
+                                                  :YFormatter="'{value}万'"
+                                                  :data="[[26.14,28.32],[26.14,28.32],[26.14,28.32]]"
+                                                  :label="['2022年', '2023年', '2024年']"
+                                                  :left="'0'"
+                                                  :mark-line="0"/>
+                        <div>农业社会化服务协办员1名</div>
+                        <div>姓名：<span style="color:#1AFD9BFF;">李*</span> &nbsp;&nbsp;职务：<span
+                            style="color:#1AFD9BFF;">主任</span> &nbsp;&nbsp;电话：<span
+                            style="color:#1AFD9BFF;">135****8935</span></div>
+                      </div>
+                    </div>
+                  </el-col>
+                </el-row>
               </div>
             </div>
-          </div>
           </el-col>
         </el-row>
       </div>
@@ -352,8 +358,8 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { reactive, toRefs } from 'vue';
-import { useRoute, useRouter } from "vue-router";
+import {reactive, toRefs} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import pieEllipse from "/@/components/pieEllipse/index.vue";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import barNestedChart from "/@/views/res/dashboard/component/barNestedChart.vue";
@@ -363,6 +369,7 @@ import EnvironmentalExcellence from "/@/views/res/dashboard/village/Environmenta
 import ProportionOfAgeGroups from "/@/views/res/dashboard/village/ProportionOfAgeGroups.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
 import TopTwoAndTopFour from "/@/views/res/dashboard/village/TopTwoAndTopFour.vue";
+import {ElMessageBox} from "element-plus";
 
 export default {
   name: "IndexDashboard",
@@ -455,8 +462,65 @@ export default {
     const onGoToLink = (url: string) => {
       router.push(url)
     }
+    const onClickMainMonitoring = () => {
+      const html = `
+      <div>
+       <table style="border-collapse: collapse;" cellspacing="6" cellpadding="6" border="1">
+       <thread>
+             <th style="padding: 0.5rem">区</th>
+             <th style="padding: 0.5rem">乡</th>
+             <th style="padding: 0.5rem">村</th>
+             <th style="padding: 0.5rem">姓名</th>
+             <th style="padding: 0.5rem">年龄</th>
+             <th style="padding: 0.5rem">收入</th>
+      </thread>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      <tr>
+      <td style="padding: 0.5rem">仁和</td>
+      <td style="padding: 0.5rem">大龙潭彝族乡</td>
+      <td style="padding: 0.5rem">荤撒拉村</td>
+      <td style="padding: 0.5rem">邓*志</td>
+      <td style="padding: 0.5rem">32</td>
+      <td style="padding: 0.5rem">30000</td>
+</tr>
+      </table>
+      </div>`
+      ElMessageBox.alert(html, '低收入重点监测群体清单', {dangerouslyUseHTMLString: true, width: '1000px'})
+    };
     return {
       ...toRefs(state),
+      onClickMainMonitoring,
       onGoToLink
     };
   },
@@ -474,66 +538,8 @@ export default {
   z-index: 1111;
 }
 
-#data-view {
-  width: 100%;
-  height: 100%;
-  color: #fff;
-
-  #dv-full-screen-container {
-    background-image: url("/img/res/bg_2.png");
-    background-size: 100% 100%;
-  }
-
-  .main-view {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-rows:auto 1fr;
-
-    #banner {
-      width: 100%;
-      height: 20em;
-      background-image: url(/img/res/banner.png);
-      background-repeat: no-repeat;
-      background-position: center top;
-      background-size: 100% auto;
-      display: grid;
-      grid-template-columns:auto 1fr auto;
-      grid-template-rows:auto;
-
-      .banner-content {
-        margin-top: 5.5em;
-        display: grid;
-        grid-template-columns:repeat(4, auto);
-        grid-column-gap: 2em;
-        align-items: start;
-      }
-
-    }
-
-    .view-body {
-      display: grid;
-      height: 100%;
-      grid-template-columns:1fr 2fr 1fr;
-      grid-column-gap: 2rem;
-      align-items: start;
-
-      .view-content {
-        height: 100%;
-        display: grid;
-      }
-
-      .view-box {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-      }
-    }
-  }
-
-  .target-content {
-    width: auto;
-  }
-
+#dv-full-screen-container {
+  background-image: url("/img/res/bg_2.png");
+  background-size: 100% 100%;
 }
 </style>

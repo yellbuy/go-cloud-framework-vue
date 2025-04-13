@@ -44,7 +44,7 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: ['未买医保\n（人）', 'D级危房\n（户）', '缺水\n（户）', '辍学学生\n（人）'],
+          data: ['⽣活好', '教育好', '医疗好', '住房好', '家⻛好',],
           splitLine: {
             show: false // 隐藏横线
           },
