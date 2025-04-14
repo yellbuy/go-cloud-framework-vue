@@ -45,8 +45,8 @@
         <dv-border-box1 style="width:50%;">
           <div class="margin-lr-xl margin-top-xl"
                style="display: flex;flex-direction: row;justify-content: space-between;align-items: flex-end;">
-            <Label :text="'总户数'" :title="mainData['总户数']"/>
-            <Label :text="'总人口'" :title="mainData['总人口']"/>
+            <Label :text="'总户数'" color="yellow" :title="mainData['总户数']"/>
+            <Label :text="'总人口'" color="yellow" :title="mainData['总人口']"/>
             <Label :color="'#FCAE26FF'" :text="'夯实户数'" :title="mainData['达标户']"/>
             <Label :color="'#FCAE26FF'" :text="'夯实户占比'" :title="(mainData['达标户占比']||'50')+'%'"/>
           </div>
@@ -120,9 +120,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from "element-plus";
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { ElMessageBox } from "element-plus";
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Label from "../component/Label.vue";
 import numberVillageStat from "../component/numberVillageStat.vue";
 import radarEchart from "../component/radarEchart.vue";

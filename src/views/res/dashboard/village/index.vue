@@ -151,7 +151,7 @@
                 </div>
               </el-col>
               <el-col :span="10">
-                <div class="margin-left margin-right margin-top margin-bottom">
+                <div class="margin-right margin-top margin-bottom">
                   <Title title="两强"/>
                   <div>
                     <el-row :gutter="10">
@@ -207,7 +207,7 @@
                     </el-row>
                   </div>
                 </div>
-                <div class="margin-left margin-right margin-bottom">
+                <div class="margin-right margin-bottom">
                   <el-row :gutter="10">
                     <el-col :span="12">
                       <div>

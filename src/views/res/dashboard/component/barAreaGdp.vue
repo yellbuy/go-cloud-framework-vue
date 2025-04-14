@@ -206,7 +206,7 @@ export default {
           //   offset: 10 // 设置标签偏移量，可以根据需要调整以避免遮挡柱子本身或其他标签
           // }})
           // .tooltip({ name: '区域', channel: 'color' })
-          .tooltip({ name: '生产总值（', channel: 'y' })
+          .tooltip({ name: '生产总值（亿元）', channel: 'y' })
           // .legend({
           //   color: {
           //     size:8,

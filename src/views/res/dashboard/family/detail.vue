@@ -34,7 +34,7 @@
         <div class="margin-lg">
           <div class="dialog-title">基本情况</div>
           <div class="dialog-body">
-            <el-row>
+            <el-row class="margin-bottom-sm">
               <el-col :span="2" class="text-right">户主：</el-col>
               <el-col :span="2" class="text-left dialog-body-text"><span>{{ tableData["姓名"] }}</span></el-col>
               <el-col :span="2" class="text-right">家庭人数：</el-col>
@@ -358,10 +358,10 @@ export default {
   width: 100%;
   height: 100%;
   color: #ccc;
-  background-image: url("./img/bg_3.png");
+  background-image: url("./img/bg_2.png");
 
   #dv-full-screen-container {
-    background-image: url("./img/bg_3.png");
+    background-image: url("./img/bg_2.png");
     background-color: #0d0d45;
     background-size: 100% 100%;
   }

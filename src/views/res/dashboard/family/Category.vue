@@ -8,7 +8,7 @@
 
 import "@/views/res/dashboard/component/scss/box.scss";
 import * as echarts from "echarts";
-import {onMounted, reactive, ref, toRefs, watch} from "vue";
+import { onMounted, reactive, ref, toRefs, watch } from "vue";
 
 export default {
   props: {
@@ -59,7 +59,7 @@ export default {
               }
             },
             type: 'pie',
-            radius: ['20%', '40%'],
+            radius: ['30%', '60%'],
             data: [
               {value: props.incomeFromProperty, name: '财产性收入'},
               {value: props.operationalIncome, name: '经营性收入'},

@@ -112,13 +112,13 @@
                           </el-col>
                         <el-col :span="8" class="text-center">
                           <svg height="170" style="transform:translate(0rem, 2rem);" width="80">
-                            <rect fill="#777" height="170" width="80" x="0" y="0"></rect>
+                            <rect fill="rgba(128,128,128,0.3)" height="170" width="80" x="0" y="0"></rect>
                           </svg>
                           <div style="transform:translate(0rem, 3.5rem);">2025年度</div>
                           </el-col>
                         <el-col :span="8" class="text-center">
                           <svg height="170" style="transform:translate(0rem, 2rem);" width="80">
-                            <rect fill="#777" height="170" width="80" x="0" y="0"></rect>
+                            <rect fill="rgba(128,128,128,0.3)" height="170" width="80" x="0" y="0"></rect>
                           </svg>
                           <div style="transform:translate(0rem, 3.5rem);">2026年度</div>
                         </el-col>

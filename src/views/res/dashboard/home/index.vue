@@ -155,9 +155,9 @@
 <script lang="ts">
 import "@/views/res/dashboard/component/scss/box.scss";
 import dayjs from 'dayjs';
-import {ElMessageBox} from 'element-plus';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { ElMessageBox } from 'element-plus';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import actVillage from "../component/actVillage.vue";
 import antvImageMap from "../component/antvImageMap.vue";
 import barAgricultureGdp from "../component/barAgricultureGdp.vue";

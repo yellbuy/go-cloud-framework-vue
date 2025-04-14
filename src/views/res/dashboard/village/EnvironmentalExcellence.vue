@@ -104,7 +104,7 @@ export default {
           data: props.data[i],
           barMaxWidth: "30",
           barWidth: "26",
-          barGap: "60%",
+          barGap: "30%",
           label: {
             show: true,
             formatter: props.formatter != undefined ? '{c}' + props.formatter : '{c}%',
