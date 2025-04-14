@@ -72,6 +72,10 @@ export default {
         });
         chart
           .interval()
+          .style({
+            fill:props.color,
+            fillOpacity: 0.7, // 配置area标记的填充透明度为 0.9
+          })
           .data(props.data)
           .axis('y', { 
           tick:true,

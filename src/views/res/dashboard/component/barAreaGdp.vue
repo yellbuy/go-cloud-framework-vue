@@ -100,8 +100,8 @@ export default {
           
           .data(data)
           .style({
-            fill:'l(270) 0:#ffffff 0.4:#7ec2f3 1:#1890ff',
-            fillOpacity: 0.8, // 配置area标记的填充透明度为 0.9
+            fill:'l(270) 0:#0077ff 0.4:#7ec2f3 0.8:#00ff00',
+            fillOpacity: 0.7, // 配置area标记的填充透明度为 0.9
           })
           .axis('y', { 
           tick:true,

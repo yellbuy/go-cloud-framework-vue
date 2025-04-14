@@ -40,6 +40,10 @@ export default {
         chart
           .interval()
           .data(data)
+          .style({
+            fill:'l(270) 0:#ff77ff 0.6:#ffff77 1:#ffff00',
+            fillOpacity: 0.7, // 配置area标记的填充透明度为 0.9
+          })
           .axis('y', { 
           tick:true,
           tickCount: 2,

@@ -117,14 +117,14 @@
                     <gaugeProgress :style="'height:16.7vh;'" :value="1"  text="义务教育阶段⼊学率" :detailFontSize="18" :titleFontSize="14"/>
                   </el-col>
                   <el-col :span="8" class="padding-bottom-sm" style="margin-top:-3rem">
-                    <barAntvChart :style="'height:16.7vh;'" color="lightgreen" title="城镇新增就业人口(万人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:'2023',值:0.33},{年份:'2024',值:0.33},{年份:'2030',值:0.37}]"></barAntvChart>
+                    <barAntvChart :style="'height:16.7vh;'" color="l(270) 0:rgb(235.9, 245.3, 255,1) 0.4:rgb(159.5, 206.5, 255) 0.8:#409EFF" title="城镇新增就业人口(万人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:'2023',值:0.33},{年份:'2024',值:0.33},{年份:'2030',值:0.37}]"></barAntvChart>
                     <!-- <barAgricultureGdp></barAgricultureGdp> -->
                   </el-col>
                   <el-col :span="8" class="padding-bottom-sm" style="margin-top:-3rem">
-                    <barAntvChart :style="'height:16.7vh;'" color="green" title="每千人拥有执业(助理)医师数(人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:2.53},{年份:2024,值:2.56},{年份:2030,值:2.59}]"></barAntvChart>
+                    <barAntvChart :style="'height:16.7vh;'" color="l(270) 0:rgb(239.8, 248.9, 235.3) 0.4:rgb(179, 224.5, 156.5) 0.8:#67C23A" title="每千人拥有执业(助理)医师数(人)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:2.53},{年份:2024,值:2.56},{年份:2030,值:2.59}]"></barAntvChart>
                   </el-col>
                   <el-col :span="8" class="padding-bottom-sm" style="margin-top:-3rem">
-                    <barAntvChart :style="'height:16.7vh;'" color="yellow" title="城乡护理型床位比值(%)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:109},{年份:2024,值:107},{年份:2030,值:105}]"></barAntvChart>
+                    <barAntvChart :style="'height:16.7vh;'" color="l(270) 0:rgb(252.5, 245.7, 235.5) 0.4:rgb(242.5, 208.5, 157.5) 0.8:#E6A23C" title="城乡护理型床位比值(%)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:109},{年份:2024,值:107},{年份:2030,值:105}]"></barAntvChart>
                   </el-col>
 
                   <el-col :span="6" >
@@ -142,13 +142,13 @@
 
                   
                   <el-col :span="8"  style="margin-top:-3rem" :style="'height:15vh;'"class="padding-bottom-sm">
-                    <barAntvChart  :style="'height:16.7vh;'" color="orange" title="每千人口拥有3岁以下婴幼儿托位数" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:3.5},{年份:2024,值:3.6},{年份:2030,值:4.2}]"></barAntvChart>
+                    <barAntvChart  :style="'height:16.7vh;'" color="l(0) 0:rgb(254, 240.3, 240.3) 0.4:rgb(250, 181.5, 181.5) 0.8:#F56C6C" title="每千人口拥有3岁以下婴幼儿托位数" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:3.5},{年份:2024,值:3.6},{年份:2030,值:4.2}]"></barAntvChart>
                   </el-col>
                   <el-col :span="8"  style="margin-top:-3rem" class="padding-bottom-sm">
-                    <barAntvChart :style="'height:16.7vh;'" color="lightgreen" title="居民人均预期寿命" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:79.3},{年份:2024,值:79.7},{年份:2030,值:80.9}]"></barAntvChart>
+                    <barAntvChart :style="'height:16.7vh;'" color="l(0) 0:rgb(197.7, 225.9, 255) 0.4:#409EFF 0.8:rgb(51.2, 126.4, 204)" title="居民人均预期寿命" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:79.3},{年份:2024,值:79.7},{年份:2030,值:80.9}]"></barAntvChart>
                   </el-col>
                   <el-col :span="8"  style="margin-top:-3rem" class="padding-bottom-sm">
-                    <barAntvChart :style="'height:16.7vh;'" color="#FDDD60" title="中等收入群体占比(%)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:47.02},{年份:2024,值:50.5},{年份:2030,值:69.5}]"></barAntvChart>
+                    <barAntvChart :style="'height:16.7vh;'" color="l(0) 0:rgb(242.5, 208.5, 157.5) 0.4:#E6A23C 0.8:rgb(184, 129.6, 48)" title="中等收入群体占比(%)" encodeX="年份" encodeY="值" encodeV="值" :data="[{年份:2023,值:47.02},{年份:2024,值:50.5},{年份:2030,值:69.5}]"></barAntvChart>
                     <!-- <gaugeProgress :style="'height:16.7vh;'"  :value="0.505" :colorValueData="[[0.375, '#FDDD60'],  [0.50, '#58D9F9'], [1, '#7CFFB2']]" :colorTickData="[{name: '2023 47.02%', value: 0.25},{name: '2024 50.5%', value: 0.50}, {name: '2030 69.5%', value: 0.875}]"  text="中等收入群体占比" :detailFontSize="18" :titleFontSize="14" /> -->
                   </el-col>
                   
