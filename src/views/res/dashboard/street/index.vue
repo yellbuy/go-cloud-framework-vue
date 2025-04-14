@@ -139,7 +139,7 @@
                           :data="[[165, 24,16,11,28,35,51],[2229,307,98,652,459,486,227]]"
                           :left="'0'"
                           :label="['低收入重点监测群体','低收入一般监测群体']"
-                          :objStyle="'height:calc((100vh - 6rem) / 3 - 3.4rem)'"
+                          :objStyle="'height:calc((100vh - 6rem) / 3 - 4.2rem)'"
                           :top="'10%'"
                       />
                     </div>
@@ -161,7 +161,7 @@
                   <div class="target-content">
                     <div class="margin-top-xs padding-tb-xs ">
                       <div class="padding-top-lg text-center" style="color:lightgreen;font-size: 1.2rem;"><i
-                          class="fa fa-angle-double-down margin-right-sm"/>产业发展规模化
+                          class="fa fa-square margin-right-sm"/>产业发展规模化
                       </div>
                       <div class="target-text">
                         <div>
@@ -180,7 +180,7 @@
                     </div>
                     <div class="margin-top-xl">
                       <div class="margin-tb-sm  text-center" style="color:lightgreen;font-size: 1.2rem;"><i
-                          class="fa fa-angle-double-down margin-right-sm"/>公共服务均等化
+                          class="fa fa-square margin-right-sm"/>公共服务均等化
                       </div>
                       <div class="target-text">
                         <barNestedChart :bottom="40" :objStyle="'height:15.3vh'"
@@ -233,7 +233,7 @@
                     </div>
                     <div class="margin-top-sm">
                       <div class="text-center" style="color:lightgreen;font-size: 1.2rem;"><i
-                          class="fa fa-angle-double-down margin-right-sm"/>基础设施一体化
+                          class="fa fa-square margin-right-sm"/>基础设施一体化
                       </div>
                       <div class="target-text">
                         <barNestedChart :bottom="40" :objStyle="'height:15.3vh'"
@@ -276,7 +276,7 @@
                     </div>
                     <div class="margin-bottom-sm">
                       <div class="text-center" style="color:lightgreen;font-size: 1.2rem;"><i
-                          class="fa fa-angle-double-down margin-right-sm"/>乡村治理现代化
+                          class="fa fa-square margin-right-sm"/>乡村治理现代化
                       </div>
                       <div class="target-text">
                         <barNestedChart :bottom="40" :objStyle="'height:15.3vh'"
@@ -329,7 +329,7 @@
               <Title title="村共创推进情况" @click="onClickPleaseWait('查看未完成村信息')"/>
               <div class="target-content">
                 <div class="text-center margin-tb" style="color:lightgreen;font-size: 1.2rem;"><i
-                    class="fa fa-angle-double-down margin-right-sm"/>三超
+                    class="fa fa-square margin-right-sm"/>三超
                 </div>
                 <div
                     @Click="onClickTargetDetail('三超指标解读',`“户夯实”实现户占比超50%<br>全村人均年可支配收入超全市农村人均年可支配收入<br>村集体经济稳定收入超20万元`)">
@@ -341,7 +341,7 @@
                       :xAxisData="['“户夯实”实现户\n占比超50%的村', '全村人均年可支配\n收入超市农村人均\n年可支配收入的村', '村集体经济稳定收\n入超20万元的村']"/>
                 </div>
                 <div class="text-center margin-tb" style="color:lightgreen;font-size: 1.2rem;"><i
-                    class="fa fa-angle-double-down margin-right-sm"/>四优
+                    class="fa fa-square margin-right-sm"/>四优
                 </div>
                 <div @Click="onClickTargetDetail('四优指标解读',`<b>产业优：</b>具备至少一个特色富民产业，富民产业产值占产业总产值60%以上。
                         <br/><b>环境优：</b>生活用水安全稳定，自来水普及率达95%以上，农村卫生厕所普及率达到98%，生活污水得到有效治理，生活垃圾有效运转处置。住房安全，村容村貌整洁，无乱搭乱建，自然村（组）通硬化路率达100%。
@@ -354,7 +354,7 @@
                       :xAxisData="['产业优', '环境优', '文化优', '服务优']"/>
                 </div>
                 <div class="text-center margin-tb" style="color:lightgreen;font-size: 1.2rem;"><i
-                    class="fa fa-angle-double-down margin-right-sm"/>两强
+                    class="fa fa-square margin-right-sm"/>两强
                 </div>
                 <div>
                   <barNestedChart @Click="onClickTargetDetail('两强指标解读',`<b>组织强：</b>村党组织战斗堡垒作用强，“三个身边”工作机制群众反映问题工单办结率达100%。“先富”带“后富”机制完善，特困、低保等重点群体托底保障机制健全。
@@ -377,9 +377,9 @@
 <script lang="ts">
 import * as d3 from 'd3';
 import dayjs from 'dayjs';
-import {ElMessageBox} from 'element-plus';
-import {onMounted, reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { ElMessageBox } from 'element-plus';
+import { onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import antvImageMap from "../component/antvImageMap.vue";
 import gaugeProgress from "../component/gaugeProgress.vue";
 import radarEchart from "../component/radarEchart.vue";

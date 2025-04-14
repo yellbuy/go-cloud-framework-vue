@@ -38,7 +38,7 @@
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;混撒拉村位于仁和区南部，距城区17.5km。辖区面积21平方公里，平均海拔1400m,现有村民380户1527人，少数民族人口占比65%，设有1个党总支，3个党支部，共有党员55名。全村耕地848亩、林地8160亩，以种植芒果、乡村旅游等产业为主，辖区内有企业2家、商户12家、农民专业合作社7个、家庭农场43家、村级卫生室1家，正在建设美丽乡村试点县项目。
                 </p>
               </div>
-              <div class="target-container-h3 margin-top target-text target-content text-left">
+              <div class="margin-top target-text target-content text-left">
                 <Title title="重点监测群体"/>
                 <div class="margin-tb">
                   <environmental-excellence
@@ -51,8 +51,8 @@
                       :formatter="'户'"
                       :label="['低收入重点监测群体','低收入一般监测群体']"
                       :left="'0'"
-                      :objStyle="'height:calc((100vh - 6rem) / 4 - 0.4rem)'"
-                      :top="'30%'"
+                      :objStyle="'height:calc((100vh - 6rem) / 4 - 3.0rem)'"
+                      :top="'40'"
                       @click="onClickMainMonitoring"></environmental-excellence>
                 </div>
 
@@ -96,7 +96,7 @@
                       <el-row :gutter="10">
                         <el-col :span="12">
                           <div class="text-center margin-top">
-                            <div class="target-value"><i class="fa fa-angle-double-down margin-right-sm"/>“户夯实”实现户占比
+                            <div class="target-value"><i class="fa fa-square margin-right-sm"/>“户夯实”实现户占比
                             </div>
                             <environmental-excellence :YAxisLabel="'false'"
                                                       :bottom="'20%'"
@@ -113,7 +113,7 @@
                         </el-col>
                         <el-col :span="12">
                           <div class="text-center margin-top">
-                            <text class="target-value"><i class="fa fa-angle-double-down margin-right-sm"/>村集体经济收入超20万元
+                            <text class="target-value"><i class="fa fa-square margin-right-sm"/>村集体经济收入超20万元
                             </text>
                             <environmental-excellence :YAxisLabel="'false'"
                                                       :bottom="'20%'"
@@ -130,7 +130,7 @@
                         </el-col>
                         <el-col :span="24">
                           <div class="text-center margin-tb-lg">
-                            <text class="target-value"><i class="fa fa-angle-double-down margin-right-sm"/>全村人均年可支配收入超全市农村人均年可支配收入
+                            <text class="target-value"><i class="fa fa-square margin-right-sm"/>全村人均年可支配收入超全市农村人均年可支配收入
                             </text>
                             <environmental-excellence :YAxisLabel="'false'"
                                                       :bottom="'20%'"
@@ -244,7 +244,7 @@
                   <el-col :span="12">
                     <div class="">
                       <div class="margin-top" style="color:lightgreen;font-size: 1.2rem;"><i
-                          class="fa fa-angle-double-down margin-right-sm"/>服务优
+                          class="fa fa-square margin-right-sm"/>服务优
                       </div>
                       <div class="target-text padding-lg" style="text-align: left">
                         <environmental-excellence
@@ -261,7 +261,7 @@
                     </div>
                     <div class="">
                       <div class="" style="color:lightgreen;font-size: 1.2rem;"><i
-                          class="fa fa-angle-double-down margin-right-sm"/>环境优
+                          class="fa fa-square margin-right-sm"/>环境优
                       </div>
                       <div class="target-text margin-top-sm">
                         <environmental-excellence
@@ -281,7 +281,7 @@
                   <el-col :span="12">
                     <div class="">
                       <div class="margin-top" style="color:lightgreen;font-size: 1.2rem;"><i
-                          class="fa fa-angle-double-down margin-right-sm"/>文化优
+                          class="fa fa-square margin-right-sm"/>文化优
                       </div>
                       <div class="target-text margin-top" style="text-align: left">
                         <el-row class="margin-sm text-center">
@@ -331,7 +331,7 @@
                       </div>
                     </div>
                     <div class="" style="color:lightgreen;font-size: 1.2rem;"><i
-                        class="fa fa-angle-double-down "/>产业优
+                        class="fa fa-square margin-lr-sm"/>产业优
                     </div>
                     <div class="margin-top">
                       <div class="target-text">
@@ -363,8 +363,9 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import {reactive, toRefs} from 'vue';
-import {useRoute, useRouter} from "vue-router";
+import { ElMessageBox } from "element-plus";
+import { reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from "vue-router";
 import pieEllipse from "/@/components/pieEllipse/index.vue";
 import antvImageMap from "/@/views/res/dashboard/component/antvImageMap.vue";
 import barNestedChart from "/@/views/res/dashboard/component/barNestedChart.vue";
@@ -374,7 +375,6 @@ import EnvironmentalExcellence from "/@/views/res/dashboard/village/Environmenta
 import ProportionOfAgeGroups from "/@/views/res/dashboard/village/ProportionOfAgeGroups.vue";
 import Title from "/@/views/res/dashboard/village/Title.vue";
 import TopTwoAndTopFour from "/@/views/res/dashboard/village/TopTwoAndTopFour.vue";
-import {ElMessageBox} from "element-plus";
 
 export default {
   name: "IndexDashboard",
