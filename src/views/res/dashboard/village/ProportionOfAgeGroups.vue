@@ -34,15 +34,22 @@ export default {
     const setChartOption = (chart: any) => {
       // 指定图表的配置项和数据
       const option = {
+        
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
+          backgroundColor: 'rgba(50,50,50,0.7)',
+          formatter: '{b} : {d}%',
+          textStyle: {
+            color: '#eee'
+          },
+          
+          // formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
         series: [
           {
             name: "年龄占比",
             type: 'pie',
-            radius: '60%',
+            radius: ['30%','60%'],
             data: [
               {value: props.ageData[0], name: "3岁以下"},
               {value: props.ageData[1], name: "3-6岁"},
@@ -55,7 +62,7 @@ export default {
               normal: {
                 show: true,
                 formatter: '{b}\n{d}%',
-                fontSize: 12,
+                fontSize: 10,
                 color: '#fff',
               },
             }
@@ -70,6 +77,31 @@ export default {
     onMounted(async () => {
       myChart = echarts.init(state.echart)
       setChartOption(myChart);
+
+      let currentIndex = -1;
+      setInterval(function() {
+        var dataLen = 6;
+        // 取消之前高亮的图形
+        myChart.dispatchAction({
+          type: 'downplay',
+          seriesIndex: 0,
+          dataIndex: currentIndex
+        });
+        currentIndex = (currentIndex + 1) % dataLen;
+        // 高亮当前图形
+        myChart.dispatchAction({
+          type: 'highlight',
+          seriesIndex: 0,
+          dataIndex: currentIndex
+        });
+        // 显示 tooltip
+        myChart.dispatchAction({
+          type: 'showTip',
+          seriesIndex: 0,
+          dataIndex: currentIndex
+        });
+      }, 2000);
+
     })
     return {
       ...toRefs(state),

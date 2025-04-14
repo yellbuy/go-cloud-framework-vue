@@ -46,6 +46,11 @@ export default {
         },
         tooltip: {
           trigger: 'axis',
+          backgroundColor: 'rgba(50,50,50,0.7)',
+          textStyle: {
+            color: '#eee',
+            textAlign:'left'
+          },
           formatter: function (params) {
             var result = params[0].axisValue + '<br/>';
             params.forEach(function (item) {
