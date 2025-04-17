@@ -156,8 +156,8 @@ export default {
 		// 查询表格数据
 		const onGetTableData = async (gotoFirstPage: boolean = false) => {
 			if (state.timeRange && state.timeRange.length > 1) {
-				state.tableData.param.startTime = dayjs(state.timeRange[0]).set('hour', 8).set('minute', 0).set('second', 0);
-				state.tableData.param.endTime = dayjs(state.timeRange[1]).set('hour', 32).set('minute', 0).set('second', 0);
+				state.tableData.param.startTime = dayjs(state.timeRange[0]).set('hour', 8).set('minute', 0).set('second', 0).format('YYYY-MM-DD');
+				state.tableData.param.endTime = dayjs(state.timeRange[1]).set('hour', 32).set('minute', 0).set('second', 0).format('YYYY-MM-DD');
 			}
 			if (gotoFirstPage) {
 				state.tableData.param.pageNum = 1;

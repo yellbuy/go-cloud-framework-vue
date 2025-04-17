@@ -50,6 +50,19 @@
 				<el-table-column prop="GoodsUnit" label="货品单位" width="80"></el-table-column>
 				<el-table-column prop="ShopPrice" label="预估单价" width="80"></el-table-column>
 			</el-table>
+			<el-pagination
+				small
+				@size-change="onHandleSizeChange"
+				@current-change="onHandleCurrentChange"
+				class="mt15"
+				:page-sizes="[10, 20, 30, 50, 100]"
+				v-model:current-page="tableData.param.pageNum"
+				background
+				v-model:page-size="tableData.param.pageSize"
+				layout="->, total, sizes, prev, pager, next, jumper"
+				:total="tableData.total"
+			>
+			</el-pagination>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
@@ -87,6 +100,10 @@ export default {
 		const router =  useRouter();
 		const page2Data = ref();
 		console.log("message.action.add:",t('message.action.add'))
+		const tableData = reactive({
+			data: [],
+		});
+		
 		//文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
 			console.log('触发图片上传');
@@ -138,14 +155,17 @@ export default {
   				}
 			}	
 		
-		const tableData = reactive({
-			data: [],
-			loading: false,
-			param: {
-				pageNum: 1,
-				pageSize: 10000,
-			},
-		});
+		
+		// 分页改变
+		const onHandleSizeChange = (val: number) => {
+			state.tableData.param.pageSize = val;
+			onGetTableData();
+		};
+		// 分页改变
+		const onHandleCurrentChange = (val: number) => {
+			state.tableData.param.pageNum = val;
+			onGetTableData();
+		};
 		// 打开弹窗
 		 const onOpenDlg = (id: string, ishow: boolean) => {
 			//console.log("弹框",editDlgRef)
@@ -210,6 +230,9 @@ export default {
 			Files: [],
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
+		});
+		state.tableData.param.pageIndex = computed(() => {
+			return state.tableData.param.pageNum - 1;
 		});
 		const token = Session.get('token');
 		const rules = reactive({
@@ -391,6 +414,8 @@ export default {
 			openDialog,
 			closeDialog,
 			onLoadTable,
+			onHandleSizeChange,
+			onHandleCurrentChange,
 			GetByIdRow,
 			onSuccessFile,
 			onRemove,

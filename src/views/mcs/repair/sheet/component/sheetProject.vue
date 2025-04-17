@@ -52,6 +52,19 @@
 				<el-table-column prop="Qty" label="预估工时" width="70"></el-table-column>
 				<el-table-column prop="Price" label="工时单价" width="70"></el-table-column>
 			</el-table>
+			<el-pagination
+				small
+				@size-change="onHandleSizeChange"
+				@current-change="onHandleCurrentChange"
+				class="mt15"
+				:page-sizes="[10, 20, 30, 50, 100]"
+				v-model:current-page="tableData.param.pageNum"
+				background
+				v-model:page-size="tableData.param.pageSize"
+				layout="->, total, sizes, prev, pager, next, jumper"
+				:total="tableData.total"
+			>
+			</el-pagination>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button text bg @click="closeDialog">{{ $t('message.action.cancel') }}</el-button>
@@ -88,24 +101,10 @@ export default {
 		const router =  useRouter();
 		const page1Data = ref();
 		console.log("message.action.add:",t('message.action.add'))
-		//文件列表更新
-		const onSuccessFile = (file: UploadFile) => {
-			console.log('触发图片上传');
-			state.Files.push(file.data.src);
-			let image = { url: '' };
-			image.url = state.httpsText + file.data.src;
-			// state.FilesList.push(image);
-			console.log(state.FilesList);
-		};
-		const onRemove = (file: UploadFile) => {
-			console.log(file);
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/image/'), file.url.length);
-			for (let i = 0; i < state.Files.length; i++) {
-				if (state.Files[i] == removeUrl) {
-					state.Files.splice(i, 1);
-				}
-			}
-		};
+		const tableData = reactive({
+			data: [],
+		});
+		
 		const store = useStore();
 		const getUserInfos = computed(() => {
 			//console.log('store.state.userInfos.userInfos:', store.state.userInfos.userInfos);
@@ -139,14 +138,7 @@ export default {
   				}
 			}	
 		
-		const tableData = reactive({
-			data: [],
-			loading: false,
-			param: {
-				pageNum: 1,
-				pageSize: 10000,
-			},
-		});
+		
 		// 打开弹窗
 		 const onOpenDlg = (id: string, ishow: boolean) => {
 			//console.log("弹框",editDlgRef)
@@ -212,6 +204,10 @@ export default {
 			httpsText: import.meta.env.VITE_URL as any,
 			FilesList: [],
 		});
+		state.tableData.param.pageIndex = computed(() => {
+			return state.tableData.param.pageNum - 1;
+		});
+
 		const token = Session.get('token');
 		const rules = reactive({
 			isShowDialog: false,
@@ -337,6 +333,17 @@ export default {
 			state.saveState = false;
 			state.dialogVisible = true;
 		};	
+		
+		// 分页改变
+		const onHandleSizeChange = (val: number) => {
+			state.tableData.param.pageSize = val;
+			onGetTableData();
+		};
+		// 分页改变
+		const onHandleCurrentChange = (val: number) => {
+			state.tableData.param.pageNum = val;
+			onGetTableData();
+		};
 		//重置查询条件
 		const onResetSearch = () => {
 			state.tableData.param.keyword = '';
@@ -393,8 +400,8 @@ export default {
 			closeDialog,
 			onLoadTable,
 			GetByIdRow,
-			onSuccessFile,
-			onRemove,
+			onHandleSizeChange,
+			onHandleCurrentChange,
 			onBeforeImageUpload,
 			onModelEdit,
 			showImage,

@@ -140,7 +140,7 @@ const createDataSource:any = ()=>{
     load: async () => {
         const startTime=dayjs(startDate).format("YYYY-MM-DD")
 		const endTime=dayjs(endDate).format("YYYY-MM-DD")
-		const res = await proxy.$api.erp.businessBillLine.getStatListByScope(kind,scopeMode,scopeValue,{startTime,endTime})
+		const res = await proxy.$api.erp.businessBillLine.getStatListByScope(kind,scopeMode,scopeValue,{startTime,endTime,pageSize:1000000000})
 		const data=  res.data||[]
 		return data;
     }});
