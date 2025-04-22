@@ -1,4 +1,4 @@
-import {createApp} from 'vue';
+import { createApp } from 'vue';
 
 import 'devextreme/dist/css/dx.material.teal.light.compact.css';
 import ElementPlus from 'element-plus';
@@ -13,10 +13,11 @@ import screenShort from 'vue-web-screen-shot';
 import DataVVue3 from '@kjgl77/datav-vue3';
 import App from './App.vue';
 import router from './router';
-import {key, store} from './store';
-import {i18n} from '/@/i18n/index';
+import { key, store } from './store';
+import FullScreenContainer from '/@/components/fullScreenContainer/index.js';
+import { i18n } from '/@/i18n/index';
 import '/@/theme/index.scss';
-import {directive} from '/@/utils/directive';
+import { directive } from '/@/utils/directive';
 import other from '/@/utils/other';
 //VXETable.use(VXETablePluginElement)
 // VXETable.config({
@@ -30,12 +31,12 @@ import api from '/@/api';
 import formControls from '/@/views/meta/components/FormControls/index.ts';
 
 
+import VxeUITable from 'vxe-table';
+import 'vxe-table/lib/style.css';
 import utils from '/@/utils';
 import errorHandler from '/@/utils/errorHandler';
-import {NextLoading} from '/@/utils/loading';
-import {http} from '/@/utils/request';
-import VxeUITable from 'vxe-table'
-import 'vxe-table/lib/style.css'
+import { NextLoading } from '/@/utils/loading';
+import { http } from '/@/utils/request';
 
 const app = createApp(App);
 
@@ -57,6 +58,7 @@ app
     .use(screenShort, {enableWebRtc: false})
     .use(VueGridLayout)
     .use(VxeUITable)
+    .use(FullScreenContainer)
     .mount('#app');
 
 app.config.globalProperties.mittBus = mitt();
