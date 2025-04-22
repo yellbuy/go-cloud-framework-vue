@@ -34,7 +34,7 @@ export default {
 #top-header {
   position: relative;
   width: 100%;
-  height: 50px;
+  height: 56px;
   display: flex;
   justify-content: space-between;
   flex-shrink: 0;

@@ -120,7 +120,7 @@ export default {
 <style lang='scss' scoped>
 .echartDiv {
   width: 100%;
-  height: 28vh;
+  height: 308px;
 }
 #pie-board {
   width: 100%;
@@ -134,7 +134,7 @@ export default {
   margin-bottom: 1vh;
 
   .pie-board-title {
-    height: 5vh;
+    height: 40px;
     display: flex;
     font-family: 'LiSu';
     align-items: center;

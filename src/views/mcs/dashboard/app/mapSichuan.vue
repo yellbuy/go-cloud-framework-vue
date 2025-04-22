@@ -8,7 +8,7 @@
     <!-- <div style="position: absolute;left:30px;top:30px;">
       <dv-capsule-chart style="width:25rem;height:12rem"  :config="capsuleConfig"  />
     </div> -->
-    <dv-flyline-chart :config="mapConfig" :dev="true" style="width:100%;height:41.5vh;" />
+    <dv-flyline-chart :config="mapConfig" :dev="true" style="width:100%;height:400px;" />
     </div>
 
 

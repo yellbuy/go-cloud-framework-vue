@@ -221,7 +221,7 @@ export default {
 <style lang="less">
 .line-weight-board {
   //position: relative;
-  margin-top:1vh;
+  margin-top:10px;
   padding: 0 2vh 0 1vh;
   box-sizing: border-box;
   //top:-50px;
@@ -236,10 +236,10 @@ export default {
   }
   .line-weight-board-chart{
     width: 100%; 
-    //height:240px;
-    height:29vh;
+    height:378px;
+    //height:29vh;
     //height:calc(~"70vh - 420px") !important;
-    margin-top:-5vh;
+    margin-top:-50px;
   }
 }
 </style>

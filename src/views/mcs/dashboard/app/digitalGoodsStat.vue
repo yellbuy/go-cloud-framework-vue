@@ -267,7 +267,7 @@ export default {
       .digital-flop-item-title {
         font-family: 'LiSu';
         font-size:16px;
-        padding-top:1vh;
+        padding-top:6px;
         margin-bottom:1.5vh;
         text-align:center;
         color:#e3dc0f

@@ -4,7 +4,7 @@
         <div class="flex-row">
             <div class="digital-flop-item">
               <div class="center-flex">
-                <div style="background-image:url('./img/bg_dashboard_digital_1.png');width:100%;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                <div style="background-image:url('./img/bg_dashboard_digital_1.png');width:100%;height:90px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                   <div class="digital-flop-item-title"><b>公路运量</b></div>
                   <div>
                     <dv-digital-flop class="digital-flop-item-digital"
@@ -17,7 +17,7 @@
             </div>
             <div class="digital-flop-item">
                 <div class="center-flex">
-                  <div style="background-image:url('./img/bg_dashboard_digital_1.png');width:100%;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                  <div style="background-image:url('./img/bg_dashboard_digital_1.png');width:100%;height:90px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                     <!-- <div class="unit">公路运单</div>
                     <dv-digital-flop class="digital-flop-item-digital"
                     :config="{number:[statData.WaybillCount],style:{fill: '#e3dc0f',fontSize:20}}"
@@ -38,7 +38,7 @@
           <div class="flex-row">
             <div class="digital-flop-item">
               <div class="center-flex">
-                <div style="background-image:url('./img/bg_dashboard_digital_1.png');width:100%;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                <div style="background-image:url('./img/bg_dashboard_digital_1.png');width:100%;height:90px;background-repeat: no-repeat;background-size: cover;background-position: center;">
           
                   <div class="digital-flop-item-title"><b>铁路运量</b></div>
                   <!-- <div class="unit">公路运量</div>
@@ -58,7 +58,7 @@
             </div>
             <div class="digital-flop-item">
                 <div class="center-flex">
-                  <div style="background-image:url('./img/bg_dashboard_digital_1.png');width:100%;height:75px;background-repeat: no-repeat;background-size: cover;background-position: center;">
+                  <div style="background-image:url('./img/bg_dashboard_digital_1.png');width:100%;height:90px;background-repeat: no-repeat;background-size: cover;background-position: center;">
                     <!-- <div class="unit">公路运单</div>
                     <dv-digital-flop class="digital-flop-item-digital"
                     :config="{number:[statData.WaybillCount],style:{fill: '#e3dc0f',fontSize:20}}"
@@ -150,14 +150,13 @@ export default {
 <style lang="less" scoped>
   .digital-container {
     
-    margin:1vh 2vh 0vh;
+    margin:0 10px;
     background-color: rgba(6, 30, 93, 0.5);
 
     .dv-decoration-2 {
       position: absolute;
       width: 95%;
       left: 2.5%;
-      height: 2vh;
       bottom: 0px;
     }
 
@@ -172,7 +171,7 @@ export default {
     }
     .digital-flop-item {
       width: 50%;
-      padding:1vh 2vh 0px 2vh;
+      padding:10px;
       margin-right:auto;
       text-align: center;
       flex-direction: column;
@@ -188,11 +187,11 @@ export default {
       }
       .digital-flop-item-digital {
         width:100%;
-        height:4vh;
+        margin-top:-36px;
       }
       .digital-flop-item-progress{
         width:90%;
-        height:6vh;
+        // height:6vh;
         margin:auto
       }
     }

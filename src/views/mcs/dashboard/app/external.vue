@@ -2,21 +2,22 @@
   <div>
     <div id="data-view">
       
-      <dv-full-screen-container v-if="isFullScreen">
+      <yb-full-screen-container v-if="isFullScreen">
         <top-header />
         <div style="position:absolute;top:10px;right:10px">
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
-        <div class="main-rows">
-          <div style="width:34%;margin-top:0vh;margin-bottom:0vh;">
+        <el-row>
+          <el-col :span="8">
+            <div style="width:100%;">
             <dv-border-box1>
-              <div style="height:auto;padding:1vh 0 0 0;">
+              <div>
                 <digital-weight-stat></digital-weight-stat>
               </div>
               <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
                 <digital-goods-stat></digital-goods-stat>
               </dv-border-box-9> -->
-              <div style="height:auto;padding:0px;">
+              <div>
                 <digital-goods-stat></digital-goods-stat>
               </div>
               <!-- <dv-decoration-3 style="width: 100%;" /> -->
@@ -25,57 +26,62 @@
               </div>
             </dv-border-box1>
           </div>
-          <dv-border-box-12 style="width:66%;height:auto;">
-            <div style="flex: 1; display: flex; flex-direction: row;">
-              <div style="width:60%;height:auto;padding:1vh">
-                <div>
-                  <mapSichuan />
-                </div>
-                <div style="padding-left:4px;">
-                  <rankLineList></rankLineList>
-                </div>
-              </div>
-              <div style="width:40%;height:auto;padding:1vh 2vh 0px 0px">
-                <div>
-                  <pieGoods />
-                </div>
-                <div>
-                  <pieVehicleType />
-                </div>
-              </div>
-            </div>
-            
+          </el-col>
+          <el-col :span="16">
+            <dv-border-box-12 >
+              <el-row>
+                <el-col :span="14">
+                  <div style="height:auto;padding:1vh">
+                    <div>
+                      <mapSichuan />
+                    </div>
+                    <div style="padding-left:4px;">
+                      <rankLineList></rankLineList>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :span="10">
+                  <div style="height:auto;padding:1vh 2vh 0px 0px">
+                    <div>
+                      <pieGoods />
+                    </div>
+                    <div>
+                      <pieVehicleType />
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
           </dv-border-box-12>
-        </div>
-        <div class="main-rows">
-          
-          <div style="width:34%;">
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
             <barWaybillCompany :chartHeight="320"/>
-          </div>
-          <div style="width:33%;">
+          </el-col>
+          <el-col :span="8">
             <digitalVehicleStat></digitalVehicleStat>
-          </div>
-          <div style="width:33%;height:auto;">
+          </el-col>
+          <el-col :span="8">
             <barWaybillCustomer :chartHeight="320"/>
-          </div>
-          
-        </div>
-      </dv-full-screen-container>
+          </el-col>
+        </el-row>
+      </yb-full-screen-container>
       <div v-else>
         <top-header />
         <div style="position:absolute;top:10px;right:10px">
           <dv-button @click="onFullScreen" border="Border3" color="#c8161d" font-color="#e18a3b" style="margin:10px;z-index:99999999;">{{isFullScreen?'退出全屏':'全屏'}}</dv-button>
         </div>
-        <div class="main-rows">
-          <div style="width:34%;margin-top:0vh;margin-bottom:0vh;">
+        <el-row>
+          <el-col :span="8">
+            <div style="width:100%;margin-top:0vh;margin-bottom:0vh;">
             <dv-border-box1>
-              <div style="height:auto;padding:1vh 0 0 0;">
+              <div>
                 <digital-weight-stat></digital-weight-stat>
               </div>
               <!-- <dv-border-box-9 style="height:auto;padding:2px 10px 20px 10px;">
                 <digital-goods-stat></digital-goods-stat>
               </dv-border-box-9> -->
-              <div style="height:auto;padding:0px;">
+              <div>
                 <digital-goods-stat></digital-goods-stat>
               </div>
               <!-- <dv-decoration-3 style="width: 100%;" /> -->
@@ -84,41 +90,45 @@
               </div>
             </dv-border-box1>
           </div>
-          <dv-border-box-12 style="width:66%;height:auto;">
-            <div style="flex: 1; display: flex; flex-direction: row;">
-              <div style="width:60%;height:auto;padding:1vh">
-                <div>
-                  <mapSichuan />
-                </div>
-                <div style="padding-left:4px;">
-                  <rankLineList></rankLineList>
-                </div>
-              </div>
-              <div style="width:40%;height:auto;padding:1vh 2vh 0px 0px">
-                <div>
-                  <pieGoods />
-                </div>
-                <div>
-                  <pieVehicleType />
-                </div>
-              </div>
-            </div>
-            
+          </el-col>
+          <el-col :span="16">
+            <dv-border-box-12 style="height:auto;">
+              <el-row>
+                <el-col :span="14">
+                  <div style="height:auto;padding:1vh">
+                    <div>
+                      <mapSichuan />
+                    </div>
+                    <div style="padding-left:4px;">
+                      <rankLineList></rankLineList>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :span="10">
+                  <div style="height:auto;padding:1vh 2vh 0px 0px">
+                    <div>
+                      <pieGoods />
+                    </div>
+                    <div>
+                      <pieVehicleType />
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
           </dv-border-box-12>
-        </div>
-        <div class="main-rows">
-          
-          <div style="width:34%;">
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
             <barWaybillCompany :chartHeight="320"/>
-          </div>
-          <div style="width:33%;">
+          </el-col>
+          <el-col :span="8">
             <digitalVehicleStat></digitalVehicleStat>
-          </div>
-          <div style="width:33%;height:auto;">
+          </el-col>
+          <el-col :span="8">
             <barWaybillCustomer :chartHeight="320"/>
-          </div>
-          
-        </div>
+          </el-col>
+        </el-row>
         <!-- </div> 结束 -->
       </div>
       
@@ -216,7 +226,7 @@ export default {
   background-color: #030409;
   color: #fff;
 
-  #dv-full-screen-container {
+  #dv-full-screen-container,#yb-full-screen-container {
     background-image: url("./img/bg.png");
     background-size: 100% 100%;
     box-shadow: 0 0 3px blue;

@@ -47,8 +47,8 @@ export default {
         grid: {
           containLabel: true,
           left: '0.5vw',
-          top: '10vh',
-          bottom: '4vh',
+          top: '16px',
+          bottom: '8px',
           right: '0.5vw',
         },
       //   toolbox: {
@@ -107,7 +107,7 @@ export default {
           splitLine: {
             lineStyle: {
               // 使用深浅的间隔色
-              color: ['#B5B5B5'],
+              color: ['#959595'],
               type: 'dashed',
               opacity: 0.5,
             },
@@ -205,7 +205,7 @@ export default {
       if(res.errcode==0){
         state.xAxisData=res.data.map((val:any)=>{return val.Name});
         state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+4});
+        state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+8});
         echartInit();
       }	
       setInterval(async () => {
@@ -213,7 +213,7 @@ export default {
         if(res.errcode==0){
           state.xAxisData=res.data.map((val:any)=>{return val.Name});
           state.yAxisData=res.data.map((val:any)=>{return val.Weight});
-          state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+4});
+          state.yAxisSideData=res.data.map((val:any)=>{return val.Weight+8});
           echartInit();
         }	
       }, 60000);
@@ -228,14 +228,16 @@ export default {
 </script>
  
 <style lang='scss' scoped>
+#ranking-board {
+  width:97%
+}
 .echartDiv {  
   width: 100%;
-  height:21vh;
-  padding-bottom:1vh;
+  height:226px;
 }
 .company-board-title{
-  margin-top: 1vh;
-  height: 4vh;
+  margin-top: 10px;
+  height: 40px;
   font-family: 'LiSu';
   font-weight: bold;
   text-align: left;
