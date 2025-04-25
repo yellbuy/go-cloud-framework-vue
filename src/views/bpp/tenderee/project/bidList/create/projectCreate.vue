@@ -33,14 +33,14 @@
 
 <script setup lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { Session } from '/@/utils/storage';
-import { computed, getCurrentInstance, onMounted, nextTick, reactive, ref, toRefs } from 'vue';
+import { computed, getCurrentInstance, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useStore } from '/@/store/index';
-import infoEdit from './infoEdit.vue';
 import extEdit from './extEdit.vue';
+import infoEdit from './infoEdit.vue';
 import settingLineEdit from './settingLineEdit.vue';
+import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 
 const store = useStore();
 const route = useRoute();
@@ -152,7 +152,7 @@ const onSubmit = () => {
 		try {
 			state.ruleForm.Id = "0"
 			state.ruleForm.Kind = "bid"
-			const res = proxy.$api.erp.projectbid.projectBidCreate(state.ruleForm);
+			const res = proxy.$api.erp.projectBid.projectBidCreate(state.ruleForm);
 			res.then(result => {
 				if (result.errcode != 0) {
 					ElMessage.error('提交失败！')

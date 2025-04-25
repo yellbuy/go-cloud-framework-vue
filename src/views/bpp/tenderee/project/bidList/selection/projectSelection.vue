@@ -95,23 +95,23 @@
 
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { getCurrentInstance, onMounted, nextTick, reactive, ref, toRefs } from 'vue';
+import { getCurrentInstance, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import bidFileSee from './bidFileSee.vue';
+import bidNoticeEdit from './bidNoticeEdit.vue';
+import bidOpenList from './bidOpenList.vue';
+import companyList from './companyList.vue';
+import expertEdit from './expertEdit.vue';
+import gatherList from './gatherList.vue';
+import jjpsGatherList from './jjpsGatherList.vue';
+import jspsGatherList from './jspsGatherList.vue';
+import packageList from './packageList.vue';
+import projectNoticeSee from './projectNoticeSee.vue';
+import reviewReportSee from './reviewReportSee.vue';
+import settingLineList from './settingLineList.vue';
+import zgpsGatherList from './zgpsGatherList.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
-import bidFileSee from './bidFileSee.vue';
-import expertEdit from './expertEdit.vue';
-import settingLineList from './settingLineList.vue';
-import packageList from './packageList.vue';
-import companyList from './companyList.vue';
-import bidOpenList from './bidOpenList.vue';
-import zgpsGatherList from './zgpsGatherList.vue';
-import jspsGatherList from './jspsGatherList.vue';
-import jjpsGatherList from './jjpsGatherList.vue';
-import gatherList from './gatherList.vue';
-import reviewReportSee from './reviewReportSee.vue';
-import projectNoticeSee from './projectNoticeSee.vue';
-import bidNoticeEdit from './bidNoticeEdit.vue';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
@@ -240,7 +240,7 @@ const onModelDel = () => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectbid.delete(state.projectId);
+			const res = await proxy.$api.erp.projectBid.delete(state.projectId);
 			if (res.errcode != 0) {
 				return;
 			}
@@ -255,7 +255,7 @@ const onModelDel = () => {
 //	获取项目信息
 const GetByIdRow = async () => {
 	try {
-		const res = await proxy.$api.erp.projectbid.getById(state.projectId);
+		const res = await proxy.$api.erp.projectBid.getById(state.projectId);
 		if (res.errcode != 0) {
 			return;
 		}
@@ -274,7 +274,7 @@ const onSubmit = () => {
 		try {
 			state.ruleForm.Id = state.projectForm.Id
 			state.ruleForm.BidOpenTime = state.projectForm.BidOpenTime
-			const res = proxy.$api.erp.projectbid.saveBid(state.ruleForm);
+			const res = proxy.$api.erp.projectBid.saveBid(state.ruleForm);
 			if (res.errcode != 0) {
 				return
 			}

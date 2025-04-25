@@ -57,10 +57,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, onMounted, ref, getCurrentInstance } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { useStore } from '/@/store/index';
+import { computed, getCurrentInstance, onMounted, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
 
 const getUserInfos = computed(() => {return store.state.userInfos.userInfos;});
@@ -98,7 +98,7 @@ const onGetProjectTableData = async () => {
 //	获取报告
 const onProjectBidGetById = async () => {
 	try {
-		const res = await proxy.$api.erp.projectbid.getById(state.projectForm.Id)
+		const res = await proxy.$api.erp.projectBid.getById(state.projectForm.Id)
 		if (res.errcode != 0) {
 			return;
 		}
@@ -137,7 +137,7 @@ const onDownloadFile = async () => {
 
 const onSubmit = async () => {
 	try {
-		const gatherRes = await proxy.$api.erp.projectbid.reportUpload(state.projectForm.Id, state.ruleForm);
+		const gatherRes = await proxy.$api.erp.projectBid.reportUpload(state.projectForm.Id, state.ruleForm);
 		if (gatherRes.errcode != 0) {
 			ElMessage.warning('上传报告失败！')
 			return;

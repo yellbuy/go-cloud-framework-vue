@@ -35,11 +35,10 @@
 </template>
 
 <script setup lang="ts">
-import request from '/@/utils/request';
-import { toRefs, reactive, computed, onMounted, ref, getCurrentInstance } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
-import { useStore } from '/@/store/index';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { getCurrentInstance, onMounted, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '/@/store/index';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
@@ -72,7 +71,7 @@ const onGetProjectTableData = async () => {
 //	获取报告
 const onProjectBidGetById = async () => {
 	try {
-		const res = await proxy.$api.erp.projectbid.getById(state.projectForm.Id)
+		const res = await proxy.$api.erp.projectBid.getById(state.projectForm.Id)
 		if (res.errcode != 0) {
 			return;
 		}
@@ -98,7 +97,7 @@ const onSubmit = async () => {
 		try {
 			state.ruleForm.ReportSignPic = "test"
 			state.ruleForm.Id = state.projectForm.Id
-			const res = await proxy.$api.erp.projectbid.reportSignature(state.projectId, state.ruleForm);
+			const res = await proxy.$api.erp.projectBid.reportSignature(state.projectId, state.ruleForm);
 			if (res.errcode != 0) {
 				ElMessage.warning('报告签章失败！')
 				return;

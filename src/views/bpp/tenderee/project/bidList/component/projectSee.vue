@@ -70,10 +70,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { getCurrentInstance, onMounted, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import commonFunction from '/@/utils/commonFunction';
-import { ElMessageBox, ElMessage } from 'element-plus';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();
@@ -144,7 +144,7 @@ const onGetProjectCompanyTableData = async () => {
 // 获取项目信息
 const GetByIdRow = async () => {
 	try {
-		const res = await proxy.$api.erp.projectbid.getById(state.projectId);
+		const res = await proxy.$api.erp.projectBid.getById(state.projectId);
 		if (res.errcode != 0) {
 			return;
 		}

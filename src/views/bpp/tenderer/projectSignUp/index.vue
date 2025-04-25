@@ -63,11 +63,11 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessageBox, ElMessage } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, ref, nextTick, toRefs } from 'vue';
+import { ElMessage } from 'element-plus';
+import { computed, getCurrentInstance, nextTick, onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import projectSeeDlg from '/@/views/bpp/tenderee/project/bidList/component/projectSee.vue';
 import commonFunction from '/@/utils/commonFunction';
+import projectSeeDlg from '/@/views/bpp/tenderee/project/bidList/component/projectSee.vue';
 
 const route = useRoute();
 const kind = route.params.kind || 'bid';
@@ -112,7 +112,7 @@ const onResetSearch = () => {
 const onGetTableData = async () => {
 	state.tableData.loading = true;
 	try {
-		const res = await proxy.$api.erp.projectbid.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+		const res = await proxy.$api.erp.projectBid.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}

@@ -72,12 +72,11 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessageBox } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, nextTick, ref, toRefs } from 'vue';
+import { computed, getCurrentInstance, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import projectSelection from './selection/projectSelection.vue';
-import projectCreate from './create/projectCreate.vue';
 import projectSeeDlg from './component/projectSee.vue';
+import projectCreate from './create/projectCreate.vue';
+import projectSelection from './selection/projectSelection.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 
@@ -127,7 +126,7 @@ const onResetSearch = () => {
 const onGetTableData = async () => {
 	state.tableData.loading = true;
 	try {
-		const res = await proxy.$api.erp.projectbid.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
+		const res = await proxy.$api.erp.projectBid.getListByScope(state.kind, state.scopeMode, state.scopeValue, state.tableData.param);
 		if (res.errcode != 0) {
 			return;
 		}

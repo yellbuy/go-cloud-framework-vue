@@ -311,13 +311,13 @@
 </template>
 
 <script setup lang="ts">
+import { CaretRight } from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus';
 import { computed, getCurrentInstance, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
-import { CaretRight } from '@element-plus/icons-vue'
-import { ElMessageBox, ElMessage } from 'element-plus';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
+import projectBiddingEdit from './projectBiddingEdit.vue';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
-import projectBiddingEdit from './projectBiddingEdit.vue';
 
 const route = useRoute();
 const kind = route.params.kind||'bid';
@@ -386,7 +386,7 @@ const onBeginBid = ()=>{
 //	获取标的物项目信息
 const onGetTableData = async () => {
 	//	获取项目信息
-	const res = await proxy.$api.erp.projectbid.getById(state.projectId);
+	const res = await proxy.$api.erp.projectBid.getById(state.projectId);
 	if (res.errcode != 0) {
 		return;
 	}

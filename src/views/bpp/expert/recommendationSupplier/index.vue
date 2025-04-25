@@ -200,7 +200,7 @@ const recommendation = async (data: object) => {
 		type: 'warning',
 	}).then(async () => {
 		try {
-			const res = await proxy.$api.erp.projectbid.recommendationSupplier(data.CompanyId, data);
+			const res = await proxy.$api.erp.projectBid.recommendationSupplier(data.CompanyId, data);
 			if (res.errcode != 0) {
 				ElMessage.error('推荐失败！')
 				return;

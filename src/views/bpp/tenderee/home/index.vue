@@ -187,10 +187,13 @@ export default {
 		});
 
 		const loadTenant = async () => {
-			const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
-			if (res.errcode == 0) {
-				state.tenant = res.data;
+			if(getUserInfos.value.tid>0){
+				const res = await proxy.$api.base.tenant.getById(getUserInfos.value.tid);
+				if (res.errcode == 0) {
+					state.tenant = res.data;
+				}
 			}
+			
 		};
 
 		// 批量设置 echarts resize
