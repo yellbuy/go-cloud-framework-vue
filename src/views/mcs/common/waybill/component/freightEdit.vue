@@ -202,7 +202,7 @@ export default {
 				EngineNumber: '',
 				Linkman: '',
 				BusinessScope: '',
-				State: 1,
+				State: 0,
 				TaxpayerKind: '',
 				WebSite: '',
 				Fax: '',

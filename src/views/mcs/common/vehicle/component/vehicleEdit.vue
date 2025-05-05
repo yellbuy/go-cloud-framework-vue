@@ -12,6 +12,13 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="编号" prop="BillNo">
+							<el-input
+								v-model="ruleForm.BillNo"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车辆类别" prop="IsExternal">
 							<div mb-2 flex items-center>
 								<el-radio-group
@@ -275,6 +282,7 @@ export default {
 				Name: '',
 				Kind: 'info',
 				VehicleNumber: '',
+				BillNo:'',
 				IsExternal:0,
 				VehicleType: '',
 				EnergyType: '',

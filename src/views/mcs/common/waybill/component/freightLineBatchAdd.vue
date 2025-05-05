@@ -26,6 +26,17 @@
 							<el-option label="外部车" :value="1"/>
 						</el-select>
 					</template>
+					<template #right-footer v-if="ruleForm.Kind=='plan'">
+						<el-form
+							ref="ruleFormRef"
+							:model="ruleForm"
+							label-width="auto"
+						>
+							<el-form-item label="默认趟数" prop="TruckCount" class="m6">
+								<el-input-number v-model="ruleForm.TruckCount" :value="1" :min="1" :max="100" />
+							</el-form-item>
+						</el-form>
+					</template>
 				</el-transfer>
 			</div>
 			<template #footer>
@@ -74,7 +85,8 @@ export default {
 			ruleForm: {
 				WaybillId: 0,
 				VehicleIdList: [],
-				Kind: 'info',
+				TruckCount:0,
+				Kind: 'freight',
 			},
 			allTruckList: [],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
@@ -88,6 +100,7 @@ export default {
 			
 			state.ruleForm.Kind = kind;
 			state.ruleForm.WaybillId=waybillId;
+			state.ruleForm.TruckCount=1
 			try {
 				await loadVehicleList()
 				state.title = t('message.action.add');
@@ -110,7 +123,13 @@ export default {
 			const resTrucks = await proxy.$api.erp.vehicle.getValidListByScope('info', 0, 2,{isExternal:state.isExternal});
 			if (resTrucks.errcode == 0) {
 				resTrucks.data.forEach((item,index)=>{
-					item.VehicleNumberExt=item.VehicleNumber
+					if(item.BillNo){
+						item.VehicleNumberExt=`[${item.BillNo}]${item.VehicleNumber}`
+					}else{
+						item.VehicleNumberExt=item.VehicleNumber
+					}
+					
+					
 					if(item.IsExternal && item.Tname){
 						item.VehicleNumberExt=`${item.VehicleNumberExt}[${item.Tname}]`
 					}

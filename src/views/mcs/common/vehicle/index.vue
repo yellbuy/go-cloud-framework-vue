@@ -87,6 +87,7 @@
 				highlight-current-row>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
 				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
+				<el-table-column prop="BillNo" label="编号" width="110"></el-table-column>
 				<el-table-column prop="VehicleType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
 				<el-table-column label="外部车" width="70" show-overflow-tooltip>
 					<template #default="scope">
