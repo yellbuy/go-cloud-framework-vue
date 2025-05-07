@@ -32,8 +32,8 @@
 							:model="ruleForm"
 							label-width="auto"
 						>
-							<el-form-item label="默认趟数" prop="TruckCount" class="m6">
-								<el-input-number v-model="ruleForm.TruckCount" :value="1" :min="1" :max="100" />
+							<el-form-item label="默认趟数" prop="PlanTruckCount" class="m6">
+								<el-input-number v-model="ruleForm.PlanTruckCount" :value="1" :min="1" :max="100" />
 							</el-form-item>
 						</el-form>
 					</template>
@@ -85,7 +85,7 @@ export default {
 			ruleForm: {
 				WaybillId: 0,
 				VehicleIdList: [],
-				TruckCount:0,
+				PlanTruckCount:0,
 				Kind: 'freight',
 			},
 			allTruckList: [],
@@ -100,7 +100,7 @@ export default {
 			
 			state.ruleForm.Kind = kind;
 			state.ruleForm.WaybillId=waybillId;
-			state.ruleForm.TruckCount=1
+			state.ruleForm.PlanTruckCount=1
 			try {
 				await loadVehicleList()
 				state.title = t('message.action.add');

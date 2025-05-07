@@ -118,7 +118,7 @@ export default {
         return await http.post(url);
     },
     /**
-	 * 删除记录
+	 * 导出记录
 	 * @param id 记录标识
 	 * @returns 返回接口数据
 	 */

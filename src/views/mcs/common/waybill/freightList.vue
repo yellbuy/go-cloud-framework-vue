@@ -74,9 +74,9 @@
 								<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.no') }}</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="TruckCount" label="是否完成" width="70" align="center">
+						<el-table-column prop="PlanTruckCount" label="是否完成" width="70" align="center">
 							<template #default="scope">
-								<el-tag type="success" class="mr4" effect="dark" v-if="scope.row.TruckCount<=0">已完成</el-tag>
+								<el-tag type="success" class="mr4" effect="dark" v-if="scope.row.PlanTruckCount <= scope.row.FinishTruckCount">已完成</el-tag>
 								<el-tag type="danger" class="mr4" effect="dark" v-else>执行中</el-tag>
 							</template>
 						</el-table-column>
@@ -85,6 +85,11 @@
 								<el-tag type="success" class="mr4" effect="dark" v-if="scope.row.WaybillMode==1">固定</el-tag>
 								<el-tag type="danger" class="mr4" effect="dark" v-else-if="scope.row.WaybillMode==2">临配</el-tag>
 								<el-tag type="warning" class="mr4" effect="dark" v-else-if="scope.row.WaybillMode==10">其他</el-tag>
+							</template>
+						</el-table-column>
+						<el-table-column prop="TruckCount" label="接单|出勤|完成|所有" width="130" align="center">
+							<template #default="scope">
+								<el-text type="success" effect="plain">{{ scope.row.TruckCount}}</el-text> | <el-text type="success" effect="plain">{{ scope.row.BeginTruckCount}}</el-text>  | <el-text type="success" effect="plain">{{ scope.row.FinishTruckCount}}</el-text> |  <el-text type="danger" effect="plain">{{scope.row.PlanTruckCount }}</el-text>
 							</template>
 						</el-table-column>
 						<el-table-column prop="PlanWeight" label="执行进度" width="100" align="center">
@@ -193,6 +198,17 @@
 												<el-tooltip
 													class="box-item"
 													effect="dark"
+													:content="$t('message.action.export')"
+													placement="top-start">	
+													<el-button type="primary" @click="onPlanExcelExport">
+														<el-icon>
+															<Link />
+														</el-icon>
+													</el-button>
+												</el-tooltip>
+												<el-tooltip
+													class="box-item"
+													effect="dark"
 													:content="$t('message.action.add')"
 													placement="top-start">	
 													<el-button type="primary" @click="onOpenBatchAddDlg(0, planKind, false)" v-auth:[moduleKey]="'btn.PlanAdd'">
@@ -240,7 +256,7 @@
 												inline-prompt
 												:width="46"
 												v-auth:[moduleKey]="'btn.PlanEdit'"
-												@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'state', scope.row.Id, scope.row.BeginState,'update_time')"
+												@change="proxy.$api.erp.waybillLine.updateById(scope.row.Id,'state', scope.row.State, scope.row.WaybillId,  'update_time')"
 												:active-text="$t('message.action.yes')"
 												:inactive-text="$t('message.action.no')"
 												:active-value="1"
@@ -256,7 +272,7 @@
 												inline-prompt
 												:width="46"
 												v-auth:[moduleKey]="'btn.PlanEdit'"
-												@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'begin_state', scope.row.Id, scope.row.BeginState,'begin_time')"
+												@change="proxy.$api.erp.waybillLine.updateById(scope.row.Id, 'begin_state', scope.row.BeginState, scope.row.WaybillId, 'update_time')"
 												:active-text="$t('message.action.yes')"
 												:inactive-text="$t('message.action.no')"
 												:active-value="1"
@@ -276,7 +292,7 @@
 												inline-prompt
 												:width="46"
 												v-auth:[moduleKey]="'btn.PlanEdit'"
-												@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'finish_state', scope.row.Id, scope.row.FinishState,'finish_time')"
+												@change="proxy.$api.erp.waybillLine.updateById(scope.row.Id,'finish_state', scope.row.FinishState, scope.row.WaybillId, 'update_time')"
 												:active-text="$t('message.action.yes')"
 												:inactive-text="$t('message.action.no')"
 												:active-value="1"
@@ -285,12 +301,12 @@
 											<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.no') }}</el-tag>
 										</template>
 									</el-table-column>
-									<el-table-column prop="TruckCount" label="车数" width="100" align="center">
+									<el-table-column prop="PlanTruckCount" label="车数" width="100" align="center">
 										<template #header>
 											<el-button
 												type="text"
 												v-if="planTableData.data"
-												@click="proxy.$api.common.table.update('erp_waybill_line', 'truck_count', planTableData.data || [], 0)"
+												@click="proxy.$api.common.table.update('erp_waybill_line', 'PlanTruckCount', planTableData.data || [], 0)"
 												v-auth:[moduleKey]="'btn.PlanEdit'"
 											>
 												<el-icon>
@@ -301,9 +317,9 @@
 											<span v-no-auth:[moduleKey]="'btn.PlanEdit'">车数</span>
 										</template>
 										<template #default="scope">
-											<el-input type="number" placeholder="车数" v-model="scope.row.TruckCount" input-style="text-align:right" v-auth:[moduleKey]="'btn.PlanEdit'">
+											<el-input type="number" placeholder="车数" v-model="scope.row.PlanTruckCount" input-style="text-align:right" v-auth:[moduleKey]="'btn.PlanEdit'">
 											</el-input>
-											<span v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ scope.row.TruckCount }}</span>
+											<span v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ scope.row.PlanTruckCount }}</span>
 										</template>
 									</el-table-column>
 									<el-table-column prop="VehicleTypeName" label="车型" width="80"></el-table-column>
@@ -749,7 +765,26 @@ export default {
 			if(success){
 				onPlanGetTableData();
 			}
+			
 		}
+		//
+		const onPlanExcelExport= async ()=>{
+			if(!state.planTableData.param.waybillId){
+				ElMessage.error('请选择待导出的任务记录')
+				return;
+			}
+			const res = await proxy.$api.erp.waybillLine.exportXlsByScope(state.planKind, state.scopeMode, state.scopeValue, {waybillId:state.planTableData.param.waybillId});
+			if (!res.data || res.data.size == 0) {
+				return;
+			} 
+			// 返回不为空
+			var url = window.URL.createObjectURL(res.data);
+			var a = document.createElement('a');
+			a.href = url;
+			a.download = '车辆任务计划_' + new Date().getTime() + '.xlsx'; // 下载后的文件名称
+			a.click();
+		}
+		
 
 		//	删除记录
 		const onPlanDel = (id: string,waybillId:string) => {
@@ -903,6 +938,7 @@ export default {
 			onMainHandleSizeChange,
 			onMainHandleCurrentChange,
 			onPlanQuery,
+			onPlanExcelExport,
 			onPlanGetTableData,
 			onPlanResetSearch,
 			onOpenBatchAddDlg,
