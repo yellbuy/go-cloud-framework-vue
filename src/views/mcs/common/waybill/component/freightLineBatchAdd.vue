@@ -156,7 +156,12 @@ export default {
 						const res = await proxy.$api.erp.waybillLine.insertMulti(state.ruleForm);
 						if (res.errcode == 0) {
 							closeDialog();
-							proxy.$parent.onChildGetTableData();
+							if(state.ruleForm.Kind=="plan"){
+								proxy.$parent.onPlanGetTableData();
+							} else{
+								proxy.$parent.onChildGetTableData();
+							}
+							
 						}
 					} finally {
 						state.loading = false;

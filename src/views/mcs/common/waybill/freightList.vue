@@ -142,8 +142,8 @@
 										<el-form-item label="关键字">
 											<el-input placeholder="输入关键字查询" style="width:80px" v-model="planTableData.param.keyword"> </el-input>
 										</el-form-item>
-										<el-form-item label="当日">
-											<el-checkbox v-model="planTableData.isTodayAll" :true-label="1" :false-label="0">{{ $t('message.action.all') }}</el-checkbox>
+										<el-form-item>
+											<el-checkbox v-model="planTableData.isTodayAll" :true-label="1" :false-label="0">今日{{ $t('message.action.all') }}</el-checkbox>
 											<el-button-group>
 												<el-tooltip
 													class="box-item"
@@ -228,22 +228,41 @@
 											</el-card>
 										</template>
 									</el-table-column>
+									
 									<el-table-column prop="VehicleNumber" label="车牌号" width="85" fixed>
 									</el-table-column>
-									<el-table-column label="开始" width="70" align="center" show-overflow-tooltip>
+									<el-table-column prop="VehicleBillNo" label="车辆编号" width="75">
+									</el-table-column>	
+									<el-table-column label="接单" width="70" align="center" show-overflow-tooltip>
+										<template #default="scope">
+											<el-switch
+												v-model="scope.row.State"
+												inline-prompt
+												:width="46"
+												v-auth:[moduleKey]="'btn.PlanEdit'"
+												@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'state', scope.row.Id, scope.row.BeginState,'update_time')"
+												:active-text="$t('message.action.yes')"
+												:inactive-text="$t('message.action.no')"
+												:active-value="1"
+												:inactive-value="0"/> 
+											<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.yes') }}</el-tag>
+											<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.no') }}</el-tag>
+										</template>
+									</el-table-column>
+									<el-table-column label="出勤" width="70" align="center" show-overflow-tooltip>
 										<template #default="scope">
 											<el-switch
 												v-model="scope.row.BeginState"
 												inline-prompt
 												:width="46"
-												v-auth:[moduleKey]="'btn.ChildUpdate'"
+												v-auth:[moduleKey]="'btn.PlanEdit'"
 												@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'begin_state', scope.row.Id, scope.row.BeginState,'begin_time')"
 												:active-text="$t('message.action.yes')"
 												:inactive-text="$t('message.action.no')"
 												:active-value="1"
 												:inactive-value="0"/> 
-											<el-tag type="success" effect="plain" v-if="scope.row.BeginState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
-											<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
+											<el-tag type="success" effect="plain" v-if="scope.row.BeginState" v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.yes') }}</el-tag>
+											<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.no') }}</el-tag>
 										</template>
 									</el-table-column>
 									<el-table-column label="结束" width="70" align="center" show-overflow-tooltip>
@@ -256,14 +275,35 @@
 												v-model="scope.row.FinishState"
 												inline-prompt
 												:width="46"
-												v-auth:[moduleKey]="'btn.ChildUpdate'"
+												v-auth:[moduleKey]="'btn.PlanEdit'"
 												@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'finish_state', scope.row.Id, scope.row.FinishState,'finish_time')"
 												:active-text="$t('message.action.yes')"
 												:inactive-text="$t('message.action.no')"
 												:active-value="1"
 												:inactive-value="0"/> 
-											<el-tag type="success" effect="plain" v-if="scope.row.FinishState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
-											<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
+											<el-tag type="success" effect="plain" v-if="scope.row.FinishState" v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.yes') }}</el-tag>
+											<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.no') }}</el-tag>
+										</template>
+									</el-table-column>
+									<el-table-column prop="TruckCount" label="车数" width="100" align="center">
+										<template #header>
+											<el-button
+												type="text"
+												v-if="planTableData.data"
+												@click="proxy.$api.common.table.update('erp_waybill_line', 'truck_count', planTableData.data || [], 0)"
+												v-auth:[moduleKey]="'btn.PlanEdit'"
+											>
+												<el-icon>
+													<Edit />
+												</el-icon>
+												&#8197;车数{{ $t('message.action.update') }}
+											</el-button>
+											<span v-no-auth:[moduleKey]="'btn.PlanEdit'">车数</span>
+										</template>
+										<template #default="scope">
+											<el-input type="number" placeholder="车数" v-model="scope.row.TruckCount" input-style="text-align:right" v-auth:[moduleKey]="'btn.PlanEdit'">
+											</el-input>
+											<span v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ scope.row.TruckCount }}</span>
 										</template>
 									</el-table-column>
 									<el-table-column prop="VehicleTypeName" label="车型" width="80"></el-table-column>
@@ -277,16 +317,16 @@
 												{{ $t('message.action.operate') }}
 												<template #dropdown>
 													<el-dropdown-menu>
-														<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.PlanEdit'">
+														<el-dropdown-item @click="onPlanOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.PlanEdit'">
 															<el-text type="primary" >{{ $t('message.action.edit') }}</el-text>
 														</el-dropdown-item>
-														<el-dropdown-item @click="onChildOpenEditDlg(scope.row.Id, true)">
+														<el-dropdown-item @click="onPlanOpenEditDlg(scope.row.Id, true)">
 															<el-text  >{{ $t('message.action.see') }}</el-text>
 														</el-dropdown-item>
 														<el-dropdown-item @click="onOpenMapDlg(scope.row.VehicleNumber, true)" divided v-auth:[moduleKey]="'btn.PlanMap'">
 															<el-text  >{{ $t('message.action.location') }}</el-text>
 														</el-dropdown-item>
-														<el-dropdown-item @click="onChildDel(scope.row.Id,scope.row.WaybillId)" divided v-auth:[moduleKey]="'btn.PlanDel'">
+														<el-dropdown-item @click="onPlanDel(scope.row.Id,scope.row.WaybillId)" divided v-auth:[moduleKey]="'btn.PlanDel'">
 															<el-text type="danger">{{ $t('message.action.delete') }}</el-text>
 														</el-dropdown-item>
 													</el-dropdown-menu>
@@ -316,8 +356,8 @@
 										<el-form-item label="关键字">
 											<el-input placeholder="输入关键字查询" style="width:80px" v-model="childTableData.param.keyword"> </el-input>
 										</el-form-item>
-										<el-form-item label="当日">
-											<el-checkbox v-model="childTableData.isTodayAll" :true-label="1" :false-label="0">{{ $t('message.action.all') }}</el-checkbox>
+										<el-form-item>
+											<el-checkbox v-model="childTableData.isTodayAll" :true-label="1" :false-label="0">今日{{ $t('message.action.all') }}</el-checkbox>
 											<el-button-group>
 												<el-tooltip
 													class="box-item"
@@ -402,44 +442,11 @@
 											</el-card>
 										</template>
 									</el-table-column>
+									
 									<el-table-column prop="VehicleNumber" label="车牌号" width="85" fixed>
-									</el-table-column>
-									<el-table-column label="开始" width="70" align="center" show-overflow-tooltip>
-										<template #default="scope">
-											<el-switch
-												v-model="scope.row.BeginState"
-												inline-prompt
-												:width="46"
-												v-auth:[moduleKey]="'btn.ChildUpdate'"
-												@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'begin_state', scope.row.Id, scope.row.BeginState,'begin_time')"
-												:active-text="$t('message.action.yes')"
-												:inactive-text="$t('message.action.no')"
-												:active-value="1"
-												:inactive-value="0"/> 
-											<el-tag type="success" effect="plain" v-if="scope.row.BeginState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
-											<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
-										</template>
-									</el-table-column>
-									<el-table-column label="结束" width="70" align="center" show-overflow-tooltip>
-										<!-- <template #default="scope">
-											<el-tag type="success" effect="plain" v-if="scope.row.FinishState">{{ $t('message.action.yes') }}</el-tag>
-											<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
-										</template> -->
-										<template #default="scope">
-											<el-switch
-												v-model="scope.row.FinishState"
-												inline-prompt
-												:width="46"
-												v-auth:[moduleKey]="'btn.ChildUpdate'"
-												@change="proxy.$api.common.table.updateExtById('erp_waybill_line', 'finish_state', scope.row.Id, scope.row.FinishState,'finish_time')"
-												:active-text="$t('message.action.yes')"
-												:inactive-text="$t('message.action.no')"
-												:active-value="1"
-												:inactive-value="0"/> 
-											<el-tag type="success" effect="plain" v-if="scope.row.FinishState" v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.yes') }}</el-tag>
-											<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.ChildEdit'">{{ $t('message.action.no') }}</el-tag>
-										</template>
-									</el-table-column>
+									</el-table-column>		
+									<el-table-column prop="VehicleBillNo" label="车辆编号" width="75">
+									</el-table-column>								
 									<el-table-column prop="VehicleTypeName" label="车型" width="80"></el-table-column>
 									<el-table-column prop="WaybillCompanyName" label="公司" width="120" show-overflow-tooltip></el-table-column>
 									<el-table-column prop="WaybillSenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
@@ -593,10 +600,13 @@ export default {
 			state.mainCurrentRow = row
 			if(row){
 				state.childTableData.param.waybillId=row.Id
+				state.planTableData.param.waybillId=row.Id
 			} else{
 				state.childTableData.param.waybillId="0"
+				state.planTableData.param.waybillId="0"
 			}
 			state.childTableData.param.isTodayAll=0
+			state.planTableData.param.isTodayAll=0
 			onPlanGetTableData(true)
 			onChildGetTableData(true)
 		}

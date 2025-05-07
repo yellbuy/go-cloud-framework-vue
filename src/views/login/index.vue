@@ -182,9 +182,10 @@ export default {
 		bottom: 30px;
 		text-align: center;
 		color: var(--color-whites);
-		font-size: 12px;
+		font-size: 18px;
 		opacity: 0.8;
 		.login-copyright-company {
+			font-size: 18px;
 			white-space: nowrap;
 		}
 		.login-copyright-msg {
