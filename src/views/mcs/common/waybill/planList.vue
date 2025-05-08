@@ -111,7 +111,7 @@ import { ElMessageBox } from 'element-plus';
 import 'splitpanes/dist/splitpanes.css';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import editMainDlg from './component/planLineEdit.vue';
+import editMainDlg from './component/planEdit.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'freightList',
