@@ -89,7 +89,7 @@
 						</el-table-column>
 						<el-table-column prop="TruckCount" label="接单|出勤|完成|所有" width="130" align="center">
 							<template #default="scope">
-								<el-text type="success" effect="plain">{{ scope.row.TruckCount}}</el-text> | <el-text type="success" effect="plain">{{ scope.row.BeginTruckCount}}</el-text>  | <el-text type="success" effect="plain">{{ scope.row.FinishTruckCount}}</el-text> |  <el-text type="danger" effect="plain">{{scope.row.PlanTruckCount }}</el-text>
+								<el-text type="success" effect="plain">{{ scope.row.AuditTruckCount}}</el-text> | <el-text type="success" effect="plain">{{ scope.row.BeginTruckCount}}</el-text>  | <el-text type="success" effect="plain">{{ scope.row.FinishTruckCount}}</el-text> |  <el-text type="danger" effect="plain">{{scope.row.PlanTruckCount }}</el-text>
 							</template>
 						</el-table-column>
 						<el-table-column prop="PlanWeight" label="执行进度" width="100" align="center">
@@ -144,8 +144,12 @@
 							<el-card shadow="hover">
 								<div style="margin-bottom:-16px">
 									<el-form ref="searchFormRef" :model="planTableData.param" label-suffix="：" label-width="60px" :inline="true">
+										<el-form-item label="">
+											<el-divider direction="vertical" border-style="dashed" />
+											<span>派单</span>
+										</el-form-item>
 										<el-form-item label="关键字">
-											<el-input placeholder="输入关键字查询" style="width:80px" v-model="planTableData.param.keyword"> </el-input>
+											<el-input placeholder="输入关键字查询" style="width:100px" v-model="planTableData.param.keyword"> </el-input>
 										</el-form-item>
 										<el-form-item>
 											<el-checkbox v-model="planTableData.isTodayAll" :true-label="1" :false-label="0">今日{{ $t('message.action.all') }}</el-checkbox>
@@ -251,18 +255,19 @@
 									</el-table-column>	
 									<el-table-column label="接单" width="70" align="center" show-overflow-tooltip>
 										<template #default="scope">
-											<el-switch
-												v-model="scope.row.State"
+											<el-switch v-if="scope.row.AuditState <= 1"
+												v-model="scope.row.AuditState"
 												inline-prompt
 												:width="46"
 												v-auth:[moduleKey]="'btn.PlanEdit'"
-												@change="proxy.$api.erp.waybillLine.updateById(scope.row.Id,'state', scope.row.State, scope.row.WaybillId,  'update_time')"
+												@change="proxy.$api.erp.waybillLine.updateById(scope.row.Id, 'audit_state', scope.row.AuditState, scope.row.WaybillId,  'update_time')"
 												:active-text="$t('message.action.yes')"
 												:inactive-text="$t('message.action.no')"
 												:active-value="1"
 												:inactive-value="0"/> 
-											<el-tag type="success" effect="plain" v-if="scope.row.State" v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.yes') }}</el-tag>
-											<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.no') }}</el-tag>
+											<el-tag type="warning" effect="plain" v-else-if="scope.row.AuditState > 1">假</el-tag>
+											<el-tag type="success" effect="plain" v-if="scope.row.AuditState==1" v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.yes') }}</el-tag>
+											<el-tag type="danger" effect="plain" v-else-if="scope.row.AuditState==0" v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.no') }}</el-tag>
 										</template>
 									</el-table-column>
 									<el-table-column label="出勤" width="70" align="center" show-overflow-tooltip>
@@ -368,9 +373,14 @@
 						<pane :size="50"> 
 							<el-card shadow="hover">
 								<div style="margin-bottom:-16px">
+									
 									<el-form ref="searchFormRef" :model="childTableData.param" label-suffix="：" label-width="60px" :inline="true">
+										<el-form-item label="">
+											<el-divider direction="vertical" border-style="dashed" />
+											<span>运量</span>
+										</el-form-item>
 										<el-form-item label="关键字">
-											<el-input placeholder="输入关键字查询" style="width:80px" v-model="childTableData.param.keyword"> </el-input>
+											<el-input placeholder="输入关键字查询" style="width:100px" v-model="childTableData.param.keyword"> </el-input>
 										</el-form-item>
 										<el-form-item>
 											<el-checkbox v-model="childTableData.isTodayAll" :true-label="1" :false-label="0">今日{{ $t('message.action.all') }}</el-checkbox>
@@ -512,6 +522,7 @@
 			</splitpanes>
 		<editMainDlg ref="editMainDlgRef" />
 		<editChildDlg ref="editChildDlgRef" />
+		<editPlanDlg ref="editPlanDlgRef" />
 		<childMapDlg ref="childMapDlgRef" />
 		<batchAddLineDlg ref="batchAddLineDlgRef" />
 	</div>
@@ -526,11 +537,12 @@ import { useRoute } from 'vue-router';
 import editMainDlg from './component/freightEdit.vue';
 import batchAddLineDlg from './component/freightLineBatchAdd.vue';
 import editChildDlg from './component/freightLineEdit.vue';
+import editPlanDlg from './component/freightVehicleEdit.vue';
 import childMapDlg from './component/vehicleMap.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'freightList',
-	components: { editMainDlg, editChildDlg, batchAddLineDlg,childMapDlg, Splitpanes, Pane },
+	components: { editMainDlg, editChildDlg, batchAddLineDlg,childMapDlg,editPlanDlg, Splitpanes, Pane },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -541,6 +553,7 @@ export default {
 		const moduleKey = `api_waybill_freight`;
 		const editMainDlgRef = ref();
 		const editChildDlgRef = ref();
+		const editPlanDlgRef=ref();
 		const childMapDlgRef=ref();
 		const batchAddLineDlgRef = ref();
 		const mainTableRef = ref();
@@ -745,7 +758,7 @@ export default {
 		};
 		//	打开弹窗
 		const onPlanOpenEditDlg = (id: string, ishow: boolean) => {
-			editChildDlgRef.value.openDialog(state.kind, id, ishow);
+			editPlanDlgRef.value.openDialog(state.planKind, id, ishow);
 		};
 
 		//批量开始
@@ -925,6 +938,7 @@ export default {
 			proxy,
 			editMainDlgRef,
 			editChildDlgRef,
+			editPlanDlgRef,
 			childMapDlgRef,
 			batchAddLineDlgRef,
 			mainTableRef,
