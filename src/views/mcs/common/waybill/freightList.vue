@@ -65,7 +65,7 @@
 									inline-prompt
 									:width="46"
 									v-auth:[moduleKey]="'btn.Edit'"
-									@change="proxy.$api.common.table.updateExtById('erp_waybill', 'state', scope.row.Id, scope.row.State,'update_time')"
+									@change="proxy.$api.common.table.updateExtById('erp_waybill', 'state', scope.row.Id, scope.row.State,'update_time', 'update_by')"
 									:active-text="$t('message.action.yes')"
 									:inactive-text="$t('message.action.no')"
 									:active-value="1"
@@ -176,13 +176,12 @@
 														</el-icon>
 													</el-button>
 												</el-tooltip>
-												
 												<el-tooltip
 													class="box-item"
 													effect="dark"
-													:content="$t('message.action.begin')"
+													content="接单"
 													placement="top-start">	
-													<el-button type="warning" @click="onPlanBatchBegin" v-auth:[moduleKey]="'btn.PlanEdit'">
+													<el-button type="warning" @click="onPlanBatchAudit" v-auth:[moduleKey]="'btn.PlanEdit'">
 														<el-icon>
 															<RefreshRight />
 														</el-icon>
@@ -191,7 +190,18 @@
 												<el-tooltip
 													class="box-item"
 													effect="dark"
-													:content="$t('message.action.finish')"
+													content="签到"
+													placement="top-start">	
+													<el-button type="warning" @click="onPlanBatchBegin" v-auth:[moduleKey]="'btn.PlanEdit'">
+														<el-icon>
+															<House />
+														</el-icon>
+													</el-button>
+												</el-tooltip>
+												<el-tooltip
+													class="box-item"
+													effect="dark"
+													content="结束"
 													placement="top-start">	
 													<el-button type="success" @click="onPlanBatchFinish" v-auth:[moduleKey]="'btn.PlanEdit'">
 														<el-icon>
@@ -404,29 +414,6 @@
 													<el-button type="info" @click="onChildQuery()">
 														<el-icon>
 															<Search />
-														</el-icon>
-													</el-button>
-												</el-tooltip>
-												
-												<el-tooltip
-													class="box-item"
-													effect="dark"
-													:content="$t('message.action.begin')"
-													placement="top-start">	
-													<el-button type="warning" @click="onChildBatchBegin" v-auth:[moduleKey]="'btn.ChildEdit'">
-														<el-icon>
-															<RefreshRight />
-														</el-icon>
-													</el-button>
-												</el-tooltip>
-												<el-tooltip
-													class="box-item"
-													effect="dark"
-													:content="$t('message.action.finish')"
-													placement="top-start">	
-													<el-button type="success" @click="onChildBatchFinish" v-auth:[moduleKey]="'btn.ChildEdit'">
-														<el-icon>
-															<Finished />
 														</el-icon>
 													</el-button>
 												</el-tooltip>
@@ -760,12 +747,22 @@ export default {
 		const onPlanOpenEditDlg = (id: string, ishow: boolean) => {
 			editPlanDlgRef.value.openDialog(state.planKind, id, ishow);
 		};
+		//批量接单
+		const onPlanBatchAudit=async ()=>{
+			console.log("planTableRef.value:", planTableRef.value)
+			const rows=planTableRef.value.getSelectionRows();
+			const ids=rows.map((val)=>{return val.Id});
+			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'audit_state', ids, 1,'audit_time', 'audit_by')
+			if(success){
+				onPlanGetTableData();
+			}
+		}
 
-		//批量开始
+		//批量签到
 		const onPlanBatchBegin=async ()=>{
 			const rows=planTableRef.value.getSelectionRows();
 			const ids=rows.map((val)=>{return val.Id});
-			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'begin_state', ids, 1,'begin_time')
+			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'begin_state', ids, 1, 'begin_time' , 'begin_by')
 			if(success){
 				onPlanGetTableData();
 			}
@@ -774,7 +771,7 @@ export default {
 		const onPlanBatchFinish= async ()=>{
 			const rows=planTableRef.value.getSelectionRows();
 			const ids=rows.map((val)=>{return val.Id});
-			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'finish_state', ids, 1,'finish_time')	
+			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'finish_state', ids, 1,'finish_time', 'finish_By')	
 			if(success){
 				onPlanGetTableData();
 			}
@@ -865,24 +862,24 @@ export default {
 			batchAddLineDlgRef.value.openDialog(kind, state.mainCurrentRow.Id, ishow);
 		};
 
-		//批量开始
-		const onChildBatchBegin=async ()=>{
-			const rows=childTableRef.value.getSelectionRows();
-			const ids=rows.map((val)=>{return val.Id});
-			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'begin_state', ids, 1,'begin_time')
-			if(success){
-				onChildGetTableData();
-			}
-		}
-		//批量结束
-		const onChildBatchFinish= async ()=>{
-			const rows=childTableRef.value.getSelectionRows();
-			const ids=rows.map((val)=>{return val.Id});
-			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'finish_state', ids, 1,'finish_time')	
-			if(success){
-				onChildGetTableData();
-			}
-		}
+		// //批量开始
+		// const onChildBatchBegin=async ()=>{
+		// 	const rows=childTableRef.value.getSelectionRows();
+		// 	const ids=rows.map((val)=>{return val.Id});
+		// 	const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'begin_state', ids, 1,'begin_time')
+		// 	if(success){
+		// 		onChildGetTableData();
+		// 	}
+		// }
+		// //批量结束
+		// const onChildBatchFinish= async ()=>{
+		// 	const rows=childTableRef.value.getSelectionRows();
+		// 	const ids=rows.map((val)=>{return val.Id});
+		// 	const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'finish_state', ids, 1,'finish_time')	
+		// 	if(success){
+		// 		onChildGetTableData();
+		// 	}
+		// }
 		//	打开弹窗
 		const onChildOpenEditDlg = (id: string, ishow: boolean) => {
 			editChildDlgRef.value.openDialog(state.kind, id, ishow);
@@ -942,6 +939,7 @@ export default {
 			childMapDlgRef,
 			batchAddLineDlgRef,
 			mainTableRef,
+			planTableRef,
 			childTableRef,
 			onMainCurrentChange,
 			onMainGetTableData,
@@ -957,6 +955,7 @@ export default {
 			onPlanResetSearch,
 			onOpenBatchAddDlg,
 			onPlanOpenEditDlg,
+			onPlanBatchAudit,
 			onPlanBatchBegin,
 			onPlanBatchFinish,
 			onPlanDel,
@@ -967,8 +966,6 @@ export default {
 			onChildResetSearch,
 			onChildOpenEditDlg,
 			onOpenMapDlg,
-			onChildBatchBegin,
-			onChildBatchFinish,
 			onChildDel,
 			onChildHandleSizeChange,
 			onChildHandleCurrentChange,

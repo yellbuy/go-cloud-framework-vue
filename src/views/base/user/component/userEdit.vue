@@ -101,14 +101,26 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20" v-if="ruleForm.Vip == 0">
 						<el-form-item label="" prop="AllowBackendLogin">
-							<el-checkbox v-model="ruleForm.AllowBackendLogin" :true-label="1" :false-label="0">后台允许登录</el-checkbox>
+							<el-checkbox v-model="ruleForm.AllowBackendLogin" :true-label="1" :false-label="0">允许后台登录</el-checkbox>
 							<p title="" class="color-info-light font10 ml5"><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录系统后台</p>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20" v-if="ruleForm.Vip == 0">
-						<el-form-item label="" prop="AllowFrontendLogin">
-							<el-checkbox v-model="ruleForm.AllowFrontendLogin" :true-label="1" :false-label="0">前台允许登录</el-checkbox>
-							<p title="" class="color-info-light font10 ml5"><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录前台和客户端</p>
+						<el-form-item label="" prop="allowFrontendMiniAppLogin">
+							<el-checkbox v-model="allowFrontendMiniAppLogin" :true-label="1" :false-label="0">允许小程序端登录</el-checkbox>
+							<p title="" class="color-info-light font10 ml5"><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录小程序端</p>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20" v-if="ruleForm.Vip == 0">
+						<el-form-item label="" prop="allowFrontendAppLogin">
+							<el-checkbox v-model="allowFrontendAppLogin" :true-label="2" :false-label="0">允许APP端登录</el-checkbox>
+							<p title="" class="color-info-light font10 ml5"><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录APP端</p>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="6" class="mb20" v-if="ruleForm.Vip == 0">
+						<el-form-item label="" prop="allowFrontendWindowsLogin">
+							<el-checkbox v-model="allowFrontendWindowsLogin" :true-label="4" :false-label="0">允许Windows端登录</el-checkbox>
+							<p title="" class="color-info-light font10 ml5"><SvgIcon name="fa fa-info-circle" class="mr3" />是否允许登录Windows端</p>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -170,13 +182,16 @@ export default {
 				CheckedRoleList: [],
 				RoleList: [],
 				AllowBackendLogin: 1,
-				AllowFrontendLogin: 1,
+				AllowFrontendLogin: 7,
 				IsExternal: 0,
 				Parentid: '',
 				Vip: 0,
 				department: [], // 部门
 				Gender: 0, // 性别
 			},
+			allowFrontendMiniAppLogin:1,
+			allowFrontendAppLogin:1,
+			allowFrontendWindowsLogin:1,
 			UParentid: '',
 			deptData: [], // 部门数据
 			userData: [],
@@ -222,13 +237,19 @@ export default {
 			if (row && row.Id > 0) {
 				state.title = t('message.action.edit');
 				state.UParentid = row.Parentid;
+				state.allowFrontendMiniAppLogin = state.ruleForm.AllowFrontendLogin & 1;
+				state.allowFrontendAppLogin = state.ruleForm.AllowFrontendLogin & 2;
+				state.allowFrontendWindowsLogin = state.ruleForm.AllowFrontendLogin & 4;
 			} else {
 				state.title = t('message.action.add');
 				state.ruleForm.Id = 0;
 				state.ruleForm.Enable = 1;
 				state.ruleForm.Order = 100;
 				state.ruleForm.AllowBackendLogin = 1;
-				state.ruleForm.AllowFrontendLogin = 1;
+				state.ruleForm.AllowFrontendLogin = 7;
+				state.allowFrontendMiniAppLogin=1;
+				state.allowFrontendAppLogin=1;
+				state.allowFrontendWindowsLogin=1;
 				state.UParentid = '';
 				state.ruleForm.Vip = 0;
 			}
@@ -265,6 +286,8 @@ export default {
 						state.ruleForm.RoleIds = '';
 						state.ruleForm.RoleList = [];
 					}
+					state.ruleForm.AllowFrontendLogin = state.allowFrontendMiniAppLogin | state.allowFrontendAppLogin | state.allowFrontendWindowsLogin;
+
 					state.loading = true;
 					console.log(state.ruleForm);
 					try {
