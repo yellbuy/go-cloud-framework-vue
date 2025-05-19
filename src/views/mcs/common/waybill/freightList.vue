@@ -87,9 +87,9 @@
 								<el-tag type="warning" class="mr4" effect="dark" v-else-if="scope.row.WaybillMode==10">其他</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="TruckCount" label="接单|出勤|完成|所有" width="130" align="center">
+						<el-table-column prop="TruckCount" label="接单|请假|出勤|完成|所有" width="160" align="center">
 							<template #default="scope">
-								<el-text type="success" effect="plain">{{ scope.row.AuditTruckCount}}</el-text> | <el-text type="success" effect="plain">{{ scope.row.BeginTruckCount}}</el-text>  | <el-text type="success" effect="plain">{{ scope.row.FinishTruckCount}}</el-text> |  <el-text type="danger" effect="plain">{{scope.row.PlanTruckCount }}</el-text>
+								<el-text type="success" effect="plain" class="margin-lr-xs">{{ scope.row.AuditTruckCount}}</el-text> | <el-text type="danger" effect="plain" class="margin-lr-xs">{{ scope.row.TruckCount}}</el-text> | <el-text type="success" effect="plain" class="margin-lr-xs">{{ scope.row.BeginTruckCount}}</el-text>  | <el-text type="success" effect="plain" class="margin-lr-xs">{{ scope.row.FinishTruckCount}}</el-text> |  <el-text type="primary" effect="plain" class="margin-lr-xs">{{scope.row.PlanTruckCount }}</el-text>
 							</template>
 						</el-table-column>
 						<el-table-column prop="PlanWeight" label="执行进度" width="100" align="center">
@@ -181,7 +181,7 @@
 													effect="dark"
 													content="接单"
 													placement="top-start">	
-													<el-button type="warning" @click="onPlanBatchAudit" v-auth:[moduleKey]="'btn.PlanEdit'">
+													<el-button type="danger" @click="onPlanBatchAudit" v-auth:[moduleKey]="'btn.PlanEdit'">
 														<el-icon>
 															<RefreshRight />
 														</el-icon>
@@ -316,7 +316,7 @@
 											<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ $t('message.action.no') }}</el-tag>
 										</template>
 									</el-table-column>
-									<el-table-column prop="PlanTruckCount" label="车数" width="100" align="center">
+									<el-table-column prop="PlanTruckCount" label="计划车数" width="100" align="center">
 										<template #header>
 											<el-button
 												type="text"
@@ -329,12 +329,33 @@
 												</el-icon>
 												&#8197;车数{{ $t('message.action.update') }}
 											</el-button>
-											<span v-no-auth:[moduleKey]="'btn.PlanEdit'">车数</span>
+											<span v-no-auth:[moduleKey]="'btn.PlanEdit'">计划车数</span>
 										</template>
 										<template #default="scope">
-											<el-input type="number" placeholder="车数" v-model="scope.row.PlanTruckCount" input-style="text-align:right" v-auth:[moduleKey]="'btn.PlanEdit'">
+											<el-input type="number" placeholder="计划车数" v-model="scope.row.PlanTruckCount" input-style="text-align:right" v-auth:[moduleKey]="'btn.PlanEdit'">
 											</el-input>
 											<span v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ scope.row.PlanTruckCount }}</span>
+										</template>
+									</el-table-column>
+									<el-table-column prop="PlanTruckCount" label="完成车数" width="100" align="center">
+										<template #header>
+											<el-button
+												type="text"
+												v-if="planTableData.data"
+												@click="proxy.$api.common.table.update('erp_waybill_line', 'TruckCount', planTableData.data || [], 0)"
+												v-auth:[moduleKey]="'btn.PlanEdit'"
+											>
+												<el-icon>
+													<Edit />
+												</el-icon>
+												&#8197;车数{{ $t('message.action.update') }}
+											</el-button>
+											<span v-no-auth:[moduleKey]="'btn.PlanEdit'">完成车数</span>
+										</template>
+										<template #default="scope">
+											<el-input type="number" placeholder="完成车数" v-model="scope.row.TruckCount" input-style="text-align:right" v-auth:[moduleKey]="'btn.PlanEdit'">
+											</el-input>
+											<span v-no-auth:[moduleKey]="'btn.PlanEdit'">{{ scope.row.TruckCount }}</span>
 										</template>
 									</el-table-column>
 									<el-table-column prop="VehicleTypeName" label="车型" width="80"></el-table-column>

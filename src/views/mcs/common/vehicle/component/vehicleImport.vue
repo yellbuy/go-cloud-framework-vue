@@ -41,6 +41,13 @@
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
+							<el-table-column prop="BillNo" label="编号" width="80">
+								<template #default="scope">
+									<el-input
+										v-model="scope.row.BillNo"
+										placeholder="请输入"></el-input> 
+								</template>
+							</el-table-column>
 							<el-table-column prop="IsExternal" label="车辆类别" width="100" align="center">
 								<template #default="scope">
 									<el-tag type="danger" effect="plain" v-if="scope.row.IsExternal">外部车</el-tag>
@@ -177,6 +184,7 @@
 	</div>
 </template>
 <script lang="ts">
+import dayjs from 'dayjs';
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -184,7 +192,6 @@ import * as XLSX from "xlsx"; //引入
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-import dayjs from 'dayjs';
 export default {
 	name: 'vehicleImport',
 	setup() {
@@ -267,13 +274,14 @@ export default {
 					return;
 				}
 
-				const list = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: ["Index", "VehicleNumber", 
+				const list = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: ["Index", "VehicleNumber",  "BillNo", 
 					"VehicleType", "IsExternal", "Shipper", "Linkman", "Phone", "Driver", "DriverMobile", "DrivingLicense", "DrivingLicenseStartDate", 
 					"DrivingLicenseEndDate", "TransportLicense", "TransportLicenseStartDate", "TransportLicenseEndDate"], range: 2})
 					
 				list.forEach(item => {
 					item.Index = parseInt(item.Index)
 					item.VehicleNumber = String(item.VehicleNumber)
+					item.BillNo = String(item.BillNo)
 					if(item.Shipper){
 						item.IsExternal = parseInt(1)
 					}else{
