@@ -1,6 +1,6 @@
 <template>
 	<div class="base-freight-container">
-			<splitpanes class="default-theme" style="height:800px">
+			<splitpanes class="default-theme" style="height: 100%">
 				<pane :size="55">
 					<el-card shadow="hover">
 						<div style="margin-bottom:-16px">
@@ -252,7 +252,7 @@
 									:data="planTableData.data"
 									v-loading="planTableData.loading"
 									style="width: 100%"
-									:height="320"
+									:height="220"
 									border
 									stripe
 									selectable
@@ -469,7 +469,7 @@
 									:data="childTableData.data"
 									v-loading="childTableData.loading"
 									style="width: 100%"
-									:height="320"
+									:height="proxy.$calcMainHeight(-75-320)"
 									border
 									stripe
 									selectable
