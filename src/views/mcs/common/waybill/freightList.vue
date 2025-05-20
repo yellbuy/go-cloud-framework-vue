@@ -1,7 +1,7 @@
 <template>
 	<div class="base-freight-container">
 			<splitpanes class="default-theme" @resize="paneSize = $event[0].size" style="height: 100%">
-				<pane :size="58">
+				<pane size="55">
 					<el-card shadow="hover">
 						<div style="margin-bottom:-16px">
 							<el-form ref="searchFormRef" :model="mainTableData.param" label-suffix="："  label-width="60px" :inline="true">
@@ -138,9 +138,9 @@
 					</el-pagination>
 				</el-card>
 				</pane>
-				<pane :size="42">
-					<splitpanes class="default-theme" :horizontal="true">
-						<pane :size="50"> 
+				<pane size="45">
+					<splitpanes class="default-theme" horizontal>
+						<pane size="100"> 
 							<el-card shadow="hover">
 								<div style="margin-bottom:-16px">
 									<el-form ref="searchFormRef" :model="planTableData.param" label-suffix="：" label-width="60px" :inline="true">
@@ -206,6 +206,17 @@
 													<el-button type="success" @click="onPlanBatchFinish" v-auth:[moduleKey]="'btn.PlanEdit'">
 														<el-icon>
 															<Finished />
+														</el-icon>
+													</el-button>
+												</el-tooltip>
+												<el-tooltip
+													class="box-item"
+													effect="dark"
+													content="导入"
+													placement="top-start">	
+													<el-button type="primary" @click="onOpenImportPlanDlg" v-auth:[moduleKey]="'btn.PlanAdd'">
+														<el-icon>
+															<DocumentAdd />
 														</el-icon>
 													</el-button>
 												</el-tooltip>
@@ -401,10 +412,9 @@
 								</el-pagination>
 							</el-card>	
 						</pane>
-						<pane :size="50"> 
+						<pane size="100"> 
 							<el-card shadow="hover">
 								<div style="margin-bottom:-16px">
-									
 									<el-form ref="searchFormRef" :model="childTableData.param" label-suffix="：" label-width="60px" :inline="true">
 										<el-form-item label="">
 											<el-divider direction="vertical" border-style="dashed" />
@@ -533,6 +543,7 @@
 		<editPlanDlg ref="editPlanDlgRef" />
 		<childMapDlg ref="childMapDlgRef" />
 		<batchAddLineDlg ref="batchAddLineDlgRef" />
+		<importPlanDlg ref="importPlanDlgRef" />
 	</div>
 </template>
 
@@ -545,12 +556,13 @@ import { useRoute } from 'vue-router';
 import editMainDlg from './component/freightEdit.vue';
 import batchAddLineDlg from './component/freightLineBatchAdd.vue';
 import editChildDlg from './component/freightLineEdit.vue';
+import importPlanDlg from './component/freightLinePlanImport.vue';
 import editPlanDlg from './component/freightVehicleEdit.vue';
 import childMapDlg from './component/vehicleMap.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'freightList',
-	components: { editMainDlg, editChildDlg, batchAddLineDlg,childMapDlg,editPlanDlg, Splitpanes, Pane },
+	components: { editMainDlg, editChildDlg, batchAddLineDlg,childMapDlg,editPlanDlg, Splitpanes, Pane, importPlanDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -567,6 +579,7 @@ export default {
 		const mainTableRef = ref();
 		const planTableRef=ref();
 		const childTableRef = ref();
+		const importPlanDlgRef=ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			paneSize: 100,
@@ -770,34 +783,79 @@ export default {
 		};
 		//批量接单
 		const onPlanBatchAudit=async ()=>{
-			console.log("planTableRef.value:", planTableRef.value)
-			const rows=planTableRef.value.getSelectionRows();
-			const ids=rows.map((val)=>{return val.Id});
-			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'audit_state', ids, 1,'audit_time', 'audit_by')
-			if(success){
-				onPlanGetTableData();
+			if(!state.mainCurrentRow || !state.mainCurrentRow.Id || state.mainCurrentRow.Id=="0"){
+				ElMessage.warning('请选择任务单再接单');
+				return;
 			}
+			ElMessageBox.confirm(`确定要批量接单吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				const rows=planTableRef.value.getSelectionRows();
+				const ids=rows.map((val)=>{return val.Id});
+				const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'audit_state', ids, 1,'audit_time', 'audit_by')
+				if(success){
+					onPlanGetTableData();
+				}
+				return false;
+			});
+
+			
 		}
 
 		//批量签到
 		const onPlanBatchBegin=async ()=>{
-			const rows=planTableRef.value.getSelectionRows();
-			const ids=rows.map((val)=>{return val.Id});
-			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'begin_state', ids, 1, 'begin_time' , 'begin_by')
-			if(success){
-				onPlanGetTableData();
+			if(!state.mainCurrentRow || !state.mainCurrentRow.Id || state.mainCurrentRow.Id=="0"){
+				ElMessage.warning('请选择任务单再进行签到');
+				return;
 			}
+			ElMessageBox.confirm(`确定要批量签到吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				const rows=planTableRef.value.getSelectionRows();
+				const ids=rows.map((val)=>{return val.Id});
+				const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'begin_state', ids, 1, 'begin_time' , 'begin_by')
+				if(success){
+					onPlanGetTableData();
+				}
+				return false;
+			});
 		}
+
+		
 		//批量结束
 		const onPlanBatchFinish= async ()=>{
-			const rows=planTableRef.value.getSelectionRows();
-			const ids=rows.map((val)=>{return val.Id});
-			const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'finish_state', ids, 1,'finish_time', 'finish_By')	
-			if(success){
-				onPlanGetTableData();
+			if(!state.mainCurrentRow || !state.mainCurrentRow.Id || state.mainCurrentRow.Id=="0"){
+				ElMessage.warning('请选择任务单再进行结束');
+				return;
 			}
+			ElMessageBox.confirm(`确定要批量结束吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				const rows=planTableRef.value.getSelectionRows();
+				const ids=rows.map((val)=>{return val.Id});
+				const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'finish_state', ids, 1,'finish_time', 'finish_By')	
+				if(success){
+					onPlanGetTableData();
+				}
+				return false;
+			});
 			
 		}
+
+		// 打开导入弹窗
+		const onOpenImportPlanDlg = () => {
+			if(!state.mainCurrentRow || !state.mainCurrentRow.Id || state.mainCurrentRow.Id=="0"){
+				ElMessage.warning('请选择任务单再进行导入');
+				return;
+			}
+			importPlanDlgRef.value.openDialog(state.planKind,state.mainCurrentRow.Id);
+		};
 		//
 		const onPlanExcelExport= async ()=>{
 			if(!state.planTableData.param.waybillId){
@@ -959,6 +1017,7 @@ export default {
 			editPlanDlgRef,
 			childMapDlgRef,
 			batchAddLineDlgRef,
+			importPlanDlgRef,
 			mainTableRef,
 			planTableRef,
 			childTableRef,
@@ -979,6 +1038,7 @@ export default {
 			onPlanBatchAudit,
 			onPlanBatchBegin,
 			onPlanBatchFinish,
+			onOpenImportPlanDlg,
 			onPlanDel,
 			onPlanHandleSizeChange,
 			onPlanHandleCurrentChange,

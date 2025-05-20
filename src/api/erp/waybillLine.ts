@@ -70,13 +70,22 @@ export default {
             })
         }
     },
-/**
+    /**
      * 批量插入
      * @param data 信息
      * @returns 返回接口数据
      */
     insertMulti: async (data: object) => {
         const url = `/v1/admin/erp/Waybilllines`;
+        return await http.post(url, data);
+    },
+    /**
+     * 批量导入
+     * @param data 信息
+     * @returns 返回接口数据
+     */
+    importMulti: async (kind:string,waybillId:number|string,data: object) => {
+        const url = `/v1/admin/erp/Waybilllines/${kind}/${waybillId}`;
         return await http.post(url, data);
     },
 
