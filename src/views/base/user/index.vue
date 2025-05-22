@@ -6,8 +6,8 @@
 					<el-form-item label="账户名：">
 						<el-input placeholder="请输入账号名查询" v-model="tableData.param.username"> </el-input>
 					</el-form-item>
-					<el-form-item label="姓名：">
-						<el-input placeholder="请输入姓名查询" v-model="tableData.param.name"> </el-input>
+					<el-form-item label="关键字：">
+						<el-input placeholder="请输入关键字查询" v-model="tableData.param.name"> </el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">

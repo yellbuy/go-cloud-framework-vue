@@ -6,8 +6,8 @@
 					<el-form-item label="账户名：">
 						<el-input placeholder="请输入账号名查询" v-model="tableData.param.username"> </el-input>
 					</el-form-item>
-					<el-form-item label="名称：">
-						<el-input placeholder="请输入姓名查询" v-model="tableData.param.name"> </el-input>
+					<el-form-item label="关键字：">
+						<el-input placeholder="请输入关键字查询" v-model="tableData.param.name"> </el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch">
@@ -42,7 +42,7 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Username" label="登录名" width="100" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Username" label="登录名" width="150" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Name" label="名称" width="100" show-overflow-tooltip></el-table-column>
 
 				<el-table-column prop="Mobile" label="电话" width="110" show-overflow-tooltip></el-table-column>
