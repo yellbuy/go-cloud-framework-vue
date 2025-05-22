@@ -6,7 +6,7 @@
 					<el-form-item label="账户名：">
 						<el-input placeholder="请输入账号名查询" v-model="tableData.param.username"> </el-input>
 					</el-form-item>
-					<el-form-item label="姓名：">
+					<el-form-item label="名称：">
 						<el-input placeholder="请输入姓名查询" v-model="tableData.param.name"> </el-input>
 					</el-form-item>
 					<el-form-item>
@@ -42,10 +42,10 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Username" label="登录账号" width="100" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Name" label="姓名" width="100" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Username" label="登录名" width="100" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Name" label="名称" width="100" show-overflow-tooltip></el-table-column>
 
-				<el-table-column prop="Tel" label="电话" width="110" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Mobile" label="电话" width="110" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Email" label="邮箱" width="150" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Enable" label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
@@ -53,17 +53,17 @@
 							v-model="scope.row.Enable"
 							inline-prompt
 							:width="46"
-							v-auth:[moduleKey]="'btn.UserEdit'"
+							v-auth:[moduleKey]="'btn.Edit'"
 							@change="proxy.$api.common.table.updateById('base_user', 'Enable', scope.row.Id, scope.row.Enable)"
 							:active-text="$t('message.action.enable')"
 							:inactive-text="$t('message.action.disable')"
 							:active-value="1"
 							:inactive-value="0"
 						/>
-						<el-tag type="success" effect="plain" v-if="scope.row.Enable" v-no-auth:[moduleKey]="'btn.UserEdit'">{{
+						<el-tag type="success" effect="plain" v-if="scope.row.Enable" v-no-auth:[moduleKey]="'btn.Edit'">{{
 							$t('message.action.enable')
 						}}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.UserEdit'">{{ $t('message.action.disable') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.disable') }}</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Order" label="排序" width="100" align="center">
@@ -72,34 +72,25 @@
 							type="text"
 							v-if="tableData.data"
 							@click="proxy.$api.common.table.update('base_user', 'Order', tableData.data || [], 0)"
-							v-auth:[moduleKey]="'btn.UserEdit'"
+							v-auth:[moduleKey]="'btn.Edit'"
 						>
 							<el-icon>
 								<Edit />
 							</el-icon>
 							&#8197;排序{{ $t('message.action.update') }}
 						</el-button>
-						<span v-no-auth:[moduleKey]="'btn.UserEdit'">排序</span>
+						<span v-no-auth:[moduleKey]="'btn.Edit'">排序</span>
 					</template>
 					<template #default="scope">
-						<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.UserEdit'">
+						<el-input type="number" placeholder="排序" v-model="scope.row.Order" input-style="text-align:right" v-auth:[moduleKey]="'btn.Edit'">
 						</el-input>
-						<span v-no-auth:[moduleKey]="'btn.UserEdit'">{{ scope.row.Order }}</span>
+						<span v-no-auth:[moduleKey]="'btn.Edit'">{{ scope.row.Order }}</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="IsAdmin" label="管理员" width="70" align="center">
-					<template #default="scope">
-						<el-tag type="success" effect="plain" v-if="scope.row.IsAdmin">{{ $t('message.action.yes') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else>{{ $t('message.action.no') }}</el-tag>
-					</template>
-				</el-table-column>
-				<!-- <el-table-column prop="Order" label="排序" width="80" align="right" show-overflow-tooltip>
-				</el-table-column> -->
-				<el-table-column prop="RoleNames" label="所属角色" width="180" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="LoginTime" label="最后登录时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="CreateTime" label="创建时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 
-				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
+				<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenuserEdit(scope.row)" v-auth:[moduleKey]="'btn.UserEdit'">
 							<el-icon>
@@ -114,7 +105,7 @@
 							&#8197;{{ $t('message.action.delete') }}
 						</el-button>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 			</el-table>
 			<el-pagination
 				small
@@ -144,7 +135,7 @@ export default {
 	name: 'baseUsers',
 	components: { userEdit },
 	setup() {
-		const moduleKey = 'api_base_user';
+		const moduleKey = 'api_base_external';
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
 		console.log('路由', route.query);
@@ -158,8 +149,8 @@ export default {
 				loading: false,
 				param: {
 					username: '',
-					isExternal:0,
 					name: '',
+					isExternal:1,
 					pageNum: 1,
 					pageSize: 20,
 				},
