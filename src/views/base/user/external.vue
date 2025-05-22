@@ -42,8 +42,8 @@
 				highlight-current-row
 			>
 				<el-table-column type="index" label="序号" align="right" width="70" fixed />
-				<el-table-column prop="Username" label="登录名" width="150" show-overflow-tooltip fixed></el-table-column>
-				<el-table-column prop="Name" label="名称" width="100" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Username" label="登录名" width="160" show-overflow-tooltip fixed></el-table-column>
+				<el-table-column prop="Name" label="名称" width="110" show-overflow-tooltip></el-table-column>
 
 				<el-table-column prop="Mobile" label="电话" width="110" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Email" label="邮箱" width="150" show-overflow-tooltip></el-table-column>
@@ -87,8 +87,8 @@
 						<span v-no-auth:[moduleKey]="'btn.Edit'">{{ scope.row.Order }}</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="LoginTime" label="最后登录时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="CreateTime" label="创建时间" width="120" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="LoginTime" label="最后登录时间" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="CreateTime" label="创建时间" width="130" :formatter="dateFormatYMDHM" show-overflow-tooltip> </el-table-column>
 
 				<!-- <el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(180)" fixed="right">
 					<template #default="scope">
