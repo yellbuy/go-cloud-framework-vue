@@ -451,6 +451,17 @@
 												<el-tooltip
 													class="box-item"
 													effect="dark"
+													content="导入"
+													placement="top-start">	
+													<el-button type="primary" @click="onOpenImportChildDlg" v-auth:[moduleKey]="'btn.ChildAdd'">
+														<el-icon>
+															<DocumentAdd />
+														</el-icon>
+													</el-button>
+												</el-tooltip>
+												<el-tooltip
+													class="box-item"
+													effect="dark"
 													:content="$t('message.action.add')"
 													placement="top-start">	
 													<el-button type="primary" @click="onOpenBatchAddDlg(0, 'freight', false)" v-auth:[moduleKey]="'btn.ChildAdd'">
@@ -544,6 +555,7 @@
 		<childMapDlg ref="childMapDlgRef" />
 		<batchAddLineDlg ref="batchAddLineDlgRef" />
 		<importPlanDlg ref="importPlanDlgRef" />
+		<importWeightDlg ref="importWeightDlgRef" />
 	</div>
 </template>
 
@@ -557,12 +569,13 @@ import editMainDlg from './component/freightEdit.vue';
 import batchAddLineDlg from './component/freightLineBatchAdd.vue';
 import editChildDlg from './component/freightLineEdit.vue';
 import importPlanDlg from './component/freightLinePlanImport.vue';
+import importWeightDlg from './component/freightLineWeightImport.vue';
 import editPlanDlg from './component/freightVehicleEdit.vue';
 import childMapDlg from './component/vehicleMap.vue';
 import commonFunction from '/@/utils/commonFunction';
 export default {
 	name: 'freightList',
-	components: { editMainDlg, editChildDlg, batchAddLineDlg,childMapDlg,editPlanDlg, Splitpanes, Pane, importPlanDlg },
+	components: { editMainDlg, editChildDlg, batchAddLineDlg,childMapDlg,editPlanDlg, Splitpanes, Pane, importPlanDlg,importWeightDlg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const route = useRoute();
@@ -580,6 +593,7 @@ export default {
 		const planTableRef=ref();
 		const childTableRef = ref();
 		const importPlanDlgRef=ref();
+		const importWeightDlgRef=ref();
 		const state: any = reactive({
 			moduleKey: moduleKey,
 			paneSize: 100,
@@ -848,7 +862,7 @@ export default {
 			
 		}
 
-		// 打开导入弹窗
+		// 打开导入计划弹窗
 		const onOpenImportPlanDlg = () => {
 			if(!state.mainCurrentRow || !state.mainCurrentRow.Id || state.mainCurrentRow.Id=="0"){
 				ElMessage.warning('请选择任务单再进行导入');
@@ -941,6 +955,15 @@ export default {
 			batchAddLineDlgRef.value.openDialog(kind, state.mainCurrentRow.Id, ishow);
 		};
 
+		// 打开导入运量弹窗
+		const onOpenImportChildDlg = () => {
+			if(!state.mainCurrentRow || !state.mainCurrentRow.Id || state.mainCurrentRow.Id=="0"){
+				ElMessage.warning('请选择任务单再进行导入');
+				return;
+			}
+			importWeightDlgRef.value.openDialog(state.kind,state.mainCurrentRow.Id);
+		};
+
 		// //批量开始
 		// const onChildBatchBegin=async ()=>{
 		// 	const rows=childTableRef.value.getSelectionRows();
@@ -1018,6 +1041,7 @@ export default {
 			childMapDlgRef,
 			batchAddLineDlgRef,
 			importPlanDlgRef,
+			importWeightDlgRef,
 			mainTableRef,
 			planTableRef,
 			childTableRef,
@@ -1042,6 +1066,7 @@ export default {
 			onPlanDel,
 			onPlanHandleSizeChange,
 			onPlanHandleCurrentChange,
+			onOpenImportChildDlg,
 			onChildQuery,
 			onChildGetTableData,
 			onChildResetSearch,
