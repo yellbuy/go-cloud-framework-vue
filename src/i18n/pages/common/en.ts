@@ -7,6 +7,7 @@ export default {
 		concreteData:'concrete data',
 		hierarchyData:'hierarchy data',
 		industry:'industry type',
+		route: 'route',
 	},
 	action:{
 	}

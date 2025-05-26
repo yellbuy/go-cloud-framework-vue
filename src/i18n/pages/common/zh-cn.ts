@@ -7,6 +7,7 @@ export default {
 		concreteData:'基础代码',
 		hierarchyData:'层级代码',
 		industry:'行业类型',
+		route: '线路管理',
 	},
 	action:{
 	}
