@@ -142,15 +142,41 @@
 					<splitpanes class="default-theme" horizontal>
 						<pane :size="100"> 
 							<el-card shadow="hover">
-								<div style="margin-bottom:-16px">
+								<div style="margin-bottom:-56px">
 									<el-form ref="searchFormRef" :model="planTableData.param" label-suffix="：" label-width="60px" :inline="true">
 										<el-form-item label="">
 											<el-divider direction="vertical" border-style="dashed" />
 											<span>派单</span>
 										</el-form-item>
+										<el-form-item label="接单">
+											<el-select v-model="planTableData.param.auditState" placeholder="接单状态" style="width: 90px">
+												<el-option label="不限" :value="-1"></el-option>
+												<el-option label="未接单" :value="0"></el-option>
+												<el-option label="已接单" :value="1"></el-option>
+												<el-option label="已请假" :value="2"></el-option>
+											</el-select>
+										</el-form-item>
+										<el-form-item label="签到">
+											<el-select v-model="planTableData.param.beginState" placeholder="签到状态" style="width: 90px">
+												<el-option label="不限" :value="-1"></el-option>
+												<el-option label="未签到" :value="0"></el-option>
+												<el-option label="已签到" :value="1"></el-option>
+											</el-select>
+										</el-form-item>
+										<el-form-item label="结束">
+											<el-select v-model="planTableData.param.finishState" placeholder="结束状态" style="width: 90px">
+												<el-option label="不限" :value="-1"></el-option>
+												<el-option label="未结束" :value="0"></el-option>
+												<el-option label="已结束" :value="1"></el-option>
+											</el-select>
+										</el-form-item>
+										<el-form-item></el-form-item>
+									</el-form>
+									<el-form ref="searchFormRef" :model="planTableData.param" label-suffix="：" label-width="60px" :inline="true">
 										<el-form-item label="关键字">
 											<el-input placeholder="输入关键字查询" style="width:100px" v-model="planTableData.param.keyword"> </el-input>
 										</el-form-item>
+										
 										<el-form-item>
 											<el-checkbox v-model="planTableData.isTodayAll" :true-label="1" :false-label="0">今日{{ $t('message.action.all') }}</el-checkbox>
 											<el-button-group>
@@ -247,12 +273,11 @@
 										<el-form-item></el-form-item>
 									</el-form>
 								</div>
-								<el-table
+								<el-table style="margin-top:50px;width: 100%"
 									ref="planTableRef"
 									:data="planTableData.data"
 									v-loading="planTableData.loading"
-									style="width: 100%"
-									:height="320"
+									:height="260"
 									border
 									stripe
 									selectable
@@ -626,7 +651,9 @@ export default {
 					kind:planKind,
 					keyword: '',
 					waybillId:'0',
-					
+					auditState:-1,
+					beginState:-1,
+					finishState:-1,
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,
@@ -876,7 +903,11 @@ export default {
 				ElMessage.error('请选择待导出的任务记录')
 				return;
 			}
-			const res = await proxy.$api.erp.waybillLine.exportXlsByScope(state.planKind, state.scopeMode, state.scopeValue, {waybillId:state.planTableData.param.waybillId});
+			const res = await proxy.$api.erp.waybillLine.exportXlsByScope(state.planKind, state.scopeMode, state.scopeValue, 
+				{waybillId:state.planTableData.param.waybillId,
+					auditState:state.planTableData.param.auditState,
+					beginState:state.planTableData.param.beginState,
+					finishState:state.planTableData.param.finishState});
 			if (!res.data || res.data.size == 0) {
 				return;
 			} 

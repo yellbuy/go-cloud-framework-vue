@@ -102,7 +102,7 @@
 			>
 			</el-pagination>
 		</el-card>
-		<concreteDataEdit ref="commondataEditRef" />
+		<editDlg ref="editDlg" />
 	</div>
 </template>
 
@@ -110,10 +110,10 @@
 import type { TabsPaneContext } from 'element-plus';
 import { ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
-import concreteDataEdit from './component/concreteDataEdit.vue';
+import editDlg from './component/edit.vue';
 export default {
 	name: 'commonConcreteData',
-	components: { concreteDataEdit },
+	components: { editDlg },
 	setup() {
 		const commonTypeCode = 'concretecommondata';
 		const commondataEditRef = ref();
