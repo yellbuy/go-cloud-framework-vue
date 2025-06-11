@@ -25,7 +25,7 @@ if (appid == "30") {
 const service = axios.create({
 	baseURL: import.meta.env.VITE_API_URL as any,
 	timeout: 100000,
-	headers: { 'Content-Type': 'application/json', 'Appid': appid },
+	headers: { 'Content-Type': 'application/json', 'Appid': appid, "Client-Kind": "web" },
 	responseType: '',
 });
 
@@ -38,15 +38,18 @@ const setAppid = (newAppid: string = "0") => {
 axios.defaults.retry = 3;
 axios.defaults.retryDelay = 10000;
 
-const authorizationKey="Authorization" //header头Token的键名
+const authorizationHeaderKey="Authorization" //header头Token的键名
+const xsrftokenHeaderKey="X-Xsrftoken"
+const xsrftokenSessionKey="xsrftoken"
 
 // 添加请求拦截器
 service.interceptors.request.use(
 	(config) => {
 		// 在发送请求之前做些什么 token
 		const token = Session.get('token');
+		
 		if (token) {
-			config.headers.set(authorizationKey, token);
+			config.headers.set(authorizationHeaderKey, token);
 
 			// const tokenExpiresAt=new Date(Session.get('expiresAt'));
 			// 	const refreshTokenAt=new Date(Session.get('refreshTokenAt'));
@@ -59,7 +62,10 @@ service.interceptors.request.use(
 
 			// }
 		}
-
+		const xsrftoken = Session.get(xsrftokenSessionKey);
+		if (xsrftoken) {
+			config.headers.set(xsrftokenHeaderKey, token);	
+		}
 		//时间戳
 		const curTime = new Date().getTime();
 		config.headers.set('Timestamp', curTime);
@@ -87,6 +93,7 @@ service.interceptors.response.use(
 			// `token` 过期或者账号已在别处登录
 			if (res.errcode === 100001 || res.errcode === 100002) {
 				Session.clear(); // 清除浏览器全部临时缓存
+				Session.set(xsrftokenSessionKey,res.data||"")
 				ElMessageBox.confirm('当前用户已退出或无权限访问当前资源，请尝试重新登录后再操作。', '温馨提示', {
 					type: 'error',
 					closeOnClickModal: false,
@@ -104,6 +111,7 @@ service.interceptors.response.use(
 
 			} else if (res.errcode == 100007){
 				Session.clear(); // 清除浏览器全部临时缓存
+				Session.set(xsrftokenSessionKey,res.data||"")
 				ElMessage.error({
 					showClose: true,
 					message: `${res.errmsg}`,
@@ -116,7 +124,7 @@ service.interceptors.response.use(
 			//return Promise.reject(service.interceptors.response);
 		} else {
 			if(response.headers){
-				const token=response.headers[authorizationKey.toLocaleLowerCase()];
+				const token=response.headers[authorizationHeaderKey.toLocaleLowerCase()];
 				if(token){
 					Session.set('token', token);
 				}				

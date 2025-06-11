@@ -150,6 +150,7 @@ export default defineComponent({
 				// 存储 token 到浏览器缓存
 				Local.set('appid', userInfos.appid);
 				Session.set('token', res.data.token);
+				Session.set('xsrftoken', res.data.xsrftoken||"");
 				
 				// 存储用户信息到浏览器缓存
 				Session.set('userInfo', userInfos);

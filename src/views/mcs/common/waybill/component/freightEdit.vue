@@ -136,7 +136,16 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
+						<el-form-item label="过磅安排" prop="WaybillContent">
+							<el-input
+								v-model="ruleForm.WaybillContent"
+								placeholder="请输入">
+							</el-input> 
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">

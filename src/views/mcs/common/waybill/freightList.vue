@@ -880,7 +880,7 @@ export default {
 			}).then(async () => {
 				const rows=planTableRef.value.getSelectionRows();
 				const ids=rows.map((val)=>{return val.Id});
-				const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'finish_state', ids, 1,'finish_time', 'finish_By')	
+				const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'finish_state', ids, 1,'finish_time', 'finish_by')	
 				if(success){
 					onPlanGetTableData();
 				}
