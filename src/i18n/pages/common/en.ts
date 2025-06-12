@@ -6,6 +6,8 @@ export default {
 		commonData: 'common data',
 		concreteData:'concrete data',
 		hierarchyData:'hierarchy data',
+		log:'log',
+		sms:'short message',
 		industry:'industry type',
 		route: 'route',
 	},

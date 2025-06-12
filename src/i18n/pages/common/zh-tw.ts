@@ -6,6 +6,8 @@ export default {
 		commonData: '基础代码',
 		concreteData:'基础代码',
 		hierarchyData:'层级代码',
+		log:'日志查询',
+		sms:'短信查询',
 		industry:'行业类型',
 		route: '线路管理',
 	},
