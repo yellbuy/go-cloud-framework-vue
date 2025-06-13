@@ -9,7 +9,7 @@ export default {
 		log:'日志查询',
 		sms:'短信查询',
 		industry:'行业类型',
-		route: '线路管理',
+		route: '运输线路',
 	},
 	action:{
 	}

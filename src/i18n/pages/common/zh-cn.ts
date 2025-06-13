@@ -9,7 +9,7 @@ export default {
 		sms:'短信查询',
 		hierarchyData:'层级代码',
 		industry:'行业类型',
-		route: '线路管理',
+		route: '运输线路',
 	},
 	action:{
 	}

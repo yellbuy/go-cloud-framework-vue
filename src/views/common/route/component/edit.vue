@@ -1,15 +1,15 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="60%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="540px" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="90px" v-loading="loading" :disabled="disable">
-				<el-form-item label="名称" prop="Name">
-					<el-input placeholder="请输入名称" v-model="ruleForm.Name"> </el-input>
+				<el-form-item label="发货地" prop="OriginSiteName">
+					<el-input placeholder="发货地" v-model="ruleForm.OriginSiteName"> </el-input>
 				</el-form-item>
-				<el-form-item label="编码" prop="Code">
-					<el-input placeholder="请输入编码" v-model="ruleForm.Code"> </el-input>
+				<el-form-item label="收货地" prop="DestinationSiteName">
+					<el-input placeholder="收货地" v-model="ruleForm.DestinationSiteName"> </el-input>
 				</el-form-item>
 				<el-form-item label="排序" prop="Order">
-					<el-input type="number" placeholder="排序" v-model="ruleForm.Order"> </el-input>
+					<el-input-number type="number" :min="0" :step="10" placeholder="排序" v-model="ruleForm.Order"> </el-input-number>
 					<p title="" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>值小的靠前显示</span></p>
 				</el-form-item>
 			</el-form>
@@ -26,10 +26,8 @@
 </template>
 
 <script lang="ts">
-import request from '/@/utils/request';
-import { reactive, toRefs, onMounted, getCurrentInstance, ref } from 'vue';
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElMessageBox, ElMessage } from 'element-plus';
 export default {
 	name: 'Edit',
 	setup() {
@@ -41,22 +39,25 @@ export default {
 			loading: false,
 			ruleForm: {
 				Id: 0,
-				Type: 'zgps',
-				Name: '',
+				Kind: 'route',
+				OriginSiteName: '',
+				State:1,
+				DestinationSiteName:'',
+				Order:100
 			},
 			disable: false, //是否隐藏
 		});
 		const rules = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
-			Code: [
+			OriginSiteName: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
 					trigger: 'blur',
 				},
 			],
-			Name: [
+			DestinationSiteName: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -65,9 +66,9 @@ export default {
 			],
 		});
 		// 打开弹窗
-		const openDialog = async (Type: string, id: string, disable: boolean) => {
+		const openDialog = async (kind: string, id: string, disable: boolean) => {
 			if (id && id != '0') {
-				const res = await proxy.$api.common.commondata.getById(id)
+				const res = await proxy.$api.common.route.getById(id)
 				if (res.errcode != 0) {
 					return;
 				}
@@ -75,10 +76,14 @@ export default {
 				state.title = t('message.action.edit');
 			} else {
 				state.ruleForm.Id = 0;
+				state.ruleForm.OriginSiteName='';
+				state.ruleForm.DestinationSiteName='';
+				state.ruleForm.State=1;
+				state.ruleForm.Order=100;
 				state.title = t('message.action.add');
 			}
 
-			state.ruleForm.Type = Type;
+			state.ruleForm.Kind = kind;
 			state.isShowDialog = true;
 			state.disable = disable;
 		};
@@ -101,10 +106,9 @@ export default {
 				console.log(valid);
 				if (valid) {
 					// state.loading = true;
-					const url = state.ruleForm.Id > 0 ? `/v1/common/commondata/${state.ruleForm.Id}` : `/v1/common/commondata`;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.Order = parseInt(state.ruleForm.Order);
-					const res = await proxy.$api.common.commondata.save(state.ruleForm)
+					const res = await proxy.$api.common.route.save(state.ruleForm)
 					if (res.errcode == 0) {
 						if (isCloseDlg) {
 							closeDialog();
