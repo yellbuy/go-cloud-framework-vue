@@ -68,7 +68,7 @@ service.interceptors.request.use(
 		}
 		//时间戳
 		const curTime = new Date().getTime();
-		config.headers.set('Timestamp', curTime);
+		config.headers.set('X-Timestamp', curTime);
 		return config;
 	},
 	(error) => {

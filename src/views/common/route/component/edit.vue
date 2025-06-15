@@ -12,6 +12,9 @@
 					<el-input-number type="number" :min="0" :step="10" placeholder="排序" v-model="ruleForm.Order"> </el-input-number>
 					<p title="" class="color-info-light font10 text-help-info"><SvgIcon name="fa fa-info-circle" /><span>值小的靠前显示</span></p>
 				</el-form-item>
+				<el-form-item label="备注" prop="Remark">
+					<el-input placeholder="备注" v-model="ruleForm.Remark"> </el-input>
+				</el-form-item>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">

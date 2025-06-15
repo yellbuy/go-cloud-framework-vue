@@ -79,6 +79,7 @@
 						<span v-no-auth:[moduleKey]="'btn.Edit'">{{ scope.row.Order }}</span>
 					</template>
 				</el-table-column>
+				<el-table-column prop="Remark" label="备注" width="280" show-overflow-tooltip />
 				<el-table-column prop="CreateBy" label="创建人" width="80" show-overflow-tooltip />
 				<el-table-column prop="CreateTime" label="创建时间" width="160" sortable :formatter="dateFormatYMDHM" show-overflow-tooltip></el-table-column>
 				
