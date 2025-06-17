@@ -63,6 +63,7 @@ service.interceptors.request.use(
 			// }
 		}
 		const xsrftoken = Session.get(xsrftokenSessionKey);
+		console.log("xsrftoken:",xsrftoken)
 		if (xsrftoken) {
 			config.headers.set(xsrftokenHeaderKey, token);	
 		}

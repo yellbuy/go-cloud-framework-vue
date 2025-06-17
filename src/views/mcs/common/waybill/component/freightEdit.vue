@@ -106,6 +106,17 @@
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
+						<el-form-item label="收发地点" prop="RouterId">
+							<el-select
+								v-model="ruleForm.RouterId"
+								filterable
+								placeholder="请选择">
+								<el-option label="请选择" value=""> </el-option>
+								<el-option v-for="(item, index) in routeList" :key="index" :label="item.Name" :value="item.Id"> </el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="发货地点" prop="SenderAddress">
 							<el-select
 								v-model="ruleForm.SenderAddress"
@@ -118,9 +129,9 @@
 								</el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 				</el-row>
-				<el-row :gutter="0">
+				<!-- <el-row :gutter="0">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="收货地点" prop="ReceiverAddress">
 							<el-select
@@ -135,7 +146,7 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-				</el-row>
+				</el-row> -->
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
 						<el-form-item label="过磅安排" prop="WaybillContent">
@@ -199,6 +210,7 @@ export default {
 				Kind: 'info',
 				CustomerId:"",
 				GoodsCategoryId: "0",
+				RouterId:"",
 				WaybillMode: 1,
 				Mode: 1,
 				GoodsId: "",
@@ -225,6 +237,7 @@ export default {
 			goodsTypeList:[],
 			goodsList:[],
 			customerList:[],
+			routeList:[],
 			senderAddressList:[],
 			receiverAddressList:[],
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
@@ -259,6 +272,13 @@ export default {
 				},
 			],
 			CustomerId: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			RouterId: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -303,7 +323,6 @@ export default {
 			try {
 				loadGoodsCategory();
 				loadGoodsList();
-				
 				const resCustomers = await proxy.$api.erp.company.getListByScope("customer", 0, 2, {pageSize:1000000});
 				if (resCustomers.errcode == 0) {
 					state.customerList = resCustomers.data;
@@ -319,9 +338,12 @@ export default {
 					state.ruleForm.Id = 0;
 					state.ruleForm.IsExternal=0;
 					state.ruleForm.Mode=1;
+					state.ruleForm.RouterId=""
 					state.ruleForm.SenderPlanTime=new Date()
 					state.ruleForm.ReceiverPlanTime=dayjs(new Date()).add(1, 'day')
 					state.title = t('message.action.add');
+
+					loadRouteList();
 				}
 				state.isShowDialog = true;
 			} finally {
@@ -336,7 +358,10 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				await loadAddressList();
+				if(state.ruleForm.RouterId=="0"){
+					state.ruleForm.RouterId=""
+				}
+				await loadRouteList();
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -362,9 +387,9 @@ export default {
 		// 选中客户后，加载最近的运单信息
 		const onFormSelected = async () => {
 			//清空地址，防止选择了不同的客户忘了修改地址，导致地址录入错误
-			state.ruleForm.SenderAddress="" 
-			state.ruleForm.ReceiverAddress=""
-			await loadAddressList()
+			// state.ruleForm.SenderAddress="" 
+			// state.ruleForm.ReceiverAddress=""
+			// await loadAddressList()
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -396,6 +421,15 @@ export default {
 				console.log("error:",goodsRes.errmsg)
 			}
 		}
+		
+		const loadRouteList=async(categoryId:string="0")=>{
+			const routeRes = await proxy.$api.common.route.getListByScope('route', 0, 2, {pageSize:100000,state:1});
+			if (routeRes.errcode == 0) {
+				state.routeList = routeRes.data;
+			}else{
+				console.log("error:",routeRes.errmsg)
+			}
+		}
 		//修改按钮
 		const onModelEdit = (item: object) => {
 			
@@ -409,6 +443,7 @@ export default {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					state.ruleForm.WaybillType=2; //1：计划，2：生产
+					state.ruleForm.RouterId=state.ruleForm.RouterId || "0"
 					try {
 						const res = await proxy.$api.erp.waybill.save(state.ruleForm);
 						if (res.errcode == 0) {
