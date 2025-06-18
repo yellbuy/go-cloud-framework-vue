@@ -834,7 +834,7 @@ export default {
 			}).then(async () => {
 				const rows=planTableRef.value.getSelectionRows();
 				const ids=rows.map((val)=>{return val.Id});
-				const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'audit_state', ids, 1,'audit_time', 'audit_by')
+				const success= await proxy.$api.erp.waybillLine.updateExtByIds(state.mainCurrentRow.Id, 'audit_state', ids, 1,'audit_time', 'audit_by')
 				if(success){
 					onPlanGetTableData();
 				}
@@ -857,7 +857,7 @@ export default {
 			}).then(async () => {
 				const rows=planTableRef.value.getSelectionRows();
 				const ids=rows.map((val)=>{return val.Id});
-				const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'begin_state', ids, 1, 'begin_time' , 'begin_by')
+				const success= await proxy.$api.erp.waybillLine.updateExtByIds(state.mainCurrentRow.Id, 'begin_state', ids, 1, 'begin_time' , 'begin_by')
 				if(success){
 					onPlanGetTableData();
 				}
@@ -879,7 +879,7 @@ export default {
 			}).then(async () => {
 				const rows=planTableRef.value.getSelectionRows();
 				const ids=rows.map((val)=>{return val.Id});
-				const success= await proxy.$api.common.table.updateExtByIds('erp_waybill_line', 'finish_state', ids, 1,'finish_time', 'finish_by')	
+				const success= await proxy.$api.erp.waybillLine.updateExtByIds(state.mainCurrentRow.Id, 'finish_state', ids, 1,'finish_time', 'finish_by')	
 				if(success){
 					onPlanGetTableData();
 				}

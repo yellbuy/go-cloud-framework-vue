@@ -54,7 +54,7 @@ export default {
     updateById:async(id:string|number,fieldName:string,fieldValue:number|number,extId:string|number,savedTimeFieldName:string="",savedUserFieldName:string="")=>{
         //对象转换为数组
         const data={Id:id,Value:fieldValue,ExtId:extId,SavedTimeFieldName:savedTimeFieldName,SavedUserFieldName:savedUserFieldName}
-        const url=`/v1/admin/erp/Waybillline/update/${fieldName}/${fieldValue}`;
+        const url=`/v1/admin/erp/waybillline/update/${fieldName}/${fieldValue}`;
         const res= await http.post(url, data,{notifyError:false});
         if(res.errcode==0){
             ElMessage({
@@ -70,6 +70,43 @@ export default {
             })
         }
     },
+    /**
+	 * 更新表字段
+	 * @param tableName 表名
+	 * @param fieldName 字段名
+	 * @param ids 标识数组
+	 * @param val 值
+	 * @returns 返回接口数据
+	 */
+	updateExtByIds:async(waybillId:string,fieldName:string,ids:[],fieldValue:any,savedTimeFieldName:string="",savedUserFieldName:string="")=>{
+        if(!ids || ids.length==0){
+			ElMessage({
+				message: '选择的记录不能为空',
+				grouping: true,
+				type: 'warning',
+			})
+			return false;
+		}
+		//对象转换为数组
+		const idValArr=ids.map((id)=>{return {Id:id,Value:fieldValue}})
+        const data={Id:waybillId,ExtValues:idValArr,SavedTimeFieldName:savedTimeFieldName,SavedUserFieldName:savedUserFieldName}
+		const url=`/v1/admin/erp/waybillline/update/${fieldName}`;
+		const res= await http.post(url, data,{notifyError:false});
+		if(res.errcode==0){
+			ElMessage({
+				message: '操作成功',
+				grouping: true,
+				type: 'success',
+			})
+		} else {
+			ElMessage({
+				message: `操作失败，请刷新后重试。错误消息：${res.errmsg}`,
+				grouping: true,
+				type: 'error',
+			})
+		}
+		return res.errcode==0
+	},
     /**
      * 批量插入
      * @param data 信息
