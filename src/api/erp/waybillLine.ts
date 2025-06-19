@@ -113,7 +113,7 @@ export default {
      * @returns 返回接口数据
      */
     insertMulti: async (data: object) => {
-        const url = `/v1/admin/erp/Waybilllines`;
+        const url = `/v1/admin/erp/waybilllines`;
         return await http.post(url, data);
     },
     /**
@@ -122,7 +122,7 @@ export default {
      * @returns 返回接口数据
      */
     importMulti: async (kind:string,waybillId:number|string,data: object) => {
-        const url = `/v1/admin/erp/Waybilllines/${kind}/${waybillId}`;
+        const url = `/v1/admin/erp/waybilllines/${kind}/${waybillId}`;
         return await http.post(url, data);
     },
 
