@@ -163,9 +163,9 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
 						<el-form-item label="证件图片" prop="Files">
 							<div >
-								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
+								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/vehiclelicense`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="onDrivingLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="10" :on-remove="onRemoveTransportLicensePic"
+									:on-success="onVehicleLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="2" :on-remove="onRemoveTransportLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
 										<el-icon>
@@ -212,9 +212,9 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
 						<el-form-item label="证件图片" prop="Files1">
 							<div >
-								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
+								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/roadtransportcertificate`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="10" :on-remove="onRemoveTransportLicensePic"
+									:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="2" :on-remove="onRemoveTransportLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
 										<el-icon>
@@ -484,12 +484,8 @@ export default {
 				rawFile.type !== 'image/jpeg' &&
 				rawFile.type !== 'image/jpg' &&
 				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
 			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
+				ElMessage.error('图片格式错误，支持的图片格式：jpg，png');
 				return false;
 			} else if (rawFile.size / 1024 / 1024 > 10) {
 				ElMessage.error('图片大小不能超过10MB!');
@@ -499,18 +495,39 @@ export default {
 		};
 
 		//	行驶证文件列表更新
-		const onDrivingLicensePicUploadSuccess = (file: UploadFile) => {
+		const onVehicleLicensePicUploadSuccess = (file: UploadFile) => {
 			//debugger
-			const url=state.baseUrl + file.data.src
-			const model = { url: url,name:file.data.src };
+			if(file.errcode){
+				ElMessage.error(file.errmsg);
+				return;
+			}
+			var res=file.data
+			const url=state.baseUrl + res.src
+			const model = { url: url,name:res.src };
 			state.DrivingLicensePicList.push(model);
+			if(res.data){
+				state.ruleForm.VehicleNumber=res.data.VehicleNumber
+				state.ruleForm.DrivingLicense=res.data.Vin
+				state.ruleForm.DrivingLicenseStartDate=res.data.IssuedDate
+				state.ruleForm.RegistrationDate=res.data.RegistedDate
+			}
 		};
 
-		//	道路运输许可证文件列表更新
+		//	道路运输证文件列表更新
 		const onTransportLicensePicUploadSuccess = (file: UploadFile) => {
-			const url=state.baseUrl + file.data.src
-			const model = { url: url,name:file.data.src };
+			if(file.errcode){
+				ElMessage.error(file.errmsg);
+				return;
+			}
+			var res=file.data
+			
+			const url=state.baseUrl + res.src
+			const model = { url: url, name:res.src };
 			state.TransportLicensePicList.push(model);
+			if(res.data){
+				state.ruleForm.TransportLicense=res.data.Idno
+				state.ruleForm.TransportLicenseStartDate=res.data.IssuedDate
+			}
 		};
 		
 		//	显示表格图片
@@ -551,7 +568,7 @@ export default {
 		};
 
 		//	删除图片
-		const onRemoveDrivingLicensePic = (file: UploadFile) => {
+		const onRemoveVehicleLicensePic = (file: UploadFile) => {
 			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.DrivingLicensePicList.length; i++) {
 				if (state.DrivingLicensePicList[i] == removeUrl) {
@@ -581,9 +598,9 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
-			onDrivingLicensePicUploadSuccess,
+			onVehicleLicensePicUploadSuccess,
 			onTransportLicensePicUploadSuccess,
-			onRemoveDrivingLicensePic,
+			onRemoveVehicleLicensePic,
 			onRemoveTransportLicensePic,
 			onBeforeImageUpload,
 			onPreview,

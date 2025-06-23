@@ -132,6 +132,27 @@
 						</el-form-item>
 					</el-col>				
 				</el-row>	
+				<el-row :gutter="0">	
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
+						<el-form-item label="证件图片" prop="Files1">
+							<div >
+								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/drivinglicense`" list-type="picture-card"
+									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:on-success="onDriverLicensePicUploadSuccess" :file-list="DriverLicensePicList" :limit="2" :on-remove="onRemoveDriverLicensePic"
+									:on-preview="showImage" :before-upload="onBeforeImageUpload">
+									<template #default>
+										<el-icon>
+											<plus />
+										</el-icon>
+									</template>
+								</el-upload>
+							</div>
+							<div>
+								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
+							</div> 
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
@@ -181,6 +202,9 @@ export default {
 			title: t('message.action.add'),
 			loading: false,
 			disable: true, //	是否禁用
+			baseApiUrl: import.meta.env.VITE_API_URL,
+			ImageVisible: false,
+			DriverLicensePicList:[],
 			//	表单
 			ruleForm: {
 				Id: 0,
@@ -199,8 +223,8 @@ export default {
 				DriverLicenseStartDate: '',
 				DriverLicenseEndDate: '',
 				Address: '',
-				Tname:'',
-				DriverLicenseType:'',
+				Tname: '',
+				DriverLicenseType: '',
 			},
 			tableItem: {
 				Id: '0',
@@ -352,11 +376,98 @@ export default {
 			state.isShowDialog = false;
 			proxy.$parent.onGetTableData();
 		};
+
+		//	图片上传
+		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
+			if (
+				rawFile.type !== 'image/jpeg' &&
+				rawFile.type !== 'image/jpg' &&
+				rawFile.type !== 'image/png'
+			) {
+				ElMessage.error('图片格式错误，支持的图片格式：jpg，png');
+				return false;
+			} else if (rawFile.size / 1024 / 1024 > 10) {
+				ElMessage.error('图片大小不能超过10MB!');
+				return false;
+			}
+			return true;
+		};
+		//	道路运输证文件列表更新
+		const onDriverLicensePicUploadSuccess = (file: UploadFile) => {
+			if(file.errcode){
+				ElMessage.error(file.errmsg);
+				return;
+			}
+			var res=file.data
+			
+			const url=state.baseUrl + res.src
+			const model = { url: url, name:res.src };
+			state.DriverLicensePicList.push(model);
+			if(res.data){
+				state.ruleForm.Name=res.data.Name
+				state.ruleForm.Gender=res.data.Sex=='女'?2:1;
+				state.ruleForm.DriverLicense=res.data.Idno
+				state.ruleForm.DriverLicenseStartDate=res.data.StartDate;
+				state.ruleForm.DriverLicenseEndDate=res.data.EndDate;
+				state.ruleForm.RegistrationDate=res.data.IssuedDate;
+				state.ruleForm.DriverLicenseType=res.data.VehicleType
+			}
+		};
+		
+		//	显示表格图片
+		const showImage: UploadProps['onPreview'] = (uploadFile) => {
+			state.dialogImageUrl = uploadFile.url
+			state.ImageVisible = true
+		}
+
+		//	预览文件
+		const onPreview = (uploadFile: any) => {
+			//	当格式为图片就预览图片，否则下载文件
+			let filename = uploadFile.name;
+			if (!uploadFile.name || uploadFile.name == '') {
+				filename = uploadFile.url;
+			}
+			let fileurl = uploadFile.url;
+			let fileExtension = '';
+			//	校检文件类型
+			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
+			if (filename.lastIndexOf('.') > -1) {
+				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
+			}
+			const isTypeOk = imageTypes.some((type) => {
+				if (fileExtension && fileExtension.indexOf(type) > -1) {
+					return true;
+				}
+			});
+			if (isTypeOk) {
+				//	预览图片
+				state.dialogImageUrl[0] = fileurl;
+				state.dialogTitle = filename;
+				state.dialogVisible = true;
+			} else {
+				//	下载文件
+				state.dialogVisible = false;
+				window.open(fileurl, '_self');
+			}
+		};
+
+		//	删除图片
+		const onRemoveDriverLicensePic = (file: UploadFile) => {
+			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			for (let i = 0; i < state.DrivingLicensePicList.length; i++) {
+				if (state.DrivingLicensePicList[i] == removeUrl) {
+					state.DrivingLicensePicList.splice(i, 1);
+				}
+			}
+		};
 	
 		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
+					if (state.DriverLicensePicList) {
+						state.ruleForm.DriverLicensePics = state.DriverLicensePicList.map(val=>{return val.name}).join(',');
+					}
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
 					try {
@@ -393,6 +504,11 @@ export default {
 			GetByIdRow,
 			dateFormatYMD,
 			getUserInfos,
+			onRemoveDriverLicensePic,
+			onBeforeImageUpload,
+			onPreview,
+			showImage,
+			onDriverLicensePicUploadSuccess,
 			tableData,
 			rules,
 			token,
