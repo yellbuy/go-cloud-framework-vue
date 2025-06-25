@@ -163,9 +163,9 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
 						<el-form-item label="证件图片" prop="Files">
 							<div >
-								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/vehiclelicense`" list-type="picture-card"
+								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
-									:on-success="onVehicleLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="2" :on-remove="onRemoveTransportLicensePic"
+									:on-success="onVehicleLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="2" :on-remove="onRemoveVehicleLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
 										<el-icon>
@@ -441,40 +441,39 @@ export default {
 		//	提交
 		const onSubmit = (isCloseDlg: boolean) => {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
-				if (valid) {
-					if (state.DrivingLicensePicList) {
-						state.ruleForm.DrivingLicensePics = state.DrivingLicensePicList.map(val=>{return val.name}).join(',');
-					}
-					if (state.TransportLicensePicList) {
-						state.ruleForm.TransportLicensePics = state.TransportLicensePicList.map(val=>{return val.name}).join(',');
-					}
-					if(!state.ruleForm.IsExternal){
-						state.ruleForm.Shipper=""
-					} else if(state.ruleForm.Shipper==""){
-						ElMessage.warning('请选择相关方');
-						return false;
-					}
-					state.loading = true;
-					state.ruleForm.Id = state.ruleForm.Id.toString();
-					
-					try {
-						const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
-						if (res.errcode == 0) {
-							if (isCloseDlg) {
-								closeDialog();
-							} else {
-								proxy.$refs.ruleFormRef.resetFields();
-								state.ruleForm.Id = 0;
-							}
-							proxy.$parent.onGetTableData();
-						}
-					} finally {
-						state.loading = false;
-					}
-					return false;
-				} else {
+				if (!valid) {
+					return false
+				}
+				if (state.DrivingLicensePicList) {
+					state.ruleForm.DrivingLicensePics = state.DrivingLicensePicList.map(val=>{return val.name}).join(',');
+				}
+				if (state.TransportLicensePicList) {
+					state.ruleForm.TransportLicensePics = state.TransportLicensePicList.map(val=>{return val.name}).join(',');
+				}
+				if(!state.ruleForm.IsExternal){
+					state.ruleForm.Shipper=""
+				} else if(state.ruleForm.Shipper==""){
+					ElMessage.warning('请选择相关方');
 					return false;
 				}
+				state.loading = true;
+				state.ruleForm.Id = state.ruleForm.Id.toString();
+				
+				try {
+					const res = await proxy.$api.erp.vehicle.save(state.ruleForm);
+					if (res.errcode == 0) {
+						if (isCloseDlg) {
+							closeDialog();
+						} else {
+							proxy.$refs.ruleFormRef.resetFields();
+							state.ruleForm.Id = 0;
+						}
+						proxy.$parent.onGetTableData();
+					}
+				} finally {
+					state.loading = false;
+				}
+				return false;
 			});
 		};
 
@@ -483,7 +482,7 @@ export default {
 			if (
 				rawFile.type !== 'image/jpeg' &&
 				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
+				rawFile.type !== 'image/png'
 			) {
 				ElMessage.error('图片格式错误，支持的图片格式：jpg，png');
 				return false;
@@ -505,11 +504,32 @@ export default {
 			const url=state.baseUrl + res.src
 			const model = { url: url,name:res.src };
 			state.DrivingLicensePicList.push(model);
+			
 			if(res.data){
-				state.ruleForm.VehicleNumber=res.data.VehicleNumber
-				state.ruleForm.DrivingLicense=res.data.Vin
-				state.ruleForm.DrivingLicenseStartDate=res.data.IssuedDate
-				state.ruleForm.RegistrationDate=res.data.RegistedDate
+				if(res.data.VehicleNumber){
+					state.ruleForm.VehicleNumber=res.data.VehicleNumber
+				}
+				if(res.data.Vin){
+					state.ruleForm.DrivingLicense=res.data.Vin
+				}
+				if(res.data.IssuedDate){
+					state.ruleForm.DrivingLicenseStartDate=res.data.IssuedDate
+				}
+				if(res.data.RegistedDate){
+					state.ruleForm.RegistrationDate=res.data.RegistedDate
+				}
+				if(res.data.StartDate){
+					state.ruleForm.DrivingLicenseStartDate=res.data.StartDate
+				}
+				if(res.data.EndDate){
+					state.ruleForm.DrivingLicenseEndDate=res.data.EndDate
+				}
+				if(res.data.VehicleType){
+					state.ruleForm.VehicleType=res.data.VehicleType
+				}
+				if(res.data.Owner){
+					state.ruleForm.Owner=res.data.Owner
+				}
 			}
 		};
 
@@ -569,9 +589,10 @@ export default {
 
 		//	删除图片
 		const onRemoveVehicleLicensePic = (file: UploadFile) => {
+			console.log(file)
 			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.DrivingLicensePicList.length; i++) {
-				if (state.DrivingLicensePicList[i] == removeUrl) {
+				if (state.DrivingLicensePicList[i].name == removeUrl) {
 					state.DrivingLicensePicList.splice(i, 1);
 				}
 			}
@@ -581,7 +602,7 @@ export default {
 		const onRemoveTransportLicensePic = (file: UploadFile) => {
 			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
 			for (let i = 0; i < state.TransportLicensePicList.length; i++) {
-				if (state.TransportLicensePicList[i] == removeUrl) {
+				if (state.TransportLicensePicList[i].name == removeUrl) {
 					state.TransportLicensePicList.splice(i, 1);
 				}
 			}
@@ -612,14 +633,7 @@ export default {
 			onSubmit,
 			...toRefs(state),
 		};
-	},
-	components: {
-		Plus,
-	},
-	data() {
-		return {};
-	},
-	methods: {},
+	}
 };
 </script>
 <style scoped lang="scss">

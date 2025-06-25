@@ -136,7 +136,7 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
 						<el-form-item label="证件图片" prop="Files1">
 							<div >
-								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/drivinglicense`" list-type="picture-card"
+								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
 									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
 									:on-success="onDriverLicensePicUploadSuccess" :file-list="DriverLicensePicList" :limit="2" :on-remove="onRemoveDriverLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
@@ -404,13 +404,34 @@ export default {
 			const model = { url: url, name:res.src };
 			state.DriverLicensePicList.push(model);
 			if(res.data){
-				state.ruleForm.Name=res.data.Name
-				state.ruleForm.Gender=res.data.Sex=='女'?2:1;
-				state.ruleForm.DriverLicense=res.data.Idno
-				state.ruleForm.DriverLicenseStartDate=res.data.StartDate;
-				state.ruleForm.DriverLicenseEndDate=res.data.EndDate;
-				state.ruleForm.RegistrationDate=res.data.IssuedDate;
-				state.ruleForm.DriverLicenseType=res.data.VehicleType
+				if(res.data.Name){
+					state.ruleForm.Name=res.data.Name
+				}
+				if(res.data.Gender){
+					state.ruleForm.Gender=res.data.Gender=='女'?2:1;
+				}
+				if(res.data.No){
+					state.ruleForm.DriverLicense=res.data.No
+					state.ruleForm.Idno=res.data.No
+				}
+				if(res.data.StartDate){
+					state.ruleForm.DriverLicenseStartDate=res.data.StartDate;
+				}
+				if(res.data.EndDate){
+					state.ruleForm.DriverLicenseEndDate=res.data.EndDate;
+				}
+				if(res.data.BirthDate){
+					state.ruleForm.Birthdate=res.data.BirthDate ;
+				}
+				if(res.data.RegistedDate){
+					state.ruleForm.RegistrationDate=res.data.RegistedDate ;
+				}
+				if(res.data.VehicleType){
+					state.ruleForm.DriverLicenseType=res.data.VehicleType
+				}
+				if(res.data.Address){
+					state.ruleForm.Address=res.data.Address ;
+				}
 			}
 		};
 		
@@ -454,9 +475,10 @@ export default {
 		//	删除图片
 		const onRemoveDriverLicensePic = (file: UploadFile) => {
 			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
-			for (let i = 0; i < state.DrivingLicensePicList.length; i++) {
-				if (state.DrivingLicensePicList[i] == removeUrl) {
-					state.DrivingLicensePicList.splice(i, 1);
+			console.log(state.DriverLicensePicList)
+			for (let i = 0; i < state.DriverLicensePicList.length; i++) {
+				if (state.DriverLicensePicList[i].name == removeUrl) {
+					state.DriverLicensePicList.splice(i, 1);
 				}
 			}
 		};
