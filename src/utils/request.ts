@@ -25,7 +25,8 @@ if (appid == "30") {
 const service = axios.create({
 	baseURL: import.meta.env.VITE_API_URL as any,
 	timeout: 100000,
-	headers: { 'Content-Type': 'application/json', 'Appid': appid, "Client-Kind": "web" },
+	headers: { 'Content-Type': 'application/json', 'Appid': appid, "X-Client-Type": "web" },
+	withCredentials: true,
 	responseType: '',
 });
 
@@ -65,7 +66,7 @@ service.interceptors.request.use(
 		const xsrftoken = Session.get(xsrftokenSessionKey);
 		console.log("xsrftoken:",xsrftoken)
 		if (xsrftoken) {
-			config.headers.set(xsrftokenHeaderKey, token);	
+			config.headers.set(xsrftokenHeaderKey, xsrftoken);	
 		}
 		//时间戳
 		const curTime = new Date().getTime();
@@ -94,7 +95,6 @@ service.interceptors.response.use(
 			// `token` 过期或者账号已在别处登录
 			if (res.errcode === 100001 || res.errcode === 100002) {
 				Session.clear(); // 清除浏览器全部临时缓存
-				Session.set(xsrftokenSessionKey,res.data||"")
 				ElMessageBox.confirm('当前用户已退出或无权限访问当前资源，请尝试重新登录后再操作。', '温馨提示', {
 					type: 'error',
 					closeOnClickModal: false,
@@ -112,7 +112,6 @@ service.interceptors.response.use(
 
 			} else if (res.errcode == 100007){
 				Session.clear(); // 清除浏览器全部临时缓存
-				Session.set(xsrftokenSessionKey,res.data||"")
 				ElMessage.error({
 					showClose: true,
 					message: `${res.errmsg}`,
@@ -132,15 +131,43 @@ service.interceptors.response.use(
 			}
 			//return Promise.resolve(res)
 		}
+		if(response.headers){
+			const token=response.headers[xsrftokenHeaderKey.toLocaleLowerCase()];
+			if(token){
+				Session.set(xsrftokenSessionKey, token);
+			}				
+		}
 		return Promise.resolve(res)
 	},
 	(error) => {
+		console.log("error:",error)
 		if (error.response) {
-			if (error.response.status == 404) {
+			if (error.response.status == 401) {
+				Session.clear(); // 清除浏览器全部临时缓存
+				ElMessageBox.confirm('无权限访问当前资源，请尝试重新登录后再操作。', '温馨提示', {
+					type: 'error',
+					closeOnClickModal: false,
+					center: true,
+					confirmButtonText: '重新登录'
+				}).then(() => {
+					window.location.href = '/'; // 去登录页
+				}).catch(() => { window.location.href = '/'; })
+			} else if (error.response.status == 422) {
+				//跨站脚本攻击，或_xsrf Cookie已过期
+				Session.clear(); // 清除浏览器全部临时缓存
+				ElMessageBox.confirm('登录已过期或无权限访问当前资源，请尝试重新登录后再操作。', '温馨提示', {
+					type: 'error',
+					closeOnClickModal: false,
+					center: true,
+					confirmButtonText: '重新登录'
+				}).then(() => {
+					window.location.href = '/'; // 去登录页
+				}).catch(() => { window.location.href = '/'; })
+			} else if (error.response.status == 404) {
 				ElMessage({
 					grouping: true,
 					showClose: true,
-					message: "Status:404，正在请求不存在的服务器记录！",
+					message: "Status：404，正在请求不存在的服务器记录！",
 					duration: 3600,
 					type: 'error',
 				})
@@ -148,7 +175,7 @@ service.interceptors.response.use(
 				ElMessage({
 					grouping: true,
 					showClose: true,
-					message: "Status:500，服务器发生错误！",
+					message: "Status：500，服务器发生错误！",
 					duration: 3600,
 					type: 'error',
 				})
@@ -169,7 +196,7 @@ service.interceptors.response.use(
 				ElMessage({
 					grouping: true,
 					showClose: true,
-					message: (error.response.data && error.response.data.message) || `Status:${error.response.status}，未知错误！`,
+					message: `Status：${error.response.status}，${error.response.statusText}`,
 					duration: 3600,
 					type: 'error',
 				})

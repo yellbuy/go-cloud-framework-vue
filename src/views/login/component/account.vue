@@ -105,6 +105,24 @@ export default defineComponent({
 		});
 		// 登录
 		const onSignIn = async () => {
+			if(!state.ruleForm.username){
+				ElMessage({
+					grouping: true,
+					showClose: true,
+					message: "请输入用户名",
+					type: 'error',
+				})
+				return 
+			}
+			if(!state.ruleForm.password){
+				ElMessage({
+					grouping: true,
+					showClose: true,
+					message: "请输入密码",
+					type: 'error',
+				})
+				return 
+			}
 			if(state.loading.signIn){
 				return;
 			}
@@ -165,7 +183,6 @@ export default defineComponent({
 				// 存储 token 到浏览器缓存
 				Local.set('appid', userInfos.appid);
 				Session.set('token', res.data.token);
-				Session.set('xsrftoken', res.data.xsrftoken||"");
 				
 				// 存储用户信息到浏览器缓存
 				Session.set('userInfo', userInfos);
