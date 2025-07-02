@@ -220,7 +220,7 @@ const _request = (config: RequestConfig) => {
 	if (!config.nonce) {
 		config.nonce = v4().replace(/-/g, "");
 	}
-	config.headers = Object.assign(config.headers || {}, { "Nonce": config.nonce })
+	config.headers = Object.assign(config.headers || {}, { "X-Nonce": config.nonce })
 
 	return new Promise<RequestResponse>((resolve, reject) => {
 		service({

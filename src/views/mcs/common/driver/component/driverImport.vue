@@ -58,7 +58,7 @@
 										default-first-option="true"
 										:reserve-keyword="false"
 										placeholder="请选择">
-										<el-option v-for="(item,index) in NationList" :key="index" :label="item" :value="index" />
+										<el-option v-for="(item,index) in NationList" :key="index" :label="item" :value="item" />
 									</el-select> 
 								</template>
 							</el-table-column>
@@ -108,7 +108,7 @@
 										default-first-option="true"
 										:reserve-keyword="false"
 										placeholder="请选择">
-										<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="index" />
+										<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="item" />
 									</el-select> 
 								</template>
 							</el-table-column>
@@ -177,13 +177,13 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as XLSX from "xlsx"; //引入
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-import dayjs from 'dayjs';
 export default {
 	name: 'driverImport',
 	setup() {
