@@ -42,6 +42,7 @@ axios.defaults.retryDelay = 10000;
 const authorizationHeaderKey="Authorization" //header头Token的键名
 const xsrftokenHeaderKey="X-Xsrftoken"
 const xsrftokenSessionKey="xsrftoken"
+const timestampHeaderKey="X-Timestamp"
 
 // 添加请求拦截器
 service.interceptors.request.use(
@@ -69,8 +70,7 @@ service.interceptors.request.use(
 			config.headers.set(xsrftokenHeaderKey, xsrftoken);	
 		}
 		//时间戳
-		const curTime = new Date().getTime();
-		config.headers.set('X-Timestamp', curTime);
+		config.headers.set(timestampHeaderKey, new Date().getTime());
 		return config;
 	},
 	(error) => {
