@@ -103,7 +103,7 @@
 		"url": "https://github.com/yellbuy/go-cloud-framework-vue/issues"
 	},
 	"engines": {
-		"node": ">=18.18.0",
+		"node": ">=22.12.0",
 		"npm": ">= 9.5.0"
 	},
 	"keywords": [

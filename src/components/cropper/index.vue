@@ -32,9 +32,8 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, nextTick } from 'vue';
 import Cropper from 'cropperjs';
-import 'cropperjs/dist/cropper.css';
+import { nextTick, reactive, toRefs } from 'vue';
 export default {
 	name: 'cropperIndex',
 	setup() {
