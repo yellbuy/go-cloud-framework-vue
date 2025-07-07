@@ -9,6 +9,7 @@ import { Session } from '/@/utils/storage';
 let appid = "30"//汉风物流
 // let appid = "263250626593423361"//健康档案管理
 // let appid = "293576751995420673"//进销存
+// let appid = "999"//业贝OA
 let appPermissionKey = "ybcloudapi"
 if (appid == "30") { 
 	appPermissionKey = "mcs"
@@ -20,6 +21,8 @@ if (appid == "30") {
 	appPermissionKey = "hcis"
 } else if (appid == "293576751995420673") {
 	appPermissionKey = "psi"
+} else if (appid == "999") {
+	appPermissionKey = "yb"
 }
 // 配置新建一个 axios 实例
 const service = axios.create({
