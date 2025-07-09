@@ -259,10 +259,11 @@ export default {
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: ["VehicleNumber", "SenderBillNo", "BeginTime", "SenderTotalWeight", "SenderTruckWeight", "SenderNetWeight", "ReceiverBillNo", "FinishTime",  "ReceiverTotalWeight", "ReceiverTruckWeight", "ReceiverNetWeight"], range: 2})
 					
 				list.forEach(item => {
-					console.log("item.BeginTime:",item.BeginTime)
-					const curTime=dayjs().format("YYYY-MM-DD HH:mm:SS");
+					console.log("item.BeginTime :",item.BeginTime)
+					const curTime=dayjs().format("YYYY-MM-DD HH:mm:ss");
 					item.VehicleNumber = String(item.VehicleNumber||"")
-					item.BeginTime =String(item.BeginTime||"")
+					item.BeginTime = dayjs(item.BeginTime||"").format("YYYY-MM-DD HH:mm:ss");
+					item.FinishTime = dayjs(item.FinishTime||"").format("YYYY-MM-DD HH:mm:ss");
 					item.SenderTotalWeight = Number.parseFloat(item.SenderTotalWeight)||0
 					item.SenderTruckWeight = Number.parseFloat(item.SenderTruckWeight)||0
 					item.SenderNetWeight = Number.parseFloat(item.SenderNetWeight)||0
@@ -270,6 +271,8 @@ export default {
 						item.BeginState=1
 						if(!item.BeginTime){
 							item.BeginTime=curTime
+						}else{
+							item.BeginTime=item.BeginTime||"";
 						}
 					} else{
 						item.BeginState=0
@@ -277,14 +280,15 @@ export default {
 					}
 					item.SenderBillNo = String(item.SenderBillNo||"")
 
-					item.FinishTime =String(item.FinishTime||"")
 					item.ReceiverTotalWeight = Number.parseFloat(item.ReceiverTotalWeight)||0
 					item.ReceiverTruckWeight = Number.parseFloat(item.ReceiverTruckWeight)||0
 					item.ReceiverNetWeight = Number.parseFloat(item.ReceiverNetWeight)||0
 					if(item.ReceiverNetWeight>0){
 						item.ReceiverState=1
-						if(!item.ReceiverTime){
+						if(!item.BeginTime){
 							item.ReceiverTime=curTime
+						} else{
+							item.ReceiverTime=item.ReceiverTime||"";
 						}
 					} else{
 						item.ReceiverState=0
