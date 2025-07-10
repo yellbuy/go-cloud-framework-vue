@@ -553,7 +553,7 @@ export default {
 		//	显示表格图片
 		const showImage: UploadProps['onPreview'] = (uploadFile) => {
 			state.dialogImageUrl = uploadFile.url
-			state.ImageVisible = true
+			state.ImageVisible = truePlateColor
 		}
 
 		//	预览文件
