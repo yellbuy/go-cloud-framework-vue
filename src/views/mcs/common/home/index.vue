@@ -722,6 +722,9 @@ export default {
 					scopeMode:0,
 					scopeValue:0,
 				},
+				query: {
+					certState:3,
+				}
 			});
 		};
 		// 打开保险详情

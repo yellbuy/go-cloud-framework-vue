@@ -3,6 +3,14 @@
 		<el-card shadow="hover">
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="90px" :inline="true">
+					<el-form-item label="证件：">
+						<el-select v-model="tableData.param.certState" placeholder="证件状态" style="width: 90px">
+							<el-option label="不限" :value="0"></el-option>
+							<el-option label="正常" :value="1"></el-option>
+							<el-option label="即将到期" :value="2"></el-option>
+							<el-option label="已到期" :value="3"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item label="关键字：">
 						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
@@ -57,7 +65,7 @@
 				<el-table-column prop="Mobile" label="手机号" width="120" align="right" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Address" label="住址" align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="DriverLicenseType" label="驾照类型" width="120" align="left" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="IdnoEndDate" label="驾照截止日" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
+				<el-table-column prop="DriverLicenseEndDate" label="驾照截止日" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Tname" label="所属公司" width="200"  align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 					<template #default="scope">
@@ -108,6 +116,7 @@ export default {
 		const kind = route.params.kind;
 		const scopeMode = route.params.scopeMode || 0;
 		const scopeValue = route.params.scopeValue || 0;
+		const certState = route.query.certState===undefined?0:parseInt(route.query.certState?.toString())
 		const moduleKey = `api_baseinfo_driver`;
 		const editDlgRef = ref();
 		const importDlgRef = ref();
@@ -121,6 +130,7 @@ export default {
 				total: 0,
 				loading: false,
 				param: {
+					certState:certState,
 					keyword: '',
 					pageNum: 1,
 					pageSize: 20,
