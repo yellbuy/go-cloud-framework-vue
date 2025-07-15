@@ -255,7 +255,7 @@
 							<el-upload
 								:action="`${baseUrl}/v1/file/upload`"
 								name="file"
-								:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+								:headers="proxy.$getRequestHeaders()"
 								:show-file-list="false"
 								:on-success="onLogoUploadSuccess"
 								:before-upload="onBeforeImageUpload"

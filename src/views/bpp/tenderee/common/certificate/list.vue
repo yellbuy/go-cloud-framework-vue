@@ -74,7 +74,7 @@
 						<el-upload
 							:action="`${baseUrl}/v1/file/upload`"
 							name="file"
-							:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+							:headers="proxy.$getRequestHeaders()"
 							:show-file-list="false"
 							:on-success="onLogoUploadSuccess"
 							:before-upload="onBeforeImageUpload"
@@ -124,9 +124,8 @@
 </template>
 
 <script lang="ts">
-import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
-import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
+import { ElMessage, ElMessageBox, UploadProps } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
 export default {

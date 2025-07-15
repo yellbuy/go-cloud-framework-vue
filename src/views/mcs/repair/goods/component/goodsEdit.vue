@@ -84,7 +84,7 @@
 						<el-form-item label="商品图片" prop="Files">
 							<div style="width: 100%">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>

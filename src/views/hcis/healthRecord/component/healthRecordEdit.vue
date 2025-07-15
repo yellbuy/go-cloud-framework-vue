@@ -239,7 +239,7 @@
 							prop="Files">
 							<div class="mt10">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -261,7 +261,7 @@
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mr10">
 								<div class="mt10">
 								<el-upload :action="`${baseUrl}/v1/file/upload`"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }" :limit="1"
+									:headers="proxy.$getRequestHeaders()" :limit="1"
 									class="upload-demo" :on-success="onSuccessVideoFile"
 									:before-upload="onBeforeVideoUpload"
 									:show-file-list="false">

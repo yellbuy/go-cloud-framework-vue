@@ -117,7 +117,7 @@
 									:action="`${baseUrl}/v2/admin/eshop/goods/virtual/import/` + CategoryId"
 									name="file"
 									:limit="1"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onImageUploadSuccess"
 									:show-file-list="false"
 									style="margin-left: 15px"
@@ -287,18 +287,16 @@
 </template>
 
 <script lang="ts">
-import commonFunction from '/@/utils/commonFunction';
-import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
-import { toRefs, reactive, effect, onMounted, ref, computed, getCurrentInstance } from 'vue';
+import { ElMessage, ElMessageBox, ElNotification, UploadProps } from 'element-plus';
+import { Pane, Splitpanes } from 'splitpanes';
+import 'splitpanes/dist/splitpanes.css';
+import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import { ElMessageBox, ElMessage, UploadProps, ElNotification } from 'element-plus';
 import dlgMainEdit from './component/categoryEdit.vue';
 import dlgChildEdit from './component/virtualEdit.vue';
 import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-import other from '/@/utils/other';
-import { Splitpanes, Pane } from 'splitpanes';
-import 'splitpanes/dist/splitpanes.css';
 export default {
 	name: 'eshopGoodsVirtualList',
 	components: { dlgMainEdit, dlgChildEdit, Splitpanes, Pane },

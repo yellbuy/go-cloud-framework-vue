@@ -36,7 +36,7 @@
 									class="avatar-uploader"
 									:action="`${baseUrl}/v1/file/upload`"
 									name="file"
-									:headers="{Appid:getUserInfos.appid,Authorization:token}"
+									:headers="proxy.$getRequestHeaders()"
 									:show-file-list="false"
 									:on-success="onImageUploadSuccess"
 									:before-upload="onBeforeImageUpload">
@@ -83,11 +83,11 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, getCurrentInstance,computed } from 'vue';
-import { ElMessageBox, ElMessage, UploadProps } from 'element-plus';
+import { ElMessage, UploadProps } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Session } from '/@/utils/storage';
 import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 export default {
 	name: 'baseUserEdit',
 	props:{

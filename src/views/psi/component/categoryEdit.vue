@@ -58,7 +58,7 @@
 								<el-upload
 									class="upload-demo"
 									:action="uploadURL"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onSuccessFile"
 									:on-preview="onPreview"
 									:on-remove="onRemove"

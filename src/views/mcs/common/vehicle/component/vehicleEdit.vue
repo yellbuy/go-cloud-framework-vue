@@ -164,7 +164,7 @@
 						<el-form-item label="证件图片" prop="Files">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onVehicleLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="2" :on-remove="onRemoveVehicleLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -213,7 +213,7 @@
 						<el-form-item label="证件图片" prop="Files1">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/roadtransportcertificate`" list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="2" :on-remove="onRemoveTransportLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -411,19 +411,22 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
+				console.log("state.ruleForm:",state.ruleForm)
 				state.DrivingLicensePicList=[];
 				if (state.ruleForm.DrivingLicensePics != "") {
-					state.DrivingLicensePicList = state.ruleForm.DrivingLicensePics.split(",").map(path=>{
-						const url=state.baseUrl+path;
-						return { url:url, name:path }
-					})
+					const pics=state.ruleForm.DrivingLicensePics.split(",");
+					for(let index=0;index<state.ruleForm.DrivingLicensePicList.length;index++){
+						const path=state.ruleForm.DrivingLicensePicList[index]
+						state.DrivingLicensePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
+					}
 				}
 				state.TransportLicensePicList=[];
 				if (state.ruleForm.TransportLicensePics != "") {
-					state.TransportLicensePicList = state.ruleForm.TransportLicensePics.split(",").map(path=>{
-						const url=state.baseUrl+path;
-						return { url:url, name:path }
-					})
+					const pics=state.ruleForm.TransportLicensePics.split(",");
+					for(let index=0;index<state.ruleForm.TransportLicensePicList.length;index++){
+						const path=state.ruleForm.TransportLicensePicList[index]
+						state.TransportLicensePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
+					}
 				}
 			} finally {
 				state.isShowDialog = true;
@@ -445,10 +448,10 @@ export default {
 					return false
 				}
 				if (state.DrivingLicensePicList) {
-					state.ruleForm.DrivingLicensePics = state.DrivingLicensePicList.map(val=>{return val.name}).join(',');
+					state.ruleForm.DrivingLicensePics = state.DrivingLicensePicList.map(val=>{return val.id}).join(',');
 				}
 				if (state.TransportLicensePicList) {
-					state.ruleForm.TransportLicensePics = state.TransportLicensePicList.map(val=>{return val.name}).join(',');
+					state.ruleForm.TransportLicensePics = state.TransportLicensePicList.map(val=>{return val.id}).join(',');
 				}
 				if(!state.ruleForm.IsExternal){
 					state.ruleForm.Shipper=""
@@ -502,7 +505,7 @@ export default {
 			}
 			var res=file.data
 			const url=state.baseUrl + res.src
-			const model = { url: url,name:res.src };
+			const model = { url: url,name:res.src, id:res.id};
 			state.DrivingLicensePicList.push(model);
 			
 			if(res.data){
@@ -542,7 +545,7 @@ export default {
 			var res=file.data
 			
 			const url=state.baseUrl + res.src
-			const model = { url: url, name:res.src };
+			const model = { url: url, name:res.src, id:res.id };
 			state.TransportLicensePicList.push(model);
 			if(res.data){
 				state.ruleForm.TransportLicense=res.data.Idno

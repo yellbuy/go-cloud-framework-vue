@@ -137,7 +137,7 @@
 						<el-form-item label="证件图片" prop="Files1">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onDriverLicensePicUploadSuccess" :file-list="DriverLicensePicList" :limit="2" :on-remove="onRemoveDriverLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -362,6 +362,13 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
+				if (state.ruleForm.DriverLicensePics != "") {
+					const pics=state.ruleForm.DriverLicensePics.split(",");
+					for(let index=0;index<state.ruleForm.DriverLicensePicList.length;index++){
+						const path=state.ruleForm.DriverLicensePicList[index]
+						state.DriverLicensePicList.push({id:pics[index],url:state.baseApiUrl+path,name:path})
+					}
+				}
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -401,7 +408,7 @@ export default {
 			var res=file.data
 			
 			const url=state.baseUrl + res.src
-			const model = { url: url, name:res.src };
+			const model = { url: url, name:res.src, id:res.id };
 			state.DriverLicensePicList.push(model);
 			if(res.data){
 				if(res.data.Name){
@@ -488,7 +495,7 @@ export default {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (valid) {
 					if (state.DriverLicensePicList) {
-						state.ruleForm.DriverLicensePics = state.DriverLicensePicList.map(val=>{return val.name}).join(',');
+						state.ruleForm.DriverLicensePics = state.DriverLicensePicList.map(val=>{return val.id}).join(',');
 					}
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();

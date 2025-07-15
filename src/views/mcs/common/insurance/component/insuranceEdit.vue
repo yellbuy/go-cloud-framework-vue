@@ -159,7 +159,7 @@
 						<el-form-item label="交强险图片" prop="Files">
 							<div style="width: 50%">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -178,7 +178,7 @@
 						<el-form-item label="商业险图片" prop="Files1">
 							<div >
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onSuccessFile1" :file-list="FilesList1" :limit="10" :on-remove="onRemove1"
 									:on-preview="showImage1" :before-upload="onBeforeImageUpload1">
 									<template #default>
@@ -197,7 +197,7 @@
 						<el-form-item label="车船税图片" prop="Files2">
 							<div >
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onSuccessFile2" :file-list="FilesList2" :limit="10" :on-remove="onRemove2"
 									:on-preview="showImage2" :before-upload="onBeforeImageUpload2">
 									<template #default>
@@ -254,26 +254,32 @@ export default {
 		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
 			console.log('触发图片上传');
-			state.Files.push(file.data.src);
+			state.Files.push(file.data.id);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
+			image.id=file.data.id;
+			image.name=file.data.src;
 			state.FilesList.push(image);
 			console.log(state.FilesList);
 		};
 
 		//	文件列表更新
 		const onSuccessFile1 = (file: UploadFile) => {
-			state.Files1.push(file.data.src);
+			state.Files1.push(file.data.id);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
+			image.name=file.data.src;
+			image.id=file.data.id;
 			state.FilesList1.push(image);
 		};
 
 		//	文件列表更新
 		const onSuccessFile2 = (file: UploadFile) => {
-			state.Files2.push(file.data.src);
+			state.Files2.push(file.data.id);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
+			image.id=file.data.id;
+			image.name=file.data.src;
 			state.FilesList2.push(image);
 		};
 
@@ -531,34 +537,24 @@ export default {
 				state.FilesList1 = [];
 				state.FilesList2 = [];
 				if (state.ruleForm.CommercialPics != "") {
-					for (let i = 0; i < state.Files.length; i++) {
-						if(state.Files[i]){
-							let image = { url: '', name: '' };
-							image.url = state.httpsText + state.Files[i];
-							image.name = state.httpsText + state.Files[i];
-							state.FilesList.push(image);
-						}
-						
+					const pics=state.ruleForm.CommercialPics.split(",");
+					for(let index=0;index<state.ruleForm.CommercialPicList.length;index++){
+						const path=state.ruleForm.CommercialPicList[index]
+						state.FilesList.push({id:pics[index],url:state.httpsText+path,name:path})
 					}
 				}
 				if ( state.ruleForm.CompulsoryPics != "") {
-					for (let i = 0; i < state.Files1.length; i++) {
-						if(state.Files1[i]){
-							let image = { url: '', name: '' };
-							image.url = state.httpsText + state.Files1[i];
-							image.name = state.httpsText + state.Files1[i];
-							state.FilesList1.push(image);
-						}
+					const pics=state.ruleForm.CompulsoryPics.split(",");
+					for(let index=0;index<state.ruleForm.CompulsoryPicList.length;index++){
+						const path=state.ruleForm.CompulsoryPicList[index]
+						state.FilesList1.push({id:pics[index],url:state.httpsText+path,name:path})
 					}
 				}
 				if ( state.ruleForm.TaxPics != "") {
-					for (let i = 0; i < state.Files2.length; i++) {
-						if(state.Files2[i]){
-							let image = { url: '', name: '' };
-							image.url = state.httpsText + state.Files2[i];
-							image.name = state.httpsText + state.Files2[i];
-							state.FilesList2.push(image);
-						}
+					const pics=state.ruleForm.TaxPics.split(",");
+					for(let index=0;index<state.ruleForm.TaxPicList.length;index++){
+						const path=state.ruleForm.TaxPicList[index]
+						state.FilesList2.push({id:pics[index],url:state.httpsText+path,name:path})
 					}
 				}
 			} finally {

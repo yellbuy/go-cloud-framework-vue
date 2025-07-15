@@ -155,7 +155,7 @@
 								<el-upload
 									:action="`${baseUrl}/v1/file/upload`"
 									list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onSuccessFile"
 									:file-list="FilesList"
 									:on-remove="onRemove"

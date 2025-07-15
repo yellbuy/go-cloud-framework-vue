@@ -9,7 +9,7 @@
 								:action="state.uploadURL"
 								name="file"
 								:accept:="`application/pdf,application/docx,application/doc`"
-								:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+								:headers="proxy.$getRequestHeaders()"
 								:on-success="(file) => onSuccessFile(file)"
 								:on-remove="onRemove"
 								:show-file-list="true"
@@ -130,12 +130,12 @@
 <script setup lang="ts">
 import { Upload } from '@element-plus/icons-vue';
 import type { UploadFile } from 'element-plus';
-import { ElMessage, ElMessageBox } from 'element-plus';
-import { computed, getCurrentInstance, onMounted, reactive, ref, toRefs } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
-import { Session } from '/@/utils/storage';
 import commonFunction from '/@/utils/commonFunction';
+import { Session } from '/@/utils/storage';
 
 const { proxy } = getCurrentInstance() as any;
 const { t } = useI18n();

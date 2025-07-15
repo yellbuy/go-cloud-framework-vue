@@ -157,7 +157,7 @@
 						<el-form-item label="证件图片" prop="Files">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onDrivingLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="10" :on-remove="onRemoveTransportLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -206,7 +206,7 @@
 						<el-form-item label="证件图片" prop="Files1">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="10" :on-remove="onRemoveTransportLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>

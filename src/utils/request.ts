@@ -24,11 +24,13 @@ if (appid == "30") {
 } else if (appid == "999") {
 	appPermissionKey = "yb"
 }
+
+const commonHeaders={ 'Content-Type': 'application/json', 'Appid': appid, "X-Client-Type": "web" }
 // 配置新建一个 axios 实例
 const service = axios.create({
 	baseURL: import.meta.env.VITE_API_URL as any,
 	timeout: 100000,
-	headers: { 'Content-Type': 'application/json', 'Appid': appid, "X-Client-Type": "web" },
+	headers: commonHeaders,
 	withCredentials: true,
 	responseType: '',
 });
@@ -39,6 +41,8 @@ const setAppid = (newAppid: string = "0") => {
 }
 
 
+
+
 axios.defaults.retry = 3;
 axios.defaults.retryDelay = 10000;
 
@@ -46,6 +50,13 @@ const authorizationHeaderKey="Authorization" //header头Token的键名
 const xsrftokenHeaderKey="X-Xsrftoken"
 const xsrftokenSessionKey="xsrftoken"
 const timestampHeaderKey="X-Timestamp"
+
+const getRequestHeaders=() =>{
+	const token = Session.get('token');
+	const xsrftoken = Session.get(xsrftokenSessionKey);
+	const headers={ ...commonHeaders, authorizationHeaderKey:token||"",xsrftokenHeaderKey:xsrftoken||"",timestampHeaderKey:new Date().getTime() }
+	return headers
+}
 
 // 添加请求拦截器
 service.interceptors.request.use(
@@ -311,7 +322,7 @@ const http = {
 	}
 }
 
-export { appid, appPermissionKey, http, service as request, setAppid };
+export { appid, appPermissionKey, getRequestHeaders, http, service as request, setAppid };
 
 // 导出 axios 实例
 export default service;

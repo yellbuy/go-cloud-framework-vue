@@ -52,7 +52,7 @@
 								<el-upload
 									class="avatar-uploader"
 									:action="uploadURL"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:show-file-list="false"
 									:on-progress="onUploadingFile"
 									:on-success="onSuccessFile"

@@ -55,7 +55,7 @@
 												<el-upload
 													:action="state.uploadURL"
 													:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
-													:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+													:headers="proxy.$getRequestHeaders()"
 													:on-success="(file) => onSuccessFile(file)"
 													:before-upload="onBeforeImageUpload"
 													:limit="1"
@@ -113,7 +113,7 @@
 												<el-upload
 													:action="state.uploadURL"
 													:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
-													:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+													:headers="proxy.$getRequestHeaders()"
 													:on-success="(file) => onSuccessFile(file)"
 													:before-upload="onBeforeImageUpload"
 													:limit="1"

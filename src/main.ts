@@ -36,7 +36,7 @@ import 'vxe-table/lib/style.css';
 import utils from '/@/utils';
 import errorHandler from '/@/utils/errorHandler';
 import { NextLoading } from '/@/utils/loading';
-import { http } from '/@/utils/request';
+import { getRequestHeaders, http } from '/@/utils/request';
 
 const app = createApp(App);
 
@@ -68,6 +68,7 @@ app.config.globalProperties.$utils = utils;
 app.config.globalProperties.$calcMainHeight = other.calcMainHeight;
 app.config.globalProperties.$calcWidth = other.calcWidth;
 app.config.globalProperties.$loading = NextLoading;
+app.config.globalProperties.$getRequestHeaders =getRequestHeaders
 
 //全局代码错误捕捉
 app.config.errorHandler = errorHandler

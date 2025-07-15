@@ -26,7 +26,7 @@
 						class="upload-demo"
 						:action="state.uploadURL"
 						:accept:="`application/pdf,application/docx,application/doc`"
-						:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+						:headers="proxy.$getRequestHeaders()"
 						:on-success="onSuccessFile"
 						:on-remove="onRemove"
 						:limit="1"

@@ -25,7 +25,7 @@
 								<el-upload
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
 									v-if="state.projectCompanyForm.Step == 'qualifications'">
@@ -69,7 +69,7 @@
 								<el-upload
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
 									v-if="state.projectCompanyForm.Step == 'qualifications'">
@@ -113,7 +113,7 @@
 								<el-upload
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
 									v-if="state.projectCompanyForm.Step == 'qualifications'">
@@ -194,7 +194,7 @@
 								<el-upload
 									:action="state.uploadURL"
 									:accept="'.xls,.xlsx,.doc,.docx,.pdf'"
-									:headers="{ Appid: getUserInfos.appid, Authorization: token }"
+									:headers="proxy.$getRequestHeaders()"
 									:on-success="(file) => onSuccessFile(file)"
 									:limit="1"
 									:show-file-list="false"
@@ -267,12 +267,11 @@
 </template>
 
 <script setup lang="ts">
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, nextTick, onMounted, reactive, toRefs } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
-import project from '/@/api/erp/project';
 
 
 
