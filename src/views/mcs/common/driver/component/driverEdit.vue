@@ -168,12 +168,12 @@
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
+import { ElMessage, UploadFile, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
-
 export default {
 	name: 'driverEdit',
 	setup() {
@@ -341,6 +341,7 @@ export default {
 					console.log("error:",resEnergyTypes.errmsg)
 				}
 				state.disable = disable;
+				state.DriverLicensePicList=[];
 				if (id && id != '0') {
 					GetByIdRow(id);
 					state.title = t('message.action.edit');

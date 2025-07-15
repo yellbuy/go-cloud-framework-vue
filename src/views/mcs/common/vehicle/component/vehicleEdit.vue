@@ -390,6 +390,8 @@ export default {
 					console.log("error:",resEnergyTypes.errmsg)
 				}
 				state.disable = disable;
+				state.DrivingLicensePicList=[];
+				state.TransportLicensePicList=[];
 				if (id && id != '0') {
 					getRowById(id);
 					state.title = t('message.action.edit');
@@ -412,7 +414,7 @@ export default {
 				}
 				state.ruleForm = res.data;
 				console.log("state.ruleForm:",state.ruleForm)
-				state.DrivingLicensePicList=[];
+				
 				if (state.ruleForm.DrivingLicensePics != "") {
 					const pics=state.ruleForm.DrivingLicensePics.split(",");
 					for(let index=0;index<state.ruleForm.DrivingLicensePicList.length;index++){
@@ -420,7 +422,7 @@ export default {
 						state.DrivingLicensePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
 					}
 				}
-				state.TransportLicensePicList=[];
+				
 				if (state.ruleForm.TransportLicensePics != "") {
 					const pics=state.ruleForm.TransportLicensePics.split(",");
 					for(let index=0;index<state.ruleForm.TransportLicensePicList.length;index++){

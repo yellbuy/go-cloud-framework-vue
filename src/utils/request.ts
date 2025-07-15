@@ -25,12 +25,13 @@ if (appid == "30") {
 	appPermissionKey = "yb"
 }
 
-const commonHeaders={ 'Content-Type': 'application/json', 'Appid': appid, "X-Client-Type": "web" }
+//公共HEADER
+const commonHeaders={  'Appid': appid, "X-Client-Type": "web" }
 // 配置新建一个 axios 实例
 const service = axios.create({
 	baseURL: import.meta.env.VITE_API_URL as any,
 	timeout: 100000,
-	headers: commonHeaders,
+	headers: {...commonHeaders, 'Content-Type': 'application/json'},
 	withCredentials: true,
 	responseType: '',
 });
@@ -41,8 +42,6 @@ const setAppid = (newAppid: string = "0") => {
 }
 
 
-
-
 axios.defaults.retry = 3;
 axios.defaults.retryDelay = 10000;
 
@@ -51,10 +50,16 @@ const xsrftokenHeaderKey="X-Xsrftoken"
 const xsrftokenSessionKey="xsrftoken"
 const timestampHeaderKey="X-Timestamp"
 
+//获取Header头，上传文件时需要
 const getRequestHeaders=() =>{
 	const token = Session.get('token');
 	const xsrftoken = Session.get(xsrftokenSessionKey);
-	const headers={ ...commonHeaders, authorizationHeaderKey:token||"",xsrftokenHeaderKey:xsrftoken||"",timestampHeaderKey:new Date().getTime() }
+	const headers={ ...commonHeaders}
+	headers[authorizationHeaderKey]=token||""
+	headers[timestampHeaderKey]=new Date().getTime()
+	if(xsrftoken){
+		headers[xsrftokenHeaderKey]=xsrftoken
+	}
 	return headers
 }
 

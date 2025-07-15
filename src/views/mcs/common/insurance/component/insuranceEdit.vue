@@ -158,7 +158,7 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="交强险图片" prop="Files">
 							<div style="width: 50%">
-								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
+								<el-upload :action="`${baseUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="proxy.$getRequestHeaders()"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
@@ -177,7 +177,7 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="商业险图片" prop="Files1">
 							<div >
-								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
+								<el-upload :action="`${baseUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="proxy.$getRequestHeaders()"
 									:on-success="onSuccessFile1" :file-list="FilesList1" :limit="10" :on-remove="onRemove1"
 									:on-preview="showImage1" :before-upload="onBeforeImageUpload1">
@@ -196,7 +196,7 @@
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车船税图片" prop="Files2">
 							<div >
-								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
+								<el-upload :action="`${baseUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="proxy.$getRequestHeaders()"
 									:on-success="onSuccessFile2" :file-list="FilesList2" :limit="10" :on-remove="onRemove2"
 									:on-preview="showImage2" :before-upload="onBeforeImageUpload2">
@@ -254,6 +254,10 @@ export default {
 		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
 			console.log('触发图片上传');
+			if(file.errcode){
+				ElMessage.error(file.errmsg);
+				return;
+			}
 			state.Files.push(file.data.id);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
@@ -265,6 +269,10 @@ export default {
 
 		//	文件列表更新
 		const onSuccessFile1 = (file: UploadFile) => {
+			if(file.errcode){
+				ElMessage.error(file.errmsg);
+				return;
+			}
 			state.Files1.push(file.data.id);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
@@ -275,6 +283,10 @@ export default {
 
 		//	文件列表更新
 		const onSuccessFile2 = (file: UploadFile) => {
+			if(file.errcode){
+				ElMessage.error(file.errmsg);
+				return;
+			}
 			state.Files2.push(file.data.id);
 			let image = { url: '' };
 			image.url = state.httpsText + file.data.src;
@@ -505,6 +517,9 @@ export default {
 			state.tableItem = { Id: '0', CategoryId: '', Name: '', Files: '', Files1: '', Files2: '',Kind: kind, StartTime: '' };
 			try {
 				state.disable = disable;
+				state.FilesList = [];
+				state.FilesList1 = [];
+				state.FilesList2 = [];
 				if (disable) {
 					state.title = t('message.action.see');
 					GetByIdRow(id);
@@ -533,9 +548,7 @@ export default {
 				state.Files = state.ruleForm.CommercialPics.split(",");
 				state.Files1 = state.ruleForm.CompulsoryPics.split(",");
 				state.Files2 = state.ruleForm.TaxPics.split(",");
-				state.FilesList = [];
-				state.FilesList1 = [];
-				state.FilesList2 = [];
+				
 				if (state.ruleForm.CommercialPics != "") {
 					const pics=state.ruleForm.CommercialPics.split(",");
 					for(let index=0;index<state.ruleForm.CommercialPicList.length;index++){
