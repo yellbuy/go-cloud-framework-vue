@@ -329,19 +329,19 @@ export default {
 
 		//	显示表格图片
 		const showImage: UploadProps['onPreview'] = (uploadFile) => {
-			state.dialogImageUrl = uploadFile.url!
+			state.dialogImageUrl = uploadFile.url
 			state.ImageVisible = true
 		}
 
 		//	显示表格图片
 		const showImage1: UploadProps['onPreview'] = (uploadFile) => {
-			state.dialogImageUrl1 = uploadFile.url!
+			state.dialogImageUrl1 = uploadFile.url
 			state.ImageVisible1 = true
 		}
 
 		//	显示表格图片
 		const showImage2: UploadProps['onPreview'] = (uploadFile) => {
-			state.dialogImageUrl2 = uploadFile.url!
+			state.dialogImageUrl2 = uploadFile.url
 			state.ImageVisible2 = true
 		}
 
