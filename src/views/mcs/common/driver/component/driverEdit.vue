@@ -482,10 +482,10 @@ export default {
 
 		//	删除图片
 		const onRemoveDriverLicensePic = (file: UploadFile) => {
-			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			let removeUrl = file.id;
 			console.log(state.DriverLicensePicList)
 			for (let i = 0; i < state.DriverLicensePicList.length; i++) {
-				if (state.DriverLicensePicList[i].name == removeUrl) {
+				if (state.DriverLicensePicList[i].id == removeUrl) {
 					state.DriverLicensePicList.splice(i, 1);
 				}
 			}

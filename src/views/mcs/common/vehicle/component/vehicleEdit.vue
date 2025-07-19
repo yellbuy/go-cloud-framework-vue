@@ -594,10 +594,9 @@ export default {
 
 		//	删除图片
 		const onRemoveVehicleLicensePic = (file: UploadFile) => {
-			console.log(file)
-			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			let removeUrl = file.id;
 			for (let i = 0; i < state.DrivingLicensePicList.length; i++) {
-				if (state.DrivingLicensePicList[i].name == removeUrl) {
+				if (state.DrivingLicensePicList[i].id == removeUrl) {
 					state.DrivingLicensePicList.splice(i, 1);
 				}
 			}
@@ -605,9 +604,9 @@ export default {
 
 		//	删除图片
 		const onRemoveTransportLicensePic = (file: UploadFile) => {
-			const removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			let removeUrl = file.id;
 			for (let i = 0; i < state.TransportLicensePicList.length; i++) {
-				if (state.TransportLicensePicList[i].name == removeUrl) {
+				if (state.TransportLicensePicList[i].id == removeUrl) {
 					state.TransportLicensePicList.splice(i, 1);
 				}
 			}

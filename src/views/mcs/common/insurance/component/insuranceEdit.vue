@@ -296,7 +296,7 @@ export default {
 		};
 
 		const onRemove = (file: UploadFile) => {
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			let removeUrl = file.id;
 			for (let i = 0; i < state.Files.length; i++) {
 				if (state.Files[i] == removeUrl) {
 					state.Files.splice(i, 1);
@@ -305,7 +305,7 @@ export default {
 		};
 
 		const onRemove1 = (file: UploadFile) => {
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			let removeUrl = file.id;
 			for (let i = 0; i < state.Files1.length; i++) {
 				if (state.Files1[i] == removeUrl) {
 					state.Files1.splice(i, 1);
@@ -314,7 +314,7 @@ export default {
 		};
 
 		const onRemove2 = (file: UploadFile) => {
-			let removeUrl = file.url.substring(file.url.indexOf('/static/upload/'), file.url.length);
+			let removeUrl = file.id;
 			for (let i = 0; i < state.Files2.length; i++) {
 				if (state.Files2[i] == removeUrl) {
 					state.Files2.splice(i, 1);
@@ -591,6 +591,7 @@ export default {
 				if (valid) {
 					state.loading = true;
 					state.ruleForm.Id = state.ruleForm.Id.toString();
+					console.log("state.Files:", state.Files)
 					if (state.Files) {
 						state.ruleForm.CommercialPics = state.Files.join(',');
 					}
