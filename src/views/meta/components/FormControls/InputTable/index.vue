@@ -131,7 +131,7 @@
 <script>
 import { useableProps } from './config';
 import render from './render.jsx';
-const { proxy } = getCurrentInstance() ;
+// const { proxy } = getCurrentInstance() ;
 // useableProps —— 需要的组件属性 很多属性在表格中没用 需要过滤
 export default {
   name: "fc-input-table",
@@ -151,7 +151,7 @@ export default {
 
   data () {
     return {
-      httpHeaders:proxy.$getRequestHeaders(),
+      httpHeaders:[],
       tableFormData:[],
       tableData: [],
       listSummation: {},
