@@ -255,7 +255,7 @@
 							<el-upload
 								:action="`${baseUrl}/v1/file/upload`"
 								name="file"
-								:headers="proxy.$getRequestHeaders()"
+								:headers="httpHeaders"
 								:show-file-list="false"
 								:on-success="onLogoUploadSuccess"
 								:before-upload="onBeforeImageUpload"
@@ -327,6 +327,7 @@ export default {
 		const state = reactive({
 			moduleKey: moduleKey,
 			kind,
+			httpHeaders:proxy.$getRequestHeaders(),
 			//表单
 			ruleForm: {
 				Id: 0,
@@ -666,6 +667,7 @@ export default {
 		};
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = () => {
 			state.tableData.loading = true;
+			state.httpHeaders=proxy.$getRequestHeaders();
 			return true;
 		};
 		const Upload = (index: number) => {

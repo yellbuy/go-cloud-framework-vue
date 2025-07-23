@@ -26,7 +26,8 @@
 						class="upload-demo"
 						:action="state.uploadURL"
 						:accept:="`application/pdf,application/docx,application/doc`"
-						:headers="proxy.$getRequestHeaders()"
+						:headers="state.httpHeaders"
+						:before-upload="onBeforeUpload"
 						:on-success="onSuccessFile"
 						:on-remove="onRemove"
 						:limit="1"
@@ -70,6 +71,7 @@ const { t } = useI18n();
 const store = useStore();
 const state: any = reactive({
 	projectId: '',
+	httpHeaders:proxy.$getRequestHeaders(),
 	baseUrl: import.meta.env.VITE_URL as any,
 	uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 	projectList: [],
@@ -106,7 +108,10 @@ const onProjectBidGetById = async () => {
 	} finally {
 	}
 };
-
+	const onBeforeUpload: UploadProps['beforeUpload'] = () => {
+		state.httpHeaders=proxy.$getRequestHeaders()
+		return true;
+	};
 //	上传成功
 const onSuccessFile = (file: UploadFile) => {
 	state.filesList.push(file.data)

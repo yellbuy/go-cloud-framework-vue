@@ -157,7 +157,7 @@
 						<el-form-item label="证件图片" prop="Files">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:on-success="onDrivingLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="10" :on-remove="onRemoveTransportLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -206,7 +206,7 @@
 						<el-form-item label="证件图片" prop="Files1">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="10" :on-remove="onRemoveTransportLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -263,6 +263,7 @@ export default {
 		
 		const state = reactive({
 			isShowDialog: false,
+			httpHeaders:proxy.$getRequestHeaders(),
 			title: t('message.action.add'),
 			loading: false,
 			disable: true, //	是否禁用
@@ -487,6 +488,7 @@ export default {
 				ElMessage.error('图片大小不能超过10MB!');
 				return false;
 			}
+			state.httpHeaders=proxy.$getRequestHeaders();
 			return true;
 		};
 

@@ -117,8 +117,9 @@
 									:action="`${baseUrl}/v2/admin/eshop/goods/virtual/import/` + CategoryId"
 									name="file"
 									:limit="1"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:on-success="onImageUploadSuccess"
+									:before-upload="onBeforeUpload"
 									:show-file-list="false"
 									style="margin-left: 15px"
 								>
@@ -319,6 +320,7 @@ export default {
 		const state: any = reactive({
 			baseUrl: import.meta.env.VITE_API_URL,
 			moduleKey: moduleKey,
+			httpHeaders:proxy.$getRequestHeaders(),
 			token: token,
 			kind,
 			scopeMode,
@@ -555,6 +557,10 @@ export default {
 		const handleSelectionChange = (val: []) => {
 			state.selectData = val;
 		};
+		const onBeforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
+			state.httpHeaders=proxy.$getRequestHeaders();
+			return true;
+		};
 		const onImageUploadSuccess: UploadProps['onSuccess'] = (res, uploadFile) => {
 			console.log('onSuccess:', res);
 			if (res.errcode != 0) {
@@ -578,6 +584,7 @@ export default {
 			dlgMainEditRef,
 			dlgChildEditRef,
 			onImageUploadSuccess,
+			onBeforeUpload,
 			onMainRefresh,
 			onGetMainTableData,
 			onOpenMainEditDlg,

@@ -52,8 +52,9 @@
 								<el-upload
 									class="avatar-uploader"
 									:action="uploadURL"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:show-file-list="false"
+									:before-upload="onBeforeUpload"
 									:on-progress="onUploadingFile"
 									:on-success="onSuccessFile"
 								>
@@ -104,6 +105,7 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
+			httpHeaders:proxy.$getRequestHeaders(),
 			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 			Pics: [],
 			homeBaseUrl: import.meta.env.VITE_URL as any,
@@ -222,7 +224,10 @@ export default {
 				}
 			});
 		};
-
+		const onBeforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
+			state.httpHeaders=proxy.$getRequestHeaders();
+			return true;
+		};
 		const onUploadingFile= (file: UploadFile) => {
 			state.loading=true;
 		};
@@ -285,6 +290,7 @@ export default {
 			onCancel,
 			onUploadingFile,
 			onSuccessFile,
+			onBeforeUpload,
 			imgOnClose,
 			onPreview,
 			onRemove,

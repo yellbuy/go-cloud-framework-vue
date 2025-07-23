@@ -9,7 +9,8 @@
 								:action="state.uploadURL"
 								name="file"
 								:accept:="`application/pdf,application/docx,application/doc`"
-								:headers="proxy.$getRequestHeaders()"
+								:headers="state.httpHeaders"
+								:before-upload="onBeforeUpload"
 								:on-success="(file) => onSuccessFile(file)"
 								:on-remove="onRemove"
 								:show-file-list="true"
@@ -154,6 +155,7 @@ const state = reactive({
 	uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
 	title: t('message.action.add'),
 	moduleKey,
+	httpHeaders:proxy.$getRequestHeaders(),
 	token: token,
 	activeIndex: 1,
 	loading: false,
@@ -239,7 +241,10 @@ const rules = reactive({
 	FinishTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
 	ReviewTime: [{ validator: startTimeRule, required: true, trigger: 'blur' }],
 });
-
+const onBeforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
+		state.httpHeaders=proxy.$getRequestHeaders();
+		return true;
+	};
 //	上传成功
 const onSuccessFile = (file: UploadFile) => {
 	state.ruleForm.FilesList.push(file.data)

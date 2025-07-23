@@ -20,7 +20,7 @@
 									class="avatar-uploader"
 									:action="`${baseUrl}/v1/file/upload`"
 									name="file"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:show-file-list="false"
 									:on-success="onImageUploadSuccess"
 									:before-upload="onBeforeImageUpload"
@@ -162,6 +162,7 @@ export default {
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
+			httpHeaders:proxy.$getRequestHeaders(),
 			token: token,
 			baseUrl: import.meta.env.VITE_API_URL,
 			ruleForm: {
@@ -292,6 +293,7 @@ export default {
 				ElMessage.error('图片大小不能超过10MB!');
 				return false;
 			}
+			state.httpHeaders=proxy.$getRequestHeaders();
 			return true;
 		};
 		// 页面加载时

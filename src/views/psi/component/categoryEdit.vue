@@ -58,7 +58,8 @@
 								<el-upload
 									class="upload-demo"
 									:action="uploadURL"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
+          							:before-upload="onBeforeImageUpload"
 									:on-success="onSuccessFile"
 									:on-preview="onPreview"
 									:on-remove="onRemove"
@@ -93,7 +94,7 @@
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
-import { ElMessage } from 'element-plus';
+import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
@@ -107,6 +108,50 @@ export default {
 
 		const { t } = useI18n();
 
+		const state = reactive({
+			isShowDialog: false,
+			title: t('message.action.add'),
+			httpHeaders:proxy.$getRequestHeaders(),
+			loading: false,
+			disable: true, //	是否禁用
+			baseUrl: import.meta.env.VITE_API_URL,
+			//	表单
+			ruleForm: {
+				Id: '0',
+				Parentid:"0",				
+				Kind: 'product',
+				Name: '',
+				Order:0,
+				State:1,
+			},
+			dialogVisible: false,
+			categoryList: [],
+			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
+			saveState: false,
+			Files: [],
+			httpsText: import.meta.env.VITE_URL as any,
+			FilesList: [],
+		});
+		
+		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
+			if (
+				rawFile.type !== 'image/jpeg' &&
+				rawFile.type !== 'image/jpg' &&
+				rawFile.type !== 'image/png' &&
+				rawFile.type !== 'image/ico' &&
+				rawFile.type !== 'image/bmp' &&
+				rawFile.type !== 'image/gif' &&
+				rawFile.type !== 'image/svg'
+			) {
+				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
+				return false;
+			} else if (rawFile.size / 1024 / 1024 > 10) {
+				ElMessage.error('图片大小不能超过10MB!');
+				return false;
+			}
+			state.httpHeaders=proxy.$getRequestHeaders()
+			return true;
+		};
 		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
 			console.log('触发图片上传');
@@ -144,29 +189,7 @@ export default {
 		const handleChange = (value: number) => {
 		}
 		
-		const state = reactive({
-			isShowDialog: false,
-			title: t('message.action.add'),
-			loading: false,
-			disable: true, //	是否禁用
-			baseUrl: import.meta.env.VITE_API_URL,
-			//	表单
-			ruleForm: {
-				Id: '0',
-				Parentid:"0",				
-				Kind: 'product',
-				Name: '',
-				Order:0,
-				State:1,
-			},
-			dialogVisible: false,
-			categoryList: [],
-			uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
-			saveState: false,
-			Files: [],
-			httpsText: import.meta.env.VITE_URL as any,
-			FilesList: [],
-		});
+		
 
 		const token = Session.get('token');
 
@@ -328,6 +351,7 @@ export default {
 			onRemove,
 			showImage,
 			dateFormatYMD,
+			onBeforeImageUpload,
 			getUserInfos,
 			rules,
 			token,

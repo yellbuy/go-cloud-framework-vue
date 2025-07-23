@@ -74,7 +74,7 @@
 						<el-upload
 							:action="`${baseUrl}/v1/file/upload`"
 							name="file"
-							:headers="proxy.$getRequestHeaders()"
+							:headers="httpHeaders"
 							:show-file-list="false"
 							:on-success="onLogoUploadSuccess"
 							:before-upload="onBeforeImageUpload"
@@ -140,6 +140,7 @@ export default {
 		});
 		const state: any = reactive({
 			token: token,
+			httpHeaders:proxy.$getRequestHeaders(),
 			baseUrl: import.meta.env.VITE_API_URL,
 			imgUrl: import.meta.env.VITE_URL,
 			moduleKey: moduleKey,
@@ -260,6 +261,7 @@ export default {
 		};
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = () => {
 			state.tableData.loading = true;
+			state.httpHeaders=proxy.$getRequestHeaders();
 			return true;
 		};
 		const Upload = (index: number) => {

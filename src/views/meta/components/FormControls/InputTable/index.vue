@@ -52,6 +52,8 @@
               <template v-else-if="head.tag === 'el-upload'">
                 <el-upload
                 v-bind="getConfById(head.formId)" 
+                :headers="httpHeaders"
+                 :before-upload="onBeforeUpload"
                 :on-success="(res) => onUploadSuccess(res, tableFormData[scope.$index][cindex])"
                 @mouseleave.native="hideUploadList"
                 @mouseenter.native="showUploadList">
@@ -127,8 +129,9 @@
 </div>
 </template>
 <script>
-import { useableProps } from './config'
-import render from './render.jsx'
+import { useableProps } from './config';
+import render from './render.jsx';
+const { proxy } = getCurrentInstance() ;
 // useableProps —— 需要的组件属性 很多属性在表格中没用 需要过滤
 export default {
   name: "fc-input-table",
@@ -148,6 +151,7 @@ export default {
 
   data () {
     return {
+      httpHeaders:proxy.$getRequestHeaders(),
       tableFormData:[],
       tableData: [],
       listSummation: {},
@@ -165,6 +169,11 @@ export default {
   },
 
   methods:{
+    //	图片上传
+		onBeforeUpload (rawFile) {
+			state.httpHeaders=proxy.$getRequestHeaders();
+			return true;
+		},
     clearAddRowFlag () {
       this.$nextTick(() => {
         this.isAddRow = false

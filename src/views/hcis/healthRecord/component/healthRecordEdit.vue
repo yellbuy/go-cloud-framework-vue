@@ -239,7 +239,7 @@
 							prop="Files">
 							<div class="mt10">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -261,7 +261,7 @@
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mr10">
 								<div class="mt10">
 								<el-upload :action="`${baseUrl}/v1/file/upload`"
-									:headers="proxy.$getRequestHeaders()" :limit="1"
+									:headers="httpHeaders" :limit="1"
 									class="upload-demo" :on-success="onSuccessVideoFile"
 									:before-upload="onBeforeVideoUpload"
 									:show-file-list="false">
@@ -351,6 +351,7 @@ export default {
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
+			httpHeaders:proxy.$getRequestHeaders(),
 			loading: false,
 			disable: true, //是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
@@ -621,6 +622,7 @@ export default {
 				ElMessage.error('允许上传的图片大小不能超过2M');
 				return false;
 			}
+			state.httpHeaders=proxy.$getRequestHeaders();
 			return true;
 		};
 		const onBeforeVideoUpload: UploadProps['beforeUpload'] = (rawFile) => {
@@ -633,6 +635,7 @@ export default {
 				ElMessage.error('允许上传的视频大小不能超过10M');
 				return false;
 			}
+			state.httpHeaders=proxy.$getRequestHeaders();
 			return true;
 		};
 		const { dateFormatYMD } = commonFunction();

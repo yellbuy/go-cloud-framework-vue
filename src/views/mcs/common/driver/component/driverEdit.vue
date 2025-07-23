@@ -137,7 +137,7 @@
 						<el-form-item label="证件图片" prop="Files1">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:on-success="onDriverLicensePicUploadSuccess" :file-list="DriverLicensePicList" :limit="2" :on-remove="onRemoveDriverLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -200,6 +200,7 @@ export default {
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
+			httpHeaders:proxy.$getRequestHeaders(),
 			loading: false,
 			disable: true, //	是否禁用
 			baseApiUrl: import.meta.env.VITE_API_URL,
@@ -398,6 +399,7 @@ export default {
 				ElMessage.error('图片大小不能超过10MB!');
 				return false;
 			}
+			state.httpHeaders=proxy.$getRequestHeaders()
 			return true;
 		};
 		//	道路运输证文件列表更新

@@ -159,7 +159,7 @@
 						<el-form-item label="交强险图片" prop="Files">
 							<div style="width: 50%">
 								<el-upload :action="`${baseUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -178,9 +178,9 @@
 						<el-form-item label="商业险图片" prop="Files1">
 							<div >
 								<el-upload :action="`${baseUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:on-success="onSuccessFile1" :file-list="FilesList1" :limit="10" :on-remove="onRemove1"
-									:on-preview="showImage1" :before-upload="onBeforeImageUpload1">
+									:on-preview="showImage1" :before-upload="onBeforeImageUpload">
 									<template #default>
 										<el-icon>
 											<plus />
@@ -197,9 +197,9 @@
 						<el-form-item label="车船税图片" prop="Files2">
 							<div >
 								<el-upload :action="`${baseUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:on-success="onSuccessFile2" :file-list="FilesList2" :limit="10" :on-remove="onRemove2"
-									:on-preview="showImage2" :before-upload="onBeforeImageUpload2">
+									:on-preview="showImage2" :before-upload="onBeforeImageUpload">
 									<template #default>
 										<el-icon>
 											<plus />
@@ -394,6 +394,7 @@ export default {
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
+			httpHeaders:proxy.$getRequestHeaders(),
 			loading: false,
 			disable: true, //	是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
@@ -622,7 +623,7 @@ export default {
 			});
 		};
 
-		//	交强险图片上传
+		//	图片上传
 		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 			if (
 				rawFile.type !== 'image/jpeg' &&
@@ -639,46 +640,7 @@ export default {
 				ElMessage.error('图片大小不能超过10MB!');
 				return false;
 			}
-			return true;
-		};
-
-		//	商业险图片上传
-		const onBeforeImageUpload1: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
-
-		//	车船税图片上传
-		const onBeforeImageUpload2: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
+			state.httpHeaders=proxy.$getRequestHeaders()
 			return true;
 		};
 
@@ -703,8 +665,6 @@ export default {
 			onStartTimeChange,
 			onEndTimeChange,
 			onBeforeImageUpload,
-			onBeforeImageUpload1,
-			onBeforeImageUpload2,
 			showImage,
 			showImage1,
 			showImage2,

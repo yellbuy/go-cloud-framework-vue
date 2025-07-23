@@ -55,7 +55,7 @@
 												<el-upload
 													:action="state.uploadURL"
 													:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
-													:headers="proxy.$getRequestHeaders()"
+													:headers="state.httpHeaders"
 													:on-success="(file) => onSuccessFile(file)"
 													:before-upload="onBeforeImageUpload"
 													:limit="1"
@@ -113,7 +113,7 @@
 												<el-upload
 													:action="state.uploadURL"
 													:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
-													:headers="proxy.$getRequestHeaders()"
+													:headers="state.httpHeaders"
 													:on-success="(file) => onSuccessFile(file)"
 													:before-upload="onBeforeImageUpload"
 													:limit="1"
@@ -328,6 +328,7 @@ const projectBiddingEditRef = ref();
 
 const state = reactive({
 	isShowIndex: 'info',
+	httpHeaders:proxy.$getRequestHeaders(),
 	isShowMore: false,
 	isExpanded: true,
 	baseUrl: import.meta.env.VITE_URL as any,
@@ -457,6 +458,7 @@ const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 		ElMessage.error('图片大小不能超过10MB!');
 		return false;
 	}
+	state.httpHeaders=proxy.$getRequestHeaders();
 	return true;
 };
 

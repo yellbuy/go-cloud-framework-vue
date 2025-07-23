@@ -188,6 +188,7 @@
     <template v-if="element.type === 'img-upload'">
       <el-upload
         :name="element.options.file"
+        :headers="httpHeaders"
         :action="element.options.action"
         :accept="element.options.accept"
         :file-list="element.options.defaultValue"
@@ -195,6 +196,7 @@
         :multiple="element.options.multiple"
         :limit="element.options.limit"
         :disabled="disabled || element.options.disabled"
+        :before-upload="onBeforeImageUpload"
         :on-success="handleUploadSuccess"
       >
         <SvgIcon v-if="element.options.listType === 'picture-card'" iconClass="insert" />
@@ -227,11 +229,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue'
-import SvgIcon from '../../components/SvgIcon.vue'
-import RichTextEditor from '../../components/RichTextEditor.vue'
-import { WidgetForm } from '../../config/element'
-
+import { ElMessage, UploadProps } from 'element-plus';
+import { computed, defineComponent, getCurrentInstance, PropType, ref } from 'vue';
+import RichTextEditor from '../../components/RichTextEditor.vue';
+import SvgIcon from '../../components/SvgIcon.vue';
+import { WidgetForm } from '../../config/element';
 export default defineComponent({
   name: 'ElGenerateFormItem',
   components: {
@@ -257,6 +259,7 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const { proxy } = getCurrentInstance() ;
     const data = computed({
       get: () => props.model[props.element.model],
       set: val => {
@@ -264,17 +267,38 @@ export default defineComponent({
         props.model[props.element.model] = val
       }
     })
-
+    let httpHeaders=ref(proxy.$getRequestHeaders())
     const handleFilterOption = (input: string, option: { label: string }) =>
       option.label.toLowerCase().includes(input)
 
     const handleUploadSuccess = (_res: any, _file: any, fileList: any[]) => {
       data.value = fileList
     }
+    const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
+			if (
+				rawFile.type !== 'image/jpeg' &&
+				rawFile.type !== 'image/jpg' &&
+				rawFile.type !== 'image/png' &&
+				rawFile.type !== 'image/ico' &&
+				rawFile.type !== 'image/bmp' &&
+				rawFile.type !== 'image/gif' &&
+				rawFile.type !== 'image/svg'
+			) {
+				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
+				return false;
+			} else if (rawFile.size / 1024 / 1024 > 10) {
+				ElMessage.error('图片大小不能超过10MB!');
+				return false;
+			}
+			httpHeaders=proxy.$getRequestHeaders()
+			return true;
+		};
 
     return {
       data,
+      httpHeaders,
       handleFilterOption,
+      onBeforeImageUpload,
       handleUploadSuccess
     }
   }

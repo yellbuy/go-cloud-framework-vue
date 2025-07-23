@@ -47,8 +47,9 @@
 								<el-upload
 									class="upload-demo"
 									:action="uploadURL"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:on-success="onSuccessFile"
+									:before-upload="onBeforeUpload"
 									:on-preview="onPreview"
 									:on-remove="onRemove"
 									:file-list="FilesList"
@@ -142,6 +143,7 @@ export default {
 		});
 		
 		const state = reactive({
+			httpHeaders:proxy.$getRequestHeaders(),
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
@@ -249,6 +251,11 @@ export default {
 			}
 		};
 
+		const onBeforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
+			state.httpHeaders=proxy.$getRequestHeaders();
+			return true
+		}
+
 		//	预览文件
 		const onPreview = (uploadFile: any) => {
 			//	当格式为图片就预览图片，否则下载文件
@@ -346,6 +353,7 @@ export default {
 			onRemove,
 			showImage,
 			dateFormatYMD,
+			onBeforeUpload,
 			getUserInfos,
 			tableData,
 			rules,

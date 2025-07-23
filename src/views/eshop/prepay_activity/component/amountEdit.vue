@@ -23,7 +23,7 @@
 								class="avatar-uploader"
 								:action="`${baseUrl}/v1/file/upload`"
 								name="file"
-								:headers="proxy.$getRequestHeaders()"
+								:headers="httpHeaders"
 								:show-file-list="false"
 								:on-success="onImageUploadSuccess"
 								:before-upload="onBeforeImageUpload">
@@ -79,6 +79,7 @@ export default {
 			return store.state.userInfos.userInfos;
 		});
 		const state = reactive({
+			httpHeaders:proxy.$getRequestHeaders(),
 			isShowDialog: false,
 			title:t('message.action.add'),
 			loading:false,
@@ -185,6 +186,7 @@ export default {
 				ElMessage.error('图片大小不能超过10MB!')
 				return false
 			}
+			state.httpHeaders=proxy.$getRequestHeaders();
 			return true
 		}
 		// 页面加载时

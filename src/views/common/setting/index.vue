@@ -252,7 +252,7 @@
 								class="avatar-uploader"
 								:action="`${baseUrl}/v1/file/upload`"
 								name="file"
-								:headers="proxy.$getRequestHeaders()"
+								:headers="httpHeaders"
 								:show-file-list="false"
 								:on-success="onLogoUploadSuccess"
 								:before-upload="onBeforeImageUpload"
@@ -347,7 +347,7 @@
 								:action="`${baseUrl}/v1/file/upload?groupKey=${group.Key}&itemKey=${item.Key}`"
 								v-else-if="item.Type === 6"
 								name="file"
-								:headers="proxy.$getRequestHeaders()"
+								:headers="httpHeaders"
 								:show-file-list="false"
 								:on-success="onImageUploadSuccess"
 								:before-upload="onBeforeImageUpload"
@@ -432,6 +432,7 @@ export default {
 		});
 		const token = Session.get('token');
 		const state = reactive({
+			httpHeaders:proxy.$getRequestHeaders(),
 			baseUrl:import.meta.env.VITE_API_URL,
 			scopeKind:0,
 			token:token,
@@ -616,6 +617,7 @@ export default {
 				ElMessage.error('图片大小不能超过10MB!')
 				return false
 			}
+			state.httpHeaders=proxy.$getRequestHeaders();
 			return true
 		}
 

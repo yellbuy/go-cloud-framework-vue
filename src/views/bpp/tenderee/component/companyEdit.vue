@@ -155,7 +155,7 @@
 								<el-upload
 									:action="`${baseUrl}/v1/file/upload`"
 									list-type="picture-card"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:on-success="onSuccessFile"
 									:file-list="FilesList"
 									:on-remove="onRemove"
@@ -236,6 +236,7 @@ export default {
 		const state = reactive({
 			isShowDialog: false,
 			title: t('message.action.add'),
+			httpHeaders:proxy.$getRequestHeaders(),
 			loading: false,
 			disable: true, //是否禁用
 			baseUrl: import.meta.env.VITE_API_URL,
@@ -564,6 +565,7 @@ export default {
 				ElMessage.error('图片大小不能超过10MB!');
 				return false;
 			}
+			state.httpHeaders=proxy.$getRequestHeaders();
 			return true;
 		};
 		const { dateFormatYMD } = commonFunction();

@@ -25,7 +25,8 @@
 								<el-upload
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="state.httpHeaders"
+									:before-upload="onBeforeUpload"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
 									v-if="state.projectCompanyForm.Step == 'qualifications'">
@@ -69,7 +70,8 @@
 								<el-upload
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="state.httpHeaders"
+									:before-upload="onBeforeUpload"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
 									v-if="state.projectCompanyForm.Step == 'qualifications'">
@@ -113,7 +115,8 @@
 								<el-upload
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="state.httpHeaders"
+									:before-upload="onBeforeUpload"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
 									v-if="state.projectCompanyForm.Step == 'qualifications'">
@@ -194,7 +197,8 @@
 								<el-upload
 									:action="state.uploadURL"
 									:accept="'.xls,.xlsx,.doc,.docx,.pdf'"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="state.httpHeaders"
+									:before-upload="onBeforeUpload"
 									:on-success="(file) => onSuccessFile(file)"
 									:limit="1"
 									:show-file-list="false"
@@ -289,6 +293,7 @@ const getUserInfos = computed(() => {
 const state = reactive({
 	stepIndex: 0,
 	stepName: '',
+	httpHeaders:proxy.$getRequestHeaders(),
 	moduleKey: moduleKey,
 	isShowMore:false,
 	baseUrl: import.meta.env.VITE_URL as any,
@@ -468,7 +473,10 @@ const onReset = () => {
 const onDel = (index) => {
 	state.projectLineTableData.projectLineList.splice(index, 1)
 }
-
+const onBeforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
+		state.httpHeaders=proxy.$getRequestHeaders();
+		return true;
+	};
 //	更新公司报名信息文件表上传的文件
 const onSuccessFile = (file: UploadFile) => {
 	let model = {}

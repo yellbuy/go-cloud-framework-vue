@@ -109,7 +109,7 @@
 								<el-form-item label="商品图片" prop="Files">
 									<div style="width: 50%">
 										<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
-											:headers="proxy.$getRequestHeaders()"
+											:headers="httpHeaders"
 											:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
 											:on-preview="showImage" :before-upload="onBeforeImageUpload">
 											<template #default>
@@ -354,6 +354,7 @@ export default {
 		
 		const state = reactive({
 			isShowDialog: false,
+			httpHeaders:proxy.$getRequestHeaders(),
 			title: t('message.action.add'),
 			loading: false,
 			disable: true, //	是否禁用
@@ -706,6 +707,7 @@ export default {
 				ElMessage.error('图片大小不能超过10MB!');
 				return false;
 			}
+			state.httpHeaders=proxy.$getRequestHeaders()
 			return true;
 		};
 

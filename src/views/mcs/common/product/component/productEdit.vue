@@ -75,7 +75,7 @@
 						<el-form-item label="商品图片" prop="Files">
 							<div style="width: 50%">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
-									:headers="proxy.$getRequestHeaders()"
+									:headers="httpHeaders"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -134,6 +134,25 @@ export default {
 
 		const { t } = useI18n();
 
+		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
+			if (
+				rawFile.type !== 'image/jpeg' &&
+				rawFile.type !== 'image/jpg' &&
+				rawFile.type !== 'image/png' &&
+				rawFile.type !== 'image/ico' &&
+				rawFile.type !== 'image/bmp' &&
+				rawFile.type !== 'image/gif' &&
+				rawFile.type !== 'image/svg'
+			) {
+				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
+				return false;
+			} else if (rawFile.size / 1024 / 1024 > 10) {
+				ElMessage.error('图片大小不能超过10MB!');
+				return false;
+			}
+			state.httpHeaders=proxy.$getRequestHeaders();
+			return true;
+		};
 		//	文件列表更新
 		const onSuccessFile = (file: UploadFile) => {
 			state.Files.push(file.data.src);
@@ -172,6 +191,7 @@ export default {
 		});
 		
 		const state = reactive({
+			httpHeaders:proxy.$getRequestHeaders(),
 			isShowDialog: false,
 			title: t('message.action.add'),
 			loading: false,
@@ -383,24 +403,7 @@ export default {
 			});
 		};
 
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png' &&
-				rawFile.type !== 'image/ico' &&
-				rawFile.type !== 'image/bmp' &&
-				rawFile.type !== 'image/gif' &&
-				rawFile.type !== 'image/svg'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png，gif，bmp，ico，svg');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			return true;
-		};
+		
 
 		const { dateFormatYMD } = commonFunction();
 
