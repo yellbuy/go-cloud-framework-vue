@@ -114,7 +114,7 @@ export default {
      */
     insertMulti: async (data: object) => {
         const url = `/v1/admin/erp/waybilllines`;
-        return await http.post(url, data);
+        return await http.post(url, data,{timeout:180000});
     },
     /**
      * 批量导入
@@ -123,7 +123,7 @@ export default {
      */
     importMulti: async (kind:string,waybillId:number|string,data: object) => {
         const url = `/v1/admin/erp/waybilllines/${kind}/${waybillId}`;
-        return await http.post(url, data);
+        return await http.post(url, data,{timeout:180000});
     },
 
     /**

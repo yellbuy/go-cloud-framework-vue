@@ -91,7 +91,7 @@ export default {
      */
     insertMulti: async (data: object) => {
         const url = `/v1/admin/erp/businessbilllines`;
-        return await http.post(url, data);
+        return await http.post(url, data, {timeout:180000});
     },
 
     /**

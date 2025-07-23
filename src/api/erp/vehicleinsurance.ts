@@ -45,7 +45,7 @@ export default {
      */
     saveMulti: async (kind:string,data: any) => {
         const url = `/v1/admin/erp/vehicleinsurances/${kind}`;
-        return await http.post(url, data);
+        return await http.post(url, data, {timeout:180000});
     },
 
     /**

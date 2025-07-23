@@ -98,13 +98,13 @@ export default {
         return await http.post(url, data);
     },
     /**
-     * 新增或更新
+     * 批量保存
      * @param data 信息
      * @returns 返回接口数据
      */
     saveMulti: async (kind:string, data: any) => {
         const url = `/v1/admin/erp/vehicles/${kind}`;
-        return await http.post(url, data);
+        return await http.post(url, data, {timeout:180000});
     },
     
 
