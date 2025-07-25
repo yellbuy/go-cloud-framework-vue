@@ -730,7 +730,7 @@ export default {
 		// 打开保险详情
 		const toInsuranceRemind = (id: string, ishow: boolean) => {
 			router.push({
-				name: 'api_baseinfo_vehicle_insurance',
+				name: 'api_commoninfo_vehicle',
 				params: {
 					kind: 'info',
 					scopeMode:0,

@@ -11,6 +11,13 @@
 							<el-option label="已到期" :value="3"></el-option>
 						</el-select>
 					</el-form-item>
+					<el-form-item label="审核：">
+						<el-select v-model="tableData.param.auditState" placeholder="审核状态" style="width: 90px">
+							<el-option label="不限" :value="-1"></el-option>
+							<el-option label="待审" :value="0"></el-option>
+							<el-option label="已审" :value="1"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item label="关键字：">
 						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
 					</el-form-item>
@@ -59,6 +66,7 @@
 				highlight-current-row>
 				<el-table-column type="index" label="序号" width="50" align="right" show-overflow-tooltip fixed></el-table-column>
 				<el-table-column prop="Name" label="姓名" width="100" align="left" show-overflow-tooltip fixed></el-table-column>
+				
 				<el-table-column prop="Gender" label="性别" width="100" align="left" :formatter="formatGender" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Nation" label="民族" width="120" align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="IdnoEndDate" label="身份证截止日" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
@@ -67,6 +75,22 @@
 				<el-table-column prop="DriverLicenseType" label="驾照类型" width="120" align="left" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="DriverLicenseEndDate" label="驾照截止日" width="120" align="left" :formatter="dateFormatYMD"  show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Tname" label="所属公司" width="200"  align="left" show-overflow-tooltip></el-table-column>
+				<el-table-column label="审核" width="70" align="center"  fixed="right" show-overflow-tooltip>
+					<template #default="scope">
+						<el-switch
+							v-model="scope.row.AuditState"
+							inline-prompt
+							:width="46"
+							v-auth:[moduleKey]="'btn.AuditUpdate'"
+							@change="proxy.$api.common.table.updateById('erp_driver', 'audit_state', scope.row.Id, scope.row.AuditState)"
+							:active-text="$t('message.action.yes')"
+							:inactive-text="$t('message.action.no')"
+							:active-value="1"
+							:inactive-value="0"/>
+						<el-tag type="success" effect="plain" v-if="scope.row.AuditState" v-no-auth:[moduleKey]="'btn.AuditUpdate'">{{ $t('message.action.yes') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.AuditUpdate'">{{ $t('message.action.no') }}</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -131,6 +155,7 @@ export default {
 				loading: false,
 				param: {
 					certState:certState,
+					auditState:-1,
 					keyword: '',
 					pageNum: 1,
 					pageSize: 20,

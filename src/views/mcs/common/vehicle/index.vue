@@ -43,6 +43,13 @@
 							<el-option label="维修中" :value="1"></el-option>
 						</el-select>
 					</el-form-item>
+					<el-form-item label="审核：">
+						<el-select v-model="tableData.param.auditState" placeholder="审核状态" style="width: 80px">
+							<el-option label="不限" :value="-1"></el-option>
+							<el-option label="待审" :value="0"></el-option>
+							<el-option label="已审" :value="1"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item>
 						<el-button type="info" @click="onResetSearch" style="margin-left:33px;">
 							<el-icon>
@@ -89,22 +96,23 @@
 				<el-table-column prop="VehicleNumber" label="车牌号" width="100" fixed></el-table-column>
 				<el-table-column prop="BillNo" label="编号" width="110"></el-table-column>
 				<el-table-column prop="VehicleType" label="车辆类型" width="120" show-overflow-tooltip></el-table-column>
-				<el-table-column label="外部车" width="70" show-overflow-tooltip>
+				<el-table-column label="外部车" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch
 							v-model="scope.row.IsExternal"
 							inline-prompt
 							:width="46"
-							v-auth:[moduleKey]="'btn.Edit'"
+							v-auth:[moduleKey]="'btn.Update'"
 							@change="proxy.$api.common.table.updateById('erp_vehicle', 'is_external', scope.row.Id, scope.row.IsExternal)"
 							:active-text="$t('message.action.yes')"
 							:inactive-text="$t('message.action.no')"
 							:active-value="1"
 							:inactive-value="0"/>
-						<el-tag type="success" effect="plain" v-if="scope.row.IsExternal" v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.yes') }}</el-tag>
-						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Edit'">{{ $t('message.action.no') }}</el-tag>
+						<el-tag type="success" effect="plain" v-if="scope.row.IsExternal" v-no-auth:[moduleKey]="'btn.Update'">{{ $t('message.action.yes') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.Update'">{{ $t('message.action.no') }}</el-tag>
 					</template>
 				</el-table-column>
+				
 				<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column label="提醒" width="120" show-overflow-tooltip>
@@ -164,6 +172,22 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="Tname" label="所属公司" show-overflow-tooltip></el-table-column>
+				<el-table-column label="审核" width="70" align="center" fixed="right" show-overflow-tooltip>
+					<template #default="scope">
+						<el-switch
+							v-model="scope.row.AuditState"
+							inline-prompt
+							:width="46"
+							v-auth:[moduleKey]="'btn.AuditUpdate'"
+							@change="proxy.$api.common.table.updateById('erp_vehicle', 'audit_state', scope.row.Id, scope.row.AuditState)"
+							:active-text="$t('message.action.yes')"
+							:inactive-text="$t('message.action.no')"
+							:active-value="1"
+							:inactive-value="0"/>
+						<el-tag type="success" effect="plain" v-if="scope.row.AuditState" v-no-auth:[moduleKey]="'btn.AuditUpdate'">{{ $t('message.action.yes') }}</el-tag>
+						<el-tag type="danger" effect="plain" v-else v-no-auth:[moduleKey]="'btn.AuditUpdate'">{{ $t('message.action.no') }}</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(300)" fixed="right">
 					<template #default="scope">
 						<el-button text bg type="primary" @click="onOpenEditDlg(scope.row.Id, false)" v-auth:[moduleKey]="'btn.Edit'">
@@ -225,6 +249,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const waybillState = route.query.waybillState===undefined?-1:parseInt(route.query.waybillState?.toString())
 		const certState = route.query.certState===undefined?0:parseInt(route.query.certState?.toString())
+		const insuranceState = route.query.insuranceState===undefined?0:parseInt(route.query.insuranceState?.toString())
 		const moduleKey = `api_commoninfo_vehicle`;
 		const editDlgRef = ref();
 		const childMapDlgRef=ref();
@@ -245,7 +270,8 @@ export default {
 					isExternal:-1,
 					repairState:-1,
 					certState:certState,
-					insuranceState:0,
+					insuranceState:insuranceState,
+					auditState:-1,
 					pageNum: 1,
 					pageSize: 20,
 					state: -1,

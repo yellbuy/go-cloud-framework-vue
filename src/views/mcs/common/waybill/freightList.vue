@@ -518,7 +518,9 @@
 										<h3><el-text class="mx-1" type="info">客户名称: </el-text><el-text class="mx-1" >{{ props.row.WaybillCustomerName }}</el-text></h3>
 										<h3><el-text class="mx-1" type="info">品名规格: </el-text><el-text class="mx-1" >{{ props.row.WaybillGoodsName }}</el-text></h3>
 										<h3><el-text class="mx-1" type="info">发货地址: </el-text><el-text class="mx-1" >{{ props.row.WaybillSenderAddress }}</el-text></h3>
+										<h3><el-text class="mx-1" type="info">发货净重: </el-text><el-text class="mx-1" >{{ props.row.SenderNetWeight }}</el-text></h3>
 										<h3><el-text class="mx-1" type="info">收货地址: </el-text><el-text class="mx-1" >{{ props.row.WaybillReceiverAddress }}</el-text></h3>
+										<h3><el-text class="mx-1" type="info">收货净重: </el-text><el-text class="mx-1" >{{ props.row.ReceiverNetWeight }}</el-text></h3>
 										</el-card>
 									</template>
 								</el-table-column>
@@ -529,8 +531,8 @@
 								</el-table-column>								
 								<el-table-column prop="VehicleTypeName" label="车型" width="80"></el-table-column>
 								<el-table-column prop="WaybillCompanyName" label="公司" width="120" show-overflow-tooltip></el-table-column>
-								<el-table-column prop="WaybillSenderAddress" label="发货地址" width="120" show-overflow-tooltip></el-table-column>
-								<el-table-column prop="WaybillReceiverAddress" label="收货地址" width="120" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="SenderNetWeight" label="发货净重" align="right" width="80" show-overflow-tooltip></el-table-column>
+								<el-table-column prop="ReceiverNetWeight" label="收货净重" align="right" width="80" show-overflow-tooltip></el-table-column>
 								<el-table-column prop="WaybillBillNo" label="单号" width="110"></el-table-column>
 								<el-table-column :label="$t('message.action.operate')" :width="proxy.$calcWidth(100)" fixed="right">
 									<template #default="scope">

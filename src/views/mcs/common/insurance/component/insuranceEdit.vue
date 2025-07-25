@@ -321,12 +321,7 @@ export default {
 				}
 			}
 		};
-		const store = useStore();
-
-		const getUserInfos = computed(() => {
-			return store.state.userInfos.userInfos;
-		});
-
+		
 		//	显示表格图片
 		const showImage: UploadProps['onPreview'] = (uploadFile) => {
 			state.dialogImageUrl = uploadFile.url
@@ -344,6 +339,13 @@ export default {
 			state.dialogImageUrl2 = uploadFile.url
 			state.ImageVisible2 = true
 		}
+
+		const store = useStore();
+
+		const getUserInfos = computed(() => {
+			return store.state.userInfos.userInfos;
+		});
+
 
 		//	预览文件
 		const onPreview = (uploadFile: any) => {

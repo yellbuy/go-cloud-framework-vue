@@ -12,16 +12,19 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="性别" prop="Gender" required>
+						<el-form-item label="审核状态" prop="AuditState">
 							<div mb-2 flex items-center>
-								<el-radio-group v-model="ruleForm.Gender">
-									<el-radio :label="1">男</el-radio>
-									<el-radio :label="2">女</el-radio>
+								<el-radio-group
+									v-model="ruleForm.AuditState">
+									<el-radio :label="0">未审</el-radio>
+									<el-radio :label="1">已审</el-radio>
 								</el-radio-group>
 							</div>
 						</el-form-item>
 					</el-col>
+					
 				</el-row>
+				
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="手机号码" prop="Mobile" required>
@@ -31,14 +34,16 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="出生日期" prop="Birthdate" required>
-							<el-date-picker
-								v-model="ruleForm.Birthdate"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD" />
+						<el-form-item label="性别" prop="Gender" required>
+							<div mb-2 flex items-center>
+								<el-radio-group v-model="ruleForm.Gender">
+									<el-radio :label="1">男</el-radio>
+									<el-radio :label="2">女</el-radio>
+								</el-radio-group>
+							</div>
 						</el-form-item>
 					</el-col>
+					
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
@@ -60,6 +65,15 @@
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="出生日期" prop="Birthdate" required>
+							<el-date-picker
+								v-model="ruleForm.Birthdate"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="民族" prop="Nation">
 							<el-select
 								v-model="ruleForm.Nation"
@@ -71,6 +85,9 @@
 							</el-select> 
 						</el-form-item>
 					</el-col>
+					
+				</el-row>
+				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="籍贯" prop="NativePlace">
 							<el-input
@@ -78,9 +95,7 @@
 								placeholder="请输入" /> 
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
 						<el-form-item label="家庭地址" prop="Address">
 							<el-input
 								v-model="ruleForm.Address"
