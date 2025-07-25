@@ -41,6 +41,7 @@
 			<a href="https://beian.miit.gov.cn/" target="_blank" class="mb5 login-copyright-company" v-html="app.Copyright"></a>
 		</div>
 		<div class="login-copyright" v-else>
+			<!-- <a href="https://beian.miit.gov.cn/" target="_blank" class="mb5 login-copyright-company">备案号：123</a> -->
 			<!-- <div class="mb5 login-copyright-company" >{{ $t('pages.login.copyright.one5') }}</div>
 			<div class="login-copyright-msg">{{ $t('pages.login.copyright.two6') }}</div> -->
 		</div>
@@ -185,6 +186,7 @@ export default {
 		font-size: 18px;
 		opacity: 0.8;
 		.login-copyright-company {
+			color:  #ddd;
 			font-size: 18px;
 			white-space: nowrap;
 		}

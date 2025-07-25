@@ -482,11 +482,11 @@ export default {
 		transform: translateX(-50%);
 		bottom: 30px;
 		text-align: center;
-		color: var(--color-whites);
 		font-size: 12px;
 		opacity: 0.8;
 		.login-copyright-company {
 			white-space: nowrap;
+			color:  #ddd;
 		}
 		.login-copyright-msg {
 			@extend .login-copyright-company;
