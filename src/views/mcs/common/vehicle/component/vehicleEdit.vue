@@ -614,6 +614,28 @@ export default {
 						state.TransportLicensePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
 					}
 				}
+
+				if (state.ruleForm.CompulsoryPics != "") {
+					const pics=state.ruleForm.CompulsoryPics.split(",");
+					for(let index=0;index<state.ruleForm.CompulsoryPicList.length;index++){
+						const path=state.ruleForm.CompulsoryPicList[index]
+						state.CompulsoryPicList.push({id:pics[index],url:state.baseUrl+path,name:path})
+					}
+				}
+				if (state.ruleForm.CommercialPics != "") {
+					const pics=state.ruleForm.CommercialPics.split(",");
+					for(let index=0;index<state.ruleForm.CommercialPicList.length;index++){
+						const path=state.ruleForm.CommercialPicList[index]
+						state.CommercialPicList.push({id:pics[index],url:state.baseUrl+path,name:path})
+					}
+				}
+				if (state.ruleForm.TaxPics != "") {
+					const pics=state.ruleForm.TaxPics.split(",");
+					for(let index=0;index<state.ruleForm.TaxPicList.length;index++){
+						const path=state.ruleForm.TaxPicList[index]
+						state.TaxPicList.push({id:pics[index],url:state.baseUrl+path,name:path})
+					}
+				}
 			} finally {
 				state.isShowDialog = true;
 			}
