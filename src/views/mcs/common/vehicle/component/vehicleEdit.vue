@@ -82,7 +82,7 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+					<!-- <el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="车辆识别号" prop="Vin">
 							<el-input
 								v-model="ruleForm.Vin"
@@ -95,7 +95,7 @@
 								v-model="ruleForm.EngineNumber"
 								placeholder="请输入" /> 
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 				</el-row>
 				<el-divider content-position="left">联系人信息*</el-divider>
 				<el-row :gutter="0">
@@ -141,31 +141,11 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="生效日期" prop="DrivingLicenseStartDate">
-							<el-date-picker
-								v-model="ruleForm.DrivingLicenseStartDate"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD" />
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="登记日期" prop="RegistrationDate">
-							<el-date-picker
-								v-model="ruleForm.RegistrationDate"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD" />
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="结束日期" prop="DrivingLicenseEndDate">
+						<el-form-item label="到期日期" prop="DrivingLicenseEndDate">
 							<el-date-picker
 								v-model="ruleForm.DrivingLicenseEndDate"
 								type="date"
-								placeholder="请选择时间"
+								placeholder="请选择日期"
 								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
@@ -196,29 +176,20 @@
 								v-model="ruleForm.TransportLicense"
 								placeholder="请输入" /> 
 						</el-form-item>
-					</el-col>				
+					</el-col>	
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="生效日期" prop="TransportLicenseStartDate">
-							<el-date-picker
-								v-model="ruleForm.TransportLicenseStartDate"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD" />
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="结束日期" prop="TransportLicenseEndDate" >
+						<el-form-item label="到期日期" prop="TransportLicenseEndDate" >
 							<el-date-picker
 								v-model="ruleForm.TransportLicenseEndDate"
 								type="date"
-								placeholder="请选择时间"
+								placeholder="请选择到期日期"
 								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-row :gutter="0">	
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
-						<el-form-item label="证件图片" prop="Files1">
+						<el-form-item label="证件图片" prop="TransportLicensePics">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/roadtransportcertificate`" list-type="picture-card"
 									:headers="httpHeaders"
@@ -235,18 +206,39 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-divider content-position="left">车辆保险信息*</el-divider>
-				<el-row :gutter="0">
+				<el-divider content-position="left">二级维护信息*</el-divider>
+				<el-row :gutter="0">		
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="保险生效日期" prop="InsuranceStartDate" required>
+						<el-form-item label="二级维护日期" prop="MaintenanceDate" >
 							<el-date-picker
-								v-model="ruleForm.InsuranceStartDate"
+								v-model="ruleForm.MaintenanceDate"
 								type="date"
-								placeholder="请选择生效日期"
-								@change="onInsuranceStartDateChange"
+								placeholder="请选择到期日期"
 								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
+				</el-row>
+				<el-row :gutter="0">	
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
+						<el-form-item label="二级维护图片" prop="MaintenancePics">
+							<div >
+								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_maintenance`" list-type="picture-card"
+									:headers="httpHeaders"
+									:on-success="onSuccessUploadMaintenancePic" :file-list="MaintenancePicList" :limit="10" :on-remove="onRemoveMaintenancePic"
+									:on-preview="showImage" :before-upload="onBeforeImageUpload">
+									<template #default>
+										<el-icon>
+											<plus />
+										</el-icon>
+									</template>
+								</el-upload>
+							</div>
+							
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-divider content-position="left">车辆保险信息*</el-divider>
+				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="保险到期日期" prop="InsuranceEndDate"  required>
 							<el-date-picker
@@ -271,27 +263,6 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="交强险购买费用(元)" prop="CompulsoryFee">
-							<el-input-number
-								v-model="ruleForm.CompulsoryFee"
-								min="0"
-								step="100"
-								max="100000000"
-								placeholder="请输入" /> 
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="交强险生效日期" prop="CompulsoryStartDate">
-							<el-date-picker
-								v-model="ruleForm.CompulsoryStartDate"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD" />
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="交强险结束日期" prop="CompulsoryEndDate" >
 							<el-date-picker
 								v-model="ruleForm.CompulsoryEndDate"
@@ -313,32 +284,11 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="商业险购买费用(元)" prop="CommercialFee">
-							<el-input-number
-								v-model="ruleForm.CommercialFee"
-								min="0"
-								step="100"
-								max="100000000"
-								placeholder="请输入" /> 
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="商业险生效日期" prop="CommercialStartDate">
-							<el-date-picker
-								v-model="ruleForm.CommercialStartDate"
-								type="date"
-								placeholder="请选择时间"
-								format="YYYY-MM-DD" />
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="商业险结束日期" prop="CommercialEndDate">
+						<el-form-item label="商业险到期日期" prop="CommercialEndDate">
 							<el-date-picker
 								v-model="ruleForm.CommercialEndDate"
 								type="date"
-								placeholder="请选择时间"
+								placeholder="请选择到期日期"
 								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
@@ -362,7 +312,7 @@
 							<div style="width: 50%">
 								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
-									:on-success="onSuccessUploadCompulsoryPic" :file-list="CompulsoryPicsList" :limit="10" :on-remove="onRemoveCompulsoryPic"
+									:on-success="onSuccessUploadCompulsoryPic" :file-list="CompulsoryPicList" :limit="10" :on-remove="onRemoveCompulsoryPic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
 										<el-icon>
@@ -378,7 +328,7 @@
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
-									:on-success="onSuccessUploadCommercialPic" :file-list="CommercialPicsList" :limit="10" :on-remove="onRemoveCommercialPic"
+									:on-success="onSuccessUploadCommercialPic" :file-list="CommercialPicList" :limit="10" :on-remove="onRemoveCommercialPic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
 										<el-icon>
@@ -394,7 +344,7 @@
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
-									:on-success="onSuccessUploadTaxPic" :file-list="TaxPicsList" :limit="10" :on-remove="onRemoveTaxPic"
+									:on-success="onSuccessUploadTaxPic" :file-list="TaxPicList" :limit="10" :on-remove="onRemoveTaxPic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
 										<el-icon>
@@ -473,6 +423,7 @@ export default {
 				TransportLicensePics: '',
 				CompulsoryPics:'',
 				CommercialPics:'',
+				MaintenancePics:'',
 				TaxPics:'',
 				State: 1,
 				TaxpayerKind: '',
@@ -489,9 +440,10 @@ export default {
 			baseUrl: import.meta.env.VITE_URL as any, //	后台路径根目录
 			DrivingLicensePicList: [],
 			TransportLicensePicList: [],
-			CompulsoryPicsList:[],
-			CommercialPicsList:[],
-			TaxPicsList:[],
+			CompulsoryPicList:[],
+			CommercialPicList:[],
+			TaxPicList:[],
+			MaintenancePicList:[],
 		});
 
 		const token = Session.get('token');
@@ -513,13 +465,7 @@ export default {
 					trigger: 'blur',
 				},
 			],
-			RegistrationDate: [
-				{
-					required: true,
-					message: t('message.validRule.required'),
-					trigger: 'blur',
-				},
-			],
+			
 			DrivingLicenseStartDate: [
 				{
 					required: true,
@@ -535,6 +481,20 @@ export default {
 				},
 			],
 			DriverMobile: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			MaintenanceDate: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			InsuranceEndDate: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -636,6 +596,13 @@ export default {
 						state.TaxPicList.push({id:pics[index],url:state.baseUrl+path,name:path})
 					}
 				}
+				if (state.ruleForm.MaintenancePics != "") {
+					const pics=state.ruleForm.MaintenancePics.split(",");
+					for(let index=0;index<state.ruleForm.MaintenancePicList.length;index++){
+						const path=state.ruleForm.MaintenancePicList[index]
+						state.MaintenancePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
+					}
+				}
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -670,14 +637,17 @@ export default {
 				if (state.TransportLicensePicList) {
 					state.ruleForm.TransportLicensePics = state.TransportLicensePicList.map(val=>{return val.id}).join(',');
 				}
-				if (state.CompulsoryPicsList) {
-					state.ruleForm.CompulsoryPics = state.CompulsoryPicsList.map(val=>{return val.id}).join(',');
+				if (state.CompulsoryPicList) {
+					state.ruleForm.CompulsoryPics = state.CompulsoryPicList.map(val=>{return val.id}).join(',');
 				}
-				if (state.CommercialPicsList) {
-					state.ruleForm.CommercialPics = state.CommercialPicsList.map(val=>{return val.id}).join(',');
+				if (state.CommercialPicList) {
+					state.ruleForm.CommercialPics = state.CommercialPicList.map(val=>{return val.id}).join(',');
 				}
-				if (state.TaxPicsList) {
-					state.ruleForm.TaxPics = state.TaxPicsList.map(val=>{return val.id}).join(',');
+				if (state.TaxPicList) {
+					state.ruleForm.TaxPics = state.TaxPicList.map(val=>{return val.id}).join(',');
+				}
+				if (state.MaintenancePicList) {
+					state.ruleForm.MaintenancePics = state.MaintenancePicList.map(val=>{return val.id}).join(',');
 				}
 				
 				if(!state.ruleForm.IsExternal){
@@ -763,7 +733,8 @@ export default {
 				}
 			}
 		};
-
+		
+		
 		//	道路运输证文件列表更新
 		const onTransportLicensePicUploadSuccess = (file: UploadFile) => {
 			if(file.errcode){
@@ -832,6 +803,20 @@ export default {
 			}
 		};
 
+		//	二级维护照片上传成功后更新
+		const onSuccessUploadMaintenancePic = (file: UploadFile) => {
+			console.log('触发图片上传');
+			if(file.errcode){
+				ElMessage.error(file.errmsg);
+				return;
+			}
+			let image = { url: '' };
+			image.url = state.baseUrl + file.data.src;
+			image.id=file.data.id;
+			image.name=file.data.src;
+			state.MaintenancePicList.push(image);
+		};
+
 		//	交强险图片上传成功
 		const onSuccessUploadCompulsoryPic = (file: UploadFile) => {
 			console.log('触发图片上传');
@@ -843,7 +828,7 @@ export default {
 			image.url = state.baseUrl + file.data.src;
 			image.id=file.data.id;
 			image.name=file.data.src;
-			state.CompulsoryPicsList.push(image);
+			state.CompulsoryPicList.push(image);
 		};
 
 		//	商业险图片上传成功
@@ -856,7 +841,7 @@ export default {
 			image.url = state.baseUrl + file.data.src;
 			image.name=file.data.src;
 			image.id=file.data.id;
-			state.CommercialPicsList.push(image);
+			state.CommercialPicList.push(image);
 		};
 
 		//	车船税图片上传成功
@@ -872,29 +857,38 @@ export default {
 			state.TaxPicList.push(image);
 		};
 
+		const onRemoveMaintenancePic=(file: UploadFile) => {
+			const id = file.id;
+			for (let i = 0; i < state.MaintenancePicList.length; i++) {
+				if (state.MaintenancePicList[i] == id) {
+					state.MaintenancePicList.splice(i, 1);
+				}
+			}
+		};
+
 		const onRemoveCompulsoryPic = (file: UploadFile) => {
 			const id = file.id;
-			for (let i = 0; i < state.CompulsoryPicsList.length; i++) {
-				if (state.CompulsoryPicsList[i] == id) {
-					state.CompulsoryPicsList.splice(i, 1);
+			for (let i = 0; i < state.CompulsoryPicList.length; i++) {
+				if (state.CompulsoryPicList[i] == id) {
+					state.CompulsoryPicList.splice(i, 1);
 				}
 			}
 		};
 
 		const onRemoveCommercialPic = (file: UploadFile) => {
 			const id = file.id;
-			for (let i = 0; i < state.CommercialPicsList.length; i++) {
-				if (state.CommercialPicsList[i] == id) {
-					state.CommercialPicsList.splice(i, 1);
+			for (let i = 0; i < state.CommercialPicList.length; i++) {
+				if (state.CommercialPicList[i] == id) {
+					state.CommercialPicList.splice(i, 1);
 				}
 			}
 		};
 
 		const onRemoveTaxPic = (file: UploadFile) => {
 			const id = file.id;
-			for (let i = 0; i < state.TaxPicsList.length; i++) {
-				if (state.TaxPicsList[i] == id) {
-					state.TaxPicsList.splice(i, 1);
+			for (let i = 0; i < state.TaxPicList.length; i++) {
+				if (state.TaxPicList[i] == id) {
+					state.TaxPicList.splice(i, 1);
 				}
 			}
 		};
@@ -918,6 +912,7 @@ export default {
 			closeDialog,
 			onVehicleLicensePicUploadSuccess,
 			onTransportLicensePicUploadSuccess,
+			onSuccessUploadMaintenancePic,
 			onRemoveVehicleLicensePic,
 			onRemoveTransportLicensePic,
 			onBeforeImageUpload,
@@ -930,6 +925,7 @@ export default {
 			onSuccessUploadTaxPic,
 			onRemoveCompulsoryPic,
 			onRemoveCommercialPic,
+			onRemoveMaintenancePic,
 			onRemoveTaxPic,
 			dateFormatYMD,
 			getUserInfos,

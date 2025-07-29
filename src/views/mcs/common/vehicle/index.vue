@@ -4,7 +4,7 @@
 			<div class="">
 				<el-form ref="searchFormRef" :model="tableData.param" label-width="60px" :inline="true">
 					<el-form-item label="关键字：">
-						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword"> </el-input>
+						<el-input placeholder="请输入关键字查询" v-model="tableData.param.keyword" style="width: 120px"> </el-input>
 					</el-form-item>
 					<el-form-item label="任务：">
 						<el-select v-model="tableData.param.waybillState" placeholder="任务状态" style="width: 80px">
@@ -28,6 +28,14 @@
 							<el-option label="已到期" :value="3"></el-option>
 						</el-select>
 					</el-form-item>
+					<el-form-item label="维保：">
+						<el-select v-model="tableData.param.maintenanceState" placeholder="维保状态" style="width: 80px">
+							<el-option label="不限" :value="0"></el-option>
+							<el-option label="正常" :value="1"></el-option>
+							<el-option label="即将到期" :value="2"></el-option>
+							<el-option label="已到期" :value="3"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item label="保险：">
 						<el-select v-model="tableData.param.insuranceState" placeholder="保险状态" style="width: 90px">
 							<el-option label="不限" :value="0"></el-option>
@@ -36,6 +44,7 @@
 							<el-option label="已到期" :value="3"></el-option>
 						</el-select>
 					</el-form-item>
+					
 					<el-form-item label="维修：">
 						<el-select v-model="tableData.param.repairState" placeholder="维修状态" style="width: 80px">
 							<el-option label="不限" :value="-1"></el-option>
@@ -43,6 +52,7 @@
 							<el-option label="维修中" :value="1"></el-option>
 						</el-select>
 					</el-form-item>
+					
 					<el-form-item label="审核：">
 						<el-select v-model="tableData.param.auditState" placeholder="审核状态" style="width: 80px">
 							<el-option label="不限" :value="-1"></el-option>
@@ -115,7 +125,7 @@
 				
 				<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="提醒" width="120" show-overflow-tooltip>
+				<el-table-column label="提醒" width="140" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tooltip v-if="scope.row.RepairState > 0"
 							class="box-item"
@@ -125,15 +135,34 @@
 						</template>
 						<el-tag type="danger" class="mr4" round effect="dark">修</el-tag>
 						</el-tooltip>
-
-						
 						<el-tag type="success" class="mr4" round effect="dark" v-else-if="scope.row.WaybillLineCount > 0" >任</el-tag>
 						<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
+
+						<el-tooltip v-if="scope.row.MaintenanceState > 0"
+							class="box-item"
+							effect="dark"
+							placement="top">
+						<template #content>二级维保：{{ scope.row.MaintenanceDate.substr(0,10) }}
+						</template>
+						<el-tag :type="scope.row.MaintenanceState == 2?'success':'warning'" class="mr4" round effect="dark" >维</el-tag>
+						</el-tooltip>
+						<el-tag type="danger" class="mr4" round effect="dark" v-else >维</el-tag>
+
+						<el-tooltip v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2"
+								class="box-item"
+								effect="dark"
+								placement="top">
+							<template #content>行驶证：至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
+								<br />
+								道路运输许可证：至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
+							</template>
+							<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
+						</el-tooltip>
 						<el-tooltip v-if="scope.row.InsuranceState > 0"
 							class="box-item"
 							effect="dark"
 							placement="top">
-						<template #content>保险：{{ scope.row.InsuranceStartDate.substr(0,10) }} 至 {{ scope.row.InsuranceEndDate.substr(0,10) }}
+						<template #content>保险：至 {{ scope.row.InsuranceEndDate.substr(0,10) }}
 						</template>
 						<el-tag :type="scope.row.InsuranceState == 2?'success':'warning'" class="mr4" round effect="dark" >险</el-tag>
 						</el-tooltip>
@@ -142,9 +171,9 @@
 								class="box-item"
 								effect="dark"
 								placement="top">
-							<template #content>行驶证：{{ scope.row.DrivingLicenseStartDate.substr(0,10) }} 至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
+							<template #content>行驶证：至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
 								<br />
-								道路运输许可证：{{ scope.row.TransportLicenseStartDate.substr(0,10) }} 至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
+								道路运输许可证：至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
 							</template>
 							<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
 						</el-tooltip>
@@ -250,6 +279,7 @@ export default {
 		const waybillState = route.query.waybillState===undefined?-1:parseInt(route.query.waybillState?.toString())
 		const certState = route.query.certState===undefined?0:parseInt(route.query.certState?.toString())
 		const insuranceState = route.query.insuranceState===undefined?0:parseInt(route.query.insuranceState?.toString())
+		const maintenanceState = route.query.maintenanceState===undefined?0:parseInt(route.query.maintenanceState?.toString())
 		const moduleKey = `api_commoninfo_vehicle`;
 		const editDlgRef = ref();
 		const childMapDlgRef=ref();
@@ -271,6 +301,7 @@ export default {
 					repairState:-1,
 					certState:certState,
 					insuranceState:insuranceState,
+					maintenanceState:maintenanceState,
 					auditState:-1,
 					pageNum: 1,
 					pageSize: 20,
