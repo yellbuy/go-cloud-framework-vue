@@ -53,6 +53,7 @@
                 <el-upload
                 v-bind="getConfById(head.formId)" 
                 :headers="httpHeaders"
+                :with-credentials="true"
                  :before-upload="onBeforeUpload"
                 :on-success="(res) => onUploadSuccess(res, tableFormData[scope.$index][cindex])"
                 @mouseleave.native="hideUploadList"

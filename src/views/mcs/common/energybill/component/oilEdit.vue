@@ -24,7 +24,7 @@
 				<el-divider content-position="left" v-if="!ruleForm.Id || ruleForm.Id == '0'">加油信息*</el-divider>
 				<el-row :gutter="0" v-if="!ruleForm.Id || ruleForm.Id == '0'">
 					<el-col :xs="2" :sm="1" class="mb20">
-						<el-upload ref="uploadRef" class="upload-demo" :before-upload="
+						<el-upload ref="uploadRef" class="upload-demo" :with-credentials="true" :before-upload="
 								() => {return false;}" :auto-upload="false" :on-change="onImportXlsx" :show-file-list="false">
 							<template #trigger>
 								<el-button bg type="primary">

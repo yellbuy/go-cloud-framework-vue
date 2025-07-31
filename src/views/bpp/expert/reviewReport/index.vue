@@ -27,6 +27,7 @@
 						:action="state.uploadURL"
 						:accept:="`application/pdf,application/docx,application/doc`"
 						:headers="state.httpHeaders"
+						:with-credentials="true"
 						:before-upload="onBeforeUpload"
 						:on-success="onSuccessFile"
 						:on-remove="onRemove"

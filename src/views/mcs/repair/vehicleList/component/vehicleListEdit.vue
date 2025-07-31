@@ -158,6 +158,7 @@
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onDrivingLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="10" :on-remove="onRemoveTransportLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -207,6 +208,7 @@
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="10" :on-remove="onRemoveTransportLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>

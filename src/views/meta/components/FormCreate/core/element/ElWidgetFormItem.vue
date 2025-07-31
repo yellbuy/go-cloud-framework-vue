@@ -211,6 +211,7 @@
           :multiple="element.options.multiple"
           :limit="element.options.limit"
           :headers="httpHeaders"
+          :with-credentials="true"
           :before-upload="onBeforeImageUpload"
           :disabled="element.options.disabled"
         >

@@ -160,6 +160,7 @@
 							<div style="width: 50%">
 								<el-upload :action="`${baseUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -179,6 +180,7 @@
 							<div >
 								<el-upload :action="`${baseUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onSuccessFile1" :file-list="FilesList1" :limit="10" :on-remove="onRemove1"
 									:on-preview="showImage1" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -198,6 +200,7 @@
 							<div >
 								<el-upload :action="`${baseUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onSuccessFile2" :file-list="FilesList2" :limit="10" :on-remove="onRemove2"
 									:on-preview="showImage2" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -234,13 +237,13 @@
 		</el-dialog>
 	</div>
 </template>
-
-<script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
 import { ElMessage, UploadFile, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
+import { Session } from '/@/utils/storage';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 

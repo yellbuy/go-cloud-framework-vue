@@ -56,6 +56,7 @@
 													:action="state.uploadURL"
 													:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
 													:headers="state.httpHeaders"
+													:with-credentials="true"
 													:on-success="(file) => onSuccessFile(file)"
 													:before-upload="onBeforeImageUpload"
 													:limit="1"
@@ -114,6 +115,7 @@
 													:action="state.uploadURL"
 													:accept="'.jpg,.png,.jpeg,.ico,.bmp,.gif,.svg'"
 													:headers="state.httpHeaders"
+													:with-credentials="true"
 													:on-success="(file) => onSuccessFile(file)"
 													:before-upload="onBeforeImageUpload"
 													:limit="1"
@@ -310,13 +312,13 @@
 	</el-card>
 </template>
 
-<script setup lang="ts">
 import { CaretRight } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { computed, getCurrentInstance, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import projectBiddingEdit from './projectBiddingEdit.vue';
 import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 import { Session } from '/@/utils/storage';
 
 const route = useRoute();

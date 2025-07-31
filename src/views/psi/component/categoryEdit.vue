@@ -59,6 +59,7 @@
 									class="upload-demo"
 									:action="uploadURL"
 									:headers="httpHeaders"
+									:with-credentials="true"
           							:before-upload="onBeforeImageUpload"
 									:on-success="onSuccessFile"
 									:on-preview="onPreview"

@@ -253,6 +253,7 @@
 								:action="`${baseUrl}/v1/file/upload`"
 								name="file"
 								:headers="httpHeaders"
+								:with-credentials="true"
 								:show-file-list="false"
 								:on-success="onLogoUploadSuccess"
 								:before-upload="onBeforeImageUpload"
@@ -348,6 +349,7 @@
 								v-else-if="item.Type === 6"
 								name="file"
 								:headers="httpHeaders"
+								:with-credentials="true"
 								:show-file-list="false"
 								:on-success="onImageUploadSuccess"
 								:before-upload="onBeforeImageUpload"
@@ -413,10 +415,10 @@
 	</el-tabs>
 </template>
 
-<script lang="ts">
 import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 import { Session } from '/@/utils/storage';
 export default {
 	name: 'commonSetting',

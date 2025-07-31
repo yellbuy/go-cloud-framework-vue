@@ -85,6 +85,7 @@
 							<div style="width: 100%">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>

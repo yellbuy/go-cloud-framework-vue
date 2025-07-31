@@ -125,7 +125,7 @@
 				
 				<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="提醒" width="140" show-overflow-tooltip>
+				<el-table-column label="提醒" width="160" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tooltip v-if="scope.row.RepairState > 0"
 							class="box-item"
@@ -148,16 +148,7 @@
 						</el-tooltip>
 						<el-tag type="danger" class="mr4" round effect="dark" v-else >维</el-tag>
 
-						<el-tooltip v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2"
-								class="box-item"
-								effect="dark"
-								placement="top">
-							<template #content>行驶证：至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
-								<br />
-								道路运输许可证：至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
-							</template>
-							<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
-						</el-tooltip>
+						
 						<el-tooltip v-if="scope.row.InsuranceState > 0"
 							class="box-item"
 							effect="dark"
@@ -167,6 +158,7 @@
 						<el-tag :type="scope.row.InsuranceState == 2?'success':'warning'" class="mr4" round effect="dark" >险</el-tag>
 						</el-tooltip>
 						<el-tag type="danger" class="mr4" round effect="dark" v-else >险</el-tag>
+
 						<el-tooltip v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2"
 								class="box-item"
 								effect="dark"

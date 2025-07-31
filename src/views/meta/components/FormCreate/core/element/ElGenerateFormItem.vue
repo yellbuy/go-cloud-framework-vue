@@ -189,6 +189,7 @@
       <el-upload
         :name="element.options.file"
         :headers="httpHeaders"
+        :with-credentials="true"
         :action="element.options.action"
         :accept="element.options.accept"
         :file-list="element.options.defaultValue"

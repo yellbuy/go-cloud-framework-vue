@@ -252,6 +252,7 @@
 							<div class="mt10">
 								<el-upload :action="`${baseUrl}/v1/file/upload`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onSuccessFile" :file-list="FilesList" :limit="10" :on-remove="onRemove"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -273,7 +274,9 @@
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mr10">
 								<div class="mt10">
 								<el-upload :action="`${baseUrl}/v1/file/upload`"
-									:headers="httpHeaders" :limit="1"
+									:headers="httpHeaders"
+									:with-credentials="true"
+									:limit="1"
 									class="upload-demo" :on-success="onSuccessVideoFile"
 									:before-upload="onBeforeVideoUpload"
 									:show-file-list="false">
@@ -374,13 +377,13 @@
 		</el-dialog>
 	</div>
 </template>
-
-<script lang="ts">
 import { Delete, Plus } from '@element-plus/icons-vue';
 import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
+import { Session } from '/@/utils/storage';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {

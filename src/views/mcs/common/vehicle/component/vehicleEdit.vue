@@ -156,6 +156,7 @@
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onVehicleLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="2" :on-remove="onRemoveVehicleLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -165,7 +166,11 @@
 									</template>
 								</el-upload>
 							</div>
+							<div title="" class="color-info-light text-help-info font10">
+								<SvgIcon name="fa fa-info-circle" /><span><a :href="baseUrl+'/static/img/mcs/vehicle_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></span>
+							</div>
 						</el-form-item>
+
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">道路运输证信息*</el-divider>
@@ -190,9 +195,11 @@
 				<el-row :gutter="0">	
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
 						<el-form-item label="证件图片" prop="TransportLicensePics">
+							
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/roadtransportcertificate`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="2" :on-remove="onRemoveTransportLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -202,7 +209,9 @@
 									</template>
 								</el-upload>
 							</div>
-							
+							<div title="" class="color-info-light text-help-info font10">
+								<SvgIcon name="fa fa-info-circle" /><span><a :href="baseUrl+'/static/img/mcs/transport_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></span>
+							</div>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -224,6 +233,7 @@
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_maintenance`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onSuccessUploadMaintenancePic" :file-list="MaintenancePicList" :limit="10" :on-remove="onRemoveMaintenancePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -312,6 +322,7 @@
 							<div style="width: 50%">
 								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onSuccessUploadCompulsoryPic" :file-list="CompulsoryPicList" :limit="10" :on-remove="onRemoveCompulsoryPic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -328,6 +339,7 @@
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onSuccessUploadCommercialPic" :file-list="CommercialPicList" :limit="10" :on-remove="onRemoveCommercialPic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -344,6 +356,7 @@
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onSuccessUploadTaxPic" :file-list="TaxPicList" :limit="10" :on-remove="onRemoveTaxPic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -370,13 +383,13 @@
 			<img class="dialog-image" w-full :src="dialogImageUrl" alt="Preview Image" />
 		</el-dialog>
 	</div>
-</template>
-
-<script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
 import { ElMessage, UploadFile, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from '/@/store/index';
+import commonFunction from '/@/utils/commonFunction';
+import { Session } from '/@/utils/storage';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
@@ -401,6 +414,7 @@ export default {
 			title: t('message.action.add'),
 			loading: false,
 			disable: true, //	是否禁用
+			baseUrl: import.meta.env.VITE_URL as any, //	后台路径根目录
 			baseApiUrl: import.meta.env.VITE_API_URL,
 			dialogImageUrl: "",
 			ImageVisible: false,
@@ -437,7 +451,7 @@ export default {
 			plateColorList:[],
 			energyTypeList:[],
 			saveState: false,
-			baseUrl: import.meta.env.VITE_URL as any, //	后台路径根目录
+			
 			DrivingLicensePicList: [],
 			TransportLicensePicList: [],
 			CompulsoryPicList:[],
@@ -731,7 +745,12 @@ export default {
 				if(res.data.Owner){
 					state.ruleForm.Owner=res.data.Owner
 				}
+				if(res.data.Errmsg){
+					//错误提示信息
+					ElMessage.error(res.data.Errmsg);
+				}
 			}
+			
 		};
 		
 		
@@ -749,6 +768,10 @@ export default {
 			if(res.data){
 				state.ruleForm.TransportLicense=res.data.Idno
 				state.ruleForm.TransportLicenseStartDate=res.data.IssuedDate
+				if(res.data.Errmsg){
+					//错误提示信息
+					ElMessage.error(res.data.Errmsg);
+				}
 			}
 		};
 

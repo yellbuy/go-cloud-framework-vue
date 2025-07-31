@@ -4,7 +4,9 @@
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading">
 				<el-row :gutter="0">
 					<el-col :xs="1" :sm="1" class="mb20">
-						<el-upload ref="uploadRef" class="upload-demo" :before-upload="
+						<el-upload ref="uploadRef" 
+						:with-credentials="true"
+						class="upload-demo" :before-upload="
 								() => {return false;}" :auto-upload="false" :on-change="onImportXlsx" :show-file-list="false">
 							<template #trigger>
 								<el-button bg type="primary">

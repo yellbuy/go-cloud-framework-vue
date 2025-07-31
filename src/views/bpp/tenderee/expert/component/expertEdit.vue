@@ -53,6 +53,7 @@
 									class="avatar-uploader"
 									:action="uploadURL"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:show-file-list="false"
 									:before-upload="onBeforeUpload"
 									:on-progress="onUploadingFile"

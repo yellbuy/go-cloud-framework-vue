@@ -118,6 +118,7 @@
 									name="file"
 									:limit="1"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onImageUploadSuccess"
 									:before-upload="onBeforeUpload"
 									:show-file-list="false"

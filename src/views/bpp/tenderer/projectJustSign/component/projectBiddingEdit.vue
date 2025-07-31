@@ -26,6 +26,7 @@
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
 									:headers="state.httpHeaders"
+									:with-credentials="true"
 									:before-upload="onBeforeUpload"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
@@ -71,6 +72,7 @@
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
 									:headers="state.httpHeaders"
+									:with-credentials="true"
 									:before-upload="onBeforeUpload"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
@@ -116,6 +118,7 @@
 									:action="state.uploadURL"
 									:accept="'.jpg,.jpeg,.pdf'"
 									:headers="state.httpHeaders"
+									:with-credentials="true"
 									:before-upload="onBeforeUpload"
 									:on-success="(file) => onSuccessFile(file)"
 									:show-file-list="false"
@@ -198,6 +201,7 @@
 									:action="state.uploadURL"
 									:accept="'.xls,.xlsx,.doc,.docx,.pdf'"
 									:headers="state.httpHeaders"
+									:with-credentials="true"
 									:before-upload="onBeforeUpload"
 									:on-success="(file) => onSuccessFile(file)"
 									:limit="1"
@@ -268,11 +272,11 @@
 			</el-col>
 		</el-row>
 	</div>
-</template>
-
-<script setup lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, getCurrentInstance, nextTick, onMounted, reactive, toRefs } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from '/@/store/index';
+import { Session } from '/@/utils/storage';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';

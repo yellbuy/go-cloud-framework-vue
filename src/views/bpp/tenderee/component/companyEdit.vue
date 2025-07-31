@@ -156,6 +156,7 @@
 									:action="`${baseUrl}/v1/file/upload`"
 									list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onSuccessFile"
 									:file-list="FilesList"
 									:on-remove="onRemove"

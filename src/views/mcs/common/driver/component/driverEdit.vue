@@ -149,10 +149,12 @@
 				</el-row>	
 				<el-row :gutter="0">	
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
+						
 						<el-form-item label="证件图片" prop="Files1">
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:on-success="onDriverLicensePicUploadSuccess" :file-list="DriverLicensePicList" :limit="2" :on-remove="onRemoveDriverLicensePic"
 									:on-preview="showImage" :before-upload="onBeforeImageUpload">
 									<template #default>
@@ -162,9 +164,9 @@
 									</template>
 								</el-upload>
 							</div>
-							<div>
-								<el-image-viewer v-if="dialogVisible" @close="imgOnClose()" :url-list="dialogImageUrl" />
-							</div> 
+							<div title="" class="color-info-light text-help-info font10">
+								<SvgIcon name="fa fa-info-circle" /><span><a :href="baseUrl+'/static/img/mcs/driver_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></span>
+							</div>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -218,6 +220,7 @@ export default {
 			httpHeaders:proxy.$getRequestHeaders(),
 			loading: false,
 			disable: true, //	是否禁用
+			baseUrl: import.meta.env.VITE_URL as any, //	后台路径根目录
 			baseApiUrl: import.meta.env.VITE_API_URL,
 			ImageVisible: false,
 			DriverLicensePicList:[],
@@ -383,7 +386,7 @@ export default {
 					const pics=state.ruleForm.DriverLicensePics.split(",");
 					for(let index=0;index<state.ruleForm.DriverLicensePicList.length;index++){
 						const path=state.ruleForm.DriverLicensePicList[index]
-						state.DriverLicensePicList.push({id:pics[index],url:state.baseApiUrl+path,name:path})
+						state.DriverLicensePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
 					}
 				}
 			} finally {
@@ -456,6 +459,10 @@ export default {
 				}
 				if(res.data.Address){
 					state.ruleForm.Address=res.data.Address ;
+				}
+				if(res.data.Errmsg){
+					//错误提示信息
+					ElMessage.error(res.data.Errmsg);
 				}
 			}
 		};

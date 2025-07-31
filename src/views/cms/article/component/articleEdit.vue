@@ -21,6 +21,7 @@
 									:action="`${baseUrl}/v1/file/upload`"
 									name="file"
 									:headers="httpHeaders"
+									:with-credentials="true"
 									:show-file-list="false"
 									:on-success="onImageUploadSuccess"
 									:before-upload="onBeforeImageUpload"
