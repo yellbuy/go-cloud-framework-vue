@@ -151,26 +151,21 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
-						<el-form-item label="证件图片" prop="Files">
-							<div >
-								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
-									:headers="httpHeaders"
-									:with-credentials="true"
-									:on-success="onVehicleLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="2" :on-remove="onRemoveVehicleLicensePic"
-									:on-preview="showImage" :before-upload="onBeforeImageUpload">
-									<template #default>
-										<el-icon>
-											<plus />
-										</el-icon>
-									</template>
-								</el-upload>
-							</div>
-							<div title="" class="color-info-light text-help-info font10">
-								<SvgIcon name="fa fa-info-circle" /><span><a :href="baseUrl+'/static/img/mcs/vehicle_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></span>
-							</div>
-						</el-form-item>
-
+					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
+						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />行驶证图片：<a :href="baseUrl+'/static/img/mcs/vehicle_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></div>
+						<div >
+							<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
+								:headers="httpHeaders"
+								:with-credentials="true"
+								:on-success="onVehicleLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="2" :on-remove="onRemoveVehicleLicensePic"
+								:on-preview="showImage" :before-upload="onBeforeImageUpload">
+								<template #default>
+									<el-icon>
+										<plus />
+									</el-icon>
+								</template>
+							</el-upload>
+						</div>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">道路运输证信息*</el-divider>
@@ -193,26 +188,21 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="0">	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
-						<el-form-item label="证件图片" prop="TransportLicensePics">
-							
-							<div >
-								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/roadtransportcertificate`" list-type="picture-card"
-									:headers="httpHeaders"
-									:with-credentials="true"
-									:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="2" :on-remove="onRemoveTransportLicensePic"
-									:on-preview="showImage" :before-upload="onBeforeImageUpload">
-									<template #default>
-										<el-icon>
-											<plus />
-										</el-icon>
-									</template>
-								</el-upload>
-							</div>
-							<div title="" class="color-info-light text-help-info font10">
-								<SvgIcon name="fa fa-info-circle" /><span><a :href="baseUrl+'/static/img/mcs/transport_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></span>
-							</div>
-						</el-form-item>
+					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
+						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />道路运输证图片：<a :href="baseUrl+'/static/img/mcs/transport_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></div>
+						<div>
+							<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/roadtransportcertificate`" list-type="picture-card"
+								:headers="httpHeaders"
+								:with-credentials="true"
+								:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="2" :on-remove="onRemoveTransportLicensePic"
+								:on-preview="showImage" :before-upload="onBeforeImageUpload">
+								<template #default>
+									<el-icon>
+										<plus />
+									</el-icon>
+								</template>
+							</el-upload>
+						</div>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">二级维护信息*</el-divider>
@@ -228,9 +218,9 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="0">	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
-						<el-form-item label="二级维护图片" prop="MaintenancePics">
-							<div >
+					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
+						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />二级维护图片</div>
+						<div>
 								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_maintenance`" list-type="picture-card"
 									:headers="httpHeaders"
 									:with-credentials="true"
@@ -243,8 +233,6 @@
 									</template>
 								</el-upload>
 							</div>
-							
-						</el-form-item>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">车辆保险信息*</el-divider>
@@ -317,25 +305,23 @@
 				</el-row>
 				<el-divider content-position="left">保单上传*</el-divider>
 				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="交强险图片" prop="Files">
-							<div style="width: 50%">
-								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
-									:headers="httpHeaders"
-									:with-credentials="true"
-									:on-success="onSuccessUploadCompulsoryPic" :file-list="CompulsoryPicList" :limit="10" :on-remove="onRemoveCompulsoryPic"
-									:on-preview="showImage" :before-upload="onBeforeImageUpload">
-									<template #default>
-										<el-icon>
-											<plus />
-										</el-icon>
-									</template>
-								</el-upload>
-							</div>
-						</el-form-item>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8"  class="mb12">
+						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />交强险图片</div>
+						<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" 
+							list-type="picture-card"
+							:headers="httpHeaders"
+							:with-credentials="true"
+							:on-success="onSuccessUploadCompulsoryPic" :file-list="CompulsoryPicList" :limit="10" :on-remove="onRemoveCompulsoryPic"
+							:on-preview="showImage" :before-upload="onBeforeImageUpload">
+							<template #default>
+								<el-icon>
+									<plus />
+								</el-icon>
+							</template>
+						</el-upload>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="商业险图片" prop="Files1">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8"  class="mb12">
+						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />商业险图片</div>
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
@@ -349,10 +335,9 @@
 									</template>
 								</el-upload>
 							</div>
-						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="车船税图片" prop="Files2">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8"  class="mb12">
+						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />车船税图片</div>
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
@@ -366,7 +351,6 @@
 									</template>
 								</el-upload>
 							</div>
-						</el-form-item>
 					</el-col>
 				</el-row>	
 			</el-form>
@@ -386,7 +370,6 @@
 </template>
 
 <script lang="ts">
-import { Plus } from '@element-plus/icons-vue';
 import { ElMessage, UploadFile, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';

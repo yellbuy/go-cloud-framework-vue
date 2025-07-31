@@ -148,26 +148,23 @@
 					</el-col>				
 				</el-row>	
 				<el-row :gutter="0">	
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb12">
-						
-						<el-form-item label="证件图片" prop="Files1">
-							<div >
-								<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
-									:headers="httpHeaders"
-									:with-credentials="true"
-									:on-success="onDriverLicensePicUploadSuccess" :file-list="DriverLicensePicList" :limit="2" :on-remove="onRemoveDriverLicensePic"
-									:on-preview="showImage" :before-upload="onBeforeImageUpload">
-									<template #default>
-										<el-icon>
-											<plus />
-										</el-icon>
-									</template>
-								</el-upload>
-							</div>
-							<div title="" class="color-info-light text-help-info font10">
-								<SvgIcon name="fa fa-info-circle" /><span><a :href="baseUrl+'/static/img/mcs/driver_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></span>
-							</div>
-						</el-form-item>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb12">
+						<div class="margin-bottom">
+							<SvgIcon name="fa fa-info-circle margin-right-xs" />驾驶证图片：<a :href="baseUrl+'/static/img/mcs/driver_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a>
+						</div>
+						<div>
+							<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
+								:headers="httpHeaders"
+								:with-credentials="true"
+								:on-success="onDriverLicensePicUploadSuccess" :file-list="DriverLicensePicList" :limit="2" :on-remove="onRemoveDriverLicensePic"
+								:on-preview="showImage" :before-upload="onBeforeImageUpload">
+								<template #default>
+									<el-icon>
+										<plus />
+									</el-icon>
+								</template>
+							</el-upload>
+						</div>
 					</el-col>
 				</el-row>
 			</el-form>
