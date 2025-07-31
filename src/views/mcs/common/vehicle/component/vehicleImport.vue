@@ -103,16 +103,7 @@
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="DrivingLicenseStartDate" label="行驶证有效开始日期" width="150">
-								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.DrivingLicenseStartDate"
-										type="date"
-										placeholder="生效日期"
-										format="YYYY-MM-DD"></el-date-picker>
-								</template>
-							</el-table-column>
-							<el-table-column prop="DrivingLicenseEndDate" label="行驶证有效截止日期" width="150">
+							<el-table-column prop="DrivingLicenseEndDate" label="行驶证到期日期" width="150">
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.DrivingLicenseEndDate"
@@ -121,29 +112,69 @@
 										format="YYYY-MM-DD"></el-date-picker>
 								</template>
 							</el-table-column>
-							<el-table-column prop="TransportLicense" label="道路运输许可证" width="150">
+							<el-table-column prop="TransportLicense" label="道路运输证" width="150">
 								<template #default="scope">
 									<el-input
 										v-model="scope.row.TransportLicense"
 										placeholder="请输入"></el-input> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="TransportLicenseStartDate" label="许可证有效开始日期" width="150">
-								<template #default="scope">
-									<el-date-picker
-										v-model="scope.row.TransportLicenseStartDate"
-										type="date"
-										placeholder="请选择时间"
-										format="YYYY-MM-DD"></el-date-picker>
-								</template>
-							</el-table-column>
-							<el-table-column prop="TransportLicenseEndDate" label="许可证有效截止日期" width="150">
+							<el-table-column prop="TransportLicenseEndDate" label="道路运输证到期日期" width="150">
 								<template #default="scope">
 									<el-date-picker
 										v-model="scope.row.TransportLicenseEndDate"
 										type="date"
 										placeholder="请选择时间"
 										format="YYYY-MM-DD"></el-date-picker>
+								</template>
+							</el-table-column>
+							<el-table-column prop="MaintenanceDate" label="二级维护日期" width="150">
+								<template #default="scope">
+									<el-date-picker
+										v-model="scope.row.MaintenanceDate"
+										type="date"
+										placeholder="请选择时间"
+										format="YYYY-MM-DD"></el-date-picker>
+								</template>
+							</el-table-column>
+							
+							<el-table-column prop="InsuranceEndDate" label="保险到期日期" width="150">
+								<template #default="scope">
+									<el-date-picker
+										v-model="scope.row.InsuranceEndDate"
+										type="date"
+										placeholder="请选择时间"
+										format="YYYY-MM-DD"></el-date-picker>
+								</template>
+							</el-table-column>
+							<el-table-column prop="CompulsoryAmount" label="交强险保额" width="110">
+								<template #default="scope">
+									<el-input-number
+										v-model="scope.row.CompulsoryAmount"
+										min="0"
+										step="100"
+										max="100000000"
+										placeholder="请输入" /> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="CommercialAmount" label="商业险保额" width="110">
+								<template #default="scope">
+									<el-input-number
+										v-model="scope.row.CommercialAmount"
+										min="0"
+										step="100"
+										max="100000000"
+										placeholder="请输入" /> 
+								</template>
+							</el-table-column>
+							<el-table-column prop="TaxFee" label="车船税费用" width="110">
+								<template #default="scope">
+									<el-input-number
+										v-model="scope.row.TaxFee"
+										min="0"
+										step="100"
+										max="100000000"
+										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
 							<el-table-column :width="proxy.$calcWidth(70)" fixed="right">
@@ -275,8 +306,8 @@ export default {
 				}
 
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: ["Index", "VehicleNumber",  "BillNo", 
-					"VehicleType", "IsExternal", "Shipper", "Linkman", "Phone", "Driver", "DriverMobile", "DrivingLicense", "DrivingLicenseStartDate", 
-					"DrivingLicenseEndDate", "TransportLicense", "TransportLicenseStartDate", "TransportLicenseEndDate"], range: 2})
+					"VehicleType", "IsExternal", "Shipper", "Linkman", "Phone", "Driver", "DriverMobile", "DrivingLicense", 
+					"DrivingLicenseEndDate", "TransportLicense", "TransportLicenseEndDate","MaintenanceDate","InsuranceEndDate","CompulsoryAmount","CommercialAmount","TaxFee"], range: 2})
 					
 				list.forEach(item => {
 					item.Index = parseInt(item.Index)
@@ -290,11 +321,14 @@ export default {
 					item.Phone = String(item.Phone)
 					item.DriverMobile = String(item.DriverMobile)
 					item.DrivingLicense = String(item.DrivingLicense)
-					item.DrivingLicenseStartDate = dayjs(item.DrivingLicenseStartDate).add(2,"hour")
 					item.DrivingLicenseEndDate = dayjs(item.DrivingLicenseEndDate).add(2,"hour")
 					item.TransportLicense = String(item.TransportLicense)
-					item.TransportLicenseStartDate = dayjs(item.TransportLicenseStartDate).add(2,"hour")
 					item.TransportLicenseEndDate = dayjs(item.TransportLicenseEndDate).add(2,"hour")
+					item.MaintenanceDate = dayjs(item.MaintenanceDate).add(2,"hour")
+					item.InsuranceEndDate = dayjs(item.InsuranceEndDate).add(2,"hour")
+					item.CompulsoryAmount = Number.parseFloat(item.CompulsoryAmount)
+					item.CommercialAmount = Number.parseFloat(item.CommercialAmount)
+					item.TaxFee = Number.parseFloat(item.TaxFee)
 					console.log("测试", item)
 					if (item.VehicleNumber == "") {
 						tip[0].push(item.Index)

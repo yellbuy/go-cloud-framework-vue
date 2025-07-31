@@ -312,13 +312,13 @@
 	</el-card>
 </template>
 
+<script setup lang="ts">
 import { CaretRight } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { computed, getCurrentInstance, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import projectBiddingEdit from './projectBiddingEdit.vue';
 import { useStore } from '/@/store/index';
-import { Session } from '/@/utils/storage';
 import { Session } from '/@/utils/storage';
 
 const route = useRoute();
@@ -330,11 +330,11 @@ const projectBiddingEditRef = ref();
 
 const state = reactive({
 	isShowIndex: 'info',
-	httpHeaders:proxy.$getRequestHeaders(),
 	isShowMore: false,
 	isExpanded: true,
 	baseUrl: import.meta.env.VITE_URL as any,
 	uploadURL: (import.meta.env.VITE_API_URL as any) + '/v1/file/upload',
+	httpHeaders:proxy.$getRequestHeaders(),
 	projectId: "",
 	projectCompanyId: "",
 	projectForm: {},
@@ -460,7 +460,6 @@ const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
 		ElMessage.error('图片大小不能超过10MB!');
 		return false;
 	}
-	state.httpHeaders=proxy.$getRequestHeaders();
 	return true;
 };
 

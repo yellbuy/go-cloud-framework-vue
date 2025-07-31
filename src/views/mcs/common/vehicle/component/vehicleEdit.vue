@@ -273,7 +273,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="交强险结束日期" prop="CompulsoryEndDate" >
+						<el-form-item label="交强险到期日期" prop="CompulsoryEndDate" >
 							<el-date-picker
 								v-model="ruleForm.CompulsoryEndDate"
 								type="date"
@@ -383,13 +383,13 @@
 			<img class="dialog-image" w-full :src="dialogImageUrl" alt="Preview Image" />
 		</el-dialog>
 	</div>
+</template>
+
+<script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
 import { ElMessage, UploadFile, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from '/@/store/index';
-import commonFunction from '/@/utils/commonFunction';
-import { Session } from '/@/utils/storage';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
@@ -550,6 +550,10 @@ export default {
 				state.disable = disable;
 				state.DrivingLicensePicList=[];
 				state.TransportLicensePicList=[];
+				state.CompulsoryPicList=[];
+				state.CommercialPicList=[];
+				state.TaxPicList=[];
+				state.MaintenancePicList=[];
 				if (id && id != '0') {
 					getRowById(id);
 					state.title = t('message.action.edit');

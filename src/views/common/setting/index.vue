@@ -415,10 +415,10 @@
 	</el-tabs>
 </template>
 
+<script lang="ts">
 import { ElMessage, UploadProps } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useStore } from '/@/store/index';
-import { Session } from '/@/utils/storage';
 import { Session } from '/@/utils/storage';
 export default {
 	name: 'commonSetting',
