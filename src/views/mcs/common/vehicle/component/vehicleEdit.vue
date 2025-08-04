@@ -299,10 +299,8 @@
 								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="故障责任险保额(元)" prop="TaxFee">
+						<el-form-item label="雇主责任险保额(元)" prop="TaxFee">
 							<el-input-number
 								v-model="ruleForm.TaxFee"
 								min="0"
