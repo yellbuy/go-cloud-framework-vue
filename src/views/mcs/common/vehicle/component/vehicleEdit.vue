@@ -141,6 +141,15 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="登记日期" prop="RegistrationDate">
+							<el-date-picker
+								v-model="ruleForm.RegistrationDate"
+								type="date"
+								placeholder="请选择日期"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="到期日期" prop="DrivingLicenseEndDate">
 							<el-date-picker
 								v-model="ruleForm.DrivingLicenseEndDate"
@@ -293,7 +302,7 @@
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="车船税费用(元)" prop="TaxFee">
+						<el-form-item label="故障责任险保额(元)" prop="TaxFee">
 							<el-input-number
 								v-model="ruleForm.TaxFee"
 								min="0"
@@ -337,7 +346,7 @@
 							</div>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8"  class="mb12">
-						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />车船税图片</div>
+						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />雇主责任险图片</div>
 							<div >
 								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
@@ -463,7 +472,7 @@ export default {
 				},
 			],
 			
-			DrivingLicenseStartDate: [
+			RegistrationDate: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -471,6 +480,13 @@ export default {
 				},
 			],
 			DrivingLicenseEndDate: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			TransportLicenseEndDate: [
 				{
 					required: true,
 					message: t('message.validRule.required'),

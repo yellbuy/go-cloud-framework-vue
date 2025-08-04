@@ -167,7 +167,7 @@
 										placeholder="请输入" /> 
 								</template>
 							</el-table-column>
-							<el-table-column prop="TaxFee" label="车船税费用" width="110">
+							<el-table-column prop="TaxFee" label="雇主责任险保额" width="110">
 								<template #default="scope">
 									<el-input-number
 										v-model="scope.row.TaxFee"
