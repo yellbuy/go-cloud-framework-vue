@@ -725,18 +725,21 @@ export default {
 				if(res.data.VehicleNumber){
 					state.ruleForm.VehicleNumber=res.data.VehicleNumber
 				}
+				if(res.data.RecordNo){
+					state.ruleForm.DrivingLicense=res.data.RecordNo
+				}
 				if(res.data.Vin){
-					state.ruleForm.DrivingLicense=res.data.Vin
+					state.ruleForm.Vin=res.data.Vin
 				}
-				if(res.data.IssuedDate){
-					state.ruleForm.DrivingLicenseStartDate=res.data.IssuedDate
-				}
+				//if(res.data.IssuedDate){
+				//	state.ruleForm.DrivingLicenseStartDate=res.data.IssuedDate
+				//}
 				if(res.data.RegistedDate){
 					state.ruleForm.RegistrationDate=res.data.RegistedDate
 				}
-				if(res.data.StartDate){
-					state.ruleForm.DrivingLicenseStartDate=res.data.StartDate
-				}
+				//if(res.data.StartDate){
+					//state.ruleForm.DrivingLicenseStartDate=res.data.StartDate
+				//}
 				if(res.data.EndDate){
 					state.ruleForm.DrivingLicenseEndDate=res.data.EndDate
 				}
@@ -768,7 +771,7 @@ export default {
 			state.TransportLicensePicList.push(model);
 			if(res.data){
 				state.ruleForm.TransportLicense=res.data.Idno
-				state.ruleForm.TransportLicenseStartDate=res.data.IssuedDate
+				//state.ruleForm.TransportLicenseStartDate=res.data.IssuedDate
 				if(res.data.Errmsg){
 					//错误提示信息
 					ElMessage.error(res.data.Errmsg);

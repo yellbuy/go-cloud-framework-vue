@@ -439,18 +439,18 @@ export default {
 					state.ruleForm.DriverLicense=res.data.No
 					state.ruleForm.Idno=res.data.No
 				}
-				if(res.data.StartDate){
-					state.ruleForm.DriverLicenseStartDate=res.data.StartDate;
-				}
+				//if(res.data.StartDate){
+				//	state.ruleForm.DriverLicenseStartDate=res.data.StartDate;
+				//}
 				if(res.data.EndDate){
 					state.ruleForm.DriverLicenseEndDate=res.data.EndDate;
 				}
 				if(res.data.BirthDate){
 					state.ruleForm.Birthdate=res.data.BirthDate ;
 				}
-				if(res.data.RegistedDate){
-					state.ruleForm.RegistrationDate=res.data.RegistedDate ;
-				}
+				//if(res.data.RegistedDate){
+				//	state.ruleForm.RegistrationDate=res.data.RegistedDate ;
+				//}
 				if(res.data.VehicleType){
 					state.ruleForm.DriverLicenseType=res.data.VehicleType
 				}

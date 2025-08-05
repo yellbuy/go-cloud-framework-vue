@@ -506,7 +506,7 @@ export default {
 					current: 1,
 					pageSize: 10,
 				},
-				timeRange: [],
+				timeRange: [dayjs().startOf('day').format(),dayjs().endOf('day').format()],
 			},
 			vehicleRunTableData:{ //当日出勤车辆列表
 				loading: false,
@@ -810,7 +810,6 @@ export default {
 		onMounted(() => {
 			onGetHomeStatData();
 			const now = dayjs();
-			state.waybillTableData.timeRange=[now.startOf('day').format(),now.endOf('day').format()]
 			state.waybillTableData.param.startTime=now.startOf('day').format();
 			state.waybillTableData.param.endTime=now.endOf('day').format();
 
