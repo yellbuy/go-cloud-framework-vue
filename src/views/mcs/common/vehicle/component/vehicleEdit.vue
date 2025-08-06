@@ -114,23 +114,6 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row :gutter="0">
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="司机姓名" prop="Driver"> 
-							<el-input
-								v-model="ruleForm.Driver"
-								placeholder="请输入" /> 
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
-						<el-form-item label="司机电话" prop="DriverMobile"> 
-							<el-input
-								v-model="ruleForm.DriverMobile"
-								placeholder="请输入" />
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20"></el-col>
-				</el-row>
 				<el-divider content-position="left">行驶证信息*</el-divider>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
@@ -196,6 +179,7 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
+				
 				<el-row :gutter="0">	
 					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
 						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />道路运输证图片：<a :href="baseUrl+'/static/img/mcs/transport_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></div>
@@ -204,6 +188,65 @@
 								:headers="httpHeaders"
 								:with-credentials="true"
 								:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="2" :on-remove="onRemoveTransportLicensePic"
+								:on-preview="showImage" :before-upload="onBeforeImageUpload">
+								<template #default>
+									<el-icon>
+										<plus />
+									</el-icon>
+								</template>
+							</el-upload>
+						</div>
+					</el-col>
+				</el-row>
+				<el-divider content-position="left">驾驶证信息*</el-divider>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="司机姓名" prop="Driver"> 
+							<el-input
+								v-model="ruleForm.Driver"
+								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="司机电话" prop="DriverMobile"> 
+							<el-input
+								v-model="ruleForm.DriverMobile"
+								placeholder="请输入" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20"></el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="驾照类型" prop="DriverLicenseType">
+							<el-select
+								v-model="ruleForm.DriverLicenseType"
+								filterable="true"
+								default-first-option="true"
+								:reserve-keyword="false"
+								placeholder="请选择">
+								<el-option v-for="(item,index) in DriverLicenseTypeList" :key="index" :label="item" :value="item" />
+							</el-select> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="驾驶证到期日期" prop="DriverLicenseEndDate">
+							<el-date-picker
+								v-model="ruleForm.DriverLicenseEndDate"
+								type="date"
+								placeholder="请选择时间"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>		
+				</el-row>	
+				<el-row :gutter="0">
+					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
+						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />驾驶证图片：<a :href="baseUrl+'/static/img/mcs/driver_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></div>
+						<div >
+							<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
+								:headers="httpHeaders"
+								:with-credentials="true"
+								:on-success="onDriverLicensePicUploadSuccess" :file-list="DriverLicensePicList" :limit="2" :on-remove="onRemoveDriverLicensePic"
 								:on-preview="showImage" :before-upload="onBeforeImageUpload">
 								<template #default>
 									<el-icon>
@@ -425,6 +468,8 @@ export default {
 				BusinessScope: '',
 				DrivingLicensePics: '',
 				TransportLicensePics: '',
+				DriverLicensePics: '',
+				IdnoPics: '',
 				CompulsoryPics:'',
 				CommercialPics:'',
 				MaintenancePics:'',
@@ -444,10 +489,13 @@ export default {
 			
 			DrivingLicensePicList: [],
 			TransportLicensePicList: [],
+			DriverLicensePicList:[],
+			IdnoPicList:[],
 			CompulsoryPicList:[],
 			CommercialPicList:[],
 			TaxPicList:[],
 			MaintenancePicList:[],
+			DriverLicenseTypeList: ["A1","A2","A3","B1","B2","C1","C2","C3","C4","D","E","F","M","N","P"],
 		});
 
 		const token = Session.get('token');
@@ -485,6 +533,13 @@ export default {
 				},
 			],
 			TransportLicenseEndDate: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			DriverLicenseEndDate: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -587,6 +642,21 @@ export default {
 					for(let index=0;index<state.ruleForm.TransportLicensePicList.length;index++){
 						const path=state.ruleForm.TransportLicensePicList[index]
 						state.TransportLicensePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
+					}
+				}
+
+				if (state.ruleForm.DriverLicensePics != "") {
+					const pics=state.ruleForm.DriverLicensePics.split(",");
+					for(let index=0;index<state.ruleForm.DriverLicensePicList.length;index++){
+						const path=state.ruleForm.DriverLicensePicList[index]
+						state.DriverLicensePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
+					}
+				}
+				if (state.ruleForm.IdnoPics != "") {
+					const pics=state.ruleForm.IdnoPics.split(",");
+					for(let index=0;index<state.ruleForm.IdnoPicList.length;index++){
+						const path=state.ruleForm.IdnoPicList[index]
+						state.IdnoPicList.push({id:pics[index],url:state.baseUrl+path,name:path})
 					}
 				}
 
@@ -779,6 +849,63 @@ export default {
 			}
 		};
 
+		//	驾驶证文件列表更新
+		const onDriverLicensePicUploadSuccess = (file: UploadFile) => {
+			if(file.errcode){
+				ElMessage.error(file.errmsg);
+				return;
+			}
+			var res=file.data
+			
+			const url=state.baseUrl + res.src
+			const model = { url: url, name:res.src, id:res.id };
+			state.DriverLicensePicList.push(model);
+			if(res.data){
+				if(res.data.Name){
+					state.ruleForm.Driver=res.data.Name
+				}
+				if(res.data.Gender){
+					state.ruleForm.DriverGender=res.data.Gender=='女'?2:1;
+				}
+				if(res.data.No){
+					state.ruleForm.DriverLicense=res.data.No
+					state.ruleForm.Idno=res.data.No
+				}
+				//if(res.data.StartDate){
+				//	state.ruleForm.DriverLicenseStartDate=res.data.StartDate;
+				//}
+				if(res.data.EndDate){
+					state.ruleForm.DriverLicenseEndDate=res.data.EndDate;
+				}
+				if(res.data.BirthDate){
+					state.ruleForm.DriverBirthdate=res.data.BirthDate ;
+				}
+				//if(res.data.RegistedDate){
+				//	state.ruleForm.RegistrationDate=res.data.RegistedDate ;
+				//}
+				if(res.data.VehicleType){
+					state.ruleForm.DriverLicenseType=res.data.VehicleType
+				}
+				if(res.data.Address){
+					state.ruleForm.Address=res.data.Address ;
+				}
+				if(res.data.Errmsg){
+					//错误提示信息
+					ElMessage.error(res.data.Errmsg);
+				}
+			}
+		};
+		//	删除图片
+		const onRemoveDriverLicensePic = (file: UploadFile) => {
+			let removeUrl = file.id;
+			console.log(state.DriverLicensePicList)
+			for (let i = 0; i < state.DriverLicensePicList.length; i++) {
+				if (state.DriverLicensePicList[i].id == removeUrl) {
+					state.DriverLicensePicList.splice(i, 1);
+				}
+			}
+		};
+
 		//	预览文件
 		const onPreview = (uploadFile: any) => {
 			//	当格式为图片就预览图片，否则下载文件
@@ -940,6 +1067,8 @@ export default {
 			onVehicleLicensePicUploadSuccess,
 			onTransportLicensePicUploadSuccess,
 			onSuccessUploadMaintenancePic,
+			onDriverLicensePicUploadSuccess,
+			onRemoveDriverLicensePic,
 			onRemoveVehicleLicensePic,
 			onRemoveTransportLicensePic,
 			onBeforeImageUpload,

@@ -716,14 +716,14 @@ export default {
 		// 打开司机详情
 		const toDriverRemind = (id: string, ishow: boolean) => {
 			router.push({
-				name: 'api_baseinfo_driver',
+				name: 'api_commoninfo_vehicle',
 				params: {
 					kind: 'info',
 					scopeMode:0,
 					scopeValue:0,
 				},
 				query: {
-					certState:3,
+					driverState:3,
 				}
 			});
 		};

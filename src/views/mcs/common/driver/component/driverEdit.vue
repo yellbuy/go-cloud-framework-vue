@@ -417,7 +417,7 @@ export default {
 			state.httpHeaders=proxy.$getRequestHeaders()
 			return true;
 		};
-		//	道路运输证文件列表更新
+		//	驾驶证文件列表更新
 		const onDriverLicensePicUploadSuccess = (file: UploadFile) => {
 			if(file.errcode){
 				ElMessage.error(file.errmsg);

@@ -28,6 +28,14 @@
 							<el-option label="已到期" :value="3"></el-option>
 						</el-select>
 					</el-form-item>
+					<el-form-item label="驾照：">
+						<el-select v-model="tableData.param.driverState" placeholder="驾驶证状态" style="width: 90px">
+							<el-option label="不限" :value="0"></el-option>
+							<el-option label="正常" :value="1"></el-option>
+							<el-option label="即将到期" :value="2"></el-option>
+							<el-option label="已到期" :value="3"></el-option>
+						</el-select>
+					</el-form-item>
 					<el-form-item label="维保：">
 						<el-select v-model="tableData.param.maintenanceState" placeholder="维保状态" style="width: 80px">
 							<el-option label="不限" :value="0"></el-option>
@@ -98,7 +106,7 @@
 			<el-table
 				:data="tableData.data"
 				v-loading="tableData.loading"
-				:height="proxy.$calcMainHeight(-75)"
+				:height="proxy.$calcMainHeight(-125)"
 				border
 				stripe
 				highlight-current-row>
@@ -125,7 +133,7 @@
 				
 				<el-table-column prop="Shipper" label="相关方" width="120" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="提醒" width="160" show-overflow-tooltip>
+				<el-table-column label="提醒" width="200" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tooltip v-if="scope.row.RepairState > 0"
 							class="box-item"
@@ -137,6 +145,29 @@
 						</el-tooltip>
 						<el-tag type="success" class="mr4" round effect="dark" v-else-if="scope.row.WaybillLineCount > 0" >任</el-tag>
 						<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
+
+						
+
+						<el-tooltip
+								class="box-item"
+								effect="dark"
+								placement="top">
+							<template #content>行驶证：至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
+								<br />
+								道路运输许可证：至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
+							</template>
+							<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
+							<el-tag type="success" class="mr4" round effect="dark" v-else>证</el-tag>
+						</el-tooltip>
+
+						<el-tooltip
+								class="box-item"
+								effect="dark"
+								placement="top">
+							<template #content>驾驶证：至 {{ scope.row.DriverLicenseEndDate.substr(0,10) }}</template>
+							<el-tag :type="scope.row.DriverLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DriverLicenseState < 2">驾</el-tag>
+							<el-tag type="success" class="mr4" round effect="dark" v-else>驾</el-tag>
+						</el-tooltip>
 
 						<el-tooltip v-if="scope.row.MaintenanceState > 0"
 							class="box-item"
@@ -159,16 +190,6 @@
 						</el-tooltip>
 						<el-tag type="danger" class="mr4" round effect="dark" v-else >险</el-tag>
 
-						<el-tooltip v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2"
-								class="box-item"
-								effect="dark"
-								placement="top">
-							<template #content>行驶证：至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
-								<br />
-								道路运输许可证：至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
-							</template>
-							<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
-						</el-tooltip>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Driver" label="司机" width="80" show-overflow-tooltip></el-table-column>				
@@ -270,6 +291,7 @@ export default {
 		const scopeValue = route.params.scopeValue || 0;
 		const waybillState = route.query.waybillState===undefined?-1:parseInt(route.query.waybillState?.toString())
 		const certState = route.query.certState===undefined?0:parseInt(route.query.certState?.toString())
+		const driverState = route.query.driverState===undefined?0:parseInt(route.query.driverState?.toString())
 		const insuranceState = route.query.insuranceState===undefined?0:parseInt(route.query.insuranceState?.toString())
 		const maintenanceState = route.query.maintenanceState===undefined?0:parseInt(route.query.maintenanceState?.toString())
 		const moduleKey = `api_commoninfo_vehicle`;
@@ -292,6 +314,7 @@ export default {
 					isExternal:-1,
 					repairState:-1,
 					certState:certState,
+					driverState:driverState,
 					insuranceState:insuranceState,
 					maintenanceState:maintenanceState,
 					auditState:-1,
@@ -313,6 +336,7 @@ export default {
 			state.tableData.param.isExternal = -1;
 			state.tableData.param.repairState = -1;
 			state.tableData.param.certState = 0;
+			state.tableData.param.driverState = 0;
 			state.tableData.param.insuranceState = 0;
 			onGetTableData(true);
 		};
