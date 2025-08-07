@@ -602,6 +602,8 @@ export default {
 				state.disable = disable;
 				state.DrivingLicensePicList=[];
 				state.TransportLicensePicList=[];
+				state.DriverLicensePicList=[];
+				state.IdnoPicList=[];
 				state.CompulsoryPicList=[];
 				state.CommercialPicList=[];
 				state.TaxPicList=[];
