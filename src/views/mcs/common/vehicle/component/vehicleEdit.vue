@@ -720,21 +720,43 @@ export default {
 				}
 				if (state.DrivingLicensePicList) {
 					state.ruleForm.DrivingLicensePics = state.DrivingLicensePicList.map(val=>{return val.id}).join(',');
+				} else{
+					state.ruleForm.DrivingLicensePics=""
 				}
 				if (state.TransportLicensePicList) {
 					state.ruleForm.TransportLicensePics = state.TransportLicensePicList.map(val=>{return val.id}).join(',');
+				}else{
+					state.ruleForm.TransportLicensePics=""
+				}
+				if (state.DriverLicensePicList) {
+					state.ruleForm.DriverLicensePics = state.DriverLicensePicList.map(val=>{return val.id}).join(',');
+				}else{
+					state.ruleForm.DriverLicensePics=""
+				}
+				if (state.IdnoPicList) {
+					state.ruleForm.IdnoPics = state.IdnoPicList.map(val=>{return val.id}).join(',');
+				}else{
+					state.ruleForm.IdnoPics=""
 				}
 				if (state.CompulsoryPicList) {
 					state.ruleForm.CompulsoryPics = state.CompulsoryPicList.map(val=>{return val.id}).join(',');
+				}else{
+					state.ruleForm.CompulsoryPics=""
 				}
 				if (state.CommercialPicList) {
 					state.ruleForm.CommercialPics = state.CommercialPicList.map(val=>{return val.id}).join(',');
+				}else{
+					state.ruleForm.CommercialPicList=""
 				}
 				if (state.TaxPicList) {
 					state.ruleForm.TaxPics = state.TaxPicList.map(val=>{return val.id}).join(',');
+				}else{
+					state.ruleForm.TaxPics=""
 				}
 				if (state.MaintenancePicList) {
 					state.ruleForm.MaintenancePics = state.MaintenancePicList.map(val=>{return val.id}).join(',');
+				}else{
+					state.ruleForm.MaintenancePics=""
 				}
 				
 				if(!state.ruleForm.IsExternal){
