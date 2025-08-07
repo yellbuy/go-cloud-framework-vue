@@ -746,7 +746,7 @@ export default {
 				if (state.CommercialPicList) {
 					state.ruleForm.CommercialPics = state.CommercialPicList.map(val=>{return val.id}).join(',');
 				}else{
-					state.ruleForm.CommercialPicList=""
+					state.ruleForm.CommercialPics=""
 				}
 				if (state.TaxPicList) {
 					state.ruleForm.TaxPics = state.TaxPicList.map(val=>{return val.id}).join(',');
