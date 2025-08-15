@@ -1,5 +1,5 @@
 <template>
-  <el-config-provider :locale="i18nLocale" :message="messageConfig" :size="getThemeConfig.globalComponentSize">
+  <el-config-provider :locale="i18nLocale" :message="messageConfig" :size="getThemeConfig.globalComponentSize" :link="linkConfig">
     <router-view v-show="getThemeConfig.lockScreenTime !== 0"/>
     <LockScreen v-if="getThemeConfig.isLockScreen"/>
     <Setings v-show="getThemeConfig.lockScreenTime !== 0" ref="setingsRef"/>
@@ -48,6 +48,9 @@ export default defineComponent({
       max: 5,
       grouping: true,
       duration: 1800,
+    })
+    const linkConfig = reactive({
+      underline: 'always',
     })
     // 获取布局配置信息
     const getThemeConfig = computed(() => {
@@ -113,6 +116,7 @@ export default defineComponent({
       setingsRef,
       getThemeConfig,
       messageConfig,
+      linkConfig,
       ...toRefs(state),
     };
   },

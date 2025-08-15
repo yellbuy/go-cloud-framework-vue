@@ -414,7 +414,7 @@
 			</template>
 		</el-dialog>
 		<el-dialog v-model="ImageVisible">
-			<img class="dialog-image" w-full :src="dialogImageUrl" alt="Preview Image" />
+			<el-image class="dialog-image" w-full :src="dialogImageUrl" fit="contain" />
 		</el-dialog>
 	</div>
 </template>
@@ -630,7 +630,14 @@ export default {
 				}
 				state.ruleForm = res.data;
 				console.log("state.ruleForm:",state.ruleForm)
-				
+				state.DrivingLicensePicList=[];
+				state.TransportLicensePicList=[];
+				state.DriverLicensePicList=[];
+				state.IdnoPicList=[];
+				state.CompulsoryPicList=[];
+				state.CommercialPicList=[];
+				state.TaxPicList=[];
+				state.MaintenancePicList=[];
 				if (state.ruleForm.DrivingLicensePics != "") {
 					const pics=state.ruleForm.DrivingLicensePics.split(",");
 					for(let index=0;index<state.ruleForm.DrivingLicensePicList.length;index++){
