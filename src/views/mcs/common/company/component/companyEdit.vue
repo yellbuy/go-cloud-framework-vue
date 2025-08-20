@@ -1,6 +1,6 @@
 <template>
 	<div class="system-edit-user-container">
-		<el-dialog :title="title" v-model="isShowDialog" width="40%" :before-close="closeDialog">
+		<el-dialog :title="title" v-model="isShowDialog" width="80%" :before-close="closeDialog">
 			<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="130px" label-suffix="：" v-loading="loading" :disabled="disable">
 				<el-divider content-position="left">基本信息*</el-divider>
 				<el-row :gutter="0">
@@ -36,11 +36,22 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="0">
+					
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="经营范围" prop="BusinessScope">
-							<el-input
-								v-model="ruleForm.BusinessScope"
-								placeholder="请输入" />
+						<el-form-item label="注册资金" prop="RegisteredCapital">
+							<el-input-number style="width:180px;"
+								v-model="ruleForm.RegisteredCapital"
+								min="0"
+								step="10"
+								max="100000000"
+								placeholder="请输入" > 
+								<template #prefix>
+									<span>￥</span>
+								</template>
+								<template #suffix>
+									<span>万元</span>
+								</template>
+								</el-input-number>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
@@ -53,7 +64,23 @@
 				</el-row>
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="经营起始日期" prop="BusinessStartTime">
+						<el-form-item label="开户行" prop="BankName">
+							<el-input
+								v-model="ruleForm.BankName"
+								placeholder="请输入" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="开户行账号" prop="BankNo">
+							<el-input
+								v-model="ruleForm.BankNo"
+								placeholder="请输入" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
+						<el-form-item label="证件有效起始日期" prop="BusinessStartTime">
 							<el-date-picker
 								v-model="ruleForm.BusinessStartTime"
 								type="date"
@@ -62,13 +89,37 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" class="mb20">
-						<el-form-item label="经营结束日期" prop="BusinessEndTime">
+						<el-form-item label="证件有效到期日期" prop="BusinessEndTime">
 							<el-date-picker
 								v-model="ruleForm.BusinessEndTime"
 								type="date"
 								placeholder="请选择时间"
 								format="YYYY-MM-DD" />
 						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" class="mb20">
+						<el-form-item label="经营范围" prop="BusinessScope">
+							<el-input
+								v-model="ruleForm.BusinessScope"
+								:rows="3"
+    							type="textarea"
+								placeholder="请输入" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-divider content-position="left">资质照片*</el-divider>
+				<el-row :gutter="0">
+					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
+						<div >
+							<imageUpload :uploadUrl="`/v1/file/upload/company`" list-type="picture-card"
+								@on-image-change="onPicChange" :ids="ruleForm.Pics" :limit="30">
+								<template #default>
+									<el-icon>
+										<plus />
+									</el-icon>
+								</template>
+							</imageUpload>
+						</div>
 					</el-col>
 				</el-row>
 				<el-divider content-position="left">扩展信息*</el-divider>
@@ -137,20 +188,15 @@
 
 <script lang="ts">
 import { Plus } from '@element-plus/icons-vue';
-import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
+import { getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from '/@/store/index';
+import imageUpload from '/@/components/imageUpload/index.vue';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 export default {
 	name: 'companyEdit',
+	components: { imageUpload,Plus },
 	setup() {
-
-		const store = useStore();
-
-		const getUserInfos = computed(() => {
-			return store.state.userInfos.userInfos;
-		});
 
 		const { proxy } = getCurrentInstance() as any;
 
@@ -190,9 +236,12 @@ export default {
 				State: 1,
 				AuditState: 1,
 				TaxpayerKind: '',
+				BankName:'',
+				BankNo:'',
 				WebSite: '',
 				Fax: '',
 				Im: '',
+				Pics:'',
 				CompanyCategoryList: [],
 			},
 			tableItem: {
@@ -334,6 +383,10 @@ export default {
 			state.isShowDialog = false;
 			proxy.$parent.onGetTableData();
 		};
+		const onPicChange= (picIds:String,fileList:any)=>{
+			state.ruleForm.Pics=picIds;
+			console.log('onPicChange:',state.ruleForm.Pics, fileList)
+		}
 
 		//	新增
 		const onSubmit = (isCloseDlg: boolean) => {
@@ -375,7 +428,7 @@ export default {
 			closeDialog,
 			GetByIdRow,
 			dateFormatYMD,
-			getUserInfos,
+			onPicChange,
 			tableData,
 			categoryRules,
 			rules,
@@ -383,9 +436,6 @@ export default {
 			onSubmit,
 			...toRefs(state),
 		};
-	},
-	components: {
-		Plus,
 	},
 	data() {
 		return {};
