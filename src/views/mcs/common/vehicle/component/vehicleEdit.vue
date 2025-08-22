@@ -145,8 +145,11 @@
 				<el-row :gutter="0">
 					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
 						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />行驶证图片：<a :href="baseUrl+'/static/img/mcs/vehicle_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></div>
-						<div >
-							<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
+						<div>
+							<imageUpload :uploadUrl="`/v1/admin/common/ocr/mixedmultivehicle`" title="行驶证"
+								@on-image-change="onVehicleLicensePicChange" @on-upload-success="onVehicleLicensePicUploadSuccess" :ids="ruleForm.DrivingLicensePics" :limit="2">
+							</imageUpload>
+							<!-- <el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
 								:headers="httpHeaders"
 								:with-credentials="true"
 								:on-success="onVehicleLicensePicUploadSuccess" :file-list="DrivingLicensePicList" :limit="2" :on-remove="onRemoveVehicleLicensePic"
@@ -156,7 +159,7 @@
 										<plus />
 									</el-icon>
 								</template>
-							</el-upload>
+							</el-upload> -->
 						</div>
 					</el-col>
 				</el-row>
@@ -184,7 +187,10 @@
 					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
 						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />道路运输证图片：<a :href="baseUrl+'/static/img/mcs/transport_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></div>
 						<div>
-							<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/roadtransportcertificate`" list-type="picture-card"
+							<imageUpload :uploadUrl="`/v1/admin/common/ocr/roadtransportcertificate`" title="道路运输证"
+								@on-image-change="onTransportLicensePicChange" @on-upload-success="onTransportLicensePicUploadSuccess" :ids="ruleForm.TransportLicensePics" :limit="2">
+							</imageUpload>
+							<!-- <el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/roadtransportcertificate`" list-type="picture-card"
 								:headers="httpHeaders"
 								:with-credentials="true"
 								:on-success="onTransportLicensePicUploadSuccess" :file-list="TransportLicensePicList" :limit="2" :on-remove="onRemoveTransportLicensePic"
@@ -194,7 +200,7 @@
 										<plus />
 									</el-icon>
 								</template>
-							</el-upload>
+							</el-upload> -->
 						</div>
 					</el-col>
 				</el-row>
@@ -242,8 +248,11 @@
 				<el-row :gutter="0">
 					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
 						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />驾驶证图片：<a :href="baseUrl+'/static/img/mcs/driver_license.png'" target="_blank" class="mb5 login-copyright-company">上传图例</a></div>
-						<div >
-							<el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
+						<div>
+							<imageUpload :uploadUrl="`/v1/admin/common/ocr/mixedmultivehicle`" title="驾驶证"
+								@on-image-change="onDriverLicensePicChange" @on-upload-success="onDriverLicensePicUploadSuccess" :ids="ruleForm.DriverLicensePics" :limit="2">
+							</imageUpload>
+							<!-- <el-upload :action="`${baseApiUrl}/v1/admin/common/ocr/mixedmultivehicle`" list-type="picture-card"
 								:headers="httpHeaders"
 								:with-credentials="true"
 								:on-success="onDriverLicensePicUploadSuccess" :file-list="DriverLicensePicList" :limit="2" :on-remove="onRemoveDriverLicensePic"
@@ -253,7 +262,7 @@
 										<plus />
 									</el-icon>
 								</template>
-							</el-upload>
+							</el-upload> -->
 						</div>
 					</el-col>
 				</el-row>
@@ -273,7 +282,10 @@
 					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
 						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />二级维护图片</div>
 						<div>
-								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_maintenance`" list-type="picture-card"
+							<imageUpload :uploadUrl="`/v1/file/upload/vehicle_maintenance`" title="二级维护"
+								@on-image-change="onMaintenancePicChange" :ids="ruleForm.MaintenancePics" :limit="10">
+							</imageUpload>
+								<!-- <el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_maintenance`" list-type="picture-card"
 									:headers="httpHeaders"
 									:with-credentials="true"
 									:on-success="onSuccessUploadMaintenancePic" :file-list="MaintenancePicList" :limit="10" :on-remove="onRemoveMaintenancePic"
@@ -283,7 +295,7 @@
 											<plus />
 										</el-icon>
 									</template>
-								</el-upload>
+								</el-upload> -->
 							</div>
 					</el-col>
 				</el-row>
@@ -357,7 +369,10 @@
 				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8"  class="mb12">
 						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />交强险图片</div>
-						<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" 
+						<imageUpload :uploadUrl="`/v1/file/upload/vehicle_insurance`" title="交强险"
+							@on-image-change="onCompulsoryPicChange" :ids="ruleForm.CompulsoryPics" :limit="20">
+						</imageUpload>
+						<!-- <el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" 
 							list-type="picture-card"
 							:headers="httpHeaders"
 							:with-credentials="true"
@@ -368,12 +383,15 @@
 									<plus />
 								</el-icon>
 							</template>
-						</el-upload>
+						</el-upload> -->
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8"  class="mb12">
 						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />商业险图片</div>
-							<div >
-								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
+							<div>
+								<imageUpload :uploadUrl="`/v1/file/upload/vehicle_insurance`" title="商业险"
+									@on-image-change="onCommercialPicChange" :ids="ruleForm.CommercialPics" :limit="20">
+								</imageUpload>
+								<!-- <el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
 									:with-credentials="true"
 									:on-success="onSuccessUploadCommercialPic" :file-list="CommercialPicList" :limit="10" :on-remove="onRemoveCommercialPic"
@@ -383,13 +401,16 @@
 											<plus />
 										</el-icon>
 									</template>
-								</el-upload>
+								</el-upload> -->
 							</div>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="8"  class="mb12">
 						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />雇主责任险图片</div>
 							<div >
-								<el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
+								<imageUpload :uploadUrl="`/v1/file/upload/vehicle_insurance`" title="雇主责任险"
+									@on-image-change="onTaxPicChange" :ids="ruleForm.TaxPics" :limit="20">
+								</imageUpload>
+								<!-- <el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_insurance`" list-type="picture-card"
 									:headers="httpHeaders"
 									:with-credentials="true"
 									:on-success="onSuccessUploadTaxPic" :file-list="TaxPicList" :limit="10" :on-remove="onRemoveTaxPic"
@@ -399,7 +420,7 @@
 											<plus />
 										</el-icon>
 									</template>
-								</el-upload>
+								</el-upload> -->
 							</div>
 					</el-col>
 				</el-row>	
@@ -420,15 +441,17 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, UploadFile, UploadProps } from 'element-plus';
+import { ElMessage } from 'element-plus';
 import { computed, getCurrentInstance, onMounted, reactive, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
+import imageUpload from '/@/components/imageUpload/index.vue';
 import { useStore } from '/@/store/index';
 import commonFunction from '/@/utils/commonFunction';
 import { Session } from '/@/utils/storage';
 
 export default {
 	name: 'vehicleEdit',
+	components: { imageUpload },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 
@@ -629,74 +652,6 @@ export default {
 					return;
 				}
 				state.ruleForm = res.data;
-				console.log("state.ruleForm:",state.ruleForm)
-				state.DrivingLicensePicList=[];
-				state.TransportLicensePicList=[];
-				state.DriverLicensePicList=[];
-				state.IdnoPicList=[];
-				state.CompulsoryPicList=[];
-				state.CommercialPicList=[];
-				state.TaxPicList=[];
-				state.MaintenancePicList=[];
-				if (state.ruleForm.DrivingLicensePics != "") {
-					const pics=state.ruleForm.DrivingLicensePics.split(",");
-					for(let index=0;index<state.ruleForm.DrivingLicensePicList.length;index++){
-						const path=state.ruleForm.DrivingLicensePicList[index]
-						state.DrivingLicensePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
-					}
-				}
-				
-				if (state.ruleForm.TransportLicensePics != "") {
-					const pics=state.ruleForm.TransportLicensePics.split(",");
-					for(let index=0;index<state.ruleForm.TransportLicensePicList.length;index++){
-						const path=state.ruleForm.TransportLicensePicList[index]
-						state.TransportLicensePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
-					}
-				}
-
-				if (state.ruleForm.DriverLicensePics != "") {
-					const pics=state.ruleForm.DriverLicensePics.split(",");
-					for(let index=0;index<state.ruleForm.DriverLicensePicList.length;index++){
-						const path=state.ruleForm.DriverLicensePicList[index]
-						state.DriverLicensePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
-					}
-				}
-				if (state.ruleForm.IdnoPics != "") {
-					const pics=state.ruleForm.IdnoPics.split(",");
-					for(let index=0;index<state.ruleForm.IdnoPicList.length;index++){
-						const path=state.ruleForm.IdnoPicList[index]
-						state.IdnoPicList.push({id:pics[index],url:state.baseUrl+path,name:path})
-					}
-				}
-
-				if (state.ruleForm.CompulsoryPics != "") {
-					const pics=state.ruleForm.CompulsoryPics.split(",");
-					for(let index=0;index<state.ruleForm.CompulsoryPicList.length;index++){
-						const path=state.ruleForm.CompulsoryPicList[index]
-						state.CompulsoryPicList.push({id:pics[index],url:state.baseUrl+path,name:path})
-					}
-				}
-				if (state.ruleForm.CommercialPics != "") {
-					const pics=state.ruleForm.CommercialPics.split(",");
-					for(let index=0;index<state.ruleForm.CommercialPicList.length;index++){
-						const path=state.ruleForm.CommercialPicList[index]
-						state.CommercialPicList.push({id:pics[index],url:state.baseUrl+path,name:path})
-					}
-				}
-				if (state.ruleForm.TaxPics != "") {
-					const pics=state.ruleForm.TaxPics.split(",");
-					for(let index=0;index<state.ruleForm.TaxPicList.length;index++){
-						const path=state.ruleForm.TaxPicList[index]
-						state.TaxPicList.push({id:pics[index],url:state.baseUrl+path,name:path})
-					}
-				}
-				if (state.ruleForm.MaintenancePics != "") {
-					const pics=state.ruleForm.MaintenancePics.split(",");
-					for(let index=0;index<state.ruleForm.MaintenancePicList.length;index++){
-						const path=state.ruleForm.MaintenancePicList[index]
-						state.MaintenancePicList.push({id:pics[index],url:state.baseUrl+path,name:path})
-					}
-				}
 			} finally {
 				state.isShowDialog = true;
 			}
@@ -724,46 +679,6 @@ export default {
 			proxy.$refs.ruleFormRef.validate(async (valid: any) => {
 				if (!valid) {
 					return false
-				}
-				if (state.DrivingLicensePicList) {
-					state.ruleForm.DrivingLicensePics = state.DrivingLicensePicList.map(val=>{return val.id}).join(',');
-				} else{
-					state.ruleForm.DrivingLicensePics=""
-				}
-				if (state.TransportLicensePicList) {
-					state.ruleForm.TransportLicensePics = state.TransportLicensePicList.map(val=>{return val.id}).join(',');
-				}else{
-					state.ruleForm.TransportLicensePics=""
-				}
-				if (state.DriverLicensePicList) {
-					state.ruleForm.DriverLicensePics = state.DriverLicensePicList.map(val=>{return val.id}).join(',');
-				}else{
-					state.ruleForm.DriverLicensePics=""
-				}
-				if (state.IdnoPicList) {
-					state.ruleForm.IdnoPics = state.IdnoPicList.map(val=>{return val.id}).join(',');
-				}else{
-					state.ruleForm.IdnoPics=""
-				}
-				if (state.CompulsoryPicList) {
-					state.ruleForm.CompulsoryPics = state.CompulsoryPicList.map(val=>{return val.id}).join(',');
-				}else{
-					state.ruleForm.CompulsoryPics=""
-				}
-				if (state.CommercialPicList) {
-					state.ruleForm.CommercialPics = state.CommercialPicList.map(val=>{return val.id}).join(',');
-				}else{
-					state.ruleForm.CommercialPics=""
-				}
-				if (state.TaxPicList) {
-					state.ruleForm.TaxPics = state.TaxPicList.map(val=>{return val.id}).join(',');
-				}else{
-					state.ruleForm.TaxPics=""
-				}
-				if (state.MaintenancePicList) {
-					state.ruleForm.MaintenancePics = state.MaintenancePicList.map(val=>{return val.id}).join(',');
-				}else{
-					state.ruleForm.MaintenancePics=""
 				}
 				
 				if(!state.ruleForm.IsExternal){
@@ -793,35 +708,14 @@ export default {
 			});
 		};
 
-		//	图片上传
-		const onBeforeImageUpload: UploadProps['beforeUpload'] = (rawFile) => {
-			if (
-				rawFile.type !== 'image/jpeg' &&
-				rawFile.type !== 'image/jpg' &&
-				rawFile.type !== 'image/png'
-			) {
-				ElMessage.error('图片格式错误，支持的图片格式：jpg，png');
-				return false;
-			} else if (rawFile.size / 1024 / 1024 > 10) {
-				ElMessage.error('图片大小不能超过10MB!');
-				return false;
-			}
-			state.httpHeaders=proxy.$getRequestHeaders()
-			return true;
-		};
 
 		//	行驶证文件列表更新
-		const onVehicleLicensePicUploadSuccess = (file: UploadFile) => {
-			//debugger
-			if(file.errcode){
-				ElMessage.error(file.errmsg);
-				return;
-			}
-			var res=file.data
-			const url=state.baseUrl + res.src
-			const model = { url: url,name:res.src, id:res.id};
-			state.DrivingLicensePicList.push(model);
-			
+		const onVehicleLicensePicChange = (picIds:String,fileList:any)=>{
+			state.ruleForm.DrivingLicensePics=picIds;
+		};
+
+		//	行驶证文件列表上传成功
+		const onVehicleLicensePicUploadSuccess = (res: any) => {
 			if(res.data){
 				if(res.data.VehicleNumber){
 					state.ruleForm.VehicleNumber=res.data.VehicleNumber
@@ -858,18 +752,12 @@ export default {
 			
 		};
 		
-		
-		//	道路运输证文件列表更新
-		const onTransportLicensePicUploadSuccess = (file: UploadFile) => {
-			if(file.errcode){
-				ElMessage.error(file.errmsg);
-				return;
-			}
-			var res=file.data
-			
-			const url=state.baseUrl + res.src
-			const model = { url: url, name:res.src, id:res.id };
-			state.TransportLicensePicList.push(model);
+		//	道路证文件列表更新
+		const onTransportLicensePicChange = (picIds:String,fileList:any)=>{
+			state.ruleForm.TransportLicensePics=picIds;
+		};
+		//	道路运输证文件上传成功
+		const onTransportLicensePicUploadSuccess = (res: any) => {
 			if(res.data){
 				state.ruleForm.TransportLicense=res.data.Idno
 				//state.ruleForm.TransportLicenseStartDate=res.data.IssuedDate
@@ -881,16 +769,11 @@ export default {
 		};
 
 		//	驾驶证文件列表更新
-		const onDriverLicensePicUploadSuccess = (file: UploadFile) => {
-			if(file.errcode){
-				ElMessage.error(file.errmsg);
-				return;
-			}
-			var res=file.data
-			
-			const url=state.baseUrl + res.src
-			const model = { url: url, name:res.src, id:res.id };
-			state.DriverLicensePicList.push(model);
+		const onDriverLicensePicChange = (picIds:String,fileList:any)=>{
+			state.ruleForm.DriverLicensePics=picIds;
+		};
+		//	驾驶证文件证上传成功
+		const onDriverLicensePicUploadSuccess = (res: any) => {
 			if(res.data){
 				if(res.data.Name){
 					state.ruleForm.Driver=res.data.Name
@@ -926,163 +809,27 @@ export default {
 				}
 			}
 		};
-		//	删除图片
-		const onRemoveDriverLicensePic = (file: UploadFile) => {
-			let removeUrl = file.id;
-			console.log(state.DriverLicensePicList)
-			for (let i = 0; i < state.DriverLicensePicList.length; i++) {
-				if (state.DriverLicensePicList[i].id == removeUrl) {
-					state.DriverLicensePicList.splice(i, 1);
-				}
-			}
-		};
-
-		//	预览文件
-		const onPreview = (uploadFile: any) => {
-			//	当格式为图片就预览图片，否则下载文件
-			let filename = uploadFile.name;
-			if (!uploadFile.name || uploadFile.name == '') {
-				filename = uploadFile.url;
-			}
-			let fileurl = uploadFile.url;
-			let fileExtension = '';
-			//	校检文件类型
-			var imageTypes = ['png', 'jpg', 'jpeg', 'gif'];
-			if (filename.lastIndexOf('.') > -1) {
-				fileExtension = filename.slice(filename.lastIndexOf('.') + 1);
-			}
-			const isTypeOk = imageTypes.some((type) => {
-				if (fileExtension && fileExtension.indexOf(type) > -1) {
-					return true;
-				}
-			});
-			if (isTypeOk) {
-				//	预览图片
-				state.dialogImageUrl[0] = fileurl;
-				state.dialogTitle = filename;
-				state.dialogVisible = true;
-			} else {
-				//	下载文件
-				state.dialogVisible = false;
-				window.open(fileurl, '_self');
-			}
-		};
-
-		//	删除图片
-		const onRemoveVehicleLicensePic = (file: UploadFile) => {
-			let removeUrl = file.id;
-			for (let i = 0; i < state.DrivingLicensePicList.length; i++) {
-				if (state.DrivingLicensePicList[i].id == removeUrl) {
-					state.DrivingLicensePicList.splice(i, 1);
-				}
-			}
-		};
-
-		//	删除图片
-		const onRemoveTransportLicensePic = (file: UploadFile) => {
-			let removeUrl = file.id;
-			for (let i = 0; i < state.TransportLicensePicList.length; i++) {
-				if (state.TransportLicensePicList[i].id == removeUrl) {
-					state.TransportLicensePicList.splice(i, 1);
-				}
-			}
-		};
+			
 
 		//	二级维护照片上传成功后更新
-		const onSuccessUploadMaintenancePic = (file: UploadFile) => {
-			console.log('触发图片上传');
-			if(file.errcode){
-				ElMessage.error(file.errmsg);
-				return;
-			}
-			let image = { url: '' };
-			image.url = state.baseUrl + file.data.src;
-			image.id=file.data.id;
-			image.name=file.data.src;
-			state.MaintenancePicList.push(image);
+		const onMaintenancePicChange = (picIds:any) => {
+			
+			state.ruleForm.MaintenancePics=picIds
 		};
 
-		//	交强险图片上传成功
-		const onSuccessUploadCompulsoryPic = (file: UploadFile) => {
-			console.log('触发图片上传');
-			if(file.errcode){
-				ElMessage.error(file.errmsg);
-				return;
-			}
-			let image = { url: '' };
-			image.url = state.baseUrl + file.data.src;
-			image.id=file.data.id;
-			image.name=file.data.src;
-			state.CompulsoryPicList.push(image);
+		//	交强险图片更新
+		const onCompulsoryPicChange = (picIds:any) => {
+			state.ruleForm.CompulsoryPics=picIds
 		};
 
-		//	商业险图片上传成功
-		const onSuccessUploadCommercialPic = (file: UploadFile) => {
-			if(file.errcode){
-				ElMessage.error(file.errmsg);
-				return;
-			}
-			let image = { url: '' };
-			image.url = state.baseUrl + file.data.src;
-			image.name=file.data.src;
-			image.id=file.data.id;
-			state.CommercialPicList.push(image);
+		//	商业险图片更新
+		const onCommercialPicChange = (picIds:any) => {
+			state.ruleForm.CommercialPics=picIds
 		};
-
-		//	车船税图片上传成功
-		const onSuccessUploadTaxPic = (file: UploadFile) => {
-			if(file.errcode){
-				ElMessage.error(file.errmsg);
-				return;
-			}
-			let image = { url: '' };
-			image.url = state.baseUrl + file.data.src;
-			image.id = file.data.id;
-			image.name = file.data.src;
-			state.TaxPicList.push(image);
+		//	雇主责任险图片更新
+		const onTaxPicChange = (picIds:any) => {
+			state.ruleForm.TaxPics=picIds
 		};
-
-		const onRemoveMaintenancePic=(file: UploadFile) => {
-			const id = file.id;
-			for (let i = 0; i < state.MaintenancePicList.length; i++) {
-				if (state.MaintenancePicList[i] == id) {
-					state.MaintenancePicList.splice(i, 1);
-				}
-			}
-		};
-
-		const onRemoveCompulsoryPic = (file: UploadFile) => {
-			const id = file.id;
-			for (let i = 0; i < state.CompulsoryPicList.length; i++) {
-				if (state.CompulsoryPicList[i] == id) {
-					state.CompulsoryPicList.splice(i, 1);
-				}
-			}
-		};
-
-		const onRemoveCommercialPic = (file: UploadFile) => {
-			const id = file.id;
-			for (let i = 0; i < state.CommercialPicList.length; i++) {
-				if (state.CommercialPicList[i] == id) {
-					state.CommercialPicList.splice(i, 1);
-				}
-			}
-		};
-
-		const onRemoveTaxPic = (file: UploadFile) => {
-			const id = file.id;
-			for (let i = 0; i < state.TaxPicList.length; i++) {
-				if (state.TaxPicList[i] == id) {
-					state.TaxPicList.splice(i, 1);
-				}
-			}
-		};
-		
-		//	显示表格图片
-		const showImage: UploadProps['onPreview'] = (uploadFile) => {
-			state.dialogImageUrl = uploadFile.url
-			state.ImageVisible = true
-		}
 
 		//	时间格式
 		const { dateFormatYMD } = commonFunction();
@@ -1095,25 +842,18 @@ export default {
 			t,
 			openDialog,
 			closeDialog,
+			onVehicleLicensePicChange,
 			onVehicleLicensePicUploadSuccess,
 			onTransportLicensePicUploadSuccess,
-			onSuccessUploadMaintenancePic,
+			onMaintenancePicChange,
 			onDriverLicensePicUploadSuccess,
-			onRemoveDriverLicensePic,
-			onRemoveVehicleLicensePic,
-			onRemoveTransportLicensePic,
-			onBeforeImageUpload,
+			onTransportLicensePicChange,
+			onDriverLicensePicChange,
+			onCompulsoryPicChange,
+			onCommercialPicChange,
+			onTaxPicChange,
 			onInsuranceStartDateChange,
 			onInsuranceEndDateChange,
-			onPreview,
-			showImage,
-			onSuccessUploadCompulsoryPic,
-			onSuccessUploadCommercialPic,
-			onSuccessUploadTaxPic,
-			onRemoveCompulsoryPic,
-			onRemoveCommercialPic,
-			onRemoveMaintenancePic,
-			onRemoveTaxPic,
 			dateFormatYMD,
 			getUserInfos,
 			rules,
