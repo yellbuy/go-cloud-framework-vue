@@ -44,7 +44,7 @@
 				widget="dxButton"
 			/>
 		</DxToolbar>
-	  <DxChart ref="chart">
+	  <!-- <DxChart ref="chart">
 		<DxTooltip
 		  :enabled="true"
 		  :customize-tooltip="customizeTooltip"
@@ -52,7 +52,7 @@
 		<DxAdaptiveLayout :width="450"/>
 		<DxSize :height="280"/>
 		<DxCommonSeriesSettings type="bar"/>
-	  </DxChart>
+	  </DxChart> -->
   
 	  <DxPivotGrid
 		id="pivotgrid"
@@ -100,11 +100,7 @@ import zhCnMessages from "devextreme/localization/messages/zh.json";
 locale(navigator.language);
 		
  import {
-	DxAdaptiveLayout,
-	DxChart,
-	DxCommonSeriesSettings,
-	DxSize,
-	DxTooltip
+	DxChart
 } from 'devextreme-vue/chart';
 
 import {
@@ -212,6 +208,23 @@ const createDataSource:any = ()=>{
 			dataType: 'date',
 			area: 'column',
 			visible: true,
+		}, {
+			groupName: 'BillDate',
+			groupInterval: 'year',
+			expanded: true
+		}, {
+			groupName: 'BillDate',
+			groupInterval: 'quarter',
+			expanded: true,
+			visible:false
+		}, {
+			groupName: 'BillDate',
+			groupInterval: 'month',
+			expanded: true
+		}, {
+			groupName: 'BillDate',
+			groupInterval: 'day',
+			expanded: true
 		}, {
 			caption: '吨位',
 			dataField: 'Weight',
