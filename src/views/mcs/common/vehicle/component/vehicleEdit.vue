@@ -266,6 +266,28 @@
 						</div>
 					</el-col>
 				</el-row>
+				<el-divider content-position="left">从业资格证信息*</el-divider>
+				<el-row :gutter="0">		
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="资格证到期日期" prop="QualificationCertEndDate" >
+							<el-date-picker
+								v-model="ruleForm.QualificationCertEndDate"
+								type="date"
+								placeholder="请选择到期日期"
+								format="YYYY-MM-DD" />
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row :gutter="0">	
+					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
+						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />二级维护图片</div>
+						<div>
+							<imageUpload :uploadUrl="`/v1/file/upload/driver`" title="二级维护"
+								@on-image-change="onQualificationCertPicChange" :ids="ruleForm.QualificationCertPics" :limit="10">
+							</imageUpload>
+							</div>
+					</el-col>
+				</el-row>
 				<el-divider content-position="left">二级维护信息*</el-divider>
 				<el-row :gutter="0">		
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
@@ -273,7 +295,7 @@
 							<el-date-picker
 								v-model="ruleForm.MaintenanceDate"
 								type="date"
-								placeholder="请选择到期日期"
+								placeholder="请选择维护日期"
 								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
@@ -285,17 +307,6 @@
 							<imageUpload :uploadUrl="`/v1/file/upload/vehicle_maintenance`" title="二级维护"
 								@on-image-change="onMaintenancePicChange" :ids="ruleForm.MaintenancePics" :limit="10">
 							</imageUpload>
-								<!-- <el-upload :action="`${baseApiUrl}/v1/file/upload/vehicle_maintenance`" list-type="picture-card"
-									:headers="httpHeaders"
-									:with-credentials="true"
-									:on-success="onSuccessUploadMaintenancePic" :file-list="MaintenancePicList" :limit="10" :on-remove="onRemoveMaintenancePic"
-									:on-preview="showImage" :before-upload="onBeforeImageUpload">
-									<template #default>
-										<el-icon>
-											<plus />
-										</el-icon>
-									</template>
-								</el-upload> -->
 							</div>
 					</el-col>
 				</el-row>
@@ -496,6 +507,7 @@ export default {
 				CompulsoryPics:'',
 				CommercialPics:'',
 				MaintenancePics:'',
+				QualificationCertPics:'',
 				TaxPics:'',
 				State: 1,
 				TaxpayerKind: '',
@@ -518,6 +530,7 @@ export default {
 			CommercialPicList:[],
 			TaxPicList:[],
 			MaintenancePicList:[],
+			QualificationCertPicList:[],
 			DriverLicenseTypeList: ["A1","A2","A3","B1","B2","C1","C2","C3","C4","D","E","F","M","N","P"],
 		});
 
@@ -570,6 +583,13 @@ export default {
 				},
 			],
 			DriverMobile: [
+				{
+					required: true,
+					message: t('message.validRule.required'),
+					trigger: 'blur',
+				},
+			],
+			QualificationCertEndDate: [
 				{
 					required: true,
 					message: t('message.validRule.required'),
@@ -810,10 +830,12 @@ export default {
 			}
 		};
 			
-
+		//	从业资格证照片上传成功后更新
+		const onQualificationCertPicChange = (picIds:any) => {
+			state.ruleForm.QualificationCertPics=picIds
+		};
 		//	二级维护照片上传成功后更新
 		const onMaintenancePicChange = (picIds:any) => {
-			
 			state.ruleForm.MaintenancePics=picIds
 		};
 
@@ -849,6 +871,7 @@ export default {
 			onDriverLicensePicUploadSuccess,
 			onTransportLicensePicChange,
 			onDriverLicensePicChange,
+			onQualificationCertPicChange,
 			onCompulsoryPicChange,
 			onCommercialPicChange,
 			onTaxPicChange,

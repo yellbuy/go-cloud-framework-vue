@@ -144,6 +144,15 @@
 										format="YYYY-MM-DD"></el-date-picker>
 								</template>
 							</el-table-column>
+							<el-table-column prop="QualificationCertEndDate" label="从业资格证到期日期" width="150">
+								<template #default="scope">
+									<el-date-picker
+										v-model="scope.row.QualificationCertEndDate"
+										type="date"
+										placeholder="请选择时间"
+										format="YYYY-MM-DD"></el-date-picker>
+								</template>
+							</el-table-column>
 							<el-table-column prop="MaintenanceDate" label="二级维护日期" width="150">
 								<template #default="scope">
 									<el-date-picker
@@ -323,7 +332,7 @@ export default {
 
 				const list = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: ["Index", "VehicleNumber",  "BillNo", 
 					"VehicleType", "IsExternal", "Shipper", "Linkman", "Phone", "Driver", "DriverMobile", "DrivingLicense", 
-					"DrivingLicenseEndDate", "TransportLicense", "TransportLicenseEndDate","DriverLicense","DriverLicenseEndDate",
+					"DrivingLicenseEndDate", "TransportLicense", "TransportLicenseEndDate","DriverLicense","DriverLicenseEndDate","QualificationCertEndDate",
 					"MaintenanceDate","InsuranceEndDate","CompulsoryAmount","CommercialAmount","TaxFee"], range: 2})
 					
 				list.forEach(item => {
@@ -343,6 +352,7 @@ export default {
 					item.TransportLicenseEndDate = dayjs(item.TransportLicenseEndDate).add(2,"hour")
 					item.DriverLicense = String(item.DriverLicense)
 					item.DriverLicenseEndDate = dayjs(item.DriverLicenseEndDate).add(2,"hour")
+					item.QualificationCertEndDate = dayjs(item.QualificationCertEndDate).add(2,"hour")
 					item.MaintenanceDate = dayjs(item.MaintenanceDate).add(2,"hour")
 					item.InsuranceEndDate = dayjs(item.InsuranceEndDate).add(2,"hour")
 					item.CompulsoryAmount = Number.parseFloat(item.CompulsoryAmount)

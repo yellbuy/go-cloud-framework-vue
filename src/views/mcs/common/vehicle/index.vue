@@ -155,8 +155,10 @@
 							<template #content>行驶证：至 {{ scope.row.DrivingLicenseEndDate.substr(0,10) }}
 								<br />
 								道路运输许可证：至 {{ scope.row.TransportLicenseEndDate.substr(0,10) }}
+								<br />
+								从业资格证：至 {{ scope.row.QualificationCertEndDate.substr(0,10) }}
 							</template>
-							<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0?'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2">证</el-tag>
+							<el-tag :type="scope.row.DrivingLicenseState==0 || scope.row.TransportLicenseState==0 || scope.row.QualificationCertState==0 ? 'danger':'warning'" class="mr4" round effect="dark" v-if="scope.row.DrivingLicenseState < 2 || scope.row.TransportLicenseState < 2  || scope.row.QualificationCertState < 2">证</el-tag>
 							<el-tag type="success" class="mr4" round effect="dark" v-else>证</el-tag>
 						</el-tooltip>
 
