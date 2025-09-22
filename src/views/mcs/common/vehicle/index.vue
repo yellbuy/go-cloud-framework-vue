@@ -145,9 +145,6 @@
 						</el-tooltip>
 						<el-tag type="success" class="mr4" round effect="dark" v-else-if="scope.row.WaybillLineCount > 0" >任</el-tag>
 						<el-tag type="primary" class="mr4" round effect="dark" v-else >空</el-tag>
-
-						
-
 						<el-tooltip
 								class="box-item"
 								effect="dark"

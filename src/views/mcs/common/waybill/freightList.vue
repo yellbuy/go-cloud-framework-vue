@@ -129,7 +129,7 @@
 					@size-change="onMainHandleSizeChange"
 					@current-change="onMainHandleCurrentChange"
 					class="mt15"
-					:page-sizes="[10, 20, 30, 50, 100]"
+					:page-sizes="[10, 20, 30, 50, 100, 1000]"
 					v-model:current-page="mainTableData.param.pageNum"
 					background
 					v-model:page-size="mainTableData.param.pageSize"
@@ -265,6 +265,17 @@
 												<el-button type="primary" @click="onOpenBatchAddDlg(0, planKind, false)" v-auth:[moduleKey]="'btn.PlanAdd'">
 													<el-icon>
 														<CirclePlusFilled />
+													</el-icon>
+												</el-button>
+											</el-tooltip>
+											<el-tooltip
+												class="box-item"
+												effect="dark"
+												content="删除"
+												placement="top-start">	
+												<el-button type="warning" @click="onPlanBatchDel" v-auth:[moduleKey]="'btn.PlanDel'">
+													<el-icon>
+														<Delete />
 													</el-icon>
 												</el-button>
 											</el-tooltip>
@@ -495,6 +506,17 @@
 													</el-icon>
 												</el-button>
 											</el-tooltip>
+											<el-tooltip
+												class="box-item"
+												effect="dark"
+												content="删除"
+												placement="top-start">	
+												<el-button type="warning" @click="onChildBatchDel" v-auth:[moduleKey]="'btn.ChildDel'">
+													<el-icon>
+														<Delete />
+													</el-icon>
+												</el-button>
+											</el-tooltip>
 										</el-button-group>
 									</el-form-item>
 									<el-form-item></el-form-item>
@@ -563,7 +585,7 @@
 								@size-change="onChildHandleSizeChange"
 								@current-change="onChildHandleCurrentChange"
 								class="mt15"
-								:page-sizes="[10, 20, 30, 50, 100]"
+								:page-sizes="[10, 20, 30, 50, 100, 1000]"
 								v-model:current-page="childTableData.param.pageNum"
 								background
 								v-model:page-size="childTableData.param.pageSize"
@@ -890,6 +912,27 @@ export default {
 			
 		}
 
+		//批量结束
+		const onPlanBatchDel= async ()=>{
+			if(!state.mainCurrentRow || !state.mainCurrentRow.Id || state.mainCurrentRow.Id=="0"){
+				ElMessage.warning('请选择任务单再进行操作');
+				return;
+			}
+			ElMessageBox.confirm(`确定要批量删除吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				const rows=planTableRef.value.getSelectionRows();
+				const ids=rows.map((val)=>{return val.Id});
+				const success= await proxy.$api.erp.waybillLine.updateExtByIds(state.mainCurrentRow.Id, 'is_del', ids, 1,'delete_time', 'delete_by')	
+				if(success){
+					onPlanGetTableData();
+				}
+				return false;
+			});
+		}
+
 		// 打开导入计划弹窗
 		const onOpenImportPlanDlg = () => {
 			if(!state.mainCurrentRow || !state.mainCurrentRow.Id || state.mainCurrentRow.Id=="0"){
@@ -1039,6 +1082,26 @@ export default {
 			});
 		};
 
+		//批量结束
+		const onChildBatchDel= async ()=>{
+			if(!state.mainCurrentRow || !state.mainCurrentRow.Id || state.mainCurrentRow.Id=="0"){
+				ElMessage.warning('请选择任务单再进行操作');
+				return;
+			}
+			ElMessageBox.confirm(`确定要批量删除吗?`, '提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				const rows=childTableRef.value.getSelectionRows();
+				const ids=rows.map((val)=>{return val.Id});
+				const success= await proxy.$api.erp.waybillLine.updateExtByIds(state.mainCurrentRow.Id, 'is_del', ids, 1,'delete_time', 'delete_by')	
+				if(success){
+					onChildGetTableData();
+				}
+				return false;
+			});
+		}
 		//	打开地图
 		const onOpenMapDlg = (vehicleNumber: string, ishow: boolean) => {
 			childMapDlgRef.value.openDialog(vehicleNumber, ishow);
@@ -1094,6 +1157,8 @@ export default {
 			onPlanBatchAudit,
 			onPlanBatchBegin,
 			onPlanBatchFinish,
+			onChildBatchDel,
+			onPlanBatchDel,
 			onOpenImportPlanDlg,
 			onPlanDel,
 			onPlanHandleSizeChange,
