@@ -280,9 +280,9 @@
 				</el-row>
 				<el-row :gutter="0">	
 					<el-col :xs="16" :sm="16" :md="16" :lg="16" :offset="2"  class="mb12">
-						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />二级维护图片</div>
+						<div class="margin-bottom"><SvgIcon name="fa fa-info-circle margin-right-xs" />从业资格证图片</div>
 						<div>
-							<imageUpload :uploadUrl="`/v1/file/upload/driver`" title="二级维护"
+							<imageUpload :uploadUrl="`/v1/file/upload/driver`" title="从业资格证"
 								@on-image-change="onQualificationCertPicChange" :ids="ruleForm.QualificationCertPics" :limit="10">
 							</imageUpload>
 							</div>
