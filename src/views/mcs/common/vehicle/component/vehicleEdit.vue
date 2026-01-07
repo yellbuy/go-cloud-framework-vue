@@ -365,6 +365,8 @@
 								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
+				</el-row>
+				<el-row :gutter="0">
 					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
 						<el-form-item label="雇主责任险保额(元)" prop="TaxFee">
 							<el-input-number
@@ -373,6 +375,15 @@
 								step="100"
 								max="100000000"
 								placeholder="请输入" /> 
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="8" class="mb20">
+						<el-form-item label="责任险到期日期" prop="TaxEndDate">
+							<el-date-picker
+								v-model="ruleForm.TaxEndDate"
+								type="date"
+								placeholder="请选择到期日期"
+								format="YYYY-MM-DD" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -680,10 +691,12 @@ export default {
 		const onInsuranceStartDateChange=(val: [Date, null | Date])=>{
 			state.ruleForm.CompulsoryStartDate=val
 			state.ruleForm.CommercialStartDate=val
+			state.ruleForm.TaxStartDate=val
 		}
 		const onInsuranceEndDateChange=(val: [Date, null | Date])=>{
 			state.ruleForm.CompulsoryEndDate=val
 			state.ruleForm.CommercialEndDate=val
+			state.ruleForm.TaxEndDate=val
 		}
 
 		//	关闭弹窗
