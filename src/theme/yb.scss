@@ -1,6 +1,7 @@
 .color-info-light {
 	color: var(--color-info-light-3);
 }
+
 .text-left{
 	text-align: left;
 }
@@ -12,8 +13,17 @@
 }
 
 .text-red{
-	color: red;
+	color: var(--color-danger);
 }
+
+.text-green{
+	color: var(--color-success);
+}
+
+.text-blue{
+	color: var(--color-primary);
+}
+
 
 
 .margin-0 {
